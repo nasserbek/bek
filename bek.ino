@@ -13,7 +13,10 @@ void setup()
    av.bluLed(ON);
    Serial.begin(115200);
    EEPROM.begin(EEPROM_SIZE);
-   getSettingsFromEeprom();
+   EEPROM.write(EEPROM_WIFI_ADD, 1); EEPROM.commit();wifiOn=true;
+   EEPROM.write(EEPROM_FB_ADD, 1); EEPROM.commit();smsOn=true;
+   EEPROM.write(EEPROM_BLYNK_ADD, 1); EEPROM.commit();blynkOn=true;
+   EEPROM.write(EEPROM_SMS_ADD, 1); EEPROM.commit();fireBaseOn=true;
    initWDG(SEC_60,EN);
    av.init();
    
@@ -382,6 +385,11 @@ void resetWdg(void)
 
 void  getSettingsFromEeprom(void)
 {
+ 
+   smsOn = EEPROM.read(EEPROM_SMS_ADD);DEBUG_PRINT("Sms is:");DEBUG_PRINTLN(smsOn ? F("On") : F("Off"));
+   if (smsOn) {smsSettings [48] ='O';smsSettings [49] ='n';smsSettings [50] =' '; }
+   else {smsSettings [48] ='O';smsSettings [49] ='f';smsSettings [50] ='f'; }
+
    wifiOn=EEPROM.read(EEPROM_WIFI_ADD);DEBUG_PRINT("Wifi is:");DEBUG_PRINTLN(wifiOn ? F("On") : F("Off"));
    if(wifiOn) {smsSettings [8] ='O';smsSettings [9] ='n';smsSettings [10] =' '; }
    else {
@@ -389,8 +397,8 @@ void  getSettingsFromEeprom(void)
           EEPROM.write(EEPROM_FB_ADD, 0); EEPROM.commit();
           EEPROM.write(EEPROM_BLYNK_ADD, 0); EEPROM.commit();
         }
-   
-   fireBaseOn=EEPROM.read(EEPROM_FB_ADD);DEBUG_PRINT("FireBase is:");DEBUG_PRINTLN(fireBaseOn ? F("On") : F("Off"));
+
+   fireBaseOn=EEPROM.read(EEPROM_FB_ADD);DEBUG_PRINT("FireBase is:");DEBUG_PRINTLN(fireBaseOn? F("On") : F("Off"));
    if (fireBaseOn) {smsSettings [24] ='O';smsSettings [25] ='n';smsSettings [26] =' '; } 
    else {smsSettings [24] ='O';smsSettings [25] ='f';smsSettings [26] ='f'; } 
    
@@ -398,10 +406,7 @@ void  getSettingsFromEeprom(void)
    if (blynkOn) {smsSettings [37] ='O';smsSettings [38] ='n';smsSettings [39] =' '; }
    else {smsSettings [37] ='O';smsSettings [38] ='f';smsSettings [39] ='f'; }
 
-   smsOn = EEPROM.read(EEPROM_SMS_ADD);DEBUG_PRINT("Sms is:");DEBUG_PRINTLN(smsOn ? F("On") : F("Off"));
-   if (smsOn) {smsSettings [48] ='O';smsSettings [49] ='n';smsSettings [50] =' '; }
-   else {smsSettings [48] ='O';smsSettings [49] ='f';smsSettings [50] ='f'; }
-
+ 
    errorCode = EEPROM.read(EEPROM_ERR_ADD);DEBUG_PRINT("Error code is:");DEBUG_PRINTLN(char (errorCode));
    smsSettings [66] =errorCode;
 
