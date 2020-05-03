@@ -131,6 +131,8 @@ void processSms(void)
             case FB_OTA_ID:
               otaCmd=myBlynk.blynkData;
               DEBUG_PRINT("FB_OTA: ");DEBUG_PRINTLN(smsReceived);
+              fb.end();
+              WiFi.disconnect();
               otaGsm ();
             break;
             case FB_SMS_ON_ID:
