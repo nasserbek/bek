@@ -73,7 +73,7 @@ unsigned long smsPrevMillis = 0;
 
 
 #define EEPROM_SIZE 100
-String overTheAirURL = "https://raw.githubusercontent.com/nasserbek/bek/master/BEKIOT.bin";  // URL to download the firmware from
+String overTheAirURL = "https://raw.githubusercontent.com/nasserbek/bek/master/bek.ino.ttgo-t1.bin";  // URL to download the firmware from
 /************************************SMS ***********************************/
 
 bool        smsFbStopt=true;
