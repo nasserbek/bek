@@ -7,13 +7,13 @@
 #include <Arduino.h>
 
 
-class OTAGSM {
+class otaUpload {
   
   private:
 
   public:
  
-    OTAGSM(void) ;
+    otaUpload(void) ;
     void init(bool _start);
     void startOtaUpdate(const String& ota_url);
     void FlashingStatus(void);

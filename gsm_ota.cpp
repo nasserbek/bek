@@ -56,12 +56,12 @@ TinyGsm modem(SerialAT);
 
 
 
-OTAGSM::OTAGSM()
+otaUpload::otaUpload()
 {
 
 }
 
-void OTAGSM::init(bool _start)
+void otaUpload::init(bool _start)
 {
   //SerialMon.setDebugOutput(true);
   printDeviceInfo();
@@ -74,7 +74,7 @@ void OTAGSM::init(bool _start)
   DEBUG_PRINT("  Firmware A is running");
   DEBUG_PRINT("--------------------------");
   DEBUG_PRINT(F("Starting OTA update in 10 seconds..."));
-  delay(10000);
+
 
   // Set-up modem reset, enable, power pins
   pinMode(MODEM_PWKEY, OUTPUT);
@@ -84,10 +84,11 @@ void OTAGSM::init(bool _start)
   digitalWrite(MODEM_PWKEY, LOW);
   digitalWrite(MODEM_RST, HIGH);
   digitalWrite(MODEM_POWER_ON, HIGH);
+  delay(1000);
 
   // Set GSM module baud rate and UART pins
   SerialAT.begin(BAUDRATE , SERIAL_8N1, MODEM_RX, MODEM_TX);
-  delay(3000);
+  delay(1000);
 
   // Restart takes quite some time
   // To skip it, call init() instead of restart()
@@ -117,7 +118,7 @@ void OTAGSM::init(bool _start)
   if (_start) startOtaUpdate(_overTheAirURL);  
 }
 
-void OTAGSM::startOtaUpdate(const String& ota_url)
+void otaUpload::startOtaUpdate(const String& ota_url)
 {
   String protocol, host, url;
   int port;
@@ -219,7 +220,7 @@ void OTAGSM::startOtaUpdate(const String& ota_url)
     int newProgress = (written*100)/contentLength;
     if (newProgress - progress >= 5 || newProgress == 100) {
       progress = newProgress;
- //     SerialMon.print(String("\r ") + progress + "%");
+      SerialMon.print(String("\r ") + progress + "%");
     }
   }
   DEBUG_PRINT();
@@ -244,7 +245,7 @@ void OTAGSM::startOtaUpdate(const String& ota_url)
   ESP.restart();   
 }
 
-void OTAGSM::FlashingStatus(void)
+void otaUpload::FlashingStatus(void)
 {
     if (millis() - _prevMillis > _interval) 
     {
@@ -255,7 +256,7 @@ void OTAGSM::FlashingStatus(void)
        else led.bluLed(OFF);
 }
 
-bool OTAGSM::setPowerBoostKeepOn(int en)
+bool otaUpload::setPowerBoostKeepOn(int en)
 {
   Wire.beginTransmission(IP5306_ADDR);
   Wire.write(IP5306_REG_SYS_CTL0);
@@ -267,7 +268,7 @@ bool OTAGSM::setPowerBoostKeepOn(int en)
   return Wire.endTransmission() == 0;
 }
 
-void OTAGSM::printDeviceInfo()
+void otaUpload::printDeviceInfo()
 {
   DEBUG_PRINT();
   DEBUG_PRINT("--------------------------");
@@ -279,7 +280,7 @@ void OTAGSM::printDeviceInfo()
   DEBUG_PRINT("--------------------------");
 }
 
-bool OTAGSM::parseURL(String url, String& protocol, String& host, int& port, String& uri)
+bool otaUpload::parseURL(String url, String& protocol, String& host, int& port, String& uri)
 {
   int index = url.indexOf(':');
   if(index < 0) {
@@ -316,7 +317,7 @@ bool OTAGSM::parseURL(String url, String& protocol, String& host, int& port, Str
 
 
 
- void OTAGSM::httpClient(void) {
+ void otaUpload::httpClient(void) {
  
   if ((WiFi.status() == WL_CONNECTED)) { //Check the current connection status
  

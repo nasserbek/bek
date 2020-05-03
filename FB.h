@@ -5,7 +5,7 @@
 
 
 
-class FIREBASE {
+class fireBase {
 
   private:
   
@@ -20,7 +20,8 @@ class FIREBASE {
     String eventPath, eventTypeFb ;
     int eventValue;
     int eventID=0;
-    FIREBASE(void) ;
+    
+    fireBase(void) ;
     bool init();
     bool wifiConnect(void);
     int  getInteger( String _path);
@@ -30,6 +31,7 @@ class FIREBASE {
     bool initStreams(void);
     bool firebaseRun(void);
     bool SendInt(String _path,int _cmdInt);
+    bool  endTheOpenStream(void);
 
 };
 

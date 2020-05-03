@@ -4,7 +4,7 @@
 #include <Arduino.h>
 
 
-class SIM800L {
+class sim800L {
   
   private:
     byte _rx_pin,_tx_pin, _power_on_pin, _pwkey,_command;
@@ -18,7 +18,7 @@ class SIM800L {
     int     smsLen=0;
     
     bool simStatus=true;
-    SIM800L(void) ;
+    sim800L(void) ;
     bool init();
     bool smsRun(void);
     bool SendSMS(char *smsmsg);

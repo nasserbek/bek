@@ -99,14 +99,14 @@ BLYNK_WRITE(V2) // receiver ch
   DEBUG_PRINTLN(_sevenSeg);
 }
 
-BLYNK::BLYNK(void) 
+blynk::blynk(void) 
 {
 
 }
 
 
 
-void BLYNK::init() 
+void blynk::init() 
 {
  Blynk.begin(auth, ssid, pass); 
  led1.on(); //Enable colours for Alive Led
@@ -116,7 +116,7 @@ void BLYNK::init()
  led5.on(); //Enable colours for firebase
 }
 
-void BLYNK::notifierDebug(String subject, String body)
+void blynk::notifierDebug(String subject, String body)
 {
   // *** WARNING: You are limited to send ONLY ONE E-MAIL PER 5 SECONDS! ***
  //   body = String("You pushed the button ") + count + " times.";
@@ -124,7 +124,7 @@ void BLYNK::notifierDebug(String subject, String body)
  //   Blynk.notify(String(subject +"**"+ body) );
 }
 
-bool BLYNK::getData()
+bool blynk::getData()
 {
     if (_blynkEvent)
     {
@@ -137,56 +137,56 @@ bool BLYNK::getData()
  
 }
 
-void BLYNK::blynkRun()
+void blynk::blynkRun()
 {
   Blynk.run(); 
 }
 
-void BLYNK::sendAlive(int _data)
+void blynk::sendAlive(int _data)
 {
  if (_data==0)  led1.setColor(BLYNK_RED); 
  else           led1.setColor(BLYNK_GREEN);
 }
 
 
-void BLYNK::blynkAckLed(bool _data)
+void blynk::blynkAckLed(bool _data)
 {
  if (_data==1)  led2.setColor(BLYNK_RED);
  else           led2.setColor(BLYNK_GREEN);
 }
 
 
-void BLYNK::blynkRCLed(bool _data)
+void blynk::blynkRCLed(bool _data)
 {
  if (_data==0)  led3.setColor(BLYNK_RED);
  else           led3.setColor(BLYNK_GREEN);
 }
 
 
-void BLYNK::blynkFirebaseLed(bool _data)
+void blynk::blynkFirebaseLed(bool _data)
 {
  if (_data==0)  led4.setColor(BLYNK_RED);
  else           led4.setColor(BLYNK_GREEN);
 }
 
-void BLYNK::blynkSmsLed(bool _data)
+void blynk::blynkSmsLed(bool _data)
 {
  if (_data==0)  led5.setColor(BLYNK_RED);
  else           led5.setColor(BLYNK_GREEN);
 }
-void BLYNK::resetT433Cmd(int cmd)
+void blynk::resetT433Cmd(int cmd)
 {
   t433ChNumber = cmd;
  Blynk.virtualWrite(V1, cmd);
 }
 
-void BLYNK::sevenSegValue(int freq )
+void blynk::sevenSegValue(int freq )
 {
   sevenSeg = freq;
  Blynk.virtualWrite(V2, freq);
 }
 
-void BLYNK::sendRsss(int _rsss)
+void blynk::sendRsss(int _rsss)
 {
   Blynk.virtualWrite(V3, _rsss); 
 }

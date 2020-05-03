@@ -1,11 +1,11 @@
 #include "main.h"
-
+bool aliveTimout = false;
  reciever av;
- FIREBASE fb;
- SIM800L sim; 
- OTAGSM ota; 
- NTPVERSION util;
- BLYNK myBlynk;
+ fireBase fb;
+ sim800L sim; 
+ otaUpload ota; 
+ ntpServerUtil util;
+ blynk myBlynk;
 
 
 void setup() 
@@ -14,9 +14,10 @@ void setup()
    Serial.begin(115200);
    EEPROM.begin(EEPROM_SIZE);
    EEPROM.write(EEPROM_WIFI_ADD, 1); EEPROM.commit();wifiOn=true;
-   EEPROM.write(EEPROM_FB_ADD, 1); EEPROM.commit();smsOn=true;
+   EEPROM.write(EEPROM_FB_ADD, 1); EEPROM.commit();fireBaseOn=true;
    EEPROM.write(EEPROM_BLYNK_ADD, 1); EEPROM.commit();blynkOn=true;
-   EEPROM.write(EEPROM_SMS_ADD, 1); EEPROM.commit();fireBaseOn=true;
+   EEPROM.write(EEPROM_SMS_ADD, 1); EEPROM.commit();smsOn=true;
+   
    initWDG(SEC_60,EN);
    av.init();
    
@@ -35,7 +36,17 @@ void setup()
        if (blynkOn)myBlynk.init();
        if (fireBaseOn) fb.init();
       }
-     else  sendToHMI("Wifi failed to connect or turned off", "Wifi activation: ", "Wifi failed to connect or turned off",FB_NOTIFIER, "Wifi failed to connect or turned off" );
+     else  
+     {
+      if(sim800Available)
+        {
+          EEPROM.write(EEPROM_WIFI_ADD, 0); EEPROM.commit();wifiOn=false;
+          EEPROM.write(EEPROM_FB_ADD, 0); EEPROM.commit();smsOn=false;
+          EEPROM.write(EEPROM_BLYNK_ADD, 0); EEPROM.commit();blynkOn=false;
+
+        }
+      sendToHMI("Wifi failed to connect or turned off", "Wifi activation: ", "Wifi failed to connect or turned off",FB_NOTIFIER, "Wifi failed to connect or turned off" );
+     }
 
     mySwitch.enableTransmit(RC_TX_PIN);
     av.bluLed(OFF);
@@ -45,7 +56,8 @@ void setup()
 void loop(void) 
 {
        resetWdg();    //reset timer (feed watchdog) 
-       aliveStatus();
+       if (util.systemTimer(true, aliveTimer.prevMillis, 2)) aliveTimer.timeOut =!aliveTimer.timeOut; 
+       av.bluLed(aliveTimer.timeOut);
        processCommands();
        wifiSurvilance();
 }
@@ -58,10 +70,12 @@ void processCommands(void)
         {
           myBlynk.blynkRun();
           if(blynkEvent = myBlynk.getData () )  processBlynk(); 
+          myBlynk.sendAlive(aliveTimer.timeOut);
         }
 
         if (fireBaseOn)
         {
+   //     fb.SendString( FB_ALIVE, String(aliveTimer.timeOut) );
         if(fbEvent = fb.firebaseRun())          processFirebase();
         }
         
@@ -131,8 +145,7 @@ void processSms(void)
             case FB_OTA_ID:
               otaCmd=myBlynk.blynkData;
               DEBUG_PRINT("FB_OTA: ");DEBUG_PRINTLN(smsReceived);
-              fb.end();
-              WiFi.disconnect();
+              fb.endTheOpenStream();
               otaGsm ();
             break;
             case FB_SMS_ON_ID:
@@ -193,6 +206,7 @@ void processBlynk(void)
             case FB_OTA_ID:
               otaCmd=myBlynk.blynkData;
               DEBUG_PRINT("FB_OTA: ");DEBUG_PRINTLN(myBlynk.blynkData);
+              fb.endTheOpenStream();
               otaGsm ();
             break;
             case FB_SMS_ON_ID:
@@ -257,6 +271,7 @@ void processFirebase(void)
             case FB_OTA_ID:
               otaCmd=fb.eventValue;
               DEBUG_PRINT("FB_OTA: ");DEBUG_PRINTLN(fb.eventValue);
+              fb.endTheOpenStream();
               otaGsm ();
             break;
             case FB_SMS_ON_ID:
@@ -327,27 +342,7 @@ void receiverAvByCh (int Ch)
 }
 
 
-void aliveStatus(void)
-{
-    if (millis() - prevMillis > interval) 
-    {
-     aliveState = !aliveState;
-     prevMillis = millis()  ;  
-     }
-    
-    if (aliveState ) 
-       {
-        av.bluLed(ON);
-    //    if (fireBaseOn) fb.SendInt( FB_ALIVE, 1 );
-        if (blynkOn) myBlynk.sendAlive(1); 
-       }
-    else 
-        {
-          av.bluLed(OFF);
-   //       if (fireBaseOn) fb.SendInt( FB_ALIVE, 0 );
-          if (blynkOn) myBlynk.sendAlive(0); 
-        }
-}
+
 
 
 void getDateTimeNTP(bool ver)
@@ -481,7 +476,8 @@ void firebaseOnActivation(int activation)
     {
     sendToHMI("FireBase is Off", "Firebase disactivation: ", "FireBase is Off",FB_NOTIFIER, "FireBase is Offn" );
     DEBUG_PRINTLN("FireBase is Off");
-    EEPROM.write(EEPROM_FB_ADD, 0); EEPROM.commit();fireBaseOn =false;      
+    EEPROM.write(EEPROM_FB_ADD, 0); EEPROM.commit();fireBaseOn =false;   
+    fb.endTheOpenStream(); 
     }
   } 
   else 

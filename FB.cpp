@@ -22,11 +22,11 @@ char carray[5];
 }
 
 
-FIREBASE::FIREBASE( void) 
+fireBase::fireBase( void) 
   {
   }
 
-bool FIREBASE::init() 
+bool fireBase::init() 
 {
       Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);
       Firebase.reconnectWiFi(true);
@@ -35,7 +35,7 @@ bool FIREBASE::init()
 }
 
 
-bool FIREBASE::initStreams()
+bool fireBase::initStreams()
 {
   if (!Firebase.beginStream(firebaseData, CMD_PATH)){
     DEBUG_PRINTLN("------------------------------------");
@@ -89,7 +89,7 @@ void streamCallback(StreamData firebaseData1)
  }
 
 
-bool FIREBASE::firebaseRun(void)
+bool fireBase::firebaseRun(void)
 {
     if (_firebaseEvent)
     {
@@ -101,7 +101,7 @@ bool FIREBASE::firebaseRun(void)
     else return false;
 }
 
-bool FIREBASE::wifiConnect()
+bool fireBase::wifiConnect()
   {
     if (WiFi.status()  == WL_CONNECTED )return true; 
     WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
@@ -113,7 +113,7 @@ bool FIREBASE::wifiConnect()
 return true; 
 }
 
-int FIREBASE::getInteger( String _path)
+int fireBase::getInteger( String _path)
 {
  String sValue;
    if ( Firebase.getString(firebaseData,_path ,  sValue) ) return (stringToInt(sValue) );
@@ -126,7 +126,7 @@ int FIREBASE::getInteger( String _path)
 
 }
 
-bool FIREBASE::SendString(String _path,String _cmdString)
+bool fireBase::SendString(String _path,String _cmdString)
 {
    if (Firebase.setString(firebaseData,_path, _cmdString))return true;
     else 
@@ -138,7 +138,7 @@ bool FIREBASE::SendString(String _path,String _cmdString)
 }
 
 
-bool FIREBASE::SendInt(String _path,int _cmdInt)
+bool fireBase::SendInt(String _path,int _cmdInt)
 {
    if (Firebase.setInt(firebaseData,_path, _cmdInt))return true;
     else 
@@ -149,6 +149,9 @@ bool FIREBASE::SendInt(String _path,int _cmdInt)
     }
 }
 
-
+bool fireBase::endTheOpenStream(void)
+{
+Firebase.end(firebaseData);
+}
 
   

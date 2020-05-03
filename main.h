@@ -7,9 +7,17 @@
 #include "av.h"
 #include "sim.h"
 #include "FB.h"
-#include "utilities.h"
+#include "Utilities.h"
 #include "blynk_app.h"
 #include "headers.h"
+
+struct timerMills_t
+{
+    unsigned long prevMillis;
+    bool          timeOut;
+};
+
+struct timerMills_t aliveTimer;
 
 
 boolean fbEvent = false;
@@ -93,8 +101,8 @@ int         smsValue=0;
 int         smsLen=0;
 
 /************************************Alive Control ***********************************/
-unsigned long prevMillis = 0;
-int interval = 2000;
+unsigned long alivePrevMillis = 0;
+int aliveIntervalSec = 2;
 bool aliveState = false;
 bool aliveSent = false;
 

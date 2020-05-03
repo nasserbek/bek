@@ -1,6 +1,7 @@
 #include "sim.h"
 #include "headers.h"
 
+
 #include <Adafruit_FONA.h>
 HardwareSerial *sim800lSerial = &Serial1;
 uint8_t readline(char *buff, uint8_t maxbuff, uint16_t timeout = 0);
@@ -11,9 +12,8 @@ Adafruit_FONA sim800l = Adafruit_FONA(MODEM_PWKEY);
 //For fona debug comment #define ADAFRUIT_FONA_DEBUG under E:\Onedrive\Arduino\libraries\Adafruit_FONA-master\includes\FONAConfig.h
 
 
-
   
-SIM800L::SIM800L(void)
+sim800L::sim800L(void)
 {
   this->_rx_pin = MODEM_RX;
   this->_tx_pin = MODEM_TX;
@@ -22,37 +22,44 @@ SIM800L::SIM800L(void)
 }
 
 
-bool SIM800L::init()
+bool sim800L::init()
 {
+  long timeout = millis();
   sim800PowerOn(true)  ;
   DEBUG_PRINTLN("ESP32 with GSM SIM800L");
   DEBUG_PRINTLN("Initializing........");
   delay(1000);
   sim800lSerial->begin(4800, SERIAL_8N1, _rx_pin , _tx_pin);   // Make it slow so its easy to read!
-  delay(5000);
-  long timeout = millis();
-  if (!sim800l.begin(*sim800lSerial)) {
+  while (!sim800l.begin(*sim800lSerial)) {
+    if (millis() - timeout > 10000L) {
+      DEBUG_PRINTLN("Couldn't find GSM SIM800L");
+       return (simStatus = false);
+    }
+  }
+  
+ /* if (!sim800l.begin(*sim800lSerial)) {
        DEBUG_PRINTLN("Couldn't find GSM SIM800L");
        return (simStatus = false);
     }
-  DEBUG_PRINTLN("GSM SIM800L started successifully");
+ */   
+  DEBUG_PRINTLN("GSM SIM800L started.");
 
   // Set up the FONA to send a +CMTI notification  when an SMS is received
   sim800lSerial->print("AT+CNMI=2,1\r\n");
   DEBUG_PRINTLN("GSM SIM800L is Ready.");
-  delay(1000);
+//  delay(1000);
   return (simStatus = true);
 }  
 
 
-void SIM800L::sim800PowerOn(bool OnOff)
+void sim800L::sim800PowerOn(bool OnOff)
 {
   pinMode(_power_on_pin, OUTPUT);
   if (OnOff) digitalWrite(_power_on_pin, HIGH);
   else digitalWrite(_power_on_pin, LOW);
 }  
 
-bool SIM800L::smsRun() 
+bool sim800L::smsRun() 
 {
  if (!simStatus) return false;
   
@@ -92,7 +99,7 @@ bool SIM800L::smsRun()
 return false;  
 }
 
-bool SIM800L::SendSMS(char *smsmsg)
+bool sim800L::SendSMS(char *smsmsg)
 {
   if (!simStatus) return false;
         DEBUG_PRINT("Sending: ");DEBUG_PRINTLN(String (smsmsg));
@@ -108,7 +115,7 @@ bool SIM800L::SendSMS(char *smsmsg)
 }
 
 
-bool SIM800L::deleteSMS()
+bool sim800L::deleteSMS()
 {
     if (!simStatus) return false;
         if (sim800l.deleteSMS(_slot)) {DEBUG_PRINTLN(F("Deleting SMS in slot OK!")); return true;}

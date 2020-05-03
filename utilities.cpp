@@ -1,12 +1,12 @@
-#include "utilities.h"
+#include "Utilities.h"
 #include "headers.h"
 
-NTPVERSION::NTPVERSION(void) 
+ntpServerUtil::ntpServerUtil(void) 
   {
   }
 
 
-void NTPVERSION::printLocalTime(boolean ver)
+void ntpServerUtil::printLocalTime(boolean ver)
 {
   if (ver)
   {
@@ -36,7 +36,7 @@ void NTPVERSION::printLocalTime(boolean ver)
   sendDateTime(ver);
 }
 
-void NTPVERSION::sendDateTime(boolean Ver)
+void ntpServerUtil::sendDateTime(boolean Ver)
 {
   int len = sizeof(dateAndTimeStr); int i;
   byte eepromByte[EEPROM_VER_LEN];
@@ -65,4 +65,13 @@ void NTPVERSION::sendDateTime(boolean Ver)
     } 
 }
   
-  
+
+bool ntpServerUtil::systemTimer(bool _condition , unsigned long &_prevMillis, int _intervalSec)
+{
+    if (_condition && (  (millis() - _prevMillis) > (_intervalSec*1000) ) )
+    {
+     _prevMillis = millis()  ;
+     return true;
+    }
+    else return false;
+}  

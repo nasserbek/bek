@@ -1,12 +1,12 @@
 #ifndef UTILITIES_H
-#define UTILITIES_H
+#define UTILITIES__H
 
 #include <Arduino.h>
 #include <EEPROM.h>
-#include "sim.h"
 
 
-class NTPVERSION {
+
+class ntpServerUtil {
   
   private:
 
@@ -19,9 +19,10 @@ class NTPVERSION {
       
   public:
     char  dateAndTimeChar[40];
-    NTPVERSION(void) ;
+    ntpServerUtil(void) ;
     void sendDateTime(boolean Ver);
     void printLocalTime(boolean ver);
+    bool systemTimer(bool _condition , unsigned long &_prevMillis, int _intervalSec);
 };
 
 #endif

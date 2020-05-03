@@ -4,7 +4,7 @@
 #include <Arduino.h>
 
 
-class BLYNK {
+class blynk {
   
   private:
           int old_t433ChNumber=0;
@@ -20,7 +20,7 @@ class BLYNK {
     int  blynkEventID =0;
     int  t433ChNumber, blynkfreqValue,sevenSeg,otaBlynk,bootBlynk,fbonBlynk,smsBlynk;
 
-    BLYNK(void) ;
+    blynk(void) ;
     void init();
     void blynkRun();
     
