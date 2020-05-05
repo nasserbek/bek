@@ -96,7 +96,8 @@ void processSms(void)
 {
       boolean isValidNumber =false;
       int smsID=0;
-      String smsReceived =  sim.smsString;
+      
+      smsReceived =  sim.smsString;
       
        for(byte i=0;i<smsReceived.length();i++)
           {
@@ -105,7 +106,7 @@ void processSms(void)
           }
         if(isValidNumber)
         {
-          int smsValue = stringToInteger(smsReceived);
+          smsValue = stringToInteger(smsReceived);
           if (smsValue >= 1 && smsValue <= 30)     smsID =FB_T433_CH_NR_ID;
           if (smsValue >= 41 && smsValue <= 48)    smsID =FB_AV_7SEG_ID;
           if (smsValue >= 900 && smsValue <= 1360) smsID =FB_FREQ_ID;

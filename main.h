@@ -23,7 +23,6 @@ struct timerMills_t aliveTimer;
 boolean fbEvent = false;
 boolean blynkEvent = false;
 boolean smsEvent=false;
-
 int recevierCh=0;
 int recevierFreq=0;
 int remoteControlRcCh=0;
@@ -98,6 +97,7 @@ int         smsT433_Ch_Status=0;
 int         smsT513_Ch_Status=0;
 int         fbValue=0;
 int         smsValue=0;
+String smsReceived ="sms";
 int         smsLen=0;
 
 /************************************Alive Control ***********************************/
