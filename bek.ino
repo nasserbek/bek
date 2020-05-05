@@ -267,13 +267,12 @@ void processFirebase(void)
             case FB_RESET_ID:
               rebootCmd=fb.eventValue;
               DEBUG_PRINT("FB_RESET: ");DEBUG_PRINTLN(fb.eventValue);
-              rebootSw();
+              if(rebootCmd) rebootSw();
             break;
             case FB_OTA_ID:
               otaCmd=fb.eventValue;
               DEBUG_PRINT("FB_OTA: ");DEBUG_PRINTLN(fb.eventValue);
-              fb.endTheOpenStream();
-              otaGsm ();
+              if(otaCmd){fb.endTheOpenStream();  otaGsm ();}
             break;
             case FB_SMS_ON_ID:
               smsOnOffCmd=fb.eventValue;
