@@ -85,7 +85,7 @@ void streamCallback(StreamData firebaseData1)
     if (_eventPath == FB_BLYNK_ON_OFF) _eventID = FB_BLYNK_ON_OFF_ID;
     if (_eventPath == FB_WIFI_OFF)     _eventID = FB_WIFI_OFF_ID;
     if (_eventPath == FB_SETTINGS)     _eventID = FB_SETTINGS_ID;
-    
+    if (_eventPath == IDLE_PATH)       _eventID = IDLE_PATH_ID;
  }
 
 
@@ -119,8 +119,12 @@ int fireBase::getInteger( String _path)
    if ( Firebase.getString(firebaseData,_path ,  sValue) ) return (stringToInt(sValue) );
    else 
    {
-    DEBUG_PRINT("Firebase Get error: "); DEBUG_PRINTLN(_path);
-    if (WiFi.status() != WL_CONNECTED) wifiConnect();
+    DEBUG_PRINTLN(_path);
+    DEBUG_PRINTLN("------------------------------------");
+    DEBUG_PRINTLN("Can't read stream data...");
+    DEBUG_PRINTLN("REASON: " + firebaseData.errorReason());
+    DEBUG_PRINTLN("------------------------------------");
+    DEBUG_PRINTLN();
     return -1;
     }
 
@@ -131,9 +135,13 @@ bool fireBase::SendString(String _path,String _cmdString)
    if (Firebase.setString(firebaseData,_path, _cmdString))return true;
     else 
     {
-        DEBUG_PRINT("Firebase Send error: ");DEBUG_PRINTLN(_path);    
-        if (WiFi.status() != WL_CONNECTED) wifiConnect();
-        return false;
+    DEBUG_PRINTLN(_path);
+    DEBUG_PRINTLN("------------------------------------");
+    DEBUG_PRINTLN("Can't read stream data...");
+    DEBUG_PRINTLN("REASON: " + firebaseData.errorReason());
+    DEBUG_PRINTLN("------------------------------------");
+    DEBUG_PRINTLN();
+    return false;
     }
 }
 
@@ -143,9 +151,13 @@ bool fireBase::SendInt(String _path,int _cmdInt)
    if (Firebase.setInt(firebaseData,_path, _cmdInt))return true;
     else 
     {
-        DEBUG_PRINT("Firebase Send error: ");DEBUG_PRINTLN(_path);    
-        if (WiFi.status() != WL_CONNECTED) wifiConnect();
-        return false;
+    DEBUG_PRINTLN(_path);
+    DEBUG_PRINTLN("------------------------------------");
+    DEBUG_PRINTLN("Can't read stream data...");
+    DEBUG_PRINTLN("REASON: " + firebaseData.errorReason());
+    DEBUG_PRINTLN("------------------------------------");
+    DEBUG_PRINTLN();
+    return false;
     }
 }
 

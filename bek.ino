@@ -75,20 +75,17 @@ void processCommands(void)
 
         if (fireBaseOn)
         {
-   //     fb.SendString( FB_ALIVE, String(aliveTimer.timeOut) );
         if(fbEvent = fb.firebaseRun())          processFirebase();
+   //     if(aliveSent != aliveTimer.timeOut) fb.SendString( FB_ALIVE, String(aliveTimer.timeOut) );
         }
         
         if(sim800Available) 
         {
           if( smsEvent =sim.smsRun()) processSms();
         }
-        
-        avOutput = av.Read_Analog_Av_Output(AV_OUTPUT_AN);          
-        if (fireBaseOn)
-          {
- //         if (old_avOutput != avOutput)fb.SendString (FB_AV_OUTPUT, String(avOutput) );
-           } 
+       
+        avOutput = av.Read_Analog_Av_Output(AV_OUTPUT_AN);    
+        aliveSent != aliveTimer.timeOut;      
 }
 
 
@@ -318,7 +315,7 @@ void remoteControl(int cmd )
      DEBUG_PRINT("ch433:");DEBUG_PRINTLN(cmd);
      av.rcPower(OFF);
      if (blynkOn)    myBlynk.blynkRCLed(0);
-     if (fireBaseOn) fb.SendString (FB_RC_LED, "0" );
+     if (fireBaseOn) {fb.SendString (FB_RC_LED, "0" );fb.SendString (FB_AV_OUTPUT, String(avOutput) );}
 }
 
 void receiverAvByFreq (int Freq)
@@ -326,7 +323,7 @@ void receiverAvByFreq (int Freq)
   bool ack=0;
        int PLL_value =( 512 * ( 1000000 * (Freq + 479.5) ) ) / (16*4000000) ;
        ack = av.Tuner_PLL(av_pll_addr, PLL_value);
-       if (fireBaseOn) fb.SendString (FB_ACK_LED, String(ack) ); 
+       if (fireBaseOn) {fb.SendString (FB_ACK_LED, String(ack) ); fb.SendString (FB_AV_OUTPUT, String(avOutput) );}
        if (blynkOn) myBlynk.blynkAckLed(ack);
        DEBUG_PRINT("Received manual_freq:");DEBUG_PRINTLN(manual_freq);
        DEBUG_PRINT("ack: ");DEBUG_PRINTLN(ack ? F("NotACK") : F("ACK"));

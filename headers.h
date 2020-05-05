@@ -53,6 +53,7 @@
 
 #define    CMD_PATH         "/PC/"
 
+
 #define    FB_AV_7SEG           "/AvReceiver_channel"
 #define    FB_AV_7SEG_ID        1
 
@@ -86,8 +87,12 @@
 #define    FB_SETTINGS         "/Settings"
 #define    FB_SETTINGS_ID       11
 
+#define    IDLE_PATH         "/"
+#define    IDLE_PATH_ID        12
+
 #define    FB_RC_LED           "/PC/RcTransmitter_Led"
 #define    FB_ACK_LED          "/PC/AvReceiver_Led"
+#define    FB_NACK_LED          "/PC/AvReceiver_nLed"
 #define    FB_AV_OUTPUT        "/PC/AvReceiver_Rsss" 
 #define    FB_WIFI_ST          "PC/Wifi_Led"
 #define    FB_FIREBASE_ST      "PC/Firebase_Led"
