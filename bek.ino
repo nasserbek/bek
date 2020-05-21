@@ -426,8 +426,11 @@ void wifiSurvilance(void)
           EEPROM.write(EEPROM_BLYNK_ADD, 0); EEPROM.commit();
           EEPROM.write(EEPROM_WIFI_ADD, 0); EEPROM.commit();
           EEPROM.write(EEPROM_ERR_ADD, WIFI_LOST_ERR); EEPROM.commit();
-          if(!smsOn) EEPROM.write(EEPROM_SMS_ADD, 1); EEPROM.commit();  
-          ESP.restart();
+          EEPROM.write(EEPROM_SMS_ADD, 1); EEPROM.commit();smsOn =true;  
+          sim800Available = smsOn && sim.init();
+          if (sim800Available) {EEPROM.write(EEPROM_SIM800_ADD, 1); EEPROM.commit();}
+          else {EEPROM.write(EEPROM_SIM800_ADD, 0); EEPROM.commit();smsOn =false;}
+     //     ESP.restart();
        }
 }  
 
