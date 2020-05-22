@@ -59,7 +59,7 @@ void loop(void)
        if (util.systemTimer(true, aliveTimer.prevMillis, 2)) aliveTimer.timeOut =!aliveTimer.timeOut; 
        av.bluLed(aliveTimer.timeOut);
        processCommands();
-       wifiSurvilance();
+ //      wifiSurvilance();
 }
 
 
@@ -414,7 +414,7 @@ void sendToHMI(char *smsmsg, String notifier_subject, String notifier_body,Strin
 {
   if(sim800Available)sim.SendSMS(smsmsg);
 //  if (blynkOn) myBlynk.notifierDebug(notifier_subject, notifier_body);
-//  if (fireBaseOn)fb.SendString( fb_path, fb_cmdString ); 
+  if (fireBaseOn)fb.SendString( fb_path, fb_cmdString ); 
 }
 
 void wifiSurvilance(void)
