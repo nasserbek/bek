@@ -1,10 +1,10 @@
 #define DEBUG_SERIAL
 #define HUAWEI
-/*#define FREE
-#define SFR
-#define OPPO
-#define BB
-*/
+//#define FREE
+//#define SFR
+//#define OPPO
+//#define BB
+
 
 #ifdef DEBUG_SERIAL
  #define DEBUG_PRINT(x)    Serial.print (x)
