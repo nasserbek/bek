@@ -1,10 +1,11 @@
 #define DEBUG_SERIAL
-#define HUAWEI
-//#define FREE
-//#define SFR
-//#define OPPO
-//#define BB
-
+#define NETGEER
+/*#define FREE
+ * #define HUAWEI
+#define SFR
+#define OPPO
+#define BB
+*/
 
 #ifdef DEBUG_SERIAL
  #define DEBUG_PRINT(x)    Serial.print (x)
@@ -53,6 +54,9 @@
   #define WIFI_SSID "HUAWEI-BEK"                                                
 #endif
 
+#ifdef NETGEER
+  #define WIFI_SSID "NETGEER_BEK"                                                
+#endif
 #define WIFI_PASSWORD "ali09042010"
 
 #define BLYNK_GREEN     "#23C48E"
