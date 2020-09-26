@@ -310,7 +310,7 @@ void remoteControl(int cmd )
      if (blynkOn)    myBlynk.blynkRCLed(1);
      if (fireBaseOn) fb.SendString (FB_RC_LED, "1" );
      av.rcPower(ON);  //RC Vcc Pin 2
-     delay(1000);
+ //    delay(200);
      mySwitch.send(CH_433[cmd], RC_CODE_LENGTH);
      DEBUG_PRINT("ch433:");DEBUG_PRINTLN(cmd);
      av.rcPower(OFF);
