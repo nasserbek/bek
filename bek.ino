@@ -333,6 +333,7 @@ void remoteControl(int cmd )
 void receiverAvByFreq (int Freq)
 {
   bool ack=0;
+        myBlynk.blynkAckLed(true);
        int PLL_value =( 512 * ( 1000000 * (Freq + 479.5) ) ) / (16*4000000) ;
        ack = av.Tuner_PLL(av_pll_addr, PLL_value);
        if (fireBaseOn) {fb.SendString (FB_ACK_LED, String(ack) ); fb.SendString (FB_AV_OUTPUT, String(avOutput) );}
@@ -344,10 +345,45 @@ void receiverAvByFreq (int Freq)
 
 void receiverAvByCh (int Ch)
 {
+      myBlynk.blynkAckLed(true);
        bool ack = av.Tuner_PLL(av_pll_addr, PLL[Ch]);
        if (fireBaseOn) fb.SendString (FB_ACK_LED, String(ack) ); 
        if (blynkOn) myBlynk.blynkAckLed(ack);
        myBlynk.sevenSegValue(Ch );
+        switch (Ch)
+          {
+            case 1:
+                myBlynk.frequencyValue(1080 );
+            break;
+
+            case 2:
+                myBlynk.frequencyValue(1120 );
+            break;
+            
+            case 3:
+                myBlynk.frequencyValue(1160 );
+            break;
+
+            case 4:
+                myBlynk.frequencyValue(1200 );
+            break;
+                       
+            case 5:
+                myBlynk.frequencyValue(1240 );
+            break;
+                       
+            case 6:
+                myBlynk.frequencyValue(1280 );
+            break;
+                       
+            case 7:
+                myBlynk.frequencyValue(1320 );
+            break;
+                       
+            case 8:
+                myBlynk.frequencyValue(1360 );
+            break;
+          }
        DEBUG_PRINT("Received freq channel:");DEBUG_PRINTLN(Ch);
        DEBUG_PRINT("ack: ");DEBUG_PRINTLN(ack ? F("NotACK") : F("ACK"));
 }
