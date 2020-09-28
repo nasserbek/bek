@@ -8,6 +8,7 @@ class blynk {
   
   private:
           int old_t433ChNumber=0;
+          int old_t315ChNumber=0;
           int old_blynkfreqValue=0;
           int old_sevenSeg;
           int old_otaBlynk;
@@ -18,7 +19,7 @@ class blynk {
     bool blynkEvent = false;
     int  blynkData=0;
     int  blynkEventID =0;
-    int  t433ChNumber, blynkfreqValue,sevenSeg,otaBlynk,bootBlynk,fbonBlynk,smsBlynk;
+    int  t433ChNumber,t315ChNumber, blynkfreqValue,sevenSeg,otaBlynk,bootBlynk,fbonBlynk,smsBlynk;
 
     blynk(void) ;
     void init();
@@ -27,7 +28,9 @@ class blynk {
     void sendAlive( int _data);
     void blynkAckLed(bool _data);
     void blynkRCLed(bool _data);
+    void blynkRCLed315(bool _data);
     void resetT433Cmd(int cmd );
+    void resetT315Cmd(int cmd );
     void blynkFirebaseLed(bool _data);
     void blynkSmsLed(bool _data);
     void sevenSegValue(int freq );

@@ -49,6 +49,7 @@ void setup()
      }
 
     mySwitch.enableTransmit(RC_TX_PIN);
+
     av.bluLed(OFF);
 }
 
@@ -194,8 +195,14 @@ void processBlynk(void)
             case FB_T433_CH_NR_ID:
               remoteControlRcCh=myBlynk.blynkData;
               DEBUG_PRINT("FB_T433_CH_NR: ");DEBUG_PRINTLN(myBlynk.blynkData);
-              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 30) remoteControl(remoteControlRcCh );
+              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 15) remoteControl(remoteControlRcCh );
             break;
+            case FB_T315_CH_NR_ID:
+              remoteControlRcCh=myBlynk.blynkData;
+              DEBUG_PRINT("FB_T315_CH_NR: ");DEBUG_PRINTLN( (myBlynk.blynkData) -15);
+              if (remoteControlRcCh >= 16 && remoteControlRcCh <= 30) remoteControl(remoteControlRcCh );
+            break;
+ 
             case FB_RESET_ID:
               rebootCmd=myBlynk.blynkData;
               DEBUG_PRINT("FB_RESET: ");DEBUG_PRINTLN(myBlynk.blynkData);
@@ -310,11 +317,16 @@ void remoteControl(int cmd )
      if (blynkOn)    myBlynk.blynkRCLed(1);
      if (fireBaseOn) fb.SendString (FB_RC_LED, "1" );
      av.rcPower(ON);  //RC Vcc Pin 2
- //    delay(200);
+     delay(200);
      mySwitch.send(CH_433[cmd], RC_CODE_LENGTH);
      DEBUG_PRINT("ch433:");DEBUG_PRINTLN(cmd);
+     delay(200);
      av.rcPower(OFF);
-     if (blynkOn)    myBlynk.blynkRCLed(0);
+     if (blynkOn)    
+      {
+        if (cmd >= 1 && cmd <= 15) myBlynk.blynkRCLed(0);
+        if (cmd >= 16 && cmd <= 30) myBlynk.blynkRCLed315(0);
+      }
      if (fireBaseOn) {fb.SendString (FB_RC_LED, "0" );fb.SendString (FB_AV_OUTPUT, String(avOutput) );}
 }
 
@@ -324,7 +336,7 @@ void receiverAvByFreq (int Freq)
        int PLL_value =( 512 * ( 1000000 * (Freq + 479.5) ) ) / (16*4000000) ;
        ack = av.Tuner_PLL(av_pll_addr, PLL_value);
        if (fireBaseOn) {fb.SendString (FB_ACK_LED, String(ack) ); fb.SendString (FB_AV_OUTPUT, String(avOutput) );}
-       if (blynkOn) myBlynk.blynkAckLed(ack);
+       if (blynkOn)  { myBlynk.blynkAckLed(ack);myBlynk.sendRsss(avOutput);}
        DEBUG_PRINT("Received manual_freq:");DEBUG_PRINTLN(manual_freq);
        DEBUG_PRINT("ack: ");DEBUG_PRINTLN(ack ? F("NotACK") : F("ACK"));
 }
