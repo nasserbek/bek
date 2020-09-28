@@ -19,7 +19,7 @@ class blynk {
     bool blynkEvent = false;
     int  blynkData=0;
     int  blynkEventID =0;
-    int  t433ChNumber,t315ChNumber, blynkfreqValue,sevenSeg,otaBlynk,bootBlynk,fbonBlynk,smsBlynk;
+    int  t433ChNumber,t315ChNumber, blynkfreqValue,sevenSeg,frequency,otaBlynk,bootBlynk,fbonBlynk,smsBlynk;
 
     blynk(void) ;
     void init();
@@ -34,6 +34,7 @@ class blynk {
     void blynkFirebaseLed(bool _data);
     void blynkSmsLed(bool _data);
     void sevenSegValue(int freq );
+    void frequencyValue(int freq );
     bool getData();
     void sendRsss(int _rsss);
     void notifierDebug(String subject, String body);

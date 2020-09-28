@@ -446,6 +446,13 @@ void blynk::sevenSegValue(int freq )
  Blynk.virtualWrite(V2, freq);
 }
 
+
+void blynk::frequencyValue(int freq )
+{
+  frequency = freq;
+  Blynk.virtualWrite(V0, freq);
+}
+
 void blynk::sendRsss(int _rsss)
 {
   Blynk.virtualWrite(V3, _rsss); 
