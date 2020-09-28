@@ -33,7 +33,7 @@ void setup()
         getDateTimeNTP(gitHub); 
         sendToHMI(util.dateAndTimeChar, "Version : ", String(util.dateAndTimeChar),FB_NOTIFIER,String(util.dateAndTimeChar));
         }
-       if (blynkOn)myBlynk.init();
+       if (blynkOn){myBlynk.init();myBlynk.frequencyValue(1080 );myBlynk.sevenSegValue(1 );}
        if (fireBaseOn) fb.init();
       }
      else  

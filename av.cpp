@@ -18,7 +18,7 @@ void reciever::init()
 {
     Wire.begin(_sda_pin,_scl_pin); 
     ConfigureInputs (PCF8574_STATUS_ADDRESS);
-    Tuner_PLL(PLL_ADDRESS, 0x30C0);
+    Tuner_PLL(PLL_ADDRESS, ( 512 * ( 1000000 * (1080 + 479.5) ) ));
 }
 
 
