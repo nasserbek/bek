@@ -558,3 +558,9 @@ void blynk::sendRsss(int _rsss)
 {
   Blynk.virtualWrite(V3, _rsss); 
 }
+
+void blynk::zapLed(bool _data)
+{
+ if (_data==0)  led7.setColor(BLYNK_RED);
+ else           led7.setColor(BLYNK_GREEN);
+}

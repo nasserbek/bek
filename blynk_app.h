@@ -38,6 +38,7 @@ class blynk {
     bool getData();
     void sendRsss(int _rsss);
     void notifierDebug(String subject, String body);
+    void zapLed(bool _data);
 
 };
 #endif

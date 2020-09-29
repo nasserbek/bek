@@ -87,6 +87,7 @@ void processCommands(void)
        
         avOutput = av.Read_Analog_Av_Output(AV_OUTPUT_AN);    
         if (blynkOnOffCmd ) zappingAvCh (blynkOnOffCmd, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);
+        myBlynk.zapLed(blynkOnOffCmd);
         aliveSent != aliveTimer.timeOut;      
 }
 
