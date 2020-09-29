@@ -86,6 +86,7 @@ void processCommands(void)
         }
        
         avOutput = av.Read_Analog_Av_Output(AV_OUTPUT_AN);    
+        if (blynkOnOffCmd ) zappingAvCh (blynkOnOffCmd, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);
         aliveSent != aliveTimer.timeOut;      
 }
 
@@ -245,6 +246,28 @@ void processBlynk(void)
               getSettingsFromEeprom();
               sendToHMI(smsSettings, "Setting ", smsSettings ,FB_NOTIFIER,smsSettings);
             break;
+
+            case FB_ZAP_ID:
+             zapOnOff=myBlynk.blynkData;
+            break;
+
+            case FB_ZAP_TIMER_ID :
+              zapTimer=myBlynk.blynkData;
+            break;
+
+            case FB_ZAP_CHANNEL_ID :
+            zapChannel=myBlynk.blynkData;
+             if (zapChannel == 1) zapCh1 != zapCh1;
+             if (zapChannel == 2) zapCh2 != zapCh2;            
+             if (zapChannel == 3) zapCh1 != zapCh3;          
+             if (zapChannel == 4) zapCh1 != zapCh4;
+             if (zapChannel == 5) zapCh1 != zapCh5;
+             if (zapChannel == 6) zapCh1 != zapCh6;
+             if (zapChannel == 7) zapCh1 != zapCh7;
+             if (zapChannel == 8) zapCh1 != zapCh8;
+            break;
+
+            
     }  
 }
 
@@ -343,6 +366,50 @@ void receiverAvByFreq (int Freq)
        DEBUG_PRINT("ack: ");DEBUG_PRINTLN(ack ? F("NotACK") : F("ACK"));
 }
 
+void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool ch4, bool ch5, bool ch6, bool ch7, bool ch8)
+{
+  if (ch1) 
+    {
+      receiverAvByCh (1);
+      delay(zapTimer);
+    }
+  if (ch2) 
+    {
+      receiverAvByCh (2);
+      delay(zapTimer);
+    }
+  if (ch3) 
+    {
+      receiverAvByCh (3);
+      delay(zapTimer);
+    }
+  if (ch4) 
+    {
+      receiverAvByCh (4);
+      delay(zapTimer);
+    }
+  if (ch5) 
+    {
+      receiverAvByCh (5);
+      delay(zapTimer);
+    }
+  if (ch6) 
+    {
+      receiverAvByCh (6);
+      delay(zapTimer);
+    }
+  if (ch7) 
+    {
+      receiverAvByCh (7);
+      delay(zapTimer);
+    }
+  if (ch8) 
+    {
+      receiverAvByCh (8);
+      delay(zapTimer);
+    }
+  
+}
 void receiverAvByCh (int Ch)
 {
       myBlynk.blynkAckLed(true);

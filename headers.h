@@ -114,6 +114,13 @@
 #define    FB_T315_CH_NR        "/RcTransmitter_channel_315"
 #define    FB_T315_CH_NR_ID     13
 
+#define    FB_ZAP_ID            14
+
+#define    FB_ZAP_TIMER_ID      15
+
+#define    FB_ZAP_CHANNEL_ID    16
+
+
 #define    FB_RC_LED           "/PC/RcTransmitter_Led"
 #define    FB_ACK_LED          "/PC/AvReceiver_Led"
 #define    FB_NACK_LED          "/PC/AvReceiver_nLed"
