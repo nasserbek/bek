@@ -1,11 +1,12 @@
 #define DEBUG_SERIAL
 #define NETGEER
+/*
 //#define FREE
 //#define HUAWEI
 //#define SFR
 //#define OPPO
 //#define BB
-
+*/
 
 #ifdef DEBUG_SERIAL
  #define DEBUG_PRINT(x)    Serial.print (x)
