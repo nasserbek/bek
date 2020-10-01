@@ -1,6 +1,7 @@
 #include "main.h"
 long timeout1, timeout2,timeout3,timeout4,timeout5,timeout6,timeout7,timeout8 ;
 bool aliveTimout = false;
+int stateMachine =0;
  reciever av;
  fireBase fb;
  sim800L sim; 
@@ -411,57 +412,92 @@ void receiverAvByFreq (int Freq)
 
 void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool ch4, bool ch5, bool ch6, bool ch7, bool ch8)
 {
-/*     timeout1= millis();
-     
-     if (millis() - timeout1 > zapTimer) 
-     {
-       timeout1= millis();
-           
-     }
-    
- */
-  if (ch1) 
-    {
-      receiverAvByCh (1);
-      delay(zapTimer);
-    }
-  if (ch2) 
-    {
-      receiverAvByCh (2);
-      delay(zapTimer);
-    }
-  if (ch3) 
-    {
-      receiverAvByCh (3);
-      delay(zapTimer);
-    }
-  if (ch4) 
-    {
-      receiverAvByCh (4);
-      delay(zapTimer);
-    }
-  if (ch5) 
-    {
-      receiverAvByCh (5);
-      delay(zapTimer);
-    }
-  if (ch6) 
-    {
-      receiverAvByCh (6);
-      delay(zapTimer);
-    }
-  if (ch7) 
-    {
-      receiverAvByCh (7);
-      delay(zapTimer);
-    }
-  if (ch8) 
-    {
-      receiverAvByCh (8);
-      delay(zapTimer);
-    }
-  
+         switch (stateMachine)
+          {
+            case 0:
+            case 1:
+                if (ch1 ) 
+                  {
+                    if (stateMachine == 0) {timeout1= millis();stateMachine =1;}
+                    if (millis() - timeout1 > zapTimer) {receiverAvByCh (1);stateMachine =2;}
+                  }
+                else stateMachine =2;
+            break;
+
+            case 2:
+            case 3:
+                if (ch2 ) 
+                  {
+                    if (stateMachine == 2) {timeout1= millis();stateMachine =3;}
+                    if (millis() - timeout1 > zapTimer) {receiverAvByCh (2);stateMachine =4;}
+                  }
+                else stateMachine =4;
+            break;
+            
+            case 4:
+            case 5:
+                if (ch3 ) 
+                  {
+                    if (stateMachine == 4) {timeout1= millis();stateMachine =5;}
+                    if (millis() - timeout1 > zapTimer) {receiverAvByCh (3);stateMachine =6;}
+                  }
+                else stateMachine =6;
+            break;
+
+            case 6:
+            case 7:
+                if (ch4 ) 
+                  {
+                    if (stateMachine == 6) {timeout1= millis();stateMachine =7;}
+                    if (millis() - timeout1 > zapTimer) {receiverAvByCh (4);stateMachine =8;}
+                  }
+                else stateMachine =8;
+            break;
+                       
+            case 8:
+            case 9:
+                if (ch5 ) 
+                  {
+                    if (stateMachine == 8) {timeout1= millis();stateMachine =9;}
+                    if (millis() - timeout1 > zapTimer) {receiverAvByCh (5);stateMachine =10;}
+                  }
+                else stateMachine =10;
+            break;
+                       
+            case 10:
+            case 11:
+                if (ch6 ) 
+                  {
+                    if (stateMachine == 10) {timeout1= millis();stateMachine =11;}
+                    if (millis() - timeout1 > zapTimer) {receiverAvByCh (6);stateMachine =12;}
+                  }
+                else stateMachine =12;
+            break;
+                       
+            case 12:
+            case 13:
+                if (ch7 ) 
+                  {
+                    if (stateMachine == 12) {timeout1= millis();stateMachine =13;}
+                    if (millis() - timeout1 > zapTimer) {receiverAvByCh (7);stateMachine =14;}
+                  }
+                else stateMachine =14;
+            break;
+                       
+            case 14:
+            case 15:
+                if (ch8) 
+                  {
+                    if (stateMachine == 14) {timeout1= millis();stateMachine =15;}
+                    if (millis() - timeout1 > zapTimer) {receiverAvByCh (8);stateMachine =0;}
+                  }
+                else stateMachine =0;
+            break;
+          }
+
 }
+
+        
 void receiverAvByCh (int Ch)
 {
       myBlynk.blynkAckLed(true);
