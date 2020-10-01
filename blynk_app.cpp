@@ -18,7 +18,7 @@ WidgetLED led4(V9);   //fb
 WidgetLED led5(V12);   //sms
 WidgetLED led7(V80);   //Zap Status
 
-char auth[] = "D4AU1HexWcErQ9vtpkP_EgocpnoArZKC";
+char auth[] = "D4AU1HexWcErQ9vtpkP_EgocpnoArZKC";//"Ti_NxRI__A3ZM0l16eArxO7MMmDk_wc2";//
 char ssid[] = WIFI_SSID;
 char pass[] = WIFI_PASSWORD;
 int _t433ChNumber, _t315ChNumber,_blynkfreqValue,_sevenSeg;
@@ -373,8 +373,8 @@ BLYNK_WRITE(V81)   //Zapping ch1
 {
   _tempoVar = param.asInt(); // assigning incoming value from pin V71 to a variable
     _blynkEvent = true;
-    _blynkData=1;
-    _blynkEventID =FB_ZAP_CHANNEL_ID;
+    _blynkData=param.asInt();
+    _blynkEventID =FB_ZAP_CHANNEL_ID1;
   DEBUG_PRINT("V81 Zap ch1: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -383,8 +383,8 @@ BLYNK_WRITE(V82)   //Zapping ch2
 {
   _tempoVar = param.asInt(); // assigning incoming value from pin V71 to a variable
     _blynkEvent = true;
-    _blynkData=2;
-    _blynkEventID =FB_ZAP_CHANNEL_ID;
+    _blynkData=param.asInt();
+    _blynkEventID =FB_ZAP_CHANNEL_ID2;
   DEBUG_PRINT("V82 Zap ch2: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -392,8 +392,8 @@ BLYNK_WRITE(V83)   //Zapping ch3
 {
   _tempoVar = param.asInt(); // assigning incoming value from pin V71 to a variable
     _blynkEvent = true;
-    _blynkData=3;
-    _blynkEventID =FB_ZAP_CHANNEL_ID;
+    _blynkData=param.asInt();
+    _blynkEventID =FB_ZAP_CHANNEL_ID3;
   DEBUG_PRINT("V83 Zap ch3: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -401,8 +401,8 @@ BLYNK_WRITE(V84)   //Zapping ch4
 {
   _tempoVar = param.asInt(); // assigning incoming value from pin V71 to a variable
     _blynkEvent = true;
-    _blynkData=4;
-    _blynkEventID =FB_ZAP_CHANNEL_ID;
+    _blynkData=param.asInt();
+    _blynkEventID =FB_ZAP_CHANNEL_ID4;
   DEBUG_PRINT("V84 Zap ch4: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -410,8 +410,8 @@ BLYNK_WRITE(V85)   //Zapping ch5
 {
   _tempoVar = param.asInt(); // assigning incoming value from pin V71 to a variable
     _blynkEvent = true;
-    _blynkData=5;
-    _blynkEventID =FB_ZAP_CHANNEL_ID;
+    _blynkData=param.asInt();
+    _blynkEventID =FB_ZAP_CHANNEL_ID5;
   DEBUG_PRINT("V85 Zap ch5: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -419,8 +419,8 @@ BLYNK_WRITE(V86)   //Zapping ch6
 {
   _tempoVar = param.asInt(); // assigning incoming value from pin V71 to a variable
     _blynkEvent = true;
-    _blynkData=6;
-    _blynkEventID =FB_ZAP_CHANNEL_ID;
+    _blynkData=param.asInt();
+    _blynkEventID =FB_ZAP_CHANNEL_ID6;
   DEBUG_PRINT("V86 Zap ch6: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -428,8 +428,8 @@ BLYNK_WRITE(V87)   //Zapping ch7
 {
   _tempoVar = param.asInt(); // assigning incoming value from pin V71 to a variable
     _blynkEvent = true;
-    _blynkData=7;
-    _blynkEventID =FB_ZAP_CHANNEL_ID;
+    _blynkData=param.asInt();
+    _blynkEventID =FB_ZAP_CHANNEL_ID7;
   DEBUG_PRINT("V87 Zap ch7: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -437,13 +437,21 @@ BLYNK_WRITE(V88)   //Zapping ch8
 {
   _tempoVar = param.asInt(); // assigning incoming value from pin V71 to a variable
     _blynkEvent = true;
-    _blynkData=8;
-    _blynkEventID =FB_ZAP_CHANNEL_ID;
+    _blynkData=param.asInt();
+    _blynkEventID =FB_ZAP_CHANNEL_ID8;
   DEBUG_PRINT("V88 Zap ch8: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
 
-
+BLYNK_WRITE(V15)   //NETGEER 
+{
+  _tempoVar = param.asInt(); // assigning incoming value from pin V15 to a variable
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    _blynkEventID =FB_NETGEER_ID ;
+  DEBUG_PRINT("V15 NETGEER: ");
+  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+}
 
 
 

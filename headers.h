@@ -1,11 +1,11 @@
 #define DEBUG_SERIAL
-#define NETGEER
-/*#define FREE
- * #define HUAWEI
+//#define NETGEER
+//#define FREE
+//#define HUAWEI
 #define SFR
-#define OPPO
-#define BB
-*/
+//#define OPPO
+//#define BB
+
 
 #ifdef DEBUG_SERIAL
  #define DEBUG_PRINT(x)    Serial.print (x)
@@ -56,6 +56,11 @@
 
 #ifdef NETGEER
   #define WIFI_SSID "NETGEER_BEK"                                                
+#endif
+#define WIFI_PASSWORD "ali09042010"
+
+#ifdef SFR
+  #define WIFI_SSID "SFR_BEK"                                                
 #endif
 #define WIFI_PASSWORD "ali09042010"
 
@@ -117,9 +122,18 @@
 #define    FB_ZAP_ID            14
 
 #define    FB_ZAP_TIMER_ID      15
+#define    FB_ZAP_CHANNEL_ID   16
 
-#define    FB_ZAP_CHANNEL_ID    16
+#define    FB_ZAP_CHANNEL_ID1   21
+#define    FB_ZAP_CHANNEL_ID2   22
+#define    FB_ZAP_CHANNEL_ID3   23
+#define    FB_ZAP_CHANNEL_ID4   24
+#define    FB_ZAP_CHANNEL_ID5   25
+#define    FB_ZAP_CHANNEL_ID6   26
+#define    FB_ZAP_CHANNEL_ID7   27
+#define    FB_ZAP_CHANNEL_ID8   28
 
+#define    FB_NETGEER_ID   29
 
 #define    FB_RC_LED           "/PC/RcTransmitter_Led"
 #define    FB_ACK_LED          "/PC/AvReceiver_Led"
@@ -171,6 +185,8 @@ const String FB_T433_STATUS_PATH[32] =
   #define RC_TX_PIN       15
   #define RC_PWR_PIN      2
   #define BLU_LED         13 
+
+  #define NETGEER_PIN      0
 
 #define PLL_ADDRESS             0x61  //0110 0 001 becomes 0xC2
 #define PCF8574_CMD_ADDRESS     0x20           // PCF8574 device 1    Commands

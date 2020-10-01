@@ -1,4 +1,5 @@
 #include "main.h"
+long timeout1, timeout2,timeout3,timeout4,timeout5,timeout6,timeout7,timeout8 ;
 bool aliveTimout = false;
  reciever av;
  fireBase fb;
@@ -10,6 +11,8 @@ bool aliveTimout = false;
 
 void setup() 
 {
+   pinMode(NETGEER_PIN, OUTPUT);
+   digitalWrite(NETGEER_PIN, LOW);
    av.bluLed(ON);
    Serial.begin(115200);
    EEPROM.begin(EEPROM_SIZE);
@@ -72,6 +75,8 @@ void processCommands(void)
           myBlynk.blynkRun();
           if(blynkEvent = myBlynk.getData () )  processBlynk(); 
           myBlynk.sendAlive(aliveTimer.timeOut);
+          if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);
+          myBlynk.zapLed(zapOnOff);
         }
 
         if (fireBaseOn)
@@ -86,8 +91,6 @@ void processCommands(void)
         }
        
         avOutput = av.Read_Analog_Av_Output(AV_OUTPUT_AN);    
-        if (blynkOnOffCmd ) zappingAvCh (blynkOnOffCmd, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);
-        myBlynk.zapLed(blynkOnOffCmd);
         aliveSent != aliveTimer.timeOut;      
 }
 
@@ -120,7 +123,14 @@ void processSms(void)
           else if (smsReceived =="Ota") smsID = FB_OTA_ID;
           else if (smsReceived =="Sms") smsID = FB_SMS_ON_ID;
           else if (smsReceived =="Ver") smsID =FB_VERSION_ID;
-          else if (smsReceived       == "Settings" ) smsID = FB_SETTINGS_ID ;
+          else if (smsReceived == "Settings" ) smsID = FB_SETTINGS_ID ;
+          else if (smsReceived == "Netgeer" ) 
+          {
+              digitalWrite(NETGEER_PIN, HIGH);
+              delay(2000);
+              digitalWrite(NETGEER_PIN, LOW); 
+          }
+
         }
         switch (smsID)
           {
@@ -250,24 +260,51 @@ void processBlynk(void)
 
             case FB_ZAP_ID:
              zapOnOff=myBlynk.blynkData;
+              DEBUG_PRINT("ZAP IS : ");
+              DEBUG_PRINTLN(zapOnOff ? F("On") : F("Off"));
             break;
 
             case FB_ZAP_TIMER_ID :
               zapTimer=myBlynk.blynkData;
             break;
 
-            case FB_ZAP_CHANNEL_ID :
-            zapChannel=myBlynk.blynkData;
-             if (zapChannel == 1) zapCh1 != zapCh1;
-             if (zapChannel == 2) zapCh2 != zapCh2;            
-             if (zapChannel == 3) zapCh1 != zapCh3;          
-             if (zapChannel == 4) zapCh1 != zapCh4;
-             if (zapChannel == 5) zapCh1 != zapCh5;
-             if (zapChannel == 6) zapCh1 != zapCh6;
-             if (zapChannel == 7) zapCh1 != zapCh7;
-             if (zapChannel == 8) zapCh1 != zapCh8;
+            case FB_ZAP_CHANNEL_ID1 :
+              zapCh1=myBlynk.blynkData;
             break;
 
+             case FB_ZAP_CHANNEL_ID2 :
+              zapCh2=myBlynk.blynkData;
+            break;
+
+             case FB_ZAP_CHANNEL_ID3 :
+              zapCh3=myBlynk.blynkData;
+            break;
+
+             case FB_ZAP_CHANNEL_ID4 :
+              zapCh4=myBlynk.blynkData;
+            break;
+
+             case FB_ZAP_CHANNEL_ID5 :
+              zapCh5=myBlynk.blynkData;
+            break;
+
+             case FB_ZAP_CHANNEL_ID6 :
+              zapCh6=myBlynk.blynkData;
+            break;
+
+             case FB_ZAP_CHANNEL_ID7 :
+              zapCh7=myBlynk.blynkData;
+            break;
+
+             case FB_ZAP_CHANNEL_ID8 :
+              zapCh8=myBlynk.blynkData;
+            break;
+             case FB_NETGEER_ID  :
+              digitalWrite(NETGEER_PIN, HIGH);
+              delay(2000);
+              digitalWrite(NETGEER_PIN, LOW);
+            break;
+            
             
     }  
 }
@@ -338,7 +375,12 @@ void processFirebase(void)
 
 void remoteControl(int cmd )
 {
-     if (blynkOn)    myBlynk.blynkRCLed(1);
+     if (blynkOn)    
+      {
+        if (cmd >= 1 && cmd <= 15) {myBlynk.blynkRCLed(1); }
+        if (cmd >= 16 && cmd <= 30) {myBlynk.blynkRCLed315(1);}
+      }
+
      if (fireBaseOn) fb.SendString (FB_RC_LED, "1" );
      av.rcPower(ON);  //RC Vcc Pin 2
      delay(200);
@@ -369,6 +411,15 @@ void receiverAvByFreq (int Freq)
 
 void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool ch4, bool ch5, bool ch6, bool ch7, bool ch8)
 {
+/*     timeout1= millis();
+     
+     if (millis() - timeout1 > zapTimer) 
+     {
+       timeout1= millis();
+           
+     }
+    
+ */
   if (ch1) 
     {
       receiverAvByCh (1);
