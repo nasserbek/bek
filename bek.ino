@@ -1,6 +1,12 @@
 #include "main.h"
-long timeout1, timeout2,timeout3,timeout4,timeout5,timeout6,timeout7,timeout8 ;
+
+#define NETGEER_TIMEOUT 36000000
+#define NETGEER_POR 60000
+long timeout1, timeoutNetgeer, porNetgeer, wifiSuurvilance;
+bool netgeerReset = false;
+
 bool aliveTimout = false;
+bool RCsent= false;
 int stateMachine =0;
  reciever av;
  fireBase fb;
@@ -28,7 +34,8 @@ void setup()
    sim800Available = smsOn && sim.init();
    if (sim800Available) {EEPROM.write(EEPROM_SIM800_ADD, 1); EEPROM.commit();}
    else {EEPROM.write(EEPROM_SIM800_ADD, 0); EEPROM.commit();}
- 
+
+
      wifiAvailable= wifiOn && fb.wifiConnect();
      if (wifiAvailable) 
       { 
@@ -50,11 +57,16 @@ void setup()
 
         }
       sendToHMI("Wifi failed to connect or turned off", "Wifi activation: ", "Wifi failed to connect or turned off",FB_NOTIFIER, "Wifi failed to connect or turned off" );
+
      }
 
     mySwitch.enableTransmit(RC_TX_PIN);
 
     av.bluLed(OFF);
+ //   ResetNetgeer();
+    timeoutNetgeer= millis();
+    porNetgeer = millis();
+    wifiSuurvilance= millis();
 }
 
 
@@ -64,7 +76,9 @@ void loop(void)
        if (util.systemTimer(true, aliveTimer.prevMillis, 2)) aliveTimer.timeOut =!aliveTimer.timeOut; 
        av.bluLed(aliveTimer.timeOut);
        processCommands();
- //      wifiSurvilance();
+   //    if (   (millis() - wifiSuurvilance > NETGEER_POR)  && (!wifiAvailable)  )  {wifiSurvilance();wifiSuurvilance= millis();}
+       if (   (millis() - porNetgeer > NETGEER_POR)  && (!wifiAvailable)  ) {ResetNetgeer();porNetgeer= millis();}
+       if (millis() - timeoutNetgeer > NETGEER_TIMEOUT) {ResetNetgeer();timeoutNetgeer= millis();}
 }
 
 
@@ -125,13 +139,7 @@ void processSms(void)
           else if (smsReceived =="Sms") smsID = FB_SMS_ON_ID;
           else if (smsReceived =="Ver") smsID =FB_VERSION_ID;
           else if (smsReceived == "Settings" ) smsID = FB_SETTINGS_ID ;
-          else if (smsReceived == "Netgeer" ) 
-          {
-              digitalWrite(NETGEER_PIN, HIGH);
-              delay(2000);
-              digitalWrite(NETGEER_PIN, LOW); 
-          }
-
+          else if (smsReceived == "Netgeer" ) ResetNetgeer();
         }
         switch (smsID)
           {
@@ -148,7 +156,7 @@ void processSms(void)
             case FB_T433_CH_NR_ID:
               remoteControlRcCh=smsValue;
               DEBUG_PRINT("FB_T433_CH_NR: ");DEBUG_PRINTLN(remoteControlRcCh);
-              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 30) remoteControl(remoteControlRcCh );
+              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 30) {remoteControl(remoteControlRcCh );RCsent = false;}
             break;
             case FB_RESET_ID:
               DEBUG_PRINT("FB_RESET: ");DEBUG_PRINTLN(smsReceived);
@@ -198,7 +206,7 @@ void processBlynk(void)
             case FB_AV_7SEG_ID:
                 recevierCh=myBlynk.blynkData;
                 DEBUG_PRINT("FB_AV_7SEG: ");DEBUG_PRINTLN(myBlynk.blynkData);
-                if (recevierCh >= 1 && recevierCh <= 8) receiverAvByCh (recevierCh);
+                if (recevierCh >= 1 && recevierCh <= 9) receiverAvByCh (recevierCh);
             break;
             case FB_FREQ_ID:
               recevierFreq=myBlynk.blynkData;
@@ -208,12 +216,12 @@ void processBlynk(void)
             case FB_T433_CH_NR_ID:
               remoteControlRcCh=myBlynk.blynkData;
               DEBUG_PRINT("FB_T433_CH_NR: ");DEBUG_PRINTLN(myBlynk.blynkData);
-              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 15) remoteControl(remoteControlRcCh );
+              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 15) {remoteControl(remoteControlRcCh );RCsent = false;}
             break;
             case FB_T315_CH_NR_ID:
               remoteControlRcCh=myBlynk.blynkData;
               DEBUG_PRINT("FB_T315_CH_NR: ");DEBUG_PRINTLN( (myBlynk.blynkData) -15);
-              if (remoteControlRcCh >= 16 && remoteControlRcCh <= 30) remoteControl(remoteControlRcCh );
+              if (remoteControlRcCh >= 16 && remoteControlRcCh <= 30) {remoteControl(remoteControlRcCh );RCsent = false;}
             break;
  
             case FB_RESET_ID:
@@ -301,9 +309,7 @@ void processBlynk(void)
               zapCh8=myBlynk.blynkData;
             break;
              case FB_NETGEER_ID  :
-              digitalWrite(NETGEER_PIN, HIGH);
-              delay(2000);
-              digitalWrite(NETGEER_PIN, LOW);
+              ResetNetgeer();
             break;
             
             
@@ -328,7 +334,7 @@ void processFirebase(void)
             case FB_T433_CH_NR_ID:
               remoteControlRcCh=fb.eventValue;
               DEBUG_PRINT("FB_T433_CH_NR: ");DEBUG_PRINTLN(remoteControlRcCh);
-              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 30) remoteControl(remoteControlRcCh );
+              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 30) {remoteControl(remoteControlRcCh );RCsent = false;}
             break;
             case FB_RESET_ID:
               rebootCmd=fb.eventValue;
@@ -376,6 +382,8 @@ void processFirebase(void)
 
 void remoteControl(int cmd )
 {
+ if(RCsent == false);
+ {
      if (blynkOn)    
       {
         if (cmd >= 1 && cmd <= 15) {myBlynk.blynkRCLed(1); }
@@ -384,10 +392,10 @@ void remoteControl(int cmd )
 
      if (fireBaseOn) fb.SendString (FB_RC_LED, "1" );
      av.rcPower(ON);  //RC Vcc Pin 2
-     delay(200);
+     delay(500);
      mySwitch.send(CH_433[cmd], RC_CODE_LENGTH);
      DEBUG_PRINT("ch433:");DEBUG_PRINTLN(cmd);
-     delay(200);
+     delay(500);
      av.rcPower(OFF);
      if (blynkOn)    
       {
@@ -395,6 +403,8 @@ void remoteControl(int cmd )
         if (cmd >= 16 && cmd <= 30) {myBlynk.blynkRCLed315(0);myBlynk.resetT315Cmd(cmd);}
       }
      if (fireBaseOn) {fb.SendString (FB_RC_LED, "0" );fb.SendString (FB_AV_OUTPUT, String(avOutput) );}
+     RCsent = true;
+ }
 }
 
 void receiverAvByFreq (int Freq)
@@ -500,8 +510,15 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
         
 void receiverAvByCh (int Ch)
 {
+  bool ack;
+  int PLL_value;
       myBlynk.blynkAckLed(true);
-       bool ack = av.Tuner_PLL(av_pll_addr, PLL[Ch]);
+       if (Ch != 9) {ack = av.Tuner_PLL(av_pll_addr, PLL[Ch]);}
+       else 
+        {
+          PLL_value =( 512 * ( 1000000 * (990 + 479.5) ) ) / (16*4000000) ;
+          ack = av.Tuner_PLL(av_pll_addr, PLL_value);
+        }
        if (fireBaseOn) fb.SendString (FB_ACK_LED, String(ack) ); 
        if (blynkOn) myBlynk.blynkAckLed(ack);
        myBlynk.sevenSegValue(Ch );
@@ -624,19 +641,17 @@ void sendToHMI(char *smsmsg, String notifier_subject, String notifier_body,Strin
 
 void wifiSurvilance(void)
 {       
-       if (wifiOn && ( ! (wifiAvailable=fb.wifiConnect() ) ) )   //if Wifi lost then activaate Sim and restart
-       {
-          sendToHMI("Wifi lost while on", "WIFI_LOST_ERR: ", "Wifi lost while on",FB_NOTIFIER, "Wifi lost while on" );
-          EEPROM.write(EEPROM_FB_ADD, 0); EEPROM.commit();
-          EEPROM.write(EEPROM_BLYNK_ADD, 0); EEPROM.commit();
-          EEPROM.write(EEPROM_WIFI_ADD, 0); EEPROM.commit();
-          EEPROM.write(EEPROM_ERR_ADD, WIFI_LOST_ERR); EEPROM.commit();
-          EEPROM.write(EEPROM_SMS_ADD, 1); EEPROM.commit();smsOn =true;  
-          sim800Available = smsOn && sim.init();
-          if (sim800Available) {EEPROM.write(EEPROM_SIM800_ADD, 1); EEPROM.commit();}
-          else {EEPROM.write(EEPROM_SIM800_ADD, 0); EEPROM.commit();smsOn =false;}
-     //     ESP.restart();
-       }
+
+if (wifiOn && ( ! (wifiAvailable=fb.wifiConnect() ) ) )   
+  { 
+     if (!netgeerReset) 
+      {
+   //    sendToHMI("Wifi failed Reset Negeer", "Wifi activation: ", "Wifi failed Reset Negeer",FB_NOTIFIER, "Wifi failed Reset Negeer" );
+         ResetNetgeer();
+        netgeerReset = true;
+      }
+  }
+
 }  
 
 void otaGsm(void)
@@ -761,3 +776,22 @@ char carray[5];
       str.toCharArray(carray, sizeof(carray));
       return ( atoi(carray));  
 }
+
+void ResetNetgeer(void)
+          {
+              digitalWrite(NETGEER_PIN, HIGH);
+              delay(2000);
+              digitalWrite(NETGEER_PIN, LOW); 
+          }
+
+
+
+
+
+
+
+
+
+
+
+          

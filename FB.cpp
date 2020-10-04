@@ -108,7 +108,7 @@ bool fireBase::wifiConnect()
     
     long timeout = millis();
     while ( WiFi.status()  != WL_CONNECTED ) {
-     if (millis() - timeout > 10000L) return false;
+     if (millis() - timeout > 60000L) return false;
       }
 return true; 
 }

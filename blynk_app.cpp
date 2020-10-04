@@ -18,7 +18,7 @@ WidgetLED led4(V9);   //fb
 WidgetLED led5(V12);   //sms
 WidgetLED led7(V80);   //Zap Status
 
-char auth[] = "D4AU1HexWcErQ9vtpkP_EgocpnoArZKC";//"Ti_NxRI__A3ZM0l16eArxO7MMmDk_wc2";//
+char auth[] = "D4AU1HexWcErQ9vtpkP_EgocpnoArZKC"; // bek2 "ya1T2eipkMhB3NvyLeAyRVRHqPAUXUG-"
 char ssid[] = WIFI_SSID;
 char pass[] = WIFI_PASSWORD;
 int _t433ChNumber, _t315ChNumber,_blynkfreqValue,_sevenSeg;
@@ -186,7 +186,15 @@ BLYNK_WRITE(V44)   //ch14
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
 
-
+BLYNK_WRITE(V29)   //ch15
+{
+  _tempoVar = param.asInt(); // assigning incoming value from pin V37 to a variable
+    _blynkEvent = true;
+    _blynkData=15;
+    _blynkEventID =FB_T433_CH_NR_ID;
+  DEBUG_PRINT("V44 T433 ch14: ");
+  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+}
 
 BLYNK_WRITE(V14) //rc315
 {
@@ -344,6 +352,17 @@ BLYNK_WRITE(V28)   //ch8
   DEBUG_PRINT("V28 ch8: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
+
+BLYNK_WRITE(V30)   //ch0
+{
+  _tempoVar = param.asInt(); // assigning incoming value from pin V28 to a variable
+    _blynkEvent = true;
+    _blynkData=9;
+    _blynkEventID =FB_AV_7SEG_ID;
+  DEBUG_PRINT("V30 ch9 995 Mhz: ");
+  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+}
+
 
 
 
