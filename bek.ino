@@ -1,10 +1,12 @@
 #include "main.h"
+#include <ESP32Ping.h>
 
-#define NETGEER_TIMEOUT 36000000
-#define NETGEER_POR 60000
-long timeout1, timeoutNetgeer, porNetgeer, wifiSuurvilance;
+#define NETGEER_RESET_TIMER 36000000
+#define WIFI_SURVILANCE_TIMER 60000
+#define PING_GOOLE_TIMER 60000
+long timeout1, NetgeerResetTimer, wifiSurvilanceTimer, internetSurvilanceTimer;
 bool netgeerReset = false;
-
+bool pingGoogle= false;
 bool aliveTimout = false;
 bool RCsent= false;
 int stateMachine =0;
@@ -63,10 +65,9 @@ void setup()
     mySwitch.enableTransmit(RC_TX_PIN);
 
     av.bluLed(OFF);
- //   ResetNetgeer();
-    timeoutNetgeer= millis();
-    porNetgeer = millis();
-    wifiSuurvilance= millis();
+    NetgeerResetTimer= millis();
+    wifiSurvilanceTimer = millis();
+    internetSurvilanceTimer= millis();
 }
 
 
@@ -76,9 +77,9 @@ void loop(void)
        if (util.systemTimer(true, aliveTimer.prevMillis, 2)) aliveTimer.timeOut =!aliveTimer.timeOut; 
        av.bluLed(aliveTimer.timeOut);
        processCommands();
-   //    if (   (millis() - wifiSuurvilance > NETGEER_POR)  && (!wifiAvailable)  )  {wifiSurvilance();wifiSuurvilance= millis();}
-       if (   (millis() - porNetgeer > NETGEER_POR)  && (!wifiAvailable)  ) {ResetNetgeer();porNetgeer= millis();}
-       if (millis() - timeoutNetgeer > NETGEER_TIMEOUT) {ResetNetgeer();timeoutNetgeer= millis();}
+       if (   millis() - internetSurvilanceTimer > PING_GOOLE_TIMER)  {internetSurvilance();internetSurvilanceTimer= millis();}
+       if (   (millis() - wifiSurvilanceTimer > WIFI_SURVILANCE_TIMER)  && (!wifiAvailable)  ) {ResetNetgeer();wifiSurvilanceTimer= millis();}
+       if (millis() - NetgeerResetTimer > NETGEER_RESET_TIMER) {ResetNetgeer();NetgeerResetTimer= millis();}
 }
 
 
@@ -639,20 +640,7 @@ void sendToHMI(char *smsmsg, String notifier_subject, String notifier_body,Strin
   if (fireBaseOn)fb.SendString( fb_path, fb_cmdString ); 
 }
 
-void wifiSurvilance(void)
-{       
-
-if (wifiOn && ( ! (wifiAvailable=fb.wifiConnect() ) ) )   
-  { 
-     if (!netgeerReset) 
-      {
-   //    sendToHMI("Wifi failed Reset Negeer", "Wifi activation: ", "Wifi failed Reset Negeer",FB_NOTIFIER, "Wifi failed Reset Negeer" );
-         ResetNetgeer();
-        netgeerReset = true;
-      }
-  }
-
-}  
+ 
 
 void otaGsm(void)
 {
@@ -785,13 +773,19 @@ void ResetNetgeer(void)
           }
 
 
+void internetSurvilance(void)
+{       
+ bool internetActive  = checkInternetConnection();
+if (!internetActive) ResetNetgeer();
+} 
 
 
-
-
-
-
-
+bool checkInternetConnection(void)
+{
+       bool pingInternet= Ping.ping("www.google.com");
+       DEBUG_PRINT("Ping Google: ");DEBUG_PRINTLN(pingInternet ? F("faild") : F("succesiful"));
+       return pingInternet;
+}
 
 
           

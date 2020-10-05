@@ -1,6 +1,8 @@
 #include "blynk_app.h"
 #include "headers.h"
 
+#define BEK
+//#define BEK2
 
 #define BLYNK_PRINT Serial
 #include <WiFi.h>
@@ -18,7 +20,15 @@ WidgetLED led4(V9);   //fb
 WidgetLED led5(V12);   //sms
 WidgetLED led7(V80);   //Zap Status
 
-char auth[] = "D4AU1HexWcErQ9vtpkP_EgocpnoArZKC"; // bek2 "ya1T2eipkMhB3NvyLeAyRVRHqPAUXUG-"
+#ifdef BEK
+  char auth[] = "D4AU1HexWcErQ9vtpkP_EgocpnoArZKC";                                               
+#endif
+
+#ifdef BEK2
+  char auth[] = "ya1T2eipkMhB3NvyLeAyRVRHqPAUXUG-"                                               
+#endif
+
+//char auth[] = "D4AU1HexWcErQ9vtpkP_EgocpnoArZKC"; // bek2 "ya1T2eipkMhB3NvyLeAyRVRHqPAUXUG-"
 char ssid[] = WIFI_SSID;
 char pass[] = WIFI_PASSWORD;
 int _t433ChNumber, _t315ChNumber,_blynkfreqValue,_sevenSeg;
