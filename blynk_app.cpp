@@ -1,6 +1,7 @@
 #include "blynk_app.h"
 #include "headers.h"
 
+
 #define BEK
 
 
@@ -12,7 +13,8 @@
 
 
 
-WidgetLED led1(V4);   //Alive Led
+WidgetLED led1(V4);   //Alive Led BEK
+WidgetLED led8(V16);   //Alive Led BEK
 WidgetLED led2(V5);   //Ack
 WidgetLED led3(V6);   //T433 St
 WidgetLED led6(V13);  //T315 St
@@ -20,13 +22,15 @@ WidgetLED led4(V9);   //fb
 WidgetLED led5(V12);   //sms
 WidgetLED led7(V80);   //Zap Status
 
+
 #ifdef BEK
-  char auth[] = "D4AU1HexWcErQ9vtpkP_EgocpnoArZKC";                                               
+    char auth[] = "D4AU1HexWcErQ9vtpkP_EgocpnoArZKC"; 
+#else
+    char auth[] = "ya1T2eipkMhB3NvyLeAyRVRHqPAUXUG-";  //BEK2
 #endif
 
-#ifndef BEK  //bek2
-  char auth[] = "ya1T2eipkMhB3NvyLeAyRVRHqPAUXUG-" ;                                              
-#endif
+                                      
+
 
 //char auth[] = "D4AU1HexWcErQ9vtpkP_EgocpnoArZKC"; // bek2 "ya1T2eipkMhB3NvyLeAyRVRHqPAUXUG-"
 char ssid[] = WIFI_SSID;
@@ -41,6 +45,16 @@ int  _blynkData=0;
 int  _blynkEventID =0;
 
 int _tempoVar;
+
+BLYNK_WRITE(V100)  //wifi ide
+{
+    _smsBlynk = param.asInt(); // assigning incoming value from pin V10 to a variable
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    _blynkEventID =FB_WIFI_IDE_ID ;
+  DEBUG_PRINT("Wifi IDE: ");
+  DEBUG_PRINTLN(_smsBlynk ? F("Turn On") : F("Turn Off"));
+}
 
 BLYNK_WRITE(V11)  //sms on off
 {
@@ -494,7 +508,8 @@ blynk::blynk(void)
 void blynk::init() 
 {
  Blynk.begin(auth, ssid, pass); 
- led1.on(); //Enable colours for Alive Led
+ led1.on(); //Enable colours for Alive Led BEK
+ led8.on(); //Enable colours for Alive Led BEK
  led2.on(); //Enable colours for Ack Led
  led3.on(); //Enable colours for T433 St Led
  led6.on(); //Enable colours for T315 St Led
@@ -531,8 +546,15 @@ void blynk::blynkRun()
 
 void blynk::sendAlive(int _data)
 {
- if (_data==0)  led1.setColor(BLYNK_RED); 
+#ifdef BEK
+     if (_data==0)  led1.setColor(BLYNK_RED); 
  else           led1.setColor(BLYNK_GREEN);
+
+#else
+     if (_data==0)  led8.setColor(BLYNK_RED); 
+ else           led8.setColor(BLYNK_YELLOW);
+#endif
+
 }
 
 

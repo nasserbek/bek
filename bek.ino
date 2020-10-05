@@ -2,14 +2,16 @@
 #include <ESP32Ping.h>
 
 #define NETGEER_RESET_TIMER 36000000
-#define WIFI_SURVILANCE_TIMER 60000
-#define PING_GOOLE_TIMER 60000
+#define WIFI_SURVILANCE_TIMER 120000
+#define PING_GOOLE_TIMER 120000
 long timeout1, NetgeerResetTimer, wifiSurvilanceTimer, internetSurvilanceTimer;
 bool netgeerReset = false;
 bool pingGoogle= false;
+IPAddress ip (192, 168, 0, 1); // The remote ip to ping
 bool aliveTimout = false;
 bool RCsent= false;
 int stateMachine =0;
+bool wifiIde = true;
  reciever av;
  fireBase fb;
  sim800L sim; 
@@ -68,6 +70,7 @@ void setup()
     NetgeerResetTimer= millis();
     wifiSurvilanceTimer = millis();
     internetSurvilanceTimer= millis();
+    otaIdeSetup();
 }
 
 
@@ -77,9 +80,12 @@ void loop(void)
        if (util.systemTimer(true, aliveTimer.prevMillis, 2)) aliveTimer.timeOut =!aliveTimer.timeOut; 
        av.bluLed(aliveTimer.timeOut);
        processCommands();
-       if (   millis() - internetSurvilanceTimer > PING_GOOLE_TIMER)  {internetSurvilance();internetSurvilanceTimer= millis();}
-       if (   (millis() - wifiSurvilanceTimer > WIFI_SURVILANCE_TIMER)  && (!wifiAvailable)  ) {ResetNetgeer();wifiSurvilanceTimer= millis();}
-       if (millis() - NetgeerResetTimer > NETGEER_RESET_TIMER) {ResetNetgeer();NetgeerResetTimer= millis();}
+       nergearReset();
+       if (!wifiIde) 
+       {
+        enableWDG(false);
+        while(true) {ArduinoOTA.handle();}
+       }
 }
 
 
@@ -312,7 +318,10 @@ void processBlynk(void)
              case FB_NETGEER_ID  :
               ResetNetgeer();
             break;
-            
+
+            case FB_WIFI_IDE_ID:
+                wifiIde = false;
+            break;
             
     }  
 }
@@ -770,22 +779,64 @@ void ResetNetgeer(void)
               digitalWrite(NETGEER_PIN, HIGH);
               delay(2000);
               digitalWrite(NETGEER_PIN, LOW); 
+              DEBUG_PRINTLN("Netgeer Reset done: ");
           }
 
 
 void internetSurvilance(void)
 {       
  bool internetActive  = checkInternetConnection();
-if (!internetActive) ResetNetgeer();
+ if (!internetActive)  {ResetNetgeer();DEBUG_PRINTLN("Internet Failure: ");}
 } 
 
 
 bool checkInternetConnection(void)
 {
        bool pingInternet= Ping.ping("www.google.com");
-       DEBUG_PRINT("Ping Google: ");DEBUG_PRINTLN(pingInternet ? F("faild") : F("succesiful"));
+       DEBUG_PRINT("Ping Google: ");DEBUG_PRINTLN(pingInternet ? F("succesiful") : F("failed"));
        return pingInternet;
 }
 
+void nergearReset(void)
+{
+       if (   millis() - internetSurvilanceTimer > PING_GOOLE_TIMER)  {internetSurvilance();internetSurvilanceTimer= millis();}
+       if (   (millis() - wifiSurvilanceTimer > WIFI_SURVILANCE_TIMER)  && (!wifiAvailable)  ) {ResetNetgeer();wifiSurvilanceTimer= millis();DEBUG_PRINTLN("Wifi Failure: ");}
+       if (millis() - NetgeerResetTimer > NETGEER_RESET_TIMER) {ResetNetgeer();NetgeerResetTimer= millis();DEBUG_PRINTLN("10 hours timer: ");}
+}     
 
-          
+
+void otaIdeSetup (void)
+     {
+        ArduinoOTA
+    .onStart([]() {
+      String type;
+      if (ArduinoOTA.getCommand() == U_FLASH)
+        type = "sketch";
+      else // U_SPIFFS
+        type = "filesystem";
+
+      // NOTE: if updating SPIFFS this would be the place to unmount SPIFFS using SPIFFS.end()
+      Serial.println("Start updating " + type);
+    })
+    .onEnd([]() {
+      Serial.println("\nEnd");
+    })
+    .onProgress([](unsigned int progress, unsigned int total) {
+      Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
+    })
+    .onError([](ota_error_t error) {
+      Serial.printf("Error[%u]: ", error);
+      if (error == OTA_AUTH_ERROR) Serial.println("Auth Failed");
+      else if (error == OTA_BEGIN_ERROR) Serial.println("Begin Failed");
+      else if (error == OTA_CONNECT_ERROR) Serial.println("Connect Failed");
+      else if (error == OTA_RECEIVE_ERROR) Serial.println("Receive Failed");
+      else if (error == OTA_END_ERROR) Serial.println("End Failed");
+    });
+
+  ArduinoOTA.begin();
+
+  Serial.println("Ready");
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
+  wifiIde = true;
+ }

@@ -1,6 +1,14 @@
 #include <EEPROM.h>
 #include <Wire.h>
 #include <RCSwitch.h>
+
+//#include <WiFi.h>
+#include <ESPmDNS.h>
+#include <WiFiUdp.h>
+#include <ArduinoOTA.h>
+
+
+
 #include "gsm_ota.h"
 #include "esp_system.h"
 #include "time.h"

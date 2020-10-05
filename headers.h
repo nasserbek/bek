@@ -1,12 +1,12 @@
 #define DEBUG_SERIAL
-#define NETGEER
-/*
+//#define NETGEER
+
 //#define FREE
 //#define HUAWEI
-//#define SFR
+#define SFR
 //#define OPPO
 //#define BB
-*/
+
 
 #ifdef DEBUG_SERIAL
  #define DEBUG_PRINT(x)    Serial.print (x)
@@ -135,6 +135,7 @@
 #define    FB_ZAP_CHANNEL_ID8   28
 
 #define    FB_NETGEER_ID   29
+#define    FB_WIFI_IDE_ID   30
 
 #define    FB_RC_LED           "/PC/RcTransmitter_Led"
 #define    FB_ACK_LED          "/PC/AvReceiver_Led"
