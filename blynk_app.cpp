@@ -2,7 +2,7 @@
 #include "headers.h"
 
 #define BEK
-//#define BEK2
+
 
 #define BLYNK_PRINT Serial
 #include <WiFi.h>
@@ -24,8 +24,8 @@ WidgetLED led7(V80);   //Zap Status
   char auth[] = "D4AU1HexWcErQ9vtpkP_EgocpnoArZKC";                                               
 #endif
 
-#ifdef BEK2
-  char auth[] = "ya1T2eipkMhB3NvyLeAyRVRHqPAUXUG-"                                               
+#ifndef BEK  //bek2
+  char auth[] = "ya1T2eipkMhB3NvyLeAyRVRHqPAUXUG-" ;                                              
 #endif
 
 //char auth[] = "D4AU1HexWcErQ9vtpkP_EgocpnoArZKC"; // bek2 "ya1T2eipkMhB3NvyLeAyRVRHqPAUXUG-"
