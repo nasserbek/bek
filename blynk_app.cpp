@@ -523,7 +523,7 @@ void blynk::notifierDebug(String subject, String body)
   // *** WARNING: You are limited to send ONLY ONE E-MAIL PER 5 SECONDS! ***
  //   body = String("You pushed the button ") + count + " times.";
 //    DEBUG_PRINT(subject);DEBUG_PRINTLN(body); 
- //   Blynk.notify(String(subject +"**"+ body) );
+      Blynk.notify(String(subject +"**"+ body) );
 }
 
 bool blynk::getData()

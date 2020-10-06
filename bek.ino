@@ -1,12 +1,17 @@
 #include "main.h"
 #include <ESP32Ping.h>
 
+#define NOTIFIER_ID "BEK : \n "
+
+#define LIVE_TIMER_ON   3000
+#define LIVE_TIMER_OFF  3000
 #define NETGEER_RESET_TIMER 36000000
 #define WIFI_SURVILANCE_TIMER 120000
 #define PING_GOOLE_TIMER 120000
-long timeout1, NetgeerResetTimer, wifiSurvilanceTimer, internetSurvilanceTimer;
+long timeout1, NetgeerResetTimer, wifiSurvilanceTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff;
 bool netgeerReset = false;
 bool pingGoogle= false;
+bool liveBit = false;
 IPAddress ip (192, 168, 0, 1); // The remote ip to ping
 bool aliveTimout = false;
 bool RCsent= false;
@@ -24,11 +29,12 @@ void setup()
 {
    pinMode(NETGEER_PIN, OUTPUT);
    digitalWrite(NETGEER_PIN, LOW);
+   
    av.bluLed(ON);
    Serial.begin(115200);
    EEPROM.begin(EEPROM_SIZE);
    EEPROM.write(EEPROM_WIFI_ADD, 1); EEPROM.commit();wifiOn=true;
-   EEPROM.write(EEPROM_FB_ADD, 1); EEPROM.commit();fireBaseOn=true;
+   EEPROM.write(EEPROM_FB_ADD, 0); EEPROM.commit();fireBaseOn=false;
    EEPROM.write(EEPROM_BLYNK_ADD, 1); EEPROM.commit();blynkOn=true;
    EEPROM.write(EEPROM_SMS_ADD, 1); EEPROM.commit();smsOn=true;
    
@@ -48,7 +54,7 @@ void setup()
         getDateTimeNTP(gitHub); 
         sendToHMI(util.dateAndTimeChar, "Version : ", String(util.dateAndTimeChar),FB_NOTIFIER,String(util.dateAndTimeChar));
         }
-       if (blynkOn){myBlynk.init();myBlynk.frequencyValue(1080 );myBlynk.sevenSegValue(1 );}
+       if (blynkOn){myBlynk.init();myBlynk.frequencyValue(1080 );myBlynk.sevenSegValue(1 );getSettingsFromEeprom();myBlynk.notifierDebug(NOTIFIER_ID, smsSettings);}
        if (fireBaseOn) fb.init();
       }
      else  
@@ -67,9 +73,12 @@ void setup()
     mySwitch.enableTransmit(RC_TX_PIN);
 
     av.bluLed(OFF);
-    NetgeerResetTimer= millis();
-    wifiSurvilanceTimer = millis();
-    internetSurvilanceTimer= millis();
+    NetgeerResetTimer       = millis();
+    wifiSurvilanceTimer     = millis();
+    internetSurvilanceTimer = millis();
+    liveTimerOff            = millis();
+    liveTimerOn             = millis();
+    
     otaIdeSetup();
 }
 
@@ -77,10 +86,9 @@ void setup()
 void loop(void) 
 {
        resetWdg();    //reset timer (feed watchdog) 
-       if (util.systemTimer(true, aliveTimer.prevMillis, 2)) aliveTimer.timeOut =!aliveTimer.timeOut; 
-       av.bluLed(aliveTimer.timeOut);
+       liveCtrl();
        processCommands();
-       nergearReset();
+       netgeerCtrl();
        if (!wifiIde) 
        {
         enableWDG(false);
@@ -96,15 +104,12 @@ void processCommands(void)
         {
           myBlynk.blynkRun();
           if(blynkEvent = myBlynk.getData () )  processBlynk(); 
-          myBlynk.sendAlive(aliveTimer.timeOut);
           if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);
-          myBlynk.zapLed(zapOnOff);
         }
 
         if (fireBaseOn)
         {
         if(fbEvent = fb.firebaseRun())          processFirebase();
-   //     if(aliveSent != aliveTimer.timeOut) fb.SendString( FB_ALIVE, String(aliveTimer.timeOut) );
         }
         
         if(sim800Available) 
@@ -113,7 +118,6 @@ void processCommands(void)
         }
        
         avOutput = av.Read_Analog_Av_Output(AV_OUTPUT_AN);    
-        aliveSent != aliveTimer.timeOut;      
 }
 
 
@@ -275,9 +279,10 @@ void processBlynk(void)
             break;
 
             case FB_ZAP_ID:
-             zapOnOff=myBlynk.blynkData;
+              zapOnOff=myBlynk.blynkData;
               DEBUG_PRINT("ZAP IS : ");
               DEBUG_PRINTLN(zapOnOff ? F("On") : F("Off"));
+              myBlynk.zapLed(zapOnOff);
             break;
 
             case FB_ZAP_TIMER_ID :
@@ -424,7 +429,7 @@ void receiverAvByFreq (int Freq)
        int PLL_value =( 512 * ( 1000000 * (Freq + 479.5) ) ) / (16*4000000) ;
        ack = av.Tuner_PLL(av_pll_addr, PLL_value);
        if (fireBaseOn) {fb.SendString (FB_ACK_LED, String(ack) ); fb.SendString (FB_AV_OUTPUT, String(avOutput) );}
-       if (blynkOn)  { myBlynk.blynkAckLed(ack);myBlynk.sendRsss(avOutput);}
+       if (blynkOn)  { myBlynk.blynkAckLed(ack);/*myBlynk.sendRsss(avOutput);*/}
        myBlynk.frequencyValue(Freq );
        DEBUG_PRINT("Received manual_freq:");DEBUG_PRINTLN(manual_freq);
        DEBUG_PRINT("ack: ");DEBUG_PRINTLN(ack ? F("NotACK") : F("ACK"));
@@ -645,7 +650,7 @@ void  getSettingsFromEeprom(void)
 void sendToHMI(char *smsmsg, String notifier_subject, String notifier_body,String fb_path,String fb_cmdString)
 {
   if(sim800Available)sim.SendSMS(smsmsg);
-//  if (blynkOn) myBlynk.notifierDebug(notifier_subject, notifier_body);
+  if (blynkOn) myBlynk.notifierDebug(NOTIFIER_ID, notifier_body);
   if (fireBaseOn)fb.SendString( fb_path, fb_cmdString ); 
 }
 
@@ -776,6 +781,8 @@ char carray[5];
 
 void ResetNetgeer(void)
           {
+              if (blynkOn)myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset");
+              delay(2000);
               digitalWrite(NETGEER_PIN, HIGH);
               delay(2000);
               digitalWrite(NETGEER_PIN, LOW); 
@@ -797,7 +804,7 @@ bool checkInternetConnection(void)
        return pingInternet;
 }
 
-void nergearReset(void)
+void netgeerCtrl(void)
 {
        if (   millis() - internetSurvilanceTimer > PING_GOOLE_TIMER)  {internetSurvilance();internetSurvilanceTimer= millis();}
        if (   (millis() - wifiSurvilanceTimer > WIFI_SURVILANCE_TIMER)  && (!wifiAvailable)  ) {ResetNetgeer();wifiSurvilanceTimer= millis();DEBUG_PRINTLN("Wifi Failure: ");}
@@ -840,3 +847,25 @@ void otaIdeSetup (void)
   Serial.println(WiFi.localIP());
   wifiIde = true;
  }
+ 
+void liveCtrl(void)
+{
+   if ( (millis() - liveTimerOn > LIVE_TIMER_ON) && !liveBit ) 
+          {
+            liveBit = true ;
+            av.bluLed(liveBit);
+            liveTimerOff = millis();
+            DEBUG_PRINT("Live : ");
+            DEBUG_PRINTLN(liveBit ? F("On") : F("Off"));
+            myBlynk.sendAlive(liveBit);
+          }
+    if ( (millis() - liveTimerOff > LIVE_TIMER_OFF) && liveBit ) 
+          {
+            liveBit = false ;
+            av.bluLed(liveBit);
+            liveTimerOn = millis();
+            DEBUG_PRINT("Live : ");
+            DEBUG_PRINTLN(liveBit ? F("On") : F("Off"));
+            myBlynk.sendAlive(liveBit);
+          }
+}
