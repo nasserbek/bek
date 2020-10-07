@@ -54,7 +54,7 @@ void setup()
         getDateTimeNTP(gitHub); 
         sendToHMI(util.dateAndTimeChar, "Version : ", String(util.dateAndTimeChar),FB_NOTIFIER,String(util.dateAndTimeChar));
         }
-       if (blynkOn){myBlynk.init();myBlynk.frequencyValue(1080 );myBlynk.sevenSegValue(1 );getSettingsFromEeprom();myBlynk.notifierDebug(NOTIFIER_ID, smsSettings);}
+       if (blynkOn){myBlynk.init();myBlynk.frequencyValue(1080 );myBlynk.sevenSegValue(1 );getSettingsFromEeprom();myBlynk.notifierDebug(NOTIFIER_ID, "Restart");}
        if (fireBaseOn) fb.init();
       }
      else  
@@ -69,9 +69,13 @@ void setup()
       sendToHMI("Wifi failed to connect or turned off", "Wifi activation: ", "Wifi failed to connect or turned off",FB_NOTIFIER, "Wifi failed to connect or turned off" );
 
      }
-
     mySwitch.enableTransmit(RC_TX_PIN);
+    mySwitch.setProtocol(1); 
+    mySwitch.setPulseLength(232);
+    mySwitch.setRepeatTransmit(5);
+ //   av.rcPower(ON);  //RC Vcc Pin 2 to be removed
 
+    
     av.bluLed(OFF);
     NetgeerResetTimer       = millis();
     wifiSurvilanceTimer     = millis();
@@ -120,94 +124,6 @@ void processCommands(void)
         avOutput = av.Read_Analog_Av_Output(AV_OUTPUT_AN);    
 }
 
-
-void processSms(void)
-{
-      boolean isValidNumber =false;
-      int smsID=0;
-      
-      smsReceived =  sim.smsString;
-      
-       for(byte i=0;i<smsReceived.length();i++)
-          {
-            if(isDigit(smsReceived.charAt(i))) isValidNumber =true;
-            else isValidNumber=false;
-          }
-        if(isValidNumber)
-        {
-          smsValue = stringToInteger(smsReceived);
-          if (smsValue >= 1 && smsValue <= 30)     smsID =FB_T433_CH_NR_ID;
-          if (smsValue >= 41 && smsValue <= 48)    smsID =FB_AV_7SEG_ID;
-          if (smsValue >= 900 && smsValue <= 1360) smsID =FB_FREQ_ID;
-        }
-        else
-        {
-          if      (smsReceived =="Reset")smsID = FB_RESET_ID;
-          else if (smsReceived =="Firebase") smsID = FB_FB_OFF_ID;
-          else if (smsReceived =="Blynk") smsID = FB_BLYNK_ON_OFF_ID;
-          else if (smsReceived =="Wifi") smsID = FB_WIFI_OFF_ID;
-          else if (smsReceived =="Ota") smsID = FB_OTA_ID;
-          else if (smsReceived =="Sms") smsID = FB_SMS_ON_ID;
-          else if (smsReceived =="Ver") smsID =FB_VERSION_ID;
-          else if (smsReceived == "Settings" ) smsID = FB_SETTINGS_ID ;
-          else if (smsReceived == "Netgeer" ) ResetNetgeer();
-        }
-        switch (smsID)
-          {
-            case FB_AV_7SEG_ID:
-                recevierCh=smsValue-40;
-                DEBUG_PRINT("FB_AV_7SEG: ");DEBUG_PRINTLN(recevierCh);
-                if (recevierCh >= 1 && recevierCh <= 8) receiverAvByCh (recevierCh);
-            break;
-            case FB_FREQ_ID:
-              recevierFreq=smsValue;
-              DEBUG_PRINT("FB_FREQ: ");DEBUG_PRINTLN(recevierFreq);
-              if (recevierFreq >= 920 && recevierFreq <= 1500) receiverAvByFreq (recevierFreq);
-            break;
-            case FB_T433_CH_NR_ID:
-              remoteControlRcCh=smsValue;
-              DEBUG_PRINT("FB_T433_CH_NR: ");DEBUG_PRINTLN(remoteControlRcCh);
-              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 30) {remoteControl(remoteControlRcCh );RCsent = false;}
-            break;
-            case FB_RESET_ID:
-              DEBUG_PRINT("FB_RESET: ");DEBUG_PRINTLN(smsReceived);
-              rebootSw();
-            break;
-            case FB_OTA_ID:
-              otaCmd=myBlynk.blynkData;
-              DEBUG_PRINT("FB_OTA: ");DEBUG_PRINTLN(smsReceived);
-              fb.endTheOpenStream();
-              otaGsm ();
-            break;
-            case FB_SMS_ON_ID:
-              smsOnOffCmd=myBlynk.blynkData;
-              DEBUG_PRINT("FB_SMS_ON: ");DEBUG_PRINTLN(smsReceived);
-              smsActivation(!smsOn);
-              myBlynk.blynkSmsLed(sim800Available);
-            break;
-            case FB_VERSION_ID:
-              DEBUG_PRINT("FB_VERSION: ");DEBUG_PRINTLN(smsReceived);
-              sendVersion();
-            break;
-            case FB_FB_OFF_ID:
-              DEBUG_PRINT("FB_FB_OFF: ");DEBUG_PRINTLN(smsReceived);
-              firebaseOnActivation(!fireBaseOn);
-              myBlynk.blynkFirebaseLed(fireBaseOn);
-            break;
-            case FB_BLYNK_ON_OFF_ID:
-              DEBUG_PRINT("FB_BLYNK_ON_OFF: ");DEBUG_PRINTLN(smsReceived);
-              blynkActivation(!blynkOn);
-            break;
-            case FB_WIFI_OFF_ID:
-              DEBUG_PRINT("FB_WIFI_OFF: ");DEBUG_PRINTLN(myBlynk.blynkData);
-              wifiActivation(!wifiOn);
-            break;
-            case FB_SETTINGS_ID :
-              getSettingsFromEeprom();
-              sendToHMI(smsSettings, "Setting ", smsSettings ,FB_NOTIFIER,smsSettings);
-            break;
-    }  
-}
 
 
 void processBlynk(void)
@@ -327,72 +243,26 @@ void processBlynk(void)
             case FB_WIFI_IDE_ID:
                 wifiIde = false;
             break;
-            
-    }  
-}
 
-
-void processFirebase(void)
-{
-        switch (fb.eventID)
-          {
-            case FB_AV_7SEG_ID:
-                recevierCh=fb.eventValue;
-                DEBUG_PRINT("FB_AV_7SEG: ");DEBUG_PRINTLN(fb.eventValue);
-                if (recevierCh >= 1 && recevierCh <= 8) receiverAvByCh (recevierCh);
+            case FB_AV_CH_PLUS_ID:
+                recevierCh += 1;
+                if (recevierCh >= 1 && recevierCh <= 9) receiverAvByCh (recevierCh);
             break;
-            case FB_FREQ_ID:
-              recevierFreq=fb.eventValue;
-              DEBUG_PRINT("FB_FREQ: ");DEBUG_PRINTLN(fb.eventValue);
+            case FB_AV_CH_MINUS_ID:
+                recevierCh -= 1;
+                if (recevierCh >= 1 && recevierCh <= 9) receiverAvByCh (recevierCh);
+            break;
+            case FB_AV_FR_PLUS_ID:
+              recevierFreq += 1;
               if (recevierFreq >= 920 && recevierFreq <= 1500) receiverAvByFreq (recevierFreq);
             break;
-            case FB_T433_CH_NR_ID:
-              remoteControlRcCh=fb.eventValue;
-              DEBUG_PRINT("FB_T433_CH_NR: ");DEBUG_PRINTLN(remoteControlRcCh);
-              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 30) {remoteControl(remoteControlRcCh );RCsent = false;}
+            case FB_AV_FR_MINUS_ID:
+              recevierFreq -= 1;
+              if (recevierFreq >= 920 && recevierFreq <= 1500) receiverAvByFreq (recevierFreq);
             break;
-            case FB_RESET_ID:
-              rebootCmd=fb.eventValue;
-              DEBUG_PRINT("FB_RESET: ");DEBUG_PRINTLN(fb.eventValue);
-              if(rebootCmd) rebootSw();
-            break;
-            case FB_OTA_ID:
-              otaCmd=fb.eventValue;
-              DEBUG_PRINT("FB_OTA: ");DEBUG_PRINTLN(fb.eventValue);
-              if(otaCmd){fb.endTheOpenStream();  otaGsm ();}
-            break;
-            case FB_SMS_ON_ID:
-              smsOnOffCmd=fb.eventValue;
-              DEBUG_PRINT("FB_SMS_ON: ");DEBUG_PRINTLN(fb.eventValue);
-              smsActivation(smsOnOffCmd);
-              myBlynk.blynkSmsLed(sim800Available);
-            break;
-            case FB_VERSION_ID:
-              verCmd=fb.eventValue;
-              DEBUG_PRINT("FB_VERSION: ");DEBUG_PRINTLN(fb.eventValue);
-              sendVersion();
-            break;
-            case FB_FB_OFF_ID:
-              firebaseOnOffCmd=fb.eventValue;
-              DEBUG_PRINT("FB_FB_OFF: ");DEBUG_PRINTLN(fb.eventValue);
-              firebaseOnActivation(firebaseOnOffCmd);
-              myBlynk.blynkFirebaseLed(fireBaseOn);
-            break;
-            case FB_BLYNK_ON_OFF_ID:
-              blynkOnOffCmd=fb.eventValue;
-              DEBUG_PRINT("FB_BLYNK_ON_OFF: ");DEBUG_PRINTLN(fb.eventValue);
-            break;
-            case FB_WIFI_OFF_ID:
-              wifiOnOffCmd=fb.eventValue;
-              DEBUG_PRINT("FB_WIFI_OFF: ");DEBUG_PRINTLN(fb.eventValue);
-            break;
-            case FB_SETTINGS_ID :
-              getSettingsFromEeprom();
-              sendToHMI(smsSettings, "Setting ", smsSettings ,FB_NOTIFIER,smsSettings);
-            break;            
-    }
-}    
 
+    }  
+}
 
 
 void remoteControl(int cmd )
@@ -406,12 +276,12 @@ void remoteControl(int cmd )
       }
 
      if (fireBaseOn) fb.SendString (FB_RC_LED, "1" );
-     av.rcPower(ON);  //RC Vcc Pin 2
-     delay(500);
+ //    av.rcPower(ON);  //RC Vcc Pin 2
+  //   delay(500);
      mySwitch.send(CH_433[cmd], RC_CODE_LENGTH);
      DEBUG_PRINT("ch433:");DEBUG_PRINTLN(cmd);
-     delay(500);
-     av.rcPower(OFF);
+     //delay(500);
+  //   av.rcPower(OFF);
      if (blynkOn)    
       {
         if (cmd >= 1 && cmd <= 15) {myBlynk.blynkRCLed(0);myBlynk.resetT433Cmd(cmd);}
@@ -422,18 +292,6 @@ void remoteControl(int cmd )
  }
 }
 
-void receiverAvByFreq (int Freq)
-{
-  bool ack=0;
-        myBlynk.blynkAckLed(true);
-       int PLL_value =( 512 * ( 1000000 * (Freq + 479.5) ) ) / (16*4000000) ;
-       ack = av.Tuner_PLL(av_pll_addr, PLL_value);
-       if (fireBaseOn) {fb.SendString (FB_ACK_LED, String(ack) ); fb.SendString (FB_AV_OUTPUT, String(avOutput) );}
-       if (blynkOn)  { myBlynk.blynkAckLed(ack);/*myBlynk.sendRsss(avOutput);*/}
-       myBlynk.frequencyValue(Freq );
-       DEBUG_PRINT("Received manual_freq:");DEBUG_PRINTLN(manual_freq);
-       DEBUG_PRINT("ack: ");DEBUG_PRINTLN(ack ? F("NotACK") : F("ACK"));
-}
 
 void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool ch4, bool ch5, bool ch6, bool ch7, bool ch8)
 {
@@ -540,36 +398,43 @@ void receiverAvByCh (int Ch)
         switch (Ch)
           {
             case 1:
-                myBlynk.frequencyValue(1080 );
+                myBlynk.frequencyValue(1080 );recevierFreq =1080;
             break;
 
             case 2:
-                myBlynk.frequencyValue(1120 );
-            break;
-            
-            case 3:
-                myBlynk.frequencyValue(1160 );
+                myBlynk.frequencyValue(1120 );recevierFreq =1120;
             break;
 
-            case 4:
-                myBlynk.frequencyValue(1200 );
+            
+            case 3:
+                myBlynk.frequencyValue(1160 );recevierFreq =1160;
             break;
+
+
+            case 4:
+                myBlynk.frequencyValue(1200 );recevierFreq =1200;
+            break;
+
                        
             case 5:
-                myBlynk.frequencyValue(1240 );
+                myBlynk.frequencyValue(1240 );recevierFreq =1240;
             break;
+
                        
             case 6:
-                myBlynk.frequencyValue(1280 );
+                myBlynk.frequencyValue(1280 );recevierFreq =1280;
             break;
+
                        
             case 7:
-                myBlynk.frequencyValue(1320 );
+                myBlynk.frequencyValue(1320 );recevierFreq =1320;
             break;
+
                        
             case 8:
-                myBlynk.frequencyValue(1360 );
+                myBlynk.frequencyValue(1360 );recevierFreq =1360;
             break;
+
           }
        DEBUG_PRINT("Received freq channel:");DEBUG_PRINTLN(Ch);
        DEBUG_PRINT("ack: ");DEBUG_PRINTLN(ack ? F("NotACK") : F("ACK"));
@@ -577,6 +442,19 @@ void receiverAvByCh (int Ch)
 
 
 
+void receiverAvByFreq (int Freq)
+{
+  bool ack=0;
+         recevierFreq =Freq;
+        myBlynk.blynkAckLed(true);
+       int PLL_value =( 512 * ( 1000000 * (Freq + 479.5) ) ) / (16*4000000) ;
+       ack = av.Tuner_PLL(av_pll_addr, PLL_value);
+       if (fireBaseOn) {fb.SendString (FB_ACK_LED, String(ack) ); fb.SendString (FB_AV_OUTPUT, String(avOutput) );}
+       if (blynkOn)  { myBlynk.blynkAckLed(ack);/*myBlynk.sendRsss(avOutput);*/}
+       myBlynk.frequencyValue(Freq );
+       DEBUG_PRINT("Received manual_freq:");DEBUG_PRINTLN(manual_freq);
+       DEBUG_PRINT("ack: ");DEBUG_PRINTLN(ack ? F("NotACK") : F("ACK"));
+}
 
 
 void getDateTimeNTP(bool ver)
@@ -869,3 +747,153 @@ void liveCtrl(void)
             myBlynk.sendAlive(liveBit);
           }
 }
+
+void processSms(void)
+{
+      boolean isValidNumber =false;
+      int smsID=0;
+      
+      smsReceived =  sim.smsString;
+      
+       for(byte i=0;i<smsReceived.length();i++)
+          {
+            if(isDigit(smsReceived.charAt(i))) isValidNumber =true;
+            else isValidNumber=false;
+          }
+        if(isValidNumber)
+        {
+          smsValue = stringToInteger(smsReceived);
+          if (smsValue >= 1 && smsValue <= 30)     smsID =FB_T433_CH_NR_ID;
+          if (smsValue >= 41 && smsValue <= 48)    smsID =FB_AV_7SEG_ID;
+          if (smsValue >= 900 && smsValue <= 1360) smsID =FB_FREQ_ID;
+        }
+        else
+        {
+          if      (smsReceived =="Reset")smsID = FB_RESET_ID;
+          else if (smsReceived =="Firebase") smsID = FB_FB_OFF_ID;
+          else if (smsReceived =="Blynk") smsID = FB_BLYNK_ON_OFF_ID;
+          else if (smsReceived =="Wifi") smsID = FB_WIFI_OFF_ID;
+          else if (smsReceived =="Ota") smsID = FB_OTA_ID;
+          else if (smsReceived =="Sms") smsID = FB_SMS_ON_ID;
+          else if (smsReceived =="Ver") smsID =FB_VERSION_ID;
+          else if (smsReceived == "Settings" ) smsID = FB_SETTINGS_ID ;
+          else if (smsReceived == "Netgeer" ) ResetNetgeer();
+        }
+        switch (smsID)
+          {
+            case FB_AV_7SEG_ID:
+                recevierCh=smsValue-40;
+                DEBUG_PRINT("FB_AV_7SEG: ");DEBUG_PRINTLN(recevierCh);
+                if (recevierCh >= 1 && recevierCh <= 8) receiverAvByCh (recevierCh);
+            break;
+            case FB_FREQ_ID:
+              recevierFreq=smsValue;
+              DEBUG_PRINT("FB_FREQ: ");DEBUG_PRINTLN(recevierFreq);
+              if (recevierFreq >= 920 && recevierFreq <= 1500) receiverAvByFreq (recevierFreq);
+            break;
+            case FB_T433_CH_NR_ID:
+              remoteControlRcCh=smsValue;
+              DEBUG_PRINT("FB_T433_CH_NR: ");DEBUG_PRINTLN(remoteControlRcCh);
+              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 30) {remoteControl(remoteControlRcCh );RCsent = false;}
+            break;
+            case FB_RESET_ID:
+              DEBUG_PRINT("FB_RESET: ");DEBUG_PRINTLN(smsReceived);
+              rebootSw();
+            break;
+            case FB_OTA_ID:
+              otaCmd=myBlynk.blynkData;
+              DEBUG_PRINT("FB_OTA: ");DEBUG_PRINTLN(smsReceived);
+              fb.endTheOpenStream();
+              otaGsm ();
+            break;
+            case FB_SMS_ON_ID:
+              smsOnOffCmd=myBlynk.blynkData;
+              DEBUG_PRINT("FB_SMS_ON: ");DEBUG_PRINTLN(smsReceived);
+              smsActivation(!smsOn);
+              myBlynk.blynkSmsLed(sim800Available);
+            break;
+            case FB_VERSION_ID:
+              DEBUG_PRINT("FB_VERSION: ");DEBUG_PRINTLN(smsReceived);
+              sendVersion();
+            break;
+            case FB_FB_OFF_ID:
+              DEBUG_PRINT("FB_FB_OFF: ");DEBUG_PRINTLN(smsReceived);
+              firebaseOnActivation(!fireBaseOn);
+              myBlynk.blynkFirebaseLed(fireBaseOn);
+            break;
+            case FB_BLYNK_ON_OFF_ID:
+              DEBUG_PRINT("FB_BLYNK_ON_OFF: ");DEBUG_PRINTLN(smsReceived);
+              blynkActivation(!blynkOn);
+            break;
+            case FB_WIFI_OFF_ID:
+              DEBUG_PRINT("FB_WIFI_OFF: ");DEBUG_PRINTLN(myBlynk.blynkData);
+              wifiActivation(!wifiOn);
+            break;
+            case FB_SETTINGS_ID :
+              getSettingsFromEeprom();
+              sendToHMI(smsSettings, "Setting ", smsSettings ,FB_NOTIFIER,smsSettings);
+            break;
+    }  
+}
+
+
+void processFirebase(void)
+{
+        switch (fb.eventID)
+          {
+            case FB_AV_7SEG_ID:
+                recevierCh=fb.eventValue;
+                DEBUG_PRINT("FB_AV_7SEG: ");DEBUG_PRINTLN(fb.eventValue);
+                if (recevierCh >= 1 && recevierCh <= 8) receiverAvByCh (recevierCh);
+            break;
+            case FB_FREQ_ID:
+              recevierFreq=fb.eventValue;
+              DEBUG_PRINT("FB_FREQ: ");DEBUG_PRINTLN(fb.eventValue);
+              if (recevierFreq >= 920 && recevierFreq <= 1500) receiverAvByFreq (recevierFreq);
+            break;
+            case FB_T433_CH_NR_ID:
+              remoteControlRcCh=fb.eventValue;
+              DEBUG_PRINT("FB_T433_CH_NR: ");DEBUG_PRINTLN(remoteControlRcCh);
+              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 30) {remoteControl(remoteControlRcCh );RCsent = false;}
+            break;
+            case FB_RESET_ID:
+              rebootCmd=fb.eventValue;
+              DEBUG_PRINT("FB_RESET: ");DEBUG_PRINTLN(fb.eventValue);
+              if(rebootCmd) rebootSw();
+            break;
+            case FB_OTA_ID:
+              otaCmd=fb.eventValue;
+              DEBUG_PRINT("FB_OTA: ");DEBUG_PRINTLN(fb.eventValue);
+              if(otaCmd){fb.endTheOpenStream();  otaGsm ();}
+            break;
+            case FB_SMS_ON_ID:
+              smsOnOffCmd=fb.eventValue;
+              DEBUG_PRINT("FB_SMS_ON: ");DEBUG_PRINTLN(fb.eventValue);
+              smsActivation(smsOnOffCmd);
+              myBlynk.blynkSmsLed(sim800Available);
+            break;
+            case FB_VERSION_ID:
+              verCmd=fb.eventValue;
+              DEBUG_PRINT("FB_VERSION: ");DEBUG_PRINTLN(fb.eventValue);
+              sendVersion();
+            break;
+            case FB_FB_OFF_ID:
+              firebaseOnOffCmd=fb.eventValue;
+              DEBUG_PRINT("FB_FB_OFF: ");DEBUG_PRINTLN(fb.eventValue);
+              firebaseOnActivation(firebaseOnOffCmd);
+              myBlynk.blynkFirebaseLed(fireBaseOn);
+            break;
+            case FB_BLYNK_ON_OFF_ID:
+              blynkOnOffCmd=fb.eventValue;
+              DEBUG_PRINT("FB_BLYNK_ON_OFF: ");DEBUG_PRINTLN(fb.eventValue);
+            break;
+            case FB_WIFI_OFF_ID:
+              wifiOnOffCmd=fb.eventValue;
+              DEBUG_PRINT("FB_WIFI_OFF: ");DEBUG_PRINTLN(fb.eventValue);
+            break;
+            case FB_SETTINGS_ID :
+              getSettingsFromEeprom();
+              sendToHMI(smsSettings, "Setting ", smsSettings ,FB_NOTIFIER,smsSettings);
+            break;            
+    }
+}    

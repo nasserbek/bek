@@ -137,6 +137,12 @@
 #define    FB_NETGEER_ID   29
 #define    FB_WIFI_IDE_ID   30
 
+#define    FB_AV_CH_PLUS_ID   90
+#define    FB_AV_CH_MINUS_ID   91
+#define    FB_AV_FR_PLUS_ID   93
+#define    FB_AV_FR_MINUS_ID   92
+
+
 #define    FB_RC_LED           "/PC/RcTransmitter_Led"
 #define    FB_ACK_LED          "/PC/AvReceiver_Led"
 #define    FB_NACK_LED          "/PC/AvReceiver_nLed"

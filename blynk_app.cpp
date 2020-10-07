@@ -497,6 +497,47 @@ BLYNK_WRITE(V15)   //NETGEER
 }
 
 
+BLYNK_WRITE(V90)   //CH +
+{
+  _tempoVar = param.asInt(); // assigning incoming value from pin V15 to a variable
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    _blynkEventID =FB_AV_CH_PLUS_ID  ;
+  DEBUG_PRINT("CH +: ");
+  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+}
+
+BLYNK_WRITE(V91)   //CH -
+{
+  _tempoVar = param.asInt(); // assigning incoming value from pin V15 to a variable
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    _blynkEventID =FB_AV_CH_MINUS_ID  ;
+  DEBUG_PRINT("CH -: ");
+  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+}
+
+
+BLYNK_WRITE(V93)   //FR +
+{
+  _tempoVar = param.asInt(); // assigning incoming value from pin V15 to a variable
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    _blynkEventID =FB_AV_FR_PLUS_ID  ;
+  DEBUG_PRINT("FR +: ");
+  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+}
+
+BLYNK_WRITE(V92)   //FR -
+{
+  _tempoVar = param.asInt(); // assigning incoming value from pin V15 to a variable
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    _blynkEventID =FB_AV_FR_MINUS_ID  ;
+  DEBUG_PRINT("FR -: ");
+  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+}
+
 
 blynk::blynk(void) 
 {
