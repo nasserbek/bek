@@ -17,6 +17,7 @@ bool aliveTimout = false;
 bool RCsent= false;
 int stateMachine =0;
 bool wifiIde = true;
+int repetionRC = 5;
  reciever av;
  fireBase fb;
  sim800L sim; 
@@ -72,7 +73,10 @@ void setup()
     mySwitch.enableTransmit(RC_TX_PIN);
     mySwitch.setProtocol(1); 
     mySwitch.setPulseLength(232);
-    mySwitch.setRepeatTransmit(5);
+    repetionRC =EEPROM.read(RC_REPETION_ADD);
+    if (repetionRC < 2) repetionRC = 2;
+    DEBUG_PRINT("RC Repetion is : ");DEBUG_PRINTLN(repetionRC);
+    mySwitch.setRepeatTransmit(repetionRC);
  //   av.rcPower(ON);  //RC Vcc Pin 2 to be removed
 
     
@@ -260,7 +264,11 @@ void processBlynk(void)
               recevierFreq -= 1;
               if (recevierFreq >= 920 && recevierFreq <= 1500) receiverAvByFreq (recevierFreq);
             break;
-
+            case FB_RC_REPETION_ID:
+             repetionRC=myBlynk.blynkData;
+             EEPROM.write(RC_REPETION_ADD, repetionRC); EEPROM.commit();
+             mySwitch.setRepeatTransmit(repetionRC);
+            break;
     }  
 }
 
@@ -733,8 +741,8 @@ void liveCtrl(void)
             liveBit = true ;
             av.bluLed(liveBit);
             liveTimerOff = millis();
-            DEBUG_PRINT("Live : ");
-            DEBUG_PRINTLN(liveBit ? F("On") : F("Off"));
+//            DEBUG_PRINT("Live : ");
+  //          DEBUG_PRINTLN(liveBit ? F("On") : F("Off"));
             myBlynk.sendAlive(liveBit);
           }
     if ( (millis() - liveTimerOff > LIVE_TIMER_OFF) && liveBit ) 
@@ -742,8 +750,8 @@ void liveCtrl(void)
             liveBit = false ;
             av.bluLed(liveBit);
             liveTimerOn = millis();
-            DEBUG_PRINT("Live : ");
-            DEBUG_PRINTLN(liveBit ? F("On") : F("Off"));
+      //      DEBUG_PRINT("Live : ");
+    //        DEBUG_PRINTLN(liveBit ? F("On") : F("Off"));
             myBlynk.sendAlive(liveBit);
           }
 }

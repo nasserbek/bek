@@ -141,7 +141,7 @@
 #define    FB_AV_CH_MINUS_ID   91
 #define    FB_AV_FR_PLUS_ID   93
 #define    FB_AV_FR_MINUS_ID   92
-
+#define    FB_RC_REPETION_ID   101
 
 #define    FB_RC_LED           "/PC/RcTransmitter_Led"
 #define    FB_ACK_LED          "/PC/AvReceiver_Led"
@@ -233,6 +233,7 @@ const String FB_T433_STATUS_PATH[32] =
 #define EEPROM_SMS_ADD      84
 #define EEPROM_ERR_ADD      85
 #define EEPROM_SIM800_ADD    86
+#define RC_REPETION_ADD     90
 
 #define WIFI_LOST_ERR       '1'
 #define WDG_ERR             '2'

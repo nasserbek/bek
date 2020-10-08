@@ -539,6 +539,16 @@ BLYNK_WRITE(V92)   //FR -
 }
 
 
+BLYNK_WRITE(V101)  //repetion
+{
+  _blynkfreqValue = param.asInt(); // assigning incoming value from pin V0 to a variable
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    _blynkEventID =FB_RC_REPETION_ID;
+  DEBUG_PRINT("RC Repetion: ");
+  DEBUG_PRINTLN(_blynkfreqValue);
+}
+
 blynk::blynk(void) 
 {
 
