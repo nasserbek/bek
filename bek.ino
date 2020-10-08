@@ -8,7 +8,9 @@
 #define NETGEER_RESET_TIMER 36000000
 #define WIFI_SURVILANCE_TIMER 120000
 #define PING_GOOLE_TIMER 120000
-long timeout1, NetgeerResetTimer, wifiSurvilanceTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff;
+#define WIFI_IDE_TIMER 600000
+
+long timeout1, NetgeerResetTimer, wifiSurvilanceTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff,wifiIDETimer;
 bool netgeerReset = false;
 bool pingGoogle= false;
 bool liveBit = false;
@@ -86,6 +88,7 @@ void setup()
     internetSurvilanceTimer = millis();
     liveTimerOff            = millis();
     liveTimerOn             = millis();
+    wifiIDETimer            = millis();
     
     otaIdeSetup();
 }
@@ -97,10 +100,19 @@ void loop(void)
        liveCtrl();
        processCommands();
        netgeerCtrl();
-       if (!wifiIde) 
+       
+       while (!wifiIde) 
        {
         enableWDG(false);
-        while(true) {ArduinoOTA.handle();}
+        if (  millis() - wifiIDETimer > WIFI_IDE_TIMER )
+        {
+           wifiIde = true;
+           resetWdg();
+           enableWDG(true);
+           wifiIDETimer = millis();
+           ESP.restart();
+        }
+        else ArduinoOTA.handle();
        }
 }
 
@@ -246,6 +258,7 @@ void processBlynk(void)
 
             case FB_WIFI_IDE_ID:
                 wifiIde = false;
+                wifiIDETimer = millis();
             break;
 
             case FB_AV_CH_PLUS_ID:
