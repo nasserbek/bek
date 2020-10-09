@@ -47,7 +47,7 @@ bool sim800L::init()
   // Set up the FONA to send a +CMTI notification  when an SMS is received
   sim800lSerial->print("AT+CNMI=2,1\r\n");
   DEBUG_PRINTLN("GSM SIM800L is Ready.");
-//  delay(1000);
+  delay(1000);
   return (simStatus = true);
 }  
 

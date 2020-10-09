@@ -10,8 +10,8 @@ reciever::reciever(void)
   this->_analog_pin =AV_OUTPUT_AN;
 
   pinMode(BLU_LED, OUTPUT);
-  pinMode(RC_PWR_PIN, OUTPUT);
-  digitalWrite(RC_PWR_PIN, LOW);
+//   pinMode(RC_PWR_PIN, OUTPUT);
+//  digitalWrite(RC_PWR_PIN, LOW);
 }
 
 void reciever::init() 
@@ -73,6 +73,6 @@ void  reciever::bluLed(bool onOff)
 
 void  reciever::rcPower(bool onOff)
 {
-   if (onOff) digitalWrite(RC_PWR_PIN, HIGH); 
-   else digitalWrite(RC_PWR_PIN, LOW); 
+//    if (onOff) digitalWrite(RC_PWR_PIN, HIGH); 
+//    else digitalWrite(RC_PWR_PIN, LOW); 
 }

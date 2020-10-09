@@ -4,8 +4,12 @@
 #define DEBUG
 #define FREE
 #include "av.h"
+#ifdef BEK
+    String _overTheAirURL = "https://raw.githubusercontent.com/nasserbek/bek/master/bek.ino.ttgo-t1.bin";  // URL to download the firmware from
+#else
+    String _overTheAirURL = "https://raw.githubusercontent.com/nasserbek/bek/master/bek2.ino.ttgo-t1.bin";  // URL to download the firmware from
+#endif
 
-String _overTheAirURL = "https://raw.githubusercontent.com/nasserbek/bek/master/bek.ino.ttgo-t1.bin";  // URL to download the firmware from
 
 #ifdef FREE
 const char apn[]      = "free"; // Your APN)

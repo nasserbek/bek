@@ -2,7 +2,7 @@
 #include "headers.h"
 
 
-#define BEK
+
 
 
 #define BLYNK_PRINT Serial
@@ -216,7 +216,7 @@ BLYNK_WRITE(V29)   //ch15
     _blynkEvent = true;
     _blynkData=15;
     _blynkEventID =FB_T433_CH_NR_ID;
-  DEBUG_PRINT("V44 T433 ch14: ");
+  DEBUG_PRINT("V29 T433 ch14: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
 

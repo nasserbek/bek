@@ -1,9 +1,10 @@
 #define DEBUG_SERIAL
-//#define NETGEER
+#define NETGEER
+#define BEK
 
 //#define FREE
 //#define HUAWEI
-#define SFR
+//#define SFR
 //#define OPPO
 //#define BB
 
@@ -191,10 +192,9 @@ const String FB_T433_STATUS_PATH[32] =
 //av
   #define AV_OUTPUT_AN    34
   #define RC_TX_PIN       15
-  #define RC_PWR_PIN      2
   #define BLU_LED         13 
 
-  #define NETGEER_PIN      0
+  #define NETGEER_PIN      2
 
 #define PLL_ADDRESS             0x61  //0110 0 001 becomes 0xC2
 #define PCF8574_CMD_ADDRESS     0x20           // PCF8574 device 1    Commands

@@ -1,7 +1,12 @@
 #include "main.h"
 #include <ESP32Ping.h>
 
-#define NOTIFIER_ID "BEK : \n "
+#ifdef BEK
+    #define NOTIFIER_ID "BEK : \n "
+#else
+    #define NOTIFIER_ID "BEK2 : \n "
+#endif
+
 
 #define LIVE_TIMER_ON   3000
 #define LIVE_TIMER_OFF  3000
@@ -74,7 +79,7 @@ void setup()
      }
     mySwitch.enableTransmit(RC_TX_PIN);
  //   mySwitch.setProtocol(1); 
-//    mySwitch.setPulseLength(232);
+   // mySwitch.setPulseLength(232);
     repetionRC =EEPROM.read(RC_REPETION_ADD);
     if (repetionRC < 2) repetionRC = 2;
     DEBUG_PRINT("RC Repetion is : ");DEBUG_PRINTLN(repetionRC);
@@ -136,6 +141,7 @@ void processCommands(void)
         {
           if( smsEvent =sim.smsRun()) processSms();
         }
+
        
         avOutput = av.Read_Analog_Av_Output(AV_OUTPUT_AN);    
 }
