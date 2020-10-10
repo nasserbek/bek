@@ -259,6 +259,7 @@ void processBlynk(void)
               zapCh8=myBlynk.blynkData;
             break;
              case FB_NETGEER_ID  :
+             myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset from Blynk");
               ResetNetgeer();
             break;
 
@@ -686,7 +687,6 @@ char carray[5];
 
 void ResetNetgeer(void)
           {
-              if (blynkOn)myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset");
               delay(2000);
               digitalWrite(NETGEER_PIN, HIGH);
               delay(2000);
@@ -698,7 +698,7 @@ void ResetNetgeer(void)
 void internetSurvilance(void)
 {       
  bool internetActive  = checkInternetConnection();
- if (!internetActive)  {ResetNetgeer();DEBUG_PRINTLN("Internet Failure: ");}
+ if (!internetActive)  {DEBUG_PRINTLN("Internet Failure: ");  myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset Internet Failure");ResetNetgeer();}
 } 
 
 
@@ -712,8 +712,8 @@ bool checkInternetConnection(void)
 void netgeerCtrl(void)
 {
        if (   millis() - internetSurvilanceTimer > PING_GOOLE_TIMER)  {internetSurvilance();internetSurvilanceTimer= millis();}
-       if (   (millis() - wifiSurvilanceTimer > WIFI_SURVILANCE_TIMER)  && (!wifiAvailable)  ) {ResetNetgeer();wifiSurvilanceTimer= millis();DEBUG_PRINTLN("Wifi Failure: ");}
-       if (millis() - NetgeerResetTimer > NETGEER_RESET_TIMER) {ResetNetgeer();NetgeerResetTimer= millis();DEBUG_PRINTLN("10 hours timer: ");}
+       if (   (millis() - wifiSurvilanceTimer > WIFI_SURVILANCE_TIMER)  && (!wifiAvailable)  ) {wifiSurvilanceTimer= millis();DEBUG_PRINTLN("Wifi Failure: ");myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset Wifi Failure");ResetNetgeer();}
+       if (millis() - NetgeerResetTimer > NETGEER_RESET_TIMER) {myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset 10 hours timer");NetgeerResetTimer= millis();DEBUG_PRINTLN("10 hours timer: ");ResetNetgeer();}
 }     
 
 
