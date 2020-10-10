@@ -1,6 +1,8 @@
 #include "main.h"
 #include <ESP32Ping.h>
 
+#define VERSION_ID "V1.1 11 10 2020 02.00"
+
 #ifdef BEK
     #define NOTIFIER_ID "BEK : \n "
 #else
@@ -62,7 +64,7 @@ void setup()
         getDateTimeNTP(gitHub); 
         sendToHMI(util.dateAndTimeChar, "Version : ", String(util.dateAndTimeChar),FB_NOTIFIER,String(util.dateAndTimeChar));
         }
-       if (blynkOn){myBlynk.init();myBlynk.frequencyValue(1080 );myBlynk.sevenSegValue(1 );getSettingsFromEeprom();myBlynk.notifierDebug(NOTIFIER_ID, "Restart");}
+       if (blynkOn){myBlynk.init();myBlynk.frequencyValue(1080 );myBlynk.sevenSegValue(1 );getSettingsFromEeprom();myBlynk.notifierDebug(NOTIFIER_ID, VERSION_ID);}
        if (fireBaseOn) fb.init();
       }
      else  
