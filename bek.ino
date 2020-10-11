@@ -1,7 +1,7 @@
 #include "main.h"
 #include <ESP32Ping.h>
 
-#define VERSION_ID "V1.1 11 10 2020 02.00"
+#define VERSION_ID "Booting V1.2 11 10 2020 21.00"
 
 #ifdef BEK
     #define NOTIFIER_ID "BEK : \n "
@@ -12,10 +12,10 @@
 
 #define LIVE_TIMER_ON   3000
 #define LIVE_TIMER_OFF  3000
-#define NETGEER_RESET_TIMER 36000000
-#define WIFI_SURVILANCE_TIMER 120000
-#define PING_GOOLE_TIMER 120000
-#define WIFI_IDE_TIMER 600000
+#define NETGEER_RESET_TIMER 36000000  // 10 HOURS
+#define WIFI_SURVILANCE_TIMER 300000  // 5 MIN
+#define PING_GOOLE_TIMER 300000  // 5 MIN
+#define WIFI_IDE_TIMER 600000  //10 MIN
 
 long timeout1, NetgeerResetTimer, wifiSurvilanceTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff,wifiIDETimer;
 bool netgeerReset = false;
