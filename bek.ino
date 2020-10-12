@@ -81,7 +81,7 @@ void setup()
      }
     mySwitch.enableTransmit(RC_TX_PIN);
  //   mySwitch.setProtocol(1); 
-   // mySwitch.setPulseLength(232);
+    mySwitch.setPulseLength(250);
     repetionRC =EEPROM.read(RC_REPETION_ADD);
     if (repetionRC < 2) repetionRC = 2;
     DEBUG_PRINT("RC Repetion is : ");DEBUG_PRINTLN(repetionRC);
