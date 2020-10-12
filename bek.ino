@@ -1,7 +1,7 @@
 #include "main.h"
 #include <ESP32Ping.h>
 
-#define VERSION_ID "Booting V1.2 11 10 2020 21.00"
+#define VERSION_ID "Booting V1.3 12 10 2020 22.00"
 
 #ifdef BEK
     #define NOTIFIER_ID "BEK : \n "
@@ -26,8 +26,8 @@ bool aliveTimout = false;
 bool RCsent= false;
 int stateMachine =0;
 bool wifiIde = true;
-int repetionRC = 5;
-int pulseRC = 320;
+int repetionRC = 10;
+int pulseRC = 416; //Default protocol 1
  reciever av;
  fireBase fb;
  sim800L sim; 
@@ -82,11 +82,11 @@ void setup()
      }
     mySwitch.enableTransmit(RC_TX_PIN);
  //   mySwitch.setProtocol(1); 
-    mySwitch.setPulseLength(pulseRC);
-    repetionRC =EEPROM.read(RC_REPETION_ADD);
-    if (repetionRC < 2) repetionRC = 2;
-    DEBUG_PRINT("RC Repetion is : ");DEBUG_PRINTLN(repetionRC);
-    mySwitch.setRepeatTransmit(repetionRC);
+  //  mySwitch.setPulseLength(pulseRC);
+//    repetionRC =EEPROM.read(RC_REPETION_ADD);
+  //  if (repetionRC < 2) repetionRC = 2;
+ //   DEBUG_PRINT("RC Repetion is : ");DEBUG_PRINTLN(repetionRC);
+  //  mySwitch.setRepeatTransmit(repetionRC);
  //   av.rcPower(ON);  //RC Vcc Pin 2 to be removed
 
     
@@ -146,7 +146,7 @@ void processCommands(void)
         }
 
        
-        avOutput = av.Read_Analog_Av_Output(AV_OUTPUT_AN);    
+    /*    avOutput = av.Read_Analog_Av_Output(AV_OUTPUT_AN);    */
 }
 
 
@@ -324,7 +324,7 @@ void remoteControl(int cmd )
         if (cmd >= 1 && cmd <= 15) {myBlynk.blynkRCLed(0);myBlynk.resetT433Cmd(cmd);}
         if (cmd >= 16 && cmd <= 30) {myBlynk.blynkRCLed315(0);myBlynk.resetT315Cmd(cmd);}
       }
-     if (fireBaseOn) {fb.SendString (FB_RC_LED, "0" );fb.SendString (FB_AV_OUTPUT, String(avOutput) );}
+     if (fireBaseOn) {fb.SendString (FB_RC_LED, "0" );/*fb.SendString (FB_AV_OUTPUT, String(avOutput) );*/}
      RCsent = true;
  }
 }
@@ -486,7 +486,7 @@ void receiverAvByFreq (int Freq)
         myBlynk.blynkAckLed(true);
        int PLL_value =( 512 * ( 1000000 * (Freq + 479.5) ) ) / (16*4000000) ;
        ack = av.Tuner_PLL(av_pll_addr, PLL_value);
-       if (fireBaseOn) {fb.SendString (FB_ACK_LED, String(ack) ); fb.SendString (FB_AV_OUTPUT, String(avOutput) );}
+       if (fireBaseOn) {fb.SendString (FB_ACK_LED, String(ack) ); /*fb.SendString (FB_AV_OUTPUT, String(avOutput) )*/;}
        if (blynkOn)  { myBlynk.blynkAckLed(ack);/*myBlynk.sendRsss(avOutput);*/}
        myBlynk.frequencyValue(Freq );
        DEBUG_PRINT("Received manual_freq:");DEBUG_PRINTLN(manual_freq);
