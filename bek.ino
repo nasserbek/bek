@@ -27,6 +27,7 @@ bool RCsent= false;
 int stateMachine =0;
 bool wifiIde = true;
 int repetionRC = 5;
+int pulseRC = 320;
  reciever av;
  fireBase fb;
  sim800L sim; 
@@ -81,7 +82,7 @@ void setup()
      }
     mySwitch.enableTransmit(RC_TX_PIN);
  //   mySwitch.setProtocol(1); 
-    mySwitch.setPulseLength(250);
+    mySwitch.setPulseLength(pulseRC);
     repetionRC =EEPROM.read(RC_REPETION_ADD);
     if (repetionRC < 2) repetionRC = 2;
     DEBUG_PRINT("RC Repetion is : ");DEBUG_PRINTLN(repetionRC);
@@ -290,6 +291,12 @@ void processBlynk(void)
              repetionRC=myBlynk.blynkData;
              EEPROM.write(RC_REPETION_ADD, repetionRC); EEPROM.commit();
              mySwitch.setRepeatTransmit(repetionRC);
+            break;
+
+             case FB_RC_PULSE_ID:
+             pulseRC=myBlynk.blynkData;
+        //     EEPROM.write(RC_REPETION_ADD, repetionRC); EEPROM.commit();
+             mySwitch.setPulseLength(pulseRC);
             break;
     }  
 }

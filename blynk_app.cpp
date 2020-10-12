@@ -549,6 +549,16 @@ BLYNK_WRITE(V101)  //repetion
   DEBUG_PRINTLN(_blynkfreqValue);
 }
 
+BLYNK_WRITE(V98)  //pulse
+{
+  _blynkfreqValue = param.asInt(); // assigning incoming value from pin V0 to a variable
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    _blynkEventID =FB_RC_PULSE_ID;
+  DEBUG_PRINT("RC PULSE: ");
+  DEBUG_PRINTLN(_blynkfreqValue);
+}
+
 blynk::blynk(void) 
 {
 

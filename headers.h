@@ -143,6 +143,7 @@
 #define    FB_AV_FR_PLUS_ID   93
 #define    FB_AV_FR_MINUS_ID   92
 #define    FB_RC_REPETION_ID   101
+#define    FB_RC_PULSE_ID   98
 
 #define    FB_RC_LED           "/PC/RcTransmitter_Led"
 #define    FB_ACK_LED          "/PC/AvReceiver_Led"
