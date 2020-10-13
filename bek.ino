@@ -1,7 +1,7 @@
 #include "main.h"
 #include <ESP32Ping.h>
 
-#define VERSION_ID "Booting V1.3 12 10 2020 22.00"
+#define VERSION_ID "Booting V1.4 13 10 2020 22.00"
 
 #ifdef BEK
     #define NOTIFIER_ID "BEK : \n "
@@ -65,7 +65,17 @@ void setup()
         getDateTimeNTP(gitHub); 
         sendToHMI(util.dateAndTimeChar, "Version : ", String(util.dateAndTimeChar),FB_NOTIFIER,String(util.dateAndTimeChar));
         }
-       if (blynkOn){myBlynk.init();myBlynk.frequencyValue(1080 );myBlynk.sevenSegValue(1 );getSettingsFromEeprom();myBlynk.notifierDebug(NOTIFIER_ID, VERSION_ID);}
+       if (blynkOn)
+        {
+          myBlynk.init();
+          myBlynk.frequencyValue(1080 );
+          myBlynk.sevenSegValue(1 );
+          getSettingsFromEeprom();
+          myBlynk.notifierDebug(NOTIFIER_ID, VERSION_ID);
+          if (EEPROM.read(EEPROM_ERR_ADD) == 1) { myBlynk.notifierDebug(NOTIFIER_ID, "Internet Lost");}
+          if (EEPROM.read(EEPROM_ERR_ADD) == 2) myBlynk.notifierDebug(NOTIFIER_ID, "Watch Dog TimeOut");
+          EEPROM.write(EEPROM_ERR_ADD, '0'); EEPROM.commit();
+          }
        if (fireBaseOn) fb.init();
       }
      else  
@@ -108,7 +118,7 @@ void loop(void)
        liveCtrl();
        processCommands();
        netgeerCtrl();
-       
+
        while (!wifiIde) 
        {
         enableWDG(false);
@@ -581,7 +591,7 @@ void otaGsm(void)
 
 void rebootSw(void)
 {
- EEPROM.write(EEPROM_ERR_ADD, SW_RESET); EEPROM.commit();
+// EEPROM.write(EEPROM_ERR_ADD, SW_RESET); EEPROM.commit();
  ESP.restart();
 }
 
@@ -649,8 +659,8 @@ void wifiActivation(int activation)
        wifiOn = false;
        sendToHMI("Wifi is Off", "Wifi disactivation: ", "Wifi is Off",FB_NOTIFIER, "Wifi is Off" );
        DEBUG_PRINTLN("Wifi is Off");
-       EEPROM.write(EEPROM_WIFI_ADD, 0); EEPROM.commit();
-       EEPROM.write(EEPROM_ERR_ADD, WIFI_OFF); EEPROM.commit();
+//       EEPROM.write(EEPROM_WIFI_ADD, 0); EEPROM.commit();
+//       EEPROM.write(EEPROM_ERR_ADD, WIFI_OFF); EEPROM.commit();
        ESP.restart();
         }
 }
@@ -707,7 +717,13 @@ void ResetNetgeer(void)
 void internetSurvilance(void)
 {       
  bool internetActive  = checkInternetConnection();
- if (!internetActive)  {DEBUG_PRINTLN("Internet Failure: ");  myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset Internet Failure");ResetNetgeer();}
+ if (!internetActive)  
+          {
+            DEBUG_PRINTLN("Internet Failure: ");  
+            EEPROM.write(EEPROM_ERR_ADD, INTERNET_LOST); EEPROM.commit();
+            myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset Internet Failure");
+            ResetNetgeer();
+            }
 } 
 
 

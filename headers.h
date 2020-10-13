@@ -236,7 +236,7 @@ const String FB_T433_STATUS_PATH[32] =
 #define EEPROM_SIM800_ADD    86
 #define RC_REPETION_ADD     90
 
-#define WIFI_LOST_ERR       '1'
+#define INTERNET_LOST       '1'
 #define WDG_ERR             '2'
 #define WIFI_OFF            '3'
 #define SW_RESET            '4'
