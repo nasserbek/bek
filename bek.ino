@@ -1,7 +1,7 @@
 #include "main.h"
 #include <ESP32Ping.h>
 
-#define VERSION_ID "Booting V1.4 13 10 2020 22.00"
+#define VERSION_ID "Booting V1.5 13 10 2020 22.37"
 
 #ifdef BEK
     #define NOTIFIER_ID "BEK : \n "
@@ -14,12 +14,14 @@
 #define LIVE_TIMER_OFF  3000
 #define NETGEER_RESET_TIMER 36000000  // 10 HOURS
 #define WIFI_SURVILANCE_TIMER 300000  // 5 MIN
-#define PING_GOOLE_TIMER 300000  // 5 MIN
+#define PING_GOOGLE_TIMER 300000  // 5 MIN
 #define WIFI_IDE_TIMER 600000  //10 MIN
+#define RESTART_AFTER_NG_RESET_TIMER 300000  // 5 MIN
 
-long timeout1, NetgeerResetTimer, wifiSurvilanceTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff,wifiIDETimer;
-bool netgeerReset = false;
+long timeout1, NetgeerResetTimer, wifiSurvilanceTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff,wifiIDETimer,restartAfterResetNG;
+
 bool pingGoogle= false;
+bool netGeerReset = false;
 bool liveBit = false;
 IPAddress ip (192, 168, 0, 1); // The remote ip to ping
 bool aliveTimout = false;
@@ -90,15 +92,8 @@ void setup()
       sendToHMI("Wifi failed to connect or turned off", "Wifi activation: ", "Wifi failed to connect or turned off",FB_NOTIFIER, "Wifi failed to connect or turned off" );
 
      }
-    mySwitch.enableTransmit(RC_TX_PIN);
- //   mySwitch.setProtocol(1); 
-  //  mySwitch.setPulseLength(pulseRC);
-//    repetionRC =EEPROM.read(RC_REPETION_ADD);
-  //  if (repetionRC < 2) repetionRC = 2;
- //   DEBUG_PRINT("RC Repetion is : ");DEBUG_PRINTLN(repetionRC);
-  //  mySwitch.setRepeatTransmit(repetionRC);
- //   av.rcPower(ON);  //RC Vcc Pin 2 to be removed
 
+    mySwitch.enableTransmit(RC_TX_PIN);
     
     av.bluLed(OFF);
     NetgeerResetTimer       = millis();
@@ -107,6 +102,7 @@ void setup()
     liveTimerOff            = millis();
     liveTimerOn             = millis();
     wifiIDETimer            = millis();
+    restartAfterResetNG     = millis();
     
     otaIdeSetup();
 }
@@ -155,8 +151,8 @@ void processCommands(void)
           if( smsEvent =sim.smsRun()) processSms();
         }
 
-       
-    /*    avOutput = av.Read_Analog_Av_Output(AV_OUTPUT_AN);    */
+       if ( (millis() - restartAfterResetNG > RESTART_AFTER_NG_RESET_TIMER) && (netGeerReset== true) )ESP.restart();
+
 }
 
 
@@ -711,6 +707,8 @@ void ResetNetgeer(void)
               delay(2000);
               digitalWrite(NETGEER_PIN, LOW); 
               DEBUG_PRINTLN("Netgeer Reset done: ");
+              restartAfterResetNG     = millis();
+              netGeerReset = true;
           }
 
 
@@ -736,7 +734,7 @@ bool checkInternetConnection(void)
 
 void netgeerCtrl(void)
 {
-       if (   millis() - internetSurvilanceTimer > PING_GOOLE_TIMER)  {internetSurvilance();internetSurvilanceTimer= millis();}
+       if (   millis() - internetSurvilanceTimer > PING_GOOGLE_TIMER)  {internetSurvilance();internetSurvilanceTimer= millis();}
        if (   (millis() - wifiSurvilanceTimer > WIFI_SURVILANCE_TIMER)  && (!wifiAvailable)  ) {wifiSurvilanceTimer= millis();DEBUG_PRINTLN("Wifi Failure: ");myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset Wifi Failure");ResetNetgeer();}
        if (millis() - NetgeerResetTimer > NETGEER_RESET_TIMER) {myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset 10 hours timer");NetgeerResetTimer= millis();DEBUG_PRINTLN("10 hours timer: ");ResetNetgeer();}
 }     
@@ -785,8 +783,6 @@ void liveCtrl(void)
             liveBit = true ;
             av.bluLed(liveBit);
             liveTimerOff = millis();
-//            DEBUG_PRINT("Live : ");
-  //          DEBUG_PRINTLN(liveBit ? F("On") : F("Off"));
             myBlynk.sendAlive(liveBit);
           }
     if ( (millis() - liveTimerOff > LIVE_TIMER_OFF) && liveBit ) 
@@ -794,8 +790,6 @@ void liveCtrl(void)
             liveBit = false ;
             av.bluLed(liveBit);
             liveTimerOn = millis();
-      //      DEBUG_PRINT("Live : ");
-    //        DEBUG_PRINTLN(liveBit ? F("On") : F("Off"));
             myBlynk.sendAlive(liveBit);
           }
 }
