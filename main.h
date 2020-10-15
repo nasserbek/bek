@@ -19,7 +19,7 @@
 #include "blynk_app.h"
 #include "headers.h"
 
-int zapTimer = 2000;
+
 bool zapOnOff = false;
 bool zapChannel = false;
 bool zapCh1 = false;

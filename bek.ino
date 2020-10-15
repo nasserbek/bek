@@ -1,7 +1,7 @@
 #include "main.h"
 #include <ESP32Ping.h>
 
-#define VERSION_ID "Booting V1.5 13 10 2020 22.37"
+#define VERSION_ID "Booting V1.6 15 10 2020 22.16"
 
 #ifdef BEK
     #define NOTIFIER_ID "BEK : \n "
@@ -17,8 +17,9 @@
 #define PING_GOOGLE_TIMER 300000  // 5 MIN
 #define WIFI_IDE_TIMER 600000  //10 MIN
 #define RESTART_AFTER_NG_RESET_TIMER 300000  // 5 MIN
+int zapTimer = 2000;
 
-long timeout1, NetgeerResetTimer, wifiSurvilanceTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff,wifiIDETimer,restartAfterResetNG;
+long zaptime, NetgeerResetTimer, wifiSurvilanceTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff,wifiIDETimer,restartAfterResetNG;
 
 bool pingGoogle= false;
 bool netGeerReset = false;
@@ -74,8 +75,8 @@ void setup()
           myBlynk.sevenSegValue(1 );
           getSettingsFromEeprom();
           myBlynk.notifierDebug(NOTIFIER_ID, VERSION_ID);
-          if (EEPROM.read(EEPROM_ERR_ADD) == 1) { myBlynk.notifierDebug(NOTIFIER_ID, "Internet Lost");}
-          if (EEPROM.read(EEPROM_ERR_ADD) == 2) myBlynk.notifierDebug(NOTIFIER_ID, "Watch Dog TimeOut");
+          if (EEPROM.read(EEPROM_ERR_ADD) == '1') { myBlynk.notifierDebug(NOTIFIER_ID, "Internet Lost");}
+          if (EEPROM.read(EEPROM_ERR_ADD) == '2') myBlynk.notifierDebug(NOTIFIER_ID, "Watch Dog TimeOut");
           EEPROM.write(EEPROM_ERR_ADD, '0'); EEPROM.commit();
           }
        if (fireBaseOn) fb.init();
@@ -344,8 +345,8 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
             case 1:
                 if (ch1 ) 
                   {
-                    if (stateMachine == 0) {timeout1= millis();stateMachine =1;}
-                    if (millis() - timeout1 > zapTimer) {receiverAvByCh (1);stateMachine =2;}
+                    if (stateMachine == 0) {zaptime= millis();stateMachine =1;}
+                    if (millis() - zaptime > zapTimer) {receiverAvByCh (1);stateMachine =2;}
                   }
                 else stateMachine =2;
             break;
@@ -354,8 +355,8 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
             case 3:
                 if (ch2 ) 
                   {
-                    if (stateMachine == 2) {timeout1= millis();stateMachine =3;}
-                    if (millis() - timeout1 > zapTimer) {receiverAvByCh (2);stateMachine =4;}
+                    if (stateMachine == 2) {zaptime= millis();stateMachine =3;}
+                    if (millis() - zaptime > zapTimer) {receiverAvByCh (2);stateMachine =4;}
                   }
                 else stateMachine =4;
             break;
@@ -364,8 +365,8 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
             case 5:
                 if (ch3 ) 
                   {
-                    if (stateMachine == 4) {timeout1= millis();stateMachine =5;}
-                    if (millis() - timeout1 > zapTimer) {receiverAvByCh (3);stateMachine =6;}
+                    if (stateMachine == 4) {zaptime= millis();stateMachine =5;}
+                    if (millis() - zaptime > zapTimer) {receiverAvByCh (3);stateMachine =6;}
                   }
                 else stateMachine =6;
             break;
@@ -374,8 +375,8 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
             case 7:
                 if (ch4 ) 
                   {
-                    if (stateMachine == 6) {timeout1= millis();stateMachine =7;}
-                    if (millis() - timeout1 > zapTimer) {receiverAvByCh (4);stateMachine =8;}
+                    if (stateMachine == 6) {zaptime= millis();stateMachine =7;}
+                    if (millis() - zaptime > zapTimer) {receiverAvByCh (4);stateMachine =8;}
                   }
                 else stateMachine =8;
             break;
@@ -384,8 +385,8 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
             case 9:
                 if (ch5 ) 
                   {
-                    if (stateMachine == 8) {timeout1= millis();stateMachine =9;}
-                    if (millis() - timeout1 > zapTimer) {receiverAvByCh (5);stateMachine =10;}
+                    if (stateMachine == 8) {zaptime= millis();stateMachine =9;}
+                    if (millis() - zaptime > zapTimer) {receiverAvByCh (5);stateMachine =10;}
                   }
                 else stateMachine =10;
             break;
@@ -394,8 +395,8 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
             case 11:
                 if (ch6 ) 
                   {
-                    if (stateMachine == 10) {timeout1= millis();stateMachine =11;}
-                    if (millis() - timeout1 > zapTimer) {receiverAvByCh (6);stateMachine =12;}
+                    if (stateMachine == 10) {zaptime= millis();stateMachine =11;}
+                    if (millis() - zaptime > zapTimer) {receiverAvByCh (6);stateMachine =12;}
                   }
                 else stateMachine =12;
             break;
@@ -404,8 +405,8 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
             case 13:
                 if (ch7 ) 
                   {
-                    if (stateMachine == 12) {timeout1= millis();stateMachine =13;}
-                    if (millis() - timeout1 > zapTimer) {receiverAvByCh (7);stateMachine =14;}
+                    if (stateMachine == 12) {zaptime= millis();stateMachine =13;}
+                    if (millis() - zaptime > zapTimer) {receiverAvByCh (7);stateMachine =14;}
                   }
                 else stateMachine =14;
             break;
@@ -414,8 +415,8 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
             case 15:
                 if (ch8) 
                   {
-                    if (stateMachine == 14) {timeout1= millis();stateMachine =15;}
-                    if (millis() - timeout1 > zapTimer) {receiverAvByCh (8);stateMachine =0;}
+                    if (stateMachine == 14) {zaptime= millis();stateMachine =15;}
+                    if (millis() - zaptime > zapTimer) {receiverAvByCh (8);stateMachine =0;}
                   }
                 else stateMachine =0;
             break;
