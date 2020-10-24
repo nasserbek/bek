@@ -8,7 +8,6 @@
 #define BLYNK_PRINT Serial
 #include <WiFi.h>
 #include <WiFiClient.h>
-
 #include <BlynkSimpleEsp32.h>
 
 
@@ -43,37 +42,48 @@ int _smsBlynk=0;
 bool _blynkEvent = true;
 int  _blynkData=0;
 int  _blynkEventID =0;
-
 int _tempoVar;
 
-BLYNK_WRITE(V100)  //wifi ide
+
+BLYNK_WRITE(V0)  //freq
 {
-    _smsBlynk = param.asInt(); // assigning incoming value from pin V10 to a variable
+  _blynkfreqValue = param.asInt(); // assigning incoming value from pin V0 to a variable
     _blynkEvent = true;
     _blynkData=param.asInt();
-    _blynkEventID =FB_WIFI_IDE_ID ;
-  DEBUG_PRINT("Wifi IDE: ");
-  DEBUG_PRINTLN(_smsBlynk ? F("Turn On") : F("Turn Off"));
+    _blynkEventID =FB_FREQ_ID;
+  DEBUG_PRINT("V0 Freq: ");
+  DEBUG_PRINTLN(_blynkfreqValue);
 }
 
-BLYNK_WRITE(V11)  //sms on off
+
+BLYNK_WRITE(V1) //rc433
 {
-    _smsBlynk = param.asInt(); // assigning incoming value from pin V10 to a variable
+  _t433ChNumber = param.asInt(); // assigning incoming value from pin V1 to a variable
     _blynkEvent = true;
     _blynkData=param.asInt();
-    _blynkEventID =FB_SMS_ON_ID;
-  DEBUG_PRINT("V11 Sms: ");
-  DEBUG_PRINTLN(_smsBlynk ? F("Turn On") : F("Turn Off"));
+    _blynkEventID =FB_T433_CH_NR_ID;
+  DEBUG_PRINT("V1 T433: ");
+  DEBUG_PRINTLN(_t433ChNumber);
 }
 
-BLYNK_WRITE(V10)  //firebase on off
+BLYNK_WRITE(V2) // receiver ch
 {
-  _fbonBlynk = param.asInt(); // assigning incoming value from pin V10 to a variable
+  _sevenSeg= param.asInt(); // assigning incoming value from pin V2 to a variable
     _blynkEvent = true;
     _blynkData=param.asInt();
-    _blynkEventID =FB_FB_OFF_ID;
-  DEBUG_PRINT("V10 Firebase: ");
-  DEBUG_PRINTLN(_fbonBlynk ? F("Turn On") : F("Turn Off"));
+    _blynkEventID =FB_AV_7SEG_ID;
+  DEBUG_PRINT("V2 Seven Segments: ");
+  DEBUG_PRINTLN(_sevenSeg);
+}
+
+BLYNK_WRITE(V3) // ROOM_201_TO_205
+{
+  _sevenSeg= param.asInt();  
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    _blynkEventID =ROOM_201_TO_205;
+  DEBUG_PRINT("V3 ROOM_201_TO_205: ");
+  DEBUG_PRINTLN(_sevenSeg);
 }
 
 BLYNK_WRITE(V7)   // ota
@@ -96,26 +106,186 @@ BLYNK_WRITE(V8)   //boot
   DEBUG_PRINTLN(_bootBlynk ? F("On") : F("Off"));
 }
 
-BLYNK_WRITE(V0)  //freq
+BLYNK_WRITE(V10)  //firebase on off
 {
-  _blynkfreqValue = param.asInt(); // assigning incoming value from pin V0 to a variable
+  _fbonBlynk = param.asInt(); // assigning incoming value from pin V10 to a variable
     _blynkEvent = true;
     _blynkData=param.asInt();
-    _blynkEventID =FB_FREQ_ID;
-  DEBUG_PRINT("V0 Freq: ");
-  DEBUG_PRINTLN(_blynkfreqValue);
+    _blynkEventID =FB_FB_OFF_ID;
+  DEBUG_PRINT("V10 Firebase: ");
+  DEBUG_PRINTLN(_fbonBlynk ? F("Turn On") : F("Turn Off"));
 }
 
 
-BLYNK_WRITE(V1) //rc433
+BLYNK_WRITE(V11)  //sms on off
 {
-  _t433ChNumber = param.asInt(); // assigning incoming value from pin V1 to a variable
+    _smsBlynk = param.asInt(); // assigning incoming value from pin V10 to a variable
     _blynkEvent = true;
     _blynkData=param.asInt();
-    _blynkEventID =FB_T433_CH_NR_ID;
-  DEBUG_PRINT("V1 T433: ");
+    _blynkEventID =FB_SMS_ON_ID;
+  DEBUG_PRINT("V11 Sms: ");
+  DEBUG_PRINTLN(_smsBlynk ? F("Turn On") : F("Turn Off"));
+}
+
+BLYNK_WRITE(V14) //rc315
+{
+  _t315ChNumber = param.asInt(); // assigning incoming value from pin V14 to a variable
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    _blynkEventID =FB_T315_CH_NR_ID;
+  DEBUG_PRINT("V14 T315: ");
   DEBUG_PRINTLN(_t433ChNumber);
 }
+
+
+
+BLYNK_WRITE(V15)   //NETGEER 
+{
+  _tempoVar = param.asInt(); // assigning incoming value from pin V15 to a variable
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    _blynkEventID =FB_NETGEER_ID ;
+  DEBUG_PRINT("V15 NETGEER: ");
+  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+}
+
+BLYNK_WRITE(V16) // ROOM_206_TO_210
+{
+  _sevenSeg= param.asInt();  
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    _blynkEventID =ROOM_206_TO_210;
+  DEBUG_PRINT("V16 ROOM_206_TO_210: ");
+  DEBUG_PRINTLN(_sevenSeg);
+}
+
+
+BLYNK_WRITE(V17) // ROOM_211_TO_215
+{
+  _sevenSeg= param.asInt();  
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    _blynkEventID =ROOM_211_TO_215;
+  DEBUG_PRINT("V17 ROOM_211_TO_215: ");
+  DEBUG_PRINTLN(_sevenSeg);
+}
+
+BLYNK_WRITE(V18) // ROOM_216_TO_220
+{
+  _sevenSeg= param.asInt();  
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    _blynkEventID =ROOM_216_TO_220;
+  DEBUG_PRINT("V18 ROOM_216_TO_220: ");
+  DEBUG_PRINTLN(_sevenSeg);
+}
+
+BLYNK_WRITE(V21)   //ch1
+{
+  _tempoVar = param.asInt(); // assigning incoming value from pin V21 to a variable
+    _blynkEvent = true;
+    _blynkData=1;
+    _blynkEventID =FB_AV_7SEG_ID;
+  DEBUG_PRINT("V21 ch1: ");
+  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+}
+
+BLYNK_WRITE(V22)   //ch2
+{
+  _tempoVar = param.asInt(); // assigning incoming value from pin V22 to a variable
+    _blynkEvent = true;
+    _blynkData=2;
+    _blynkEventID =FB_AV_7SEG_ID;
+  DEBUG_PRINT("V22 ch3: ");
+  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+}
+
+BLYNK_WRITE(V23)   //ch3
+{
+  _tempoVar = param.asInt(); // assigning incoming value from pin V23 to a variable
+    _blynkEvent = true;
+    _blynkData=3;
+    _blynkEventID =FB_AV_7SEG_ID;
+  DEBUG_PRINT("V23 ch3: ");
+  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+}
+
+
+BLYNK_WRITE(V24)   //ch4
+{
+  _tempoVar = param.asInt(); // assigning incoming value from pin V24 to a variable
+    _blynkEvent = true;
+    _blynkData=4;
+    _blynkEventID =FB_AV_7SEG_ID;
+  DEBUG_PRINT("V24 ch4: ");
+  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+}
+
+
+BLYNK_WRITE(V25)   //ch5
+{
+  _tempoVar = param.asInt(); // assigning incoming value from pin V25 to a variable
+    _blynkEvent = true;
+    _blynkData=5;
+    _blynkEventID =FB_AV_7SEG_ID;
+  DEBUG_PRINT("V25 ch5: ");
+  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+}
+
+
+BLYNK_WRITE(V26)   //ch6
+{
+  _tempoVar = param.asInt(); // assigning incoming value from pin V26 to a variable
+    _blynkEvent = true;
+    _blynkData=6;
+    _blynkEventID =FB_AV_7SEG_ID;
+  DEBUG_PRINT("V26 ch6: ");
+  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+}
+
+BLYNK_WRITE(V27)   //ch7
+{
+  _tempoVar = param.asInt(); // assigning incoming value from pin V27 to a variable
+    _blynkEvent = true;
+    _blynkData=7;
+    _blynkEventID =FB_AV_7SEG_ID;
+  DEBUG_PRINT("V27 ch7: ");
+  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+}
+
+
+BLYNK_WRITE(V28)   //ch8
+{
+  _tempoVar = param.asInt(); // assigning incoming value from pin V28 to a variable
+    _blynkEvent = true;
+    _blynkData=8;
+    _blynkEventID =FB_AV_7SEG_ID;
+  DEBUG_PRINT("V28 ch8: ");
+  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+}
+
+
+
+BLYNK_WRITE(V29)   //ch15
+{
+  _tempoVar = param.asInt(); // assigning incoming value from pin V37 to a variable
+    _blynkEvent = true;
+    _blynkData=15;
+    _blynkEventID =FB_T433_CH_NR_ID;
+  DEBUG_PRINT("V29 T433 ch14: ");
+  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+}
+
+BLYNK_WRITE(V30)   //ch0
+{
+  _tempoVar = param.asInt(); // assigning incoming value from pin V28 to a variable
+    _blynkEvent = true;
+    _blynkData=9;
+    _blynkEventID =FB_AV_7SEG_ID;
+  DEBUG_PRINT("V30 ch9 995 Mhz: ");
+  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+}
+
 
 BLYNK_WRITE(V31)   //ch1
 {
@@ -210,25 +380,7 @@ BLYNK_WRITE(V44)   //ch14
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
 
-BLYNK_WRITE(V29)   //ch15
-{
-  _tempoVar = param.asInt(); // assigning incoming value from pin V37 to a variable
-    _blynkEvent = true;
-    _blynkData=15;
-    _blynkEventID =FB_T433_CH_NR_ID;
-  DEBUG_PRINT("V29 T433 ch14: ");
-  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
-}
 
-BLYNK_WRITE(V14) //rc315
-{
-  _t315ChNumber = param.asInt(); // assigning incoming value from pin V14 to a variable
-    _blynkEvent = true;
-    _blynkData=param.asInt();
-    _blynkEventID =FB_T315_CH_NR_ID;
-  DEBUG_PRINT("V14 T315: ");
-  DEBUG_PRINTLN(_t433ChNumber);
-}
 
 
 BLYNK_WRITE(V52)   //ch2
@@ -283,111 +435,6 @@ BLYNK_WRITE(V64)   //ch14
 }
 
 
-BLYNK_WRITE(V2) // receiver ch
-{
-  _sevenSeg= param.asInt(); // assigning incoming value from pin V2 to a variable
-    _blynkEvent = true;
-    _blynkData=param.asInt();
-    _blynkEventID =FB_AV_7SEG_ID;
-  DEBUG_PRINT("V2 Seven Segments: ");
-  DEBUG_PRINTLN(_sevenSeg);
-}
-
-BLYNK_WRITE(V21)   //ch1
-{
-  _tempoVar = param.asInt(); // assigning incoming value from pin V21 to a variable
-    _blynkEvent = true;
-    _blynkData=1;
-    _blynkEventID =FB_AV_7SEG_ID;
-  DEBUG_PRINT("V21 ch1: ");
-  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
-}
-
-BLYNK_WRITE(V22)   //ch2
-{
-  _tempoVar = param.asInt(); // assigning incoming value from pin V22 to a variable
-    _blynkEvent = true;
-    _blynkData=2;
-    _blynkEventID =FB_AV_7SEG_ID;
-  DEBUG_PRINT("V22 ch3: ");
-  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
-}
-
-BLYNK_WRITE(V23)   //ch3
-{
-  _tempoVar = param.asInt(); // assigning incoming value from pin V23 to a variable
-    _blynkEvent = true;
-    _blynkData=3;
-    _blynkEventID =FB_AV_7SEG_ID;
-  DEBUG_PRINT("V23 ch3: ");
-  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
-}
-
-
-BLYNK_WRITE(V24)   //ch4
-{
-  _tempoVar = param.asInt(); // assigning incoming value from pin V24 to a variable
-    _blynkEvent = true;
-    _blynkData=4;
-    _blynkEventID =FB_AV_7SEG_ID;
-  DEBUG_PRINT("V24 ch4: ");
-  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
-}
-
-
-BLYNK_WRITE(V25)   //ch5
-{
-  _tempoVar = param.asInt(); // assigning incoming value from pin V25 to a variable
-    _blynkEvent = true;
-    _blynkData=5;
-    _blynkEventID =FB_AV_7SEG_ID;
-  DEBUG_PRINT("V25 ch5: ");
-  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
-}
-
-
-BLYNK_WRITE(V26)   //ch6
-{
-  _tempoVar = param.asInt(); // assigning incoming value from pin V26 to a variable
-    _blynkEvent = true;
-    _blynkData=6;
-    _blynkEventID =FB_AV_7SEG_ID;
-  DEBUG_PRINT("V26 ch6: ");
-  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
-}
-
-BLYNK_WRITE(V27)   //ch7
-{
-  _tempoVar = param.asInt(); // assigning incoming value from pin V27 to a variable
-    _blynkEvent = true;
-    _blynkData=7;
-    _blynkEventID =FB_AV_7SEG_ID;
-  DEBUG_PRINT("V27 ch7: ");
-  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
-}
-
-
-BLYNK_WRITE(V28)   //ch8
-{
-  _tempoVar = param.asInt(); // assigning incoming value from pin V28 to a variable
-    _blynkEvent = true;
-    _blynkData=8;
-    _blynkEventID =FB_AV_7SEG_ID;
-  DEBUG_PRINT("V28 ch8: ");
-  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
-}
-
-BLYNK_WRITE(V30)   //ch0
-{
-  _tempoVar = param.asInt(); // assigning incoming value from pin V28 to a variable
-    _blynkEvent = true;
-    _blynkData=9;
-    _blynkEventID =FB_AV_7SEG_ID;
-  DEBUG_PRINT("V30 ch9 995 Mhz: ");
-  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
-}
-
-
 
 
 BLYNK_WRITE(V71)   //Zapping On Off Switch
@@ -410,7 +457,6 @@ BLYNK_WRITE(V72)   //Zapping Timer
   DEBUG_PRINT("V712 Zap Timer: ");
   DEBUG_PRINTLN(_tempoVar );
 }
-
 
 BLYNK_WRITE(V81)   //Zapping ch1
 {
@@ -486,17 +532,6 @@ BLYNK_WRITE(V88)   //Zapping ch8
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
 
-BLYNK_WRITE(V15)   //NETGEER 
-{
-  _tempoVar = param.asInt(); // assigning incoming value from pin V15 to a variable
-    _blynkEvent = true;
-    _blynkData=param.asInt();
-    _blynkEventID =FB_NETGEER_ID ;
-  DEBUG_PRINT("V15 NETGEER: ");
-  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
-}
-
-
 BLYNK_WRITE(V90)   //CH +
 {
   _tempoVar = param.asInt(); // assigning incoming value from pin V15 to a variable
@@ -506,6 +541,7 @@ BLYNK_WRITE(V90)   //CH +
   DEBUG_PRINT("CH +: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
+
 
 BLYNK_WRITE(V91)   //CH -
 {
@@ -518,6 +554,16 @@ BLYNK_WRITE(V91)   //CH -
 }
 
 
+BLYNK_WRITE(V92)   //FR -
+{
+  _tempoVar = param.asInt(); // assigning incoming value from pin V15 to a variable
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    _blynkEventID =FB_AV_FR_MINUS_ID  ;
+  DEBUG_PRINT("FR -: ");
+  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+}
+
 BLYNK_WRITE(V93)   //FR +
 {
   _tempoVar = param.asInt(); // assigning incoming value from pin V15 to a variable
@@ -528,14 +574,26 @@ BLYNK_WRITE(V93)   //FR +
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
 
-BLYNK_WRITE(V92)   //FR -
+
+BLYNK_WRITE(V98)  //pulse
 {
-  _tempoVar = param.asInt(); // assigning incoming value from pin V15 to a variable
+  _blynkfreqValue = param.asInt(); // assigning incoming value from pin V0 to a variable
     _blynkEvent = true;
     _blynkData=param.asInt();
-    _blynkEventID =FB_AV_FR_MINUS_ID  ;
-  DEBUG_PRINT("FR -: ");
-  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+    _blynkEventID =FB_RC_PULSE_ID;
+  DEBUG_PRINT("RC PULSE: ");
+  DEBUG_PRINTLN(_blynkfreqValue);
+}
+
+
+BLYNK_WRITE(V100)  //wifi ide
+{
+    _smsBlynk = param.asInt(); // assigning incoming value from pin V10 to a variable
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    _blynkEventID =FB_WIFI_IDE_ID ;
+  DEBUG_PRINT("Wifi IDE: ");
+  DEBUG_PRINTLN(_smsBlynk ? F("Turn On") : F("Turn Off"));
 }
 
 
@@ -549,15 +607,8 @@ BLYNK_WRITE(V101)  //repetion
   DEBUG_PRINTLN(_blynkfreqValue);
 }
 
-BLYNK_WRITE(V98)  //pulse
-{
-  _blynkfreqValue = param.asInt(); // assigning incoming value from pin V0 to a variable
-    _blynkEvent = true;
-    _blynkData=param.asInt();
-    _blynkEventID =FB_RC_PULSE_ID;
-  DEBUG_PRINT("RC PULSE: ");
-  DEBUG_PRINTLN(_blynkfreqValue);
-}
+
+
 
 blynk::blynk(void) 
 {

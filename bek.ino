@@ -1,7 +1,7 @@
 #include "main.h"
 #include <ESP32Ping.h>
 
-#define VERSION_ID "Booting V1.6 15 10 2020 22.16"
+#define VERSION_ID "Booting V1.7 24 10 2020 14.00"
 
 #ifdef BEK
     #define NOTIFIER_ID "BEK : \n "
@@ -305,6 +305,148 @@ void processBlynk(void)
         //     EEPROM.write(RC_REPETION_ADD, repetionRC); EEPROM.commit();
              mySwitch.setPulseLength(pulseRC);
             break;
+            
+            case ROOM_201_TO_205:
+                  
+                  switch (myBlynk.blynkData)
+                    {
+                      case 1:
+                      break;
+                      
+                      case 2: // ROOM 202
+                            remoteControlRcCh = 17;
+                            remoteControl(remoteControlRcCh );RCsent = false;
+                            recevierCh=2;
+                            receiverAvByCh (recevierCh);
+                      break;
+                      
+                      case 3:// ROOM 203
+                            remoteControlRcCh = 18;
+                            remoteControl(remoteControlRcCh );RCsent = false;
+                            recevierCh=3;
+                            receiverAvByCh (recevierCh);
+                      break;      
+                      
+                      case 4:// ROOM 204
+                            remoteControlRcCh = 19;
+                            remoteControl(remoteControlRcCh );RCsent = false;
+                            recevierCh=4;
+                            receiverAvByCh (recevierCh);
+                      break;               
+                      
+                      case 5:// ROOM 205
+                            remoteControlRcCh = 5;
+                            remoteControl(remoteControlRcCh );RCsent = false;
+                            recevierCh=5;
+                            receiverAvByCh (recevierCh);
+                      break;   
+                    }
+            break;
+            
+            case ROOM_206_TO_210:
+                   switch (myBlynk.blynkData)
+                    {
+                      case 1:
+                      break;
+                      
+                      case 2:// ROOM 207
+                            remoteControlRcCh = 7;
+                            remoteControl(remoteControlRcCh );RCsent = false;
+                            recevierCh=7;
+                            receiverAvByCh (recevierCh);
+                      break;
+                      
+                      case 3:// ROOM 208
+                            remoteControlRcCh = 8;
+                            remoteControl(remoteControlRcCh );RCsent = false;
+                            recevierCh=8;
+                            receiverAvByCh (recevierCh);
+                      break;      
+                      
+                      case 4:// ROOM 209
+                            remoteControlRcCh = 9;
+                            remoteControl(remoteControlRcCh );RCsent = false;
+                            recevierCh=1;
+                            receiverAvByCh (recevierCh);
+                      break;               
+                      
+                      case 5:// ROOM 210
+                            remoteControlRcCh = 10;
+                            remoteControl(remoteControlRcCh );RCsent = false;
+                            recevierCh=2;
+                            receiverAvByCh (recevierCh);
+                      break;   
+                    }
+
+            break;
+            
+            case ROOM_211_TO_215:
+                   switch (myBlynk.blynkData)
+                    {
+                      case 1:
+                      break;
+                      
+                      case 2:// ROOM 212
+                            remoteControlRcCh = 28;
+                            remoteControl(remoteControlRcCh );RCsent = false;
+                            recevierCh=7;
+                            receiverAvByCh (recevierCh);
+                      break;
+                      
+                      case 3:// ROOM 213
+                      break;      
+                      
+                      case 4:// ROOM 214
+                            remoteControlRcCh = 29;
+                            remoteControl(remoteControlRcCh );RCsent = false;
+                            recevierCh=6;
+                            receiverAvByCh (recevierCh);
+                      break;               
+                      
+                      case 5:// ROOM 214
+                            remoteControlRcCh = 14;
+                            remoteControl(remoteControlRcCh );RCsent = false;
+                            recevierCh=6;
+                            receiverAvByCh (recevierCh);
+                      break;   
+                    }
+
+            break;
+            
+            case ROOM_216_TO_220:
+                   switch (myBlynk.blynkData)
+                    {
+                      case 1:// ROOM 216
+                            remoteControlRcCh = 1;
+                            remoteControl(remoteControlRcCh );RCsent = false;
+                            recevierCh=1;
+                            receiverAvByCh (recevierCh);                      
+                      break;
+                      
+                      case 2:// ROOM 217
+                            remoteControlRcCh = 2;
+                            remoteControl(remoteControlRcCh );RCsent = false;
+                            recevierCh=2;
+                            receiverAvByCh (recevierCh);
+                      break;
+                      
+                      case 3:
+                      break;      
+                      
+                      case 4:// ROOM 219
+                            remoteControlRcCh = 4;
+                            remoteControl(remoteControlRcCh );RCsent = false;
+                            recevierCh=4;
+                            receiverAvByCh (recevierCh);
+                      break;               
+                      
+                      case 5:
+
+                      break;   
+                    }
+
+            break;                                    
+            
     }  
 }
 

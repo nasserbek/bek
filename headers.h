@@ -78,72 +78,70 @@
 //firebase
 /************************************FIREBASE ***********************************/
 
-
 #define    CMD_PATH         "/PC/"
-
-
-#define    FB_AV_7SEG           "/AvReceiver_channel"
-#define    FB_AV_7SEG_ID        1
-
-#define    FB_FREQ              "/AvReceiver_freq" 
-#define    FB_FREQ_ID           2
-
-#define    FB_T433_CH_NR        "/RcTransmitter_channel"
-#define    FB_T433_CH_NR_ID     3
-
-#define    FB_RESET             "/Reboot"
-#define    FB_RESET_ID          4
-
-#define    FB_OTA               "/Ota"
-#define    FB_OTA_ID            5
-
-#define    FB_SMS_ON            "/Gsm"
-#define    FB_SMS_ON_ID         6
-
-#define    FB_VERSION           "/Version"
-#define    FB_VERSION_ID        7
-
-#define    FB_FB_OFF            "/Firebase"
-#define    FB_FB_OFF_ID        8
-
-#define    FB_BLYNK_ON_OFF      "/Blynk"
-#define    FB_BLYNK_ON_OFF_ID   9
-
-#define    FB_WIFI_OFF          "/Wifi"
-#define    FB_WIFI_OFF_ID       10
-
-#define    FB_SETTINGS         "/Settings"
-#define    FB_SETTINGS_ID       11
-
 #define    IDLE_PATH         "/"
-#define    IDLE_PATH_ID        12
-
+#define    FB_AV_7SEG           "/AvReceiver_channel"
+#define    FB_FREQ              "/AvReceiver_freq" 
+#define    FB_T433_CH_NR        "/RcTransmitter_channel"
+#define    FB_OTA               "/Ota"
+#define    FB_RESET             "/Reboot"
+#define    FB_SMS_ON            "/Gsm"
+#define    FB_VERSION           "/Version"
+#define    FB_FB_OFF            "/Firebase"
+#define    FB_BLYNK_ON_OFF      "/Blynk"
+#define    FB_WIFI_OFF          "/Wifi"
+#define    FB_SETTINGS         "/Settings"
 #define    FB_T315_CH_NR        "/RcTransmitter_channel_315"
-#define    FB_T315_CH_NR_ID     13
 
-#define    FB_ZAP_ID            14
 
-#define    FB_ZAP_TIMER_ID      15
-#define    FB_ZAP_CHANNEL_ID   16
 
-#define    FB_ZAP_CHANNEL_ID1   21
-#define    FB_ZAP_CHANNEL_ID2   22
-#define    FB_ZAP_CHANNEL_ID3   23
-#define    FB_ZAP_CHANNEL_ID4   24
-#define    FB_ZAP_CHANNEL_ID5   25
-#define    FB_ZAP_CHANNEL_ID6   26
-#define    FB_ZAP_CHANNEL_ID7   27
-#define    FB_ZAP_CHANNEL_ID8   28
 
-#define    FB_NETGEER_ID   29
-#define    FB_WIFI_IDE_ID   30
 
-#define    FB_AV_CH_PLUS_ID   90
-#define    FB_AV_CH_MINUS_ID   91
-#define    FB_AV_FR_PLUS_ID   93
-#define    FB_AV_FR_MINUS_ID   92
-#define    FB_RC_REPETION_ID   101
-#define    FB_RC_PULSE_ID   98
+//BLYNK
+/*****e*******************************BLYNK***********************************/
+#define    FB_FREQ_ID           0
+#define    FB_T433_CH_NR_ID     1
+#define    FB_AV_7SEG_ID        2
+#define    ROOM_201_TO_205      3
+#define    FB_OTA_ID            7
+#define    FB_RESET_ID          8
+#define    FB_FB_OFF_ID         10
+#define    FB_SMS_ON_ID         11
+#define    FB_T315_CH_NR_ID     14
+#define    FB_NETGEER_ID        15
+#define    ROOM_206_TO_210      16
+#define    ROOM_211_TO_215      17
+#define    ROOM_216_TO_220      18
+#define    FB_ZAP_ID            71
+#define    FB_ZAP_TIMER_ID      72
+#define    FB_ZAP_CHANNEL_ID1   81
+#define    FB_ZAP_CHANNEL_ID2   82
+#define    FB_ZAP_CHANNEL_ID3   83
+#define    FB_ZAP_CHANNEL_ID4   84
+#define    FB_ZAP_CHANNEL_ID5   85
+#define    FB_ZAP_CHANNEL_ID6   86
+#define    FB_ZAP_CHANNEL_ID7   87
+#define    FB_ZAP_CHANNEL_ID8   88
+#define    FB_AV_CH_PLUS_ID     90
+#define    FB_AV_CH_MINUS_ID    91
+#define    FB_AV_FR_MINUS_ID    92
+#define    FB_AV_FR_PLUS_ID     93
+#define    FB_RC_PULSE_ID       98
+#define    FB_WIFI_IDE_ID       100
+#define    FB_RC_REPETION_ID    101
+
+
+
+#define    FB_VERSION_ID        307
+#define    FB_BLYNK_ON_OFF_ID   309
+#define    FB_WIFI_OFF_ID       310
+#define    FB_SETTINGS_ID       311
+#define    IDLE_PATH_ID        312
+#define    FB_ZAP_CHANNEL_ID   316
+
+
+
+
 
 #define    FB_RC_LED           "/PC/RcTransmitter_Led"
 #define    FB_ACK_LED          "/PC/AvReceiver_Led"
