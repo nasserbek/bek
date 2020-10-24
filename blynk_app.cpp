@@ -180,6 +180,17 @@ BLYNK_WRITE(V18) // ROOM_216_TO_220
   DEBUG_PRINTLN(_sevenSeg);
 }
 
+
+BLYNK_WRITE(V19) // ROOM_AV RC
+{
+  _sevenSeg= param.asInt();  
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    _blynkEventID =ROOM_AV_RC;
+  DEBUG_PRINT("V19 ROOM_AV_RC: ");
+  DEBUG_PRINTLN(_sevenSeg);
+}
+
 BLYNK_WRITE(V21)   //ch1
 {
   _tempoVar = param.asInt(); // assigning incoming value from pin V21 to a variable

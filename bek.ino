@@ -1,7 +1,7 @@
 #include "main.h"
 #include <ESP32Ping.h>
 
-#define VERSION_ID "Booting V1.7 24 10 2020 14.00"
+#define VERSION_ID "Booting V1.8 24 10 2020 20.40"
 
 #ifdef BEK
     #define NOTIFIER_ID "BEK : \n "
@@ -31,6 +31,8 @@ int stateMachine =0;
 bool wifiIde = true;
 int repetionRC = 10;
 int pulseRC = 416; //Default protocol 1
+int Av_Rx = 3;
+
  reciever av;
  fireBase fb;
  sim800L sim; 
@@ -300,11 +302,15 @@ void processBlynk(void)
              mySwitch.setRepeatTransmit(repetionRC);
             break;
 
-             case FB_RC_PULSE_ID:
+            case FB_RC_PULSE_ID:
              pulseRC=myBlynk.blynkData;
-        //     EEPROM.write(RC_REPETION_ADD, repetionRC); EEPROM.commit();
              mySwitch.setPulseLength(pulseRC);
             break;
+
+            case ROOM_AV_RC:
+             Av_Rx=myBlynk.blynkData;
+            break;
+            
             
             case ROOM_201_TO_205:
                   
@@ -315,32 +321,25 @@ void processBlynk(void)
                       
                       case 2: // ROOM 202
                             remoteControlRcCh = 17;
-                            remoteControl(remoteControlRcCh );RCsent = false;
                             recevierCh=2;
-                            receiverAvByCh (recevierCh);
                       break;
                       
                       case 3:// ROOM 203
                             remoteControlRcCh = 18;
-                            remoteControl(remoteControlRcCh );RCsent = false;
                             recevierCh=3;
-                            receiverAvByCh (recevierCh);
                       break;      
                       
                       case 4:// ROOM 204
                             remoteControlRcCh = 19;
-                            remoteControl(remoteControlRcCh );RCsent = false;
                             recevierCh=4;
-                            receiverAvByCh (recevierCh);
                       break;               
                       
                       case 5:// ROOM 205
                             remoteControlRcCh = 5;
-                            remoteControl(remoteControlRcCh );RCsent = false;
                             recevierCh=5;
-                            receiverAvByCh (recevierCh);
                       break;   
                     }
+                    room (remoteControlRcCh, recevierCh , Av_Rx );
             break;
             
             case ROOM_206_TO_210:
@@ -351,33 +350,25 @@ void processBlynk(void)
                       
                       case 2:// ROOM 207
                             remoteControlRcCh = 7;
-                            remoteControl(remoteControlRcCh );RCsent = false;
                             recevierCh=7;
-                            receiverAvByCh (recevierCh);
                       break;
                       
                       case 3:// ROOM 208
                             remoteControlRcCh = 8;
-                            remoteControl(remoteControlRcCh );RCsent = false;
                             recevierCh=8;
-                            receiverAvByCh (recevierCh);
                       break;      
                       
                       case 4:// ROOM 209
                             remoteControlRcCh = 9;
-                            remoteControl(remoteControlRcCh );RCsent = false;
                             recevierCh=1;
-                            receiverAvByCh (recevierCh);
                       break;               
                       
                       case 5:// ROOM 210
                             remoteControlRcCh = 10;
-                            remoteControl(remoteControlRcCh );RCsent = false;
                             recevierCh=2;
-                            receiverAvByCh (recevierCh);
                       break;   
                     }
-
+                    room (remoteControlRcCh, recevierCh , Av_Rx );
             break;
             
             case ROOM_211_TO_215:
@@ -388,9 +379,7 @@ void processBlynk(void)
                       
                       case 2:// ROOM 212
                             remoteControlRcCh = 28;
-                            remoteControl(remoteControlRcCh );RCsent = false;
                             recevierCh=7;
-                            receiverAvByCh (recevierCh);
                       break;
                       
                       case 3:// ROOM 213
@@ -398,19 +387,15 @@ void processBlynk(void)
                       
                       case 4:// ROOM 214
                             remoteControlRcCh = 29;
-                            remoteControl(remoteControlRcCh );RCsent = false;
                             recevierCh=6;
-                            receiverAvByCh (recevierCh);
                       break;               
                       
                       case 5:// ROOM 214
                             remoteControlRcCh = 14;
-                            remoteControl(remoteControlRcCh );RCsent = false;
                             recevierCh=6;
-                            receiverAvByCh (recevierCh);
                       break;   
                     }
-
+                room (remoteControlRcCh, recevierCh , Av_Rx );
             break;
             
             case ROOM_216_TO_220:
@@ -418,16 +403,12 @@ void processBlynk(void)
                     {
                       case 1:// ROOM 216
                             remoteControlRcCh = 1;
-                            remoteControl(remoteControlRcCh );RCsent = false;
                             recevierCh=1;
-                            receiverAvByCh (recevierCh);                      
                       break;
                       
                       case 2:// ROOM 217
                             remoteControlRcCh = 2;
-                            remoteControl(remoteControlRcCh );RCsent = false;
                             recevierCh=2;
-                            receiverAvByCh (recevierCh);
                       break;
                       
                       case 3:
@@ -435,16 +416,14 @@ void processBlynk(void)
                       
                       case 4:// ROOM 219
                             remoteControlRcCh = 4;
-                            remoteControl(remoteControlRcCh );RCsent = false;
                             recevierCh=4;
-                            receiverAvByCh (recevierCh);
                       break;               
                       
                       case 5:
 
                       break;   
                     }
-
+                  room (remoteControlRcCh, recevierCh , Av_Rx );
             break;                                    
             
     }  
@@ -462,12 +441,9 @@ void remoteControl(int cmd )
       }
 
      if (fireBaseOn) fb.SendString (FB_RC_LED, "1" );
- //    av.rcPower(ON);  //RC Vcc Pin 2
-  //   delay(500);
      mySwitch.send(CH_433[cmd], RC_CODE_LENGTH);
      DEBUG_PRINT("ch433:");DEBUG_PRINTLN(cmd);
-     //delay(500);
-  //   av.rcPower(OFF);
+     delay(500);
      if (blynkOn)    
       {
         if (cmd >= 1 && cmd <= 15) {myBlynk.blynkRCLed(0);myBlynk.resetT433Cmd(cmd);}
@@ -579,6 +555,7 @@ void receiverAvByCh (int Ch)
           ack = av.Tuner_PLL(av_pll_addr, PLL_value);
         }
        if (fireBaseOn) fb.SendString (FB_ACK_LED, String(ack) ); 
+       delay(500);
        if (blynkOn) myBlynk.blynkAckLed(ack);
        myBlynk.sevenSegValue(Ch );
         switch (Ch)
@@ -1086,3 +1063,10 @@ void processFirebase(void)
             break;            
     }
 }    
+
+void room (int RC, int AV, int sel)
+{
+  if (sel == 3)receiverAvByCh (AV);
+  if (sel == 2) {remoteControl(RC);RCsent = false;}
+  if (sel == 1) {receiverAvByCh (AV);remoteControl(RC);RCsent = false;}                        
+}                            

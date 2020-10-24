@@ -112,6 +112,7 @@
 #define    ROOM_206_TO_210      16
 #define    ROOM_211_TO_215      17
 #define    ROOM_216_TO_220      18
+#define    ROOM_AV_RC           19
 #define    FB_ZAP_ID            71
 #define    FB_ZAP_TIMER_ID      72
 #define    FB_ZAP_CHANNEL_ID1   81
