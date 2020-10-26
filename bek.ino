@@ -1,7 +1,7 @@
 #include "main.h"
 #include <ESP32Ping.h>
 
-#define VERSION_ID "Booting V1.8 24 10 2020 20.40"
+#define VERSION_ID "Booting V1.9 26 10 2020 14.30"
 
 #ifdef BEK
     #define NOTIFIER_ID "BEK : \n "
@@ -17,7 +17,7 @@
 #define PING_GOOGLE_TIMER 300000  // 5 MIN
 #define WIFI_IDE_TIMER 600000  //10 MIN
 #define RESTART_AFTER_NG_RESET_TIMER 300000  // 5 MIN
-int zapTimer = 2000;
+int zapTimer = 5000;
 
 long zaptime, NetgeerResetTimer, wifiSurvilanceTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff,wifiIDETimer,restartAfterResetNG;
 
@@ -322,24 +322,28 @@ void processBlynk(void)
                       case 2: // ROOM 202
                             remoteControlRcCh = 17;
                             recevierCh=2;
+                            room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;
                       
                       case 3:// ROOM 203
                             remoteControlRcCh = 18;
                             recevierCh=3;
+                            room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;      
                       
                       case 4:// ROOM 204
                             remoteControlRcCh = 19;
                             recevierCh=4;
+                            room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;               
                       
                       case 5:// ROOM 205
                             remoteControlRcCh = 5;
                             recevierCh=5;
+                            room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;   
                     }
-                    room (remoteControlRcCh, recevierCh , Av_Rx );
+                    
             break;
             
             case ROOM_206_TO_210:
@@ -351,24 +355,28 @@ void processBlynk(void)
                       case 2:// ROOM 207
                             remoteControlRcCh = 7;
                             recevierCh=7;
+                            room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;
                       
                       case 3:// ROOM 208
                             remoteControlRcCh = 8;
                             recevierCh=8;
+                            room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;      
                       
                       case 4:// ROOM 209
                             remoteControlRcCh = 9;
                             recevierCh=1;
+                            room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;               
                       
                       case 5:// ROOM 210
                             remoteControlRcCh = 10;
                             recevierCh=2;
+                            room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;   
                     }
-                    room (remoteControlRcCh, recevierCh , Av_Rx );
+
             break;
             
             case ROOM_211_TO_215:
@@ -380,6 +388,7 @@ void processBlynk(void)
                       case 2:// ROOM 212
                             remoteControlRcCh = 28;
                             recevierCh=7;
+                            room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;
                       
                       case 3:// ROOM 213
@@ -388,14 +397,16 @@ void processBlynk(void)
                       case 4:// ROOM 214
                             remoteControlRcCh = 29;
                             recevierCh=6;
+                            room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;               
                       
                       case 5:// ROOM 214
                             remoteControlRcCh = 14;
                             recevierCh=6;
+                            room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;   
                     }
-                room (remoteControlRcCh, recevierCh , Av_Rx );
+
             break;
             
             case ROOM_216_TO_220:
@@ -404,11 +415,13 @@ void processBlynk(void)
                       case 1:// ROOM 216
                             remoteControlRcCh = 1;
                             recevierCh=1;
+                            room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;
                       
                       case 2:// ROOM 217
                             remoteControlRcCh = 2;
                             recevierCh=2;
+                            room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;
                       
                       case 3:
@@ -417,13 +430,14 @@ void processBlynk(void)
                       case 4:// ROOM 219
                             remoteControlRcCh = 4;
                             recevierCh=4;
+                            room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;               
                       
                       case 5:
 
                       break;   
                     }
-                  room (remoteControlRcCh, recevierCh , Av_Rx );
+
             break;                                    
             
     }  
