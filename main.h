@@ -58,10 +58,7 @@ int wifiOnOffCmd=0;
 
 
 
-boolean fireBaseOn =true;
-boolean blynkOn    =false;
-boolean wifiOn    =false;
-boolean smsOn    =false;
+
 boolean old_fireBaseOn =true;
 boolean old_blynkOn    =false;
 boolean old_wifiOn    =false;

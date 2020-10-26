@@ -34,6 +34,16 @@ bool fireBase::init()
       else return false;
 }
 
+bool fireBase::wifiConnect()
+  {
+    if (WiFi.status()  == WL_CONNECTED )return true; 
+    WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+    
+    long timeout = millis();
+    while ( WiFi.status()  != WL_CONNECTED ) {if (millis() - timeout > 60000L) return false; }
+return true; 
+}
+
 
 bool fireBase::initStreams()
 {
@@ -101,17 +111,7 @@ bool fireBase::firebaseRun(void)
     else return false;
 }
 
-bool fireBase::wifiConnect()
-  {
-    if (WiFi.status()  == WL_CONNECTED )return true; 
-    WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-    
-    long timeout = millis();
-    while ( WiFi.status()  != WL_CONNECTED ) {
-     if (millis() - timeout > 60000L) return false;
-      }
-return true; 
-}
+
 
 int fireBase::getInteger( String _path)
 {

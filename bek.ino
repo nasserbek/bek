@@ -1,7 +1,7 @@
 #include "main.h"
 #include <ESP32Ping.h>
 
-#define VERSION_ID "Booting V1.9 26 10 2020 14.30"
+#define VERSION_ID "Restarting V1.10 26 10 2020 23.450"
 
 #ifdef BEK
     #define NOTIFIER_ID "BEK : \n "
@@ -13,20 +13,24 @@
 #define LIVE_TIMER_ON   3000
 #define LIVE_TIMER_OFF  3000
 #define NETGEER_RESET_TIMER 36000000  // 10 HOURS
-#define WIFI_SURVILANCE_TIMER 300000  // 5 MIN
-#define PING_GOOGLE_TIMER 300000  // 5 MIN
+#define WIFI_SURVILANCE_TIMER 600000  // 10 MIN
+#define PING_GOOGLE_TIMER 600000  // 10 MIN
 #define WIFI_IDE_TIMER 600000  //10 MIN
 #define RESTART_AFTER_NG_RESET_TIMER 300000  // 5 MIN
+
+bool fireBaseOn =false;
+bool blynkOn    =true;
+bool wifiOn     =true;
+bool smsOn      =true;
+
 int zapTimer = 5000;
-
 long zaptime, NetgeerResetTimer, wifiSurvilanceTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff,wifiIDETimer,restartAfterResetNG;
-
 bool pingGoogle= false;
+bool internetActive = true;
 bool netGeerReset = false;
 bool liveBit = false;
 IPAddress ip (192, 168, 0, 1); // The remote ip to ping
 bool aliveTimout = false;
-bool RCsent= false;
 int stateMachine =0;
 bool wifiIde = true;
 int repetionRC = 10;
@@ -43,62 +47,45 @@ int Av_Rx = 3;
 
 void setup() 
 {
-   pinMode(NETGEER_PIN, OUTPUT);
-   digitalWrite(NETGEER_PIN, LOW);
+     pinMode(NETGEER_PIN, OUTPUT);
+     digitalWrite(NETGEER_PIN, LOW);
    
-   av.bluLed(ON);
-   Serial.begin(115200);
-   EEPROM.begin(EEPROM_SIZE);
-   EEPROM.write(EEPROM_WIFI_ADD, 1); EEPROM.commit();wifiOn=true;
-   EEPROM.write(EEPROM_FB_ADD, 0); EEPROM.commit();fireBaseOn=false;
-   EEPROM.write(EEPROM_BLYNK_ADD, 1); EEPROM.commit();blynkOn=true;
-   EEPROM.write(EEPROM_SMS_ADD, 1); EEPROM.commit();smsOn=true;
-   
-   initWDG(SEC_60,EN);
-   av.init();
-   
-   sim800Available = smsOn && sim.init();
-   if (sim800Available) {EEPROM.write(EEPROM_SIM800_ADD, 1); EEPROM.commit();}
-   else {EEPROM.write(EEPROM_SIM800_ADD, 0); EEPROM.commit();}
+     av.bluLed(ON);
+     
+     Serial.begin(115200);
+     
+     EEPROM.begin(EEPROM_SIZE);
 
+     initWDG(SEC_60,EN);
+   
+     av.init();
+   
+     sim800Available = smsOn && sim.init();
 
-     wifiAvailable= wifiOn && fb.wifiConnect();
+     wifiAvailable = myBlynk.wifiConnect();
+     
      if (wifiAvailable) 
-      { 
-       byte gitHub = EEPROM.read(EEPROM_GITHUB_ADD);
-       if (gitHub) {
-        getDateTimeNTP(gitHub); 
-        sendToHMI(util.dateAndTimeChar, "Version : ", String(util.dateAndTimeChar),FB_NOTIFIER,String(util.dateAndTimeChar));
-        }
-       if (blynkOn)
-        {
-          myBlynk.init();
-          myBlynk.frequencyValue(1080 );
-          myBlynk.sevenSegValue(1 );
-          getSettingsFromEeprom();
-          myBlynk.notifierDebug(NOTIFIER_ID, VERSION_ID);
-          if (EEPROM.read(EEPROM_ERR_ADD) == '1') { myBlynk.notifierDebug(NOTIFIER_ID, "Internet Lost");}
-          if (EEPROM.read(EEPROM_ERR_ADD) == '2') myBlynk.notifierDebug(NOTIFIER_ID, "Watch Dog TimeOut");
-          EEPROM.write(EEPROM_ERR_ADD, '0'); EEPROM.commit();
-          }
-       if (fireBaseOn) fb.init();
-      }
+        { 
+          internetActive  = checkInternetConnection();
+          byte gitHub = EEPROM.read(EEPROM_GITHUB_ADD);
+          if (gitHub) 
+              {
+                if ( internetActive ) getDateTimeNTP(gitHub); 
+                sendToHMI(util.dateAndTimeChar, "Version : ", String(util.dateAndTimeChar),FB_NOTIFIER,String(util.dateAndTimeChar));
+              }
+           myBlynk.init();
+           if ( internetActive ) {myBlynk.frequencyValue(1080 );myBlynk.sevenSegValue(1 );myBlynk.notifierDebug(NOTIFIER_ID, VERSION_ID);}
+       }
      else  
-     {
-      if(sim800Available)
-        {
-          EEPROM.write(EEPROM_WIFI_ADD, 0); EEPROM.commit();wifiOn=false;
-          EEPROM.write(EEPROM_FB_ADD, 0); EEPROM.commit();smsOn=false;
-          EEPROM.write(EEPROM_BLYNK_ADD, 0); EEPROM.commit();blynkOn=false;
-
-        }
-      sendToHMI("Wifi failed to connect or turned off", "Wifi activation: ", "Wifi failed to connect or turned off",FB_NOTIFIER, "Wifi failed to connect or turned off" );
-
-     }
+      {
+        sendToHMI("Wifi failed to connect or turned off", "Wifi activation: ", "Wifi failed to connect, restarting",FB_NOTIFIER, "Wifi failed to connect , restarting" );
+        ESP.restart();
+      }
 
     mySwitch.enableTransmit(RC_TX_PIN);
     
     av.bluLed(OFF);
+    
     NetgeerResetTimer       = millis();
     wifiSurvilanceTimer     = millis();
     internetSurvilanceTimer = millis();
@@ -137,25 +124,17 @@ void loop(void)
 
 void processCommands(void)
 {
-        if(blynkOn) 
-        {
-          myBlynk.blynkRun();
-          if(blynkEvent = myBlynk.getData () )  processBlynk(); 
-          if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);
-        }
-
-        if (fireBaseOn)
-        {
-        if(fbEvent = fb.firebaseRun())          processFirebase();
-        }
-        
+        if ( internetActive )  
+          {
+            myBlynk.blynkRun();
+            if(blynkEvent = myBlynk.getData () )  processBlynk(); 
+            if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);
+          }
+       
         if(sim800Available) 
-        {
-          if( smsEvent =sim.smsRun()) processSms();
-        }
-
-       if ( (millis() - restartAfterResetNG > RESTART_AFTER_NG_RESET_TIMER) && (netGeerReset== true) )ESP.restart();
-
+          {
+            if( smsEvent =sim.smsRun()) processSms();
+          }
 }
 
 
@@ -177,12 +156,12 @@ void processBlynk(void)
             case FB_T433_CH_NR_ID:
               remoteControlRcCh=myBlynk.blynkData;
               DEBUG_PRINT("FB_T433_CH_NR: ");DEBUG_PRINTLN(myBlynk.blynkData);
-              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 15) {remoteControl(remoteControlRcCh );RCsent = false;}
+              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 15) {remoteControl(remoteControlRcCh );}
             break;
             case FB_T315_CH_NR_ID:
               remoteControlRcCh=myBlynk.blynkData;
               DEBUG_PRINT("FB_T315_CH_NR: ");DEBUG_PRINTLN( (myBlynk.blynkData) -15);
-              if (remoteControlRcCh >= 16 && remoteControlRcCh <= 30) {remoteControl(remoteControlRcCh );RCsent = false;}
+              if (remoteControlRcCh >= 16 && remoteControlRcCh <= 30) {remoteControl(remoteControlRcCh );}
             break;
  
             case FB_RESET_ID:
@@ -446,9 +425,8 @@ void processBlynk(void)
 
 void remoteControl(int cmd )
 {
- if(RCsent == false);
- {
-     if (blynkOn)    
+
+     if (internetActive)    
       {
         if (cmd >= 1 && cmd <= 15) {myBlynk.blynkRCLed(1); }
         if (cmd >= 16 && cmd <= 30) {myBlynk.blynkRCLed315(1);}
@@ -458,14 +436,12 @@ void remoteControl(int cmd )
      mySwitch.send(CH_433[cmd], RC_CODE_LENGTH);
      DEBUG_PRINT("ch433:");DEBUG_PRINTLN(cmd);
      delay(500);
-     if (blynkOn)    
+     if (internetActive)    
       {
         if (cmd >= 1 && cmd <= 15) {myBlynk.blynkRCLed(0);myBlynk.resetT433Cmd(cmd);}
         if (cmd >= 16 && cmd <= 30) {myBlynk.blynkRCLed315(0);myBlynk.resetT315Cmd(cmd);}
       }
      if (fireBaseOn) {fb.SendString (FB_RC_LED, "0" );/*fb.SendString (FB_AV_OUTPUT, String(avOutput) );*/}
-     RCsent = true;
- }
 }
 
 
@@ -570,7 +546,7 @@ void receiverAvByCh (int Ch)
         }
        if (fireBaseOn) fb.SendString (FB_ACK_LED, String(ack) ); 
        delay(500);
-       if (blynkOn) myBlynk.blynkAckLed(ack);
+       if (internetActive) myBlynk.blynkAckLed(ack);
        myBlynk.sevenSegValue(Ch );
         switch (Ch)
           {
@@ -627,7 +603,7 @@ void receiverAvByFreq (int Freq)
        int PLL_value =( 512 * ( 1000000 * (Freq + 479.5) ) ) / (16*4000000) ;
        ack = av.Tuner_PLL(av_pll_addr, PLL_value);
        if (fireBaseOn) {fb.SendString (FB_ACK_LED, String(ack) ); /*fb.SendString (FB_AV_OUTPUT, String(avOutput) )*/;}
-       if (blynkOn)  { myBlynk.blynkAckLed(ack);/*myBlynk.sendRsss(avOutput);*/}
+       if (internetActive)  { myBlynk.blynkAckLed(ack);/*myBlynk.sendRsss(avOutput);*/}
        myBlynk.frequencyValue(Freq );
        DEBUG_PRINT("Received manual_freq:");DEBUG_PRINTLN(manual_freq);
        DEBUG_PRINT("ack: ");DEBUG_PRINTLN(ack ? F("NotACK") : F("ACK"));
@@ -705,8 +681,7 @@ void  getSettingsFromEeprom(void)
 void sendToHMI(char *smsmsg, String notifier_subject, String notifier_body,String fb_path,String fb_cmdString)
 {
   if(sim800Available)sim.SendSMS(smsmsg);
-  if (blynkOn) myBlynk.notifierDebug(NOTIFIER_ID, notifier_body);
-  if (fireBaseOn)fb.SendString( fb_path, fb_cmdString ); 
+  if (internetActive) myBlynk.notifierDebug(NOTIFIER_ID, notifier_body);
 }
 
  
@@ -848,12 +823,10 @@ void ResetNetgeer(void)
 
 void internetSurvilance(void)
 {       
- bool internetActive  = checkInternetConnection();
+ internetActive  = checkInternetConnection();
  if (!internetActive)  
           {
             DEBUG_PRINTLN("Internet Failure: ");  
-            EEPROM.write(EEPROM_ERR_ADD, INTERNET_LOST); EEPROM.commit();
-            myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset Internet Failure");
             ResetNetgeer();
             }
 } 
@@ -870,45 +843,17 @@ void netgeerCtrl(void)
 {
        if (   millis() - internetSurvilanceTimer > PING_GOOGLE_TIMER)  {internetSurvilance();internetSurvilanceTimer= millis();}
        if (   (millis() - wifiSurvilanceTimer > WIFI_SURVILANCE_TIMER)  && (!wifiAvailable)  ) {wifiSurvilanceTimer= millis();DEBUG_PRINTLN("Wifi Failure: ");myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset Wifi Failure");ResetNetgeer();}
-       if (millis() - NetgeerResetTimer > NETGEER_RESET_TIMER) {myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset 10 hours timer");NetgeerResetTimer= millis();DEBUG_PRINTLN("10 hours timer: ");ResetNetgeer();}
+       if (millis() - NetgeerResetTimer > NETGEER_RESET_TIMER) 
+        {
+            if ( internetActive ) myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset 10 hours timer");
+            NetgeerResetTimer= millis();
+            DEBUG_PRINTLN("10 hours timer: ");
+            ResetNetgeer();
+         }
 }     
 
 
-void otaIdeSetup (void)
-     {
-        ArduinoOTA
-    .onStart([]() {
-      String type;
-      if (ArduinoOTA.getCommand() == U_FLASH)
-        type = "sketch";
-      else // U_SPIFFS
-        type = "filesystem";
 
-      // NOTE: if updating SPIFFS this would be the place to unmount SPIFFS using SPIFFS.end()
-      Serial.println("Start updating " + type);
-    })
-    .onEnd([]() {
-      Serial.println("\nEnd");
-    })
-    .onProgress([](unsigned int progress, unsigned int total) {
-      Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
-    })
-    .onError([](ota_error_t error) {
-      Serial.printf("Error[%u]: ", error);
-      if (error == OTA_AUTH_ERROR) Serial.println("Auth Failed");
-      else if (error == OTA_BEGIN_ERROR) Serial.println("Begin Failed");
-      else if (error == OTA_CONNECT_ERROR) Serial.println("Connect Failed");
-      else if (error == OTA_RECEIVE_ERROR) Serial.println("Receive Failed");
-      else if (error == OTA_END_ERROR) Serial.println("End Failed");
-    });
-
-  ArduinoOTA.begin();
-
-  Serial.println("Ready");
-  Serial.print("IP address: ");
-  Serial.println(WiFi.localIP());
-  wifiIde = true;
- }
  
 void liveCtrl(void)
 {
@@ -917,16 +862,18 @@ void liveCtrl(void)
             liveBit = true ;
             av.bluLed(liveBit);
             liveTimerOff = millis();
-            myBlynk.sendAlive(liveBit);
+            if ( internetActive ) myBlynk.sendAlive(liveBit);
           }
     if ( (millis() - liveTimerOff > LIVE_TIMER_OFF) && liveBit ) 
           {
             liveBit = false ;
             av.bluLed(liveBit);
             liveTimerOn = millis();
-            myBlynk.sendAlive(liveBit);
+           if ( internetActive )  myBlynk.sendAlive(liveBit);
           }
 }
+
+
 
 void processSms(void)
 {
@@ -974,7 +921,7 @@ void processSms(void)
             case FB_T433_CH_NR_ID:
               remoteControlRcCh=smsValue;
               DEBUG_PRINT("FB_T433_CH_NR: ");DEBUG_PRINTLN(remoteControlRcCh);
-              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 30) {remoteControl(remoteControlRcCh );RCsent = false;}
+              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 30) {remoteControl(remoteControlRcCh );}
             break;
             case FB_RESET_ID:
               DEBUG_PRINT("FB_RESET: ");DEBUG_PRINTLN(smsReceived);
@@ -1017,70 +964,45 @@ void processSms(void)
 }
 
 
-void processFirebase(void)
-{
-        switch (fb.eventID)
-          {
-            case FB_AV_7SEG_ID:
-                recevierCh=fb.eventValue;
-                DEBUG_PRINT("FB_AV_7SEG: ");DEBUG_PRINTLN(fb.eventValue);
-                if (recevierCh >= 1 && recevierCh <= 8) receiverAvByCh (recevierCh);
-            break;
-            case FB_FREQ_ID:
-              recevierFreq=fb.eventValue;
-              DEBUG_PRINT("FB_FREQ: ");DEBUG_PRINTLN(fb.eventValue);
-              if (recevierFreq >= 920 && recevierFreq <= 1500) receiverAvByFreq (recevierFreq);
-            break;
-            case FB_T433_CH_NR_ID:
-              remoteControlRcCh=fb.eventValue;
-              DEBUG_PRINT("FB_T433_CH_NR: ");DEBUG_PRINTLN(remoteControlRcCh);
-              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 30) {remoteControl(remoteControlRcCh );RCsent = false;}
-            break;
-            case FB_RESET_ID:
-              rebootCmd=fb.eventValue;
-              DEBUG_PRINT("FB_RESET: ");DEBUG_PRINTLN(fb.eventValue);
-              if(rebootCmd) rebootSw();
-            break;
-            case FB_OTA_ID:
-              otaCmd=fb.eventValue;
-              DEBUG_PRINT("FB_OTA: ");DEBUG_PRINTLN(fb.eventValue);
-              if(otaCmd){fb.endTheOpenStream();  otaGsm ();}
-            break;
-            case FB_SMS_ON_ID:
-              smsOnOffCmd=fb.eventValue;
-              DEBUG_PRINT("FB_SMS_ON: ");DEBUG_PRINTLN(fb.eventValue);
-              smsActivation(smsOnOffCmd);
-              myBlynk.blynkSmsLed(sim800Available);
-            break;
-            case FB_VERSION_ID:
-              verCmd=fb.eventValue;
-              DEBUG_PRINT("FB_VERSION: ");DEBUG_PRINTLN(fb.eventValue);
-              sendVersion();
-            break;
-            case FB_FB_OFF_ID:
-              firebaseOnOffCmd=fb.eventValue;
-              DEBUG_PRINT("FB_FB_OFF: ");DEBUG_PRINTLN(fb.eventValue);
-              firebaseOnActivation(firebaseOnOffCmd);
-              myBlynk.blynkFirebaseLed(fireBaseOn);
-            break;
-            case FB_BLYNK_ON_OFF_ID:
-              blynkOnOffCmd=fb.eventValue;
-              DEBUG_PRINT("FB_BLYNK_ON_OFF: ");DEBUG_PRINTLN(fb.eventValue);
-            break;
-            case FB_WIFI_OFF_ID:
-              wifiOnOffCmd=fb.eventValue;
-              DEBUG_PRINT("FB_WIFI_OFF: ");DEBUG_PRINTLN(fb.eventValue);
-            break;
-            case FB_SETTINGS_ID :
-              getSettingsFromEeprom();
-              sendToHMI(smsSettings, "Setting ", smsSettings ,FB_NOTIFIER,smsSettings);
-            break;            
-    }
-}    
+void otaIdeSetup (void)
+     {
+        ArduinoOTA
+    .onStart([]() {
+      String type;
+      if (ArduinoOTA.getCommand() == U_FLASH)
+        type = "sketch";
+      else // U_SPIFFS
+        type = "filesystem";
 
+      // NOTE: if updating SPIFFS this would be the place to unmount SPIFFS using SPIFFS.end()
+      Serial.println("Start updating " + type);
+    })
+    .onEnd([]() {
+      Serial.println("\nEnd");
+    })
+    .onProgress([](unsigned int progress, unsigned int total) {
+      Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
+    })
+    .onError([](ota_error_t error) {
+      Serial.printf("Error[%u]: ", error);
+      if (error == OTA_AUTH_ERROR) Serial.println("Auth Failed");
+      else if (error == OTA_BEGIN_ERROR) Serial.println("Begin Failed");
+      else if (error == OTA_CONNECT_ERROR) Serial.println("Connect Failed");
+      else if (error == OTA_RECEIVE_ERROR) Serial.println("Receive Failed");
+      else if (error == OTA_END_ERROR) Serial.println("End Failed");
+    });
+
+  ArduinoOTA.begin();
+
+  Serial.println("Ready");
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
+  wifiIde = true;
+ }
+ 
 void room (int RC, int AV, int sel)
 {
   if (sel == 3)receiverAvByCh (AV);
-  if (sel == 2) {remoteControl(RC);RCsent = false;}
-  if (sel == 1) {receiverAvByCh (AV);remoteControl(RC);RCsent = false;}                        
+  if (sel == 2) {remoteControl(RC);}
+  if (sel == 1) {receiverAvByCh (AV);remoteControl(RC);}                        
 }                            

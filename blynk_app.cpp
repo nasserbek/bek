@@ -649,6 +649,18 @@ void blynk::notifierDebug(String subject, String body)
       Blynk.notify(String(subject +"**"+ body) );
 }
 
+
+bool blynk::wifiConnect()
+  {
+    if (WiFi.status()  == WL_CONNECTED )return true; 
+    WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+    
+    long timeout = millis();
+    while ( WiFi.status()  != WL_CONNECTED ) {if (millis() - timeout > 60000L) return false; }
+return true; 
+}
+
+
 bool blynk::getData()
 {
     if (_blynkEvent)

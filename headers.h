@@ -1,4 +1,4 @@
-#define DEBUG_SERIAL
+//#define DEBUG_SERIAL
 #define NETGEER
 #define BEK
 
