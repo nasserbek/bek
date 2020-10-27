@@ -42,16 +42,16 @@ void setup()
            myBlynk.init();
            if ( internetActive ) 
                   {
-                    receiverAvByCh (1);
-                    receiverAvByFreq (1080);
-                    myBlynk.frequencyValue(1080 );
-                    myBlynk.sevenSegValue(1 );
+                    receiverAvByCh (2);
+                    receiverAvByFreq (1120);
+                    myBlynk.frequencyValue(1120 );
+                    myBlynk.sevenSegValue(2);
                     int _timer  = LIVE_TIMER_ON / 1000;
-                    myBlynk.setLiveTimer(_timer);
+                    myBlynk.setLiveTimer(3);
                     _timer  = PING_GOOGLE_TIMER / (60*1000);
-                    myBlynk.setGoogleTimer(_timer);
+                    myBlynk.setGoogleTimer(1);
                     _timer  = RESET_AFTER_BLYNK_INACTIVE_TIMER / (60*60*1000);
-                    myBlynk.setBlynkTimer(_timer);
+                    myBlynk.setBlynkTimer(2);
                     myBlynk.notifierDebug(NOTIFIER_ID, VERSION_ID);
                    }
        }
