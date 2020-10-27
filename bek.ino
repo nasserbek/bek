@@ -816,7 +816,7 @@ bool checkInternetConnection(void)
 void netgeerCtrl(void)
 {
        if (   millis() - internetSurvilanceTimer > PING_GOOGLE_TIMER)  {internetSurvilance();internetSurvilanceTimer= millis();}
-       if (   (millis() - wifiSurvilanceTimer > WIFI_SURVILANCE_TIMER)  && (!wifiAvailable)  ) {wifiSurvilanceTimer= millis();DEBUG_PRINTLN("Wifi Failure: ");myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset Wifi Failure");ResetNetgeer();}
+ /*      if (   (millis() - wifiSurvilanceTimer > WIFI_SURVILANCE_TIMER)  && (!wifiAvailable)  ) {wifiSurvilanceTimer= millis();DEBUG_PRINTLN("Wifi Failure: ");myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset Wifi Failure");ResetNetgeer();}
        if (millis() - NetgeerResetTimer > NETGEER_RESET_TIMER) 
         {
             if ( internetActive ) myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset 10 hours timer");
@@ -824,6 +824,7 @@ void netgeerCtrl(void)
             DEBUG_PRINTLN("10 hours timer: ");
             ResetNetgeer();
          }
+*/
 }     
 
 
