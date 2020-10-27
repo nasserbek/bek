@@ -58,7 +58,7 @@ void setup()
      else  
       {
         sendToHMI("Wifi failed to connect or turned off", "Wifi activation: ", "Wifi failed to connect, restarting",FB_NOTIFIER, "Wifi failed to connect , restarting" );
-        ESP.restart();
+       // ESP.restart();
       }
 
    
@@ -840,16 +840,9 @@ bool checkInternetConnection(void)
 
 void netgeerCtrl(void)
 {
-       if (   millis() - internetSurvilanceTimer > PING_GOOGLE_TIMER)  {internetSurvilance();internetSurvilanceTimer= millis();}
- /*      if (   (millis() - wifiSurvilanceTimer > WIFI_SURVILANCE_TIMER)  && (!wifiAvailable)  ) {wifiSurvilanceTimer= millis();DEBUG_PRINTLN("Wifi Failure: ");myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset Wifi Failure");ResetNetgeer();}
-       if (millis() - NetgeerResetTimer > NETGEER_RESET_TIMER) 
-        {
-            if ( internetActive ) myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset 10 hours timer");
-            NetgeerResetTimer= millis();
-            DEBUG_PRINTLN("10 hours timer: ");
-            ResetNetgeer();
-         }
-*/
+       if (   (millis() - internetSurvilanceTimer > PING_GOOGLE_TIMER)  && (!internetActive) )  {internetSurvilance();internetSurvilanceTimer= millis();}
+       if (   (millis() - NetgeerResetTimer > RESET_AFTER_NG_TIMER)  && (netGeerReset) )  {internetSurvilance();NetgeerResetTimer= millis(); ESP.restart();}
+      
 }     
 
 
@@ -859,6 +852,7 @@ void liveCtrl(void)
 {
    if ( (millis() - liveTimerOn > LIVE_TIMER_ON) && !liveBit ) 
           {
+            internetActive  = checkInternetConnection();
             liveBit = true ;
             av.bluLed(liveBit);
             liveTimerOff = millis();
