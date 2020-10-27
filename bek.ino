@@ -46,10 +46,12 @@ void setup()
                     receiverAvByFreq (1080);
                     myBlynk.frequencyValue(1080 );
                     myBlynk.sevenSegValue(1 );
-                    
-                    myBlynk.setLiveTimer(LIVE_TIMER_ON / 1000);
-                    myBlynk.setGoogleTimer(PING_GOOGLE_TIMER / (60*1000) );
-                    myBlynk.setBlynkTimer(RESET_AFTER_BLYNK_INACTIVE_TIMER / (60*60*1000) );
+                    int _timer  = LIVE_TIMER_ON / 1000;
+                    myBlynk.setLiveTimer(_timer);
+                    _timer  = PING_GOOGLE_TIMER / (60*1000);
+                    myBlynk.setGoogleTimer(_timer);
+                    _timer  = RESET_AFTER_BLYNK_INACTIVE_TIMER / (60*60*1000);
+                    myBlynk.setBlynkTimer(_timer);
                     myBlynk.notifierDebug(NOTIFIER_ID, VERSION_ID);
                    }
        }

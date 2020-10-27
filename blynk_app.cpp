@@ -774,15 +774,15 @@ void blynk::zapLed(bool _data)
 
 void blynk::setLiveTimer(int _live)
 {
- Blynk.virtualWrite(V3, _live); 
+ Blynk.virtualWrite(V20, _live); 
 }
 
 void blynk::setGoogleTimer(int _google)
 {
- Blynk.virtualWrite(V3, _google);     
+ Blynk.virtualWrite(V21, _google);     
 }
 
 void blynk::setBlynkTimer(int _blynk)
 {
- Blynk.virtualWrite(V3, _blynk);  
+ Blynk.virtualWrite(V22, _blynk);  
 }
