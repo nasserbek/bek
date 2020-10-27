@@ -43,7 +43,7 @@ void setup()
      else  
       {
         sendToHMI("Wifi failed to connect or turned off", "Wifi activation: ", "Wifi failed to connect, restarting",FB_NOTIFIER, "Wifi failed to connect , restarting" );
-        ESP.restart();
+    //    ESP.restart();
       }
 
     mySwitch.enableTransmit(RC_TX_PIN);
@@ -812,8 +812,8 @@ void netgeerCtrl(void)
             if ( internetActive ) myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset 10 hours timer");
             NetgeerResetTimer= millis();
             DEBUG_PRINTLN("10 hours timer: ");
-            ResetNetgeer();
-         }
+        }
+       if ( (millis() - restartAfterResetNG > RESTART_AFTER_NG_RESET_TIMER) && netGeerReset ) ESP.restart();  
 }     
 
 
