@@ -9,7 +9,7 @@
 
 #define BEK
 
-#define VERSION_ID "Restarting V1.13 27 10 2020 09.33"
+#define VERSION_ID "Restarting V1.14 27 10 2020 10.00"
 
 #ifdef BEK
     #define NOTIFIER_ID "BEK : \n "
@@ -136,6 +136,9 @@
 #define    ROOM_211_TO_215      17
 #define    ROOM_216_TO_220      18
 #define    ROOM_AV_RC           19
+#define    LIVE_TIMER_ID        20
+#define    PING_GOOGLE_TIMER_ID 21
+#define    BLYNK_INACTIVE_ID    22
 #define    FB_ZAP_ID            71
 #define    FB_ZAP_TIMER_ID      72
 #define    FB_ZAP_CHANNEL_ID1   81

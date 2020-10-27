@@ -23,7 +23,9 @@ void setup()
      initWDG(SEC_60,EN);
    
      av.init();
-   
+     
+     mySwitch.enableTransmit(RC_TX_PIN);
+     
      sim800Available = sim.init();
 
      wifiAvailable = myBlynk.wifiConnect();
@@ -38,7 +40,18 @@ void setup()
                 sendToHMI(util.dateAndTimeChar, "Version : ", String(util.dateAndTimeChar),FB_NOTIFIER,String(util.dateAndTimeChar));
               }
            myBlynk.init();
-           if ( internetActive ) {myBlynk.frequencyValue(1080 );myBlynk.sevenSegValue(1 );myBlynk.notifierDebug(NOTIFIER_ID, VERSION_ID);}
+           if ( internetActive ) 
+                  {
+                    receiverAvByCh (1);
+                    receiverAvByFreq (1080);
+                    myBlynk.frequencyValue(1080 );
+                    myBlynk.sevenSegValue(1 );
+                    
+                    myBlynk.setLiveTimer(LIVE_TIMER_ON / 1000);
+                    myBlynk.setGoogleTimer(PING_GOOGLE_TIMER / (60*1000) );
+                    myBlynk.setBlynkTimer(RESET_AFTER_BLYNK_INACTIVE_TIMER / (60*60*1000) );
+                    myBlynk.notifierDebug(NOTIFIER_ID, VERSION_ID);
+                   }
        }
      else  
       {
@@ -46,8 +59,7 @@ void setup()
         ESP.restart();
       }
 
-    mySwitch.enableTransmit(RC_TX_PIN);
-    
+   
     av.bluLed(OFF);
     
     NetgeerResetTimer       = millis();
@@ -264,7 +276,18 @@ void processBlynk(void)
             case ROOM_AV_RC:
              Av_Rx=myBlynk.blynkData;
             break;
-            
+
+            case LIVE_TIMER_ID:
+                    LIVE_TIMER_ON = LIVE_TIMER_OFF = myBlynk.blynkData *1000;
+            break;
+
+            case PING_GOOGLE_TIMER_ID:
+                    PING_GOOGLE_TIMER = myBlynk.blynkData *60*1000;
+            break;      
+                  
+            case BLYNK_INACTIVE_ID :
+                    RESET_AFTER_BLYNK_INACTIVE_TIMER = myBlynk.blynkData *60*60* 1000;
+            break;
             
             case ROOM_201_TO_205:
                   

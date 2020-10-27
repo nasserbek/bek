@@ -29,7 +29,7 @@ bool smsOn      =true;
 int zapTimer = 5000;
 long zaptime, NetgeerResetTimer, wifiSurvilanceTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff,wifiIDETimer,resetNetgeerBlynkInactive;
 
-long  LIVE_TIMER_ON  =  3000 ; //3 s
+long LIVE_TIMER_ON  =  3000 ; //3 s
 long LIVE_TIMER_OFF  =  3000 ;  // 3 s
 long NETGEER_RESET_TIMER = 36000000 ; // 10 HOURS
 long PING_GOOGLE_TIMER = 60000 ;  // 1 MIN
