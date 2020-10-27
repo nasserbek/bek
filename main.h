@@ -27,15 +27,7 @@ bool wifiOn     =true;
 bool smsOn      =true;
 
 int zapTimer = 5000;
-long zaptime, NetgeerResetTimer, wifiSurvilanceTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff,wifiIDETimer,resetNetgeerBlynkInactive;
-
-long LIVE_TIMER_ON  =  5000 ; //3 s
-long LIVE_TIMER_OFF  =  5000 ;  // 3 s
-long NETGEER_RESET_TIMER = 36000000 ; // 10 HOURS
-long PING_GOOGLE_TIMER = 600000 ;  // 1 MIN
-long WIFI_IDE_TIMER = 600000 ; //10 MIN
-long RESET_AFTER_BLYNK_INACTIVE_TIMER  = 7200000 ; // 2 HOURS
-
+long zaptime, NetgeerResetTimer, wifiSurvilanceTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff,wifiIDETimer,restartAfterResetNG;
 bool pingGoogle= false;
 bool internetActive = true;
 bool netGeerReset = false;

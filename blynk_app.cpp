@@ -191,37 +191,25 @@ BLYNK_WRITE(V19) // ROOM_AV RC
   DEBUG_PRINTLN(_sevenSeg);
 }
 
-BLYNK_WRITE(V20)   //LIVE_TIMER_ID
+BLYNK_WRITE(V21)   //ch1
 {
   _tempoVar = param.asInt(); // assigning incoming value from pin V21 to a variable
     _blynkEvent = true;
-    _blynkData=param.asInt() ;
-    _blynkEventID =LIVE_TIMER_ID;
-  DEBUG_PRINT("LIVE_TIMER_ID: ");
-  DEBUG_PRINTLN(_tempoVar);
+    _blynkData=1;
+    _blynkEventID =FB_AV_7SEG_ID;
+  DEBUG_PRINT("V21 ch1: ");
+  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
 
-BLYNK_WRITE(V21)   //PING_GOOGLE_TIMER_ID
+BLYNK_WRITE(V22)   //ch2
 {
-  _tempoVar = param.asInt(); // assigning incoming value from pin V21 to a variable
+  _tempoVar = param.asInt(); // assigning incoming value from pin V22 to a variable
     _blynkEvent = true;
-    _blynkData=param.asInt();
-    _blynkEventID =PING_GOOGLE_TIMER_ID;
-    DEBUG_PRINT("PING_GOOGLE_TIMER_ID: ");
-    DEBUG_PRINTLN(_tempoVar);
+    _blynkData=2;
+    _blynkEventID =FB_AV_7SEG_ID;
+  DEBUG_PRINT("V22 ch3: ");
+  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
-
-BLYNK_WRITE(V22)   //BLYNK_INACTIVE_ID 
-{
-  _tempoVar = param.asInt(); // assigning incoming value from pin V21 to a variable
-    _blynkEvent = true;
-    _blynkData=param.asInt();
-    _blynkEventID =BLYNK_INACTIVE_ID ;
-    DEBUG_PRINT("BLYNK_INACTIVE_ID : ");
-    DEBUG_PRINTLN(_tempoVar);
-}
-
-
 
 BLYNK_WRITE(V23)   //ch3
 {
@@ -769,20 +757,4 @@ void blynk::zapLed(bool _data)
 {
  if (_data==0)  led7.setColor(BLYNK_RED);
  else           led7.setColor(BLYNK_GREEN);
-}
-
-
-void blynk::setLiveTimer(int _live)
-{
- Blynk.virtualWrite(V20, _live); 
-}
-
-void blynk::setGoogleTimer(int _google)
-{
- Blynk.virtualWrite(V21, _google);     
-}
-
-void blynk::setBlynkTimer(int _blynk)
-{
- Blynk.virtualWrite(V22, _blynk);  
 }

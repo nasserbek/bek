@@ -40,9 +40,6 @@ class blynk {
     void notifierDebug(String subject, String body);
     void zapLed(bool _data);
     bool wifiConnect(void);
-    void setLiveTimer(int _live);
-    void setGoogleTimer(int _google);   
-    void setBlynkTimer(int _blynk);
 
 };
 #endif

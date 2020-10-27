@@ -23,9 +23,7 @@ void setup()
      initWDG(SEC_60,EN);
    
      av.init();
-     
-     mySwitch.enableTransmit(RC_TX_PIN);
-     
+   
      sim800Available = sim.init();
 
      wifiAvailable = myBlynk.wifiConnect();
@@ -40,28 +38,16 @@ void setup()
                 sendToHMI(util.dateAndTimeChar, "Version : ", String(util.dateAndTimeChar),FB_NOTIFIER,String(util.dateAndTimeChar));
               }
            myBlynk.init();
-           if ( internetActive ) 
-                  {
-                    receiverAvByCh (2);
-                    receiverAvByFreq (1120);
-                    myBlynk.frequencyValue(1120 );
-                    myBlynk.sevenSegValue(2);
-                    int _timer  = LIVE_TIMER_ON / 1000;
-                    myBlynk.setLiveTimer(3);
-                    _timer  = PING_GOOGLE_TIMER / (60*1000);
-                    myBlynk.setGoogleTimer(1);
-                    _timer  = RESET_AFTER_BLYNK_INACTIVE_TIMER / (60*60*1000);
-                    myBlynk.setBlynkTimer(2);
-                    myBlynk.notifierDebug(NOTIFIER_ID, VERSION_ID);
-                   }
+           if ( internetActive ) {myBlynk.frequencyValue(1080 );myBlynk.sevenSegValue(1 );myBlynk.notifierDebug(NOTIFIER_ID, VERSION_ID);}
        }
      else  
       {
         sendToHMI("Wifi failed to connect or turned off", "Wifi activation: ", "Wifi failed to connect, restarting",FB_NOTIFIER, "Wifi failed to connect , restarting" );
-       // ESP.restart();
+        ESP.restart();
       }
 
-   
+    mySwitch.enableTransmit(RC_TX_PIN);
+    
     av.bluLed(OFF);
     
     NetgeerResetTimer       = millis();
@@ -70,7 +56,7 @@ void setup()
     liveTimerOff            = millis();
     liveTimerOn             = millis();
     wifiIDETimer            = millis();
-    resetNetgeerBlynkInactive     = millis();
+    restartAfterResetNG     = millis();
     
     otaIdeSetup();
 }
@@ -105,25 +91,14 @@ void processCommands(void)
         if ( internetActive )  
           {
             myBlynk.blynkRun();
-            if(blynkEvent = myBlynk.getData () )  processBlynk();
-            else 
-              {
-                  if (millis() - resetNetgeerBlynkInactive > RESET_AFTER_BLYNK_INACTIVE_TIMER) 
-                    {
-                          if ( internetActive ) myBlynk.notifierDebug(NOTIFIER_ID, "Reset NG for Blynk inactive 2 hours");
-                          resetNetgeerBlynkInactive= millis();
-                          DEBUG_PRINTLN("Reset NG for Blynk inactive 2 hours: ");
-                          ResetNetgeer();
-                     }
-              }
+            if(blynkEvent = myBlynk.getData () )  processBlynk(); 
+            if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);
           }
        
         if(sim800Available) 
           {
             if( smsEvent =sim.smsRun()) processSms();
           }
-      
-       if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);
 }
 
 
@@ -278,18 +253,7 @@ void processBlynk(void)
             case ROOM_AV_RC:
              Av_Rx=myBlynk.blynkData;
             break;
-
-            case LIVE_TIMER_ID:
-                    LIVE_TIMER_ON = LIVE_TIMER_OFF = myBlynk.blynkData *1000;
-            break;
-
-            case PING_GOOGLE_TIMER_ID:
-                    PING_GOOGLE_TIMER = myBlynk.blynkData *60*1000;
-            break;      
-                  
-            case BLYNK_INACTIVE_ID :
-                    RESET_AFTER_BLYNK_INACTIVE_TIMER = myBlynk.blynkData *60*60* 1000;
-            break;
+            
             
             case ROOM_201_TO_205:
                   
@@ -816,6 +780,7 @@ void ResetNetgeer(void)
               delay(2000);
               digitalWrite(NETGEER_PIN, LOW); 
               DEBUG_PRINTLN("Netgeer Reset done: ");
+              restartAfterResetNG     = millis();
               netGeerReset = true;
           }
 
@@ -840,9 +805,15 @@ bool checkInternetConnection(void)
 
 void netgeerCtrl(void)
 {
-       if (   (millis() - internetSurvilanceTimer > PING_GOOGLE_TIMER)  && (!internetActive) )  {internetSurvilance();internetSurvilanceTimer= millis();}
-       if (   (millis() - NetgeerResetTimer > RESET_AFTER_NG_TIMER)  && (netGeerReset) )  {internetSurvilance();NetgeerResetTimer= millis(); ESP.restart();}
-      
+       if (   millis() - internetSurvilanceTimer > PING_GOOGLE_TIMER)  {internetSurvilance();internetSurvilanceTimer= millis();}
+       if (   (millis() - wifiSurvilanceTimer > WIFI_SURVILANCE_TIMER)  && (!wifiAvailable)  ) {wifiSurvilanceTimer= millis();DEBUG_PRINTLN("Wifi Failure: ");myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset Wifi Failure");ResetNetgeer();}
+       if (millis() - NetgeerResetTimer > NETGEER_RESET_TIMER) 
+        {
+            if ( internetActive ) myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset 10 hours timer");
+            NetgeerResetTimer= millis();
+            DEBUG_PRINTLN("10 hours timer: ");
+            ResetNetgeer();
+         }
 }     
 
 
@@ -852,7 +823,6 @@ void liveCtrl(void)
 {
    if ( (millis() - liveTimerOn > LIVE_TIMER_ON) && !liveBit ) 
           {
-            internetActive  = checkInternetConnection();
             liveBit = true ;
             av.bluLed(liveBit);
             liveTimerOff = millis();
