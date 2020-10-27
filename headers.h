@@ -9,7 +9,7 @@
 
 #define BEK
 
-#define VERSION_ID "Restarting V1.11 27 10 2020 08.40"
+#define VERSION_ID "Restarting V1.12 27 10 2020 09.40"
 
 #ifdef BEK
     #define NOTIFIER_ID "BEK : \n "
@@ -24,7 +24,7 @@
 #define WIFI_SURVILANCE_TIMER 300000  // 5 MIN
 #define PING_GOOGLE_TIMER 60000  // 1 MIN
 #define WIFI_IDE_TIMER 600000  //10 MIN
-#define RESTART_AFTER_NG_RESET_TIMER 300000  // 5 MIN
+#define RESET_AFTER_BLYNK_INACTIVE_TIMER 7200000  // 2 HOURS
 
 
 

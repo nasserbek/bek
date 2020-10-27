@@ -56,7 +56,7 @@ void setup()
     liveTimerOff            = millis();
     liveTimerOn             = millis();
     wifiIDETimer            = millis();
-    restartAfterResetNG     = millis();
+    resetNetgeerBlynkInactive     = millis();
     
     otaIdeSetup();
 }
@@ -91,14 +91,25 @@ void processCommands(void)
         if ( internetActive )  
           {
             myBlynk.blynkRun();
-            if(blynkEvent = myBlynk.getData () )  processBlynk(); 
-            if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);
+            if(blynkEvent = myBlynk.getData () )  processBlynk();
+            else 
+              {
+                  if (millis() - resetNetgeerBlynkInactive > RESET_AFTER_BLYNK_INACTIVE_TIMER) 
+                    {
+                          if ( internetActive ) myBlynk.notifierDebug(NOTIFIER_ID, "Reset NG for Blynk inactive 2 hours");
+                          resetNetgeerBlynkInactive= millis();
+                          DEBUG_PRINTLN("Reset NG for Blynk inactive 2 hours: ");
+                          ResetNetgeer();
+                     }
+              }
           }
        
         if(sim800Available) 
           {
             if( smsEvent =sim.smsRun()) processSms();
           }
+      
+       if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);
 }
 
 
@@ -780,7 +791,6 @@ void ResetNetgeer(void)
               delay(2000);
               digitalWrite(NETGEER_PIN, LOW); 
               DEBUG_PRINTLN("Netgeer Reset done: ");
-              restartAfterResetNG     = millis();
               netGeerReset = true;
           }
 
