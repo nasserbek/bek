@@ -20,6 +20,27 @@
 #include "headers.h"
 
 
+
+bool fireBaseOn =false;
+bool blynkOn    =true;
+bool wifiOn     =true;
+bool smsOn      =true;
+
+int zapTimer = 5000;
+long zaptime, NetgeerResetTimer, wifiSurvilanceTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff,wifiIDETimer,restartAfterResetNG;
+bool pingGoogle= false;
+bool internetActive = true;
+bool netGeerReset = false;
+bool liveBit = false;
+IPAddress ip (192, 168, 0, 1); // The remote ip to ping
+bool aliveTimout = false;
+int stateMachine =0;
+bool wifiIde = true;
+int repetionRC = 10;
+int pulseRC = 416; //Default protocol 1
+int Av_Rx = 3;
+
+
 bool zapOnOff = false;
 bool zapChannel = false;
 bool zapCh1 = false;

@@ -1,42 +1,6 @@
 #include "main.h"
 #include <ESP32Ping.h>
 
-#define VERSION_ID "Restarting V1.10 26 10 2020 23.450"
-
-#ifdef BEK
-    #define NOTIFIER_ID "BEK : \n "
-#else
-    #define NOTIFIER_ID "BEK2 : \n "
-#endif
-
-
-#define LIVE_TIMER_ON   3000
-#define LIVE_TIMER_OFF  3000
-#define NETGEER_RESET_TIMER 36000000  // 10 HOURS
-#define WIFI_SURVILANCE_TIMER 600000  // 10 MIN
-#define PING_GOOGLE_TIMER 600000  // 10 MIN
-#define WIFI_IDE_TIMER 600000  //10 MIN
-#define RESTART_AFTER_NG_RESET_TIMER 300000  // 5 MIN
-
-bool fireBaseOn =false;
-bool blynkOn    =true;
-bool wifiOn     =true;
-bool smsOn      =true;
-
-int zapTimer = 5000;
-long zaptime, NetgeerResetTimer, wifiSurvilanceTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff,wifiIDETimer,restartAfterResetNG;
-bool pingGoogle= false;
-bool internetActive = true;
-bool netGeerReset = false;
-bool liveBit = false;
-IPAddress ip (192, 168, 0, 1); // The remote ip to ping
-bool aliveTimout = false;
-int stateMachine =0;
-bool wifiIde = true;
-int repetionRC = 10;
-int pulseRC = 416; //Default protocol 1
-int Av_Rx = 3;
-
  reciever av;
  fireBase fb;
  sim800L sim; 
@@ -60,7 +24,7 @@ void setup()
    
      av.init();
    
-     sim800Available = smsOn && sim.init();
+     sim800Available = sim.init();
 
      wifiAvailable = myBlynk.wifiConnect();
      

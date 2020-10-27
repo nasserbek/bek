@@ -656,8 +656,8 @@ bool blynk::wifiConnect()
     WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
     
     long timeout = millis();
-    while ( WiFi.status()  != WL_CONNECTED ) {if (millis() - timeout > 60000L) return false; }
-return true; 
+    while ( WiFi.status()  != WL_CONNECTED ) {if (millis() - timeout > WIFI_SURVILANCE_TIMER) return false; }
+    return true; 
 }
 
 
