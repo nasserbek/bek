@@ -1,5 +1,6 @@
 #include "main.h"
 #include <ESP32Ping.h>
+String blynkNotifier = "Restarting V3.1 28 10 2020 20.00 Error code is:" ;
 
  reciever av;
  fireBase fb;
@@ -7,6 +8,7 @@
  otaUpload ota; 
  ntpServerUtil util;
  blynk myBlynk;
+
 
 
 void setup() 
@@ -29,7 +31,10 @@ void setup()
      
      EEPROM.begin(EEPROM_SIZE);
      errorCode = EEPROM.read(EEPROM_ERR_ADD);DEBUG_PRINT("Error code is:");DEBUG_PRINTLN(char (errorCode));
-          
+     EEPROM.write(EEPROM_ERR_ADD, '0'); EEPROM.commit();
+     
+     String blynkNotifier1   = blynkNotifier +   errorCode;
+     
      if (wifiAvailable) 
         { 
           internetActive  = checkInternetConnection();
@@ -41,10 +46,9 @@ void setup()
               }
            myBlynk.init();
            if ( internetActive ) 
-              {myBlynk.frequencyValue(1080 );
-              myBlynk.sevenSegValue(1 );
-              myBlynk.notifierDebug(NOTIFIER_ID, VERSION_ID);
-              myBlynk.notifierDebug(NOTIFIER_ID, String(errorCode));
+              {myBlynk.frequencyValue(1080 );receiverAvByFreq (1080);
+              myBlynk.sevenSegValue(1 );receiverAvByCh (1);
+              myBlynk.notifierDebug(NOTIFIER_ID, blynkNotifier1);
               }
        }
      else  

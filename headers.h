@@ -9,7 +9,7 @@
 
 #define BEK
 
-#define VERSION_ID "Restarting V3.0 28 10 2020 08.00"
+#define VERSION_ID "Starting V3.1 28 10 2020 19.00 Code: "
 
 #ifdef BEK
     #define NOTIFIER_ID "BEK : \n "
