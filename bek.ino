@@ -17,9 +17,8 @@ void setup()
      av.bluLed(ON);
      
      Serial.begin(115200);
-     
-     EEPROM.begin(EEPROM_SIZE);
 
+     
      initWDG(SEC_60,EN);
    
      av.init();
@@ -28,6 +27,9 @@ void setup()
 
      wifiAvailable = myBlynk.wifiConnect();
      
+     EEPROM.begin(EEPROM_SIZE);
+     errorCode = EEPROM.read(EEPROM_ERR_ADD);DEBUG_PRINT("Error code is:");DEBUG_PRINTLN(char (errorCode));
+          
      if (wifiAvailable) 
         { 
           internetActive  = checkInternetConnection();
@@ -38,12 +40,16 @@ void setup()
                 sendToHMI(util.dateAndTimeChar, "Version : ", String(util.dateAndTimeChar),FB_NOTIFIER,String(util.dateAndTimeChar));
               }
            myBlynk.init();
-           if ( internetActive ) {myBlynk.frequencyValue(1080 );myBlynk.sevenSegValue(1 );myBlynk.notifierDebug(NOTIFIER_ID, VERSION_ID);}
+           if ( internetActive ) 
+              {myBlynk.frequencyValue(1080 );
+              myBlynk.sevenSegValue(1 );
+              myBlynk.notifierDebug(NOTIFIER_ID, VERSION_ID);
+              myBlynk.notifierDebug(NOTIFIER_ID, String(errorCode));
+              }
        }
      else  
       {
         sendToHMI("Wifi failed to connect or turned off", "Wifi activation: ", "Wifi failed to connect, restarting",FB_NOTIFIER, "Wifi failed to connect , restarting" );
-    //    ESP.restart();
       }
 
     mySwitch.enableTransmit(RC_TX_PIN);
@@ -57,6 +63,7 @@ void setup()
     liveTimerOn             = millis();
     wifiIDETimer            = millis();
     restartAfterResetNG     = millis();
+    NetgeerResetGooglLostTimer = millis();
     
     otaIdeSetup();
 }
@@ -78,6 +85,7 @@ void loop(void)
            resetWdg();
            enableWDG(true);
            wifiIDETimer = millis();
+           EEPROM.write(EEPROM_ERR_ADD, IDE_WIFI); EEPROM.commit();
            ESP.restart();
         }
         else ArduinoOTA.handle();
@@ -609,170 +617,6 @@ void resetWdg(void)
    timerWrite(_timer, 0);                                        //reset timer (feed watchdog)  
   }
 
-void  getSettingsFromEeprom(void)
-{
- 
-   smsOn = EEPROM.read(EEPROM_SMS_ADD);DEBUG_PRINT("Sms is:");DEBUG_PRINTLN(smsOn ? F("On") : F("Off"));
-   if (smsOn) {smsSettings [48] ='O';smsSettings [49] ='n';smsSettings [50] =' '; }
-   else {smsSettings [48] ='O';smsSettings [49] ='f';smsSettings [50] ='f'; }
-
-   wifiOn=EEPROM.read(EEPROM_WIFI_ADD);DEBUG_PRINT("Wifi is:");DEBUG_PRINTLN(wifiOn ? F("On") : F("Off"));
-   if(wifiOn) {smsSettings [8] ='O';smsSettings [9] ='n';smsSettings [10] =' '; }
-   else {
-          smsSettings [8] ='O';smsSettings [9] ='f';smsSettings [10] ='f';        
-          EEPROM.write(EEPROM_FB_ADD, 0); EEPROM.commit();
-          EEPROM.write(EEPROM_BLYNK_ADD, 0); EEPROM.commit();
-        }
-
-   fireBaseOn=EEPROM.read(EEPROM_FB_ADD);DEBUG_PRINT("FireBase is:");DEBUG_PRINTLN(fireBaseOn? F("On") : F("Off"));
-   if (fireBaseOn) {smsSettings [24] ='O';smsSettings [25] ='n';smsSettings [26] =' '; } 
-   else {smsSettings [24] ='O';smsSettings [25] ='f';smsSettings [26] ='f'; } 
-   
-   blynkOn=EEPROM.read(EEPROM_BLYNK_ADD);DEBUG_PRINT("Blynk is:");DEBUG_PRINTLN(blynkOn ? F("On") : F("Off"));
-   if (blynkOn) {smsSettings [37] ='O';smsSettings [38] ='n';smsSettings [39] =' '; }
-   else {smsSettings [37] ='O';smsSettings [38] ='f';smsSettings [39] ='f'; }
-
- 
-   errorCode = EEPROM.read(EEPROM_ERR_ADD);DEBUG_PRINT("Error code is:");DEBUG_PRINTLN(char (errorCode));
-   smsSettings [66] =errorCode;
-
-   sim800Available = EEPROM.read(EEPROM_SIM800_ADD);DEBUG_PRINT("SIM800L is:");DEBUG_PRINTLN(sim800Available ? F("On") : F("Off"));
-   if (sim800Available) {smsSettings [80] ='O';smsSettings [81] ='k';smsSettings [82] =' '; }
-   else {smsSettings [80] ='O';smsSettings [81] ='f';smsSettings [82] ='f'; }
-   EEPROM.write(EEPROM_ERR_ADD, '0'); EEPROM.commit();
-}
-
-void sendToHMI(char *smsmsg, String notifier_subject, String notifier_body,String fb_path,String fb_cmdString)
-{
-  if(sim800Available)sim.SendSMS(smsmsg);
-  if (internetActive) myBlynk.notifierDebug(NOTIFIER_ID, notifier_body);
-}
-
- 
-
-void otaGsm(void)
-{
-  DEBUG_PRINTLN("Firmware Upload..."); 
-  enableWDG(DIS);
-  ota.init(true);
-  ota.startOtaUpdate(overTheAirURL);
-}
-
-void rebootSw(void)
-{
-// EEPROM.write(EEPROM_ERR_ADD, SW_RESET); EEPROM.commit();
- ESP.restart();
-}
-
-void smsActivation(int activate)
-{
-  if(activate) {sendToHMI("Sms is On", "Sms activation: ", "Sms is On",FB_NOTIFIER, "Sms is On" );
-   DEBUG_PRINTLN("Sms is On");
-   EEPROM.write(EEPROM_SMS_ADD, 1); EEPROM.commit();
-   }
-  if(!activate) {sendToHMI("Sms is Off", "Sms disactivation: ", "Sms is Off",FB_NOTIFIER, "Sms is Off" );
-   DEBUG_PRINTLN("Sms is Off");
-   EEPROM.write(EEPROM_SMS_ADD, 0); EEPROM.commit();smsOn =false;
-   sim.sim800PowerOn(false)  ;
-   }  
-}
-
-void firebaseOnActivation(int activation)
-{
- if (wifiAvailable)
-  {
-    if (activation)
-    {
-    fb.init();
-    sendToHMI("FireBase is On", "Firebase activation: ", "FireBase is On",FB_NOTIFIER, "FireBase is On" );
-    DEBUG_PRINTLN("FireBase is On");
-    EEPROM.write(EEPROM_FB_ADD, 1); EEPROM.commit();fireBaseOn =true;
-    }
-    else
-    {
-    sendToHMI("FireBase is Off", "Firebase disactivation: ", "FireBase is Off",FB_NOTIFIER, "FireBase is Offn" );
-    DEBUG_PRINTLN("FireBase is Off");
-    EEPROM.write(EEPROM_FB_ADD, 0); EEPROM.commit();fireBaseOn =false;   
-    fb.endTheOpenStream(); 
-    }
-  } 
-  else 
-   {
-     sendToHMI("Wifi not active..", "Firebase activation: ", "Wifi not active..",FB_NOTIFIER, "Wifi not active.." );
-     fireBaseOn =false;EEPROM.write(EEPROM_FB_ADD, 0); EEPROM.commit();
-    }
-}  
-
-
-void wifiActivation(int activation)
-{
-       if(activation)
-       {
-       wifiAvailable=fb.wifiConnect();
-       if (wifiAvailable) 
-         {
-           sendToHMI("Wifi is On", "Wifi activation: ", "Wifi is On",FB_NOTIFIER, "Wifi is On" );
-           DEBUG_PRINTLN("Wifi is On");
-           EEPROM.write(EEPROM_WIFI_ADD, 1); EEPROM.commit();wifiOn = true;
-         }
-       else 
-        {
-          wifiOn = false;
-          sendToHMI("Wifi not available", "Wifi activation error: ", "Wifi not available",FB_NOTIFIER, "Wifi not available" );
-          EEPROM.write(EEPROM_WIFI_ADD, 0); EEPROM.commit();
-         }
-       }
-
-       else
-         {
-       wifiOn = false;
-       sendToHMI("Wifi is Off", "Wifi disactivation: ", "Wifi is Off",FB_NOTIFIER, "Wifi is Off" );
-       DEBUG_PRINTLN("Wifi is Off");
-//       EEPROM.write(EEPROM_WIFI_ADD, 0); EEPROM.commit();
-//       EEPROM.write(EEPROM_ERR_ADD, WIFI_OFF); EEPROM.commit();
-       ESP.restart();
-        }
-}
-
-void blynkActivation (int activation)
-{
-      if (activation) // Blon
-      { 
-       if (wifiAvailable) 
-         {
-           myBlynk.init();
-           sendToHMI("Blynk is On", "Blynk activation: ", "Blynk is On",FB_NOTIFIER, "Blynk is On");
-           DEBUG_PRINTLN("Blynk is On");
-           EEPROM.write(EEPROM_BLYNK_ADD, 1); EEPROM.commit();blynkOn = true;
-         }
-       else {
-       sendToHMI("Wifi not active..", "Blynk activation: ", "Wifi not active..",FB_NOTIFIER, "Wifi not active.." );
-       blynkOn = false;EEPROM.write(EEPROM_BLYNK_ADD, 0); EEPROM.commit();
-       }
-      }    
-
-      else 
-      { 
-       blynkOn = false;
-       sendToHMI("Blynke is Off", "Blynk disactivation: ", "Blynk is Off",FB_NOTIFIER, "Blynk is Off" );
-       DEBUG_PRINTLN("Blynk is Off");
-       EEPROM.write(EEPROM_BLYNK_ADD, 0); EEPROM.commit();
-      }    
-}
-
-void sendVersion(void)
-{
- util.printLocalTime(false); 
- sendToHMI(util.dateAndTimeChar, "Version : ", String(util.dateAndTimeChar),FB_NOTIFIER, String(util.dateAndTimeChar) );
-}
-
-int stringToInteger(String str)
-{
-char carray[5]; 
-      str.toCharArray(carray, sizeof(carray));
-      return ( atoi(carray));  
-}
-
 void ResetNetgeer(void)
           {
               delay(2000);
@@ -785,15 +629,40 @@ void ResetNetgeer(void)
           }
 
 
-void internetSurvilance(void)
-{       
- internetActive  = checkInternetConnection();
- if (!internetActive)  
-          {
-            DEBUG_PRINTLN("Internet Failure: ");  
+void netgeerCtrl(void)
+{
+       if (   millis() - internetSurvilanceTimer > PING_GOOGLE_TIMER)  
+              {
+                internetActive  = checkInternetConnection();
+                internetSurvilanceTimer= millis();NetgeerResetGooglLostTimer= millis();
+              }
+              
+       if (  ( millis() - NetgeerResetGooglLostTimer > PING_GOOGLE_LOST_TO_RESET_NG_TIMER) && (!internetActive) ) 
+            {
+              NetgeerResetGooglLostTimer= millis();DEBUG_PRINTLN("Internet Failure: ");  
+              EEPROM.write(EEPROM_ERR_ADD, INTERNET_FAILURE); EEPROM.commit();
+              ResetNetgeer();
+             }
+             
+        if (millis() - NetgeerResetTimer > NETGEER_RESET_TIMER) 
+        {
+            NetgeerResetTimer= millis();
+            DEBUG_PRINTLN("xx hours timer: ");
+            if ( internetActive ) myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset xx hours timer");
+            EEPROM.write(EEPROM_ERR_ADD, TEN_HOURS_TIMER); EEPROM.commit();
             ResetNetgeer();
-            }
-} 
+        }
+ 
+       if (   (millis() - wifiSurvilanceTimer > WIFI_SURVILANCE_TIMER)  && (!wifiAvailable)  ) 
+              {
+                wifiSurvilanceTimer= millis();
+                DEBUG_PRINTLN("Wifi Failure: ");
+                EEPROM.write(EEPROM_ERR_ADD, WIFI_FAILURE); EEPROM.commit();
+                ResetNetgeer();
+              }
+              
+       if ( (millis() - restartAfterResetNG > RESTART_AFTER_NG_RESET_TIMER) && netGeerReset ) ESP.restart(); 
+}     
 
 
 bool checkInternetConnection(void)
@@ -802,21 +671,6 @@ bool checkInternetConnection(void)
        DEBUG_PRINT("Ping Google: ");DEBUG_PRINTLN(pingInternet ? F("succesiful") : F("failed"));
        return pingInternet;
 }
-
-void netgeerCtrl(void)
-{
-       if (   millis() - internetSurvilanceTimer > PING_GOOGLE_TIMER)  {internetSurvilance();internetSurvilanceTimer= millis();}
-       if (   (millis() - wifiSurvilanceTimer > WIFI_SURVILANCE_TIMER)  && (!wifiAvailable)  ) {wifiSurvilanceTimer= millis();DEBUG_PRINTLN("Wifi Failure: ");myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset Wifi Failure");ResetNetgeer();}
-       if (millis() - NetgeerResetTimer > NETGEER_RESET_TIMER) 
-        {
-            if ( internetActive ) myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset 10 hours timer");
-            NetgeerResetTimer= millis();
-            DEBUG_PRINTLN("10 hours timer: ");
-        }
-       if ( (millis() - restartAfterResetNG > RESTART_AFTER_NG_RESET_TIMER) && netGeerReset ) ESP.restart();  
-}     
-
-
 
  
 void liveCtrl(void)
@@ -837,6 +691,13 @@ void liveCtrl(void)
           }
 }
 
+void otaGsm(void)
+{
+  DEBUG_PRINTLN("Firmware Upload..."); 
+  enableWDG(DIS);
+  ota.init(true);
+  ota.startOtaUpdate(overTheAirURL);
+}
 
 
 void processSms(void)
@@ -970,3 +831,163 @@ void room (int RC, int AV, int sel)
   if (sel == 2) {remoteControl(RC);}
   if (sel == 1) {receiverAvByCh (AV);remoteControl(RC);}                        
 }                            
+
+
+/**********************************************************************************************************************************************/
+void  getSettingsFromEeprom(void)
+{
+ 
+   smsOn = EEPROM.read(EEPROM_SMS_ADD);DEBUG_PRINT("Sms is:");DEBUG_PRINTLN(smsOn ? F("On") : F("Off"));
+   if (smsOn) {smsSettings [48] ='O';smsSettings [49] ='n';smsSettings [50] =' '; }
+   else {smsSettings [48] ='O';smsSettings [49] ='f';smsSettings [50] ='f'; }
+
+   wifiOn=EEPROM.read(EEPROM_WIFI_ADD);DEBUG_PRINT("Wifi is:");DEBUG_PRINTLN(wifiOn ? F("On") : F("Off"));
+   if(wifiOn) {smsSettings [8] ='O';smsSettings [9] ='n';smsSettings [10] =' '; }
+   else {
+          smsSettings [8] ='O';smsSettings [9] ='f';smsSettings [10] ='f';        
+          EEPROM.write(EEPROM_FB_ADD, 0); EEPROM.commit();
+          EEPROM.write(EEPROM_BLYNK_ADD, 0); EEPROM.commit();
+        }
+
+   fireBaseOn=EEPROM.read(EEPROM_FB_ADD);DEBUG_PRINT("FireBase is:");DEBUG_PRINTLN(fireBaseOn? F("On") : F("Off"));
+   if (fireBaseOn) {smsSettings [24] ='O';smsSettings [25] ='n';smsSettings [26] =' '; } 
+   else {smsSettings [24] ='O';smsSettings [25] ='f';smsSettings [26] ='f'; } 
+   
+   blynkOn=EEPROM.read(EEPROM_BLYNK_ADD);DEBUG_PRINT("Blynk is:");DEBUG_PRINTLN(blynkOn ? F("On") : F("Off"));
+   if (blynkOn) {smsSettings [37] ='O';smsSettings [38] ='n';smsSettings [39] =' '; }
+   else {smsSettings [37] ='O';smsSettings [38] ='f';smsSettings [39] ='f'; }
+
+ 
+   errorCode = EEPROM.read(EEPROM_ERR_ADD);DEBUG_PRINT("Error code is:");DEBUG_PRINTLN(char (errorCode));
+   smsSettings [66] =errorCode;
+
+   sim800Available = EEPROM.read(EEPROM_SIM800_ADD);DEBUG_PRINT("SIM800L is:");DEBUG_PRINTLN(sim800Available ? F("On") : F("Off"));
+   if (sim800Available) {smsSettings [80] ='O';smsSettings [81] ='k';smsSettings [82] =' '; }
+   else {smsSettings [80] ='O';smsSettings [81] ='f';smsSettings [82] ='f'; }
+   EEPROM.write(EEPROM_ERR_ADD, '0'); EEPROM.commit();
+}
+
+void sendToHMI(char *smsmsg, String notifier_subject, String notifier_body,String fb_path,String fb_cmdString)
+{
+  if(sim800Available)sim.SendSMS(smsmsg);
+  if (internetActive) myBlynk.notifierDebug(NOTIFIER_ID, notifier_body);
+}
+
+ 
+
+
+
+void rebootSw(void)
+{
+// EEPROM.write(EEPROM_ERR_ADD, SW_RESET); EEPROM.commit();
+ ESP.restart();
+}
+
+void smsActivation(int activate)
+{
+  if(activate) {sendToHMI("Sms is On", "Sms activation: ", "Sms is On",FB_NOTIFIER, "Sms is On" );
+   DEBUG_PRINTLN("Sms is On");
+   EEPROM.write(EEPROM_SMS_ADD, 1); EEPROM.commit();
+   }
+  if(!activate) {sendToHMI("Sms is Off", "Sms disactivation: ", "Sms is Off",FB_NOTIFIER, "Sms is Off" );
+   DEBUG_PRINTLN("Sms is Off");
+   EEPROM.write(EEPROM_SMS_ADD, 0); EEPROM.commit();smsOn =false;
+   sim.sim800PowerOn(false)  ;
+   }  
+}
+
+void firebaseOnActivation(int activation)
+{
+ if (wifiAvailable)
+  {
+    if (activation)
+    {
+    fb.init();
+    sendToHMI("FireBase is On", "Firebase activation: ", "FireBase is On",FB_NOTIFIER, "FireBase is On" );
+    DEBUG_PRINTLN("FireBase is On");
+    EEPROM.write(EEPROM_FB_ADD, 1); EEPROM.commit();fireBaseOn =true;
+    }
+    else
+    {
+    sendToHMI("FireBase is Off", "Firebase disactivation: ", "FireBase is Off",FB_NOTIFIER, "FireBase is Offn" );
+    DEBUG_PRINTLN("FireBase is Off");
+    EEPROM.write(EEPROM_FB_ADD, 0); EEPROM.commit();fireBaseOn =false;   
+    fb.endTheOpenStream(); 
+    }
+  } 
+  else 
+   {
+     sendToHMI("Wifi not active..", "Firebase activation: ", "Wifi not active..",FB_NOTIFIER, "Wifi not active.." );
+     fireBaseOn =false;EEPROM.write(EEPROM_FB_ADD, 0); EEPROM.commit();
+    }
+}  
+
+
+void wifiActivation(int activation)
+{
+       if(activation)
+       {
+       wifiAvailable=fb.wifiConnect();
+       if (wifiAvailable) 
+         {
+           sendToHMI("Wifi is On", "Wifi activation: ", "Wifi is On",FB_NOTIFIER, "Wifi is On" );
+           DEBUG_PRINTLN("Wifi is On");
+           EEPROM.write(EEPROM_WIFI_ADD, 1); EEPROM.commit();wifiOn = true;
+         }
+       else 
+        {
+          wifiOn = false;
+          sendToHMI("Wifi not available", "Wifi activation error: ", "Wifi not available",FB_NOTIFIER, "Wifi not available" );
+          EEPROM.write(EEPROM_WIFI_ADD, 0); EEPROM.commit();
+         }
+       }
+
+       else
+         {
+       wifiOn = false;
+       sendToHMI("Wifi is Off", "Wifi disactivation: ", "Wifi is Off",FB_NOTIFIER, "Wifi is Off" );
+       DEBUG_PRINTLN("Wifi is Off");
+//       EEPROM.write(EEPROM_WIFI_ADD, 0); EEPROM.commit();
+//       EEPROM.write(EEPROM_ERR_ADD, WIFI_OFF); EEPROM.commit();
+       ESP.restart();
+        }
+}
+
+void blynkActivation (int activation)
+{
+      if (activation) // Blon
+      { 
+       if (wifiAvailable) 
+         {
+           myBlynk.init();
+           sendToHMI("Blynk is On", "Blynk activation: ", "Blynk is On",FB_NOTIFIER, "Blynk is On");
+           DEBUG_PRINTLN("Blynk is On");
+           EEPROM.write(EEPROM_BLYNK_ADD, 1); EEPROM.commit();blynkOn = true;
+         }
+       else {
+       sendToHMI("Wifi not active..", "Blynk activation: ", "Wifi not active..",FB_NOTIFIER, "Wifi not active.." );
+       blynkOn = false;EEPROM.write(EEPROM_BLYNK_ADD, 0); EEPROM.commit();
+       }
+      }    
+
+      else 
+      { 
+       blynkOn = false;
+       sendToHMI("Blynke is Off", "Blynk disactivation: ", "Blynk is Off",FB_NOTIFIER, "Blynk is Off" );
+       DEBUG_PRINTLN("Blynk is Off");
+       EEPROM.write(EEPROM_BLYNK_ADD, 0); EEPROM.commit();
+      }    
+}
+
+void sendVersion(void)
+{
+ util.printLocalTime(false); 
+ sendToHMI(util.dateAndTimeChar, "Version : ", String(util.dateAndTimeChar),FB_NOTIFIER, String(util.dateAndTimeChar) );
+}
+
+int stringToInteger(String str)
+{
+char carray[5]; 
+      str.toCharArray(carray, sizeof(carray));
+      return ( atoi(carray));  
+}

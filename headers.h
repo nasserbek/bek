@@ -9,7 +9,7 @@
 
 #define BEK
 
-#define VERSION_ID "Restarting V2.00 27 10 2020 18.40"
+#define VERSION_ID "Restarting V3.0 28 10 2020 08.00"
 
 #ifdef BEK
     #define NOTIFIER_ID "BEK : \n "
@@ -23,6 +23,7 @@
 #define NETGEER_RESET_TIMER 18000000  // 5 HOURS
 #define WIFI_SURVILANCE_TIMER 300000  // 5 MIN
 #define PING_GOOGLE_TIMER 60000  // 1 MIN
+#define PING_GOOGLE_LOST_TO_RESET_NG_TIMER 600000  // 10 MIN
 #define WIFI_IDE_TIMER 600000  //10 MIN
 #define RESTART_AFTER_NG_RESET_TIMER 300000  // 5 MIN
 
@@ -259,6 +260,10 @@ const String FB_T433_STATUS_PATH[32] =
 #define WDG_ERR             '2'
 #define WIFI_OFF            '3'
 #define SW_RESET            '4'
+#define INTERNET_FAILURE    '5'
+#define WIFI_FAILURE        '6'
+#define TEN_HOURS_TIMER     '7'
+#define IDE_WIFI            '8'
 
 
 //ota
