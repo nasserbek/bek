@@ -1,7 +1,7 @@
 #include "main.h"
 #include <ESP32Ping.h>
 String blynkNotifier = "Restarting V3.2 Error code is:" ;
-String resetNetgeerTimer = "Reset Netgeer for :" ;
+String resetNetgeerTimer = "Reset Netgeer 6 hours timer" ;
  reciever av;
  fireBase fb;
  sim800L sim; 
@@ -651,9 +651,8 @@ void netgeerCtrl(void)
         if (millis() - NetgeerResetTimer > NETGEER_RESET_TIMER) 
         {
             NetgeerResetTimer= millis();
-            String netgeerTimer1 = resetNetgeerTimer + String(TEN_HOURS_TIMER);
             DEBUG_PRINTLN(netgeerTimer1 );
-            if ( internetActive ) myBlynk.notifierDebug(NOTIFIER_ID, netgeerTimer1);
+            if ( internetActive ) myBlynk.notifierDebug(NOTIFIER_ID, resetNetgeerTimer);
             EEPROM.write(EEPROM_ERR_ADD, TEN_HOURS_TIMER); EEPROM.commit();
             ResetNetgeer();
         }
