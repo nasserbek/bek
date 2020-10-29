@@ -1,6 +1,6 @@
 #include "main.h"
 #include <ESP32Ping.h>
-String blynkNotifier = "Restarting V3.1 28 10 2020 20.00 Error code is:" ;
+String blynkNotifier = "Restarting V3.2 Error code is:" ;
 String resetNetgeerTimer = "Reset Netgeer for :" ;
  reciever av;
  fireBase fb;
@@ -33,7 +33,7 @@ void setup()
      errorCode = EEPROM.read(EEPROM_ERR_ADD);DEBUG_PRINT("Error code is:");DEBUG_PRINTLN(char (errorCode));
      EEPROM.write(EEPROM_ERR_ADD, '0'); EEPROM.commit();
      
-     String blynkNotifier1   = blynkNotifier +   errorCode;
+     String blynkNotifier1   = blynkNotifier +   String (errorCode);
      
      if (wifiAvailable) 
         { 
