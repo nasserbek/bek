@@ -26,6 +26,7 @@
 #define PING_GOOGLE_LOST_TO_RESET_NG_TIMER 600000  // 10 MIN
 #define WIFI_IDE_TIMER 600000  //10 MIN
 #define RESTART_AFTER_NG_RESET_TIMER 300000  // 5 MIN
+#define DEEP_SLEEP_TIME_60_MIN 3600000000   // 1 HOUR in micro sec
 
 
 
@@ -151,6 +152,7 @@
 #define    FB_RC_PULSE_ID       98
 #define    FB_WIFI_IDE_ID       100
 #define    FB_RC_REPETION_ID    101
+#define    FB_SLEEP_TIMER_ID    102
 
 
 
@@ -264,7 +266,7 @@ const String FB_T433_STATUS_PATH[32] =
 #define WIFI_FAILURE        '6'
 #define TEN_HOURS_TIMER     '7'
 #define IDE_WIFI            '8'
-
+#define DEEP_SLEEP          '9'
 
 //ota
 // TTGO T-Call pin definitions

@@ -1,6 +1,6 @@
 #include "main.h"
 #include <ESP32Ping.h>
-String blynkNotifier = "Restarting V3.3 Error code is:" ;
+String blynkNotifier = "Restarting V3.4 04.11, Error code is:" ;
 String resetNetgeerTimer = "Reset Netgeer 6 hours timer" ;
  reciever av;
  fireBase fb;
@@ -9,7 +9,13 @@ String resetNetgeerTimer = "Reset Netgeer 6 hours timer" ;
  ntpServerUtil util;
  blynk myBlynk;
 
-
+void goToDeepSleep(int sleepTimer)
+{
+      EEPROM.write(EEPROM_ERR_ADD, DEEP_SLEEP ); EEPROM.commit(); 
+      sendToHMI("Going to Deep Sleep", "Going to Deep Sleep", "Going to Deep Sleep",FB_NOTIFIER, "Going to Deep Sleep" );
+      esp_sleep_enable_timer_wakeup(sleepTimer *60 *60 * 1000000); // in microseconds
+      esp_deep_sleep_start();
+}
 
 void setup() 
 {
@@ -243,7 +249,12 @@ void processBlynk(void)
              Av_Rx=myBlynk.blynkData;
             break;
             
-            
+            case FB_SLEEP_TIMER_ID:
+             deepSleepTimerHours=myBlynk.blynkData;
+             goToDeepSleep(deepSleepTimerHours);
+            break;
+
+                        
             case ROOM_201_TO_205:
                   
                   switch (myBlynk.blynkData)

@@ -39,6 +39,7 @@ bool wifiIde = true;
 int repetionRC = 10;
 int pulseRC = 416; //Default protocol 1
 int Av_Rx = 3;
+int deepSleepTimerHours = 1 ;
 
 
 bool zapOnOff = false;

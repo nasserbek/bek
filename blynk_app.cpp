@@ -619,6 +619,16 @@ BLYNK_WRITE(V101)  //repetion
 }
 
 
+BLYNK_WRITE(V102)  //sleep timer
+{
+  _blynkfreqValue = param.asInt(); // assigning incoming value from pin V0 to a variable
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    _blynkEventID =FB_SLEEP_TIMER_ID;
+  DEBUG_PRINT("Sleep Timer: ");
+  DEBUG_PRINTLN(_blynkfreqValue);
+}
+
 
 
 blynk::blynk(void) 
