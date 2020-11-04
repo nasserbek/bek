@@ -1,6 +1,6 @@
 #include "main.h"
 #include <ESP32Ping.h>
-String blynkNotifier = "Restarting V3.2 Error code is:" ;
+String blynkNotifier = "Restarting V3.3 Error code is:" ;
 String resetNetgeerTimer = "Reset Netgeer 6 hours timer" ;
  reciever av;
  fireBase fb;
@@ -76,41 +76,18 @@ void setup()
 void loop(void) 
 {
        resetWdg();    //reset timer (feed watchdog) 
-       liveCtrl();
-       processCommands();
        netgeerCtrl();
-
-       while (!wifiIde) 
-       {
-        enableWDG(false);
-        if (  millis() - wifiIDETimer > WIFI_IDE_TIMER )
-        {
-           wifiIde = true;
-           resetWdg();
-           enableWDG(true);
-           wifiIDETimer = millis();
-           EEPROM.write(EEPROM_ERR_ADD, IDE_WIFI); EEPROM.commit();
-           ESP.restart();
-        }
-        else ArduinoOTA.handle();
-       }
+       wifiUploadCtrl();
+       processCommands();
 }
-
 
 
 void processCommands(void)
 {
-        if ( internetActive )  
-          {
-            myBlynk.blynkRun();
-            if(blynkEvent = myBlynk.getData () )  processBlynk(); 
-            if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);
-          }
-       
-        if(sim800Available) 
-          {
-            if( smsEvent =sim.smsRun()) processSms();
-          }
+          myBlynk.blynkRun();
+          if(blynkEvent = myBlynk.getData () )  processBlynk(); 
+          if( smsEvent =sim.smsRun()) processSms();
+          if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);
 }
 
 
@@ -657,14 +634,15 @@ void netgeerCtrl(void)
             ResetNetgeer();
         }
  
-       if (   (millis() - wifiSurvilanceTimer > WIFI_SURVILANCE_TIMER)  && (!wifiAvailable)  ) 
+/*       if (   (millis() - wifiSurvilanceTimer > WIFI_SURVILANCE_TIMER)  && (!wifiAvailable)  ) 
               {
                 wifiSurvilanceTimer= millis();
                 DEBUG_PRINTLN("Wifi Failure: ");
                 EEPROM.write(EEPROM_ERR_ADD, WIFI_FAILURE); EEPROM.commit();
                 ResetNetgeer();
               }
-              
+*/
+             
        if ( (millis() - restartAfterResetNG > RESTART_AFTER_NG_RESET_TIMER) && netGeerReset ) ESP.restart(); 
 }     
 
@@ -828,7 +806,26 @@ void otaIdeSetup (void)
   Serial.println(WiFi.localIP());
   wifiIde = true;
  }
- 
+
+
+void wifiUploadCtrl(void)
+{
+       while (!wifiIde) 
+       {
+        enableWDG(false);
+        if (  millis() - wifiIDETimer > WIFI_IDE_TIMER )
+        {
+           wifiIde = true;
+           resetWdg();
+           enableWDG(true);
+           wifiIDETimer = millis();
+           EEPROM.write(EEPROM_ERR_ADD, IDE_WIFI); EEPROM.commit();
+           ESP.restart();
+        }
+        else ArduinoOTA.handle();
+       }
+}
+
 void room (int RC, int AV, int sel)
 {
   if (sel == 3)receiverAvByCh (AV);
