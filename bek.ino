@@ -625,10 +625,11 @@ void netgeerCtrl(void)
        if (   millis() - internetSurvilanceTimer > PING_GOOGLE_TIMER)  
               {
                 internetActive  = checkInternetConnection();
+                if (internetActive) startLostInternetTimer = false;
                 internetSurvilanceTimer= millis();
               }
               
-       if (!internetActive && startLostInternetTimer)  { startLostInternetTimer = true;NetgeerResetGooglLostTimer= millis();}
+       if (!internetActive && !startLostInternetTimer)  { startLostInternetTimer = true;NetgeerResetGooglLostTimer= millis();}
        
        if (  millis() - NetgeerResetGooglLostTimer > PING_GOOGLE_LOST_TO_RESET_NG_TIMER && startLostInternetTimer  ) 
             {
