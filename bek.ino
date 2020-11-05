@@ -1,7 +1,7 @@
 #include "main.h"
 #include <ESP32Ping.h>
-String blynkNotifier = "Restarting V3.4 04.11, Error code is:" ;
-String resetNetgeerTimer = "Reset Netgeer 6 hours timer" ;
+String blynkNotifier = "Restarting V3.5 05.11, Error code is:" ;
+String resetNetgeerTimer = "Reset Netgeer 12 hours timer" ;
  reciever av;
  fireBase fb;
  sim800L sim; 
@@ -50,12 +50,9 @@ void setup()
                 if ( internetActive ) getDateTimeNTP(gitHub); 
                 sendToHMI(util.dateAndTimeChar, "Version : ", String(util.dateAndTimeChar),FB_NOTIFIER,String(util.dateAndTimeChar));
               }
+              
            myBlynk.init();
-           if ( internetActive ) 
-              {myBlynk.frequencyValue(1080 );receiverAvByFreq (1080);
-              myBlynk.sevenSegValue(1 );receiverAvByCh (1);
-              myBlynk.notifierDebug(NOTIFIER_ID, blynkNotifier1);
-              }
+           if ( internetActive ) {myBlynk.frequencyValue(1080 );myBlynk.sevenSegValue(1 );myBlynk.notifierDebug(NOTIFIER_ID, blynkNotifier1);}
        }
      else  
       {
@@ -63,6 +60,8 @@ void setup()
       }
 
     mySwitch.enableTransmit(RC_TX_PIN);
+    receiverAvByFreq (1080);
+    receiverAvByCh (1);
     
     av.bluLed(OFF);
     
@@ -626,16 +625,21 @@ void netgeerCtrl(void)
        if (   millis() - internetSurvilanceTimer > PING_GOOGLE_TIMER)  
               {
                 internetActive  = checkInternetConnection();
-                internetSurvilanceTimer= millis();NetgeerResetGooglLostTimer= millis();
+                internetSurvilanceTimer= millis();
               }
               
-       if (  ( millis() - NetgeerResetGooglLostTimer > PING_GOOGLE_LOST_TO_RESET_NG_TIMER) && (!internetActive) ) 
+       if (!internetActive && startLostInternetTimer)  { startLostInternetTimer = true;NetgeerResetGooglLostTimer= millis();}
+       
+       if (  millis() - NetgeerResetGooglLostTimer > PING_GOOGLE_LOST_TO_RESET_NG_TIMER && startLostInternetTimer  ) 
             {
-              NetgeerResetGooglLostTimer= millis();DEBUG_PRINTLN("Internet Failure: ");  
+              if (!internetActive)
+              {
+              DEBUG_PRINTLN("Internet Failure: ");  
               EEPROM.write(EEPROM_ERR_ADD, INTERNET_FAILURE); EEPROM.commit();
               ResetNetgeer();
-             }
-             
+              }
+            }
+                
         if (millis() - NetgeerResetTimer > NETGEER_RESET_TIMER) 
         {
             NetgeerResetTimer= millis();
