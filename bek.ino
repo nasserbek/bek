@@ -1,6 +1,6 @@
 #include "main.h"
 #include <ESP32Ping.h>
-String blynkNotifier = "Restarting V3.5 05.11, Error code is:" ;
+String blynkNotifier = "Restarting V3.6 Error " ;
 String resetNetgeerTimer = "Reset Netgeer 12 hours timer" ;
  reciever av;
  fireBase fb;
@@ -83,18 +83,16 @@ void loop(void)
        resetWdg();    //reset timer (feed watchdog) 
        netgeerCtrl();
        wifiUploadCtrl();
-       processCommands();
-}
-
-
-void processCommands(void)
-{
+       
+       if (internetActive)
+         {
           myBlynk.blynkRun();
-          if(blynkEvent = myBlynk.getData () )  processBlynk(); 
-          if( smsEvent =sim.smsRun()) processSms();
-          if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);
-}
+          if(blynkEvent = myBlynk.getData () )  processBlynk();       
+          if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);    
+         }
 
+       if( smsEvent =sim.smsRun()) processSms();
+}
 
 
 void processBlynk(void)
@@ -386,317 +384,6 @@ void processBlynk(void)
 }
 
 
-void remoteControl(int cmd )
-{
-
-     if (internetActive)    
-      {
-        if (cmd >= 1 && cmd <= 15) {myBlynk.blynkRCLed(1); }
-        if (cmd >= 16 && cmd <= 30) {myBlynk.blynkRCLed315(1);}
-      }
-
-     if (fireBaseOn) fb.SendString (FB_RC_LED, "1" );
-     mySwitch.send(CH_433[cmd], RC_CODE_LENGTH);
-     DEBUG_PRINT("ch433:");DEBUG_PRINTLN(cmd);
-     delay(500);
-     if (internetActive)    
-      {
-        if (cmd >= 1 && cmd <= 15) {myBlynk.blynkRCLed(0);myBlynk.resetT433Cmd(cmd);}
-        if (cmd >= 16 && cmd <= 30) {myBlynk.blynkRCLed315(0);myBlynk.resetT315Cmd(cmd);}
-      }
-     if (fireBaseOn) {fb.SendString (FB_RC_LED, "0" );/*fb.SendString (FB_AV_OUTPUT, String(avOutput) );*/}
-}
-
-
-void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool ch4, bool ch5, bool ch6, bool ch7, bool ch8)
-{
-         switch (stateMachine)
-          {
-            case 0:
-            case 1:
-                if (ch1 ) 
-                  {
-                    if (stateMachine == 0) {zaptime= millis();stateMachine =1;}
-                    if (millis() - zaptime > zapTimer) {receiverAvByCh (1);stateMachine =2;}
-                  }
-                else stateMachine =2;
-            break;
-
-            case 2:
-            case 3:
-                if (ch2 ) 
-                  {
-                    if (stateMachine == 2) {zaptime= millis();stateMachine =3;}
-                    if (millis() - zaptime > zapTimer) {receiverAvByCh (2);stateMachine =4;}
-                  }
-                else stateMachine =4;
-            break;
-            
-            case 4:
-            case 5:
-                if (ch3 ) 
-                  {
-                    if (stateMachine == 4) {zaptime= millis();stateMachine =5;}
-                    if (millis() - zaptime > zapTimer) {receiverAvByCh (3);stateMachine =6;}
-                  }
-                else stateMachine =6;
-            break;
-
-            case 6:
-            case 7:
-                if (ch4 ) 
-                  {
-                    if (stateMachine == 6) {zaptime= millis();stateMachine =7;}
-                    if (millis() - zaptime > zapTimer) {receiverAvByCh (4);stateMachine =8;}
-                  }
-                else stateMachine =8;
-            break;
-                       
-            case 8:
-            case 9:
-                if (ch5 ) 
-                  {
-                    if (stateMachine == 8) {zaptime= millis();stateMachine =9;}
-                    if (millis() - zaptime > zapTimer) {receiverAvByCh (5);stateMachine =10;}
-                  }
-                else stateMachine =10;
-            break;
-                       
-            case 10:
-            case 11:
-                if (ch6 ) 
-                  {
-                    if (stateMachine == 10) {zaptime= millis();stateMachine =11;}
-                    if (millis() - zaptime > zapTimer) {receiverAvByCh (6);stateMachine =12;}
-                  }
-                else stateMachine =12;
-            break;
-                       
-            case 12:
-            case 13:
-                if (ch7 ) 
-                  {
-                    if (stateMachine == 12) {zaptime= millis();stateMachine =13;}
-                    if (millis() - zaptime > zapTimer) {receiverAvByCh (7);stateMachine =14;}
-                  }
-                else stateMachine =14;
-            break;
-                       
-            case 14:
-            case 15:
-                if (ch8) 
-                  {
-                    if (stateMachine == 14) {zaptime= millis();stateMachine =15;}
-                    if (millis() - zaptime > zapTimer) {receiverAvByCh (8);stateMachine =0;}
-                  }
-                else stateMachine =0;
-            break;
-          }
-
-}
-
-        
-void receiverAvByCh (int Ch)
-{
-  bool ack;
-  int PLL_value;
-      myBlynk.blynkAckLed(true);
-       if (Ch != 9) {ack = av.Tuner_PLL(av_pll_addr, PLL[Ch]);}
-       else 
-        {
-          PLL_value =( 512 * ( 1000000 * (990 + 479.5) ) ) / (16*4000000) ;
-          ack = av.Tuner_PLL(av_pll_addr, PLL_value);
-        }
-       if (fireBaseOn) fb.SendString (FB_ACK_LED, String(ack) ); 
-       delay(500);
-       if (internetActive) myBlynk.blynkAckLed(ack);
-       myBlynk.sevenSegValue(Ch );
-        switch (Ch)
-          {
-            case 1:
-                myBlynk.frequencyValue(1080 );recevierFreq =1080;
-            break;
-
-            case 2:
-                myBlynk.frequencyValue(1120 );recevierFreq =1120;
-            break;
-
-            
-            case 3:
-                myBlynk.frequencyValue(1160 );recevierFreq =1160;
-            break;
-
-
-            case 4:
-                myBlynk.frequencyValue(1200 );recevierFreq =1200;
-            break;
-
-                       
-            case 5:
-                myBlynk.frequencyValue(1240 );recevierFreq =1240;
-            break;
-
-                       
-            case 6:
-                myBlynk.frequencyValue(1280 );recevierFreq =1280;
-            break;
-
-                       
-            case 7:
-                myBlynk.frequencyValue(1320 );recevierFreq =1320;
-            break;
-
-                       
-            case 8:
-                myBlynk.frequencyValue(1360 );recevierFreq =1360;
-            break;
-
-          }
-       DEBUG_PRINT("Received freq channel:");DEBUG_PRINTLN(Ch);
-       DEBUG_PRINT("ack: ");DEBUG_PRINTLN(ack ? F("NotACK") : F("ACK"));
-}
-
-
-
-void receiverAvByFreq (int Freq)
-{
-  bool ack=0;
-         recevierFreq =Freq;
-        myBlynk.blynkAckLed(true);
-       int PLL_value =( 512 * ( 1000000 * (Freq + 479.5) ) ) / (16*4000000) ;
-       ack = av.Tuner_PLL(av_pll_addr, PLL_value);
-       if (fireBaseOn) {fb.SendString (FB_ACK_LED, String(ack) ); /*fb.SendString (FB_AV_OUTPUT, String(avOutput) )*/;}
-       if (internetActive)  { myBlynk.blynkAckLed(ack);/*myBlynk.sendRsss(avOutput);*/}
-       myBlynk.frequencyValue(Freq );
-       DEBUG_PRINT("Received manual_freq:");DEBUG_PRINTLN(manual_freq);
-       DEBUG_PRINT("ack: ");DEBUG_PRINTLN(ack ? F("NotACK") : F("ACK"));
-}
-
-
-void getDateTimeNTP(bool ver)
-{
-   if (ver)util.printLocalTime(true); 
-   else util.sendDateTime(false);
-}    
-
-
-
-void IRAM_ATTR resetModule() 
-{
-EEPROM.write(EEPROM_ERR_ADD, WDG_ERR); EEPROM.commit();
-DEBUG_PRINTLN("Watch Dog Timer Timout, rebooting....");
-ESP.restart();
-}
-
-void initWDG(int wdtTimeout,bool _enable) 
-{
-   _timer = timerBegin(0, 80, true);                                    //timer 0, div 80
-   timerAttachInterrupt(_timer, &resetModule, true);                  //attach callback
-   timerAlarmWrite(_timer, wdtTimeout * 1000, false);              //set time in us
-   enableWDG(_enable);                                            //enable interrupt
-}
-
-void enableWDG(bool _enable)
-  {
-   if (_enable) timerAlarmEnable(_timer);                          //enable interrupt
-   else timerAlarmDisable(_timer);                                //Disable interrupt
-   resetWdg();                                        //reset timer (feed watchdog)  
-  }
-  
-void resetWdg(void)
-  {
-   timerWrite(_timer, 0);                                        //reset timer (feed watchdog)  
-  }
-
-void ResetNetgeer(void)
-          {
-              delay(2000);
-              digitalWrite(NETGEER_PIN, HIGH);
-              delay(2000);
-              digitalWrite(NETGEER_PIN, LOW); 
-              DEBUG_PRINTLN("Netgeer Reset done: ");
-              restartAfterResetNG     = millis();
-              netGeerReset = true;
-          }
-
-
-void netgeerCtrl(void)
-{
-       if (   millis() - internetSurvilanceTimer > PING_GOOGLE_TIMER)  
-              {
-                internetActive  = checkInternetConnection();
-                if (internetActive) startLostInternetTimer = false;
-                internetSurvilanceTimer= millis();
-              }
-              
-       if (!internetActive && !startLostInternetTimer)  { startLostInternetTimer = true;NetgeerResetGooglLostTimer= millis();}
-       
-       if (  millis() - NetgeerResetGooglLostTimer > PING_GOOGLE_LOST_TO_RESET_NG_TIMER && startLostInternetTimer  ) 
-            {
-              if (!internetActive)
-              {
-              DEBUG_PRINTLN("Internet Failure: ");  
-              EEPROM.write(EEPROM_ERR_ADD, INTERNET_FAILURE); EEPROM.commit();
-              ResetNetgeer();
-              }
-            }
-                
-        if (millis() - NetgeerResetTimer > NETGEER_RESET_TIMER) 
-        {
-            NetgeerResetTimer= millis();
-            DEBUG_PRINTLN(netgeerTimer1 );
-            if ( internetActive ) myBlynk.notifierDebug(NOTIFIER_ID, resetNetgeerTimer);
-            EEPROM.write(EEPROM_ERR_ADD, TEN_HOURS_TIMER); EEPROM.commit();
-            ResetNetgeer();
-        }
- 
-/*       if (   (millis() - wifiSurvilanceTimer > WIFI_SURVILANCE_TIMER)  && (!wifiAvailable)  ) 
-              {
-                wifiSurvilanceTimer= millis();
-                DEBUG_PRINTLN("Wifi Failure: ");
-                EEPROM.write(EEPROM_ERR_ADD, WIFI_FAILURE); EEPROM.commit();
-                ResetNetgeer();
-              }
-*/
-             
-       if ( (millis() - restartAfterResetNG > RESTART_AFTER_NG_RESET_TIMER) && netGeerReset ) ESP.restart(); 
-}     
-
-
-bool checkInternetConnection(void)
-{
-       bool pingInternet= Ping.ping("www.google.com");
-       DEBUG_PRINT("Ping Google: ");DEBUG_PRINTLN(pingInternet ? F("succesiful") : F("failed"));
-       return pingInternet;
-}
-
- 
-void liveCtrl(void)
-{
-   if ( (millis() - liveTimerOn > LIVE_TIMER_ON) && !liveBit ) 
-          {
-            liveBit = true ;
-            av.bluLed(liveBit);
-            liveTimerOff = millis();
-            if ( internetActive ) myBlynk.sendAlive(liveBit);
-          }
-    if ( (millis() - liveTimerOff > LIVE_TIMER_OFF) && liveBit ) 
-          {
-            liveBit = false ;
-            av.bluLed(liveBit);
-            liveTimerOn = millis();
-           if ( internetActive )  myBlynk.sendAlive(liveBit);
-          }
-}
-
-void otaGsm(void)
-{
-  DEBUG_PRINTLN("Firmware Upload..."); 
-  enableWDG(DIS);
-  ota.init(true);
-  ota.startOtaUpdate(overTheAirURL);
-}
-
 
 void processSms(void)
 {
@@ -786,6 +473,273 @@ void processSms(void)
     }  
 }
 
+void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool ch4, bool ch5, bool ch6, bool ch7, bool ch8)
+{
+         switch (stateMachine)
+          {
+            case 0:
+            case 1:
+                if (ch1 ) 
+                  {
+                    if (stateMachine == 0) {zaptime= millis();stateMachine =1;}
+                    if (millis() - zaptime > zapTimer) {receiverAvByCh (1);stateMachine =2;}
+                  }
+                else stateMachine =2;
+            break;
+
+            case 2:
+            case 3:
+                if (ch2 ) 
+                  {
+                    if (stateMachine == 2) {zaptime= millis();stateMachine =3;}
+                    if (millis() - zaptime > zapTimer) {receiverAvByCh (2);stateMachine =4;}
+                  }
+                else stateMachine =4;
+            break;
+            
+            case 4:
+            case 5:
+                if (ch3 ) 
+                  {
+                    if (stateMachine == 4) {zaptime= millis();stateMachine =5;}
+                    if (millis() - zaptime > zapTimer) {receiverAvByCh (3);stateMachine =6;}
+                  }
+                else stateMachine =6;
+            break;
+
+            case 6:
+            case 7:
+                if (ch4 ) 
+                  {
+                    if (stateMachine == 6) {zaptime= millis();stateMachine =7;}
+                    if (millis() - zaptime > zapTimer) {receiverAvByCh (4);stateMachine =8;}
+                  }
+                else stateMachine =8;
+            break;
+                       
+            case 8:
+            case 9:
+                if (ch5 ) 
+                  {
+                    if (stateMachine == 8) {zaptime= millis();stateMachine =9;}
+                    if (millis() - zaptime > zapTimer) {receiverAvByCh (5);stateMachine =10;}
+                  }
+                else stateMachine =10;
+            break;
+                       
+            case 10:
+            case 11:
+                if (ch6 ) 
+                  {
+                    if (stateMachine == 10) {zaptime= millis();stateMachine =11;}
+                    if (millis() - zaptime > zapTimer) {receiverAvByCh (6);stateMachine =12;}
+                  }
+                else stateMachine =12;
+            break;
+                       
+            case 12:
+            case 13:
+                if (ch7 ) 
+                  {
+                    if (stateMachine == 12) {zaptime= millis();stateMachine =13;}
+                    if (millis() - zaptime > zapTimer) {receiverAvByCh (7);stateMachine =14;}
+                  }
+                else stateMachine =14;
+            break;
+                       
+            case 14:
+            case 15:
+                if (ch8) 
+                  {
+                    if (stateMachine == 14) {zaptime= millis();stateMachine =15;}
+                    if (millis() - zaptime > zapTimer) {receiverAvByCh (8);stateMachine =0;}
+                  }
+                else stateMachine =0;
+            break;
+          }
+
+}
+
+
+
+void remoteControl(int cmd )
+{
+
+     if (internetActive)    
+      {
+        if (cmd >= 1 && cmd <= 15) {myBlynk.blynkRCLed(1); }
+        if (cmd >= 16 && cmd <= 30) {myBlynk.blynkRCLed315(1);}
+      }
+
+     if (fireBaseOn) fb.SendString (FB_RC_LED, "1" );
+     mySwitch.send(CH_433[cmd], RC_CODE_LENGTH);
+     DEBUG_PRINT("ch433:");DEBUG_PRINTLN(cmd);
+     delay(500);
+     if (internetActive)    
+      {
+        if (cmd >= 1 && cmd <= 15) {myBlynk.blynkRCLed(0);myBlynk.resetT433Cmd(cmd);}
+        if (cmd >= 16 && cmd <= 30) {myBlynk.blynkRCLed315(0);myBlynk.resetT315Cmd(cmd);}
+      }
+     if (fireBaseOn) {fb.SendString (FB_RC_LED, "0" );/*fb.SendString (FB_AV_OUTPUT, String(avOutput) );*/}
+}
+
+
+
+
+        
+void receiverAvByCh (int Ch)
+{
+  bool ack;
+  int PLL_value;
+      myBlynk.blynkAckLed(true);
+       if (Ch != 9) {ack = av.Tuner_PLL(av_pll_addr, PLL[Ch]);}
+       else 
+        {
+          PLL_value =( 512 * ( 1000000 * (990 + 479.5) ) ) / (16*4000000) ;
+          ack = av.Tuner_PLL(av_pll_addr, PLL_value);
+        }
+       if (fireBaseOn) fb.SendString (FB_ACK_LED, String(ack) ); 
+       delay(500);
+       if (internetActive) myBlynk.blynkAckLed(ack);
+       myBlynk.sevenSegValue(Ch );
+        switch (Ch)
+          {
+            case 1:
+                myBlynk.frequencyValue(1080 );recevierFreq =1080;
+            break;
+
+            case 2:
+                myBlynk.frequencyValue(1120 );recevierFreq =1120;
+            break;
+
+            
+            case 3:
+                myBlynk.frequencyValue(1160 );recevierFreq =1160;
+            break;
+
+
+            case 4:
+                myBlynk.frequencyValue(1200 );recevierFreq =1200;
+            break;
+
+                       
+            case 5:
+                myBlynk.frequencyValue(1240 );recevierFreq =1240;
+            break;
+
+                       
+            case 6:
+                myBlynk.frequencyValue(1280 );recevierFreq =1280;
+            break;
+
+                       
+            case 7:
+                myBlynk.frequencyValue(1320 );recevierFreq =1320;
+            break;
+
+                       
+            case 8:
+                myBlynk.frequencyValue(1360 );recevierFreq =1360;
+            break;
+
+          }
+       DEBUG_PRINT("Received freq channel:");DEBUG_PRINTLN(Ch);
+       DEBUG_PRINT("ack: ");DEBUG_PRINTLN(ack ? F("NotACK") : F("ACK"));
+}
+
+
+
+void receiverAvByFreq (int Freq)
+{
+  bool ack=0;
+         recevierFreq =Freq;
+        myBlynk.blynkAckLed(true);
+       int PLL_value =( 512 * ( 1000000 * (Freq + 479.5) ) ) / (16*4000000) ;
+       ack = av.Tuner_PLL(av_pll_addr, PLL_value);
+       if (fireBaseOn) {fb.SendString (FB_ACK_LED, String(ack) ); /*fb.SendString (FB_AV_OUTPUT, String(avOutput) )*/;}
+       if (internetActive)  { myBlynk.blynkAckLed(ack);/*myBlynk.sendRsss(avOutput);*/}
+       myBlynk.frequencyValue(Freq );
+       DEBUG_PRINT("Received manual_freq:");DEBUG_PRINTLN(manual_freq);
+       DEBUG_PRINT("ack: ");DEBUG_PRINTLN(ack ? F("NotACK") : F("ACK"));
+}
+
+
+
+
+void netgeerCtrl(void)
+{
+       if (   (millis() - internetSurvilanceTimer) >= PING_GOOGLE_TIMER)  
+              {
+                internetActive  = checkInternetConnection();
+                if (internetActive) {startLostInternetTimer = false; NetgeerResetGooglLostTimer= millis();}
+                internetSurvilanceTimer= millis();
+              }
+              
+       if (!internetActive && !startLostInternetTimer)  
+            { 
+              sim.SendSMS("Internet Failure");
+              startLostInternetTimer = true;
+              NetgeerResetGooglLostTimer= millis();
+            }
+       
+       if (  (  (millis() - NetgeerResetGooglLostTimer) >=  PING_GOOGLE_LOST_TO_RESET_NG_TIMER) && startLostInternetTimer  ) 
+            {
+              if (!internetActive)
+              {
+              DEBUG_PRINTLN("Internet Failure: ");  
+              EEPROM.write(EEPROM_ERR_ADD, INTERNET_FAILURE); EEPROM.commit();
+              sim.SendSMS("Reset Netgeer for Internet Failure");
+              ResetNetgeer();
+              }
+            }
+                
+        if ( (millis() - NetgeerResetTimer) >= NETGEER_RESET_TIMER) 
+        {
+            NetgeerResetTimer= millis();
+            DEBUG_PRINTLN(netgeerTimer1 );
+            if ( internetActive ) myBlynk.notifierDebug(NOTIFIER_ID, resetNetgeerTimer);
+            EEPROM.write(EEPROM_ERR_ADD, TEN_HOURS_TIMER); EEPROM.commit();
+            sim.SendSMS("Reset Netgeer for 12 hours");
+            ResetNetgeer();
+        }
+ 
+       if (  ( (millis() - restartAfterResetNG) >=  RESTART_AFTER_NG_RESET_TIMER) && netGeerReset )
+          {
+            sim.SendSMS("Resetaring 5 min after Netgeer reset");
+            ESP.restart(); 
+          }
+          
+}     
+
+
+bool checkInternetConnection(void)
+{
+       bool pingInternet= Ping.ping("www.google.com");
+       DEBUG_PRINT("Ping Google: ");DEBUG_PRINTLN(pingInternet ? F("succesiful") : F("failed"));
+       return pingInternet;
+}
+
+void ResetNetgeer(void)
+          {
+              delay(2000);
+              digitalWrite(NETGEER_PIN, HIGH);
+              delay(2000);
+              digitalWrite(NETGEER_PIN, LOW); 
+              DEBUG_PRINTLN("Netgeer Reset done: ");
+              restartAfterResetNG     = millis();
+              netGeerReset = true;
+          }
+
+
+void otaGsm(void)
+{
+  DEBUG_PRINTLN("Firmware Upload..."); 
+  enableWDG(DIS);
+  ota.init(true);
+  ota.startOtaUpdate(overTheAirURL);
+}
+
+
 
 void otaIdeSetup (void)
      {
@@ -842,13 +796,80 @@ void wifiUploadCtrl(void)
        }
 }
 
+
 void room (int RC, int AV, int sel)
 {
-  if (sel == 3)receiverAvByCh (AV);
-  if (sel == 2) {remoteControl(RC);}
-  if (sel == 1) {receiverAvByCh (AV);remoteControl(RC);}                        
+     switch (sel)
+          {
+            case 1:
+                receiverAvByCh (AV);
+            break;
+
+            case 2:
+                remoteControl(RC);
+            break;
+
+            
+            case 3:
+                receiverAvByCh (AV);
+                remoteControl(RC);
+            break;
+          }
 }                            
 
+void getDateTimeNTP(bool ver)
+{
+   if (ver)util.printLocalTime(true); 
+   else util.sendDateTime(false);
+}    
+
+
+
+void IRAM_ATTR resetModule() 
+{
+EEPROM.write(EEPROM_ERR_ADD, WDG_ERR); EEPROM.commit();
+DEBUG_PRINTLN("Watch Dog Timer Timout, rebooting....");
+ESP.restart();
+}
+
+void initWDG(int wdtTimeout,bool _enable) 
+{
+   _timer = timerBegin(0, 80, true);                                    //timer 0, div 80
+   timerAttachInterrupt(_timer, &resetModule, true);                  //attach callback
+   timerAlarmWrite(_timer, wdtTimeout * 1000, false);              //set time in us
+   enableWDG(_enable);                                            //enable interrupt
+}
+
+void enableWDG(bool _enable)
+  {
+   if (_enable) timerAlarmEnable(_timer);                          //enable interrupt
+   else timerAlarmDisable(_timer);                                //Disable interrupt
+   resetWdg();                                        //reset timer (feed watchdog)  
+  }
+  
+void resetWdg(void)
+  {
+   timerWrite(_timer, 0);                                        //reset timer (feed watchdog)  
+  }
+
+ 
+void liveCtrl(void)
+{
+   if ( (millis() - liveTimerOn > LIVE_TIMER_ON) && !liveBit ) 
+          {
+            liveBit = true ;
+            av.bluLed(liveBit);
+            liveTimerOff = millis();
+            if ( internetActive ) myBlynk.sendAlive(liveBit);
+          }
+    if ( (millis() - liveTimerOff > LIVE_TIMER_OFF) && liveBit ) 
+          {
+            liveBit = false ;
+            av.bluLed(liveBit);
+            liveTimerOn = millis();
+           if ( internetActive )  myBlynk.sendAlive(liveBit);
+          }
+}
 
 /**********************************************************************************************************************************************/
 void  getSettingsFromEeprom(void)
