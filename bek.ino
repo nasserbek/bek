@@ -1,6 +1,6 @@
 #include "main.h"
 #include <ESP32Ping.h>
-String blynkNotifier = "Restarting V3.7 Error " ;
+String blynkNotifier = "Restarting V3.8 Error " ;
 String resetNetgeerTimer = "Reset Netgeer 12 hours timer" ;
  reciever av;
  fireBase fb;
@@ -671,24 +671,24 @@ void netgeerCtrl(void)
        if ( (  (millis() - internetSurvilanceTimer) >= PING_GOOGLE_TIMER)  && !netGeerReset)
               {
                 internetActive  = checkInternetConnection();
-                if (internetActive) {startLostInternetTimer = false; NetgeerResetGooglLostTimer= millis();}
                 internetSurvilanceTimer= millis();
               }
               
-       if (!internetActive && !startLostInternetTimer && !netGeerReset)  
+       if (!internetActive && !netGeerReset)  
             { 
-              sim.SendSMS("Internet Failure");
+              sim.SendSMS("Reset Netgeer for Internet Failure");
+              EEPROM.write(EEPROM_ERR_ADD, INTERNET_FAILURE); EEPROM.commit();
               startLostInternetTimer = true;
-              NetgeerResetGooglLostTimer= millis();
+              ResetNetgeer();
             }
-       
+/*       
        if (  (  (millis() - NetgeerResetGooglLostTimer) >=  PING_GOOGLE_LOST_TO_RESET_NG_TIMER) && startLostInternetTimer && !netGeerReset ) 
             {
               EEPROM.write(EEPROM_ERR_ADD, INTERNET_FAILURE); EEPROM.commit();
               sim.SendSMS("Reset Netgeer for Internet Failure");
               ResetNetgeer();
             }
-                
+*/                
         if ( ( (millis() - NetgeerResetTimer) >= NETGEER_RESET_TIMER) && !netGeerReset)
         {
             NetgeerResetTimer= millis();
