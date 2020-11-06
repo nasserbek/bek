@@ -1,6 +1,6 @@
 #include "main.h"
 #include <ESP32Ping.h>
-String blynkNotifier = "Restarting V3.8 Error " ;
+String blynkNotifier = "Restarting V3.9 Error " ;
 String resetNetgeerTimer = "Reset Netgeer 12 hours timer" ;
  reciever av;
  fireBase fb;
@@ -668,9 +668,10 @@ void receiverAvByFreq (int Freq)
 
 void netgeerCtrl(void)
 {
-       if ( (  (millis() - internetSurvilanceTimer) >= PING_GOOGLE_TIMER)  && !netGeerReset)
+       if ( (  (millis() - internetSurvilanceTimer) >= PING_GOOGLE_TIMER))
               {
                 internetActive  = checkInternetConnection();
+                if (internetActive) { restartAfterResetNG = millis();netGeerReset = false;}
                 internetSurvilanceTimer= millis();
               }
               
@@ -678,17 +679,9 @@ void netgeerCtrl(void)
             { 
               sim.SendSMS("Reset Netgeer for Internet Failure");
               EEPROM.write(EEPROM_ERR_ADD, INTERNET_FAILURE); EEPROM.commit();
-              startLostInternetTimer = true;
               ResetNetgeer();
             }
-/*       
-       if (  (  (millis() - NetgeerResetGooglLostTimer) >=  PING_GOOGLE_LOST_TO_RESET_NG_TIMER) && startLostInternetTimer && !netGeerReset ) 
-            {
-              EEPROM.write(EEPROM_ERR_ADD, INTERNET_FAILURE); EEPROM.commit();
-              sim.SendSMS("Reset Netgeer for Internet Failure");
-              ResetNetgeer();
-            }
-*/                
+             
         if ( ( (millis() - NetgeerResetTimer) >= NETGEER_RESET_TIMER) && !netGeerReset)
         {
             NetgeerResetTimer= millis();
@@ -708,12 +701,6 @@ void netgeerCtrl(void)
 }     
 
 
-bool checkInternetConnection(void)
-{
-       bool pingInternet= Ping.ping("www.google.com");
-       DEBUG_PRINT("Ping Google: ");DEBUG_PRINTLN(pingInternet ? F("succesiful") : F("failed"));
-       return pingInternet;
-}
 
 void ResetNetgeer(void)
           {
@@ -726,6 +713,13 @@ void ResetNetgeer(void)
               netGeerReset = true;
           }
 
+
+bool checkInternetConnection(void)
+{
+       bool pingInternet= Ping.ping("www.google.com");
+       DEBUG_PRINT("Ping Google: ");DEBUG_PRINTLN(pingInternet ? F("succesiful") : F("failed"));
+       return pingInternet;
+}
 
 void otaGsm(void)
 {
