@@ -1,9 +1,8 @@
 #include "main.h"
 #include <ESP32Ping.h>
-String blynkNotifier = "Restarting V3.9 Error " ;
-String resetNetgeerTimer = "Reset Netgeer 12 hours timer" ;
+String blynkNotifier = "Restarting V3.10 Error " ;
+
  reciever av;
- fireBase fb;
  sim800L sim; 
  otaUpload ota; 
  ntpServerUtil util;
@@ -52,7 +51,13 @@ void setup()
               }
               
            myBlynk.init();
-           if ( internetActive ) {myBlynk.frequencyValue(1080 );myBlynk.sevenSegValue(1 );myBlynk.notifierDebug(NOTIFIER_ID, blynkNotifier1);}
+           if ( internetActive ) 
+                {
+                  myBlynk.frequencyValue(1080 );
+                  myBlynk.sevenSegValue(1 );
+                  myBlynk.notifierDebug(NOTIFIER_ID, blynkNotifier1);
+                  myBlynk.blynkSmsLed(sim800Available);
+                }
        }
      else  
       {
@@ -72,7 +77,7 @@ void setup()
     liveTimerOn             = millis();
     wifiIDETimer            = millis();
     restartAfterResetNG     = millis();
-    NetgeerResetGooglLostTimer = millis();
+    blynkNotActiveTimer = millis();
     
     otaIdeSetup();
 }
@@ -87,10 +92,27 @@ void loop(void)
        if (internetActive)
          {
           myBlynk.blynkRun();
-          if(blynkEvent = myBlynk.getData () )  processBlynk();       
+          if(blynkEvent = myBlynk.getData () )  
+            {
+              blynkActive =true; 
+              processBlynk(); 
+              blynkNotActiveTimer = millis();
+            }  
+          else 
+          {
+             if ( ( (millis() - blynkNotActiveTimer) >= BLYNK_ACTIVITY_STOP_TIMER) && !blynkEvent) 
+               {
+                   blynkNotActiveTimer = millis();
+                   if (blynkActive) sim.SendSMS("Blynk is not active");
+                   blynkActive =false;
+               }
+          }
+
           if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);    
          }
-
+        
+        blynkActive =true;
+        
        if( smsEvent =sim.smsRun()) processSms();
 }
 
@@ -128,39 +150,25 @@ void processBlynk(void)
             case FB_OTA_ID:
               otaCmd=myBlynk.blynkData;
               DEBUG_PRINT("FB_OTA: ");DEBUG_PRINTLN(myBlynk.blynkData);
-              fb.endTheOpenStream();
               otaGsm ();
             break;
+            
             case FB_SMS_ON_ID:
-              smsOnOffCmd=myBlynk.blynkData;
-              DEBUG_PRINT("FB_SMS_ON: ");DEBUG_PRINTLN(myBlynk.blynkData);
-              smsActivation(smsOnOffCmd);
-              myBlynk.blynkSmsLed(sim800Available);
             break;
+            
             case FB_VERSION_ID:
-              verCmd=myBlynk.blynkData;
-              DEBUG_PRINT("FB_VERSION: ");DEBUG_PRINTLN(myBlynk.blynkData);
-              sendVersion();
             break;
+            
             case FB_FB_OFF_ID:
-              firebaseOnOffCmd=myBlynk.blynkData;
-              DEBUG_PRINT("FB_FB_OFF: ");DEBUG_PRINTLN(myBlynk.blynkData);
-              firebaseOnActivation(firebaseOnOffCmd);
-              myBlynk.blynkFirebaseLed(fireBaseOn);
             break;
+            
             case FB_BLYNK_ON_OFF_ID:
-              blynkOnOffCmd=myBlynk.blynkData;
-              DEBUG_PRINT("FB_BLYNK_ON_OFF: ");DEBUG_PRINTLN(myBlynk.blynkData);
-              blynkActivation(0);
             break;
+            
             case FB_WIFI_OFF_ID:
-              wifiOnOffCmd=myBlynk.blynkData;
-              DEBUG_PRINT("FB_WIFI_OFF: ");DEBUG_PRINTLN(myBlynk.blynkData);
-              wifiActivation(0);
             break;
+            
             case FB_SETTINGS_ID :
-              getSettingsFromEeprom();
-              sendToHMI(smsSettings, "Setting ", smsSettings ,FB_NOTIFIER,smsSettings);
             break;
 
             case FB_ZAP_ID:
@@ -207,7 +215,7 @@ void processBlynk(void)
             break;
              case FB_NETGEER_ID  :
              myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset from Blynk");
-              ResetNetgeer();
+             ResetNetgeer();
             break;
 
             case FB_WIFI_IDE_ID:
@@ -440,35 +448,27 @@ void processSms(void)
             case FB_OTA_ID:
               otaCmd=myBlynk.blynkData;
               DEBUG_PRINT("FB_OTA: ");DEBUG_PRINTLN(smsReceived);
-              fb.endTheOpenStream();
               otaGsm ();
             break;
+            
             case FB_SMS_ON_ID:
-              smsOnOffCmd=myBlynk.blynkData;
-              DEBUG_PRINT("FB_SMS_ON: ");DEBUG_PRINTLN(smsReceived);
-              smsActivation(!smsOn);
-              myBlynk.blynkSmsLed(sim800Available);
             break;
+            
             case FB_VERSION_ID:
               DEBUG_PRINT("FB_VERSION: ");DEBUG_PRINTLN(smsReceived);
               sendVersion();
             break;
+            
             case FB_FB_OFF_ID:
-              DEBUG_PRINT("FB_FB_OFF: ");DEBUG_PRINTLN(smsReceived);
-              firebaseOnActivation(!fireBaseOn);
-              myBlynk.blynkFirebaseLed(fireBaseOn);
             break;
+            
             case FB_BLYNK_ON_OFF_ID:
-              DEBUG_PRINT("FB_BLYNK_ON_OFF: ");DEBUG_PRINTLN(smsReceived);
-              blynkActivation(!blynkOn);
             break;
+            
             case FB_WIFI_OFF_ID:
-              DEBUG_PRINT("FB_WIFI_OFF: ");DEBUG_PRINTLN(myBlynk.blynkData);
-              wifiActivation(!wifiOn);
             break;
+            
             case FB_SETTINGS_ID :
-              getSettingsFromEeprom();
-              sendToHMI(smsSettings, "Setting ", smsSettings ,FB_NOTIFIER,smsSettings);
             break;
     }  
 }
@@ -571,7 +571,6 @@ void remoteControl(int cmd )
         if (cmd >= 16 && cmd <= 30) {myBlynk.blynkRCLed315(1);}
       }
 
-     if (fireBaseOn) fb.SendString (FB_RC_LED, "1" );
      mySwitch.send(CH_433[cmd], RC_CODE_LENGTH);
      DEBUG_PRINT("ch433:");DEBUG_PRINTLN(cmd);
      delay(500);
@@ -580,7 +579,6 @@ void remoteControl(int cmd )
         if (cmd >= 1 && cmd <= 15) {myBlynk.blynkRCLed(0);myBlynk.resetT433Cmd(cmd);}
         if (cmd >= 16 && cmd <= 30) {myBlynk.blynkRCLed315(0);myBlynk.resetT315Cmd(cmd);}
       }
-     if (fireBaseOn) {fb.SendString (FB_RC_LED, "0" );/*fb.SendString (FB_AV_OUTPUT, String(avOutput) );*/}
 }
 
 
@@ -598,7 +596,6 @@ void receiverAvByCh (int Ch)
           PLL_value =( 512 * ( 1000000 * (990 + 479.5) ) ) / (16*4000000) ;
           ack = av.Tuner_PLL(av_pll_addr, PLL_value);
         }
-       if (fireBaseOn) fb.SendString (FB_ACK_LED, String(ack) ); 
        delay(500);
        if (internetActive) myBlynk.blynkAckLed(ack);
        myBlynk.sevenSegValue(Ch );
@@ -656,7 +653,6 @@ void receiverAvByFreq (int Freq)
         myBlynk.blynkAckLed(true);
        int PLL_value =( 512 * ( 1000000 * (Freq + 479.5) ) ) / (16*4000000) ;
        ack = av.Tuner_PLL(av_pll_addr, PLL_value);
-       if (fireBaseOn) {fb.SendString (FB_ACK_LED, String(ack) ); /*fb.SendString (FB_AV_OUTPUT, String(avOutput) )*/;}
        if (internetActive)  { myBlynk.blynkAckLed(ack);/*myBlynk.sendRsss(avOutput);*/}
        myBlynk.frequencyValue(Freq );
        DEBUG_PRINT("Received manual_freq:");DEBUG_PRINTLN(manual_freq);
@@ -686,7 +682,7 @@ void netgeerCtrl(void)
         {
             NetgeerResetTimer= millis();
             DEBUG_PRINTLN(netgeerTimer1 );
-            if ( internetActive ) myBlynk.notifierDebug(NOTIFIER_ID, resetNetgeerTimer);
+            if ( internetActive ) myBlynk.notifierDebug(NOTIFIER_ID, "Reset Netgeer 12 hours timer");
             EEPROM.write(EEPROM_ERR_ADD, TEN_HOURS_TIMER); EEPROM.commit();
             sim.SendSMS("Reset Netgeer for 12 hours");
             ResetNetgeer();
@@ -864,35 +860,7 @@ void liveCtrl(void)
 /**********************************************************************************************************************************************/
 void  getSettingsFromEeprom(void)
 {
- 
-   smsOn = EEPROM.read(EEPROM_SMS_ADD);DEBUG_PRINT("Sms is:");DEBUG_PRINTLN(smsOn ? F("On") : F("Off"));
-   if (smsOn) {smsSettings [48] ='O';smsSettings [49] ='n';smsSettings [50] =' '; }
-   else {smsSettings [48] ='O';smsSettings [49] ='f';smsSettings [50] ='f'; }
 
-   wifiOn=EEPROM.read(EEPROM_WIFI_ADD);DEBUG_PRINT("Wifi is:");DEBUG_PRINTLN(wifiOn ? F("On") : F("Off"));
-   if(wifiOn) {smsSettings [8] ='O';smsSettings [9] ='n';smsSettings [10] =' '; }
-   else {
-          smsSettings [8] ='O';smsSettings [9] ='f';smsSettings [10] ='f';        
-          EEPROM.write(EEPROM_FB_ADD, 0); EEPROM.commit();
-          EEPROM.write(EEPROM_BLYNK_ADD, 0); EEPROM.commit();
-        }
-
-   fireBaseOn=EEPROM.read(EEPROM_FB_ADD);DEBUG_PRINT("FireBase is:");DEBUG_PRINTLN(fireBaseOn? F("On") : F("Off"));
-   if (fireBaseOn) {smsSettings [24] ='O';smsSettings [25] ='n';smsSettings [26] =' '; } 
-   else {smsSettings [24] ='O';smsSettings [25] ='f';smsSettings [26] ='f'; } 
-   
-   blynkOn=EEPROM.read(EEPROM_BLYNK_ADD);DEBUG_PRINT("Blynk is:");DEBUG_PRINTLN(blynkOn ? F("On") : F("Off"));
-   if (blynkOn) {smsSettings [37] ='O';smsSettings [38] ='n';smsSettings [39] =' '; }
-   else {smsSettings [37] ='O';smsSettings [38] ='f';smsSettings [39] ='f'; }
-
- 
-   errorCode = EEPROM.read(EEPROM_ERR_ADD);DEBUG_PRINT("Error code is:");DEBUG_PRINTLN(char (errorCode));
-   smsSettings [66] =errorCode;
-
-   sim800Available = EEPROM.read(EEPROM_SIM800_ADD);DEBUG_PRINT("SIM800L is:");DEBUG_PRINTLN(sim800Available ? F("On") : F("Off"));
-   if (sim800Available) {smsSettings [80] ='O';smsSettings [81] ='k';smsSettings [82] =' '; }
-   else {smsSettings [80] ='O';smsSettings [81] ='f';smsSettings [82] ='f'; }
-   EEPROM.write(EEPROM_ERR_ADD, '0'); EEPROM.commit();
 }
 
 void sendToHMI(char *smsmsg, String notifier_subject, String notifier_body,String fb_path,String fb_cmdString)
@@ -902,9 +870,6 @@ void sendToHMI(char *smsmsg, String notifier_subject, String notifier_body,Strin
 }
 
  
-
-
-
 void rebootSw(void)
 {
 // EEPROM.write(EEPROM_ERR_ADD, SW_RESET); EEPROM.commit();
@@ -913,98 +878,22 @@ void rebootSw(void)
 
 void smsActivation(int activate)
 {
-  if(activate) {sendToHMI("Sms is On", "Sms activation: ", "Sms is On",FB_NOTIFIER, "Sms is On" );
-   DEBUG_PRINTLN("Sms is On");
-   EEPROM.write(EEPROM_SMS_ADD, 1); EEPROM.commit();
-   }
-  if(!activate) {sendToHMI("Sms is Off", "Sms disactivation: ", "Sms is Off",FB_NOTIFIER, "Sms is Off" );
-   DEBUG_PRINTLN("Sms is Off");
-   EEPROM.write(EEPROM_SMS_ADD, 0); EEPROM.commit();smsOn =false;
-   sim.sim800PowerOn(false)  ;
-   }  
 }
 
 void firebaseOnActivation(int activation)
 {
- if (wifiAvailable)
-  {
-    if (activation)
-    {
-    fb.init();
-    sendToHMI("FireBase is On", "Firebase activation: ", "FireBase is On",FB_NOTIFIER, "FireBase is On" );
-    DEBUG_PRINTLN("FireBase is On");
-    EEPROM.write(EEPROM_FB_ADD, 1); EEPROM.commit();fireBaseOn =true;
-    }
-    else
-    {
-    sendToHMI("FireBase is Off", "Firebase disactivation: ", "FireBase is Off",FB_NOTIFIER, "FireBase is Offn" );
-    DEBUG_PRINTLN("FireBase is Off");
-    EEPROM.write(EEPROM_FB_ADD, 0); EEPROM.commit();fireBaseOn =false;   
-    fb.endTheOpenStream(); 
-    }
-  } 
-  else 
-   {
-     sendToHMI("Wifi not active..", "Firebase activation: ", "Wifi not active..",FB_NOTIFIER, "Wifi not active.." );
-     fireBaseOn =false;EEPROM.write(EEPROM_FB_ADD, 0); EEPROM.commit();
-    }
+
 }  
 
 
 void wifiActivation(int activation)
 {
-       if(activation)
-       {
-       wifiAvailable=fb.wifiConnect();
-       if (wifiAvailable) 
-         {
-           sendToHMI("Wifi is On", "Wifi activation: ", "Wifi is On",FB_NOTIFIER, "Wifi is On" );
-           DEBUG_PRINTLN("Wifi is On");
-           EEPROM.write(EEPROM_WIFI_ADD, 1); EEPROM.commit();wifiOn = true;
-         }
-       else 
-        {
-          wifiOn = false;
-          sendToHMI("Wifi not available", "Wifi activation error: ", "Wifi not available",FB_NOTIFIER, "Wifi not available" );
-          EEPROM.write(EEPROM_WIFI_ADD, 0); EEPROM.commit();
-         }
-       }
-
-       else
-         {
-       wifiOn = false;
-       sendToHMI("Wifi is Off", "Wifi disactivation: ", "Wifi is Off",FB_NOTIFIER, "Wifi is Off" );
-       DEBUG_PRINTLN("Wifi is Off");
-//       EEPROM.write(EEPROM_WIFI_ADD, 0); EEPROM.commit();
-//       EEPROM.write(EEPROM_ERR_ADD, WIFI_OFF); EEPROM.commit();
-       ESP.restart();
-        }
+   
 }
 
 void blynkActivation (int activation)
 {
-      if (activation) // Blon
-      { 
-       if (wifiAvailable) 
-         {
-           myBlynk.init();
-           sendToHMI("Blynk is On", "Blynk activation: ", "Blynk is On",FB_NOTIFIER, "Blynk is On");
-           DEBUG_PRINTLN("Blynk is On");
-           EEPROM.write(EEPROM_BLYNK_ADD, 1); EEPROM.commit();blynkOn = true;
-         }
-       else {
-       sendToHMI("Wifi not active..", "Blynk activation: ", "Wifi not active..",FB_NOTIFIER, "Wifi not active.." );
-       blynkOn = false;EEPROM.write(EEPROM_BLYNK_ADD, 0); EEPROM.commit();
-       }
-      }    
-
-      else 
-      { 
-       blynkOn = false;
-       sendToHMI("Blynke is Off", "Blynk disactivation: ", "Blynk is Off",FB_NOTIFIER, "Blynk is Off" );
-       DEBUG_PRINTLN("Blynk is Off");
-       EEPROM.write(EEPROM_BLYNK_ADD, 0); EEPROM.commit();
-      }    
+   
 }
 
 void sendVersion(void)

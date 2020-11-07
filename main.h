@@ -22,12 +22,12 @@
 
 
 bool fireBaseOn =false;
-bool blynkOn    =true;
+bool blynkActive    =false;
 bool wifiOn     =true;
 bool smsOn      =true;
 
 int zapTimer = 5000;
-long zaptime, NetgeerResetTimer, wifiSurvilanceTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff,wifiIDETimer,restartAfterResetNG,NetgeerResetGooglLostTimer;
+long zaptime, NetgeerResetTimer, wifiSurvilanceTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff,wifiIDETimer,restartAfterResetNG,blynkNotActiveTimer;
 bool pingGoogle= false;
 bool internetActive = true;
 bool netGeerReset = false;
@@ -73,20 +73,6 @@ int remoteControlRcCh=0;
 int rebootCmd=0;
 int otaCmd=0;
 int verCmd=0;
-int smsOnOffCmd=0;
-int firebaseOnOffCmd=0;
-int blynkOnOffCmd=0;
-int wifiOnOffCmd=0;
-
-
-
-
-
-boolean old_fireBaseOn =true;
-boolean old_blynkOn    =false;
-boolean old_wifiOn    =false;
-boolean old_smsOn    =false;
-
 
 boolean otaBlynk=false;
 boolean otaFirebase=false;
@@ -101,7 +87,6 @@ boolean sim800Available = false;
 boolean old_sim800Available = false;
 byte    errorCode = 0;
 
-char smsSettings [] ="Wifi--->   \nFirebase--->   \nBlynk--->   \nSms--->   \nError code--->   \nSIM800--->   ";
 bool firstRun=true;
 
 int blynkT433ChNumber=0;
