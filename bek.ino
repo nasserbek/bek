@@ -100,7 +100,7 @@ void loop(void)
             }  
           else 
             {
-             if ( ( (millis() - blynkNotActiveTimer) >= BLYNK_ACTIVITY_STOP_TIMER) && !blynkEvent) 
+             if ( ( (millis() - blynkNotActiveTimer) >= BLYNK_ACTIVITY_STOP_TIMER) && !blynkEvent && !zapOnOff) 
                {
                     if (blynkActive) 
                       {
@@ -112,7 +112,7 @@ void loop(void)
                }
            }
 
-          if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);    
+          if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);   
          }
        
        if ( !blynkActive && !zapOnOff) netgeerCtrl();
