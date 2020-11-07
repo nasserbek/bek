@@ -127,7 +127,7 @@
 #define    ROOM_201_TO_205      3
 #define    FB_OTA_ID            7
 #define    FB_RESET_ID          8
-#define    FB_FB_OFF_ID         10
+#define    FB_SEND_TO_BLYNK_ID  10
 #define    FB_SMS_ON_ID         11
 #define    FB_T315_CH_NR_ID     14
 #define    FB_NETGEER_ID        15
@@ -153,7 +153,7 @@
 #define    FB_WIFI_IDE_ID       100
 #define    FB_RC_REPETION_ID    101
 #define    FB_SLEEP_TIMER_ID    102
-
+#define    FB_FB_OFF_ID         103
 
 
 #define    FB_VERSION_ID        307

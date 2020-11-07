@@ -22,7 +22,7 @@ void setup()
      errorCode = EEPROM.read(EEPROM_ERR_ADD);DEBUG_PRINT("Error code is:");DEBUG_PRINTLN(char (errorCode));
      EEPROM.write(EEPROM_ERR_ADD, '0'); EEPROM.commit();
      
-     myBlynk.sendToBlynk = false;
+     myBlynk.sendToBlynk = true;
      
      if (wifiAvailable) 
         { 
@@ -118,7 +118,10 @@ void processBlynk(void)
               DEBUG_PRINT("FB_OTA: ");DEBUG_PRINTLN(myBlynk.blynkData);
               otaGsm ();
             break;
-            case FB_SMS_ON_ID:
+            
+            case FB_SEND_TO_BLYNK_ID:
+                myBlynk.sendToBlynk = myBlynk.blynkData;
+                myBlynk.sendToBlynkLed(myBlynk.sendToBlynk);
              break;
              
             case FB_VERSION_ID:

@@ -17,9 +17,9 @@ WidgetLED led8(V16);   //Alive Led BEK
 WidgetLED led2(V5);   //Ack
 WidgetLED led3(V6);   //T433 St
 WidgetLED led6(V13);  //T315 St
-WidgetLED led4(V9);   //fb
-WidgetLED led5(V12);   //sms
-WidgetLED led7(V80);   //Zap Status
+WidgetLED led4(V9);   //Send to blynlk
+WidgetLED led5(V12);  //sms
+WidgetLED led7(V80);  //Zap Status
 
 
 #ifdef BEK
@@ -106,13 +106,13 @@ BLYNK_WRITE(V8)   //boot
   DEBUG_PRINTLN(_bootBlynk ? F("On") : F("Off"));
 }
 
-BLYNK_WRITE(V10)  //firebase on off
+BLYNK_WRITE(V10)  //Send to blynk
 {
   _fbonBlynk = param.asInt(); // assigning incoming value from pin V10 to a variable
     _blynkEvent = true;
     _blynkData=param.asInt();
-    _blynkEventID =FB_FB_OFF_ID;
-  DEBUG_PRINT("V10 Firebase: ");
+    _blynkEventID =FB_SEND_TO_BLYNK_ID;
+  DEBUG_PRINT("V10 Send To Blynk: ");
   DEBUG_PRINTLN(_fbonBlynk ? F("Turn On") : F("Turn Off"));
 }
 
@@ -653,10 +653,7 @@ void blynk::init()
 
 void blynk::notifierDebug(String subject, String body)
 {
-  // *** WARNING: You are limited to send ONLY ONE E-MAIL PER 5 SECONDS! ***
- //   body = String("You pushed the button ") + count + " times.";
-//    DEBUG_PRINT(subject);DEBUG_PRINTLN(body); 
-      Blynk.notify(String(subject +"**"+ body) );
+  Blynk.notify(String(subject +"**"+ body) );
 }
 
 
@@ -689,6 +686,50 @@ void blynk::blynkRun()
   Blynk.run(); 
 }
 
+
+
+void blynk::blynkAckLed(bool _data)
+{
+ if (_data==1)  led2.setColor(BLYNK_RED);
+ else           led2.setColor(BLYNK_GREEN);
+}
+
+
+void blynk::blynkRCLed(bool _data)
+{
+ if (_data==0)  led3.setColor(BLYNK_RED);
+ else           led3.setColor(BLYNK_GREEN);
+
+}
+
+void blynk::blynkRCLed315(bool _data)
+{
+ if (_data==0)  led6.setColor(BLYNK_RED);
+ else           led6.setColor(BLYNK_GREEN);
+}
+
+void blynk::blynkSmsLed(bool _data)
+{
+ if (_data==0)  led5.setColor(BLYNK_RED);
+ else           led5.setColor(BLYNK_GREEN);
+}
+
+void blynk::zapLed(bool _data)
+{
+ if (_data==0)  led7.setColor(BLYNK_RED);
+ else           led7.setColor(BLYNK_GREEN);
+}
+
+void blynk::sendToBlynkLed(bool _data)
+{
+ if (_data==0)  led4.setColor(BLYNK_RED);
+ else           led4.setColor(BLYNK_GREEN);
+}
+
+void blynk::blynkFirebaseLed(bool _data)
+{
+}
+
 void blynk::sendAlive(int _data)
 {
 if (sendToBlynk)
@@ -704,48 +745,7 @@ if (sendToBlynk)
 }
 }
 
-
-void blynk::blynkAckLed(bool _data)
-{
-  if (sendToBlynk)
-  {
- if (_data==1)  led2.setColor(BLYNK_RED);
- else           led2.setColor(BLYNK_GREEN);
-  }
-}
-
-
-void blynk::blynkRCLed(bool _data)
-{
-  if (sendToBlynk)
-  {
- if (_data==0)  led3.setColor(BLYNK_RED);
- else           led3.setColor(BLYNK_GREEN);
-  }
-}
-
-void blynk::blynkRCLed315(bool _data)
-{
-  if (sendToBlynk)
-  {
- if (_data==0)  led6.setColor(BLYNK_RED);
- else           led6.setColor(BLYNK_GREEN);
-  }
-}
-
-void blynk::blynkFirebaseLed(bool _data)
-{
-
-}
-
-void blynk::blynkSmsLed(bool _data)
-{
-  if (sendToBlynk)
-  {
- if (_data==0)  led5.setColor(BLYNK_RED);
- else           led5.setColor(BLYNK_GREEN);
-  }
-}
+/***************************************************/
 void blynk::resetT433Cmd(int cmd)
 {
   if (sendToBlynk)
@@ -785,14 +785,4 @@ void blynk::frequencyValue(int freq )
 
 void blynk::sendRsss(int _rsss)
 {
-  if (sendToBlynk) Blynk.virtualWrite(V3, _rsss); 
-}
-
-void blynk::zapLed(bool _data)
-{
-  if (sendToBlynk)
-  {
- if (_data==0)  led7.setColor(BLYNK_RED);
- else           led7.setColor(BLYNK_GREEN);
-  }
 }

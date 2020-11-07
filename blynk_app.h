@@ -40,6 +40,7 @@ class blynk {
     void sendRsss(int _rsss);
     void notifierDebug(String subject, String body);
     void zapLed(bool _data);
+    void sendToBlynkLed(bool _data);
     bool wifiConnect(void);
 
 };
