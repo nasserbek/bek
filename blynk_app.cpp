@@ -711,7 +711,7 @@ void blynk::blynkRCLed315(bool _data)
 void blynk::blynkSmsLed(bool _data)
 {
  if (_data==0)  led5.setColor(BLYNK_RED);
- else           led5.setColor(BLYNK_GREEN);
+ else           led5.setColor(BLYNK_YELLOW);
 }
 
 void blynk::zapLed(bool _data)

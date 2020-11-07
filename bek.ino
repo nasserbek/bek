@@ -40,6 +40,7 @@ void setup()
                 myBlynk.frequencyValue(1080 );
                 myBlynk.sevenSegValue(1 );
                 sendVersion();
+                myBlynk.blynkSmsLed (sim800Available);
               }
        }
        
@@ -80,6 +81,7 @@ void loop(void)
          }
 
        if( smsEvent =sim.smsRun()) processSms();
+       
 }
 
 

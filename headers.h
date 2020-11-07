@@ -1,5 +1,5 @@
 #define BEK
-#define VERSION_ID " V4.0 "
+#define VERSION_ID " V4.1 "
 
 //#define DEBUG_SERIAL
 #define NETGEER
