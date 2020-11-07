@@ -108,7 +108,6 @@ void loop(void)
                         internetSurvilanceTimer = millis();
                       }
                    blynkActive =false;
-                   zapOnOff = false;
                    blynkNotActiveTimer = millis();
                }
            }
@@ -116,7 +115,8 @@ void loop(void)
           if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);    
          }
        
-       if ( !blynkActive ) netgeerCtrl();
+       if ( !blynkActive && !zapOnOff) netgeerCtrl();
+       
        if (!internetActive) {blynkActive =false;zapOnOff = false;}
       
        if( smsEvent =sim.smsRun()) processSms();
