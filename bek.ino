@@ -156,6 +156,8 @@ void processBlynk(void)
             case FB_OTA_ID:
               otaCmd=myBlynk.blynkData;
               DEBUG_PRINT("FB_OTA: ");DEBUG_PRINTLN(myBlynk.blynkData);
+              blynkActive =false;
+              zapOnOff = false;
               otaGsm ();
             break;
             
