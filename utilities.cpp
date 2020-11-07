@@ -28,7 +28,7 @@ void ntpServerUtil::printLocalTime(boolean ver)
     strftime(tm_min,3,  "%M", &timeinfo);
     if (EEPROM.read(EEPROM_GITHUB_ADD))
      {
-      dateAndTimeStr = VERSION + String (tm_day)+ " " + String (tm_mon)+ " " + String (tm_year)+ " "  + String (tm_hour)+ ":" + String (tm_min);
+      dateAndTimeStr =VERSION_ID+ String (tm_day)+ " " + String (tm_mon)+ " " + String (tm_year)+ " "  + String (tm_hour)+ ":" + String (tm_min);
       EEPROM.write(EEPROM_GITHUB_ADD, 0); EEPROM.commit();
      }
     else dateAndTimeStr ="IDE " + String (tm_day)+ " " + String (tm_mon)+ " " + String (tm_year)+ " "  + String (tm_hour)+ ":" + String (tm_min);

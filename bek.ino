@@ -1,43 +1,28 @@
 #include "main.h"
 #include <ESP32Ping.h>
-String blynkNotifier = "Restarting with Error " ;
+
  reciever av;
  sim800L sim; 
  otaUpload ota; 
  ntpServerUtil util;
  blynk myBlynk;
 
-void goToDeepSleep(int sleepTimer)
-{
-      EEPROM.write(EEPROM_ERR_ADD, DEEP_SLEEP ); EEPROM.commit(); 
-      sendToHMI("Going to Deep Sleep", "Going to Deep Sleep", "Going to Deep Sleep",FB_NOTIFIER, "Going to Deep Sleep" );
-      esp_sleep_enable_timer_wakeup(sleepTimer *60 *60 * 1000000); // in microseconds
-      esp_deep_sleep_start();
-}
-
 void setup() 
 {
      pinMode(NETGEER_PIN, OUTPUT);
      digitalWrite(NETGEER_PIN, LOW);
-   
      av.bluLed(ON);
-     
      Serial.begin(115200);
-
-     
      initWDG(SEC_60,EN);
-   
      av.init();
-   
      sim800Available = sim.init();
-
      wifiAvailable = myBlynk.wifiConnect();
-     
+     delay(5000);
      EEPROM.begin(EEPROM_SIZE);
      errorCode = EEPROM.read(EEPROM_ERR_ADD);DEBUG_PRINT("Error code is:");DEBUG_PRINTLN(char (errorCode));
      EEPROM.write(EEPROM_ERR_ADD, '0'); EEPROM.commit();
      
-     String blynkNotifier1   = blynkNotifier + VERSION +  errorCode;
+     myBlynk.sendToBlynk = false;
      
      if (wifiAvailable) 
         { 
@@ -51,14 +36,14 @@ void setup()
               
            myBlynk.init();
            if ( internetActive ) 
-                {
-                  myBlynk.frequencyValue(1080 );
-                  myBlynk.sevenSegValue(1 );
-                  myBlynk.notifierDebug(NOTIFIER_ID, blynkNotifier1);
-                  myBlynk.blynkSmsLed(sim800Available);
-                }
+              {
+                myBlynk.frequencyValue(1080 );
+                myBlynk.sevenSegValue(1 );
+                sendVersion();
+              }
        }
-     else  
+       
+     if (!wifiAvailable) 
       {
         sendToHMI("Wifi failed to connect or turned off", "Wifi activation: ", "Wifi failed to connect, restarting",FB_NOTIFIER, "Wifi failed to connect , restarting" );
       }
@@ -66,7 +51,6 @@ void setup()
     mySwitch.enableTransmit(RC_TX_PIN);
     receiverAvByFreq (1080);
     receiverAvByCh (1);
-    
     av.bluLed(OFF);
     
     NetgeerResetTimer       = millis();
@@ -76,7 +60,7 @@ void setup()
     liveTimerOn             = millis();
     wifiIDETimer            = millis();
     restartAfterResetNG     = millis();
-    blynkNotActiveTimer = millis();
+    NetgeerResetGooglLostTimer = millis();
     
     otaIdeSetup();
 }
@@ -85,41 +69,16 @@ void setup()
 void loop(void) 
 {
        resetWdg();    //reset timer (feed watchdog) 
-
+       netgeerCtrl();
        wifiUploadCtrl();
        
        if (internetActive)
          {
           myBlynk.blynkRun();
-          if(blynkEvent = myBlynk.getData () )  
-            {
-              blynkActive =true; 
-              processBlynk(); 
-              blynkNotActiveTimer = millis();
-            }  
-          else 
-            {
-              if ( ( (millis() - blynkNotActiveTimer) >= BLYNK_ACTIVITY_STOP_TIMER) && !blynkEvent && !zapOnOff) 
-               {
-                    if (blynkActive) 
-                      {
-                        sim.SendSMS("Blynk is not active");
-                        internetSurvilanceTimer = millis();
-                      }
-                   blynkActive =false;
-                   blynkNotActiveTimer = millis();
-               }
-           }
-
-          if (zapOnOff ) {blynkActive =true; zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);  }
+          if(blynkEvent = myBlynk.getData () )  processBlynk();       
+          if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);    
          }
-       
-       //if ( !blynkActive && !zapOnOff) 
-       
-       netgeerCtrl();
-      
-       if (!internetActive) {blynkActive =false;zapOnOff = false;}
-      
+
        if( smsEvent =sim.smsRun()) processSms();
 }
 
@@ -157,14 +116,11 @@ void processBlynk(void)
             case FB_OTA_ID:
               otaCmd=myBlynk.blynkData;
               DEBUG_PRINT("FB_OTA: ");DEBUG_PRINTLN(myBlynk.blynkData);
-              blynkActive =false;
-              zapOnOff = false;
               otaGsm ();
             break;
-            
             case FB_SMS_ON_ID:
-            break;
-            
+             break;
+             
             case FB_VERSION_ID:
             break;
             
@@ -224,7 +180,7 @@ void processBlynk(void)
             break;
              case FB_NETGEER_ID  :
              myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset from Blynk");
-             ResetNetgeer();
+              ResetNetgeer();
             break;
 
             case FB_WIFI_IDE_ID:
@@ -459,7 +415,6 @@ void processSms(void)
               DEBUG_PRINT("FB_OTA: ");DEBUG_PRINTLN(smsReceived);
               otaGsm ();
             break;
-            
             case FB_SMS_ON_ID:
             break;
             
@@ -573,10 +528,9 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
 
 void remoteControl(int cmd )
 {
-
      if (internetActive)    
       {
-        if (cmd >= 1 && cmd <= 15) {myBlynk.blynkRCLed(1); }
+        if (cmd >= 1 && cmd <= 15)  {myBlynk.blynkRCLed(1); }
         if (cmd >= 16 && cmd <= 30) {myBlynk.blynkRCLed315(1);}
       }
 
@@ -588,6 +542,7 @@ void remoteControl(int cmd )
         if (cmd >= 1 && cmd <= 15) {myBlynk.blynkRCLed(0);myBlynk.resetT433Cmd(cmd);}
         if (cmd >= 16 && cmd <= 30) {myBlynk.blynkRCLed315(0);myBlynk.resetT315Cmd(cmd);}
       }
+
 }
 
 
@@ -598,7 +553,8 @@ void receiverAvByCh (int Ch)
 {
   bool ack;
   int PLL_value;
-      myBlynk.blynkAckLed(true);
+       if (internetActive) myBlynk.blynkAckLed(true);
+       
        if (Ch != 9) {ack = av.Tuner_PLL(av_pll_addr, PLL[Ch]);}
        else 
         {
@@ -606,46 +562,54 @@ void receiverAvByCh (int Ch)
           ack = av.Tuner_PLL(av_pll_addr, PLL_value);
         }
        delay(500);
-       if (internetActive) myBlynk.blynkAckLed(ack);
-       myBlynk.sevenSegValue(Ch );
+       if (internetActive) {myBlynk.blynkAckLed(ack); myBlynk.sevenSegValue(Ch );}
+      
         switch (Ch)
           {
             case 1:
-                myBlynk.frequencyValue(1080 );recevierFreq =1080;
+               if (internetActive) myBlynk.frequencyValue(1080 );
+               recevierFreq =1080;
             break;
 
             case 2:
-                myBlynk.frequencyValue(1120 );recevierFreq =1120;
+                if (internetActive)myBlynk.frequencyValue(1120 );
+                recevierFreq =1120;
             break;
 
             
             case 3:
-                myBlynk.frequencyValue(1160 );recevierFreq =1160;
+               if (internetActive) myBlynk.frequencyValue(1160 );
+               recevierFreq =1160;
             break;
 
 
             case 4:
-                myBlynk.frequencyValue(1200 );recevierFreq =1200;
+               if (internetActive) myBlynk.frequencyValue(1200 );
+               recevierFreq =1200;
             break;
 
                        
             case 5:
-                myBlynk.frequencyValue(1240 );recevierFreq =1240;
+              if (internetActive)  myBlynk.frequencyValue(1240 );
+              recevierFreq =1240;
             break;
 
                        
             case 6:
-                myBlynk.frequencyValue(1280 );recevierFreq =1280;
+              if (internetActive)  myBlynk.frequencyValue(1280 );
+              recevierFreq =1280;
             break;
 
                        
             case 7:
-                myBlynk.frequencyValue(1320 );recevierFreq =1320;
+              if (internetActive)  myBlynk.frequencyValue(1320 );
+              recevierFreq =1320;
             break;
 
                        
             case 8:
-                myBlynk.frequencyValue(1360 );recevierFreq =1360;
+              if (internetActive)  myBlynk.frequencyValue(1360 );
+              recevierFreq =1360;
             break;
 
           }
@@ -658,12 +622,11 @@ void receiverAvByCh (int Ch)
 void receiverAvByFreq (int Freq)
 {
   bool ack=0;
-         recevierFreq =Freq;
-        myBlynk.blynkAckLed(true);
+       recevierFreq =Freq;
+       if (internetActive) myBlynk.blynkAckLed(true);
        int PLL_value =( 512 * ( 1000000 * (Freq + 479.5) ) ) / (16*4000000) ;
        ack = av.Tuner_PLL(av_pll_addr, PLL_value);
-       if (internetActive)  { myBlynk.blynkAckLed(ack);/*myBlynk.sendRsss(avOutput);*/}
-       myBlynk.frequencyValue(Freq );
+       if (internetActive)  { myBlynk.blynkAckLed(ack);myBlynk.frequencyValue(Freq );}
        DEBUG_PRINT("Received manual_freq:");DEBUG_PRINTLN(manual_freq);
        DEBUG_PRINT("ack: ");DEBUG_PRINTLN(ack ? F("NotACK") : F("ACK"));
 }
@@ -725,6 +688,7 @@ bool checkInternetConnection(void)
        DEBUG_PRINT("Ping Google: ");DEBUG_PRINTLN(pingInternet ? F("succesiful") : F("failed"));
        return pingInternet;
 }
+
 
 void otaGsm(void)
 {
@@ -869,7 +833,6 @@ void liveCtrl(void)
 /**********************************************************************************************************************************************/
 void  getSettingsFromEeprom(void)
 {
-
 }
 
 void sendToHMI(char *smsmsg, String notifier_subject, String notifier_body,String fb_path,String fb_cmdString)
@@ -878,10 +841,9 @@ void sendToHMI(char *smsmsg, String notifier_subject, String notifier_body,Strin
   if (internetActive) myBlynk.notifierDebug(NOTIFIER_ID, notifier_body);
 }
 
- 
+
 void rebootSw(void)
 {
-// EEPROM.write(EEPROM_ERR_ADD, SW_RESET); EEPROM.commit();
  ESP.restart();
 }
 
@@ -891,18 +853,15 @@ void smsActivation(int activate)
 
 void firebaseOnActivation(int activation)
 {
-
-}  
+} 
 
 
 void wifiActivation(int activation)
 {
-   
 }
 
 void blynkActivation (int activation)
 {
-   
 }
 
 void sendVersion(void)
@@ -916,4 +875,12 @@ int stringToInteger(String str)
 char carray[5]; 
       str.toCharArray(carray, sizeof(carray));
       return ( atoi(carray));  
+}
+
+void goToDeepSleep(int sleepTimer)
+{
+      EEPROM.write(EEPROM_ERR_ADD, DEEP_SLEEP ); EEPROM.commit(); 
+      sendToHMI("Going to Deep Sleep", "Going to Deep Sleep", "Going to Deep Sleep",FB_NOTIFIER, "Going to Deep Sleep" );
+      esp_sleep_enable_timer_wakeup(sleepTimer *60 *60 * 1000000); // in microseconds
+      esp_deep_sleep_start();
 }

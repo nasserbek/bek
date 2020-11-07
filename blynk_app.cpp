@@ -691,6 +691,8 @@ void blynk::blynkRun()
 
 void blynk::sendAlive(int _data)
 {
+if (sendToBlynk)
+{
 #ifdef BEK
      if (_data==0)  led1.setColor(BLYNK_RED); 
  else           led1.setColor(BLYNK_GREEN);
@@ -699,72 +701,98 @@ void blynk::sendAlive(int _data)
      if (_data==0)  led8.setColor(BLYNK_RED); 
  else           led8.setColor(BLYNK_YELLOW);
 #endif
-
+}
 }
 
 
 void blynk::blynkAckLed(bool _data)
 {
+  if (sendToBlynk)
+  {
  if (_data==1)  led2.setColor(BLYNK_RED);
  else           led2.setColor(BLYNK_GREEN);
+  }
 }
 
 
 void blynk::blynkRCLed(bool _data)
 {
+  if (sendToBlynk)
+  {
  if (_data==0)  led3.setColor(BLYNK_RED);
  else           led3.setColor(BLYNK_GREEN);
+  }
 }
 
 void blynk::blynkRCLed315(bool _data)
 {
+  if (sendToBlynk)
+  {
  if (_data==0)  led6.setColor(BLYNK_RED);
  else           led6.setColor(BLYNK_GREEN);
+  }
 }
 
 void blynk::blynkFirebaseLed(bool _data)
 {
- if (_data==0)  led4.setColor(BLYNK_RED);
- else           led4.setColor(BLYNK_GREEN);
+
 }
 
 void blynk::blynkSmsLed(bool _data)
 {
+  if (sendToBlynk)
+  {
  if (_data==0)  led5.setColor(BLYNK_RED);
  else           led5.setColor(BLYNK_GREEN);
+  }
 }
 void blynk::resetT433Cmd(int cmd)
 {
+  if (sendToBlynk)
+  {
   t433ChNumber = cmd;
  Blynk.virtualWrite(V1, cmd);
+  }
 }
 
 void blynk::resetT315Cmd(int cmd)
 {
+  if (sendToBlynk)
+  {
   t315ChNumber = cmd;
  Blynk.virtualWrite(V14, cmd);
+  }
 }
 
 void blynk::sevenSegValue(int freq )
 {
+  if (sendToBlynk)
+  {
   sevenSeg = freq;
  Blynk.virtualWrite(V2, freq);
+  }
 }
 
 
 void blynk::frequencyValue(int freq )
 {
+  if (sendToBlynk)
+  {
   frequency = freq;
   Blynk.virtualWrite(V0, freq);
+  }
 }
 
 void blynk::sendRsss(int _rsss)
 {
-  Blynk.virtualWrite(V3, _rsss); 
+  if (sendToBlynk) Blynk.virtualWrite(V3, _rsss); 
 }
 
 void blynk::zapLed(bool _data)
 {
+  if (sendToBlynk)
+  {
  if (_data==0)  led7.setColor(BLYNK_RED);
  else           led7.setColor(BLYNK_GREEN);
+  }
 }
