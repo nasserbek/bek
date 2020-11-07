@@ -86,7 +86,7 @@ void setup()
 void loop(void) 
 {
        resetWdg();    //reset timer (feed watchdog) 
-       netgeerCtrl();
+
        wifiUploadCtrl();
        
        if (internetActive)
@@ -102,16 +102,22 @@ void loop(void)
             {
              if ( ( (millis() - blynkNotActiveTimer) >= BLYNK_ACTIVITY_STOP_TIMER) && !blynkEvent) 
                {
-                   blynkNotActiveTimer = millis();
-                   if (blynkActive) sim.SendSMS("Blynk is not active");
+                    if (blynkActive) 
+                      {
+                        sim.SendSMS("Blynk is not active");
+                        internetSurvilanceTimer = millis();
+                      }
                    blynkActive =false;
+                   zapOnOff = false;
+                   blynkNotActiveTimer = millis();
                }
            }
 
           if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);    
          }
-         
-      if (!internetActive) blynkActive =false;
+       
+       if ( !blynkActive ) netgeerCtrl();
+       if (!internetActive) {blynkActive =false;zapOnOff = false;}
       
        if( smsEvent =sim.smsRun()) processSms();
 }
