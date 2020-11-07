@@ -38,7 +38,7 @@ int stateMachine =0;
 bool wifiIde = true;
 int repetionRC = 10;
 int pulseRC = 416; //Default protocol 1
-int Av_Rx = 3;
+int Av_Rx = 1;
 int deepSleepTimerHours = 1 ;
 bool startLostInternetTimer = false;
 

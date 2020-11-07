@@ -1,7 +1,6 @@
 #include "main.h"
 #include <ESP32Ping.h>
 String blynkNotifier = "Restarting with Error " ;
-
  reciever av;
  sim800L sim; 
  otaUpload ota; 
