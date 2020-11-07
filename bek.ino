@@ -1,6 +1,6 @@
 #include "main.h"
 #include <ESP32Ping.h>
-String blynkNotifier = "Restarting V3.11 Error " ;
+String blynkNotifier = "Restarting with Error " ;
 
  reciever av;
  sim800L sim; 
@@ -38,7 +38,7 @@ void setup()
      errorCode = EEPROM.read(EEPROM_ERR_ADD);DEBUG_PRINT("Error code is:");DEBUG_PRINTLN(char (errorCode));
      EEPROM.write(EEPROM_ERR_ADD, '0'); EEPROM.commit();
      
-     String blynkNotifier1   = blynkNotifier +   String (errorCode);
+     String blynkNotifier1   = blynkNotifier + VERSION +  errorCode;
      
      if (wifiAvailable) 
         { 

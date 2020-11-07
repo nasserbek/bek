@@ -1,3 +1,5 @@
+#define VERSION " V4 " 
+
 //#define DEBUG_SERIAL
 #define NETGEER
 //#define FREE
@@ -8,8 +10,6 @@
 
 
 #define BEK
-
-#define VERSION_ID "Starting V3.1 28 10 2020 19.00 Code: "
 
 #ifdef BEK
     #define NOTIFIER_ID "BEK : \n "
