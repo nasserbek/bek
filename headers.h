@@ -1,4 +1,4 @@
-#define VERSION " V7  " 
+#define VERSION " V8  " 
 
 //#define DEBUG_SERIAL
 #define NETGEER
