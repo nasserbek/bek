@@ -1,6 +1,6 @@
 #include "main.h"
 #include <ESP32Ping.h>
-String blynkNotifier = "Restarting V3.10 Error " ;
+String blynkNotifier = "Restarting V3.11 Error " ;
 
  reciever av;
  sim800L sim; 
@@ -99,20 +99,20 @@ void loop(void)
               blynkNotActiveTimer = millis();
             }  
           else 
-          {
+            {
              if ( ( (millis() - blynkNotActiveTimer) >= BLYNK_ACTIVITY_STOP_TIMER) && !blynkEvent) 
                {
                    blynkNotActiveTimer = millis();
                    if (blynkActive) sim.SendSMS("Blynk is not active");
                    blynkActive =false;
                }
-          }
+           }
 
           if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);    
          }
-        
-        blynkActive =true;
-        
+         
+      if (!internetActive) blynkActive =false;
+      
        if( smsEvent =sim.smsRun()) processSms();
 }
 
