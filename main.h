@@ -19,7 +19,7 @@
 #include "blynk_app.h"
 #include "headers.h"
 
-
+bool  blynkActive =false;
 bool sendToBlynk = false;
 bool fireBaseOn =false;
 bool blynkOn    =true;
@@ -27,7 +27,7 @@ bool wifiOn     =true;
 bool smsOn      =true;
 
 int zapTimer = 5000;
-long zaptime, NetgeerResetTimer, wifiSurvilanceTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff,wifiIDETimer,restartAfterResetNG,NetgeerResetGooglLostTimer;
+long zaptime, NetgeerResetTimer, wifiSurvilanceTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff,wifiIDETimer,restartAfterResetNG,NetgeerResetGooglLostTimer,blynkNotActiveTimer;
 bool pingGoogle= false;
 bool internetActive = true;
 bool netGeerReset = false;

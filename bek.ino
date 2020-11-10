@@ -22,7 +22,7 @@ void setup()
      errorCode = EEPROM.read(EEPROM_ERR_ADD);DEBUG_PRINT("Error code is:");DEBUG_PRINTLN(char (errorCode));
      EEPROM.write(EEPROM_ERR_ADD, '0'); EEPROM.commit();
      
-     myBlynk.sendToBlynk = true;
+     myBlynk.sendToBlynk = false;
      
      if (wifiAvailable) 
         { 
@@ -62,7 +62,7 @@ void setup()
     wifiIDETimer            = millis();
     restartAfterResetNG     = millis();
     NetgeerResetGooglLostTimer = millis();
-    
+    blynkNotActiveTimer     = millis();
     otaIdeSetup();
 }
 
@@ -76,10 +76,23 @@ void loop(void)
        if (internetActive)
          {
           myBlynk.blynkRun();
-          if(blynkEvent = myBlynk.getData () )  processBlynk();       
+          if(blynkEvent = myBlynk.getData () ) {blynkActive =true; processBlynk();}    
           if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);    
          }
-
+         
+       if (!internetActive) {blynkEvent=false; blynkActive =false; myBlynk.sendToBlynk = false;}
+       
+       if ( ( (millis() - blynkNotActiveTimer) >= BLYNK_ACTIVITY_STOP_TIMER) && !blynkEvent) 
+               {
+                    if (blynkActive) 
+                      {
+                        sim.SendSMS("Blynk is not active, stop updating LEDs ");
+                        myBlynk.sendToBlynk = false;
+                      }
+                   blynkActive =false;
+                   blynkNotActiveTimer = millis();
+               }        
+       
        if( smsEvent =sim.smsRun()) processSms();
        
 }
