@@ -15,14 +15,9 @@ void setup()
      Serial.begin(115200);
      initWDG(SEC_60,EN);
      av.init();
+     EEPROM.begin(EEPROM_SIZE);
      sim800Available = sim.init();
      wifiAvailable = myBlynk.wifiConnect();
-     delay(5000);
-     EEPROM.begin(EEPROM_SIZE);
-     errorCode = EEPROM.read(EEPROM_ERR_ADD);DEBUG_PRINT("Error code is:");DEBUG_PRINTLN(char (errorCode));
-     EEPROM.write(EEPROM_ERR_ADD, '0'); EEPROM.commit();
-     
-     myBlynk.sendToBlynk = false;
      
      if (wifiAvailable) 
         { 
