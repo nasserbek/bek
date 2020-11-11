@@ -2,10 +2,10 @@
 #define VERSION_ID " V6.0 CREIL SNG "
 
 #define DEBUG_SERIAL
-//#define NETGEER
+#define NETGEER
 //#define FREE
 //#define HUAWEI
-#define SFR
+//#define SFR
 //#define OPPO
 //#define BB
 
