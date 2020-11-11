@@ -14,7 +14,7 @@ void setup()
      digitalWrite(NETGEER_PIN, LOW);
      av.bluLed(ON);
      Serial.begin(115200);
-     initWDG(SEC_60,EN);
+
      av.init();
      EEPROM.begin(EEPROM_SIZE);
      sim800Available = sim.init();
@@ -57,10 +57,7 @@ void setup()
         }
        
         else    sendToHMI("Wifi failed to connect or turned off", "Wifi activation: ", "Wifi failed to connect, restarting",FB_NOTIFIER, "Wifi failed to connect , restarting" );
-
-
-    
-
+ 
     NetgeerResetTimer       = millis();
     wifiSurvilanceTimer     = millis();
     internetSurvilanceTimer = millis();
@@ -72,6 +69,7 @@ void setup()
     blynkNotActiveTimer     = millis();
     DEBUG_PRINT("Wifi: ");DEBUG_PRINTLN(wifiAvailable ? F("Available") : F("Not Available"));
     DEBUG_PRINTLN("Restarting the Loop");
+    initWDG(SEC_60,EN);
 }
 
 
@@ -79,7 +77,6 @@ void loop(void)
 {
  resetWdg();    //reset timer (feed watchdog) 
  if( smsEvent =sim.smsRun()) processSms();
- 
  if (wifiAvailable) 
      {
        netgeerCtrl();
