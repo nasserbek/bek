@@ -79,12 +79,11 @@ void loop(void)
  if( smsEvent =sim.smsRun()) processSms();
  if (wifiAvailable) 
      {
-       netgeerCtrl();
-       
        if (googlePingOk && !blynkInitDone) {myBlynk.init(); blynkInitDone =true;}       
-       
        blynkConnected = myBlynk.blynkActive();
        
+       netgeerCtrl();
+              
        if ( !blynkConnected && blynkInitDone)       
           {
             googleConnected = googlePingOk ;
