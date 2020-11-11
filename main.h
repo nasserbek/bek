@@ -18,6 +18,8 @@
 #include "blynk_app.h"
 #include "headers.h"
 
+bool blynkInitDone=false;
+bool blynkConnected = false;
 bool  blynkActive =false;
 bool sendToBlynk = false;
 bool fireBaseOn =false;
@@ -28,7 +30,7 @@ bool smsOn      =true;
 int zapTimer = 5000;
 long zaptime, NetgeerResetTimer, wifiSurvilanceTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff,wifiIDETimer,restartAfterResetNG,NetgeerResetGooglLostTimer,blynkNotActiveTimer;
 bool pingGoogle= false;
-bool internetActive = true;
+bool googlePingOk= true;
 bool netGeerReset = false;
 bool liveBit = false;
 IPAddress ip (192, 168, 0, 1); // The remote ip to ping

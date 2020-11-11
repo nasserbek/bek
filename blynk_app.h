@@ -26,6 +26,7 @@ class blynk {
     blynk(void) ;
     void init();
     void blynkRun();
+    bool blynkActive();
     
     void sendAlive( int _data);
     void blynkAckLed(bool _data);

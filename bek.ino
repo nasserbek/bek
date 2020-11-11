@@ -1,6 +1,7 @@
 #include "main.h"
 #include <ESP32Ping.h>
 
+
  reciever av;
  sim800L sim; 
  otaUpload ota; 
@@ -18,35 +19,46 @@ void setup()
      EEPROM.begin(EEPROM_SIZE);
      sim800Available = sim.init();
      wifiAvailable = myBlynk.wifiConnect();
-     myBlynk.init();
-     delay(5000);
      
      mySwitch.enableTransmit(RC_TX_PIN);
-     receiverAvByFreq (1080);
-     receiverAvByCh (1);
+     receiverAvByFreq (1280);
+     receiverAvByCh (6);
      av.bluLed(OFF);
     
      if (wifiAvailable) 
         { 
-          internetActive  = checkInternetConnection();
           byte gitHub = EEPROM.read(EEPROM_GITHUB_ADD);
-          if (gitHub) 
+
+          googlePingOk = pingGoogleConnection();
+          
+          if (googlePingOk) 
               {
-                if ( internetActive ) getDateTimeNTP(gitHub); 
-                sendToHMI(util.dateAndTimeChar, "Version : ", String(util.dateAndTimeChar),FB_NOTIFIER,String(util.dateAndTimeChar));
-              }
-         if ( internetActive ) 
-              {
-                myBlynk.frequencyValue(1080 );
-                myBlynk.sevenSegValue(1 );
-                sendVersion();
+                myBlynk.init(); blynkInitDone =true;
+                if (gitHub) 
+                  {
+                    if ( googlePingOk) getDateTimeNTP(gitHub); 
+                    sendToHMI(util.dateAndTimeChar, "Version : ", String(util.dateAndTimeChar),FB_NOTIFIER,String(util.dateAndTimeChar));
+                  }
+                
+                myBlynk.sendToBlynk = true; myBlynk.sendToBlynkLeds = true;
+                myBlynk.frequencyValue(1280 ); 
+                myBlynk.sevenSegValue(6 ); 
+                sendToHMI(util.dateAndTimeChar, "Version :", VERSION_ID ,FB_NOTIFIER, VERSION_ID);
                 myBlynk.blynkSmsLed (sim800Available);
+                myBlynk.sendToBlynk = false;  myBlynk.sendToBlynkLeds = false;
               }
+            else 
+              {
+                blynkInitDone =false;
+                sendToHMI("Internet failed to connect to Google", "Internet failure : ", "Internet failure",FB_NOTIFIER, "Internet failure" );
+              }    
         }
        
      else    sendToHMI("Wifi failed to connect or turned off", "Wifi activation: ", "Wifi failed to connect, restarting",FB_NOTIFIER, "Wifi failed to connect , restarting" );
 
-        
+
+    otaIdeSetup();
+
     NetgeerResetTimer       = millis();
     wifiSurvilanceTimer     = millis();
     internetSurvilanceTimer = millis();
@@ -56,7 +68,6 @@ void setup()
     restartAfterResetNG     = millis();
     NetgeerResetGooglLostTimer = millis();
     blynkNotActiveTimer     = millis();
-    otaIdeSetup();
 }
 
 
@@ -65,15 +76,29 @@ void loop(void)
        resetWdg();    //reset timer (feed watchdog) 
        if( smsEvent =sim.smsRun()) processSms();
        netgeerCtrl();
-              
-       if (internetActive)
-         {
-          myBlynk.blynkRun();
-          if(blynkEvent = myBlynk.getData () ) {blynkActive =true; processBlynk();}    
-         }
-      
-       else {blynkEvent=false; blynkActive =false; myBlynk.sendToBlynk = false;myBlynk.sendToBlynkLeds = false;}
        
+       if (googlePingOk && !blynkInitDone) {myBlynk.init(); blynkInitDone =true;}       
+       
+       blynkConnected = myBlynk.blynkActive();
+       
+       if ( !blynkConnected && blynkInitDone)       
+          {
+            googlePingOk = false;
+            blynkInitDone =false;
+            blynkEvent=false; 
+            blynkActive =false; 
+            myBlynk.sendToBlynk = false;
+            myBlynk.sendToBlynkLeds = false;
+           }
+
+         if ( blynkConnected && blynkInitDone)
+          {
+            myBlynk.blynkRun();
+            googlePingOk = true;
+            if(blynkEvent = myBlynk.getData () ) {blynkActive =true; processBlynk();}    
+          }
+
+
        if ( ( (millis() - blynkNotActiveTimer) >= BLYNK_ACTIVITY_STOP_TIMER) && !blynkEvent && blynkActive) 
                {
                    sim.SendSMS("Blynk is not active, stop updating LEDs ");
@@ -125,7 +150,7 @@ void processBlynk(void)
             break;
             
             case FB_SEND_TO_BLYNK_ID:
-                myBlynk.sendToBlynk = myBlynk.blynkData;
+                myBlynk.sendToBlynk = myBlynk.sendToBlynkLeds= myBlynk.blynkData;
                 myBlynk.sendToBlynkLed(myBlynk.sendToBlynk);
              break;
              
@@ -536,7 +561,7 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
 
 void remoteControl(int cmd )
 {
-     if (internetActive)    
+     if (blynkConnected)    
       {
         if (cmd >= 1 && cmd <= 15)  {myBlynk.blynkRCLed(1); }
         if (cmd >= 16 && cmd <= 30) {myBlynk.blynkRCLed315(1);}
@@ -545,7 +570,8 @@ void remoteControl(int cmd )
      mySwitch.send(CH_433[cmd], RC_CODE_LENGTH);
      DEBUG_PRINT("ch433:");DEBUG_PRINTLN(cmd);
      delay(500);
-     if (internetActive)    
+     
+     if (blynkConnected)    
       {
         if (cmd >= 1 && cmd <= 15) {myBlynk.blynkRCLed(0);myBlynk.resetT433Cmd(cmd);}
         if (cmd >= 16 && cmd <= 30) {myBlynk.blynkRCLed315(0);myBlynk.resetT315Cmd(cmd);}
@@ -561,7 +587,7 @@ void receiverAvByCh (int Ch)
 {
   bool ack;
   int PLL_value;
-       if (internetActive) myBlynk.blynkAckLed(true);
+       if (blynkConnected) myBlynk.blynkAckLed(true);
        
        if (Ch != 9) {ack = av.Tuner_PLL(av_pll_addr, PLL[Ch]);}
        else 
@@ -570,53 +596,53 @@ void receiverAvByCh (int Ch)
           ack = av.Tuner_PLL(av_pll_addr, PLL_value);
         }
        delay(500);
-       if (internetActive) {myBlynk.blynkAckLed(ack); myBlynk.sevenSegValue(Ch );}
+       if (blynkConnected) {myBlynk.blynkAckLed(ack); myBlynk.sevenSegValue(Ch );}
       
         switch (Ch)
           {
             case 1:
-               if (internetActive) myBlynk.frequencyValue(1080 );
+               if (blynkConnected) myBlynk.frequencyValue(1080 );
                recevierFreq =1080;
             break;
 
             case 2:
-                if (internetActive)myBlynk.frequencyValue(1120 );
+                if (blynkConnected)myBlynk.frequencyValue(1120 );
                 recevierFreq =1120;
             break;
 
             
             case 3:
-               if (internetActive) myBlynk.frequencyValue(1160 );
+               if (blynkConnected) myBlynk.frequencyValue(1160 );
                recevierFreq =1160;
             break;
 
 
             case 4:
-               if (internetActive) myBlynk.frequencyValue(1200 );
+               if (blynkConnected) myBlynk.frequencyValue(1200 );
                recevierFreq =1200;
             break;
 
                        
             case 5:
-              if (internetActive)  myBlynk.frequencyValue(1240 );
+              if (blynkConnected)  myBlynk.frequencyValue(1240 );
               recevierFreq =1240;
             break;
 
                        
             case 6:
-              if (internetActive)  myBlynk.frequencyValue(1280 );
+              if (blynkConnected)  myBlynk.frequencyValue(1280 );
               recevierFreq =1280;
             break;
 
                        
             case 7:
-              if (internetActive)  myBlynk.frequencyValue(1320 );
+              if (blynkConnected)  myBlynk.frequencyValue(1320 );
               recevierFreq =1320;
             break;
 
                        
             case 8:
-              if (internetActive)  myBlynk.frequencyValue(1360 );
+              if (blynkConnected)  myBlynk.frequencyValue(1360 );
               recevierFreq =1360;
             break;
 
@@ -631,10 +657,10 @@ void receiverAvByFreq (int Freq)
 {
   bool ack=0;
        recevierFreq =Freq;
-       if (internetActive) myBlynk.blynkAckLed(true);
+       if (blynkConnected) myBlynk.blynkAckLed(true);
        int PLL_value =( 512 * ( 1000000 * (Freq + 479.5) ) ) / (16*4000000) ;
        ack = av.Tuner_PLL(av_pll_addr, PLL_value);
-       if (internetActive)  { myBlynk.blynkAckLed(ack);myBlynk.frequencyValue(Freq );}
+       if (blynkConnected)  { myBlynk.blynkAckLed(ack);myBlynk.frequencyValue(Freq );}
        DEBUG_PRINT("Received manual_freq:");DEBUG_PRINTLN(manual_freq);
        DEBUG_PRINT("ack: ");DEBUG_PRINTLN(ack ? F("NotACK") : F("ACK"));
 }
@@ -646,14 +672,15 @@ void netgeerCtrl(void)
 {
        if ( (  (millis() - internetSurvilanceTimer) >= PING_GOOGLE_TIMER))
               {
-                internetActive  = checkInternetConnection();
-                if (internetActive) { restartAfterResetNG = millis();netGeerReset = false;}
+                googlePingOk = pingGoogleConnection();
+                if (googlePingOk) { restartAfterResetNG = millis();netGeerReset = false;}
                 internetSurvilanceTimer= millis();
               }
               
-       if (!internetActive && !netGeerReset)  
+       if (!googlePingOk && !netGeerReset)  
             { 
               sim.SendSMS("Reset Netgeer for Internet Failure");
+              DEBUG_PRINTLN("Reset Netgeer for Internet Failure");
               EEPROM.write(EEPROM_ERR_ADD, INTERNET_FAILURE); EEPROM.commit();
               ResetNetgeer();
             }
@@ -661,8 +688,8 @@ void netgeerCtrl(void)
         if ( ( (millis() - NetgeerResetTimer) >= NETGEER_RESET_TIMER) && !netGeerReset)
         {
             NetgeerResetTimer= millis();
-            DEBUG_PRINTLN(netgeerTimer1 );
-            if ( internetActive ) myBlynk.notifierDebug(NOTIFIER_ID, "Reset Netgeer 12 hours timer");
+            DEBUG_PRINTLN("Reset Netgeer 12 hours timer");
+            if ( blynkConnected ) myBlynk.notifierDebug(NOTIFIER_ID, "Reset Netgeer 12 hours timer");
             EEPROM.write(EEPROM_ERR_ADD, TEN_HOURS_TIMER); EEPROM.commit();
             sim.SendSMS("Reset Netgeer for 12 hours");
             ResetNetgeer();
@@ -671,6 +698,7 @@ void netgeerCtrl(void)
        if (  ( (millis() - restartAfterResetNG) >=  RESTART_AFTER_NG_RESET_TIMER) && netGeerReset )
           {
             sim.SendSMS("Resetaring 5 min after Netgeer reset");
+            DEBUG_PRINTLN("Resetaring 5 min after Netgeer reset");
             ESP.restart(); 
           }
           
@@ -690,11 +718,11 @@ void ResetNetgeer(void)
           }
 
 
-bool checkInternetConnection(void)
+bool pingGoogleConnection(void)
 {
        bool pingInternet= Ping.ping("www.google.com");
        DEBUG_PRINT("Ping Google: ");DEBUG_PRINTLN(pingInternet ? F("succesiful") : F("failed"));
-       return pingInternet;
+       return (pingInternet);
 }
 
 
@@ -827,14 +855,14 @@ void liveCtrl(void)
             liveBit = true ;
             av.bluLed(liveBit);
             liveTimerOff = millis();
-            if ( internetActive ) myBlynk.sendAlive(liveBit);
+            if ( googlePingOk) myBlynk.sendAlive(liveBit);
           }
     if ( (millis() - liveTimerOff > LIVE_TIMER_OFF) && liveBit ) 
           {
             liveBit = false ;
             av.bluLed(liveBit);
             liveTimerOn = millis();
-           if ( internetActive )  myBlynk.sendAlive(liveBit);
+           if ( googlePingOk)  myBlynk.sendAlive(liveBit);
           }
 }
 
@@ -846,7 +874,9 @@ void  getSettingsFromEeprom(void)
 void sendToHMI(char *smsmsg, String notifier_subject, String notifier_body,String fb_path,String fb_cmdString)
 {
   if(sim800Available)sim.SendSMS(smsmsg);
-  if (internetActive) myBlynk.notifierDebug(NOTIFIER_ID, notifier_body);
+  else DEBUG_PRINTLN("SMS failure");
+  if (googlePingOk) myBlynk.notifierDebug(NOTIFIER_ID, notifier_body);
+  else DEBUG_PRINTLN("Internet Failure");
 }
 
 

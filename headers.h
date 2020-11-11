@@ -1,18 +1,18 @@
 #define BEK
-#define VERSION_ID " V6.0 "
+#define VERSION_ID " V6.0 CREIL SNG "
 
-//#define DEBUG_SERIAL
-#define NETGEER
+#define DEBUG_SERIAL
+//#define NETGEER
 //#define FREE
 //#define HUAWEI
-//#define SFR
+#define SFR
 //#define OPPO
 //#define BB
 
 
 
 #ifdef BEK
-    #define NOTIFIER_ID "BEK : \n "
+    #define NOTIFIER_ID "CREIL : \n "
 #else
     #define NOTIFIER_ID "BEK2 : \n "
 #endif
@@ -27,7 +27,7 @@
 
 #define PING_GOOGLE_TIMER 60000  // 1 MIN
 #define PING_GOOGLE_LOST_TO_RESET_NG_TIMER 300000  // 5 MIN
-#define RESTART_AFTER_NG_RESET_TIMER 500000  // 5 MIN
+#define RESTART_AFTER_NG_RESET_TIMER 300000   // 5 MIN
 
 #define NETGEER_RESET_TIMER 43200000  // 12 HOURS
 

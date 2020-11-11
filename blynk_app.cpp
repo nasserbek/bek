@@ -686,7 +686,10 @@ void blynk::blynkRun()
   Blynk.run(); 
 }
 
-
+bool blynk::blynkActive()
+{
+  return( Blynk.connected() ); 
+}
 
 void blynk::blynkAckLed(bool _data)
 {
