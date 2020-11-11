@@ -690,22 +690,30 @@ void blynk::blynkRun()
 
 void blynk::blynkAckLed(bool _data)
 {
- if (_data==1)  led2.setColor(BLYNK_RED);
- else           led2.setColor(BLYNK_GREEN);
+  if (sendToBlynkLeds)
+    {
+      if (_data==1)  led2.setColor(BLYNK_RED);
+      else           led2.setColor(BLYNK_GREEN);
+    }  
 }
 
 
 void blynk::blynkRCLed(bool _data)
 {
- if (_data==0)  led3.setColor(BLYNK_RED);
- else           led3.setColor(BLYNK_GREEN);
-
+    if (sendToBlynkLeds)
+    {
+      if (_data==0)  led3.setColor(BLYNK_RED);
+      else           led3.setColor(BLYNK_GREEN);
+    }
 }
 
 void blynk::blynkRCLed315(bool _data)
 {
- if (_data==0)  led6.setColor(BLYNK_RED);
- else           led6.setColor(BLYNK_GREEN);
+    if (sendToBlynkLeds)
+    {
+      if (_data==0)  led6.setColor(BLYNK_RED);
+      else           led6.setColor(BLYNK_GREEN);
+    }  
 }
 
 void blynk::blynkSmsLed(bool _data)

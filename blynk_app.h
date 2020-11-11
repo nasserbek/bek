@@ -18,6 +18,7 @@ class blynk {
   public:
     bool blynkEvent = false;
     bool sendToBlynk = false;
+    bool sendToBlynkLeds = false;
     int  blynkData=0;
     int  blynkEventID =0;
     int  t433ChNumber,t315ChNumber, blynkfreqValue,sevenSeg,frequency,otaBlynk,bootBlynk,fbonBlynk,smsBlynk;

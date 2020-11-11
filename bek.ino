@@ -18,7 +18,7 @@ void setup()
      EEPROM.begin(EEPROM_SIZE);
      sim800Available = sim.init();
      wifiAvailable = myBlynk.wifiConnect();
-     
+     delay(5000);
      if (wifiAvailable) 
         { 
           internetActive  = checkInternetConnection();
@@ -30,6 +30,7 @@ void setup()
               }
               
            myBlynk.init();
+           delay(5000);
            if ( internetActive ) 
               {
                 myBlynk.frequencyValue(1080 );
@@ -65,31 +66,28 @@ void setup()
 void loop(void) 
 {
        resetWdg();    //reset timer (feed watchdog) 
+       if( smsEvent =sim.smsRun()) processSms();
        netgeerCtrl();
-       wifiUploadCtrl();
-       
+              
        if (internetActive)
          {
           myBlynk.blynkRun();
           if(blynkEvent = myBlynk.getData () ) {blynkActive =true; processBlynk();}    
-          if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);    
          }
-         
-       if (!internetActive) {blynkEvent=false; blynkActive =false; myBlynk.sendToBlynk = false;}
+      
+       else {blynkEvent=false; blynkActive =false; myBlynk.sendToBlynk = false;myBlynk.sendToBlynkLeds = false;}
        
-       if ( ( (millis() - blynkNotActiveTimer) >= BLYNK_ACTIVITY_STOP_TIMER) && !blynkEvent) 
+       if ( ( (millis() - blynkNotActiveTimer) >= BLYNK_ACTIVITY_STOP_TIMER) && !blynkEvent && blynkActive) 
                {
-                    if (blynkActive) 
-                      {
-                        sim.SendSMS("Blynk is not active, stop updating LEDs ");
-                        myBlynk.sendToBlynk = false;
-                      }
+                   sim.SendSMS("Blynk is not active, stop updating LEDs ");
+                   myBlynk.sendToBlynk = false;
+                   myBlynk.sendToBlynkLeds = false;
                    blynkActive =false;
                    blynkNotActiveTimer = millis();
                }        
-       
-       if( smsEvent =sim.smsRun()) processSms();
-       
+      
+      if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);      
+      wifiUploadCtrl();    
 }
 
 
