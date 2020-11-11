@@ -119,6 +119,63 @@ void loop(void)
     }  
 }
 
+void netgeerCtrl(void)
+{
+
+       if ( (  (millis() - internetSurvilanceTimer) >= PING_GOOGLE_TIMER))
+              {
+                googlePingOk = googleConnected = pingGoogleConnection();
+                if (googlePingOk) { restartAfterResetNG = millis();netGeerReset = false;}
+                internetSurvilanceTimer= millis();
+              }
+              
+       if (!googleConnected&& !netGeerReset)  
+            { 
+              sim.SendSMS("Reset Netgeer for Internet Failure");
+              DEBUG_PRINTLN("Reset Netgeer for Internet Failure");
+              EEPROM.write(EEPROM_ERR_ADD, INTERNET_FAILURE); EEPROM.commit();
+              ResetNetgeer();
+            }
+             
+        if ( ( (millis() - NetgeerResetTimer) >= NETGEER_RESET_TIMER) && !netGeerReset)
+        {
+            NetgeerResetTimer= millis();
+            DEBUG_PRINTLN("Reset Netgeer 12 hours timer");
+            if ( blynkConnected ) myBlynk.notifierDebug(NOTIFIER_ID, "Reset Netgeer 12 hours timer");
+            EEPROM.write(EEPROM_ERR_ADD, TEN_HOURS_TIMER); EEPROM.commit();
+            sim.SendSMS("Reset Netgeer for 12 hours");
+            ResetNetgeer();
+        }
+ 
+       if (  ( (millis() - restartAfterResetNG) >=  RESTART_AFTER_NG_RESET_TIMER) && netGeerReset )
+          {
+            sim.SendSMS("Resetaring 5 min after Netgeer reset");
+            DEBUG_PRINTLN("Resetaring 5 min after Netgeer reset");
+            ESP.restart(); 
+          }
+          
+}     
+
+
+
+void ResetNetgeer(void)
+          {
+              delay(2000);
+              digitalWrite(NETGEER_PIN, HIGH);
+              delay(2000);
+              digitalWrite(NETGEER_PIN, LOW); 
+              DEBUG_PRINTLN("Netgeer Reset done: ");
+              restartAfterResetNG     = millis();
+              netGeerReset = true;
+          }
+
+
+bool pingGoogleConnection(void)
+{
+       bool pingInternet= Ping.ping("www.google.com");
+       DEBUG_PRINT("Ping Google: ");DEBUG_PRINTLN(pingInternet ? F("succesiful") : F("failed"));
+       return (pingInternet);
+}
 
 void processBlynk(void)
 {
@@ -675,63 +732,6 @@ void receiverAvByFreq (int Freq)
 
 
 
-void netgeerCtrl(void)
-{
-
-       if ( (  (millis() - internetSurvilanceTimer) >= PING_GOOGLE_TIMER))
-              {
-                googlePingOk = googleConnected = pingGoogleConnection();
-                if (googlePingOk) { restartAfterResetNG = millis();netGeerReset = false;}
-                internetSurvilanceTimer= millis();
-              }
-              
-       if (!googleConnected&& !netGeerReset)  
-            { 
-              sim.SendSMS("Reset Netgeer for Internet Failure");
-              DEBUG_PRINTLN("Reset Netgeer for Internet Failure");
-              EEPROM.write(EEPROM_ERR_ADD, INTERNET_FAILURE); EEPROM.commit();
-              ResetNetgeer();
-            }
-             
-        if ( ( (millis() - NetgeerResetTimer) >= NETGEER_RESET_TIMER) && !netGeerReset)
-        {
-            NetgeerResetTimer= millis();
-            DEBUG_PRINTLN("Reset Netgeer 12 hours timer");
-            if ( blynkConnected ) myBlynk.notifierDebug(NOTIFIER_ID, "Reset Netgeer 12 hours timer");
-            EEPROM.write(EEPROM_ERR_ADD, TEN_HOURS_TIMER); EEPROM.commit();
-            sim.SendSMS("Reset Netgeer for 12 hours");
-            ResetNetgeer();
-        }
- 
-       if (  ( (millis() - restartAfterResetNG) >=  RESTART_AFTER_NG_RESET_TIMER) && netGeerReset )
-          {
-            sim.SendSMS("Resetaring 5 min after Netgeer reset");
-            DEBUG_PRINTLN("Resetaring 5 min after Netgeer reset");
-            ESP.restart(); 
-          }
-          
-}     
-
-
-
-void ResetNetgeer(void)
-          {
-              delay(2000);
-              digitalWrite(NETGEER_PIN, HIGH);
-              delay(2000);
-              digitalWrite(NETGEER_PIN, LOW); 
-              DEBUG_PRINTLN("Netgeer Reset done: ");
-              restartAfterResetNG     = millis();
-              netGeerReset = true;
-          }
-
-
-bool pingGoogleConnection(void)
-{
-       bool pingInternet= Ping.ping("www.google.com");
-       DEBUG_PRINT("Ping Google: ");DEBUG_PRINTLN(pingInternet ? F("succesiful") : F("failed"));
-       return (pingInternet);
-}
 
 
 void otaGsm(void)
