@@ -94,6 +94,7 @@ void loop(void)
             blynkActive =false; 
             myBlynk.sendToBlynk = false;
             myBlynk.sendToBlynkLeds = false;
+            internetSurvilanceTimer= millis();
            }
 
          if ( blynkConnected && blynkInitDone)
