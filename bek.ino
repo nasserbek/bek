@@ -100,13 +100,13 @@ void loop(void)
           {
             myBlynk.blynkRun();
             googlePingOk = true;
-            if(blynkEvent = myBlynk.getData () ) {blynkActive =true; processBlynk();}    
+            if(blynkEvent = myBlynk.getData () ) {blynkActive =true; processBlynk(); blynkNotActiveTimer = millis();}    
           }
 
 
        if ( ( (millis() - blynkNotActiveTimer) >= BLYNK_ACTIVITY_STOP_TIMER) && !blynkEvent && blynkActive) 
                {
-                   sim.SendSMS("Blynk is not active, stop updating LEDs ");
+                   if ( blynkConnected) myBlynk.notifierDebug(NOTIFIER_ID, "Blynk is not active, stop updating LEDs");
                    myBlynk.sendToBlynk = false;
                    myBlynk.sendToBlynkLeds = false;
                    blynkActive =false;
