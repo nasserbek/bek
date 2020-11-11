@@ -2,7 +2,7 @@
 //#define SFR
 
 #define NETGEER
-#define VERSION_ID " V8.0 CREIL "
+#define VERSION_ID " V9.0 CREIL "
 
 #define DEBUG_SERIAL
 

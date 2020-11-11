@@ -39,11 +39,11 @@ void setup()
                     if ( googlePingOk) getDateTimeNTP(gitHub); 
                     sendToHMI(util.dateAndTimeChar, "Version : ", String(util.dateAndTimeChar),FB_NOTIFIER,String(util.dateAndTimeChar));
                   }
+                else sendVersion();
                 
                 myBlynk.sendToBlynk = true; myBlynk.sendToBlynkLeds = true;
                 myBlynk.frequencyValue(1280 ); 
                 myBlynk.sevenSegValue(6 ); 
-                sendToHMI(util.dateAndTimeChar, "Version :", VERSION_ID ,FB_NOTIFIER, VERSION_ID);
                 myBlynk.blynkSmsLed (sim800Available);
                 myBlynk.sendToBlynk = false;  myBlynk.sendToBlynkLeds = false;
               }
