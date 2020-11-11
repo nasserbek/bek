@@ -1,11 +1,14 @@
 #define BEK
-#define VERSION_ID " V6.0 CREIL SNG "
+#define SFR
+
+//#define NETGEER
+#define VERSION_ID " V6.0 CREIL "
 
 #define DEBUG_SERIAL
-#define NETGEER
+
 //#define FREE
 //#define HUAWEI
-//#define SFR
+
 //#define OPPO
 //#define BB
 
@@ -21,7 +24,8 @@
 #define LIVE_TIMER_ON   3000
 #define LIVE_TIMER_OFF  3000
 #define WIFI_IDE_TIMER 600000  //10 MIN
-#define WIFI_SURVILANCE_TIMER 300000  // 5 MIN
+#define WIFI_SURVILANCE_TIMER 40000  // 40 sec
+#define WIFI_RECONNECT_TIMER 10000  // 10 sec
 #define DEEP_SLEEP_TIME_60_MIN 3600000000   // 1 HOUR in micro 
 #define BLYNK_ACTIVITY_STOP_TIMER 600000  // 10 MIN
 

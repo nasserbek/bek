@@ -659,11 +659,22 @@ void blynk::notifierDebug(String subject, String body)
 
 bool blynk::wifiConnect()
   {
-    if (WiFi.status()  == WL_CONNECTED )return true; 
     WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-    
+    if (WiFi.status()  == WL_CONNECTED ){DEBUG_PRINTLN("Wifi connected");return true; }
+  
     long timeout = millis();
-    while ( WiFi.status()  != WL_CONNECTED ) {if (millis() - timeout > WIFI_SURVILANCE_TIMER) return false; }
+    long wifiReconnect = millis();
+    
+    while ( WiFi.status()  != WL_CONNECTED ) 
+      {
+        if (millis() - wifiReconnect > WIFI_RECONNECT_TIMER ) 
+          {
+            WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+            wifiReconnect = millis();
+            DEBUG_PRINTLN("Wifi Reconnect");
+          }
+        if (millis() - timeout > WIFI_SURVILANCE_TIMER){DEBUG_PRINTLN("Wifi failed"); return false; }
+      }
     return true; 
 }
 

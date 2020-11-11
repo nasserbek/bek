@@ -51,13 +51,15 @@ void setup()
               {
                 blynkInitDone =false;
                 sendToHMI("Internet failed to connect to Google", "Internet failure : ", "Internet failure",FB_NOTIFIER, "Internet failure" );
-              }    
+              }  
+        
+         otaIdeSetup();  
         }
        
-     else    sendToHMI("Wifi failed to connect or turned off", "Wifi activation: ", "Wifi failed to connect, restarting",FB_NOTIFIER, "Wifi failed to connect , restarting" );
+        else    sendToHMI("Wifi failed to connect or turned off", "Wifi activation: ", "Wifi failed to connect, restarting",FB_NOTIFIER, "Wifi failed to connect , restarting" );
 
 
-    otaIdeSetup();
+    
 
     NetgeerResetTimer       = millis();
     wifiSurvilanceTimer     = millis();
@@ -68,13 +70,18 @@ void setup()
     restartAfterResetNG     = millis();
     NetgeerResetGooglLostTimer = millis();
     blynkNotActiveTimer     = millis();
+    DEBUG_PRINT("Wifi: ");DEBUG_PRINTLN(wifiAvailable ? F("Available") : F("Not Available"));
+    DEBUG_PRINTLN("Restarting the Loop");
 }
 
 
 void loop(void) 
 {
-       resetWdg();    //reset timer (feed watchdog) 
-       if( smsEvent =sim.smsRun()) processSms();
+ resetWdg();    //reset timer (feed watchdog) 
+ if( smsEvent =sim.smsRun()) processSms();
+ 
+ if (wifiAvailable) 
+     {
        netgeerCtrl();
        
        if (googlePingOk && !blynkInitDone) {myBlynk.init(); blynkInitDone =true;}       
@@ -110,6 +117,7 @@ void loop(void)
       
       if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);      
       wifiUploadCtrl();    
+    }  
 }
 
 
