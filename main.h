@@ -18,6 +18,7 @@
 #include "blynk_app.h"
 #include "headers.h"
 
+bool googleConnected=false;
 bool blynkInitDone=false;
 bool blynkConnected = false;
 bool  blynkActive =false;

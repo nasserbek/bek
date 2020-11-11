@@ -87,6 +87,7 @@ void loop(void)
        
        if ( !blynkConnected && blynkInitDone)       
           {
+            googleConnected = googlePingOk ;
             googlePingOk = false;
             blynkInitDone =false;
             blynkEvent=false; 
@@ -675,14 +676,15 @@ void receiverAvByFreq (int Freq)
 
 void netgeerCtrl(void)
 {
+
        if ( (  (millis() - internetSurvilanceTimer) >= PING_GOOGLE_TIMER))
               {
-                googlePingOk = pingGoogleConnection();
+                googlePingOk = googleConnected = pingGoogleConnection();
                 if (googlePingOk) { restartAfterResetNG = millis();netGeerReset = false;}
                 internetSurvilanceTimer= millis();
               }
               
-       if (!googlePingOk && !netGeerReset)  
+       if (!googleConnected&& !netGeerReset)  
             { 
               sim.SendSMS("Reset Netgeer for Internet Failure");
               DEBUG_PRINTLN("Reset Netgeer for Internet Failure");
