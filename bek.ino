@@ -18,7 +18,14 @@ void setup()
      EEPROM.begin(EEPROM_SIZE);
      sim800Available = sim.init();
      wifiAvailable = myBlynk.wifiConnect();
+     myBlynk.init();
      delay(5000);
+     
+     mySwitch.enableTransmit(RC_TX_PIN);
+     receiverAvByFreq (1080);
+     receiverAvByCh (1);
+     av.bluLed(OFF);
+    
      if (wifiAvailable) 
         { 
           internetActive  = checkInternetConnection();
@@ -28,29 +35,18 @@ void setup()
                 if ( internetActive ) getDateTimeNTP(gitHub); 
                 sendToHMI(util.dateAndTimeChar, "Version : ", String(util.dateAndTimeChar),FB_NOTIFIER,String(util.dateAndTimeChar));
               }
-              
-           myBlynk.init();
-           delay(5000);
-           internetActive  = checkInternetConnection();
-           if ( internetActive ) 
+         if ( internetActive ) 
               {
                 myBlynk.frequencyValue(1080 );
                 myBlynk.sevenSegValue(1 );
                 sendVersion();
                 myBlynk.blynkSmsLed (sim800Available);
               }
-       }
+        }
        
-     if (!wifiAvailable) 
-      {
-        sendToHMI("Wifi failed to connect or turned off", "Wifi activation: ", "Wifi failed to connect, restarting",FB_NOTIFIER, "Wifi failed to connect , restarting" );
-      }
+     else    sendToHMI("Wifi failed to connect or turned off", "Wifi activation: ", "Wifi failed to connect, restarting",FB_NOTIFIER, "Wifi failed to connect , restarting" );
 
-    mySwitch.enableTransmit(RC_TX_PIN);
-    receiverAvByFreq (1080);
-    receiverAvByCh (1);
-    av.bluLed(OFF);
-    
+        
     NetgeerResetTimer       = millis();
     wifiSurvilanceTimer     = millis();
     internetSurvilanceTimer = millis();
