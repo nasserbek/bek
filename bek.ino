@@ -29,7 +29,7 @@ void setup()
         { 
           byte gitHub = EEPROM.read(EEPROM_GITHUB_ADD);
 
-          googlePingOk = pingGoogleConnection();
+          googlePingOk = googleConnected = pingGoogleConnection();
           
           if (googlePingOk) 
               {
@@ -129,7 +129,7 @@ void netgeerCtrl(void)
                 internetSurvilanceTimer= millis();
               }
               
-       if (!googleConnected&& !netGeerReset)  
+       if (!googleConnected && !blynkConnected && !netGeerReset )  
             { 
               sim.SendSMS("Reset Netgeer for Internet Failure");
               DEBUG_PRINTLN("Reset Netgeer for Internet Failure");
