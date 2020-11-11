@@ -50,13 +50,13 @@ void setup()
             else 
               {
                 blynkInitDone =false;
-                sendToHMI("Internet failed to connect to Google", "Internet failure : ", "Internet failure",FB_NOTIFIER, "Internet failure" );
+                sendToHMI("Internet failure", "Internet failure : ", "Internet failure",FB_NOTIFIER, "Internet failure" );
               }  
         
          otaIdeSetup();  
         }
        
-        else    sendToHMI("Wifi failed to connect or turned off", "Wifi activation: ", "Wifi failed to connect, restarting",FB_NOTIFIER, "Wifi failed to connect , restarting" );
+        else    sendToHMI("Wifi failure", "Wifi failure: ", "Wifi failure",FB_NOTIFIER, "Wifi failure" );
  
     NetgeerResetTimer       = millis();
     wifiSurvilanceTimer     = millis();

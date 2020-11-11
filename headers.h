@@ -1,8 +1,8 @@
 #define BEK
-#define SFR
+//#define SFR
 
-//#define NETGEER
-#define VERSION_ID " V6.0 CREIL "
+#define NETGEER
+#define VERSION_ID " V8.0 CREIL "
 
 #define DEBUG_SERIAL
 
