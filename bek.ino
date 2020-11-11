@@ -31,6 +31,7 @@ void setup()
               
            myBlynk.init();
            delay(5000);
+           internetActive  = checkInternetConnection();
            if ( internetActive ) 
               {
                 myBlynk.frequencyValue(1080 );
