@@ -1,24 +1,27 @@
 #define BEK
-//#define SFR
-
-#define NETGEER
-#define VERSION_ID " V14.0 CREIL "
-
+#define VERSION_ID " V15.0 CREIL "
 #define DEBUG_SERIAL
-
-//#define FREE
-//#define HUAWEI
-
-//#define OPPO
-//#define BB
 
 
 
 #ifdef BEK
     #define NOTIFIER_ID "CREIL : \n "
+    #define NETGEER
 #else
     #define NOTIFIER_ID "BEK2 : \n "
+    #define SFR
 #endif
+
+
+#ifdef NETGEER
+  #define WIFI_SSID "NETGEER_BEK"                                                
+#endif
+#define WIFI_PASSWORD "ali09042010"
+
+#ifdef SFR
+  #define WIFI_SSID "SFR_BEK"                                                
+#endif
+#define WIFI_PASSWORD "ali09042010"
 
 
 #define LIVE_TIMER_ON   3000
@@ -85,15 +88,6 @@
   #define WIFI_SSID "HUAWEI-BEK"                                                
 #endif
 
-#ifdef NETGEER
-  #define WIFI_SSID "NETGEER_BEK"                                                
-#endif
-#define WIFI_PASSWORD "ali09042010"
-
-#ifdef SFR
-  #define WIFI_SSID "SFR_BEK"                                                
-#endif
-#define WIFI_PASSWORD "ali09042010"
 
 #define BLYNK_GREEN     "#23C48E"
 #define BLYNK_BLUE      "#04C0F8"
@@ -161,6 +155,7 @@
 #define    FB_RC_REPETION_ID    101
 #define    FB_SLEEP_TIMER_ID    102
 #define    FB_FB_OFF_ID         103
+#define    FB_WIFI_WEB_ID        104
 
 
 #define    FB_VERSION_ID        307

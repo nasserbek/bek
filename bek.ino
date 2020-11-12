@@ -1,7 +1,6 @@
 #include "main.h"
 #include <ESP32Ping.h>
-
-
+ 
  reciever av;
  sim800L sim; 
  otaUpload ota; 
@@ -12,7 +11,7 @@ void setup()
 {
      pinMode(NETGEER_PIN_0, OUTPUT);
      digitalWrite(NETGEER_PIN_0, LOW);
-          pinMode(NETGEER_PIN_2, OUTPUT);
+     pinMode(NETGEER_PIN_2, OUTPUT);
      digitalWrite(NETGEER_PIN_2, LOW);
      av.bluLed(ON);
      Serial.begin(115200);
@@ -71,11 +70,10 @@ void setup()
               {
                 sendToHMI("Internet failure", "Internet failure : ", "Internet failure",FB_NOTIFIER, "Internet failure" );
               }  
-        
-          otaIdeSetup();  
 
           if (!wifiAvailable)     sendToHMI("Wifi failure", "Wifi failure: ", "Wifi failure",FB_NOTIFIER, "Wifi failure" );
- 
+    
+    
     NetgeerResetTimer       = millis();
     wifiSurvilanceTimer     = millis();
     internetSurvilanceTimer = millis();
@@ -118,7 +116,7 @@ void loop(void)
            }
     
       if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);      
-      wifiUploadCtrl();    
+
 }
 
 void netgeerCtrl(void)
@@ -186,6 +184,18 @@ void processBlynk(void)
 {
         switch (myBlynk.blynkEventID)
           {
+            case FB_WIFI_IDE_ID:
+               wifiIde = false;         
+               wifiIDETimer = millis();
+               wifiUploadCtrl();
+             break;
+             
+            case FB_WIFI_WEB_ID:
+               wifiWebUpdater = false;
+               wifiIDETimer = millis();
+               webUpdateOta ();
+             break;
+            
             case FB_AV_7SEG_ID:
                 recevierCh=myBlynk.blynkData;
                 DEBUG_PRINT("FB_AV_7SEG: ");DEBUG_PRINTLN(myBlynk.blynkData);
@@ -283,11 +293,6 @@ void processBlynk(void)
              case FB_NETGEER_ID  :
              myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset from Blynk");
               ResetNetgeer();
-            break;
-
-            case FB_WIFI_IDE_ID:
-                wifiIde = false;
-                wifiIDETimer = millis();
             break;
 
             case FB_AV_CH_PLUS_ID:
@@ -490,9 +495,23 @@ void processSms(void)
           else if (smsReceived =="Ver") smsID =FB_VERSION_ID;
           else if (smsReceived == "Settings" ) smsID = FB_SETTINGS_ID ;
           else if (smsReceived == "Netgeer" ) ResetNetgeer();
+          else if (smsReceived == "Ide" ) smsID = FB_WIFI_IDE_ID ;
+          else if (smsReceived == "Web" ) smsID = FB_WIFI_WEB_ID ;
         }
         switch (smsID)
           {
+            case FB_WIFI_IDE_ID:
+               wifiIde = false;         
+               wifiIDETimer = millis();
+               wifiUploadCtrl();
+             break;
+             
+            case FB_WIFI_WEB_ID:
+               wifiWebUpdater = false;
+               wifiIDETimer = millis();
+               webUpdateOta ();
+             break;
+             
             case FB_AV_7SEG_ID:
                 recevierCh=smsValue-40;
                 DEBUG_PRINT("FB_AV_7SEG: ");DEBUG_PRINTLN(recevierCh);
@@ -749,60 +768,7 @@ void otaGsm(void)
 
 
 
-void otaIdeSetup (void)
-     {
-        ArduinoOTA
-    .onStart([]() {
-      String type;
-      if (ArduinoOTA.getCommand() == U_FLASH)
-        type = "sketch";
-      else // U_SPIFFS
-        type = "filesystem";
 
-      // NOTE: if updating SPIFFS this would be the place to unmount SPIFFS using SPIFFS.end()
-      Serial.println("Start updating " + type);
-    })
-    .onEnd([]() {
-      Serial.println("\nEnd");
-    })
-    .onProgress([](unsigned int progress, unsigned int total) {
-      Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
-    })
-    .onError([](ota_error_t error) {
-      Serial.printf("Error[%u]: ", error);
-      if (error == OTA_AUTH_ERROR) Serial.println("Auth Failed");
-      else if (error == OTA_BEGIN_ERROR) Serial.println("Begin Failed");
-      else if (error == OTA_CONNECT_ERROR) Serial.println("Connect Failed");
-      else if (error == OTA_RECEIVE_ERROR) Serial.println("Receive Failed");
-      else if (error == OTA_END_ERROR) Serial.println("End Failed");
-    });
-
-  ArduinoOTA.begin();
-
-  Serial.println("Ready");
-  Serial.print("IP address: ");
-  Serial.println(WiFi.localIP());
-  wifiIde = true;
- }
-
-
-void wifiUploadCtrl(void)
-{
-       while (!wifiIde) 
-       {
-        enableWDG(false);
-        if (  millis() - wifiIDETimer > WIFI_IDE_TIMER )
-        {
-           wifiIde = true;
-           resetWdg();
-           enableWDG(true);
-           wifiIDETimer = millis();
-           EEPROM.write(EEPROM_ERR_ADD, IDE_WIFI); EEPROM.commit();
-           ESP.restart();
-        }
-        else ArduinoOTA.handle();
-       }
-}
 
 
 void room (int RC, int AV, int sel)
@@ -934,4 +900,132 @@ void goToDeepSleep(int sleepTimer)
       sendToHMI("Going to Deep Sleep", "Going to Deep Sleep", "Going to Deep Sleep",FB_NOTIFIER, "Going to Deep Sleep" );
       esp_sleep_enable_timer_wakeup(sleepTimer *60 *60 * 1000000); // in microseconds
       esp_deep_sleep_start();
+}
+
+
+void webOtaSetup(void)
+{
+
+  /*use mdns for host name resolution*/
+  if (!MDNS.begin(host)) { //http://esp32.local
+    Serial.println("Error setting up MDNS responder!");
+    while (1) {
+      delay(1000);
+    }
+  }
+  
+  Serial.println("mDNS responder started");
+  /*return index page which is stored in serverIndex */
+  server.on("/", HTTP_GET, []() {
+    server.sendHeader("Connection", "close");
+    server.send(200, "text/html", loginIndex);
+  });
+
+    server.on("/serverIndex", HTTP_GET, []() {
+    server.sendHeader("Connection", "close");
+    server.send(200, "text/html", serverIndex);
+  });
+
+ /*handling uploading firmware file */
+  server.on("/update", HTTP_POST, []() {
+    server.sendHeader("Connection", "close");
+    server.send(200, "text/plain", (Update.hasError()) ? "FAIL" : "OK");
+    ESP.restart();
+  }, []() {
+    HTTPUpload& upload = server.upload();
+    if (upload.status == UPLOAD_FILE_START) {
+      Serial.printf("Update: %s\n", upload.filename.c_str());
+      if (!Update.begin(UPDATE_SIZE_UNKNOWN)) { //start with max available size
+        Update.printError(Serial);
+      }
+    } else if (upload.status == UPLOAD_FILE_WRITE) {
+      /* flashing firmware to ESP*/
+      if (Update.write(upload.buf, upload.currentSize) != upload.currentSize) {
+        Update.printError(Serial);
+      }
+    } else if (upload.status == UPLOAD_FILE_END) {
+      if (Update.end(true)) { //true to set the size to the current progress
+        Serial.printf("Update Success: %u\nRebooting...\n", upload.totalSize);
+      } else {
+        Update.printError(Serial);
+      }
+    }
+  });
+  server.begin();
+ }
+
+ void webUpdateOta (void)
+ {
+   webOtaSetup();
+   
+   while (!wifiWebUpdater) 
+       {
+        enableWDG(false);
+        if (  millis() - wifiIDETimer > WIFI_IDE_TIMER )
+        {
+           wifiWebUpdater = true;
+           resetWdg();
+           enableWDG(true);
+           wifiIDETimer = millis();
+           ESP.restart();
+        }
+        server.handleClient();
+        delay(1);
+       }
+ }
+
+
+void otaIdeSetup (void)
+     {
+        ArduinoOTA
+    .onStart([]() {
+      String type;
+      if (ArduinoOTA.getCommand() == U_FLASH)
+        type = "sketch";
+      else // U_SPIFFS
+        type = "filesystem";
+
+      // NOTE: if updating SPIFFS this would be the place to unmount SPIFFS using SPIFFS.end()
+      Serial.println("Start updating " + type);
+    })
+    .onEnd([]() {
+      Serial.println("\nEnd");
+    })
+    .onProgress([](unsigned int progress, unsigned int total) {
+      Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
+    })
+    .onError([](ota_error_t error) {
+      Serial.printf("Error[%u]: ", error);
+      if (error == OTA_AUTH_ERROR) Serial.println("Auth Failed");
+      else if (error == OTA_BEGIN_ERROR) Serial.println("Begin Failed");
+      else if (error == OTA_CONNECT_ERROR) Serial.println("Connect Failed");
+      else if (error == OTA_RECEIVE_ERROR) Serial.println("Receive Failed");
+      else if (error == OTA_END_ERROR) Serial.println("End Failed");
+    });
+
+  ArduinoOTA.begin();
+
+  Serial.println("Ready");
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
+ }
+
+
+void wifiUploadCtrl(void)
+{
+       otaIdeSetup () ;   
+       while (!wifiIde) 
+       {
+        enableWDG(false);
+        if (  millis() - wifiIDETimer > WIFI_IDE_TIMER )
+        {
+           wifiIde = true;
+           resetWdg();
+           enableWDG(true);
+           wifiIDETimer = millis();
+           EEPROM.write(EEPROM_ERR_ADD, IDE_WIFI); EEPROM.commit();
+           ESP.restart();
+        }
+        else ArduinoOTA.handle();
+       }
 }

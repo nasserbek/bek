@@ -629,7 +629,15 @@ BLYNK_WRITE(V102)  //sleep timer
   DEBUG_PRINTLN(_blynkfreqValue);
 }
 
-
+BLYNK_WRITE(V104)  //wifi WEB
+{
+    _smsBlynk = param.asInt(); // assigning incoming value from pin V10 to a variable
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    _blynkEventID =FB_WIFI_WEB_ID ;
+  DEBUG_PRINT("Wifi WEB: ");
+  DEBUG_PRINTLN(_smsBlynk ? F("Turn On") : F("Turn Off"));
+}
 
 blynk::blynk(void) 
 {
