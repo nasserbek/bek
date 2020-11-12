@@ -10,8 +10,10 @@
 
 void setup() 
 {
-     pinMode(NETGEER_PIN, OUTPUT);
-     digitalWrite(NETGEER_PIN, LOW);
+     pinMode(NETGEER_PIN_0, OUTPUT);
+     digitalWrite(NETGEER_PIN_0, LOW);
+          pinMode(NETGEER_PIN_2, OUTPUT);
+     digitalWrite(NETGEER_PIN_2, LOW);
      av.bluLed(ON);
      Serial.begin(115200);
 
@@ -24,19 +26,37 @@ void setup()
      receiverAvByFreq (1280);
      receiverAvByCh (6);
      av.bluLed(OFF);
-    
-     if (wifiAvailable) 
-        { 
-          byte gitHub = EEPROM.read(EEPROM_GITHUB_ADD);
+     
+     pingGoogle = pingGoogleConnection();
+     if(pingGoogle) myBlynk.init();
+     blynkConnected = myBlynk.blynkActive();
+     
+     DEBUG_PRINT("Blynk: ");DEBUG_PRINTLN(blynkConnected ? F("Connected") : F("Not Connected"));
+     
+     long blynkConnectTimer = millis();
+     long blynkConnectTimeout = millis();
 
-          googlePingOk = googleConnected = pingGoogleConnection();
-          
-          if (googlePingOk) 
+     if(pingGoogle)
+     {
+     while ( !blynkConnected ) 
+      {
+        if (millis() - blynkConnectTimer > BLYNK_CONNECT_TIMER ) 
+          {
+            blynkConnected = myBlynk.blynkActive();
+            blynkConnectTimer = millis();
+            DEBUG_PRINTLN("Blynk Connect");
+          }
+        if (millis() - blynkConnectTimeout > BLYNK_CONNECT_TIMEOUT) {DEBUG_PRINTLN("blynk Connect failed");break; }
+      }
+     }
+          byte gitHub = EEPROM.read(EEPROM_GITHUB_ADD);
+        
+          if (blynkConnected) 
               {
-                myBlynk.init(); blynkInitDone =true;
-                if (gitHub) 
+                blynkInitDone = true;
+                 if (gitHub) 
                   {
-                    if ( googlePingOk) getDateTimeNTP(gitHub); 
+                    if ( blynkConnected ) getDateTimeNTP(gitHub); 
                     sendToHMI(util.dateAndTimeChar, "Version : ", String(util.dateAndTimeChar),FB_NOTIFIER,String(util.dateAndTimeChar));
                   }
                 else sendVersion();
@@ -49,14 +69,12 @@ void setup()
               }
             else 
               {
-                blynkInitDone =false;
                 sendToHMI("Internet failure", "Internet failure : ", "Internet failure",FB_NOTIFIER, "Internet failure" );
               }  
         
-         otaIdeSetup();  
-        }
-       
-        else    sendToHMI("Wifi failure", "Wifi failure: ", "Wifi failure",FB_NOTIFIER, "Wifi failure" );
+          otaIdeSetup();  
+
+          if (!wifiAvailable)     sendToHMI("Wifi failure", "Wifi failure: ", "Wifi failure",FB_NOTIFIER, "Wifi failure" );
  
     NetgeerResetTimer       = millis();
     wifiSurvilanceTimer     = millis();
@@ -67,68 +85,54 @@ void setup()
     restartAfterResetNG     = millis();
     NetgeerResetGooglLostTimer = millis();
     blynkNotActiveTimer     = millis();
+    
     DEBUG_PRINT("Wifi: ");DEBUG_PRINTLN(wifiAvailable ? F("Available") : F("Not Available"));
     DEBUG_PRINTLN("Restarting the Loop");
+    
     initWDG(SEC_60,EN);
 }
 
 
 void loop(void) 
 {
- resetWdg();    //reset timer (feed watchdog) 
- if( smsEvent =sim.smsRun()) processSms();
- if (wifiAvailable) 
-     {
-       if (googlePingOk && !blynkInitDone) {myBlynk.init(); blynkInitDone =true;}       
-       blynkConnected = myBlynk.blynkActive();
+      resetWdg();    //reset timer (feed watchdog) 
+ 
+      if( smsEvent =sim.smsRun()) processSms();
+ 
+      netgeerCtrl();
        
-       netgeerCtrl();
+      if(pingGoogle && !blynkInitDone) {myBlynk.init();blynkInitDone = true;}
               
-       if ( !blynkConnected && blynkInitDone)       
-          {
-            googleConnected = googlePingOk ;
-            googlePingOk = false;
-            blynkInitDone =false;
-            blynkEvent=false; 
-            blynkActive =false; 
-            myBlynk.sendToBlynk = false;
-            myBlynk.sendToBlynkLeds = false;
-            internetSurvilanceTimer= millis();
-           }
-
-         if ( blynkConnected && blynkInitDone)
+       if ( blynkConnected )
           {
             myBlynk.blynkRun();
-            googlePingOk = true;
-            if(blynkEvent = myBlynk.getData () ) {blynkActive =true; processBlynk(); blynkNotActiveTimer = millis();}    
+            if(blynkEvent = myBlynk.getData () ) processBlynk();
           }
 
-
-       if ( ( (millis() - blynkNotActiveTimer) >= BLYNK_ACTIVITY_STOP_TIMER) && !blynkEvent && blynkActive) 
-               {
-                   if ( blynkConnected) myBlynk.notifierDebug(NOTIFIER_ID, "Blynk is not active, stop updating LEDs");
-                   myBlynk.sendToBlynk = false;
-                   myBlynk.sendToBlynkLeds = false;
-                   blynkActive =false;
-                   blynkNotActiveTimer = millis();
-               }        
-      
+       else      
+          {
+            blynkEvent=false; 
+            myBlynk.sendToBlynk = false;
+            myBlynk.sendToBlynkLeds = false;
+            zapOnOff = false;
+           }
+    
       if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);      
       wifiUploadCtrl();    
-    }  
 }
 
 void netgeerCtrl(void)
 {
-
        if ( (  (millis() - internetSurvilanceTimer) >= PING_GOOGLE_TIMER))
               {
-                googlePingOk = googleConnected = pingGoogleConnection();
-                if (googlePingOk) { restartAfterResetNG = millis();netGeerReset = false;}
+                pingGoogle = pingGoogleConnection();
+                blynkConnected = myBlynk.blynkActive();
+                if (blynkConnected) { restartAfterResetNG = millis();netGeerReset = false;}
+                DEBUG_PRINT("Blynk Connection: ");DEBUG_PRINTLN(blynkConnected ? F("succesiful") : F("failed"));
                 internetSurvilanceTimer= millis();
               }
               
-       if (!googleConnected && !blynkConnected && !netGeerReset )  
+       if (!blynkConnected && !netGeerReset )  
             { 
               sim.SendSMS("Reset Netgeer for Internet Failure");
               DEBUG_PRINTLN("Reset Netgeer for Internet Failure");
@@ -160,9 +164,11 @@ void netgeerCtrl(void)
 void ResetNetgeer(void)
           {
               delay(2000);
-              digitalWrite(NETGEER_PIN, HIGH);
+              digitalWrite(NETGEER_PIN_0, HIGH);
+              digitalWrite(NETGEER_PIN_2, HIGH);
               delay(2000);
-              digitalWrite(NETGEER_PIN, LOW); 
+              digitalWrite(NETGEER_PIN_0, LOW); 
+              digitalWrite(NETGEER_PIN_2, LOW);
               DEBUG_PRINTLN("Netgeer Reset done: ");
               restartAfterResetNG     = millis();
               netGeerReset = true;
@@ -862,14 +868,14 @@ void liveCtrl(void)
             liveBit = true ;
             av.bluLed(liveBit);
             liveTimerOff = millis();
-            if ( googlePingOk) myBlynk.sendAlive(liveBit);
+            if ( blynkConnected) myBlynk.sendAlive(liveBit);
           }
     if ( (millis() - liveTimerOff > LIVE_TIMER_OFF) && liveBit ) 
           {
             liveBit = false ;
             av.bluLed(liveBit);
             liveTimerOn = millis();
-           if ( googlePingOk)  myBlynk.sendAlive(liveBit);
+           if ( blynkConnected)  myBlynk.sendAlive(liveBit);
           }
 }
 
@@ -882,7 +888,7 @@ void sendToHMI(char *smsmsg, String notifier_subject, String notifier_body,Strin
 {
   if(sim800Available)sim.SendSMS(smsmsg);
   else DEBUG_PRINTLN("SMS failure");
-  if (googlePingOk) myBlynk.notifierDebug(NOTIFIER_ID, notifier_body);
+  if (blynkConnected) myBlynk.notifierDebug(NOTIFIER_ID, notifier_body);
   else DEBUG_PRINTLN("Internet Failure");
 }
 

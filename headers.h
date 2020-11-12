@@ -2,7 +2,7 @@
 //#define SFR
 
 #define NETGEER
-#define VERSION_ID " V11.0 CREIL "
+#define VERSION_ID " V13.0 CREIL "
 
 #define DEBUG_SERIAL
 
@@ -32,7 +32,8 @@
 #define PING_GOOGLE_TIMER 60000  // 1 MIN
 #define PING_GOOGLE_LOST_TO_RESET_NG_TIMER 300000  // 5 MIN
 #define RESTART_AFTER_NG_RESET_TIMER 300000   // 5 MIN
-
+#define BLYNK_CONNECT_TIMER 2000   // 2 SEC
+#define BLYNK_CONNECT_TIMEOUT 10000   // 10 SEC
 #define NETGEER_RESET_TIMER 43200000  // 12 HOURS
 
 
@@ -223,8 +224,8 @@ const String FB_T433_STATUS_PATH[32] =
   #define RC_TX_PIN       15
   #define BLU_LED         13 
 
-  #define NETGEER_PIN      2
-
+  #define NETGEER_PIN_2      2
+  #define NETGEER_PIN_0      0
 #define PLL_ADDRESS             0x61  //0110 0 001 becomes 0xC2
 #define PCF8574_CMD_ADDRESS     0x20           // PCF8574 device 1    Commands
 #define PCF8574_STATUS_ADDRESS  0x21          // PCF8574 device 2    7 Segment Display Reader
