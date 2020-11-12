@@ -127,12 +127,12 @@ void netgeerCtrl(void)
               {
                 pingGoogle = pingGoogleConnection();
                 blynkConnected = myBlynk.blynkActive();
-                if (blynkConnected) { restartAfterResetNG = millis();netGeerReset = false;}
+                if (blynkConnected || pingGoogle) { restartAfterResetNG = millis();netGeerReset = false;}
                 DEBUG_PRINT("Blynk Connection: ");DEBUG_PRINTLN(blynkConnected ? F("succesiful") : F("failed"));
                 internetSurvilanceTimer= millis();
               }
               
-       if (!blynkConnected && !netGeerReset )  
+       if (!blynkConnected && !pingGoogle &&!netGeerReset )  
             { 
               sim.SendSMS("Reset Netgeer for Internet Failure");
               DEBUG_PRINTLN("Reset Netgeer for Internet Failure");
