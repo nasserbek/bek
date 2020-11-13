@@ -135,8 +135,8 @@ void netgeerCtrl(void)
               
        if (!blynkConnected && !netGeerReset )  
             { 
-              sim.SendSMS("Reset Netgeer for Internet Failure");
-              DEBUG_PRINTLN("Reset Netgeer for Internet Failure");
+              sim.SendSMS("Blynk Disconnection, Reset Netgeer");
+              DEBUG_PRINTLN("Blynk Disconnection, Reset Netgeer");
               EEPROM.write(EEPROM_ERR_ADD, INTERNET_FAILURE); EEPROM.commit();
               ResetNetgeer();
             }
