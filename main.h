@@ -7,6 +7,10 @@
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 
+
+
+
+
 #include "gsm_ota.h"
 #include "esp_system.h"
 #include "time.h"
@@ -38,6 +42,7 @@ bool aliveTimout = false;
 int stateMachine =0;
 bool wifiIde = true;
 bool wifiWebUpdater = true;
+bool otaWifiGithub = true;
 int repetionRC = 10;
 int pulseRC = 416; //Default protocol 1
 int Av_Rx = 3;
@@ -286,3 +291,6 @@ const char* serverIndex =
  "});"
  "});"
  "</script>";
+
+
+/*********************************************** Ota wifi *********************************************/

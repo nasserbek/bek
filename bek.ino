@@ -1,6 +1,8 @@
 #include "main.h"
 #include <ESP32Ping.h>
  
+
+
  reciever av;
  sim800L sim; 
  otaUpload ota; 
@@ -15,7 +17,6 @@ void setup()
      digitalWrite(NETGEER_PIN_2, LOW);
      av.bluLed(ON);
      Serial.begin(115200);
-
      av.init();
      EEPROM.begin(EEPROM_SIZE);
      sim800Available = sim.init();
@@ -57,6 +58,7 @@ void setup()
                   {
                     if ( blynkConnected ) getDateTimeNTP(gitHub); 
                     sendToHMI(util.dateAndTimeChar, "Version : ", String(util.dateAndTimeChar),FB_NOTIFIER,String(util.dateAndTimeChar));
+                    DEBUG_PRINTLN(String(util.dateAndTimeChar));
                   }
                 else sendVersion();
                 
@@ -86,6 +88,7 @@ void setup()
     
     DEBUG_PRINT("Wifi: ");DEBUG_PRINTLN(wifiAvailable ? F("Available") : F("Not Available"));
     DEBUG_PRINTLN("Restarting the Loop");
+    DEBUG_PRINTLN(VERSION_ID);
     
     initWDG(SEC_60,EN);
 }
@@ -190,6 +193,12 @@ void processBlynk(void)
                wifiUploadCtrl();
              break;
              
+            case FB_WIFI_OTA_ID:
+               otaWifiGithub = false;         
+               wifiIDETimer = millis();
+               otaWifi();
+             break;
+                          
             case FB_WIFI_WEB_ID:
                wifiWebUpdater = false;
                wifiIDETimer = millis();
@@ -497,6 +506,7 @@ void processSms(void)
           else if (smsReceived == "Netgeer" ) ResetNetgeer();
           else if (smsReceived == "Ide" ) smsID = FB_WIFI_IDE_ID ;
           else if (smsReceived == "Web" ) smsID = FB_WIFI_WEB_ID ;
+          else if (smsReceived == "Otaweb" ) smsID = FB_WIFI_OTA_ID ;
         }
         switch (smsID)
           {
@@ -505,7 +515,13 @@ void processSms(void)
                wifiIDETimer = millis();
                wifiUploadCtrl();
              break;
-             
+
+            case FB_WIFI_OTA_ID:
+               otaWifiGithub = false;         
+               wifiIDETimer = millis();
+               otaWifi();
+             break;
+                        
             case FB_WIFI_WEB_ID:
                wifiWebUpdater = false;
                wifiIDETimer = millis();
@@ -1029,3 +1045,28 @@ void wifiUploadCtrl(void)
         else ArduinoOTA.handle();
        }
 }
+
+
+void otaWifi(void) {
+
+  DEBUG_PRINTLN("Restarting Ota Web Update from Github");
+  sendToHMI("Ota web Started", "Ota Web : ", "Ota web Started",FB_NOTIFIER, "Ota web Started" );
+  
+  EEPROM.write(EEPROM_GITHUB_ADD, 1); EEPROM.commit();
+  EEPROM.write(EEPROM_WIFI_ADD, 1); EEPROM.commit(); //To enable Wifi and get NTP for version date
+while (!otaWifiGithub) 
+       {
+        enableWDG(false);
+        if (  millis() - wifiIDETimer > WIFI_IDE_TIMER )
+        {
+           otaWifiGithub = true;
+           resetWdg();
+           enableWDG(true);
+           wifiIDETimer = millis();
+           EEPROM.write(EEPROM_ERR_ADD, IDE_WIFI); EEPROM.commit();
+           ESP.restart();
+        }
+        ota.otaWebGithub();
+       }
+
+ }

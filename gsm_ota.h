@@ -12,9 +12,10 @@ class otaUpload {
   private:
 
   public:
- 
+    bool otaWifiStart = true;
     otaUpload(void) ;
     void init(bool _start);
+    void otaWebGithub(void);
     void startOtaUpdate(const String& ota_url);
     void FlashingStatus(void);
     bool setPowerBoostKeepOn(int en);

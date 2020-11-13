@@ -639,6 +639,18 @@ BLYNK_WRITE(V104)  //wifi WEB
   DEBUG_PRINTLN(_smsBlynk ? F("Turn On") : F("Turn Off"));
 }
 
+
+BLYNK_WRITE(V105)  //wifi ota github
+{
+    _smsBlynk = param.asInt(); // assigning incoming value from pin V10 to a variable
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    _blynkEventID =FB_WIFI_OTA_ID ;
+  DEBUG_PRINT("Wifi Ota Github: ");
+  DEBUG_PRINTLN(_smsBlynk ? F("Turn On") : F("Turn Off"));
+}
+
+
 blynk::blynk(void) 
 {
 

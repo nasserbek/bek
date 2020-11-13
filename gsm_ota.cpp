@@ -34,9 +34,6 @@ reciever led;
 #define TINY_GSM_MODEM_SIM800      // Modem is SIM800
 #define TINY_GSM_RX_BUFFER   1024  // Set RX buffer to 1Kb
 
-// Define the serial console for debug prints, if needed
-//#define TINY_GSM_DEBUG SerialMon
-//#define DUMP_AT_COMMANDS
 
 #include <Wire.h>
 #include <TinyGsmClient.h>
@@ -45,6 +42,7 @@ reciever led;
 
 #include <HTTPClient.h>
 #include <WiFi.h>
+#include <ESP32httpUpdate.h>
 
 TinyGsm modem(SerialAT);
 
@@ -64,6 +62,12 @@ otaUpload::otaUpload()
 {
 
 }
+
+void otaUpload::otaWebGithub(void)
+{
+        t_httpUpdate_return ret = ESPhttpUpdate.update(_overTheAirURL);
+}
+
 
 void otaUpload::init(bool _start)
 {
