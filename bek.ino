@@ -140,7 +140,7 @@ void netgeerCtrl(void)
               EEPROM.write(EEPROM_ERR_ADD, INTERNET_FAILURE); EEPROM.commit();
               ResetNetgeer();
             }
-             
+/*             
         if ( ( (millis() - NetgeerResetTimer) >= NETGEER_RESET_TIMER) && !netGeerReset)
         {
             NetgeerResetTimer= millis();
@@ -150,7 +150,7 @@ void netgeerCtrl(void)
             sim.SendSMS("Reset Netgeer for 12 hours");
             ResetNetgeer();
         }
- 
+*/ 
        if (  ( (millis() - restartAfterResetNG) >=  RESTART_AFTER_NG_RESET_TIMER) && netGeerReset )
           {
             sim.SendSMS("Resetaring 5 min after Netgeer reset");
