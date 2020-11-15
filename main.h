@@ -32,7 +32,7 @@ bool wifiOn     =true;
 bool smsOn      =true;
 
 int zapTimer = 5000;
-long zaptime, NetgeerResetTimer, wifiSurvilanceTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff,wifiIDETimer,restartAfterResetNG,NetgeerResetGooglLostTimer,blynkNotActiveTimer;
+long resetNetgeerAfterInternetLossTimer,zaptime, NetgeerResetTimer, wifiSurvilanceTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff,wifiIDETimer,restartAfterResetNG,NetgeerResetGooglLostTimer,blynkNotActiveTimer;
 bool pingGoogle= false;
 bool googlePingOk= true;
 bool netGeerReset = false;
@@ -48,6 +48,7 @@ int pulseRC = 416; //Default protocol 1
 int Av_Rx = 1;
 int deepSleepTimerHours = 1 ;
 bool startLostInternetTimer = false;
+bool InternetLoss = false;
 
 
 bool zapOnOff = false;
