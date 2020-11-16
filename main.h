@@ -43,13 +43,15 @@ int stateMachine =0;
 bool wifiIde = true;
 bool wifiWebUpdater = true;
 bool otaWifiGithub = true;
-int repetionRC = 10;
+int repetionRC = 12;
 int pulseRC = 416; //Default protocol 1
 int Av_Rx = 1;
 int deepSleepTimerHours = 1 ;
 bool startLostInternetTimer = false;
 bool InternetLoss = false;
 byte resetCounter = 0;
+byte avBootChannel = 1;
+byte rcBootChannel = 1;
 
 bool zapOnOff = false;
 bool zapChannel = false;

@@ -23,8 +23,15 @@ void setup()
      wifiAvailable = myBlynk.wifiConnect();
      
      mySwitch.enableTransmit(RC_TX_PIN);
-     receiverAvByFreq (1280);
-     receiverAvByCh (6);
+
+     avBootChannel = EEPROM.read(AV_BOOT_ADD);
+     if (avBootChannel <=8 && avBootChannel >=1) receiverAvByCh (avBootChannel);
+     else {EEPROM.write(AV_BOOT_ADD, 2); EEPROM.commit();receiverAvByCh (2);}
+    
+     rcBootChannel = EEPROM.read(RC_BOOT_ADD);
+     if (rcBootChannel <=30 && rcBootChannel >=1) remoteControl(rcBootChannel );
+     else {EEPROM.write(RC_BOOT_ADD, 10); EEPROM.commit();}    
+     
      av.bluLed(OFF);
      
      pingGoogle = pingGoogleConnection();
@@ -154,6 +161,8 @@ void netgeerCtrl(void)
               EEPROM.write(RESET_ADD, resetCounter +1); EEPROM.commit();
               sim.SendSMS("Blynk Disconnected for 1 min, Resetarting" );
               DEBUG_PRINTLN("Blynk Disconnected for 1 min, Resetarting");
+              EEPROM.write(AV_BOOT_ADD,recevierCh); EEPROM.commit();
+              EEPROM.write(RC_BOOT_ADD,  remoteControlRcCh ); EEPROM.commit();
               ESP.restart(); 
               }
              
@@ -332,7 +341,6 @@ void processBlynk(void)
             break;
             case FB_RC_REPETION_ID:
              repetionRC=myBlynk.blynkData;
-             EEPROM.write(RC_REPETION_ADD, repetionRC); EEPROM.commit();
              mySwitch.setRepeatTransmit(repetionRC);
             break;
 
