@@ -50,8 +50,7 @@ int deepSleepTimerHours = 1 ;
 bool startLostInternetTimer = false;
 bool InternetLoss = false;
 byte resetCounter = 0;
-byte avBootChannel = 1;
-byte rcBootChannel = 1;
+
 
 bool zapOnOff = false;
 bool zapChannel = false;
