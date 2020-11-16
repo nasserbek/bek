@@ -114,6 +114,7 @@ void loop(void)
             
             InternetLoss = false;   resetNetgeerAfterInternetLossTimer = millis();
             netGeerReset = false;   restartAfterResetNG = millis();
+            EEPROM.write(RESET_ADD, 0); EEPROM.commit();
           }
 
        if( !InternetLoss && !blynkConnected)  
@@ -140,10 +141,22 @@ void netgeerCtrl(void)
 
        if ( ( (millis() - resetNetgeerAfterInternetLossTimer) >= INTERNET_LOSS_TO_ESET_NG_TIMER) && InternetLoss && !blynkConnected && !netGeerReset)
         {
-              sim.SendSMS("Blynk Disconnected for 1 min, Reset Netgeer");
-              DEBUG_PRINTLN("Blynk Disconnected for 1 min, Reset Netgeer");
-              EEPROM.write(EEPROM_ERR_ADD, INTERNET_FAILURE); EEPROM.commit();
-              ResetNetgeer();
+             resetCounter = EEPROM.read(RESET_ADD);
+             DEBUG_PRINT("Reset Counter is: ");  DEBUG_PRINTLN(resetCounter);
+             if (resetCounter >= 5) 
+              {
+                EEPROM.write(RESET_ADD, 0); EEPROM.commit();
+                sim.SendSMS("Blynk Disconnected for 1 min, Reset Netgeer after 5 times Resests" );
+                ResetNetgeer();
+              }
+             else 
+              {
+              EEPROM.write(RESET_ADD, resetCounter +1); EEPROM.commit();
+              sim.SendSMS("Blynk Disconnected for 1 min, Resetarting" );
+              DEBUG_PRINTLN("Blynk Disconnected for 1 min, Resetarting");
+              ESP.restart(); 
+              }
+             
         }
 
        if (  ( (millis() - restartAfterResetNG) >=  RESTART_AFTER_NG_RESET_TIMER) && netGeerReset )

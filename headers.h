@@ -1,5 +1,5 @@
 #define BEK
-#define VERSION_ID " V24.0 CREIL "
+#define VERSION_ID " V25.0 CREIL "
 #define DEBUG_SERIAL
 
 
@@ -264,6 +264,7 @@ const String FB_T433_STATUS_PATH[32] =
 #define EEPROM_ERR_ADD      85
 #define EEPROM_SIM800_ADD    86
 #define RC_REPETION_ADD     90
+#define RESET_ADD           92
 
 #define INTERNET_LOST       '1'
 #define WDG_ERR             '2'

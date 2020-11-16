@@ -49,7 +49,7 @@ int Av_Rx = 1;
 int deepSleepTimerHours = 1 ;
 bool startLostInternetTimer = false;
 bool InternetLoss = false;
-
+byte resetCounter = 0;
 
 bool zapOnOff = false;
 bool zapChannel = false;
