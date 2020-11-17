@@ -10,15 +10,12 @@ reciever::reciever(void)
   this->_analog_pin =AV_OUTPUT_AN;
 
   pinMode(BLU_LED, OUTPUT);
-//   pinMode(RC_PWR_PIN, OUTPUT);
-//  digitalWrite(RC_PWR_PIN, LOW);
 }
 
 void reciever::init() 
 {
     Wire.begin(_sda_pin,_scl_pin); 
     ConfigureInputs (PCF8574_STATUS_ADDRESS);
-//    Tuner_PLL(PLL_ADDRESS, ( 512 * ( 1000000 * (1080 + 479.5) ) ));
 }
 
 
