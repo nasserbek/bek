@@ -1,5 +1,5 @@
-#define BEK
-#define VERSION_ID " V28.0 CREIL "
+//#define BEK
+#define VERSION_ID " V30.0 CREIL "
 #define DEBUG_SERIAL
 
 
@@ -43,7 +43,7 @@
 #define LIVE_TIMER_ON   3000
 #define LIVE_TIMER_OFF  3000
 #define WIFI_IDE_TIMER 600000  //10 MIN
-#define WIFI_SURVILANCE_TIMER 40000  // 40 sec
+#define WIFI_SURVILANCE_TIMER 300000  // 5 MIN
 #define WIFI_RECONNECT_TIMER 10000  // 10 sec
 #define DEEP_SLEEP_TIME_60_MIN 3600000000   // 1 HOUR in micro 
 #define BLYNK_ACTIVITY_STOP_TIMER 1800000  // 30 MIN
@@ -54,6 +54,8 @@
 #define RESTART_AFTER_NG_RESET_TIMER 300000   // 5 MIN
 #define BLYNK_CONNECT_TIMER 2000   // 2 SEC
 #define BLYNK_CONNECT_TIMEOUT 10000   // 10 SEC
+#define GOOGLE_CONNECT_TIMER 2000   // 2 SEC
+#define GOOGLE_CONNECT_TIMEOUT 180000   // 3 MIN
 #define NETGEER_RESET_TIMER 43200000  // 12 HOURS
 
 
@@ -253,6 +255,7 @@ const String FB_T433_STATUS_PATH[32] =
 #define   SEC_20           20000
 #define   SEC_30           30000
 #define   SEC_60           60000
+#define   MIN_5            300000
 
 #define EEPROM_VER_ADD      32
 #define EEPROM_VER_LEN      40

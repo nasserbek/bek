@@ -19,36 +19,37 @@ void setup()
      Serial.begin(115200);
      av.init();
      EEPROM.begin(EEPROM_SIZE);
-     sim800Available = sim.init();
-     wifiAvailable = myBlynk.wifiConnect();
+     byte gitHub = EEPROM.read(EEPROM_GITHUB_ADD);
      
+     initWDG(MIN_5,EN);
+
+     sim800Available = sim.init();
      mySwitch.enableTransmit(RC_TX_PIN);
      av.bluLed(OFF);
+     sim.SendSMS("Reset Netgeer at start");
+     DEBUG_PRINTLN("Reset Netgeer at start");
+     ResetNetgeer(); 
+   
+     wifiAvailable = myBlynk.wifiConnect();
      
+     long googleConnectTimer = millis();
+     long googleConnectTimeout = millis();
      pingGoogle = pingGoogleConnection();
+     while ( !pingGoogle ) 
+      {
+        if (millis() - googleConnectTimer > GOOGLE_CONNECT_TIMER ) 
+          {
+            pingGoogle = pingGoogleConnection();
+            googleConnectTimer = millis();
+            DEBUG_PRINTLN("Google Connect");
+          }
+        if (millis() - googleConnectTimeout > GOOGLE_CONNECT_TIMEOUT) {DEBUG_PRINTLN("Google Connect failed");break; }
+      }
+      
      if(pingGoogle) myBlynk.init();
      blynkConnected = myBlynk.blynkActive();
-     
      DEBUG_PRINT("Blynk: ");DEBUG_PRINTLN(blynkConnected ? F("Connected") : F("Not Connected"));
-     
-     long blynkConnectTimer = millis();
-     long blynkConnectTimeout = millis();
-
-     if(pingGoogle)
-     {
-     while ( !blynkConnected ) 
-      {
-        if (millis() - blynkConnectTimer > BLYNK_CONNECT_TIMER ) 
-          {
-            blynkConnected = myBlynk.blynkActive();
-            blynkConnectTimer = millis();
-            DEBUG_PRINTLN("Blynk Connect");
-          }
-        if (millis() - blynkConnectTimeout > BLYNK_CONNECT_TIMEOUT) {DEBUG_PRINTLN("blynk Connect failed");break; }
-      }
-     }
-          byte gitHub = EEPROM.read(EEPROM_GITHUB_ADD);
-        
+          
           if (blynkConnected) 
               {
                 blynkInitDone = true;
@@ -58,8 +59,6 @@ void setup()
                     sendToHMI(util.dateAndTimeChar, "Version : ", String(util.dateAndTimeChar),FB_NOTIFIER,String(util.dateAndTimeChar));
                     DEBUG_PRINTLN(String(util.dateAndTimeChar));
                   }
-                else sendVersion();
-                
                 myBlynk.sendToBlynk = true; myBlynk.sendToBlynkLeds = true;
                 myBlynk.frequencyValue(1280 ); 
                 myBlynk.sevenSegValue(6 ); 
@@ -87,8 +86,9 @@ void setup()
     
     DEBUG_PRINT("Wifi: ");DEBUG_PRINTLN(wifiAvailable ? F("Available") : F("Not Available"));
     DEBUG_PRINTLN("Restarting the Loop");
+    sendToHMI("Starting the Loop", "Starting the Loop : ", "Starting the Loop",FB_NOTIFIER, "Starting the Loop" );
     DEBUG_PRINTLN(VERSION_ID);
-    
+    enableWDG(DIS);
     initWDG(SEC_60,EN);
 }
 
@@ -864,9 +864,7 @@ void  getSettingsFromEeprom(void)
 void sendToHMI(char *smsmsg, String notifier_subject, String notifier_body,String fb_path,String fb_cmdString)
 {
   if(sim800Available)sim.SendSMS(smsmsg);
-  else DEBUG_PRINTLN("SMS failure");
   if (blynkConnected) myBlynk.notifierDebug(NOTIFIER_ID, notifier_body);
-  else DEBUG_PRINTLN("Internet Failure");
 }
 
 
