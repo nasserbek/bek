@@ -26,51 +26,26 @@ void setup()
      sim800Available = sim.init();
      mySwitch.enableTransmit(RC_TX_PIN);
      av.bluLed(OFF);
-     sim.SendSMS("Reset Netgeer at start");
-     DEBUG_PRINTLN("Reset Netgeer at start");
-     ResetNetgeer(); 
-   
      wifiAvailable = myBlynk.wifiConnect();
      
-     long googleConnectTimer = millis();
-     long googleConnectTimeout = millis();
-     pingGoogle = pingGoogleConnection();
-     while ( !pingGoogle ) 
-      {
-        if (millis() - googleConnectTimer > GOOGLE_CONNECT_TIMER ) 
-          {
-            pingGoogle = pingGoogleConnection();
-            googleConnectTimer = millis();
-            DEBUG_PRINTLN("Google Connect");
-          }
-        if (millis() - googleConnectTimeout > GOOGLE_CONNECT_TIMEOUT) {DEBUG_PRINTLN("Google Connect failed");break; }
-      }
-      
-     if(pingGoogle) myBlynk.init();
-     blynkConnected = myBlynk.blynkActive();
-     DEBUG_PRINT("Blynk: ");DEBUG_PRINTLN(blynkConnected ? F("Connected") : F("Not Connected"));
-          
-          if (blynkConnected) 
+     myBlynk.init();    
+     blynkConnected=myBlynk.blynkConnected();
+     DEBUG_PRINT("Blynk: ");DEBUG_PRINTLN( blynkConnected ? F("Connected") : F("Not Connected"));
+     if (blynkConnected) 
               {
-                blynkInitDone = true;
                  if (gitHub) 
                   {
-                    if ( blynkConnected ) getDateTimeNTP(gitHub); 
+                    getDateTimeNTP(gitHub); 
                     sendToHMI(util.dateAndTimeChar, "Version : ", String(util.dateAndTimeChar),FB_NOTIFIER,String(util.dateAndTimeChar));
                     DEBUG_PRINTLN(String(util.dateAndTimeChar));
                   }
-                myBlynk.sendToBlynk = true; myBlynk.sendToBlynkLeds = true;
-                myBlynk.frequencyValue(1280 ); 
-                myBlynk.sevenSegValue(6 ); 
+                myBlynk.sendToBlynk = true; 
+                myBlynk.sendToBlynkLeds = true;
                 myBlynk.blynkSmsLed (sim800Available);
-                myBlynk.sendToBlynk = false;  myBlynk.sendToBlynkLeds = false;
-              }
-            else 
-              {
-                sendToHMI("Internet failure", "Internet failure : ", "Internet failure",FB_NOTIFIER, "Internet failure" );
-              }  
-
-          if (!wifiAvailable)     sendToHMI("Wifi failure", "Wifi failure: ", "Wifi failure",FB_NOTIFIER, "Wifi failure" );
+             }
+      else  sendToHMI("Internet failure", "Internet failure : ", "Internet failure",FB_NOTIFIER, "Internet failure" );
+    
+      if (!wifiAvailable) sendToHMI("Wifi failure", "Wifi failure: ", "Wifi failure",FB_NOTIFIER, "Wifi failure" );
     
     
     NetgeerResetTimer       = millis();
@@ -100,29 +75,23 @@ void loop(void)
        if( smsEvent =sim.smsRun()) processSms();
  
        netgeerCtrl();
-       
-       if(pingGoogle && !blynkInitDone) {myBlynk.init();blynkInitDone = true;}
-       
-       blynkConnected = myBlynk.blynkActive();    
-         
+
        if ( blynkConnected )
           {
             myBlynk.blynkRun();
             if(blynkEvent = myBlynk.getData () ) processBlynk();
-            
             InternetLoss = false;   resetNetgeerAfterInternetLossTimer = millis();
             netGeerReset = false;   restartAfterResetNG = millis();
           }
 
        if( !InternetLoss && !blynkConnected)  
           {
-            DEBUG_PRINTLN("Blynk Disconnected , Internet Loss");
-            InternetLoss = true; resetNetgeerAfterInternetLossTimer = millis();
+            InternetLoss = true; 
+            resetNetgeerAfterInternetLossTimer = millis();
             blynkEvent=false; 
             myBlynk.sendToBlynk = false;
             myBlynk.sendToBlynkLeds = false;
-            zapOnOff = false;
-           }
+          }
     
       if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);      
 
@@ -130,24 +99,25 @@ void loop(void)
 
 void netgeerCtrl(void)
 {
-       if ( (  (millis() - internetSurvilanceTimer) >= PING_GOOGLE_TIMER))
+       if ( (  (millis() - internetSurvilanceTimer) >= PING_GOOGLE_BLYNK_TIMER))
               {
                 pingGoogle = pingGoogleConnection();
+                if (! (blynkConnected=myBlynk.blynkConnected() ) )  myBlynk.blynkConnect();
+                DEBUG_PRINT("blynk: ");DEBUG_PRINTLN(blynkConnected ? F("Connected!") : F("Disconnected!"));
                 internetSurvilanceTimer= millis();
               }
 
-       if ( ( (millis() - resetNetgeerAfterInternetLossTimer) >= INTERNET_LOSS_TO_ESET_NG_TIMER) && InternetLoss && !blynkConnected && !netGeerReset)
+       if ( ( (millis() - resetNetgeerAfterInternetLossTimer) >= INTERNET_LOSS_TO_RESET_NG_TIMER) && InternetLoss && !blynkConnected && !netGeerReset)
         {
-              sim.SendSMS("Blynk Disconnected for 1 min, Reset Netgeer");
-              DEBUG_PRINTLN("Blynk Disconnected for 1 min, Reset Netgeer");
-              EEPROM.write(EEPROM_ERR_ADD, INTERNET_FAILURE); EEPROM.commit();
+              sim.SendSMS("Blynk Disconnected for 5 min, Reset Netgeer");
+              DEBUG_PRINTLN("Blynk Disconnected for 5 min, Reset Netgeer");
               ResetNetgeer();
         }
 
        if (  ( (millis() - restartAfterResetNG) >=  RESTART_AFTER_NG_RESET_TIMER) && netGeerReset )
           {
-            sim.SendSMS("Resetaring 5 min after Netgeer reset");
-            DEBUG_PRINTLN("Resetaring 5 min after Netgeer reset");
+            sim.SendSMS("Resetaring 5 min after Netgeer Reset");
+            DEBUG_PRINTLN("Resetaring 5 min after Netgeer Rreset");
             ESP.restart(); 
           }
           

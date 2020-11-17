@@ -16,6 +16,7 @@ class blynk {
           int old_fbonBlynk;
           
   public:
+    int connection_loss_count = 0;
     bool blynkEvent = false;
     bool sendToBlynk = false;
     bool sendToBlynkLeds = false;
@@ -26,7 +27,8 @@ class blynk {
     blynk(void) ;
     void init();
     void blynkRun();
-    bool blynkActive();
+    bool blynkConnected();
+    void blynkConnect();
     
     void sendAlive( int _data);
     void blynkAckLed(bool _data);

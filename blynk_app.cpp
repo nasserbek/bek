@@ -44,6 +44,9 @@ int  _blynkData=0;
 int  _blynkEventID =0;
 int _tempoVar;
 
+BlynkTimer timer;
+
+
 
 BLYNK_WRITE(V0)  //freq
 {
@@ -660,7 +663,10 @@ blynk::blynk(void)
 
 void blynk::init() 
 {
- Blynk.begin(auth, ssid, pass); 
+ //Blynk.begin(auth, ssid, pass); 
+ Blynk.config(auth);
+ Blynk.connect();
+// timer.setInterval(10000L, connection_check);
  led1.on(); //Enable colours for Alive Led BEK
  led8.on(); //Enable colours for Alive Led BEK
  led2.on(); //Enable colours for Ack Led
@@ -717,10 +723,16 @@ void blynk::blynkRun()
   Blynk.run(); 
 }
 
-bool blynk::blynkActive()
+bool blynk::blynkConnected()
 {
   return( Blynk.connected() ); 
 }
+
+void blynk::blynkConnect()
+{
+  Blynk.connect();
+}
+
 
 void blynk::blynkAckLed(bool _data)
 {
