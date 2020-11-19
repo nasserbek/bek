@@ -28,10 +28,10 @@ bool sim800L::init()
   sim800PowerOn(true)  ;
   DEBUG_PRINTLN("ESP32 with GSM SIM800L");
   DEBUG_PRINTLN("Initializing........");
-  delay(1000);
+  delay(5000);
   sim800lSerial->begin(4800, SERIAL_8N1, _rx_pin , _tx_pin);   // Make it slow so its easy to read!
   while (!sim800l.begin(*sim800lSerial)) {
-    if (millis() - timeout > 10000L) {
+    if (millis() - timeout > 30000L) {
       DEBUG_PRINTLN("Couldn't find GSM SIM800L");
        return (simStatus = false);
     }
