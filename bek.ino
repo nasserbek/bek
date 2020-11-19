@@ -42,6 +42,7 @@ void setup()
                 myBlynk.sendToBlynk = true; 
                 myBlynk.sendToBlynkLeds = true;
                 myBlynk.blynkSmsLed (sim800Available);
+                myBlynk.sendAvRxIndex(Av_Rx);
              }
       else  sendToHMI("Internet failure", "Internet failure : ", "Internet failure",FB_NOTIFIER, "Internet failure" );
     
@@ -298,6 +299,7 @@ void processBlynk(void)
 
             case ROOM_AV_RC:
              Av_Rx=myBlynk.blynkData;
+             myBlynk.sendAvRxIndex(Av_Rx);
             break;
             
             case FB_SLEEP_TIMER_ID:

@@ -840,3 +840,8 @@ void blynk::frequencyValue(int freq )
 void blynk::sendRsss(int _rsss)
 {
 }
+
+void blynk::sendAvRxIndex(int _index)
+{
+  Blynk.virtualWrite(V99, _index);
+}

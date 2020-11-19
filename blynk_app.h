@@ -46,6 +46,7 @@ class blynk {
     void zapLed(bool _data);
     void sendToBlynkLed(bool _data);
     bool wifiConnect(void);
+    void sendAvRxIndex(int _index);
 
 };
 #endif
