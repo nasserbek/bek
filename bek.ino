@@ -19,7 +19,6 @@ void setup()
      Serial.begin(115200);
      av.init();
      EEPROM.begin(EEPROM_SIZE);
-     char errorCode = EEPROM.read(EEPROM_ERR_ADD); 
      byte gitHub = EEPROM.read(EEPROM_GITHUB_ADD);
      
      initWDG(MIN_5,EN);
@@ -62,11 +61,9 @@ void setup()
     resetNetgeerAfterInternetLossTimer = millis();
     
     DEBUG_PRINT("Wifi: ");DEBUG_PRINTLN(wifiAvailable ? F("Available") : F("Not Available"));
-
-    String startString = String ("Starting: "  VERSION_ID " Error Code "); 
-    EEPROM.write(EEPROM_ERR_ADD, '0'); EEPROM.commit();
-    sendToHMI("Starting the Loop", "Starting the Loop : ", startString ,FB_NOTIFIER, startString );
-
+    DEBUG_PRINTLN("Restarting the Loop");
+    sendToHMI("Starting the Loop", "Starting the Loop : ", "Starting the Loop",FB_NOTIFIER, "Starting the Loop" );
+    DEBUG_PRINTLN(VERSION_ID);
     enableWDG(DIS);
     initWDG(SEC_60,EN);
 }
@@ -120,9 +117,8 @@ void netgeerCtrl(void)
 
        if (  ( (millis() - restartAfterResetNG) >=  RESTART_AFTER_NG_RESET_TIMER) && netGeerReset )
           {
-            sim.SendSMS("Restaring 5 min after Netgeer Reset");
-            DEBUG_PRINTLN("Restaring 5 min after Netgeer Rreset");
-            EEPROM.write(EEPROM_ERR_ADD, INTERNET_FAILURE); EEPROM.commit();
+            sim.SendSMS("Resetaring 5 min after Netgeer Reset");
+            DEBUG_PRINTLN("Resetaring 5 min after Netgeer Rreset");
             ESP.restart(); 
           }
           
@@ -837,13 +833,10 @@ void  getSettingsFromEeprom(void)
 {
 }
 
-void sendToHMI(char *smsmsg, String notifier_subject, String notifier_msg,String fb_path,String smsString)
+void sendToHMI(char *smsmsg, String notifier_subject, String notifier_body,String fb_path,String fb_cmdString)
 {
-  char charBuf[30];
-  smsString.toCharArray(charBuf,30) ;  charBuf[30]='\n';
-  if(sim800Available)sim.SendSMS(charBuf);
-  if (blynkConnected) myBlynk.notifierDebug(NOTIFIER_ID, smsString);
-  DEBUG_PRINTLN(smsString);
+  if(sim800Available)sim.SendSMS(smsmsg);
+  if (blynkConnected) myBlynk.notifierDebug(NOTIFIER_ID, notifier_body);
 }
 
 
