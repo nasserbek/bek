@@ -124,8 +124,7 @@ int smsSendDelay = 30000;
 bool smsSent = false;
 unsigned long smsPrevMillis = 0;
 
-#define uS_TO_S_FACTOR 1000000     /* Conversion factor for micro seconds to seconds */
-#define TIME_TO_SLEEP  60        /* Time ESP32 will go to sleep (in seconds) 3600 seconds = 1 hour */
+
 
 
 #define EEPROM_SIZE 100

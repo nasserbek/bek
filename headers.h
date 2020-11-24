@@ -1,14 +1,14 @@
 #define BEK
-#define VERSION_ID " V34.1 CREIL "
+#define VERSION_ID " V34.2 "
 #define DEBUG_SERIAL
 
 
 
 #ifdef BEK
-    #define NOTIFIER_ID "CREIL : \n "
+    #define NOTIFIER_ID " CREIL -"
     #define NETGEER
 #else
-    #define NOTIFIER_ID "BEK2 : \n "
+    #define NOTIFIER_ID " BEK2 -"
     #define SFR
 #endif
 
@@ -19,7 +19,7 @@
 #define WIFI_PASSWORD "ali09042010"
 
 #ifdef SFR
-  #define WIFI_SSID "SFR_BEK"                                                
+  #define WIFI_SSID "SFR_A870"                                                
 #endif
 #define WIFI_PASSWORD "ali09042010"
 

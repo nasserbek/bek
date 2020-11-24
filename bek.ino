@@ -11,10 +11,22 @@
 
 void setup() 
 {
+    // Netgerr reset pin , to be checked if on 0 or 2 physically
      pinMode(NETGEER_PIN_0, OUTPUT);
      digitalWrite(NETGEER_PIN_0, LOW);
      pinMode(NETGEER_PIN_2, OUTPUT);
      digitalWrite(NETGEER_PIN_2, LOW);
+  
+    // Sim800 Set-up modem reset, enable, power pins
+     pinMode(MODEM_PWKEY, OUTPUT);
+     pinMode(MODEM_RST, OUTPUT);
+     pinMode(MODEM_POWER_ON, OUTPUT);
+
+     digitalWrite(MODEM_PWKEY, LOW);
+     digitalWrite(MODEM_RST, HIGH);
+     digitalWrite(MODEM_POWER_ON, HIGH);
+     delay(1000);
+  
      av.bluLed(ON);
      Serial.begin(115200);
      av.init();
@@ -61,9 +73,8 @@ void setup()
     resetNetgeerAfterInternetLossTimer = millis();
     
     DEBUG_PRINT("Wifi: ");DEBUG_PRINTLN(wifiAvailable ? F("Available") : F("Not Available"));
-    DEBUG_PRINTLN("Restarting the Loop");
-    sendToHMI("Starting the Loop", "Starting the Loop : ", "Starting the Loop",FB_NOTIFIER, "Starting the Loop" );
-    DEBUG_PRINTLN(VERSION_ID);
+    String startString = String( "Restarting "   NOTIFIER_ID   VERSION_ID ) ;
+    sendToHMI("Starting after reset", "Starting after reset : ", startString ,FB_NOTIFIER, "Starting after reset" );
     enableWDG(DIS);
     initWDG(SEC_60,EN);
 }
@@ -837,6 +848,7 @@ void sendToHMI(char *smsmsg, String notifier_subject, String notifier_body,Strin
 {
   if(sim800Available)sim.SendSMS(smsmsg);
   if (blynkConnected) myBlynk.notifierDebug(NOTIFIER_ID, notifier_body);
+  DEBUG_PRINTLN(notifier_body);
 }
 
 
@@ -879,7 +891,10 @@ void goToDeepSleep(int sleepTimer)
 {
       EEPROM.write(EEPROM_ERR_ADD, DEEP_SLEEP ); EEPROM.commit(); 
       sendToHMI("Going to Deep Sleep", "Going to Deep Sleep", "Going to Deep Sleep",FB_NOTIFIER, "Going to Deep Sleep" );
-      esp_sleep_enable_timer_wakeup(sleepTimer *60 *60 * 1000000); // in microseconds
+      sim.sim800PowerOn(false)  ;
+      DEBUG_PRINT("Sleep for: ");  DEBUG_PRINT(sleepTimer * 60* 1000000);DEBUG_PRINTLN(" uSec");
+      esp_sleep_enable_timer_wakeup(sleepTimer * 60 * 1000000); // in microseconds
+      Serial.flush(); 
       esp_deep_sleep_start();
 }
 
