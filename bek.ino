@@ -38,10 +38,18 @@ void setup()
      sim800Available = sim.init();
      mySwitch.enableTransmit(RC_TX_PIN);
      av.bluLed(OFF);
+     
+     if(sim800Available)sim.SendSMS("Connecting to WIFI.....");
      wifiAvailable = myBlynk.wifiConnect();
+     if (wifiAvailable) {if(sim800Available) sim.SendSMS("WIFI Connected, Connecting to BLYNK.....");}
+     else {if(sim800Available) sim.SendSMS("WIFI failed to connect");}
+
      
      myBlynk.init();    
      blynkConnected=myBlynk.blynkConnected();
+     if (blynkConnected) {if(sim800Available) sim.SendSMS("BLYNK Connected, starting the Loop");}
+     else {if(sim800Available) sim.SendSMS("BLYNK failed to connect, starting the Loop");}
+
      DEBUG_PRINT("Blynk: ");DEBUG_PRINTLN( blynkConnected ? F("Connected") : F("Not Connected"));
      if (blynkConnected) 
               {
@@ -74,7 +82,8 @@ void setup()
     
     DEBUG_PRINT("Wifi: ");DEBUG_PRINTLN(wifiAvailable ? F("Available") : F("Not Available"));
     String startString = String( "Restarting "   NOTIFIER_ID   VERSION_ID ) ;
-    sendToHMI("Starting after reset", "Starting after reset : ", startString ,FB_NOTIFIER, "Starting after reset" );
+ //   sendToHMI("Starting after reset", "Starting after reset : ", startString ,FB_NOTIFIER, "Starting after reset" );
+    if (blynkConnected) myBlynk.notifierDebug(NOTIFIER_ID, startString );
     enableWDG(DIS);
     initWDG(SEC_60,EN);
 }
