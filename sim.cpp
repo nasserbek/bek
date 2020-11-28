@@ -26,6 +26,16 @@ bool sim800L::init()
 {
   long timeout = millis();
   sim800PowerOn(true)  ;
+      // Sim800 Set-up modem reset, enable, power pins
+     pinMode(MODEM_PWKEY, OUTPUT);
+     pinMode(MODEM_RST, OUTPUT);
+     pinMode(MODEM_POWER_ON, OUTPUT);
+
+     digitalWrite(MODEM_PWKEY, LOW);
+     digitalWrite(MODEM_RST, HIGH);
+     digitalWrite(MODEM_POWER_ON, HIGH);
+     delay(1000);
+  
   DEBUG_PRINTLN("ESP32 with GSM SIM800L");
   DEBUG_PRINTLN("Initializing........");
   delay(1000);

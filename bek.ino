@@ -11,22 +11,20 @@
 
 void setup() 
 {
-    // Netgerr reset pin , to be checked if on 0 or 2 physically
+//RELE WITH LOW TRIGGER, ON IF LOW AND OFF IF HIGH
+#ifdef BEK
      pinMode(NETGEER_PIN_0, OUTPUT);
      digitalWrite(NETGEER_PIN_0, LOW);
-     pinMode(NETGEER_PIN_2, OUTPUT);
-     digitalWrite(NETGEER_PIN_2, LOW);
-  
-    // Sim800 Set-up modem reset, enable, power pins
-     pinMode(MODEM_PWKEY, OUTPUT);
-     pinMode(MODEM_RST, OUTPUT);
-     pinMode(MODEM_POWER_ON, OUTPUT);
+     pinMode(AV_RX_DVR_PIN_2, OUTPUT);
+     digitalWrite(AV_RX_DVR_PIN_2, LOW);
+#else
+     pinMode(NETGEER_PIN_0, OUTPUT);
+     digitalWrite(NETGEER_PIN_0, HIGH);// NC ACTIVATE ON POWER ON BY DOING NOTHING
+     pinMode(AV_RX_DVR_PIN_2, OUTPUT);
+     digitalWrite(AV_RX_DVR_PIN_2, LOW);  // NO ACTIVATE ON POWER ON
+#endif
 
-     digitalWrite(MODEM_PWKEY, LOW);
-     digitalWrite(MODEM_RST, HIGH);
-     digitalWrite(MODEM_POWER_ON, HIGH);
-     delay(1000);
-  
+
      av.bluLed(ON);
      Serial.begin(115200);
      av.init();
@@ -38,6 +36,7 @@ void setup()
      sim800Available = sim.init();
      mySwitch.enableTransmit(RC_TX_PIN);
      av.bluLed(OFF);
+     delay(3000);  // Wait for SIM to stablish connection
      
      if(sim800Available)sim.SendSMS("Connecting to WIFI.....");
      wifiAvailable = myBlynk.wifiConnect();
@@ -148,12 +147,18 @@ void netgeerCtrl(void)
 
 void ResetNetgeer(void)
           {
-              delay(2000);
+#ifdef BEK
               digitalWrite(NETGEER_PIN_0, HIGH);
-              digitalWrite(NETGEER_PIN_2, HIGH);
+              digitalWrite(AV_RX_DVR_PIN_2, HIGH);
               delay(2000);
               digitalWrite(NETGEER_PIN_0, LOW); 
-              digitalWrite(NETGEER_PIN_2, LOW);
+              digitalWrite(AV_RX_DVR_PIN_2, LOW);
+#else
+              digitalWrite(NETGEER_PIN_0, LOW);
+              delay(2000);
+              digitalWrite(NETGEER_PIN_0, HIGH); 
+#endif            
+
               DEBUG_PRINTLN("Netgeer Reset done: ");
               restartAfterResetNG     = millis();
               netGeerReset = true;
@@ -494,9 +499,19 @@ void processSms(void)
           else if (smsReceived == "Ide" ) smsID = FB_WIFI_IDE_ID ;
           else if (smsReceived == "Web" ) smsID = FB_WIFI_WEB_ID ;
           else if (smsReceived == "Otaweb" ) smsID = FB_WIFI_OTA_ID ;
+          else if (smsReceived == "Dvron" )  smsID = FB_DVR_ON_ID ;
+          else if (smsReceived == "Dvroff" )  smsID = FB_DVR_OFF_ID ;
         }
         switch (smsID)
           {
+            case FB_DVR_ON_ID:
+               dvrOnOff (true)  ;
+             break;
+             
+             case FB_DVR_OFF_ID:
+               dvrOnOff (false)  ;
+             break;
+                                                 
             case FB_WIFI_IDE_ID:
                wifiIde = false;         
                wifiIDETimer = millis();
@@ -1059,3 +1074,9 @@ while (!otaWifiGithub)
        }
 
  }
+
+void  dvrOnOff (bool onOff)
+{
+   if (onOff) digitalWrite(AV_RX_DVR_PIN_2, LOW); 
+   else digitalWrite(AV_RX_DVR_PIN_2, HIGH); 
+}

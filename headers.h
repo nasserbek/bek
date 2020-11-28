@@ -1,5 +1,5 @@
 #define BEK
-#define VERSION_ID " V34.3 "
+#define VERSION_ID " V34.4 "
 #define DEBUG_SERIAL
 
 
@@ -167,6 +167,8 @@
 #define    FB_SETTINGS_ID       311
 #define    IDLE_PATH_ID        312
 #define    FB_ZAP_CHANNEL_ID   316
+#define    FB_DVR_ON_ID         317
+#define    FB_DVR_OFF_ID         318
 
 
 
@@ -222,7 +224,7 @@ const String FB_T433_STATUS_PATH[32] =
   #define RC_TX_PIN       15
   #define BLU_LED         13 
 
-  #define NETGEER_PIN_2      2
+  #define AV_RX_DVR_PIN_2      2
   #define NETGEER_PIN_0      0
 #define PLL_ADDRESS             0x61  //0110 0 001 becomes 0xC2
 #define PCF8574_CMD_ADDRESS     0x20           // PCF8574 device 1    Commands
