@@ -1,5 +1,5 @@
 #define BEK
-#define VERSION_ID " V34.4 "
+#define VERSION_ID " V34.5 "
 #define DEBUG_SERIAL
 
 
