@@ -1,5 +1,5 @@
 #define BEK
-#define VERSION_ID " V34.5 "
+#define VERSION_ID " V35.0 "
 #define DEBUG_SERIAL
 
 
@@ -48,7 +48,6 @@
 #define DEEP_SLEEP_TIME_60_MIN 3600000000   // 1 HOUR in micro 
 #define BLYNK_ACTIVITY_STOP_TIMER 1800000  // 30 MIN
 
-
 #define PING_GOOGLE_BLYNK_TIMER 30000  // 30 sec
 #define INTERNET_LOSS_TO_RESET_NG_TIMER 300000   // 5 MIN
 #define RESTART_AFTER_NG_RESET_TIMER 300000   // 5 MIN
@@ -66,11 +65,7 @@
  #define DEBUG_WRITE(x)  
 #endif
 
-//sim
-#define MODEM_TX        27
-#define MODEM_RX        26
-#define MODEM_PWKEY     4
-#define MODEM_POWER_ON  23
+
 
 #define   SMS_FB_ON                    "Fbon"
 #define   SMS_FB_OFF                   "Fboff"
@@ -219,23 +214,14 @@ const String FB_T433_STATUS_PATH[32] =
 "PC/T315_CH10_ST","PC/T315_CH11_ST","PC/T315_CH12_ST","PC/T315_CH13_ST","PC/T315_CH14_ST","PC/T315_CH15_ST",""};
 
 
-//av
-  #define AV_OUTPUT_AN    34
-  #define RC_TX_PIN       15
-  #define BLU_LED         13 
 
-  #define AV_RX_DVR_PIN_2      2
-  #define NETGEER_PIN_0      0
+
+
 #define PLL_ADDRESS             0x61  //0110 0 001 becomes 0xC2
 #define PCF8574_CMD_ADDRESS     0x20           // PCF8574 device 1    Commands
 #define PCF8574_STATUS_ADDRESS  0x21          // PCF8574 device 2    7 Segment Display Reader
    
-#define   RC_CODE_LENGTH  24
-#define   AV_CH_UP        5
-#define   AV_CH_DOWN      6
-#define   AV_FREQ         1
-#define   AV_FREQ_UP      2
-#define   AV_FREQ_DOWN    3
+
 #define   ON              true
 #define   OFF             false
 
@@ -277,12 +263,26 @@ const String FB_T433_STATUS_PATH[32] =
 #define DEEP_SLEEP          '9'
 
 //ota
-// TTGO T-Call pin definitions
-#define MODEM_RST            5
-#define I2C_SDA              21
-#define I2C_SCL              22
+
 #define IP5306_ADDR          0x75
 #define IP5306_REG_SYS_CTL0  0x00
 #define BAUDRATE            38400
 #define EEPROM_GITHUB_ADD   80
 #define EEPROM_WIFI_ADD     83
+#define RC_CODE_LENGTH      24
+
+
+// TTGO T-Call pin definitions
+#define MODEM_TX            27
+#define MODEM_RX            26
+#define MODEM_PWKEY         4
+#define MODEM_POWER_ON      23
+#define MODEM_RST           5
+#define I2C_SDA             21
+#define I2C_SCL             22
+//av
+#define AV_OUTPUT_AN        34
+#define RC_TX_PIN           15
+#define BLU_LED             13 
+#define AV_RX_DVR_PIN_2     2
+#define NETGEER_PIN_0       0

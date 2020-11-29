@@ -24,50 +24,45 @@ sim800L::sim800L(void)
 
 bool sim800L::init()
 {
-  long timeout = millis();
-  sim800PowerOn(true)  ;
       // Sim800 Set-up modem reset, enable, power pins
      pinMode(MODEM_PWKEY, OUTPUT);
      pinMode(MODEM_RST, OUTPUT);
      pinMode(MODEM_POWER_ON, OUTPUT);
-
+     
      digitalWrite(MODEM_PWKEY, LOW);
-     digitalWrite(MODEM_RST, HIGH);
      digitalWrite(MODEM_POWER_ON, HIGH);
+     delay(2000);
+     digitalWrite(MODEM_RST, LOW);
      delay(1000);
+     digitalWrite(MODEM_RST, HIGH);
+     delay(2000);
+     
   
-  DEBUG_PRINTLN("ESP32 with GSM SIM800L");
-  DEBUG_PRINTLN("Initializing........");
-  delay(1000);
-  sim800lSerial->begin(4800, SERIAL_8N1, _rx_pin , _tx_pin);   // Make it slow so its easy to read!
-  while (!sim800l.begin(*sim800lSerial)) {
-    if (millis() - timeout > 10000L) {
-      DEBUG_PRINTLN("Couldn't find GSM SIM800L");
-       return (simStatus = false);
-    }
-  }
-  
- /* if (!sim800l.begin(*sim800lSerial)) {
-       DEBUG_PRINTLN("Couldn't find GSM SIM800L");
-       return (simStatus = false);
-    }
- */   
-  DEBUG_PRINTLN("GSM SIM800L started.");
-
-  // Set up the FONA to send a +CMTI notification  when an SMS is received
+    DEBUG_PRINTLN("ESP32 with GSM SIM800L Initializing.......");
+    long timeout = millis();
+    long smsRebegin = millis();
+    sim800lSerial->begin(4800, SERIAL_8N1, _rx_pin , _tx_pin);   // Make it slow so its easy to read!
+    bool smsBeginStatus = sim800l.begin(*sim800lSerial);
+    while (!smsBeginStatus)
+      {
+        if (millis() - smsRebegin > 5000 ) 
+          {
+            sim800lSerial->begin(4800, SERIAL_8N1, _rx_pin , _tx_pin);   // Make it slow so its easy to read!
+            smsBeginStatus = sim800l.begin(*sim800lSerial);
+            smsRebegin = millis();
+            DEBUG_PRINTLN("Sms Re-Begin");
+          }
+        if (millis() - timeout > 20000){DEBUG_PRINTLN("Couldn't find GSM SIM800L"); return (simStatus = false); }
+      }
+ 
+  DEBUG_PRINTLN("Set up the FONA SIM800L to send a +CMTI notification when an SMS is received.");
   sim800lSerial->print("AT+CNMI=2,1\r\n");
   DEBUG_PRINTLN("GSM SIM800L is Ready.");
-  delay(1000);
+  delay(2000);
   return (simStatus = true);
 }  
 
 
-void sim800L::sim800PowerOn(bool OnOff)
-{
-  pinMode(_power_on_pin, OUTPUT);
-  if (OnOff) digitalWrite(_power_on_pin, HIGH);
-  else digitalWrite(_power_on_pin, LOW);
-}  
 
 bool sim800L::smsRun() 
 {
@@ -112,16 +107,24 @@ return false;
 bool sim800L::SendSMS(char *smsmsg)
 {
   if (!simStatus) return false;
+  
+        long timeout = millis();
+        long smsResend = millis();
         DEBUG_PRINT("Sending: ");DEBUG_PRINTLN(String (smsmsg));
-        if (!sim800l.sendSMS(_callerIDbuffer, smsmsg)) 
+        bool smsSendStatus = sim800l.sendSMS(_callerIDbuffer, smsmsg);
+        while (!smsSendStatus) 
         {
-          DEBUG_PRINTLN("Send SMS Failed");
-          return false;
-        } else 
-        {
-          DEBUG_PRINTLN("SMS Sent!");
-          return true;
+         if (millis() - smsResend > 10000 ) 
+          {
+            smsSendStatus = sim800l.sendSMS(_callerIDbuffer, smsmsg) ;
+            smsResend = millis();
+            DEBUG_PRINTLN("Re-Sending Sms...");
+          }
+         if (millis() - timeout > 30000){DEBUG_PRINTLN("Failed to send Sms"); return false; }
         }
+       
+        DEBUG_PRINTLN("SMS Sent!");
+        return true;
 }
 
 
@@ -137,4 +140,12 @@ bool sim800L::deleteSMS()
           return false;
         }
 }
+
+void sim800L::sim800PowerOn(bool OnOff)
+{
+  pinMode(_power_on_pin, OUTPUT);
+  if (OnOff) digitalWrite(_power_on_pin, HIGH);
+  else digitalWrite(_power_on_pin, LOW);
+}  
+
   
