@@ -111,7 +111,7 @@ bool sim800L::SendSMS(char *smsmsg)
         long smsResend = millis();
         DEBUG_PRINT("Sending: ");DEBUG_PRINTLN(String (smsmsg));
         bool smsSendStatus = sim800l.sendSMS(_callerIDbuffer, smsmsg);
-        while (!smsSendStatus) 
+ /*       while (!smsSendStatus) 
         {
          if (millis() - smsResend > 10000 ) 
           {
@@ -121,7 +121,7 @@ bool sim800L::SendSMS(char *smsmsg)
           }
          if (millis() - timeout > 30000){DEBUG_PRINTLN("Failed to send Sms"); return smsSendStatus; }
         }
-       
+*/       
         DEBUG_PRINTLN("SMS Sent!");
         return smsSendStatus;
 }
