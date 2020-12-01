@@ -34,18 +34,35 @@ void setup()
      mySwitch.enableTransmit(RC_TX_PIN);
      av.bluLed(OFF);
      delay(3000);  // Wait for SIM to stablish connection
-     smsSent= sim.SendSMS("Sim800 Initialised with success");
-     
-     if(sim800Available && smsSent)smsSent= sim.SendSMS("Connecting to WIFI.....");
-     wifiAvailable = myBlynk.wifiConnect();
-     if (wifiAvailable) {if(sim800Available  && smsSent) smsSent= sim.SendSMS("WIFI Connected, Connecting to BLYNK.....");}
-     else {if(sim800Available && smsSent) smsSent= sim.SendSMS("WIFI failed to connect");}
 
+
+    long timeoutSsndSms = millis();
+    long smsResend = millis();
+    smsSent= sim.SendSMS("Start Sms OK");
+
+    while (!smsSent)
+      {
+        if (millis() - smsResend > 5000 ) 
+          {
+            smsSent= sim.SendSMS("Resending Start SMS");
+            smsResend = millis();
+            DEBUG_PRINTLN("Sms Re-Sending");
+          }
+        if (millis() - smsResend > 15000){DEBUG_PRINTLN("Couldn't Send Sms, Reboot from Blynk"); break; }
+      }
      
+     smsAvailableToSend = smsSent & sim800Available ;
+     
+     if(smsAvailableToSend)  sim.SendSMS("Connecting to WIFI.....");
+     wifiAvailable = myBlynk.wifiConnect();
+     if (wifiAvailable) {if(smsAvailableToSend) sim.SendSMS("WIFI Connected, Connecting to BLYNK.....");}
+     else {if(smsAvailableToSend) sim.SendSMS("WIFI failed to connect");}
+
+   
      myBlynk.init();    
      blynkConnected=myBlynk.blynkConnected();
-     if (blynkConnected) {if(sim800Available && smsSent) smsSent= sim.SendSMS("BLYNK Connected, starting the Loop");}
-     else {if(sim800Available && smsSent) smsSent= sim.SendSMS("BLYNK failed to connect, starting the Loop");}
+     if (blynkConnected) {if(smsAvailableToSend) sim.SendSMS("BLYNK Connected, starting the Loop");}
+     else {if(smsAvailableToSend) sim.SendSMS("BLYNK failed to connect, starting the Loop");}
 
      DEBUG_PRINT("Blynk: ");DEBUG_PRINTLN( blynkConnected ? F("Connected") : F("Not Connected"));
      if (blynkConnected) 
@@ -58,7 +75,7 @@ void setup()
                   }
                 myBlynk.sendToBlynk = true; 
                 myBlynk.sendToBlynkLeds = true;
-                myBlynk.blynkSmsLed (sim800Available & smsSent);
+                myBlynk.blynkSmsLed (sim800Available);
                 myBlynk.sendAvRxIndex(Av_Rx);
              }
       else  sendToHMI("Internet failure", "Internet failure : ", "Internet failure",FB_NOTIFIER, "Internet failure" );
@@ -128,14 +145,14 @@ void netgeerCtrl(void)
 
        if ( ( (millis() - resetNetgeerAfterInternetLossTimer) >= INTERNET_LOSS_TO_RESET_NG_TIMER) && InternetLoss && !blynkConnected && !netGeerReset)
         {
-              sim.SendSMS("Blynk Disconnected for 5 min, Reset Netgeer");
+              if(smsAvailableToSend) sim.SendSMS("Blynk Disconnected for 5 min, Reset Netgeer");
               DEBUG_PRINTLN("Blynk Disconnected for 5 min, Reset Netgeer");
               ResetNetgeer();
         }
 
        if (  ( (millis() - restartAfterResetNG) >=  RESTART_AFTER_NG_RESET_TIMER) && netGeerReset )
           {
-            sim.SendSMS("Resetaring 5 min after Netgeer Reset");
+            if(smsAvailableToSend) sim.SendSMS("Resetaring 5 min after Netgeer Reset");
             DEBUG_PRINTLN("Resetaring 5 min after Netgeer Rreset");
             ESP.restart(); 
           }
@@ -869,7 +886,7 @@ void  getSettingsFromEeprom(void)
 
 void sendToHMI(char *smsmsg, String notifier_subject, String notifier_body,String fb_path,String fb_cmdString)
 {
-  if(sim800Available)sim.SendSMS(smsmsg);
+  if(smsAvailableToSend)sim.SendSMS(smsmsg);
   if (blynkConnected) myBlynk.notifierDebug(NOTIFIER_ID, notifier_body);
   DEBUG_PRINTLN(notifier_body);
 }

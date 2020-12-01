@@ -32,9 +32,9 @@ bool sim800L::init()
      digitalWrite(MODEM_PWKEY, LOW);
      digitalWrite(MODEM_POWER_ON, HIGH);
      digitalWrite(MODEM_RST, LOW);
-     delay(2000);
+     delay(3000);
      digitalWrite(MODEM_RST, HIGH);
-     delay(1000);
+     delay(2000);
      
   
     DEBUG_PRINTLN("ESP32 with GSM SIM800L Initializing.......");
