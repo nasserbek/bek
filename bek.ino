@@ -38,22 +38,23 @@ void setup()
 
     long timeoutSsndSms = millis();
     long smsResend = millis();
-    smsSent= sim.SendSMS("Start Sms OK");
-
-    while (!smsSent)
+    bool smsTry= sim.SendSMS("Start Sms OK, Connecting to WIFI.....");
+    smsSent=smsTry ;
+    while (!smsTry)
       {
         if (millis() - smsResend > 5000 ) 
           {
-            smsSent= sim.SendSMS("Resending Start SMS");
+            sim800Available = sim.init();
+            smsTry= sim.SendSMS("Resending Start SMS, Connecting to WIFI.....");
+            smsSent=smsTry ;
             smsResend = millis();
             DEBUG_PRINTLN("Sms Re-Sending");
           }
-        if (millis() - smsResend > 15000){DEBUG_PRINTLN("Couldn't Send Sms, Reboot from Blynk"); break; }
+        if (millis() - timeoutSsndSms > 15000){DEBUG_PRINTLN("Couldn't Send Sms, Reboot from Blynk"); smsSent=false; smsTry = true; }
       }
      
      smsAvailableToSend = smsSent & sim800Available ;
      
-     if(smsAvailableToSend)  sim.SendSMS("Connecting to WIFI.....");
      wifiAvailable = myBlynk.wifiConnect();
      if (wifiAvailable) {if(smsAvailableToSend) sim.SendSMS("WIFI Connected, Connecting to BLYNK.....");}
      else {if(smsAvailableToSend) sim.SendSMS("WIFI failed to connect");}
