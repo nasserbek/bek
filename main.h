@@ -20,7 +20,7 @@
 #include "blynk_app.h"
 #include "headers.h"
 
-bool smsAvailableToSend = false;
+
 int blynkStatus = 1;
 bool googleConnected=false;
 bool blynkInitDone=false;

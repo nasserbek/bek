@@ -32,9 +32,9 @@ bool sim800L::init()
      digitalWrite(MODEM_PWKEY, LOW);
      digitalWrite(MODEM_POWER_ON, HIGH);
      digitalWrite(MODEM_RST, LOW);
-     delay(3000);
-     digitalWrite(MODEM_RST, HIGH);
      delay(2000);
+     digitalWrite(MODEM_RST, HIGH);
+     delay(1000);
      
   
     DEBUG_PRINTLN("ESP32 with GSM SIM800L Initializing.......");
@@ -119,11 +119,11 @@ bool sim800L::SendSMS(char *smsmsg)
             smsResend = millis();
             DEBUG_PRINTLN("Re-Sending Sms...");
           }
-         if (millis() - timeout > 30000){DEBUG_PRINTLN("Failed to send Sms"); return false; }
+         if (millis() - timeout > 30000){DEBUG_PRINTLN("Failed to send Sms"); return smsSendStatus; }
         }
        
         DEBUG_PRINTLN("SMS Sent!");
-        return true;
+        return smsSendStatus;
 }
 
 
