@@ -879,6 +879,5 @@ void blynk::sendAvRxIndex(int _index)
  Blynk.virtualWrite(V85, 1);
  Blynk.virtualWrite(V86, 1);
  Blynk.virtualWrite(V87, 1);
- Blynk.virtualWrite(V89, 1);
  Blynk.virtualWrite(V10, 1);
 }
