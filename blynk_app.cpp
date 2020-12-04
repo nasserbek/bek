@@ -198,7 +198,7 @@ BLYNK_WRITE(V19) // ROOM_AV RC
   DEBUG_PRINTLN(_sevenSeg);
   if (_blynkData ==1) Blynk.setProperty(V19, "color", BLYNK_GREEN);
   if (_blynkData ==2) Blynk.setProperty(V19, "color", BLYNK_YELLOW);
-  if (_blynkData ==1) Blynk.setProperty(V19, "color", BLYNK_RED);
+  if (_blynkData ==3) Blynk.setProperty(V19, "color", BLYNK_RED);
 }
 
 BLYNK_WRITE(V21)   //ch1
