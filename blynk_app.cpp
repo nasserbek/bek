@@ -87,6 +87,7 @@ BLYNK_WRITE(V3) // ROOM_201_TO_205
     _blynkEventID =ROOM_201_TO_205;
   DEBUG_PRINT("V3 ROOM_201_TO_205: ");
   DEBUG_PRINTLN(_sevenSeg);
+  Blynk.setProperty(V3, "color", BLYNK_GREEN);
 }
 
 BLYNK_WRITE(V7)   // ota
@@ -160,6 +161,7 @@ BLYNK_WRITE(V16) // ROOM_206_TO_210
     _blynkEventID =ROOM_206_TO_210;
   DEBUG_PRINT("V16 ROOM_206_TO_210: ");
   DEBUG_PRINTLN(_sevenSeg);
+  Blynk.setProperty(V16, "color", BLYNK_GREEN);
 }
 
 
@@ -171,6 +173,7 @@ BLYNK_WRITE(V17) // ROOM_211_TO_215
     _blynkEventID =ROOM_211_TO_215;
   DEBUG_PRINT("V17 ROOM_211_TO_215: ");
   DEBUG_PRINTLN(_sevenSeg);
+  Blynk.setProperty(V17, "color", BLYNK_GREEN);
 }
 
 BLYNK_WRITE(V18) // ROOM_216_TO_220
@@ -181,6 +184,7 @@ BLYNK_WRITE(V18) // ROOM_216_TO_220
     _blynkEventID =ROOM_216_TO_220;
   DEBUG_PRINT("V18 ROOM_216_TO_220: ");
   DEBUG_PRINTLN(_sevenSeg);
+  Blynk.setProperty(V18, "color", BLYNK_GREEN);
 }
 
 
@@ -192,6 +196,9 @@ BLYNK_WRITE(V19) // ROOM_AV RC
     _blynkEventID =ROOM_AV_RC;
   DEBUG_PRINT("V19 ROOM_AV_RC: ");
   DEBUG_PRINTLN(_sevenSeg);
+  if (_blynkData ==1) Blynk.setProperty(V19, "color", BLYNK_GREEN);
+  if (_blynkData ==2) Blynk.setProperty(V19, "color", BLYNK_YELLOW);
+  if (_blynkData ==1) Blynk.setProperty(V19, "color", BLYNK_RED);
 }
 
 BLYNK_WRITE(V21)   //ch1
@@ -480,6 +487,8 @@ BLYNK_WRITE(V81)   //Zapping ch1
     _blynkEventID =FB_ZAP_CHANNEL_ID1;
   DEBUG_PRINT("V81 Zap ch1: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+  if(_blynkData) Blynk.setProperty(V81, "color", BLYNK_GREEN);
+  else Blynk.setProperty(V81, "color", BLYNK_RED);
 }
 
 BLYNK_WRITE(V82)   //Zapping ch2
@@ -490,6 +499,8 @@ BLYNK_WRITE(V82)   //Zapping ch2
     _blynkEventID =FB_ZAP_CHANNEL_ID2;
   DEBUG_PRINT("V82 Zap ch2: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+  if(_blynkData) Blynk.setProperty(V82, "color", BLYNK_GREEN);
+  else Blynk.setProperty(V82, "color", BLYNK_RED);
 }
 BLYNK_WRITE(V83)   //Zapping ch3
 {
@@ -499,6 +510,8 @@ BLYNK_WRITE(V83)   //Zapping ch3
     _blynkEventID =FB_ZAP_CHANNEL_ID3;
   DEBUG_PRINT("V83 Zap ch3: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+  if(_blynkData) Blynk.setProperty(V83, "color", BLYNK_GREEN);
+  else Blynk.setProperty(V83, "color", BLYNK_RED);  
 }
 BLYNK_WRITE(V84)   //Zapping ch4
 {
@@ -508,6 +521,8 @@ BLYNK_WRITE(V84)   //Zapping ch4
     _blynkEventID =FB_ZAP_CHANNEL_ID4;
   DEBUG_PRINT("V84 Zap ch4: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+  if(_blynkData) Blynk.setProperty(V84, "color", BLYNK_GREEN);
+  else Blynk.setProperty(V84, "color", BLYNK_RED);  
 }
 BLYNK_WRITE(V85)   //Zapping ch5
 {
@@ -517,6 +532,8 @@ BLYNK_WRITE(V85)   //Zapping ch5
     _blynkEventID =FB_ZAP_CHANNEL_ID5;
   DEBUG_PRINT("V85 Zap ch5: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+  if(_blynkData) Blynk.setProperty(V85, "color", BLYNK_GREEN);
+  else Blynk.setProperty(V85, "color", BLYNK_RED);  
 }
 BLYNK_WRITE(V86)   //Zapping ch6
 {
@@ -526,6 +543,8 @@ BLYNK_WRITE(V86)   //Zapping ch6
     _blynkEventID =FB_ZAP_CHANNEL_ID6;
   DEBUG_PRINT("V86 Zap ch6: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+  if(_blynkData) Blynk.setProperty(V86, "color", BLYNK_GREEN);
+  else Blynk.setProperty(V86, "color", BLYNK_RED);
 }
 BLYNK_WRITE(V87)   //Zapping ch7
 {
@@ -535,6 +554,8 @@ BLYNK_WRITE(V87)   //Zapping ch7
     _blynkEventID =FB_ZAP_CHANNEL_ID7;
   DEBUG_PRINT("V87 Zap ch7: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+  if(_blynkData) Blynk.setProperty(V87, "color", BLYNK_GREEN);
+  else Blynk.setProperty(V87, "color", BLYNK_RED);
 }
 BLYNK_WRITE(V88)   //Zapping ch8
 {
@@ -544,6 +565,8 @@ BLYNK_WRITE(V88)   //Zapping ch8
     _blynkEventID =FB_ZAP_CHANNEL_ID8;
   DEBUG_PRINT("V88 Zap ch8: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+  if(_blynkData) Blynk.setProperty(V88, "color", BLYNK_GREEN);
+  else Blynk.setProperty(V88, "color", BLYNK_RED);  
 }
 
 BLYNK_WRITE(V90)   //CH +
