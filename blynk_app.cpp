@@ -118,6 +118,8 @@ BLYNK_WRITE(V10)  //Send to blynk
     _blynkEventID =FB_SEND_TO_BLYNK_ID;
   DEBUG_PRINT("V10 Send To Blynk: ");
   DEBUG_PRINTLN(_fbonBlynk ? F("Turn On") : F("Turn Off"));
+ if(_blynkData) Blynk.setProperty(V10, "color", BLYNK_GREEN);
+  else Blynk.setProperty(V10, "color", BLYNK_RED); 
 }
 
 
@@ -466,6 +468,8 @@ BLYNK_WRITE(V71)   //Zapping On Off Switch
     _blynkEventID =FB_ZAP_ID;
   DEBUG_PRINT("V71 Zap: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+  if(_blynkData) Blynk.setProperty(V71, "color", BLYNK_GREEN);
+  else Blynk.setProperty(V71, "color", BLYNK_RED); 
 }
 
 
@@ -698,6 +702,7 @@ void blynk::init()
  led4.on(); //Enable colours for firebase
  led5.on(); //Enable colours for firebase
  led7.on(); //Enable colours for Zapping
+
 }
 
 void blynk::notifierDebug(String subject, String body)
@@ -788,7 +793,7 @@ void blynk::blynkRCLed315(bool _data)
 void blynk::blynkSmsLed(bool _data)
 {
  if (_data==0)  led5.setColor(BLYNK_RED);
- else           led5.setColor(BLYNK_YELLOW);
+ else           led5.setColor(BLYNK_GREEN);
 }
 
 void blynk::zapLed(bool _data)
@@ -866,5 +871,14 @@ void blynk::sendRsss(int _rsss)
 
 void blynk::sendAvRxIndex(int _index)
 {
-  Blynk.virtualWrite(V99, _index);
+ Blynk.virtualWrite(V99, _index);
+ Blynk.virtualWrite(V81, 1);
+ Blynk.virtualWrite(V82, 1);
+ Blynk.virtualWrite(V83, 1);
+ Blynk.virtualWrite(V84, 1);
+ Blynk.virtualWrite(V85, 1);
+ Blynk.virtualWrite(V86, 1);
+ Blynk.virtualWrite(V87, 1);
+ Blynk.virtualWrite(V89, 1);
+ Blynk.virtualWrite(V10, 1);
 }
