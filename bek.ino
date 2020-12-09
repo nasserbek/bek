@@ -5,6 +5,7 @@
  otaUpload ota; 
  ntpServerUtil util;
  blynk myBlynk;
+ cayenne myCayenne;
 
 void setup() 
 {
@@ -46,6 +47,8 @@ void setup()
      if (blynkConnected) {if(smsSent) smsSent= sim.SendSMS("BLYNK Connected, starting the Loop");}
      else {if(smsSent) smsSent= sim.SendSMS("BLYNK failed to connect, starting the Loop");}
 
+    // myCayenne.init();
+ 
      DEBUG_PRINT("Blynk: ");DEBUG_PRINTLN( blynkConnected ? F("Connected") : F("Not Connected"));
      if (blynkConnected) 
               {
@@ -97,6 +100,7 @@ void loop(void)
        if ( blynkConnected )
           {
             myBlynk.blynkRun();
+      //      myCayenne.cayenneRun();
             if(blynkEvent = myBlynk.getData () ) processBlynk();
             InternetLoss = false;   resetNetgeerAfterInternetLossTimer = millis();
             netGeerReset = false;   restartAfterResetNG = millis();

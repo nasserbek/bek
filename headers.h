@@ -1,5 +1,5 @@
-#define BEK
-#define VERSION_ID " V36.2 "
+//#define BEK
+#define VERSION_ID " V38.0 "
 #define DEBUG_SERIAL
 
 
@@ -9,20 +9,24 @@
     #define NETGEER
 #else
     #define NOTIFIER_ID " BEK2 -"
-    #define SFR
+    #define BOUY
 #endif
+
+#define WIFI_PASSWORD "ali09042010"
 
 
 #ifdef NETGEER
   #define WIFI_SSID "NETGEER_BEK"                                                
 #endif
-#define WIFI_PASSWORD "ali09042010"
 
 #ifdef SFR
   #define WIFI_SSID "SFR_A870"                                                
 #endif
 #define WIFI_PASSWORD "ali09042010"
 
+#ifdef BOUY
+  #define WIFI_SSID "HUAWEI-BOUY"                                                
+#endif
 
 
 #ifdef OPPO
@@ -39,11 +43,10 @@
 #endif
 
 
-
 #define LIVE_TIMER_ON   3000
 #define LIVE_TIMER_OFF  3000
 #define WIFI_IDE_TIMER 600000  //10 MIN
-#define WIFI_SURVILANCE_TIMER 180000  // 5 MIN
+#define WIFI_SURVILANCE_TIMER 120000  // 2 MIN
 #define WIFI_RECONNECT_TIMER 10000  // 10 sec
 #define DEEP_SLEEP_TIME_60_MIN 3600000000   // 1 HOUR in micro 
 #define BLYNK_ACTIVITY_STOP_TIMER 1800000  // 30 MIN
