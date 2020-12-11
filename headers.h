@@ -1,12 +1,12 @@
-//#define BEK
-#define VERSION_ID " V38.0 "
+#define BEK
+#define VERSION_ID " V40.0 "
 #define DEBUG_SERIAL
-
+#define BLYNK_SERVER "blynk-cloud.com"
 
 
 #ifdef BEK
     #define NOTIFIER_ID " CREIL -"
-    #define NETGEER
+    #define SFR
 #else
     #define NOTIFIER_ID " BEK2 -"
     #define BOUY
@@ -22,6 +22,7 @@
 #ifdef SFR
   #define WIFI_SSID "SFR_A870"                                                
 #endif
+
 #define WIFI_PASSWORD "ali09042010"
 
 #ifdef BOUY
@@ -52,8 +53,8 @@
 #define BLYNK_ACTIVITY_STOP_TIMER 1800000  // 30 MIN
 
 #define PING_GOOGLE_BLYNK_TIMER 30000  // 30 sec
-#define INTERNET_LOSS_TO_RESET_NG_TIMER 300000   // 5 MIN
-#define RESTART_AFTER_NG_RESET_TIMER 300000   // 5 MIN
+#define INTERNET_LOSS_TO_RESET_NG_TIMER 120000   // 2 MIN
+#define RESTART_AFTER_NG_RESET_TIMER 180000   // 3 MIN
 #define NETGEER_RESET_TIMER 43200000  // 12 HOURS
 
 
