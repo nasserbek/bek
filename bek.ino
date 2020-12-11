@@ -29,14 +29,14 @@ void setup()
      mySwitch.enableTransmit(RC_TX_PIN);
 
      delay(3000);  // Wait for SIM to stablish connection
-     smsSent= sms.SendSMS("Sim800 Ok, Connecting to WIFI.....");
+     smsSent= sms.SendSMS("Sim800 Ok, Connecting to WIFI and Blynk.....");
      
     
      myBlynk.init();    
      blynkConnected=myBlynk.blynkStatus();
      wifiAvailable = myBlynk.wifiStatus();
      
-     if (wifiAvailable) {if(smsSent) smsSent= sms.SendSMS("WIFI Connected, Connecting to BLYNK.....");}
+     if (wifiAvailable) {if(smsSent) smsSent= sms.SendSMS("WIFI Connected..");}
      else {if(smsSent) smsSent= sms.SendSMS("WIFI failed to connect");}
           
      if (blynkConnected) {if(smsSent) smsSent= sms.SendSMS("BLYNK Connected, starting the Loop");}
