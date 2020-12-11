@@ -5,10 +5,10 @@
 
 
 #ifdef BEK
-    #define NOTIFIER_ID " CREIL -"
+    #define NOTIFIER_ID " COMP -"
     #define SFR
 #else
-    #define NOTIFIER_ID " BEK2 -"
+    #define NOTIFIER_ID " CREIL -"
     #define BOUY
 #endif
 
