@@ -70,7 +70,7 @@ void myfunction(){
     _wifiIsConnected = true;
   }
   if(Blynk.connected()){
-    Blynk.virtualWrite(V11, millis() / 1000);
+    Blynk.virtualWrite(V11, millis() / 60000);
     Serial.println("\tTick update to blynk.");
     _blynkIsConnected = true;
   }
