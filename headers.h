@@ -1,12 +1,12 @@
 #define BEK
-#define VERSION_ID " V40.0 "
+#define VERSION_ID " V42.0 "
 #define DEBUG_SERIAL
 #define BLYNK_SERVER "blynk-cloud.com"
 
 
 #ifdef BEK
     #define NOTIFIER_ID " COMP -"
-    #define SFR
+    #define BOUY
 #else
     #define NOTIFIER_ID " CREIL -"
     #define BOUY
@@ -288,5 +288,8 @@ const String FB_T433_STATUS_PATH[32] =
 #define AV_OUTPUT_AN        34
 #define RC_TX_PIN           15
 #define BLU_LED             13 
+
 #define AV_RX_DVR_PIN_2     2
+
+
 #define NETGEER_PIN_0       0

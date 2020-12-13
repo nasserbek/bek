@@ -25,8 +25,8 @@ bool _wifiIsConnected = false;
 bool _blynkIsConnected = false;
 
 
-WidgetLED led1(V4);   //Alive Led BEK
-WidgetLED led8(V16);   //Alive Led BEK
+
+
 WidgetLED led2(V5);   //Ack
 WidgetLED led3(V6);   //T433 St
 WidgetLED led6(V13);  //T315 St
@@ -51,10 +51,51 @@ unsigned int myWiFiTimeout    =  3200;  //  3.2s WiFi connection timeout   (WCT)
 unsigned int functionInterval =  7500;  //  7.5s function call frequency   (FCF)
 unsigned int blynkInterval    = 25000;  // 25.0s check server frequency    (CSF)
 
+
+
+long day = 86400000; // 86400000 milliseconds in a day
+long hour = 3600000; // 3600000 milliseconds in an hour
+long minute = 60000; // 60000 milliseconds in a minute
+long second =  1000; // 1000 milliseconds in a second
+int days = 0;
+int hours = 0;
+int minutes = 0;
+int seconds = 0;
+
+
+void printDigits(byte digits){
+ // utility function for digital clock display: prints colon and leading 0
+ Serial.print(":");
+ if(digits < 10)
+   Serial.print('0');
+ Serial.print(digits,DEC);  
+}
+
+void counterTime(){
+long timeNow = millis();
+ 
+days = timeNow / day ;                                //number of days
+hours = (timeNow % day) / hour;                       //the remainder from days division (in milliseconds) divided by hours, this gives the full hours
+minutes = ((timeNow % day) % hour) / minute ;         //and so on...
+seconds = (((timeNow % day) % hour) % minute) / second;
+
+ // digital clock display of current time
+ Serial.print(days,DEC);  
+ printDigits(hours);  
+ printDigits(minutes);
+ printDigits(seconds);
+ Serial.println();  
+ 
+}
+
+
+
+
+
 void ledInit(void)
 {
-  led1.on(); //Enable colours for Alive Led BEK
-  led8.on(); //Enable colours for Alive Led BEK
+
+
   led2.on(); //Enable colours for Ack Led
   led3.on(); //Enable colours for T433 St Led
   led6.on(); //Enable colours for T315 St Led
@@ -70,7 +111,11 @@ void myfunction(){
     _wifiIsConnected = true;
   }
   if(Blynk.connected()){
-    Blynk.virtualWrite(V11, millis() / 60000);
+    counterTime();
+    Blynk.virtualWrite(V4, days);
+    Blynk.virtualWrite(V20, hours);
+    Blynk.virtualWrite(V21, minutes);
+    Blynk.virtualWrite(V11, seconds);
     Serial.println("\tTick update to blynk.");
     _blynkIsConnected = true;
   }
@@ -871,17 +916,6 @@ void blynk::blynkFirebaseLed(bool _data)
 
 void blynk::sendAlive(int _data)
 {
-if (sendToBlynk)
-{
-#ifdef BEK
-     if (_data==0)  led1.setColor(BLYNK_RED); 
- else           led1.setColor(BLYNK_GREEN);
-
-#else
-     if (_data==0)  led8.setColor(BLYNK_RED); 
- else           led8.setColor(BLYNK_YELLOW);
-#endif
-}
 }
 
 /***************************************************/
