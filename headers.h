@@ -1,5 +1,5 @@
 #define BEK
-#define VERSION_ID " V42.0 "
+#define VERSION_ID " V43.0 "
 #define DEBUG_SERIAL
 #define BLYNK_SERVER "blynk-cloud.com"
 

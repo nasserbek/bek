@@ -11,7 +11,13 @@ void setup()
 {
 //RELE WITH LOW TRIGGER, ON IF LOW AND OFF IF HIGH
      pinMode(NETGEER_PIN_0, OUTPUT);
+#ifdef BEK
+     digitalWrite(NETGEER_PIN_0, LOW);// NC ACTIVATE ON POWER ON BY DOING NOTHING
+#else
      digitalWrite(NETGEER_PIN_0, HIGH);// NC ACTIVATE ON POWER ON BY DOING NOTHING
+#endif
+
+
      pinMode(AV_RX_DVR_PIN_2, OUTPUT);
      digitalWrite(AV_RX_DVR_PIN_2, HIGH);  // NC DISACTIVATE AV RECEIVER ON POWER ON
 
@@ -150,10 +156,18 @@ void netgeerCtrl(void)
 
 void ResetNetgeer(void)
           {
+
+
+#ifdef BEK
+              digitalWrite(NETGEER_PIN_0, HIGH);
+              delay(2000);
+              digitalWrite(NETGEER_PIN_0, LOW); 
+#else
               digitalWrite(NETGEER_PIN_0, LOW);
               delay(2000);
               digitalWrite(NETGEER_PIN_0, HIGH); 
-    
+#endif
+
               DEBUG_PRINTLN("Netgeer Reset done: ");
               restartAfterResetNG     = millis();
               netGeerReset = true;
