@@ -966,13 +966,14 @@ void webOtaSetup(void)
       }
     }
   });
+  EEPROM.write(EEPROM_GITHUB_ADD, 1); EEPROM.commit();
   server.begin();
  }
 
  void webUpdateOta (void)
  {
    webOtaSetup();
-   
+   EEPROM.write(EEPROM_GITHUB_ADD, 1); EEPROM.commit();
    while (!wifiWebUpdater) 
        {
         enableWDG(false);
@@ -1017,7 +1018,7 @@ void otaIdeSetup (void)
       else if (error == OTA_RECEIVE_ERROR) Serial.println("Receive Failed");
       else if (error == OTA_END_ERROR) Serial.println("End Failed");
     });
-
+  EEPROM.write(EEPROM_GITHUB_ADD, 1); EEPROM.commit();
   ArduinoOTA.begin();
 
   Serial.println("Ready");
@@ -1029,6 +1030,7 @@ void otaIdeSetup (void)
 void wifiUploadCtrl(void)
 {
        otaIdeSetup () ;   
+        EEPROM.write(EEPROM_GITHUB_ADD, 1); EEPROM.commit();
        while (!wifiIde) 
        {
         enableWDG(false);
@@ -1050,7 +1052,6 @@ void otaWifi(void) {
   DEBUG_PRINTLN("Starting Ota Web Update from Github");
   sendToHMI("Ota web Started", "Ota Web : ", "Ota web Started",FB_NOTIFIER, "Ota web Started" );
   EEPROM.write(EEPROM_GITHUB_ADD, 1); EEPROM.commit();
-  EEPROM.write(EEPROM_WIFI_ADD, 1); EEPROM.commit(); //To enable Wifi and get NTP for version date
 while (!otaWifiGithub) 
        {
         enableWDG(false);
