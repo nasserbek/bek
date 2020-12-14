@@ -9,8 +9,9 @@
 #include <WiFi.h>
 #include <WiFiClient.h>
 #include <BlynkSimpleEsp32.h>
+#include <WiFiMulti.h>
 
-
+WiFiMulti wifiMulti;
 
 int _t433ChNumber, _t315ChNumber,_blynkfreqValue,_sevenSeg;
 int _otaBlynk=0;
@@ -94,8 +95,6 @@ seconds = (((timeNow % day) % hour) % minute) / second;
 
 void ledInit(void)
 {
-
-
   led2.on(); //Enable colours for Ack Led
   led3.on(); //Enable colours for T433 St Led
   led6.on(); //Enable colours for T315 St Led
@@ -106,7 +105,7 @@ void ledInit(void)
 
 void myfunction(){
   Serial.println("\tLook, no Blynk  block.");
-  if(WiFi.status()== 3){
+  if(wifiMulti.run()== 3){
     Serial.println("\tWiFi still  connected.");
     _wifiIsConnected = true;
   }
@@ -122,7 +121,7 @@ void myfunction(){
 }
 
 void checkBlynk() {
-  if (WiFi.status() == WL_CONNECTED)  
+  if (wifiMulti.run() == WL_CONNECTED)  
   {
     unsigned long startConnecting = millis(); 
     _blynkIsConnected = true;   
@@ -136,7 +135,7 @@ void checkBlynk() {
       }
     }
   }
-  if (WiFi.status() != 3) {
+  if (wifiMulti.run() != 3) {
     Serial.print("\tNo WiFi. ");
     _wifiIsConnected = false;
     _blynkIsConnected = false;
@@ -149,20 +148,37 @@ void checkBlynk() {
 void blynk::init() 
 {
   Serial.println();
-  if(WiFi.status() == 6){
+
+    wifiMulti.addAP("HUAWEI-BOUY", WIFI_PASSWORD);
+    wifiMulti.addAP("Freebox_bek" , WIFI_PASSWORD);
+    wifiMulti.addAP("SFR_A870", WIFI_PASSWORD);
+    wifiMulti.addAP("OPPO Reno2 Bek" , WIFI_PASSWORD);
+
+ // if(WiFi.status() == 6){
+    if(wifiMulti.run() == 6){
     Serial.println("\tWiFi not connected yet.");
   }
+  
   timer.setInterval(functionInterval, myfunction);// run some function at intervals per functionInterval
   timer.setInterval(blynkInterval, checkBlynk);   // check connection to server per blynkInterval
   unsigned long startWiFi = millis();
-  WiFi.begin(ssid, pass);
-  while (WiFi.status() != WL_CONNECTED){
+//  WiFi.begin(ssid, pass);
+  while (wifiMulti.run() != WL_CONNECTED){
     delay(500);
     if(millis() > startWiFi + myWiFiTimeout){
       Serial.println("\tCheck the WiFi router. ");
       break;
     }       
   }
+  
+  if(wifiMulti.run()== 3){
+    Serial.println("");
+    Serial.println("\tWiFi connected.");
+    Serial.println("IP address: ");
+    Serial.println(WiFi.localIP());
+    _wifiIsConnected = true;
+  }
+  
   Blynk.config(auth, blynk_server);
   Blynk.connect(); 
   checkBlynk();
