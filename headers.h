@@ -1,14 +1,14 @@
 #define BEK
-#define VERSION_ID " V47.0 "
+#define VERSION_ID " V43.0 "
 #define DEBUG_SERIAL
 #define BLYNK_SERVER "blynk-cloud.com"
 
 
 #ifdef BEK
-    #define NOTIFIER_ID " BEK JBL -"
+    #define NOTIFIER_ID " JBC -"
     #define SFR
 #else
-    #define NOTIFIER_ID " BEK2 100FORI - "
+    #define NOTIFIER_ID " 100 FORI -"
     #define BOUY
 #endif
 

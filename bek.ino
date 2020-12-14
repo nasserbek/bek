@@ -1047,8 +1047,10 @@ void wifiUploadCtrl(void)
 
 
 void otaWifi(void) {
-  DEBUG_PRINTLN("Starting Ota Web Update from Github");
+
+  DEBUG_PRINTLN("Restarting Ota Web Update from Github");
   sendToHMI("Ota web Started", "Ota Web : ", "Ota web Started",FB_NOTIFIER, "Ota web Started" );
+  
   EEPROM.write(EEPROM_GITHUB_ADD, 1); EEPROM.commit();
   EEPROM.write(EEPROM_WIFI_ADD, 1); EEPROM.commit(); //To enable Wifi and get NTP for version date
 while (!otaWifiGithub) 
@@ -1063,9 +1065,7 @@ while (!otaWifiGithub)
            EEPROM.write(EEPROM_ERR_ADD, IDE_WIFI); EEPROM.commit();
            ESP.restart();
         }
-
         ota.otaWebGithub();
-
        }
 
  }
