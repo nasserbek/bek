@@ -66,6 +66,22 @@ otaUpload::otaUpload()
 void otaUpload::otaWebGithub(void)
 {
         t_httpUpdate_return ret = ESPhttpUpdate.update(_overTheAirURL);
+        switch(ret) {
+            case HTTP_UPDATE_FAILED:
+                DEBUG_PRINTLN("HTTP_UPDATE_FAILED Error (%d): %s\n");
+                DEBUG_PRINTLN("ESPhttpUpdate.getLastError()");
+                DEBUG_PRINTLN("HTTP_UPDATE_FAILED Error (ESPhttpUpdate.getLastErrorString().c_str()");
+                DEBUG_PRINT(" REMOTE_SERVER IS : ");DEBUG_PRINTLN(_overTheAirURL);
+                break;
+
+            case HTTP_UPDATE_NO_UPDATES:
+                DEBUG_PRINTLN("HTTP_UPDATE_NO_UPDATES");
+                break;
+
+            case HTTP_UPDATE_OK:
+                DEBUG_PRINTLN("HTTP_UPDATE_OK");
+                break;
+        }
 }
 
 
