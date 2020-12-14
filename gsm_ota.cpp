@@ -3,7 +3,7 @@
 
 #define DEBUG
 #define FREE
-#include "av.h"
+
 #ifdef BEK
     String _overTheAirURL = "https://raw.githubusercontent.com/nasserbek/bek/master/bek.ino.ttgo-t1.bin";  // URL to download the firmware from
 #else
@@ -23,7 +23,7 @@ const char simPIN[]   = ""; // SIM card PIN code, if any
 unsigned long _prevMillis = 0;
 int           _interval = 500;
 bool          _flashStatus = false;
-reciever led;
+
 
 // Set serial for debug console (to the Serial Monitor, default speed 115200)
 #define SerialMon Serial
@@ -260,8 +260,7 @@ void otaUpload::FlashingStatus(void)
      _flashStatus = !_flashStatus;
      _prevMillis = millis()  ;  
      }
-       if(_flashStatus) led.bluLed(ON);
-       else led.bluLed(OFF);
+
 }
 
 bool otaUpload::setPowerBoostKeepOn(int en)

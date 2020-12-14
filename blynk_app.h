@@ -23,13 +23,17 @@ class blynk {
     int  blynkData=0;
     int  blynkEventID =0;
     int  t433ChNumber,t315ChNumber, blynkfreqValue,sevenSeg,frequency,otaBlynk,bootBlynk,fbonBlynk,smsBlynk;
+    bool wifiIsConnected = false;
+    bool blynkIsConnected = false;
 
     blynk(void) ;
     void init();
     void blynkRun();
+    void blynkRunTimer();
     bool blynkConnected();
     void blynkConnect();
-    
+    bool blynkStatus();
+    bool wifiStatus();
     void sendAlive( int _data);
     void blynkAckLed(bool _data);
     void blynkRCLed(bool _data);

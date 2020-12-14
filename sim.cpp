@@ -54,9 +54,9 @@ bool sim800L::init()
         if (millis() - timeout > 20000){DEBUG_PRINTLN("Couldn't find GSM SIM800L"); return (simStatus = false); }
       }
  
-  DEBUG_PRINTLN("Set up the FONA SIM800L to send a +CMTI notification when an SMS is received.");
+  DEBUG_PRINTLN("Seting up a notification when an SMS is received.");
   sim800lSerial->print("AT+CNMI=2,1\r\n");
-  DEBUG_PRINTLN("GSM SIM800L is Ready.");
+  DEBUG_PRINTLN("Sms is Ready.");
   delay(2000);
   return (simStatus = true);
 }  
