@@ -12,9 +12,14 @@ class reciever {
   public:
  
     reciever(void) ;
-    void init_I2C();
+    void init();
+    byte pcf8574StatusRead(int _address);
     void sendCmd(int _address , byte _byte);
+    void ConfigureInputs(int _address);
+    int  Read_Analog_Av_Output(byte _analog_pin);
     bool Tuner_PLL(int _address, uint _pll);
+    void bluLed(bool onOff);
+    void rcPower(bool onOff);
 };
 
 

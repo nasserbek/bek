@@ -12,21 +12,8 @@
 
 
 
-int _t433ChNumber, _t315ChNumber,_blynkfreqValue,_sevenSeg;
-int _otaBlynk=0;
-int _bootBlynk=0;
-int _fbonBlynk =0;
-int _smsBlynk=0;
-bool _blynkEvent = true;
-int  _blynkData=0;
-int  _blynkEventID =0;
-int _tempoVar;
-bool _wifiIsConnected = false;
-bool _blynkIsConnected = false;
-
-
-
-
+WidgetLED led1(V4);   //Alive Led BEK
+WidgetLED led8(V16);   //Alive Led BEK
 WidgetLED led2(V5);   //Ack
 WidgetLED led3(V6);   //T433 St
 WidgetLED led6(V13);  //T315 St
@@ -41,133 +28,25 @@ WidgetLED led7(V80);  //Zap Status
     char auth[] = "ya1T2eipkMhB3NvyLeAyRVRHqPAUXUG-";  //BEK2
 #endif
 
+                                      
+
+
+//char auth[] = "D4AU1HexWcErQ9vtpkP_EgocpnoArZKC"; // bek2 "ya1T2eipkMhB3NvyLeAyRVRHqPAUXUG-"
 char ssid[] = WIFI_SSID;
 char pass[] = WIFI_PASSWORD;
-char blynk_server[] = BLYNK_SERVER;
+int _t433ChNumber, _t315ChNumber,_blynkfreqValue,_sevenSeg;
+int _otaBlynk=0;
+int _bootBlynk=0;
+int _fbonBlynk =0;
+int _smsBlynk=0;
+bool _blynkEvent = true;
+int  _blynkData=0;
+int  _blynkEventID =0;
+int _tempoVar;
 
 BlynkTimer timer;
-unsigned int myServerTimeout  =  3500;  //  3.5s server connection timeout (SCT)
-unsigned int myWiFiTimeout    =  3200;  //  3.2s WiFi connection timeout   (WCT)
-unsigned int functionInterval =  7500;  //  7.5s function call frequency   (FCF)
-unsigned int blynkInterval    = 25000;  // 25.0s check server frequency    (CSF)
 
 
-
-long day = 86400000; // 86400000 milliseconds in a day
-long hour = 3600000; // 3600000 milliseconds in an hour
-long minute = 60000; // 60000 milliseconds in a minute
-long second =  1000; // 1000 milliseconds in a second
-int days = 0;
-int hours = 0;
-int minutes = 0;
-int seconds = 0;
-
-
-void printDigits(byte digits){
- // utility function for digital clock display: prints colon and leading 0
- Serial.print(":");
- if(digits < 10)
-   Serial.print('0');
- Serial.print(digits,DEC);  
-}
-
-void counterTime(){
-long timeNow = millis();
- 
-days = timeNow / day ;                                //number of days
-hours = (timeNow % day) / hour;                       //the remainder from days division (in milliseconds) divided by hours, this gives the full hours
-minutes = ((timeNow % day) % hour) / minute ;         //and so on...
-seconds = (((timeNow % day) % hour) % minute) / second;
-
- // digital clock display of current time
- Serial.print(days,DEC);  
- printDigits(hours);  
- printDigits(minutes);
- printDigits(seconds);
- Serial.println();  
- 
-}
-
-
-
-
-
-void ledInit(void)
-{
-
-
-  led2.on(); //Enable colours for Ack Led
-  led3.on(); //Enable colours for T433 St Led
-  led6.on(); //Enable colours for T315 St Led
-  led4.on(); //Enable colours for firebase
-  led5.on(); //Enable colours for firebase
-  led7.on(); //Enable colours for Zapping
-}
-
-void myfunction(){
-  Serial.println("\tLook, no Blynk  block.");
-  if(WiFi.status()== 3){
-    Serial.println("\tWiFi still  connected.");
-    _wifiIsConnected = true;
-  }
-  if(Blynk.connected()){
-    counterTime();
-    Blynk.virtualWrite(V4, days);
-    Blynk.virtualWrite(V20, hours);
-    Blynk.virtualWrite(V21, minutes);
-    Blynk.virtualWrite(V11, seconds);
-    Serial.println("\tTick update to blynk.");
-    _blynkIsConnected = true;
-  }
-}
-
-void checkBlynk() {
-  if (WiFi.status() == WL_CONNECTED)  
-  {
-    unsigned long startConnecting = millis(); 
-    _blynkIsConnected = true;   
-    _wifiIsConnected = true;
-    while(!Blynk.connected()){
-      _blynkIsConnected = false;
-      Blynk.connect();  
-      if(millis() > startConnecting + myServerTimeout){
-        Serial.print("Unable to connect to server. ");
-        break;
-      }
-    }
-  }
-  if (WiFi.status() != 3) {
-    Serial.print("\tNo WiFi. ");
-    _wifiIsConnected = false;
-    _blynkIsConnected = false;
-  } 
-  Serial.printf("\tChecking again in %is.\n", blynkInterval / 1000);
-  Serial.println(); 
-}
-
-
-void blynk::init() 
-{
-  Serial.println();
-  if(WiFi.status() == 6){
-    Serial.println("\tWiFi not connected yet.");
-  }
-  timer.setInterval(functionInterval, myfunction);// run some function at intervals per functionInterval
-  timer.setInterval(blynkInterval, checkBlynk);   // check connection to server per blynkInterval
-  unsigned long startWiFi = millis();
-  WiFi.begin(ssid, pass);
-  while (WiFi.status() != WL_CONNECTED){
-    delay(500);
-    if(millis() > startWiFi + myWiFiTimeout){
-      Serial.println("\tCheck the WiFi router. ");
-      break;
-    }       
-  }
-  Blynk.config(auth, blynk_server);
-  Blynk.connect(); 
-  checkBlynk();
-  ledInit();
-}
 
 BLYNK_WRITE(V0)  //freq
 {
@@ -244,6 +123,15 @@ BLYNK_WRITE(V10)  //Send to blynk
 }
 
 
+BLYNK_WRITE(V11)  //sms on off
+{
+    _smsBlynk = param.asInt(); // assigning incoming value from pin V10 to a variable
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    _blynkEventID =FB_SMS_ON_ID;
+  DEBUG_PRINT("V11 Sms: ");
+  DEBUG_PRINTLN(_smsBlynk ? F("Turn On") : F("Turn Off"));
+}
 
 BLYNK_WRITE(V14) //rc315
 {
@@ -800,7 +688,22 @@ blynk::blynk(void)
 
 
 
+void blynk::init() 
+{
+ //Blynk.begin(auth, ssid, pass); 
+ Blynk.config(auth);
+ Blynk.connect();
+// timer.setInterval(10000L, connection_check);
+ led1.on(); //Enable colours for Alive Led BEK
+ led8.on(); //Enable colours for Alive Led BEK
+ led2.on(); //Enable colours for Ack Led
+ led3.on(); //Enable colours for T433 St Led
+ led6.on(); //Enable colours for T315 St Led
+ led4.on(); //Enable colours for firebase
+ led5.on(); //Enable colours for firebase
+ led7.on(); //Enable colours for Zapping
 
+}
 
 void blynk::notifierDebug(String subject, String body)
 {
@@ -841,11 +744,6 @@ bool blynk::getData()
     }  
     else return false;
  
-}
-
-void blynk::blynkRunTimer()
-{
-  timer.run();
 }
 
 void blynk::blynkRun()
@@ -916,6 +814,17 @@ void blynk::blynkFirebaseLed(bool _data)
 
 void blynk::sendAlive(int _data)
 {
+if (sendToBlynk)
+{
+#ifdef BEK
+     if (_data==0)  led1.setColor(BLYNK_RED); 
+ else           led1.setColor(BLYNK_GREEN);
+
+#else
+     if (_data==0)  led8.setColor(BLYNK_RED); 
+ else           led8.setColor(BLYNK_YELLOW);
+#endif
+}
 }
 
 /***************************************************/
@@ -971,14 +880,4 @@ void blynk::sendAvRxIndex(int _index)
  Blynk.virtualWrite(V86, 1);
  Blynk.virtualWrite(V87, 1);
  Blynk.virtualWrite(V10, 1);
-}
-
-bool blynk::blynkStatus(void)
-{
- return  _blynkIsConnected;
-}
-
-bool blynk::wifiStatus(void)
-{
- return  _wifiIsConnected;
 }

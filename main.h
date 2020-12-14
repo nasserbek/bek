@@ -18,7 +18,6 @@
 #include "sim.h"
 #include "Utilities.h"
 #include "blynk_app.h"
-#include "cayenne_app.h"
 #include "headers.h"
 
 

@@ -1,33 +1,28 @@
 #define BEK
-#define VERSION_ID " V43.0 "
+#define VERSION_ID " V36.3 "
 #define DEBUG_SERIAL
-#define BLYNK_SERVER "blynk-cloud.com"
+
 
 
 #ifdef BEK
-    #define NOTIFIER_ID " JBC -"
+    #define NOTIFIER_ID " CREIL -"
     #define SFR
 #else
-    #define NOTIFIER_ID " 100 FORI -"
-    #define BOUY
+    #define NOTIFIER_ID " BEK2 -"
+    #define SFR
 #endif
-
-#define WIFI_PASSWORD "ali09042010"
 
 
 #ifdef NETGEER
   #define WIFI_SSID "NETGEER_BEK"                                                
 #endif
+#define WIFI_PASSWORD "ali09042010"
 
 #ifdef SFR
   #define WIFI_SSID "SFR_A870"                                                
 #endif
-
 #define WIFI_PASSWORD "ali09042010"
 
-#ifdef BOUY
-  #define WIFI_SSID "HUAWEI-BOUY"                                                
-#endif
 
 
 #ifdef OPPO
@@ -44,17 +39,18 @@
 #endif
 
 
+
 #define LIVE_TIMER_ON   3000
 #define LIVE_TIMER_OFF  3000
 #define WIFI_IDE_TIMER 600000  //10 MIN
-#define WIFI_SURVILANCE_TIMER 120000  // 2 MIN
+#define WIFI_SURVILANCE_TIMER 180000  // 5 MIN
 #define WIFI_RECONNECT_TIMER 10000  // 10 sec
 #define DEEP_SLEEP_TIME_60_MIN 3600000000   // 1 HOUR in micro 
 #define BLYNK_ACTIVITY_STOP_TIMER 1800000  // 30 MIN
 
 #define PING_GOOGLE_BLYNK_TIMER 30000  // 30 sec
-#define INTERNET_LOSS_TO_RESET_NG_TIMER 120000   // 2 MIN
-#define RESTART_AFTER_NG_RESET_TIMER 180000   // 3 MIN
+#define INTERNET_LOSS_TO_RESET_NG_TIMER 300000   // 5 MIN
+#define RESTART_AFTER_NG_RESET_TIMER 300000   // 5 MIN
 #define NETGEER_RESET_TIMER 43200000  // 12 HOURS
 
 
@@ -288,8 +284,5 @@ const String FB_T433_STATUS_PATH[32] =
 #define AV_OUTPUT_AN        34
 #define RC_TX_PIN           15
 #define BLU_LED             13 
-
 #define AV_RX_DVR_PIN_2     2
-
-
 #define NETGEER_PIN_0       0

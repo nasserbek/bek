@@ -1,50 +1,51 @@
 #include "main.h"
 
- reciever avReceiver;
- sim800L sms; 
+ reciever av;
+ sim800L sim; 
  otaUpload ota; 
  ntpServerUtil util;
  blynk myBlynk;
- cayenne myCayenne;
 
 void setup() 
 {
 //RELE WITH LOW TRIGGER, ON IF LOW AND OFF IF HIGH
+#ifdef BEK
+     pinMode(NETGEER_PIN_0, OUTPUT);
+     digitalWrite(NETGEER_PIN_0, LOW);
+     pinMode(AV_RX_DVR_PIN_2, OUTPUT);
+     digitalWrite(AV_RX_DVR_PIN_2, LOW);
+#else
      pinMode(NETGEER_PIN_0, OUTPUT);
      digitalWrite(NETGEER_PIN_0, HIGH);// NC ACTIVATE ON POWER ON BY DOING NOTHING
-
      pinMode(AV_RX_DVR_PIN_2, OUTPUT);
-     digitalWrite(AV_RX_DVR_PIN_2, HIGH);  // NC DISACTIVATE AV RECEIVER ON POWER ON
+     digitalWrite(AV_RX_DVR_PIN_2, LOW);  // NO ACTIVATE ON POWER ON
+#endif
 
+
+     av.bluLed(ON);
      Serial.begin(115200);
-     
-     avReceiver.init_I2C();
-     
+     av.init();
      EEPROM.begin(EEPROM_SIZE);
      byte gitHub = EEPROM.read(EEPROM_GITHUB_ADD);
      
      initWDG(MIN_5,EN);
-     resetWdg();    //reset timer (feed watchdog) 
-     
-     sim800Available = sms.init();
+
+     sim800Available = sim.init();
      mySwitch.enableTransmit(RC_TX_PIN);
-
+     av.bluLed(OFF);
      delay(3000);  // Wait for SIM to stablish connection
-     smsSent= sms.SendSMS("Sim800 Ok, Connecting to WIFI and Blynk.....");
+     smsSent= sim.SendSMS("Sim800 Ok, Connecting to WIFI.....");
      
-    
-     myBlynk.init();    
-     blynkConnected=myBlynk.blynkStatus();
-     wifiAvailable = myBlynk.wifiStatus();
-     
-     if (wifiAvailable) {if(smsSent) smsSent= sms.SendSMS("WIFI Connected..");}
-     else {if(smsSent) smsSent= sms.SendSMS("WIFI failed to connect");}
-          
-     if (blynkConnected) {if(smsSent) smsSent= sms.SendSMS("BLYNK Connected, starting the Loop");}
-     else {if(smsSent) smsSent= sms.SendSMS("BLYNK failed to connect, starting the Loop");}
+      wifiAvailable = myBlynk.wifiConnect();
+     if (wifiAvailable) {if(smsSent) smsSent= sim.SendSMS("WIFI Connected, Connecting to BLYNK.....");}
+     else {if(smsSent) smsSent= sim.SendSMS("WIFI failed to connect");}
 
-    // myCayenne.init();
- 
+     
+     myBlynk.init();    
+     blynkConnected=myBlynk.blynkConnected();
+     if (blynkConnected) {if(smsSent) smsSent= sim.SendSMS("BLYNK Connected, starting the Loop");}
+     else {if(smsSent) smsSent= sim.SendSMS("BLYNK failed to connect, starting the Loop");}
+
      DEBUG_PRINT("Blynk: ");DEBUG_PRINTLN( blynkConnected ? F("Connected") : F("Not Connected"));
      if (blynkConnected) 
               {
@@ -89,16 +90,13 @@ void loop(void)
 {
        resetWdg();    //reset timer (feed watchdog) 
  
-       if( smsEvent =sms.smsRun()) processSms();
-       
-       blynkConnected=myBlynk.blynkStatus(); 
-       
+       if( smsEvent =sim.smsRun()) processSms();
+ 
        netgeerCtrl();
-       
+
        if ( blynkConnected )
           {
             myBlynk.blynkRun();
-      //      myCayenne.cayenneRun();
             if(blynkEvent = myBlynk.getData () ) processBlynk();
             InternetLoss = false;   resetNetgeerAfterInternetLossTimer = millis();
             netGeerReset = false;   restartAfterResetNG = millis();
@@ -106,8 +104,6 @@ void loop(void)
 
        if( !InternetLoss && !blynkConnected)  
           {
-            if(smsSent) smsSent= sms.SendSMS("Blynk Disconnected , Internet Loss!!!");
-            DEBUG_PRINTLN("Blynk Disconnected , Internet Loss!!!");
             InternetLoss = true; 
             resetNetgeerAfterInternetLossTimer = millis();
             blynkEvent=false; 
@@ -115,33 +111,31 @@ void loop(void)
             myBlynk.sendToBlynkLeds = false;
           }
     
-      if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);  
-          
-       myBlynk.blynkRunTimer();
+      if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);      
+
 }
 
 void netgeerCtrl(void)
 {
-/*       
-          if ( (  (millis() - internetSurvilanceTimer) >= PING_GOOGLE_BLYNK_TIMER))
+       if ( (  (millis() - internetSurvilanceTimer) >= PING_GOOGLE_BLYNK_TIMER))
               {
+                pingGoogle = pingGoogleConnection();
                 if (! (blynkConnected=myBlynk.blynkConnected() ) )  myBlynk.blynkConnect();
                 DEBUG_PRINT("blynk: ");DEBUG_PRINTLN(blynkConnected ? F("Connected!") : F("Disconnected!"));
                 internetSurvilanceTimer= millis();
               }
-*/
 
        if ( ( (millis() - resetNetgeerAfterInternetLossTimer) >= INTERNET_LOSS_TO_RESET_NG_TIMER) && InternetLoss && !blynkConnected && !netGeerReset)
         {
-              if(smsSent) smsSent= sms.SendSMS("Blynk Disconnected for 2 min, Reset Netgeer");
-              DEBUG_PRINTLN("Blynk Disconnected for 2 min, Reset Netgeer");
+              if(smsSent) smsSent= sim.SendSMS("Blynk Disconnected for 5 min, Reset Netgeer");
+              DEBUG_PRINTLN("Blynk Disconnected for 5 min, Reset Netgeer");
               ResetNetgeer();
         }
 
        if (  ( (millis() - restartAfterResetNG) >=  RESTART_AFTER_NG_RESET_TIMER) && netGeerReset )
           {
-            if(smsSent) smsSent= sms.SendSMS("Resetaring 3 min after Netgeer Reset");
-            DEBUG_PRINTLN("Resetaring 3 min after Netgeer Rreset");
+            if(smsSent) smsSent= sim.SendSMS("Resetaring 5 min after Netgeer Reset");
+            DEBUG_PRINTLN("Resetaring 5 min after Netgeer Rreset");
             ESP.restart(); 
           }
           
@@ -151,10 +145,17 @@ void netgeerCtrl(void)
 
 void ResetNetgeer(void)
           {
-
+#ifdef BEK
+              digitalWrite(NETGEER_PIN_0, HIGH);
+              digitalWrite(AV_RX_DVR_PIN_2, HIGH);
+              delay(2000);
+              digitalWrite(NETGEER_PIN_0, LOW); 
+              digitalWrite(AV_RX_DVR_PIN_2, LOW);
+#else
               digitalWrite(NETGEER_PIN_0, LOW);
               delay(2000);
               digitalWrite(NETGEER_PIN_0, HIGH); 
+#endif            
 
               DEBUG_PRINTLN("Netgeer Reset done: ");
               restartAfterResetNG     = millis();
@@ -468,7 +469,7 @@ void processSms(void)
       boolean isValidNumber =false;
       int smsID=0;
       
-      smsReceived =  sms.smsString;
+      smsReceived =  sim.smsString;
       
        for(byte i=0;i<smsReceived.length();i++)
           {
@@ -692,11 +693,11 @@ void receiverAvByCh (int Ch)
   int PLL_value;
        if (blynkConnected) myBlynk.blynkAckLed(true);
        
-       if (Ch != 9) {ack = avReceiver.Tuner_PLL(av_pll_addr, PLL[Ch]);}
+       if (Ch != 9) {ack = av.Tuner_PLL(av_pll_addr, PLL[Ch]);}
        else 
         {
           PLL_value =( 512 * ( 1000000 * (990 + 479.5) ) ) / (16*4000000) ;
-          ack = avReceiver.Tuner_PLL(av_pll_addr, PLL_value);
+          ack = av.Tuner_PLL(av_pll_addr, PLL_value);
         }
        delay(500);
        if (blynkConnected) {myBlynk.blynkAckLed(ack); myBlynk.sevenSegValue(Ch );}
@@ -762,7 +763,7 @@ void receiverAvByFreq (int Freq)
        recevierFreq =Freq;
        if (blynkConnected) myBlynk.blynkAckLed(true);
        int PLL_value =( 512 * ( 1000000 * (Freq + 479.5) ) ) / (16*4000000) ;
-       ack = avReceiver.Tuner_PLL(av_pll_addr, PLL_value);
+       ack = av.Tuner_PLL(av_pll_addr, PLL_value);
        if (blynkConnected)  { myBlynk.blynkAckLed(ack);myBlynk.frequencyValue(Freq );}
        DEBUG_PRINT("Received manual_freq:");DEBUG_PRINTLN(manual_freq);
        DEBUG_PRINT("ack: ");DEBUG_PRINTLN(ack ? F("NotACK") : F("ACK"));
@@ -847,12 +848,14 @@ void liveCtrl(void)
    if ( (millis() - liveTimerOn > LIVE_TIMER_ON) && !liveBit ) 
           {
             liveBit = true ;
+            av.bluLed(liveBit);
             liveTimerOff = millis();
             if ( blynkConnected) myBlynk.sendAlive(liveBit);
           }
     if ( (millis() - liveTimerOff > LIVE_TIMER_OFF) && liveBit ) 
           {
             liveBit = false ;
+            av.bluLed(liveBit);
             liveTimerOn = millis();
            if ( blynkConnected)  myBlynk.sendAlive(liveBit);
           }
@@ -865,7 +868,7 @@ void  getSettingsFromEeprom(void)
 
 void sendToHMI(char *smsmsg, String notifier_subject, String notifier_body,String fb_path,String fb_cmdString)
 {
-  if(smsSent) smsSent=sms.SendSMS(smsmsg);
+  if(smsSent) smsSent=sim.SendSMS(smsmsg);
   if (blynkConnected) myBlynk.notifierDebug(NOTIFIER_ID, notifier_body);
   DEBUG_PRINTLN(notifier_body);
 }
@@ -910,7 +913,7 @@ void goToDeepSleep(int sleepTimer)
 {
       EEPROM.write(EEPROM_ERR_ADD, DEEP_SLEEP ); EEPROM.commit(); 
       sendToHMI("Going to Deep Sleep", "Going to Deep Sleep", "Going to Deep Sleep",FB_NOTIFIER, "Going to Deep Sleep" );
-      sms.sim800PowerOn(false)  ;
+      sim.sim800PowerOn(false)  ;
       DEBUG_PRINT("Sleep for: ");  DEBUG_PRINT(sleepTimer * 60* 1000000);DEBUG_PRINTLN(" uSec");
       esp_sleep_enable_timer_wakeup(sleepTimer * 60 * 1000000); // in microseconds
       Serial.flush(); 

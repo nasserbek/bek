@@ -8,11 +8,14 @@ reciever::reciever(void)
   this->_scl_pin = I2C_SCL;
   this->_sda_pin = I2C_SDA;
   this->_analog_pin =AV_OUTPUT_AN;
+
+  pinMode(BLU_LED, OUTPUT);
 }
 
-void reciever::init_I2C() 
+void reciever::init() 
 {
     Wire.begin(_sda_pin,_scl_pin); 
+    ConfigureInputs (PCF8574_STATUS_ADDRESS);
 }
 
 
@@ -30,9 +33,43 @@ bool ack= true;
     return (ack);
 }
 
+void reciever::ConfigureInputs (int _address) 
+{
+   Wire.beginTransmission(_address);
+   sendCmd(_address , 0xFF);
+   Wire.endTransmission();
+}
+
+byte reciever::pcf8574StatusRead(int _address) 
+{
+  Wire.beginTransmission(_address);
+  Wire.requestFrom(_address, 1);
+  int Data_In = Wire.read();
+  Wire.endTransmission();
+  return Data_In;
+
+}
+
 void reciever::sendCmd(int _address , byte _byte) 
 {
   Wire.beginTransmission(_address);
   Wire.write(_byte );
   Wire.endTransmission();
+}
+
+int  reciever::Read_Analog_Av_Output(byte _analog_pin)
+{
+  return (analogRead(_analog_pin));
+}
+
+void  reciever::bluLed(bool onOff)
+{
+   if (onOff) digitalWrite(BLU_LED, HIGH); 
+   else digitalWrite(BLU_LED, LOW); 
+}
+
+void  reciever::rcPower(bool onOff)
+{
+//    if (onOff) digitalWrite(RC_PWR_PIN, HIGH); 
+//    else digitalWrite(RC_PWR_PIN, LOW); 
 }
