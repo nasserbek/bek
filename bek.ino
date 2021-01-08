@@ -10,6 +10,7 @@
 QueueHandle_t g_event_queue_handle = NULL;
 EventGroupHandle_t g_event_group = NULL;
 int queuData;
+int queuDataID;
 bool queuValidData=false;
 
 void createHandleGroup()
@@ -113,10 +114,14 @@ void loop(void)
        if ( blynkConnected )
           {
             myBlynk.blynkRun();
-      //      if(blynkEvent = myBlynk.getData () ) processBlynk();
+      //    if(blynkEvent = myBlynk.getData () ) processBlynk();
       
-            queuValidData = (xQueueReceive(g_event_queue_handle, &queuData, 5 / portTICK_RATE_MS) == pdPASS);
-            if(queuValidData) processBlynkQueu();
+            queuValidData = (xQueueReceive(g_event_queue_handle, &queuDataID, 5 / portTICK_RATE_MS) == pdPASS);
+            if(queuValidData) 
+                  {
+                    myBlynk.getData ();
+                    queuData = myBlynk.blynkData;
+                    processBlynkQueu();}
             
             InternetLoss = false;   resetNetgeerAfterInternetLossTimer = millis();
             netGeerReset = false;   restartAfterResetNG = millis();
@@ -192,56 +197,11 @@ bool pingGoogleConnection(void)
 
 
 
-/***************************************************************************
-Q_EVENT_FREQ_V0,
-Q_EVENT_T433_CH_NR_V1,
-Q_EVENT_AV_7SEG_V2,
-Q_EVENT_ROOM_201_TO_205_V3,
-Q_EVENT_OTA_V7,
-Q_EVENT_RESET_V8,
-Q_EVENT_SEND_TO_BLYNK_V10,
-Q_EVENT_SMS_ON_V11,
-Q_EVENT_T315_CH_NR_V14,
-Q_EVENT_NETGEER_V15,
-Q_EVENT_ROOM_206_TO_210_V16,
-Q_EVENT_ROOM_211_TO_215_V17,
-Q_EVENT_ROOM_216_TO_220_V18,
-Q_EVENT_ROOM_AV_RC_V19,
-Q_EVENT_ZAP_V71,
-Q_EVENT_ZAP_TIMER_V72,
-Q_EVENT_ZAP_CHANNEL1_V81,
-Q_EVENT_ZAP_CHANNEL2_V82,
-Q_EVENT_ZAP_CHANNEL3_V83,
-Q_EVENT_ZAP_CHANNEL4_V84,
-Q_EVENT_ZAP_CHANNEL5_V85,
-Q_EVENT_ZAP_CHANNEL6_V86,
-Q_EVENT_ZAP_CHANNEL7_V87,
-Q_EVENT_ZAP_CHANNEL8_V88,
-Q_EVENT_AV_CH_PLUS_V90,
-Q_EVENT_AV_CH_MINUS_V91,
-Q_EVENT_AV_FR_MINUS_V92,
-Q_EVENT_AV_FR_PLUS_V93,
-Q_EVENT_RC_PULSE_V98,
-Q_EVENT_WIFI_IDE_V100,
-Q_EVENT_RC_REPETION_V101,
-Q_EVENT_SLEEP_TIMER_V102,
-Q_EVENT_OFF_V103,
-Q_EVENT_WIFI_WEB_V104,
-Q_EVENT_WIFI_OTA_V105,
-
-Q_EVENT_VERSION_SMS_307,
-Q_EVENT_BLYNK_ON_OFF_SMS_309,
-Q_EVENT_WIFI_OFF_SMS_310,
-Q_EVENT_SETTINGS_SMS_311,
-Q_EVENT_IDLE_PATH_SMS_312,
-Q_EVENT_ZAP_CHANNEL_SMS_316,
-Q_EVENT_DVR_ON_SMS_317,
-Q_EVENT_DVR_OFF_SMS_318,
-*/
+/***************************************************************************/
 
 void processBlynkQueu(void)
 {
-        switch (queuData)
+        switch (queuDataID)
           {
             case Q_EVENT_WIFI_IDE_V100:
                wifiIde = false;         
@@ -262,85 +222,85 @@ void processBlynkQueu(void)
              break;
             
             case Q_EVENT_AV_7SEG_V2:
-                recevierCh=myBlynk.blynkData;
-                DEBUG_PRINT("FB_AV_7SEG: ");DEBUG_PRINTLN(myBlynk.blynkData);
+                recevierCh=queuData;
+                DEBUG_PRINT("FB_AV_7SEG: ");DEBUG_PRINTLN(queuData);
                 if (recevierCh > 8) recevierCh = 1;
                 else if (recevierCh < 1) recevierCh = 8;
                 receiverAvByCh (recevierCh);
             break;
             case Q_EVENT_FREQ_V0:
-              recevierFreq=myBlynk.blynkData;
-              DEBUG_PRINT("FB_FREQ: ");DEBUG_PRINTLN(myBlynk.blynkData);
+              recevierFreq=queuData;
+              DEBUG_PRINT("FB_FREQ: ");DEBUG_PRINTLN(queuData);
               if (recevierFreq >= 920 && recevierFreq <= 1500) receiverAvByFreq (recevierFreq);
             break;
             case Q_EVENT_T433_CH_NR_V1:
-              remoteControlRcCh=myBlynk.blynkData;
-              DEBUG_PRINT("FB_T433_CH_NR: ");DEBUG_PRINTLN(myBlynk.blynkData);
+              remoteControlRcCh=queuData;
+              DEBUG_PRINT("FB_T433_CH_NR: ");DEBUG_PRINTLN(queuData);
               if (remoteControlRcCh >= 1 && remoteControlRcCh <= 15) {remoteControl(remoteControlRcCh );}
             break;
             case Q_EVENT_T315_CH_NR_V14:
-              remoteControlRcCh=myBlynk.blynkData;
-              DEBUG_PRINT("FB_T315_CH_NR: ");DEBUG_PRINTLN( (myBlynk.blynkData) -15);
+              remoteControlRcCh=queuData;
+              DEBUG_PRINT("FB_T315_CH_NR: ");DEBUG_PRINTLN( (queuData) -15);
               if (remoteControlRcCh >= 16 && remoteControlRcCh <= 30) {remoteControl(remoteControlRcCh );}
             break;
  
             case Q_EVENT_RESET_V8:
-              rebootCmd=myBlynk.blynkData;
-              DEBUG_PRINT("FB_RESET: ");DEBUG_PRINTLN(myBlynk.blynkData);
+              rebootCmd=queuData;
+              DEBUG_PRINT("FB_RESET: ");DEBUG_PRINTLN(queuData);
               rebootSw();
             break;
             case Q_EVENT_OTA_V7:
-              otaCmd=myBlynk.blynkData;
-              DEBUG_PRINT("FB_OTA: ");DEBUG_PRINTLN(myBlynk.blynkData);
+              otaCmd=queuData;
+              DEBUG_PRINT("FB_OTA: ");DEBUG_PRINTLN(queuData);
               otaGsm ();
             break;
             
             case Q_EVENT_SEND_TO_BLYNK_V10:
-                myBlynk.sendToBlynk = myBlynk.sendToBlynkLeds= myBlynk.blynkData;
+                myBlynk.sendToBlynk = myBlynk.sendToBlynkLeds= queuData;
                 myBlynk.sendToBlynkLed(myBlynk.sendToBlynk);
              break;
 
             case Q_EVENT_ZAP_V71:
-              zapOnOff=myBlynk.blynkData;
+              zapOnOff=queuData;
               DEBUG_PRINT("ZAP IS : ");
               DEBUG_PRINTLN(zapOnOff ? F("On") : F("Off"));
               myBlynk.zapLed(zapOnOff);
             break;
 
             case Q_EVENT_ZAP_TIMER_V72:
-              zapTimer=myBlynk.blynkData;
+              zapTimer=queuData;
             break;
 
             case Q_EVENT_ZAP_CHANNEL1_V81 :
-              zapCh1=myBlynk.blynkData;
+              zapCh1=queuData;
             break;
 
              case Q_EVENT_ZAP_CHANNEL2_V82 :
-              zapCh2=myBlynk.blynkData;
+              zapCh2=queuData;
             break;
 
              case Q_EVENT_ZAP_CHANNEL3_V83 :
-              zapCh3=myBlynk.blynkData;
+              zapCh3=queuData;
             break;
 
              case Q_EVENT_ZAP_CHANNEL4_V84 :
-              zapCh4=myBlynk.blynkData;
+              zapCh4=queuData;
             break;
 
              case Q_EVENT_ZAP_CHANNEL5_V85 :
-              zapCh5=myBlynk.blynkData;
+              zapCh5=queuData;
             break;
 
              case Q_EVENT_ZAP_CHANNEL6_V86 :
-              zapCh6=myBlynk.blynkData;
+              zapCh6=queuData;
             break;
 
              case Q_EVENT_ZAP_CHANNEL7_V87 :
-              zapCh7=myBlynk.blynkData;
+              zapCh7=queuData;
             break;
 
              case Q_EVENT_ZAP_CHANNEL8_V88 :
-              zapCh8=myBlynk.blynkData;
+              zapCh8=queuData;
             break;
              case Q_EVENT_NETGEER_V15  :
              myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset from Blynk");
@@ -368,30 +328,30 @@ void processBlynkQueu(void)
               if (recevierFreq >= 920 && recevierFreq <= 1500) receiverAvByFreq (recevierFreq);
             break;
             case Q_EVENT_RC_REPETION_V101:
-             repetionRC=myBlynk.blynkData;
+             repetionRC=queuData;
              EEPROM.write(RC_REPETION_ADD, repetionRC); EEPROM.commit();
              mySwitch.setRepeatTransmit(repetionRC);
             break;
 
             case Q_EVENT_RC_PULSE_V98:
-             pulseRC=myBlynk.blynkData;
+             pulseRC=queuData;
              mySwitch.setPulseLength(pulseRC);
             break;
 
             case Q_EVENT_ROOM_AV_RC_V19:
-             Av_Rx=myBlynk.blynkData;
+             Av_Rx=queuData;
              myBlynk.sendAvRxIndex(Av_Rx);
             break;
             
             case Q_EVENT_SLEEP_TIMER_V102:
-             deepSleepTimerHours=myBlynk.blynkData;
+             deepSleepTimerHours=queuData;
              goToDeepSleep(deepSleepTimerHours);
             break;
 
                         
             case Q_EVENT_ROOM_201_TO_205_V3:
                   
-                  switch (myBlynk.blynkData)
+                  switch (queuData)
                     {
                       case 1:
                       break;
@@ -424,7 +384,7 @@ void processBlynkQueu(void)
             break;
             
             case Q_EVENT_ROOM_206_TO_210_V16:
-                   switch (myBlynk.blynkData)
+                   switch (queuData)
                     {
                       case 1:
                       break;
@@ -457,7 +417,7 @@ void processBlynkQueu(void)
             break;
             
             case Q_EVENT_ROOM_211_TO_215_V17:
-                   switch (myBlynk.blynkData)
+                   switch (queuData)
                     {
                       case 1:
                       break;
@@ -487,7 +447,7 @@ void processBlynkQueu(void)
             break;
             
             case Q_EVENT_ROOM_216_TO_220_V18:
-                   switch (myBlynk.blynkData)
+                   switch (queuData)
                     {
                       case 1:// ROOM 216
                             remoteControlRcCh = 1;
