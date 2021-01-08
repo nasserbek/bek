@@ -50,7 +50,7 @@ void setup()
               {
                  if (gitHub) 
                   {
-             //       getDateTimeNTP(gitHub); 
+                    getDateTimeNTP(gitHub); 
                     sendToHMI(util.dateAndTimeChar, "Version : ", String(util.dateAndTimeChar),FB_NOTIFIER,String(util.dateAndTimeChar));
                     DEBUG_PRINTLN(String(util.dateAndTimeChar));
                   }
@@ -196,7 +196,9 @@ void processBlynk(void)
             case FB_AV_7SEG_ID:
                 recevierCh=myBlynk.blynkData;
                 DEBUG_PRINT("FB_AV_7SEG: ");DEBUG_PRINTLN(myBlynk.blynkData);
-                if (recevierCh >= 1 && recevierCh <= 9) receiverAvByCh (recevierCh);
+                if (recevierCh > 8) recevierCh = 1;
+                else if (recevierCh < 1) recevierCh = 8;
+                receiverAvByCh (recevierCh);
             break;
             case FB_FREQ_ID:
               recevierFreq=myBlynk.blynkData;
@@ -294,11 +296,15 @@ void processBlynk(void)
 
             case FB_AV_CH_PLUS_ID:
                 recevierCh += 1;
-                if (recevierCh >= 1 && recevierCh <= 9) receiverAvByCh (recevierCh);
+                if (recevierCh > 8) recevierCh = 1;
+                else if (recevierCh < 1) recevierCh = 8;
+                receiverAvByCh (recevierCh);
             break;
             case FB_AV_CH_MINUS_ID:
                 recevierCh -= 1;
-                if (recevierCh >= 1 && recevierCh <= 9) receiverAvByCh (recevierCh);
+                if (recevierCh > 8) recevierCh = 1;
+                else if (recevierCh < 1) recevierCh = 8;
+                receiverAvByCh (recevierCh);
             break;
             case FB_AV_FR_PLUS_ID:
               recevierFreq += 1;
@@ -530,7 +536,9 @@ void processSms(void)
             case FB_AV_7SEG_ID:
                 recevierCh=smsValue-40;
                 DEBUG_PRINT("FB_AV_7SEG: ");DEBUG_PRINTLN(recevierCh);
-                if (recevierCh >= 1 && recevierCh <= 8) receiverAvByCh (recevierCh);
+                if (recevierCh > 8) recevierCh = 1;
+                else if (recevierCh < 1) recevierCh = 8;
+                receiverAvByCh (recevierCh);
             break;
             case FB_FREQ_ID:
               recevierFreq=smsValue;
@@ -692,13 +700,10 @@ void receiverAvByCh (int Ch)
   int PLL_value;
        if (blynkConnected) myBlynk.blynkAckLed(true);
        
-       if (Ch != 9) {ack = avReceiver.Tuner_PLL(av_pll_addr, PLL[Ch]);}
-       else 
-        {
-          PLL_value =( 512 * ( 1000000 * (990 + 479.5) ) ) / (16*4000000) ;
-          ack = avReceiver.Tuner_PLL(av_pll_addr, PLL_value);
-        }
+       ack = avReceiver.Tuner_PLL(av_pll_addr, PLL[Ch]);
+
        delay(500);
+       
        if (blynkConnected) {myBlynk.blynkAckLed(ack); myBlynk.sevenSegValue(Ch );}
       
         switch (Ch)

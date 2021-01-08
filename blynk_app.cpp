@@ -24,7 +24,7 @@ int  _blynkEventID =0;
 int _tempoVar;
 bool _wifiIsConnected = false;
 bool _blynkIsConnected = false;
-
+bool firstConnect= false;
 
 
 
@@ -116,6 +116,8 @@ void myfunction(){
     Blynk.virtualWrite(V21, minutes);
     Blynk.virtualWrite(V11, seconds);
     Serial.println("\tTick update to blynk.");
+  //  if(firstConnect== false) {firstConnect= true;Blynk.syncAll();}
+    
     _blynkIsConnected = true;
   }
 }
@@ -150,7 +152,6 @@ void blynk::init()
   Serial.println();
 
     wifiMulti.addAP("HUAWEI-BOUY", WIFI_PASSWORD);
-    wifiMulti.addAP("HUAWEI-BOUY-5G", WIFI_PASSWORD);
     wifiMulti.addAP("Freebox_bek" , WIFI_PASSWORD);
     wifiMulti.addAP("SFR_A870", WIFI_PASSWORD);
     wifiMulti.addAP("OPPO Reno2 Bek" , WIFI_PASSWORD);
@@ -597,7 +598,7 @@ BLYNK_WRITE(V71)   //Zapping On Off Switch
     _blynkEventID =FB_ZAP_ID;
   DEBUG_PRINT("V71 Zap: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
-  if(_blynkData) Blynk.setProperty(V71, "color", BLYNK_GREEN);
+  if(_blynkData) Blynk.setProperty(V71, "color", BLYNK_BLUE);
   else Blynk.setProperty(V71, "color", BLYNK_RED); 
 }
 
@@ -620,7 +621,7 @@ BLYNK_WRITE(V81)   //Zapping ch1
     _blynkEventID =FB_ZAP_CHANNEL_ID1;
   DEBUG_PRINT("V81 Zap ch1: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
-  if(_blynkData) Blynk.setProperty(V81, "color", BLYNK_GREEN);
+  if(_blynkData) Blynk.setProperty(V81, "color", BLYNK_BLUE);
   else Blynk.setProperty(V81, "color", BLYNK_RED);
 }
 
@@ -632,7 +633,7 @@ BLYNK_WRITE(V82)   //Zapping ch2
     _blynkEventID =FB_ZAP_CHANNEL_ID2;
   DEBUG_PRINT("V82 Zap ch2: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
-  if(_blynkData) Blynk.setProperty(V82, "color", BLYNK_GREEN);
+  if(_blynkData) Blynk.setProperty(V82, "color", BLYNK_BLUE);
   else Blynk.setProperty(V82, "color", BLYNK_RED);
 }
 BLYNK_WRITE(V83)   //Zapping ch3
@@ -643,7 +644,7 @@ BLYNK_WRITE(V83)   //Zapping ch3
     _blynkEventID =FB_ZAP_CHANNEL_ID3;
   DEBUG_PRINT("V83 Zap ch3: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
-  if(_blynkData) Blynk.setProperty(V83, "color", BLYNK_GREEN);
+  if(_blynkData) Blynk.setProperty(V83, "color", BLYNK_BLUE);
   else Blynk.setProperty(V83, "color", BLYNK_RED);  
 }
 BLYNK_WRITE(V84)   //Zapping ch4
@@ -654,7 +655,7 @@ BLYNK_WRITE(V84)   //Zapping ch4
     _blynkEventID =FB_ZAP_CHANNEL_ID4;
   DEBUG_PRINT("V84 Zap ch4: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
-  if(_blynkData) Blynk.setProperty(V84, "color", BLYNK_GREEN);
+  if(_blynkData) Blynk.setProperty(V84, "color", BLYNK_BLUE);
   else Blynk.setProperty(V84, "color", BLYNK_RED);  
 }
 BLYNK_WRITE(V85)   //Zapping ch5
@@ -665,7 +666,7 @@ BLYNK_WRITE(V85)   //Zapping ch5
     _blynkEventID =FB_ZAP_CHANNEL_ID5;
   DEBUG_PRINT("V85 Zap ch5: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
-  if(_blynkData) Blynk.setProperty(V85, "color", BLYNK_GREEN);
+  if(_blynkData) Blynk.setProperty(V85, "color", BLYNK_BLUE);
   else Blynk.setProperty(V85, "color", BLYNK_RED);  
 }
 BLYNK_WRITE(V86)   //Zapping ch6
@@ -676,7 +677,7 @@ BLYNK_WRITE(V86)   //Zapping ch6
     _blynkEventID =FB_ZAP_CHANNEL_ID6;
   DEBUG_PRINT("V86 Zap ch6: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
-  if(_blynkData) Blynk.setProperty(V86, "color", BLYNK_GREEN);
+  if(_blynkData) Blynk.setProperty(V86, "color", BLYNK_BLUE);
   else Blynk.setProperty(V86, "color", BLYNK_RED);
 }
 BLYNK_WRITE(V87)   //Zapping ch7
@@ -687,7 +688,7 @@ BLYNK_WRITE(V87)   //Zapping ch7
     _blynkEventID =FB_ZAP_CHANNEL_ID7;
   DEBUG_PRINT("V87 Zap ch7: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
-  if(_blynkData) Blynk.setProperty(V87, "color", BLYNK_GREEN);
+  if(_blynkData) Blynk.setProperty(V87, "color", BLYNK_BLUE);
   else Blynk.setProperty(V87, "color", BLYNK_RED);
 }
 BLYNK_WRITE(V88)   //Zapping ch8
@@ -698,7 +699,7 @@ BLYNK_WRITE(V88)   //Zapping ch8
     _blynkEventID =FB_ZAP_CHANNEL_ID8;
   DEBUG_PRINT("V88 Zap ch8: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
-  if(_blynkData) Blynk.setProperty(V88, "color", BLYNK_GREEN);
+  if(_blynkData) Blynk.setProperty(V88, "color", BLYNK_BLUE);
   else Blynk.setProperty(V88, "color", BLYNK_RED);  
 }
 
@@ -883,30 +884,21 @@ void blynk::blynkConnect()
 
 void blynk::blynkAckLed(bool _data)
 {
-  if (sendToBlynkLeds)
-    {
       if (_data==1)  led2.setColor(BLYNK_RED);
       else           led2.setColor(BLYNK_GREEN);
-    }  
 }
 
 
 void blynk::blynkRCLed(bool _data)
 {
-    if (sendToBlynkLeds)
-    {
       if (_data==0)  led3.setColor(BLYNK_RED);
       else           led3.setColor(BLYNK_GREEN);
-    }
 }
 
 void blynk::blynkRCLed315(bool _data)
 {
-    if (sendToBlynkLeds)
-    {
       if (_data==0)  led6.setColor(BLYNK_RED);
       else           led6.setColor(BLYNK_GREEN);
-    }  
 }
 
 void blynk::blynkSmsLed(bool _data)
@@ -918,7 +910,7 @@ void blynk::blynkSmsLed(bool _data)
 void blynk::zapLed(bool _data)
 {
  if (_data==0)  led7.setColor(BLYNK_RED);
- else           led7.setColor(BLYNK_GREEN);
+ else           led7.setColor(BLYNK_BLUE);
 }
 
 void blynk::sendToBlynkLed(bool _data)
@@ -938,39 +930,27 @@ void blynk::sendAlive(int _data)
 /***************************************************/
 void blynk::resetT433Cmd(int cmd)
 {
-  if (sendToBlynk)
-  {
-  t433ChNumber = cmd;
+ t433ChNumber = cmd;
  Blynk.virtualWrite(V1, cmd);
-  }
 }
 
 void blynk::resetT315Cmd(int cmd)
 {
-  if (sendToBlynk)
-  {
-  t315ChNumber = cmd;
+ t315ChNumber = cmd;
  Blynk.virtualWrite(V14, cmd);
-  }
 }
 
 void blynk::sevenSegValue(int freq )
 {
-  if (sendToBlynk)
-  {
-  sevenSeg = freq;
+ sevenSeg = freq;
  Blynk.virtualWrite(V2, freq);
-  }
 }
 
 
 void blynk::frequencyValue(int freq )
 {
-  if (sendToBlynk)
-  {
   frequency = freq;
   Blynk.virtualWrite(V0, freq);
-  }
 }
 
 void blynk::sendRsss(int _rsss)
@@ -980,14 +960,6 @@ void blynk::sendRsss(int _rsss)
 void blynk::sendAvRxIndex(int _index)
 {
  Blynk.virtualWrite(V99, _index);
- Blynk.virtualWrite(V81, 1);
- Blynk.virtualWrite(V82, 1);
- Blynk.virtualWrite(V83, 1);
- Blynk.virtualWrite(V84, 1);
- Blynk.virtualWrite(V85, 1);
- Blynk.virtualWrite(V86, 1);
- Blynk.virtualWrite(V87, 1);
- Blynk.virtualWrite(V10, 1);
 }
 
 bool blynk::blynkStatus(void)
