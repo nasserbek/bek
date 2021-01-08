@@ -368,6 +368,17 @@ BLYNK_WRITE(V19) // ROOM_AV RC
   if (_blynkData ==3) Blynk.setProperty(V19, "color", BLYNK_RED);
 }
 
+BLYNK_WRITE(V23)   //router reset Timer
+{
+  _tempoVar = param.asInt(); // assigning incoming value from pin V71 to a variable
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_ROUTER_RESET_TIMER_V23;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
+  DEBUG_PRINT("V23 router reset Timer: ");
+  DEBUG_PRINTLN(_tempoVar );
+}
 
 BLYNK_WRITE(V71)   //Zapping On Off Switch
 {

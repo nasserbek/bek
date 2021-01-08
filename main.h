@@ -37,7 +37,8 @@ bool wifiOn     =true;
 bool smsOn      =true;
 
 int zapTimer = 5000;
-long resetNetgeerAfterInternetLossTimer,zaptime, NetgeerResetTimer, wifiSurvilanceTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff,wifiIDETimer,restartAfterResetNG,NetgeerResetGooglLostTimer,blynkNotActiveTimer;
+int routerTimer = 2000;
+long routerResetTimer, resetNetgeerAfterInternetLossTimer,zaptime, NetgeerResetTimer, wifiSurvilanceTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff,wifiIDETimer,restartAfterResetNG,NetgeerResetGooglLostTimer,blynkNotActiveTimer;
 bool pingGoogle= false;
 bool googlePingOk= true;
 bool netGeerReset = false;

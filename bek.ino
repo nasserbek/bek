@@ -14,6 +14,8 @@ int queuData;
 int queuDataID;
 bool queuValidData=false;
 bool streamWebDdns = DDNS;
+bool routerResetStart =false;
+
 void createHandleGroup()
 {
      //Create a program that allows the required message objects and group flags
@@ -88,6 +90,7 @@ void setup()
     restartAfterResetNG     = millis();
     NetgeerResetGooglLostTimer = millis();
     blynkNotActiveTimer     = millis();
+    routerResetTimer        = millis();
     resetNetgeerAfterInternetLossTimer = millis();
     
     DEBUG_PRINT("Wifi: ");DEBUG_PRINTLN(wifiAvailable ? F("Available") : F("Not Available"));
@@ -147,14 +150,15 @@ void loop(void)
 
 void netgeerCtrl(void)
 {
-/*       
-          if ( (  (millis() - internetSurvilanceTimer) >= PING_GOOGLE_BLYNK_TIMER))
-              {
-                if (! (blynkConnected=myBlynk.blynkConnected() ) )  myBlynk.blynkConnect();
-                DEBUG_PRINT("blynk: ");DEBUG_PRINTLN(blynkConnected ? F("Connected!") : F("Disconnected!"));
-                internetSurvilanceTimer= millis();
-              }
-*/
+              
+       if ( (  (millis() - routerResetTimer) >= routerTimer) && routerResetStart)
+                {
+                digitalWrite(NETGEER_PIN_0, HIGH);
+                restartAfterResetNG     = millis();
+                netGeerReset = true;
+                blynkInitDone = false;
+                pingGoogle =false;
+            }
 
        if ( ( (millis() - resetNetgeerAfterInternetLossTimer) >= INTERNET_LOSS_TO_RESET_NG_TIMER) && InternetLoss && !blynkConnected && !netGeerReset)
         {
@@ -176,16 +180,8 @@ void netgeerCtrl(void)
 
 void ResetNetgeer(void)
           {
-
               digitalWrite(NETGEER_PIN_0, LOW);
-              delay(2000);
-              digitalWrite(NETGEER_PIN_0, HIGH); 
-
-              DEBUG_PRINTLN("Netgeer Reset done: ");
-              restartAfterResetNG     = millis();
-              netGeerReset = true;
-              blynkInitDone = false;
-              pingGoogle =false;
+              if(!routerResetStart){routerResetTimer        = millis();routerResetStart = true;DEBUG_PRINTLN("Netgeer Reset done: ");}
           }
 
 
@@ -385,6 +381,9 @@ void processBlynkQueu(void)
             case Q_EVENT_ROOM_AV_RC_V19:
              Av_Rx=queuData;
              myBlynk.sendAvRxIndex(Av_Rx);
+            break;
+            case Q_EVENT_ROUTER_RESET_TIMER_V23:
+                  routerTimer = queuData;
             break;
             
             case Q_EVENT_ZAP_V71:
