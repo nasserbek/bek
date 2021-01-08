@@ -24,7 +24,7 @@ int  _blynkEventID =0;
 int _tempoVar;
 bool _wifiIsConnected = false;
 bool _blynkIsConnected = false;
-
+bool firstConnect= false;
 
 
 
@@ -116,7 +116,8 @@ void myfunction(){
     Blynk.virtualWrite(V21, minutes);
     Blynk.virtualWrite(V11, seconds);
     Serial.println("\tTick update to blynk.");
-    Blynk.syncAll();
+    if(firstConnect== false) {firstConnect= true;Blynk.syncAll();}
+    
     _blynkIsConnected = true;
   }
 }
