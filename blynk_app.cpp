@@ -29,13 +29,11 @@ bool firstConnect= false;
 extern EventGroupHandle_t g_event_group;
 extern QueueHandle_t g_event_queue_handle;
 
-
-WidgetLED led2(V5);   //Ack
-WidgetLED led3(V6);   //T433 St
-WidgetLED led6(V13);  //T315 St
-WidgetLED led4(V9);   //Send to blynlk
-WidgetLED led5(V12);  //sms
-WidgetLED led7(V80);  //Zap Status
+WidgetLED ACK_LED_V5(V5);   //Ack
+WidgetLED T433_LED_V6(V6);   //T433 St
+WidgetLED T315_LED_V13(V13);  //T315 St
+WidgetLED SMS_LED_V12(V12);  //sms
+WidgetLED ZAP_LED_V80(V80);  //Zap Status
 
 
 #ifdef BEK
@@ -97,12 +95,11 @@ seconds = (((timeNow % day) % hour) % minute) / second;
 
 void ledInit(void)
 {
-  led2.on(); //Enable colours for Ack Led
-  led3.on(); //Enable colours for T433 St Led
-  led6.on(); //Enable colours for T315 St Led
-  led4.on(); //Enable colours for firebase
-  led5.on(); //Enable colours for firebase
-  led7.on(); //Enable colours for Zapping
+  ACK_LED_V5.on(); //Enable colours for Ack Led
+  T433_LED_V6.on(); //Enable colours for T433 St Led
+  T315_LED_V13.on(); //Enable colours for T315 St Led
+  SMS_LED_V12.on(); //Enable colours for firebase
+  ZAP_LED_V80.on(); //Enable colours for Zapping
 }
 
 void myfunction(){
@@ -271,17 +268,7 @@ BLYNK_WRITE(V8)   //boot
 
 BLYNK_WRITE(V10)  //Send to blynk
 {
-  _fbonBlynk = param.asInt(); // assigning incoming value from pin V10 to a variable
-    _blynkEvent = true;
-    _blynkData=param.asInt();
-    _blynkEventID =FB_SEND_TO_BLYNK_ID;
-    eventdata = Q_EVENT_SEND_TO_BLYNK_V10;
-    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    
-  DEBUG_PRINT("V10 Send To Blynk: ");
-  DEBUG_PRINTLN(_fbonBlynk ? F("Turn On") : F("Turn Off"));
- if(_blynkData) Blynk.setProperty(V10, "color", BLYNK_GREEN);
-  else Blynk.setProperty(V10, "color", BLYNK_RED); 
+
 }
 
 
@@ -838,39 +825,37 @@ void blynk::blynkConnect()
 
 void blynk::blynkAckLed(bool _data)
 {
-      if (_data==1)  led2.setColor(BLYNK_RED);
-      else           led2.setColor(BLYNK_GREEN);
+      if (_data==1)  ACK_LED_V5.setColor(BLYNK_RED);
+      else           ACK_LED_V5.setColor(BLYNK_GREEN);
 }
 
 
 void blynk::blynkRCLed(bool _data)
 {
-      if (_data==0)  led3.setColor(BLYNK_RED);
-      else           led3.setColor(BLYNK_GREEN);
+      if (_data==0)  T433_LED_V6.setColor(BLYNK_RED);
+      else           T433_LED_V6.setColor(BLYNK_GREEN);
 }
 
 void blynk::blynkRCLed315(bool _data)
 {
-      if (_data==0)  led6.setColor(BLYNK_RED);
-      else           led6.setColor(BLYNK_GREEN);
+      if (_data==0)  T315_LED_V13.setColor(BLYNK_RED);
+      else           T315_LED_V13.setColor(BLYNK_GREEN);
 }
 
 void blynk::blynkSmsLed(bool _data)
 {
- if (_data==0)  led5.setColor(BLYNK_RED);
- else           led5.setColor(BLYNK_GREEN);
+ if (_data==0)  SMS_LED_V12.setColor(BLYNK_RED);
+ else           SMS_LED_V12.setColor(BLYNK_GREEN);
 }
 
 void blynk::zapLed(bool _data)
 {
- if (_data==0)  led7.setColor(BLYNK_RED);
- else           led7.setColor(BLYNK_BLUE);
+ if (_data==0)  ZAP_LED_V80.setColor(BLYNK_RED);
+ else           ZAP_LED_V80.setColor(BLYNK_BLUE);
 }
 
 void blynk::sendToBlynkLed(bool _data)
 {
- if (_data==0)  led4.setColor(BLYNK_RED);
- else           led4.setColor(BLYNK_GREEN);
 }
 
 void blynk::blynkFirebaseLed(bool _data)
@@ -924,4 +909,10 @@ bool blynk::blynkStatus(void)
 bool blynk::wifiStatus(void)
 {
  return  _wifiIsConnected;
+}
+
+void blynk::streamSelect(bool stream)
+{
+  if (stream == DDNS) Blynk.setProperty(V4,"url", "rtsp://creil:basma28112018@bouy.ddns.net:5001/ch01/0");
+  else if (stream == WEB) Blynk.setProperty(V4, "url","rtsp://creil:basma28112018@192.168.1.94:554/ch01/0");
 }

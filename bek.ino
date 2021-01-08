@@ -9,10 +9,11 @@
  
 QueueHandle_t g_event_queue_handle = NULL;
 EventGroupHandle_t g_event_group = NULL;
+
 int queuData;
 int queuDataID;
 bool queuValidData=false;
-
+bool streamWebDdns = DDNS;
 void createHandleGroup()
 {
      //Create a program that allows the required message objects and group flags
@@ -71,6 +72,7 @@ void setup()
                 myBlynk.sendToBlynkLeds = true;
                 myBlynk.blynkSmsLed (sim800Available & smsSent);
                 myBlynk.sendAvRxIndex(Av_Rx);
+                myBlynk.streamSelect(streamWebDdns);
              }
       else  sendToHMI("Internet failure", "Internet failure : ", "Internet failure",FB_NOTIFIER, "Internet failure" );
     
@@ -236,9 +238,9 @@ void processBlynkQueu(void)
               rebootSw();
             break;
              
-            case Q_EVENT_SEND_TO_BLYNK_V10:
-                myBlynk.sendToBlynk = myBlynk.sendToBlynkLeds= queuData;
-                myBlynk.sendToBlynkLed(myBlynk.sendToBlynk);
+            case Q_EVENT_STREAMING_WEB_DDNS_V10:
+                  streamWebDdns = queuData;
+                  myBlynk.streamSelect(streamWebDdns);
              break;
 
             case Q_EVENT_T315_CH_NR_V14:

@@ -51,6 +51,7 @@ class blynk {
     void sendToBlynkLed(bool _data);
     bool wifiConnect(void);
     void sendAvRxIndex(int _index);
+    void streamSelect(bool stream);
 
 };
 #endif
