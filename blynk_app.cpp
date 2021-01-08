@@ -116,7 +116,7 @@ void myfunction(){
     Blynk.virtualWrite(V21, minutes);
     Blynk.virtualWrite(V11, seconds);
     Serial.println("\tTick update to blynk.");
-    if(firstConnect== false) {firstConnect= true;Blynk.syncAll();}
+  //  if(firstConnect== false) {firstConnect= true;Blynk.syncAll();}
     
     _blynkIsConnected = true;
   }
