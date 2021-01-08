@@ -203,24 +203,19 @@ void processBlynkQueu(void)
 {
         switch (queuDataID)
           {
-            case Q_EVENT_WIFI_IDE_V100:
-               wifiIde = false;         
-               wifiIDETimer = millis();
-               wifiUploadCtrl();
-             break;
-             
-            case Q_EVENT_WIFI_OTA_V105:
-               otaWifiGithub = false;         
-               wifiIDETimer = millis();
-               otaWifi();
-             break;
-                          
-            case Q_EVENT_WIFI_WEB_V104:
-               wifiWebUpdater = false;
-               wifiIDETimer = millis();
-               webUpdateOta ();
-             break;
+
+            case Q_EVENT_FREQ_V0:
+              recevierFreq=queuData;
+              DEBUG_PRINT("FB_FREQ: ");DEBUG_PRINTLN(queuData);
+              if (recevierFreq >= 920 && recevierFreq <= 1500) receiverAvByFreq (recevierFreq);
+            break;
             
+            case Q_EVENT_T433_CH_NR_V1:
+              remoteControlRcCh=queuData;
+              DEBUG_PRINT("FB_T433_CH_NR: ");DEBUG_PRINTLN(queuData);
+              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 15) {remoteControl(remoteControlRcCh );}
+            break;      
+                  
             case Q_EVENT_AV_7SEG_V2:
                 recevierCh=queuData;
                 DEBUG_PRINT("FB_AV_7SEG: ");DEBUG_PRINTLN(queuData);
@@ -228,20 +223,11 @@ void processBlynkQueu(void)
                 else if (recevierCh < 1) recevierCh = 8;
                 receiverAvByCh (recevierCh);
             break;
-            case Q_EVENT_FREQ_V0:
-              recevierFreq=queuData;
-              DEBUG_PRINT("FB_FREQ: ");DEBUG_PRINTLN(queuData);
-              if (recevierFreq >= 920 && recevierFreq <= 1500) receiverAvByFreq (recevierFreq);
-            break;
-            case Q_EVENT_T433_CH_NR_V1:
-              remoteControlRcCh=queuData;
-              DEBUG_PRINT("FB_T433_CH_NR: ");DEBUG_PRINTLN(queuData);
-              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 15) {remoteControl(remoteControlRcCh );}
-            break;
-            case Q_EVENT_T315_CH_NR_V14:
-              remoteControlRcCh=queuData;
-              DEBUG_PRINT("FB_T315_CH_NR: ");DEBUG_PRINTLN( (queuData) -15);
-              if (remoteControlRcCh >= 16 && remoteControlRcCh <= 30) {remoteControl(remoteControlRcCh );}
+
+           case Q_EVENT_OTA_V7:
+              otaCmd=queuData;
+              DEBUG_PRINT("FB_OTA: ");DEBUG_PRINTLN(queuData);
+              otaGsm ();
             break;
  
             case Q_EVENT_RESET_V8:
@@ -249,106 +235,23 @@ void processBlynkQueu(void)
               DEBUG_PRINT("FB_RESET: ");DEBUG_PRINTLN(queuData);
               rebootSw();
             break;
-            case Q_EVENT_OTA_V7:
-              otaCmd=queuData;
-              DEBUG_PRINT("FB_OTA: ");DEBUG_PRINTLN(queuData);
-              otaGsm ();
-            break;
-            
+             
             case Q_EVENT_SEND_TO_BLYNK_V10:
                 myBlynk.sendToBlynk = myBlynk.sendToBlynkLeds= queuData;
                 myBlynk.sendToBlynkLed(myBlynk.sendToBlynk);
              break;
 
-            case Q_EVENT_ZAP_V71:
-              zapOnOff=queuData;
-              DEBUG_PRINT("ZAP IS : ");
-              DEBUG_PRINTLN(zapOnOff ? F("On") : F("Off"));
-              myBlynk.zapLed(zapOnOff);
+            case Q_EVENT_T315_CH_NR_V14:
+              remoteControlRcCh=queuData;
+              DEBUG_PRINT("FB_T315_CH_NR: ");DEBUG_PRINTLN( (queuData) -15);
+              if (remoteControlRcCh >= 16 && remoteControlRcCh <= 30) {remoteControl(remoteControlRcCh );}
             break;
 
-            case Q_EVENT_ZAP_TIMER_V72:
-              zapTimer=queuData;
-            break;
-
-            case Q_EVENT_ZAP_CHANNEL1_V81 :
-              zapCh1=queuData;
-            break;
-
-             case Q_EVENT_ZAP_CHANNEL2_V82 :
-              zapCh2=queuData;
-            break;
-
-             case Q_EVENT_ZAP_CHANNEL3_V83 :
-              zapCh3=queuData;
-            break;
-
-             case Q_EVENT_ZAP_CHANNEL4_V84 :
-              zapCh4=queuData;
-            break;
-
-             case Q_EVENT_ZAP_CHANNEL5_V85 :
-              zapCh5=queuData;
-            break;
-
-             case Q_EVENT_ZAP_CHANNEL6_V86 :
-              zapCh6=queuData;
-            break;
-
-             case Q_EVENT_ZAP_CHANNEL7_V87 :
-              zapCh7=queuData;
-            break;
-
-             case Q_EVENT_ZAP_CHANNEL8_V88 :
-              zapCh8=queuData;
-            break;
-             case Q_EVENT_NETGEER_V15  :
+            case Q_EVENT_NETGEER_V15  :
              myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset from Blynk");
               ResetNetgeer();
             break;
 
-            case Q_EVENT_AV_CH_PLUS_V90:
-                recevierCh += 1;
-                if (recevierCh > 8) recevierCh = 1;
-                else if (recevierCh < 1) recevierCh = 8;
-                receiverAvByCh (recevierCh);
-            break;
-            case Q_EVENT_AV_CH_MINUS_V91:
-                recevierCh -= 1;
-                if (recevierCh > 8) recevierCh = 1;
-                else if (recevierCh < 1) recevierCh = 8;
-                receiverAvByCh (recevierCh);
-            break;
-            case Q_EVENT_AV_FR_PLUS_V93:
-              recevierFreq += 1;
-              if (recevierFreq >= 920 && recevierFreq <= 1500) receiverAvByFreq (recevierFreq);
-            break;
-            case Q_EVENT_AV_FR_MINUS_V92:
-              recevierFreq -= 1;
-              if (recevierFreq >= 920 && recevierFreq <= 1500) receiverAvByFreq (recevierFreq);
-            break;
-            case Q_EVENT_RC_REPETION_V101:
-             repetionRC=queuData;
-             EEPROM.write(RC_REPETION_ADD, repetionRC); EEPROM.commit();
-             mySwitch.setRepeatTransmit(repetionRC);
-            break;
-
-            case Q_EVENT_RC_PULSE_V98:
-             pulseRC=queuData;
-             mySwitch.setPulseLength(pulseRC);
-            break;
-
-            case Q_EVENT_ROOM_AV_RC_V19:
-             Av_Rx=queuData;
-             myBlynk.sendAvRxIndex(Av_Rx);
-            break;
-            
-            case Q_EVENT_SLEEP_TIMER_V102:
-             deepSleepTimerHours=queuData;
-             goToDeepSleep(deepSleepTimerHours);
-            break;
-
-                        
             case Q_EVENT_ROOM_201_TO_205_V3:
                   
                   switch (queuData)
@@ -476,7 +379,115 @@ void processBlynkQueu(void)
                     }
 
             break;                                    
+
+            case Q_EVENT_ROOM_AV_RC_V19:
+             Av_Rx=queuData;
+             myBlynk.sendAvRxIndex(Av_Rx);
+            break;
             
+            case Q_EVENT_ZAP_V71:
+              zapOnOff=queuData;
+              DEBUG_PRINT("ZAP IS : ");
+              DEBUG_PRINTLN(zapOnOff ? F("On") : F("Off"));
+              myBlynk.zapLed(zapOnOff);
+            break;
+
+            case Q_EVENT_ZAP_TIMER_V72:
+              zapTimer=queuData;
+            break;
+
+            case Q_EVENT_ZAP_CHANNEL1_V81 :
+              zapCh1=queuData;
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL2_V82 :
+              zapCh2=queuData;
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL3_V83 :
+              zapCh3=queuData;
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL4_V84 :
+              zapCh4=queuData;
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL5_V85 :
+              zapCh5=queuData;
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL6_V86 :
+              zapCh6=queuData;
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL7_V87 :
+              zapCh7=queuData;
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL8_V88 :
+              zapCh8=queuData;
+            break;
+ 
+            case Q_EVENT_AV_CH_PLUS_V90:
+                recevierCh += 1;
+                if (recevierCh > 8) recevierCh = 1;
+                else if (recevierCh < 1) recevierCh = 8;
+                receiverAvByCh (recevierCh);
+            break;
+            case Q_EVENT_AV_CH_MINUS_V91:
+                recevierCh -= 1;
+                if (recevierCh > 8) recevierCh = 1;
+                else if (recevierCh < 1) recevierCh = 8;
+                receiverAvByCh (recevierCh);
+            break;
+            
+             case Q_EVENT_AV_FR_MINUS_V92:
+              recevierFreq -= 1;
+              if (recevierFreq >= 920 && recevierFreq <= 1500) receiverAvByFreq (recevierFreq);
+            break;
+
+           case Q_EVENT_AV_FR_PLUS_V93:
+              recevierFreq += 1;
+              if (recevierFreq >= 920 && recevierFreq <= 1500) receiverAvByFreq (recevierFreq);
+            break;
+
+            case Q_EVENT_RC_PULSE_V98:
+             pulseRC=queuData;
+             mySwitch.setPulseLength(pulseRC);
+            break;
+
+            case Q_EVENT_WIFI_IDE_V100:
+               wifiIde = false;         
+               wifiIDETimer = millis();
+               wifiUploadCtrl();
+             break;
+             
+            case Q_EVENT_RC_REPETION_V101:
+             repetionRC=queuData;
+             EEPROM.write(RC_REPETION_ADD, repetionRC); EEPROM.commit();
+             mySwitch.setRepeatTransmit(repetionRC);
+            break;
+
+
+            
+            case Q_EVENT_SLEEP_TIMER_V102:
+             deepSleepTimerHours=queuData;
+             goToDeepSleep(deepSleepTimerHours);
+            break;
+
+             
+                          
+            case Q_EVENT_WIFI_WEB_V104:
+               wifiWebUpdater = false;
+               wifiIDETimer = millis();
+               webUpdateOta ();
+             break;
+
+             case Q_EVENT_WIFI_OTA_V105:
+               otaWifiGithub = false;         
+               wifiIDETimer = millis();
+               otaWifi();
+             break;
     }  
 }
 
@@ -872,24 +883,10 @@ void processSms(void)
               DEBUG_PRINT("FB_OTA: ");DEBUG_PRINTLN(smsReceived);
               otaGsm ();
             break;
-            case FB_SMS_ON_ID:
-            break;
-            
+
             case FB_VERSION_ID:
               DEBUG_PRINT("FB_VERSION: ");DEBUG_PRINTLN(smsReceived);
               sendVersion();
-            break;
-            
-            case FB_FB_OFF_ID:
-            break;
-            
-            case FB_BLYNK_ON_OFF_ID:
-            break;
-            
-            case FB_WIFI_OFF_ID:
-            break;
-            
-            case FB_SETTINGS_ID :
             break;
     }  
 }
