@@ -150,6 +150,7 @@ void blynk::init()
   Serial.println();
 
     wifiMulti.addAP("HUAWEI-BOUY", WIFI_PASSWORD);
+    wifiMulti.addAP("HUAWEI-BOUY-5G", WIFI_PASSWORD);
     wifiMulti.addAP("Freebox_bek" , WIFI_PASSWORD);
     wifiMulti.addAP("SFR_A870", WIFI_PASSWORD);
     wifiMulti.addAP("OPPO Reno2 Bek" , WIFI_PASSWORD);

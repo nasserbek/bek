@@ -50,7 +50,7 @@ void setup()
               {
                  if (gitHub) 
                   {
-                    getDateTimeNTP(gitHub); 
+             //       getDateTimeNTP(gitHub); 
                     sendToHMI(util.dateAndTimeChar, "Version : ", String(util.dateAndTimeChar),FB_NOTIFIER,String(util.dateAndTimeChar));
                     DEBUG_PRINTLN(String(util.dateAndTimeChar));
                   }
