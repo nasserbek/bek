@@ -268,7 +268,14 @@ BLYNK_WRITE(V8)   //boot
 
 BLYNK_WRITE(V10)  //Send to blynk
 {
-
+  _bootBlynk = param.asInt(); // assigning incoming value from pin V7 to a variable
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_STREAMING_WEB_DDNS_V10;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
+  DEBUG_PRINT("V10 STREAMING: ");
+  DEBUG_PRINTLN(_bootBlynk ? F("On") : F("Off"));
 }
 
 
