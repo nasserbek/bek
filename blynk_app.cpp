@@ -116,6 +116,7 @@ void myfunction(){
     Blynk.virtualWrite(V21, minutes);
     Blynk.virtualWrite(V11, seconds);
     Serial.println("\tTick update to blynk.");
+    Blynk.syncAll();
     _blynkIsConnected = true;
   }
 }
@@ -958,14 +959,6 @@ void blynk::sendRsss(int _rsss)
 void blynk::sendAvRxIndex(int _index)
 {
  Blynk.virtualWrite(V99, _index);
- Blynk.virtualWrite(V81, 1);
- Blynk.virtualWrite(V82, 1);
- Blynk.virtualWrite(V83, 1);
- Blynk.virtualWrite(V84, 1);
- Blynk.virtualWrite(V85, 1);
- Blynk.virtualWrite(V86, 1);
- Blynk.virtualWrite(V87, 1);
- Blynk.virtualWrite(V10, 1);
 }
 
 bool blynk::blynkStatus(void)
