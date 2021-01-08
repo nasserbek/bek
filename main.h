@@ -8,7 +8,10 @@
 #include <ArduinoOTA.h>
 #include <ESP32Ping.h>
 
-
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "freertos/timers.h"
+#include "freertos/queue.h"
 
 
 #include "gsm_ota.h"

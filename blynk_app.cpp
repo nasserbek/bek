@@ -26,6 +26,8 @@ bool _wifiIsConnected = false;
 bool _blynkIsConnected = false;
 bool firstConnect= false;
 
+extern EventGroupHandle_t g_event_group;
+extern QueueHandle_t g_event_queue_handle;
 
 
 WidgetLED led2(V5);   //Ack
@@ -62,7 +64,7 @@ int days = 0;
 int hours = 0;
 int minutes = 0;
 int seconds = 0;
-
+int eventdata;
 
 void printDigits(byte digits){
  // utility function for digital clock display: prints colon and leading 0
@@ -192,7 +194,10 @@ BLYNK_WRITE(V0)  //freq
   _blynkfreqValue = param.asInt(); // assigning incoming value from pin V0 to a variable
     _blynkEvent = true;
     _blynkData=param.asInt();
-    _blynkEventID =FB_FREQ_ID;
+    _blynkEventID = FB_FREQ_ID;
+    eventdata = Q_EVENT_FREQ_V0;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+  
   DEBUG_PRINT("V0 Freq: ");
   DEBUG_PRINTLN(_blynkfreqValue);
 }
@@ -204,6 +209,9 @@ BLYNK_WRITE(V1) //rc433
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_T433_CH_NR_ID;
+    eventdata = Q_EVENT_T433_CH_NR_V1;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V1 T433: ");
   DEBUG_PRINTLN(_t433ChNumber);
 }
@@ -214,6 +222,9 @@ BLYNK_WRITE(V2) // receiver ch
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_AV_7SEG_ID;
+    eventdata = Q_EVENT_AV_7SEG_V2;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V2 Seven Segments: ");
   DEBUG_PRINTLN(_sevenSeg);
 }
@@ -224,6 +235,9 @@ BLYNK_WRITE(V3) // ROOM_201_TO_205
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =ROOM_201_TO_205;
+    eventdata = Q_EVENT_ROOM_201_TO_205_V3;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V3 ROOM_201_TO_205: ");
   DEBUG_PRINTLN(_sevenSeg);
   Blynk.setProperty(V3, "color", BLYNK_GREEN);
@@ -235,6 +249,9 @@ BLYNK_WRITE(V7)   // ota
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_OTA_ID;
+    eventdata = Q_EVENT_OTA_V7;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V7 Ota Gsm: ");
   DEBUG_PRINTLN(_otaBlynk ? F("On") : F("Off"));
 }
@@ -245,6 +262,9 @@ BLYNK_WRITE(V8)   //boot
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_RESET_ID;
+    eventdata = Q_EVENT_RESET_V8;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V8 reboot: ");
   DEBUG_PRINTLN(_bootBlynk ? F("On") : F("Off"));
 }
@@ -255,6 +275,9 @@ BLYNK_WRITE(V10)  //Send to blynk
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_SEND_TO_BLYNK_ID;
+    eventdata = Q_EVENT_SEND_TO_BLYNK_V10;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V10 Send To Blynk: ");
   DEBUG_PRINTLN(_fbonBlynk ? F("Turn On") : F("Turn Off"));
  if(_blynkData) Blynk.setProperty(V10, "color", BLYNK_GREEN);
@@ -269,6 +292,9 @@ BLYNK_WRITE(V14) //rc315
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_T315_CH_NR_ID;
+    eventdata = Q_EVENT_T315_CH_NR_V14;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V14 T315: ");
   DEBUG_PRINTLN(_t433ChNumber);
 }
@@ -281,6 +307,9 @@ BLYNK_WRITE(V15)   //NETGEER
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_NETGEER_ID ;
+    eventdata = Q_EVENT_NETGEER_V15;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V15 NETGEER: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -291,6 +320,9 @@ BLYNK_WRITE(V16) // ROOM_206_TO_210
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =ROOM_206_TO_210;
+    eventdata = Q_EVENT_ROOM_206_TO_210_V16;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V16 ROOM_206_TO_210: ");
   DEBUG_PRINTLN(_sevenSeg);
   Blynk.setProperty(V16, "color", BLYNK_GREEN);
@@ -303,6 +335,9 @@ BLYNK_WRITE(V17) // ROOM_211_TO_215
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =ROOM_211_TO_215;
+    eventdata = Q_EVENT_ROOM_211_TO_215_V17;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V17 ROOM_211_TO_215: ");
   DEBUG_PRINTLN(_sevenSeg);
   Blynk.setProperty(V17, "color", BLYNK_GREEN);
@@ -314,6 +349,9 @@ BLYNK_WRITE(V18) // ROOM_216_TO_220
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =ROOM_216_TO_220;
+    eventdata = Q_EVENT_ROOM_216_TO_220_V18;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V18 ROOM_216_TO_220: ");
   DEBUG_PRINTLN(_sevenSeg);
   Blynk.setProperty(V18, "color", BLYNK_GREEN);
@@ -326,6 +364,9 @@ BLYNK_WRITE(V19) // ROOM_AV RC
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =ROOM_AV_RC;
+    eventdata = Q_EVENT_ROOM_AV_RC_V19;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V19 ROOM_AV_RC: ");
   DEBUG_PRINTLN(_sevenSeg);
   if (_blynkData ==1) Blynk.setProperty(V19, "color", BLYNK_GREEN);
@@ -339,6 +380,9 @@ BLYNK_WRITE(V21)   //ch1
     _blynkEvent = true;
     _blynkData=1;
     _blynkEventID =FB_AV_7SEG_ID;
+    eventdata = Q_EVENT_AV_7SEG_V2;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V21 ch1: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -349,6 +393,9 @@ BLYNK_WRITE(V22)   //ch2
     _blynkEvent = true;
     _blynkData=2;
     _blynkEventID =FB_AV_7SEG_ID;
+    eventdata = Q_EVENT_AV_7SEG_V2;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V22 ch3: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -359,6 +406,9 @@ BLYNK_WRITE(V23)   //ch3
     _blynkEvent = true;
     _blynkData=3;
     _blynkEventID =FB_AV_7SEG_ID;
+    eventdata = Q_EVENT_AV_7SEG_V2;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V23 ch3: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -370,6 +420,9 @@ BLYNK_WRITE(V24)   //ch4
     _blynkEvent = true;
     _blynkData=4;
     _blynkEventID =FB_AV_7SEG_ID;
+    eventdata = Q_EVENT_AV_7SEG_V2;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V24 ch4: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -381,6 +434,9 @@ BLYNK_WRITE(V25)   //ch5
     _blynkEvent = true;
     _blynkData=5;
     _blynkEventID =FB_AV_7SEG_ID;
+    eventdata = Q_EVENT_AV_7SEG_V2;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V25 ch5: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -392,6 +448,9 @@ BLYNK_WRITE(V26)   //ch6
     _blynkEvent = true;
     _blynkData=6;
     _blynkEventID =FB_AV_7SEG_ID;
+    eventdata = Q_EVENT_AV_7SEG_V2;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V26 ch6: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -402,6 +461,9 @@ BLYNK_WRITE(V27)   //ch7
     _blynkEvent = true;
     _blynkData=7;
     _blynkEventID =FB_AV_7SEG_ID;
+    eventdata = Q_EVENT_AV_7SEG_V2;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V27 ch7: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -413,6 +475,9 @@ BLYNK_WRITE(V28)   //ch8
     _blynkEvent = true;
     _blynkData=8;
     _blynkEventID =FB_AV_7SEG_ID;
+    eventdata = Q_EVENT_AV_7SEG_V2;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V28 ch8: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -425,6 +490,9 @@ BLYNK_WRITE(V29)   //ch15
     _blynkEvent = true;
     _blynkData=15;
     _blynkEventID =FB_T433_CH_NR_ID;
+    eventdata = Q_EVENT_T433_CH_NR_V1;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V29 T433 ch14: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -435,6 +503,9 @@ BLYNK_WRITE(V30)   //ch0
     _blynkEvent = true;
     _blynkData=9;
     _blynkEventID =FB_AV_7SEG_ID;
+    eventdata = Q_EVENT_T433_CH_NR_V1;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V30 ch9 995 Mhz: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -446,6 +517,9 @@ BLYNK_WRITE(V31)   //ch1
     _blynkEvent = true;
     _blynkData=1;
     _blynkEventID =FB_T433_CH_NR_ID;
+    eventdata = Q_EVENT_T433_CH_NR_V1;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V31 T433 ch1: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -457,6 +531,9 @@ BLYNK_WRITE(V32)   //ch2
     _blynkEvent = true;
     _blynkData=2;
     _blynkEventID =FB_T433_CH_NR_ID;
+    eventdata = Q_EVENT_T433_CH_NR_V1;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V32 T433 ch2: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -468,6 +545,9 @@ BLYNK_WRITE(V34)   //ch4
     _blynkEvent = true;
     _blynkData=4;
     _blynkEventID =FB_T433_CH_NR_ID;
+    eventdata = Q_EVENT_T433_CH_NR_V1;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V34 T433 ch4: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -478,6 +558,9 @@ BLYNK_WRITE(V35)   //ch5
     _blynkEvent = true;
     _blynkData=5;
     _blynkEventID =FB_T433_CH_NR_ID;
+    eventdata = Q_EVENT_T433_CH_NR_V1;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V35 T433 ch5: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -489,6 +572,9 @@ BLYNK_WRITE(V37)   //ch7
     _blynkEvent = true;
     _blynkData=7;
     _blynkEventID =FB_T433_CH_NR_ID;
+    eventdata = Q_EVENT_T433_CH_NR_V1;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V37 T433 ch7: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -499,6 +585,9 @@ BLYNK_WRITE(V38)   //ch8
     _blynkEvent = true;
     _blynkData=8;
     _blynkEventID =FB_T433_CH_NR_ID;
+    eventdata = Q_EVENT_T433_CH_NR_V1;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V38 T433 ch8: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -509,6 +598,9 @@ BLYNK_WRITE(V39)   //ch9
     _blynkEvent = true;
     _blynkData=9;
     _blynkEventID =FB_T433_CH_NR_ID;
+    eventdata = Q_EVENT_T433_CH_NR_V1;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V39 T433 ch9: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -519,6 +611,9 @@ BLYNK_WRITE(V40)   //ch10
     _blynkEvent = true;
     _blynkData=10;
     _blynkEventID =FB_T433_CH_NR_ID;
+    eventdata = Q_EVENT_T433_CH_NR_V1;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V40 T433 ch10: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -529,6 +624,9 @@ BLYNK_WRITE(V44)   //ch14
     _blynkEvent = true;
     _blynkData=14;
     _blynkEventID =FB_T433_CH_NR_ID;
+    eventdata = Q_EVENT_T433_CH_NR_V1;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V44 T433 ch14: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -542,6 +640,9 @@ BLYNK_WRITE(V52)   //ch2
     _blynkEvent = true;
     _blynkData=17;
     _blynkEventID =FB_T315_CH_NR_ID;
+    eventdata = Q_EVENT_T433_CH_NR_V1;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V52 T315 ch2: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -552,6 +653,9 @@ BLYNK_WRITE(V53)   //ch3
     _blynkEvent = true;
     _blynkData=18;
     _blynkEventID =FB_T315_CH_NR_ID;
+    eventdata = Q_EVENT_T433_CH_NR_V1;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V53 T315 ch3: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -562,6 +666,9 @@ BLYNK_WRITE(V54)   //ch4
     _blynkEvent = true;
     _blynkData=19;
     _blynkEventID =FB_T315_CH_NR_ID;
+    eventdata = Q_EVENT_T433_CH_NR_V1;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V54 T315 ch4: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -572,6 +679,9 @@ BLYNK_WRITE(V63)   //ch13
     _blynkEvent = true;
     _blynkData=28;
     _blynkEventID =FB_T315_CH_NR_ID;
+    eventdata = Q_EVENT_T433_CH_NR_V1;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V63 T315 ch13: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -583,6 +693,9 @@ BLYNK_WRITE(V64)   //ch14
     _blynkEvent = true;
     _blynkData=29;
     _blynkEventID =FB_T315_CH_NR_ID;
+    eventdata = Q_EVENT_T433_CH_NR_V1;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V64 T315 ch14: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -596,6 +709,9 @@ BLYNK_WRITE(V71)   //Zapping On Off Switch
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_ZAP_ID;
+    eventdata = Q_EVENT_ZAP_V71;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V71 Zap: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
   if(_blynkData) Blynk.setProperty(V71, "color", BLYNK_BLUE);
@@ -609,6 +725,9 @@ BLYNK_WRITE(V72)   //Zapping Timer
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_ZAP_TIMER_ID;
+    eventdata = Q_EVENT_ZAP_TIMER_V72;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V712 Zap Timer: ");
   DEBUG_PRINTLN(_tempoVar );
 }
@@ -619,6 +738,9 @@ BLYNK_WRITE(V81)   //Zapping ch1
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_ZAP_CHANNEL_ID1;
+    eventdata = Q_EVENT_ZAP_CHANNEL1_V81;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V81 Zap ch1: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
   if(_blynkData) Blynk.setProperty(V81, "color", BLYNK_BLUE);
@@ -631,6 +753,9 @@ BLYNK_WRITE(V82)   //Zapping ch2
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_ZAP_CHANNEL_ID2;
+    eventdata = Q_EVENT_ZAP_CHANNEL2_V82;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V82 Zap ch2: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
   if(_blynkData) Blynk.setProperty(V82, "color", BLYNK_BLUE);
@@ -642,6 +767,9 @@ BLYNK_WRITE(V83)   //Zapping ch3
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_ZAP_CHANNEL_ID3;
+    eventdata = Q_EVENT_ZAP_CHANNEL3_V83;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V83 Zap ch3: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
   if(_blynkData) Blynk.setProperty(V83, "color", BLYNK_BLUE);
@@ -653,6 +781,9 @@ BLYNK_WRITE(V84)   //Zapping ch4
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_ZAP_CHANNEL_ID4;
+    eventdata = Q_EVENT_ZAP_CHANNEL4_V84;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V84 Zap ch4: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
   if(_blynkData) Blynk.setProperty(V84, "color", BLYNK_BLUE);
@@ -664,6 +795,9 @@ BLYNK_WRITE(V85)   //Zapping ch5
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_ZAP_CHANNEL_ID5;
+    eventdata = Q_EVENT_ZAP_CHANNEL5_V85;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V85 Zap ch5: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
   if(_blynkData) Blynk.setProperty(V85, "color", BLYNK_BLUE);
@@ -675,6 +809,9 @@ BLYNK_WRITE(V86)   //Zapping ch6
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_ZAP_CHANNEL_ID6;
+    eventdata = Q_EVENT_ZAP_CHANNEL6_V86;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V86 Zap ch6: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
   if(_blynkData) Blynk.setProperty(V86, "color", BLYNK_BLUE);
@@ -686,6 +823,9 @@ BLYNK_WRITE(V87)   //Zapping ch7
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_ZAP_CHANNEL_ID7;
+    eventdata = Q_EVENT_ZAP_CHANNEL7_V87;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V87 Zap ch7: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
   if(_blynkData) Blynk.setProperty(V87, "color", BLYNK_BLUE);
@@ -697,6 +837,9 @@ BLYNK_WRITE(V88)   //Zapping ch8
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_ZAP_CHANNEL_ID8;
+    eventdata = Q_EVENT_ZAP_CHANNEL8_V88;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("V88 Zap ch8: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
   if(_blynkData) Blynk.setProperty(V88, "color", BLYNK_BLUE);
@@ -709,6 +852,9 @@ BLYNK_WRITE(V90)   //CH +
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_AV_CH_PLUS_ID  ;
+    eventdata = Q_EVENT_AV_CH_PLUS_V90;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("CH +: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -720,6 +866,9 @@ BLYNK_WRITE(V91)   //CH -
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_AV_CH_MINUS_ID  ;
+    eventdata = Q_EVENT_AV_CH_MINUS_V91;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("CH -: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -731,6 +880,9 @@ BLYNK_WRITE(V92)   //FR -
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_AV_FR_MINUS_ID  ;
+    eventdata = Q_EVENT_AV_FR_MINUS_V92;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("FR -: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -741,6 +893,9 @@ BLYNK_WRITE(V93)   //FR +
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_AV_FR_PLUS_ID  ;
+    eventdata = Q_EVENT_AV_FR_PLUS_V93;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("FR +: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
 }
@@ -752,6 +907,9 @@ BLYNK_WRITE(V98)  //pulse
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_RC_PULSE_ID;
+    eventdata = Q_EVENT_RC_PULSE_V98;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("RC PULSE: ");
   DEBUG_PRINTLN(_blynkfreqValue);
 }
@@ -763,6 +921,9 @@ BLYNK_WRITE(V100)  //wifi ide
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_WIFI_IDE_ID ;
+    eventdata = Q_EVENT_WIFI_IDE_V100;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("Wifi IDE: ");
   DEBUG_PRINTLN(_smsBlynk ? F("Turn On") : F("Turn Off"));
 }
@@ -774,6 +935,9 @@ BLYNK_WRITE(V101)  //repetion
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_RC_REPETION_ID;
+    eventdata = Q_EVENT_RC_REPETION_V101;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("RC Repetion: ");
   DEBUG_PRINTLN(_blynkfreqValue);
 }
@@ -785,6 +949,9 @@ BLYNK_WRITE(V102)  //sleep timer
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_SLEEP_TIMER_ID;
+    eventdata = Q_EVENT_SLEEP_TIMER_V102;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("Sleep Timer: ");
   DEBUG_PRINTLN(_blynkfreqValue);
 }
@@ -795,6 +962,9 @@ BLYNK_WRITE(V104)  //wifi WEB
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_WIFI_WEB_ID ;
+    eventdata = Q_EVENT_WIFI_WEB_V104;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("Wifi WEB: ");
   DEBUG_PRINTLN(_smsBlynk ? F("Turn On") : F("Turn Off"));
 }
@@ -806,6 +976,9 @@ BLYNK_WRITE(V105)  //wifi ota github
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_WIFI_OTA_ID ;
+    eventdata = Q_EVENT_WIFI_OTA_V105;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
   DEBUG_PRINT("Wifi Ota Github: ");
   DEBUG_PRINTLN(_smsBlynk ? F("Turn On") : F("Turn Off"));
 }
