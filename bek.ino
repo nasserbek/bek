@@ -155,6 +155,7 @@ void netgeerCtrl(void)
                 {
                 digitalWrite(NETGEER_PIN_0, HIGH);
                 routerResetStart=false;
+                routerResetTimer        = millis();
                 restartAfterResetNG     = millis();
                 netGeerReset = true;
                 blynkInitDone = false;
