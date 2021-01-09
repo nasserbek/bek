@@ -903,7 +903,7 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
                 if (ch1 ) 
                   {
                     if (stateMachine == 0) {zaptime= millis();stateMachine =1;}
-                    if (millis() - zaptime > zapTimer) {receiverAvByCh (1);stateMachine =2;}
+                    if (millis() - zaptime > zapTimer) {recevierCh=1;stateMachine =2;}
                   }
                 else stateMachine =2;
             break;
@@ -913,7 +913,7 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
                 if (ch2 ) 
                   {
                     if (stateMachine == 2) {zaptime= millis();stateMachine =3;}
-                    if (millis() - zaptime > zapTimer) {receiverAvByCh (2);stateMachine =4;}
+                    if (millis() - zaptime > zapTimer) {recevierCh=2;stateMachine =4;}
                   }
                 else stateMachine =4;
             break;
@@ -923,7 +923,7 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
                 if (ch3 ) 
                   {
                     if (stateMachine == 4) {zaptime= millis();stateMachine =5;}
-                    if (millis() - zaptime > zapTimer) {receiverAvByCh (3);stateMachine =6;}
+                    if (millis() - zaptime > zapTimer) {recevierCh=3;stateMachine =6;}
                   }
                 else stateMachine =6;
             break;
@@ -933,7 +933,7 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
                 if (ch4 ) 
                   {
                     if (stateMachine == 6) {zaptime= millis();stateMachine =7;}
-                    if (millis() - zaptime > zapTimer) {receiverAvByCh (4);stateMachine =8;}
+                    if (millis() - zaptime > zapTimer) {recevierCh=4;stateMachine =8;}
                   }
                 else stateMachine =8;
             break;
@@ -943,7 +943,7 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
                 if (ch5 ) 
                   {
                     if (stateMachine == 8) {zaptime= millis();stateMachine =9;}
-                    if (millis() - zaptime > zapTimer) {receiverAvByCh (5);stateMachine =10;}
+                    if (millis() - zaptime > zapTimer) {recevierCh=5;stateMachine =10;}
                   }
                 else stateMachine =10;
             break;
@@ -953,7 +953,7 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
                 if (ch6 ) 
                   {
                     if (stateMachine == 10) {zaptime= millis();stateMachine =11;}
-                    if (millis() - zaptime > zapTimer) {receiverAvByCh (6);stateMachine =12;}
+                    if (millis() - zaptime > zapTimer) {recevierCh=6;stateMachine =12;}
                   }
                 else stateMachine =12;
             break;
@@ -963,7 +963,7 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
                 if (ch7 ) 
                   {
                     if (stateMachine == 12) {zaptime= millis();stateMachine =13;}
-                    if (millis() - zaptime > zapTimer) {receiverAvByCh (7);stateMachine =14;}
+                    if (millis() - zaptime > zapTimer) {recevierCh=7;stateMachine =14;}
                   }
                 else stateMachine =14;
             break;
@@ -973,11 +973,12 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
                 if (ch8) 
                   {
                     if (stateMachine == 14) {zaptime= millis();stateMachine =15;}
-                    if (millis() - zaptime > zapTimer) {receiverAvByCh (8);stateMachine =0;}
+                    if (millis() - zaptime > zapTimer) {recevierCh=8;stateMachine =0;}
                   }
                 else stateMachine =0;
             break;
           }
+          if (ch1 || ch2 ||ch3 ||ch4 ||ch5 ||ch6 ||ch7 ||ch8 )receiverAvByCh (recevierCh);
 
 }
 
