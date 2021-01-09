@@ -380,6 +380,7 @@ BLYNK_WRITE(V23)   //router reset Timer
   DEBUG_PRINTLN(_tempoVar );
 }
 
+
 BLYNK_WRITE(V71)   //Zapping On Off Switch
 {
   _tempoVar = param.asInt(); // assigning incoming value from pin V71 to a variable

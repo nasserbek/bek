@@ -1,5 +1,5 @@
 #define BEK
-#define VERSION_ID " V68 "
+#define VERSION_ID " V70 "
 #define DEBUG_SERIAL
 #define BLYNK_SERVER "blynk-cloud.com"
 
@@ -320,6 +320,7 @@ Q_EVENT_ROOM_AV_RC_V19,
 //V21, minutes);
 //V22 STREAMING
 Q_EVENT_ROUTER_RESET_TIMER_V23,
+
 Q_EVENT_ZAP_V71,
 Q_EVENT_ZAP_TIMER_V72,
 //ZAP_LED_V80(V80);  //Zap Status

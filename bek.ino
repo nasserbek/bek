@@ -16,6 +16,8 @@ bool queuValidData=false;
 bool streamWebDdns = DDNS;
 bool routerResetStart =false;
 
+
+
 void createHandleGroup()
 {
      //Create a program that allows the required message objects and group flags
@@ -150,7 +152,8 @@ void loop(void)
 
 void netgeerCtrl(void)
 {
-              
+
+                 
        if ( (  (millis() - routerResetTimer) >= routerTimer) && routerResetStart)
                 {
                 digitalWrite(NETGEER_PIN_0, HIGH);
@@ -387,6 +390,8 @@ void processBlynkQueu(void)
             case Q_EVENT_ROUTER_RESET_TIMER_V23:
                   routerTimer = queuData;
             break;
+
+
             
             case Q_EVENT_ZAP_V71:
               zapOnOff=queuData;
