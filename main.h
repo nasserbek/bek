@@ -24,7 +24,7 @@
 #include "cayenne_app.h"
 #include "headers.h"
 
-void TaskSms( void *pvParameters );
+
 
 struct Roomdata
 {

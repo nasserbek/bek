@@ -200,9 +200,6 @@ void setup()
 
      delay(3000);  // Wait for SIM to stablish connection
      smsSent= sms.SendSMS("Sim800 Ok, Connecting to WIFI and Blynk.....");
-      
-     xTaskCreate(TaskSms,  "smsTask" ,  128,  NULL,  2 ,  NULL );
-     vTaskStartScheduler();  
      
      myBlynk.init();    
      blynkConnected=myBlynk.blynkStatus();
@@ -258,17 +255,12 @@ void setup()
     initWDG(SEC_60,EN);
 }
 
-void TaskSms(void *pvParameters)  
-{
- //   vTaskDelay( 200 / portTICK_PERIOD_MS ); 
-    if( smsEvent =sms.smsRun()) processSms();
-}
 
 void loop(void) 
 {
        resetWdg();    //reset timer (feed watchdog) 
        
- //    if( smsEvent =sms.smsRun()) processSms();
+      if( smsEvent =sms.smsRun()) processSms();
        
        blynkConnected=myBlynk.blynkStatus(); 
        
