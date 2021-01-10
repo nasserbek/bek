@@ -24,6 +24,8 @@
 #include "cayenne_app.h"
 #include "headers.h"
 
+void TaskSms( void *pvParameters );
+
 struct Roomdata
 {
   int  frequency;
@@ -76,29 +78,7 @@ int deepSleepTimerHours = 1 ;
 bool startLostInternetTimer = false;
 bool InternetLoss = false;
 
-
 bool zapOnOff = false;
-bool zapChannel = false;
-bool zapCh1 = false;
-bool zapCh2 = false;
-bool zapCh3 = false;
-bool zapCh4 = false;
-bool zapCh5 = false;
-bool zapCh6 = false;
-bool zapCh7 = false;
-bool zapCh8 = false;
-bool zapCh9 = false;
-bool zapCh10 = false;
-bool zapCh11 = false;
-
-
-struct timerMills_t
-{
-    unsigned long prevMillis;
-    bool          timeOut;
-};
-
-struct timerMills_t aliveTimer;
 
 
 boolean fbEvent = false;

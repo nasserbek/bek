@@ -200,8 +200,10 @@ void setup()
 
      delay(3000);  // Wait for SIM to stablish connection
      smsSent= sms.SendSMS("Sim800 Ok, Connecting to WIFI and Blynk.....");
+      
+     xTaskCreate(TaskSms,  "smsTask" ,  128,  NULL,  2 ,  NULL );
+     vTaskStartScheduler();  
      
-    
      myBlynk.init();    
      blynkConnected=myBlynk.blynkStatus();
      wifiAvailable = myBlynk.wifiStatus();
@@ -256,12 +258,17 @@ void setup()
     initWDG(SEC_60,EN);
 }
 
+void TaskSms(void *pvParameters)  
+{
+ //   vTaskDelay( 200 / portTICK_PERIOD_MS ); 
+    if( smsEvent =sms.smsRun()) processSms();
+}
 
 void loop(void) 
 {
        resetWdg();    //reset timer (feed watchdog) 
        
-       if( smsEvent =sms.smsRun()) processSms();
+ //    if( smsEvent =sms.smsRun()) processSms();
        
        blynkConnected=myBlynk.blynkStatus(); 
        
@@ -553,39 +560,39 @@ void processBlynkQueu(void)
             break;
 
             case Q_EVENT_ZAP_CHANNEL1_V81 :
-              Ch_1.zap=zapCh1=queuData;
+              Ch_1.zap=queuData;
             break;
 
              case Q_EVENT_ZAP_CHANNEL2_V82 :
-              Ch_2.zap=zapCh2=queuData;
+              Ch_2.zap=queuData;
             break;
 
              case Q_EVENT_ZAP_CHANNEL3_V83 :
-              Ch_3.zap=zapCh3=queuData;
+              Ch_3.zap=queuData;
             break;
 
              case Q_EVENT_ZAP_CHANNEL4_V84 :
-              Ch_4.zap=zapCh4=queuData;
+              Ch_4.zap=queuData;
             break;
 
              case Q_EVENT_ZAP_CHANNEL5_V85 :
-              Ch_5.zap=zapCh5=queuData;
+              Ch_5.zap=queuData;
             break;
 
              case Q_EVENT_ZAP_CHANNEL6_V86 :
-              Ch_6.zap=zapCh6=queuData;
+              Ch_6.zap=queuData;
             break;
 
              case Q_EVENT_ZAP_CHANNEL7_V87 :
-              Ch_7.zap=zapCh7=queuData;
+              Ch_7.zap=queuData;
             break;
 
              case Q_EVENT_ZAP_CHANNEL8_V88 :
-              Ch_8.zap=zapCh8=queuData;
+              Ch_8.zap=queuData;
             break;
             
             case Q_EVENT_ZAP_CHANNEL9_V89 :
-              Ch_9.zap=zapCh9=queuData;
+              Ch_9.zap=queuData;
             break; 
 
                       
@@ -616,11 +623,11 @@ void processBlynkQueu(void)
 
 
             case Q_EVENT_ZAP_CHANNEL10_V94 :
-              Ch_10.zap=zapCh10=queuData;
+              Ch_10.zap=queuData;
             break; 
  
             case Q_EVENT_ZAP_CHANNEL11_V95 :
-              Ch_11.zap=zapCh11=queuData;
+              Ch_11.zap=queuData;
             break; 
 
 
