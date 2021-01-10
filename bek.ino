@@ -51,7 +51,7 @@ void looadRoomData()
    Ch_10.frequency = 1050;   // 207
    Ch_10.id =10;
 
-   Ch_11.frequency = 1060;   // 208 NEW
+   Ch_11.frequency = 1100;   // 208 NEW
    Ch_11.id =11;
 /*
    Ch_12.frequency = 1080;
