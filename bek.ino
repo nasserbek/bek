@@ -339,13 +339,13 @@ void processBlynkQueu(void)
                       
                       case 4:// ROOM 214
                             remoteControlRcCh = 29;
-                            recevierCh=6;
+                            recevierCh=7;
                             room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;               
                       
-                      case 5:// ROOM 214
+                      case 5:// ROOM 215
                             remoteControlRcCh = 14;
-                            recevierCh=7;
+                            recevierCh=6;
                             room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;   
                     }
