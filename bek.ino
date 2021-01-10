@@ -446,15 +446,15 @@ void processBlynkQueu(void)
                       
             case Q_EVENT_AV_CH_PLUS_V90:
                 recevierCh += 1;
-                if (recevierCh > 9) recevierCh = 1;
-                else if (recevierCh < 1) recevierCh = 9;
+                if (recevierCh > 10) recevierCh = 1;
+                else if (recevierCh < 1) recevierCh = 10;
                 receiverAvByCh (recevierCh);
             break;
             
             case Q_EVENT_AV_CH_MINUS_V91:
                 recevierCh -= 1;
-                if (recevierCh > 9) recevierCh = 1;
-                else if (recevierCh < 1) recevierCh = 9;
+                if (recevierCh > 10) recevierCh = 1;
+                else if (recevierCh < 1) recevierCh = 10;
                 receiverAvByCh (recevierCh);
             break;
             
