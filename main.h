@@ -59,16 +59,16 @@ bool InternetLoss = false;
 
 bool zapOnOff = false;
 bool zapChannel = false;
-bool zapCh1 = true;
-bool zapCh2 = true;
-bool zapCh3 = true;
-bool zapCh4 = true;
-bool zapCh5 = true;
-bool zapCh6 = true;
-bool zapCh7 = true;
-bool zapCh8 = true;
-bool zapCh9 = true;
-bool zapCh10 = true;
+bool zapCh1 = false;
+bool zapCh2 = false;
+bool zapCh3 = false;
+bool zapCh4 = false;
+bool zapCh5 = false;
+bool zapCh6 = false;
+bool zapCh7 = false;
+bool zapCh8 = false;
+bool zapCh9 = false;
+bool zapCh10 = false;
 
 struct timerMills_t
 {

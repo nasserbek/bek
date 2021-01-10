@@ -237,7 +237,7 @@ BLYNK_WRITE(V3) // ROOM_201_TO_205
     
   DEBUG_PRINT("V3 ROOM_201_TO_205: ");
   DEBUG_PRINTLN(_sevenSeg);
-  Blynk.setProperty(V3, "color", BLYNK_GREEN);
+  Blynk.setProperty(V3, "color", BLYNK_BLUE);
 }
 
 BLYNK_WRITE(V7)   // ota
@@ -319,7 +319,7 @@ BLYNK_WRITE(V16) // ROOM_206_TO_210
     
   DEBUG_PRINT("V16 ROOM_206_TO_210: ");
   DEBUG_PRINTLN(_sevenSeg);
-  Blynk.setProperty(V16, "color", BLYNK_GREEN);
+  Blynk.setProperty(V16, "color", BLYNK_BLUE);
 }
 
 
@@ -334,7 +334,7 @@ BLYNK_WRITE(V17) // ROOM_211_TO_215
     
   DEBUG_PRINT("V17 ROOM_211_TO_215: ");
   DEBUG_PRINTLN(_sevenSeg);
-  Blynk.setProperty(V17, "color", BLYNK_GREEN);
+  Blynk.setProperty(V17, "color", BLYNK_BLUE);
 }
 
 BLYNK_WRITE(V18) // ROOM_216_TO_220
@@ -348,7 +348,7 @@ BLYNK_WRITE(V18) // ROOM_216_TO_220
     
   DEBUG_PRINT("V18 ROOM_216_TO_220: ");
   DEBUG_PRINTLN(_sevenSeg);
-  Blynk.setProperty(V18, "color", BLYNK_GREEN);
+  Blynk.setProperty(V18, "color", BLYNK_BLUE);
 }
 
 
