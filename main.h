@@ -24,6 +24,26 @@
 #include "cayenne_app.h"
 #include "headers.h"
 
+struct Roomdata
+{
+  int  frequency;
+  int  pll;
+  byte vCh;
+  byte rCh;
+  byte queuId;
+};
+
+struct Roomdata xRoom_202,xRoom_203,xRoom_204,xRoom_205,xRoom_206,xRoom_207,xRoom_208,xRoom_209,xRoom_210,xRoom_211,xRoom_212,xRoom_214,xRoom_215,xRoom_216,xRoom_217,xRoom_218,xRoom_219;
+
+struct Channels
+{
+  int  frequency;
+  int  id;
+  bool zap=false;;
+};
+
+struct Channels Ch_1,Ch_2,Ch_3,Ch_4,Ch_5,Ch_6,Ch_7,Ch_8,Ch_9,Ch_10,Ch_11,Ch_12,Ch_13,Ch_14,Ch_15;
+uint _pll[20];
 
 int blynkStatus = 1;
 bool googleConnected=false;
@@ -69,6 +89,8 @@ bool zapCh7 = false;
 bool zapCh8 = false;
 bool zapCh9 = false;
 bool zapCh10 = false;
+bool zapCh11 = false;
+
 
 struct timerMills_t
 {
@@ -183,7 +205,7 @@ int oldAVCmd =0;
 int avOutput = 0;
 int old_avOutput=0;
 const uint PLL[17] =
-{0,0x30C0,0x3200,0x3340,0x3480,0x35C0,0x3700,0x3840,0x3980,0x2E3C,0x2F7C,0x3340,0x3480,0x35C0,0x3700,0x3840,0x3980 };
+{0,0x30C0,0x3200,0x3340,0x3480,0x35C0,0x3700,0x3840,0x3980,0x2E3C,0x2F7C,0x301C,0x3480,0x35C0,0x3700,0x3840,0x3980 };
 /*
  * 1080
  * 1120
@@ -195,6 +217,7 @@ const uint PLL[17] =
  * 1360
  * 1000  11836 2E3C
  * 1040  12156 2F7C
+ * 1060  12316 301C
  */
                   /************PCF8574 I2C ***********/
 int av_pll_addr =0x61;  //0110 0 001 becomes 0xC2

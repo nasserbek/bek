@@ -17,6 +17,157 @@ bool streamWebDdns = DDNS;
 bool routerResetStart =false;
 
 
+void looadRoomData()
+{
+  int freq;
+
+   Ch_1.frequency = 1080;   // 216
+   Ch_1.id =1;
+
+   Ch_2.frequency = 1120;   // 202,217
+   Ch_2.id =2;
+
+   Ch_3.frequency = 1160;   // 203
+   Ch_3.id =3;
+
+   Ch_4.frequency = 1200;   // 204,219
+   Ch_4.id =4;
+
+   Ch_5.frequency = 1240;   // 205
+   Ch_5.id =5;
+
+   Ch_6.frequency = 1280;   // 215
+   Ch_6.id =6;
+
+   Ch_7.frequency = 1320;   // 212,214
+   Ch_7.id =7;
+
+   Ch_8.frequency = 1360;   // 208
+   Ch_8.id =8;
+
+   Ch_9.frequency = 1000;   // 209
+   Ch_9.id =9;
+
+   Ch_10.frequency = 1040;   // 207
+   Ch_10.id =10;
+
+   Ch_11.frequency = 1060;   // 208 NEW
+   Ch_11.id =11;
+/*
+   Ch_12.frequency = 1080;
+   Ch_12.id =12;
+
+   Ch_13.frequency = 1080;
+   Ch_13.id =13;
+
+   Ch_14.frequency = 1080;
+   Ch_14.id =14;
+*/
+
+   xRoom_202.frequency = freq =Ch_2.frequency;
+   xRoom_202.pll = _pll[Ch_2.id] = ( 512 * (freq + 479.5) ) / 64 ;
+   xRoom_202.vCh = Ch_2.id;
+   xRoom_202.rCh=17;
+   xRoom_202.queuId = 202;
+
+   xRoom_203.frequency = freq =Ch_3.frequency;
+   xRoom_203.pll =  _pll[Ch_3.id]  = ( 512 * (freq + 479.5) ) / 64 ;
+   xRoom_203.vCh = Ch_3.id;
+   xRoom_203.rCh=18;
+   xRoom_203.queuId = 203;
+
+   xRoom_204.frequency = freq =Ch_4.frequency;
+   xRoom_204.pll = _pll[Ch_4.id]  = ( 512 * (freq + 479.5) ) / 64 ;
+   xRoom_204.vCh = Ch_4.id;
+   xRoom_204.rCh=19;
+   xRoom_204.queuId = 204;
+
+
+   xRoom_205.frequency = freq =Ch_5.frequency;
+   xRoom_205.pll =  _pll[Ch_5.id]  = ( 512 * (freq + 479.5) ) / 64 ;
+   xRoom_205.vCh = Ch_5.id;
+   xRoom_205.rCh=5;
+   xRoom_205.queuId = 205;
+
+   xRoom_206.frequency = freq =Ch_6.frequency;
+   xRoom_206.pll =  _pll[Ch_6.id]  = ( 512 * (freq + 479.5) ) / 64 ;
+   xRoom_206.vCh = Ch_6.id;
+   xRoom_206.rCh=6;
+   xRoom_206.queuId = 206;
+
+   xRoom_207.frequency = freq =Ch_10.frequency;
+   xRoom_207.pll =  _pll[Ch_10.id]  = ( 512 * (freq + 479.5) ) / 64 ;
+   xRoom_207.vCh = Ch_10.id;
+   xRoom_207.rCh=7;
+   xRoom_207.queuId = 207;
+
+   xRoom_208.frequency = freq =Ch_8.frequency;
+   xRoom_208.pll =  _pll[Ch_8.id]  = ( 512 * (freq + 479.5) ) / 64 ;
+   xRoom_208.vCh = Ch_8.id;
+   xRoom_208.rCh=8;
+   xRoom_208.queuId = 208;
+
+   xRoom_209.frequency = freq =Ch_9.frequency;
+   xRoom_209.pll =  _pll[Ch_9.id]  = ( 512 * (freq + 479.5) ) / 64 ;
+   xRoom_209.vCh = Ch_9.id;
+   xRoom_202.rCh=9;
+   xRoom_202.queuId = 209;
+
+   xRoom_210.frequency = freq =Ch_2.frequency;
+   xRoom_210.pll =  _pll[Ch_2.id]  = ( 512 * (freq + 479.5) ) / 64 ;
+   xRoom_210.vCh = Ch_2.id;
+   xRoom_210.rCh=10;
+   xRoom_210.queuId = 210;
+
+   xRoom_211.frequency = freq =1080;
+   xRoom_211.pll = ( 512 * (freq + 479.5) ) / 64 ;
+   xRoom_211.vCh = 2;
+   xRoom_211.rCh=17;
+   xRoom_211.queuId = 211;
+
+   xRoom_212.frequency = freq =Ch_7.frequency;
+   xRoom_212.pll =  _pll[Ch_7.id]  = ( 512 * (freq + 479.5) ) / 64 ;
+   xRoom_212.vCh = Ch_7.id;
+   xRoom_212.rCh=28;
+   xRoom_212.queuId = 212;
+
+   xRoom_214.frequency = freq =Ch_7.frequency;
+   xRoom_214.pll =  _pll[Ch_7.id]  = ( 512 * (freq + 479.5) ) / 64 ;
+   xRoom_214.vCh = Ch_7.id;
+   xRoom_214.rCh=29;
+   xRoom_214.queuId = 214;
+
+   xRoom_215.frequency = freq =Ch_6.frequency;
+   xRoom_215.pll =  _pll[Ch_6.id]  = ( 512 * (freq + 479.5) ) / 64 ;
+   xRoom_215.vCh = Ch_6.id;
+   xRoom_215.rCh=14;
+   xRoom_215.queuId = 215;
+
+   xRoom_216.frequency = freq =Ch_1.frequency;
+   xRoom_216.pll =  _pll[Ch_1.id]  = ( 512 * (freq + 479.5) ) / 64 ;
+   xRoom_216.vCh = Ch_1.id;
+   xRoom_216.rCh=1;
+   xRoom_216.queuId = 216;
+
+   xRoom_217.frequency = freq =Ch_2.frequency;
+   xRoom_217.pll =  _pll[Ch_2.id]  = ( 512 * (freq + 479.5) ) / 64 ;
+   xRoom_217.vCh = Ch_2.id;
+   xRoom_217.rCh=2;
+   xRoom_217.queuId = 217;
+
+   xRoom_218.frequency = freq =1080;
+   xRoom_218.pll = ( 512 * (freq + 479.5) ) / 64 ;
+   xRoom_218.vCh = 2;
+   xRoom_218.rCh=17;
+   xRoom_218.queuId = 218;
+
+   xRoom_219.frequency = freq =Ch_4.frequency;
+   xRoom_219.pll =  _pll[Ch_4.id]  = ( 512 * (freq + 479.5) ) / 64 ;
+   xRoom_219.vCh = Ch_4.id;
+   xRoom_219.rCh=4;
+   xRoom_219.queuId = 219;
+
+}
 
 void createHandleGroup()
 {
@@ -61,8 +212,7 @@ void setup()
      if (blynkConnected) {if(smsSent) smsSent= sms.SendSMS("BLYNK Connected, starting the Loop");}
      else {if(smsSent) smsSent= sms.SendSMS("BLYNK failed to connect, starting the Loop");}
 
-    // myCayenne.init();
- 
+
      DEBUG_PRINT("Blynk: ");DEBUG_PRINTLN( blynkConnected ? F("Connected") : F("Not Connected"));
      if (blynkConnected) 
               {
@@ -101,6 +251,7 @@ void setup()
     String startString = String( "Restarting "   NOTIFIER_ID   VERSION_ID + smsStatus ) ;
     if (blynkConnected) myBlynk.notifierDebug(NOTIFIER_ID, startString );
     createHandleGroup();
+    looadRoomData();
     enableWDG(DIS);
     initWDG(SEC_60,EN);
 }
@@ -142,7 +293,7 @@ void loop(void)
             myBlynk.sendToBlynkLeds = false;
           }
     
-      if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8, zapCh9, zapCh10);  
+      if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer);  
           
        myBlynk.blynkRunTimer();
 }
@@ -219,8 +370,8 @@ void processBlynkQueu(void)
             case Q_EVENT_AV_7SEG_V2:
                 recevierCh=queuData;
                 DEBUG_PRINT("FB_AV_7SEG: ");DEBUG_PRINTLN(queuData);
-                if (recevierCh > 10) recevierCh = 1;
-                else if (recevierCh < 1) recevierCh = 10;
+                if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
+                else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
                 receiverAvByCh (recevierCh);
             break;
 
@@ -260,26 +411,26 @@ void processBlynkQueu(void)
                       break;
                       
                       case 2: // ROOM 202
-                            remoteControlRcCh = 17;
-                            recevierCh=2;
+                            remoteControlRcCh = xRoom_202.rCh;
+                            recevierCh        =xRoom_202.vCh;
                             room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;
                       
                       case 3:// ROOM 203
-                            remoteControlRcCh = 18;
-                            recevierCh=3;
+                            remoteControlRcCh = xRoom_203.rCh;
+                            recevierCh        =xRoom_203.vCh;
                             room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;      
                       
                       case 4:// ROOM 204
-                            remoteControlRcCh = 19;
-                            recevierCh=4;
+                            remoteControlRcCh = xRoom_204.rCh;
+                            recevierCh        =xRoom_204.vCh;
                             room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;               
                       
                       case 5:// ROOM 205
-                            remoteControlRcCh = 5;
-                            recevierCh=5;
+                            remoteControlRcCh = xRoom_205.rCh;
+                            recevierCh        =xRoom_205.vCh;
                             room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;   
                     }
@@ -293,26 +444,26 @@ void processBlynkQueu(void)
                       break;
                       
                       case 2:// ROOM 207
-                            remoteControlRcCh = 7;
-                            recevierCh=10;
+                            remoteControlRcCh = xRoom_207.rCh;
+                            recevierCh        =xRoom_207.vCh;
                             room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;
                       
                       case 3:// ROOM 208
-                            remoteControlRcCh = 8;
-                            recevierCh=8;
+                            remoteControlRcCh = xRoom_208.rCh;
+                            recevierCh        =xRoom_208.vCh;
                             room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;      
                       
                       case 4:// ROOM 209
-                            remoteControlRcCh = 9;
-                            recevierCh=9;
+                            remoteControlRcCh = xRoom_209.rCh;
+                            recevierCh        =xRoom_209.vCh;
                             room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;               
                       
                       case 5:// ROOM 210
-                            remoteControlRcCh = 10;
-                            recevierCh=2;
+                            remoteControlRcCh = xRoom_210.rCh;
+                            recevierCh        =xRoom_210.vCh;
                             room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;   
                     }
@@ -326,8 +477,8 @@ void processBlynkQueu(void)
                       break;
                       
                       case 2:// ROOM 212
-                            remoteControlRcCh = 28;
-                            recevierCh=7;
+                            remoteControlRcCh = xRoom_212.rCh;
+                            recevierCh        =xRoom_212.vCh;
                             room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;
                       
@@ -335,14 +486,14 @@ void processBlynkQueu(void)
                       break;      
                       
                       case 4:// ROOM 214
-                            remoteControlRcCh = 29;
-                            recevierCh=7;
+                            remoteControlRcCh = xRoom_214.rCh;
+                            recevierCh        =xRoom_214.vCh;
                             room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;               
                       
                       case 5:// ROOM 215
-                            remoteControlRcCh = 14;
-                            recevierCh=6;
+                            remoteControlRcCh = xRoom_215.rCh;
+                            recevierCh        =xRoom_215.vCh;
                             room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;   
                     }
@@ -353,14 +504,14 @@ void processBlynkQueu(void)
                    switch (queuData)
                     {
                       case 1:// ROOM 216
-                            remoteControlRcCh = 1;
-                            recevierCh=1;
+                            remoteControlRcCh = xRoom_216.rCh;
+                            recevierCh        =xRoom_216.vCh;
                             room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;
                       
                       case 2:// ROOM 217
-                            remoteControlRcCh = 2;
-                            recevierCh=2;
+                            remoteControlRcCh = xRoom_217.rCh;
+                            recevierCh        =xRoom_217.vCh;
                             room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;
                       
@@ -368,8 +519,8 @@ void processBlynkQueu(void)
                       break;      
                       
                       case 4:// ROOM 219
-                            remoteControlRcCh = 4;
-                            recevierCh=4;
+                            remoteControlRcCh = xRoom_219.rCh;
+                            recevierCh        =xRoom_219.vCh;
                             room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;               
                       
@@ -402,46 +553,54 @@ void processBlynkQueu(void)
             break;
 
             case Q_EVENT_ZAP_CHANNEL1_V81 :
-              zapCh1=queuData;
+              Ch_1.zap=zapCh1=queuData;
             break;
 
              case Q_EVENT_ZAP_CHANNEL2_V82 :
-              zapCh2=queuData;
+              Ch_2.zap=zapCh2=queuData;
             break;
 
              case Q_EVENT_ZAP_CHANNEL3_V83 :
-              zapCh3=queuData;
+              Ch_3.zap=zapCh3=queuData;
             break;
 
              case Q_EVENT_ZAP_CHANNEL4_V84 :
-              zapCh4=queuData;
+              Ch_4.zap=zapCh4=queuData;
             break;
 
              case Q_EVENT_ZAP_CHANNEL5_V85 :
-              zapCh5=queuData;
+              Ch_5.zap=zapCh5=queuData;
             break;
 
              case Q_EVENT_ZAP_CHANNEL6_V86 :
-              zapCh6=queuData;
+              Ch_6.zap=zapCh6=queuData;
             break;
 
              case Q_EVENT_ZAP_CHANNEL7_V87 :
-              zapCh7=queuData;
+              Ch_7.zap=zapCh7=queuData;
             break;
 
              case Q_EVENT_ZAP_CHANNEL8_V88 :
-              zapCh8=queuData;
+              Ch_8.zap=zapCh8=queuData;
             break;
             
             case Q_EVENT_ZAP_CHANNEL9_V89 :
-              zapCh9=queuData;
+              Ch_9.zap=zapCh9=queuData;
             break; 
 
+                      
+            case Q_EVENT_AV_CH_PLUS_V90:
+                recevierCh += 1;
+                if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
+                else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
+                receiverAvByCh (recevierCh);
+            break;
+                     
             
             case Q_EVENT_AV_CH_MINUS_V91:
                 recevierCh -= 1;
-                if (recevierCh > 10) recevierCh = 1;
-                else if (recevierCh < 1) recevierCh = 10;
+                if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
+                else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
                 receiverAvByCh (recevierCh);
             break;
             
@@ -457,15 +616,13 @@ void processBlynkQueu(void)
 
 
             case Q_EVENT_ZAP_CHANNEL10_V94 :
-              zapCh10=queuData;
+              Ch_10.zap=zapCh10=queuData;
             break; 
-                      
-            case Q_EVENT_AV_CH_PLUS_V90:
-                recevierCh += 1;
-                if (recevierCh > 10) recevierCh = 1;
-                else if (recevierCh < 1) recevierCh = 10;
-                receiverAvByCh (recevierCh);
-            break;
+ 
+            case Q_EVENT_ZAP_CHANNEL11_V95 :
+              Ch_11.zap=zapCh11=queuData;
+            break; 
+
 
             case Q_EVENT_RC_PULSE_V98:
              pulseRC=queuData;
@@ -606,108 +763,119 @@ void processSms(void)
     }  
 }
 
-void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool ch4, bool ch5, bool ch6, bool ch7, bool ch8, bool ch9, bool ch10)
+void zappingAvCh (bool zapCmd, int zapTimer)
 {
          switch (stateMachine)
           {
             case 0:
             case 1:
-                if (ch1 ) 
+                if (Ch_1.zap ) 
                   {
                     if (stateMachine == 0) {zaptime= millis();stateMachine =1;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=1;receiverAvByCh (recevierCh);stateMachine =2;}
+                    if (millis() - zaptime > zapTimer) {recevierCh=Ch_1.id;receiverAvByCh (recevierCh);stateMachine =2;}
                   }
                 else stateMachine =2;
             break;
 
             case 2:
             case 3:
-                if (ch2 ) 
+                if (Ch_2.zap ) 
                   {
                     if (stateMachine == 2) {zaptime= millis();stateMachine =3;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=2;receiverAvByCh (recevierCh);stateMachine =4;}
+                    if (millis() - zaptime > zapTimer) {recevierCh=Ch_2.id;receiverAvByCh (recevierCh);stateMachine =4;}
                   }
                 else stateMachine =4;
             break;
             
             case 4:
             case 5:
-                if (ch3 ) 
+                if (Ch_3.zap ) 
                   {
                     if (stateMachine == 4) {zaptime= millis();stateMachine =5;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=3;receiverAvByCh (recevierCh);stateMachine =6;}
+                    if (millis() - zaptime > zapTimer) {recevierCh=Ch_3.id;receiverAvByCh (recevierCh);stateMachine =6;}
                   }
                 else stateMachine =6;
             break;
 
             case 6:
             case 7:
-                if (ch4 ) 
+                if (Ch_4.zap ) 
                   {
                     if (stateMachine == 6) {zaptime= millis();stateMachine =7;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=4;receiverAvByCh (recevierCh);stateMachine =8;}
+                    if (millis() - zaptime > zapTimer) {recevierCh=Ch_4.id;receiverAvByCh (recevierCh);stateMachine =8;}
                   }
                 else stateMachine =8;
             break;
                        
             case 8:
             case 9:
-                if (ch5 ) 
+                if (Ch_5.zap ) 
                   {
                     if (stateMachine == 8) {zaptime= millis();stateMachine =9;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=5;receiverAvByCh (recevierCh);stateMachine =10;}
+                    if (millis() - zaptime > zapTimer) {recevierCh=Ch_5.id;receiverAvByCh (recevierCh);stateMachine =10;}
                   }
                 else stateMachine =10;
             break;
                        
             case 10:
             case 11:
-                if (ch6 ) 
+                if (Ch_6.zap ) 
                   {
                     if (stateMachine == 10) {zaptime= millis();stateMachine =11;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=6;receiverAvByCh (recevierCh);stateMachine =12;}
+                    if (millis() - zaptime > zapTimer) {recevierCh=Ch_6.id;receiverAvByCh (recevierCh);stateMachine =12;}
                   }
                 else stateMachine =12;
             break;
                        
             case 12:
             case 13:
-                if (ch7 ) 
+                if (Ch_7.zap ) 
                   {
                     if (stateMachine == 12) {zaptime= millis();stateMachine =13;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=7;receiverAvByCh (recevierCh);stateMachine =14;}
+                    if (millis() - zaptime > zapTimer) {recevierCh=Ch_7.id;receiverAvByCh (recevierCh);stateMachine =14;}
                   }
                 else stateMachine =14;
             break;
                        
             case 14:
             case 15:
-                if (ch8) 
+                if (Ch_8.zap) 
                   {
                     if (stateMachine == 14) {zaptime= millis();stateMachine =15;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=8;receiverAvByCh (recevierCh);stateMachine =16;}
+                    if (millis() - zaptime > zapTimer) {recevierCh=Ch_8.id;receiverAvByCh (recevierCh);stateMachine =16;}
                   }
                 else stateMachine =16;
             break;
 
             case 16:
             case 17:
-                if (ch9) 
+                if (Ch_9.zap) 
                   {
                     if (stateMachine == 16) {zaptime= millis();stateMachine =17;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=9;receiverAvByCh (recevierCh);stateMachine =18;}
+                    if (millis() - zaptime > zapTimer) {recevierCh=Ch_9.id;receiverAvByCh (recevierCh);stateMachine =18;}
                   }
                 else stateMachine =18;
             break;
             case 18:
             case 19:
-                if (ch10) 
+                if (Ch_10.zap) 
                   {
                     if (stateMachine == 18) {zaptime= millis();stateMachine =19;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=10;receiverAvByCh (recevierCh);stateMachine =0;}
+                    if (millis() - zaptime > zapTimer) {recevierCh=Ch_10.id;receiverAvByCh (recevierCh);stateMachine =20;}
+                  }
+                else stateMachine =20;
+            break; 
+             
+            case 20:
+            case 21:
+                if (Ch_11.zap) 
+                  {
+                    if (stateMachine == 20) {zaptime= millis();stateMachine =21;}
+                    if (millis() - zaptime > zapTimer) {recevierCh=Ch_11.id;receiverAvByCh (recevierCh);stateMachine =0;}
                   }
                 else stateMachine =0;
-            break;            
+            break;     
+                      
           }
 }
 
@@ -743,8 +911,9 @@ void receiverAvByCh (int Ch)
   int PLL_value;
        if (blynkConnected) myBlynk.blynkAckLed(true);
        
-       ack = avReceiver.Tuner_PLL(av_pll_addr, PLL[Ch]);
-
+      // ack = avReceiver.Tuner_PLL(av_pll_addr, PLL[Ch]); 
+      
+       ack = avReceiver.Tuner_PLL(av_pll_addr, _pll[Ch]); 
        delay(500);
        
        if (blynkConnected) {myBlynk.blynkAckLed(ack); myBlynk.sevenSegValue(Ch );}
@@ -753,59 +922,64 @@ void receiverAvByCh (int Ch)
           {
             case 1:
                if (blynkConnected) myBlynk.frequencyValue(1080 );
-               recevierFreq =1080;
+               recevierFreq =Ch_1.frequency;
             break;
 
             case 2:
                 if (blynkConnected)myBlynk.frequencyValue(1120 );
-                recevierFreq =1120;
+                recevierFreq =Ch_2.frequency;
             break;
 
             
             case 3:
                if (blynkConnected) myBlynk.frequencyValue(1160 );
-               recevierFreq =1160;
+               recevierFreq =Ch_3.frequency;
             break;
 
 
             case 4:
                if (blynkConnected) myBlynk.frequencyValue(1200 );
-               recevierFreq =1200;
+               recevierFreq =Ch_4.frequency;
             break;
 
                        
             case 5:
               if (blynkConnected)  myBlynk.frequencyValue(1240 );
-              recevierFreq =1240;
+              recevierFreq =Ch_5.frequency;
             break;
 
                        
             case 6:
               if (blynkConnected)  myBlynk.frequencyValue(1280 );
-              recevierFreq =1280;
+              recevierFreq =Ch_6.frequency;
             break;
 
                        
             case 7:
               if (blynkConnected)  myBlynk.frequencyValue(1320 );
-              recevierFreq =1320;
+              recevierFreq =Ch_7.frequency;
             break;
 
                        
             case 8:
               if (blynkConnected)  myBlynk.frequencyValue(1360 );
-              recevierFreq =1360;
+              recevierFreq =Ch_8.frequency;
             break;
             
             case 9:
               if (blynkConnected)  myBlynk.frequencyValue(1000);
-              recevierFreq =1000;
+              recevierFreq =Ch_9.frequency;
             break;
             
             case 10:
               if (blynkConnected)  myBlynk.frequencyValue(1040);
-              recevierFreq =1040;
+              recevierFreq =Ch_10.frequency;
             break;
+            
+            case 11:
+              if (blynkConnected)  myBlynk.frequencyValue(1040);
+              recevierFreq =Ch_11.frequency;
+            break;            
           }
        DEBUG_PRINT("Received freq channel:");DEBUG_PRINTLN(Ch);
        DEBUG_PRINT("ack: ");DEBUG_PRINTLN(ack ? F("NotACK") : F("ACK"));
