@@ -989,7 +989,7 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
                     if (stateMachine == 14) {zaptime= millis();stateMachine =15;}
                     if (millis() - zaptime > zapTimer) {recevierCh=8;stateMachine =16;}
                   }
-                else stateMachine =0;
+                else stateMachine =16;
             break;
 
             case 16:
@@ -999,7 +999,7 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
                     if (stateMachine == 16) {zaptime= millis();stateMachine =17;}
                     if (millis() - zaptime > zapTimer) {recevierCh=9;stateMachine =18;}
                   }
-                else stateMachine =0;
+                else stateMachine =18;
             break;
             case 18:
             case 19:
@@ -1011,7 +1011,7 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
                 else stateMachine =0;
             break;            
           }
-          if (ch1 || ch2 ||ch3 ||ch4 ||ch5 ||ch6 ||ch7 ||ch8 ||ch9 )receiverAvByCh (recevierCh);
+          if (ch1 || ch2 ||ch3 ||ch4 ||ch5 ||ch6 ||ch7 ||ch8 ||ch9  ||ch10 )receiverAvByCh (recevierCh);
 
 }
 

@@ -606,7 +606,7 @@ BLYNK_WRITE(V94)   //Zapping ch10
   DEBUG_PRINT("V94 Zap ch10: ");
   DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
   if(_blynkData) Blynk.setProperty(V94, "color", BLYNK_BLUE);
-  else Blynk.setProperty(V89, "color", BLYNK_RED);  
+  else Blynk.setProperty(V94, "color", BLYNK_RED);  
 }
 
 BLYNK_WRITE(V98)  //pulse
