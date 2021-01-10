@@ -594,6 +594,21 @@ BLYNK_WRITE(V93)   //FR +
 }
 
 
+BLYNK_WRITE(V94)   //Zapping ch10
+{
+  _tempoVar = param.asInt(); // assigning incoming value from pin V71 to a variable
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    _blynkEventID =FB_ZAP_CHANNEL_ID8;
+    eventdata = Q_EVENT_ZAP_CHANNEL10_V94;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
+  DEBUG_PRINT("V94 Zap ch10: ");
+  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+  if(_blynkData) Blynk.setProperty(V94, "color", BLYNK_BLUE);
+  else Blynk.setProperty(V89, "color", BLYNK_RED);  
+}
+
 BLYNK_WRITE(V98)  //pulse
 {
   _blynkfreqValue = param.asInt(); // assigning incoming value from pin V0 to a variable
