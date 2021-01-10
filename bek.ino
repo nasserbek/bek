@@ -110,8 +110,8 @@ void looadRoomData()
    xRoom_209.frequency = freq =Ch_9.frequency;
    xRoom_209.pll =  _pll[Ch_9.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_209.vCh = Ch_9.id;
-   xRoom_202.rCh=9;
-   xRoom_202.queuId = 209;
+   xRoom_209.rCh=9;
+   xRoom_209.queuId = 209;
 
    xRoom_210.frequency = freq =Ch_2.frequency;
    xRoom_210.pll =  _pll[Ch_2.id]  = ( 512 * (freq + 479.5) ) / 64 ;
