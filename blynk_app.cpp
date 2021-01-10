@@ -839,6 +839,16 @@ void blynk::sendRsss(int _rsss)
 void blynk::sendAvRxIndex(int _index)
 {
  Blynk.virtualWrite(V99, _index);
+ Blynk.syncVirtual(V81);
+ Blynk.syncVirtual(V82);
+ Blynk.syncVirtual(V83);
+ Blynk.syncVirtual(V84);
+ Blynk.syncVirtual(V85);
+ Blynk.syncVirtual(V86);
+ Blynk.syncVirtual(V87);
+ Blynk.syncVirtual(V88);
+ Blynk.syncVirtual(V89);
+ Blynk.syncVirtual(V94);
 }
 
 bool blynk::blynkStatus(void)

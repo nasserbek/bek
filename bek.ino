@@ -109,8 +109,6 @@ void setup()
 void loop(void) 
 {
        resetWdg();    //reset timer (feed watchdog) 
-
-       
        
        if( smsEvent =sms.smsRun()) processSms();
        
@@ -121,7 +119,6 @@ void loop(void)
        if ( blynkConnected )
           {
             myBlynk.blynkRun();
-      //    if(blynkEvent = myBlynk.getData () ) processBlynk();
       
             queuValidData = (xQueueReceive(g_event_queue_handle, &queuDataID, 5 / portTICK_RATE_MS) == pdPASS);
             if(queuValidData) 
@@ -440,16 +437,6 @@ void processBlynkQueu(void)
               zapCh9=queuData;
             break; 
 
-             case Q_EVENT_ZAP_CHANNEL10_V94 :
-              zapCh10=queuData;
-            break; 
-                      
-            case Q_EVENT_AV_CH_PLUS_V90:
-                recevierCh += 1;
-                if (recevierCh > 10) recevierCh = 1;
-                else if (recevierCh < 1) recevierCh = 10;
-                receiverAvByCh (recevierCh);
-            break;
             
             case Q_EVENT_AV_CH_MINUS_V91:
                 recevierCh -= 1;
@@ -466,6 +453,18 @@ void processBlynkQueu(void)
            case Q_EVENT_AV_FR_PLUS_V93:
               recevierFreq += 1;
               if (recevierFreq >= 920 && recevierFreq <= 1500) receiverAvByFreq (recevierFreq);
+            break;
+
+
+            case Q_EVENT_ZAP_CHANNEL10_V94 :
+              zapCh10=queuData;
+            break; 
+                      
+            case Q_EVENT_AV_CH_PLUS_V90:
+                recevierCh += 1;
+                if (recevierCh > 10) recevierCh = 1;
+                else if (recevierCh < 1) recevierCh = 10;
+                receiverAvByCh (recevierCh);
             break;
 
             case Q_EVENT_RC_PULSE_V98:
@@ -507,307 +506,6 @@ void processBlynkQueu(void)
              break;
     }  
 }
-
-
-
-/*************************************************************/
-
-void processBlynk(void)
-{
-        switch (myBlynk.blynkEventID)
-          {
-            case FB_WIFI_IDE_ID:
-               wifiIde = false;         
-               wifiIDETimer = millis();
-               wifiUploadCtrl();
-             break;
-             
-            case FB_WIFI_OTA_ID:
-               otaWifiGithub = false;         
-               wifiIDETimer = millis();
-               otaWifi();
-             break;
-                          
-            case FB_WIFI_WEB_ID:
-               wifiWebUpdater = false;
-               wifiIDETimer = millis();
-               webUpdateOta ();
-             break;
-            
-            case FB_AV_7SEG_ID:
-                recevierCh=myBlynk.blynkData;
-                DEBUG_PRINT("FB_AV_7SEG: ");DEBUG_PRINTLN(myBlynk.blynkData);
-                if (recevierCh > 8) recevierCh = 1;
-                else if (recevierCh < 1) recevierCh = 8;
-                receiverAvByCh (recevierCh);
-            break;
-            case FB_FREQ_ID:
-              recevierFreq=myBlynk.blynkData;
-              DEBUG_PRINT("FB_FREQ: ");DEBUG_PRINTLN(myBlynk.blynkData);
-              if (recevierFreq >= 920 && recevierFreq <= 1500) receiverAvByFreq (recevierFreq);
-            break;
-            case FB_T433_CH_NR_ID:
-              remoteControlRcCh=myBlynk.blynkData;
-              DEBUG_PRINT("FB_T433_CH_NR: ");DEBUG_PRINTLN(myBlynk.blynkData);
-              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 15) {remoteControl(remoteControlRcCh );}
-            break;
-            case FB_T315_CH_NR_ID:
-              remoteControlRcCh=myBlynk.blynkData;
-              DEBUG_PRINT("FB_T315_CH_NR: ");DEBUG_PRINTLN( (myBlynk.blynkData) -15);
-              if (remoteControlRcCh >= 16 && remoteControlRcCh <= 30) {remoteControl(remoteControlRcCh );}
-            break;
- 
-            case FB_RESET_ID:
-              rebootCmd=myBlynk.blynkData;
-              DEBUG_PRINT("FB_RESET: ");DEBUG_PRINTLN(myBlynk.blynkData);
-              rebootSw();
-            break;
-            case FB_OTA_ID:
-              otaCmd=myBlynk.blynkData;
-              DEBUG_PRINT("FB_OTA: ");DEBUG_PRINTLN(myBlynk.blynkData);
-              otaGsm ();
-            break;
-            
-            case FB_SEND_TO_BLYNK_ID:
-                myBlynk.sendToBlynk = myBlynk.sendToBlynkLeds= myBlynk.blynkData;
-                myBlynk.sendToBlynkLed(myBlynk.sendToBlynk);
-             break;
-             
-            case FB_VERSION_ID:
-            break;
-            
-            case FB_FB_OFF_ID:
-            break;
-            
-            case FB_BLYNK_ON_OFF_ID:
-            break;
-            
-            case FB_WIFI_OFF_ID:
-            break;
-            
-            case FB_SETTINGS_ID :
-            break;
-
-            case FB_ZAP_ID:
-              zapOnOff=myBlynk.blynkData;
-              DEBUG_PRINT("ZAP IS : ");
-              DEBUG_PRINTLN(zapOnOff ? F("On") : F("Off"));
-              myBlynk.zapLed(zapOnOff);
-            break;
-
-            case FB_ZAP_TIMER_ID :
-              zapTimer=myBlynk.blynkData;
-            break;
-
-            case FB_ZAP_CHANNEL_ID1 :
-              zapCh1=myBlynk.blynkData;
-            break;
-
-             case FB_ZAP_CHANNEL_ID2 :
-              zapCh2=myBlynk.blynkData;
-            break;
-
-             case FB_ZAP_CHANNEL_ID3 :
-              zapCh3=myBlynk.blynkData;
-            break;
-
-             case FB_ZAP_CHANNEL_ID4 :
-              zapCh4=myBlynk.blynkData;
-            break;
-
-             case FB_ZAP_CHANNEL_ID5 :
-              zapCh5=myBlynk.blynkData;
-            break;
-
-             case FB_ZAP_CHANNEL_ID6 :
-              zapCh6=myBlynk.blynkData;
-            break;
-
-             case FB_ZAP_CHANNEL_ID7 :
-              zapCh7=myBlynk.blynkData;
-            break;
-
-             case FB_ZAP_CHANNEL_ID8 :
-              zapCh8=myBlynk.blynkData;
-            break;
-             case FB_NETGEER_ID  :
-             myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset from Blynk");
-              ResetNetgeer();
-            break;
-
-            case FB_AV_CH_PLUS_ID:
-                recevierCh += 1;
-                if (recevierCh > 8) recevierCh = 1;
-                else if (recevierCh < 1) recevierCh = 8;
-                receiverAvByCh (recevierCh);
-            break;
-            case FB_AV_CH_MINUS_ID:
-                recevierCh -= 1;
-                if (recevierCh > 8) recevierCh = 1;
-                else if (recevierCh < 1) recevierCh = 8;
-                receiverAvByCh (recevierCh);
-            break;
-            case FB_AV_FR_PLUS_ID:
-              recevierFreq += 1;
-              if (recevierFreq >= 920 && recevierFreq <= 1500) receiverAvByFreq (recevierFreq);
-            break;
-            case FB_AV_FR_MINUS_ID:
-              recevierFreq -= 1;
-              if (recevierFreq >= 920 && recevierFreq <= 1500) receiverAvByFreq (recevierFreq);
-            break;
-            case FB_RC_REPETION_ID:
-             repetionRC=myBlynk.blynkData;
-             EEPROM.write(RC_REPETION_ADD, repetionRC); EEPROM.commit();
-             mySwitch.setRepeatTransmit(repetionRC);
-            break;
-
-            case FB_RC_PULSE_ID:
-             pulseRC=myBlynk.blynkData;
-             mySwitch.setPulseLength(pulseRC);
-            break;
-
-            case ROOM_AV_RC:
-             Av_Rx=myBlynk.blynkData;
-             myBlynk.sendAvRxIndex(Av_Rx);
-            break;
-            
-            case FB_SLEEP_TIMER_ID:
-             deepSleepTimerHours=myBlynk.blynkData;
-             goToDeepSleep(deepSleepTimerHours);
-            break;
-
-                        
-            case ROOM_201_TO_205:
-                  
-                  switch (myBlynk.blynkData)
-                    {
-                      case 1:
-                      break;
-                      
-                      case 2: // ROOM 202
-                            remoteControlRcCh = 17;
-                            recevierCh=2;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;
-                      
-                      case 3:// ROOM 203
-                            remoteControlRcCh = 18;
-                            recevierCh=3;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;      
-                      
-                      case 4:// ROOM 204
-                            remoteControlRcCh = 19;
-                            recevierCh=4;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;               
-                      
-                      case 5:// ROOM 205
-                            remoteControlRcCh = 5;
-                            recevierCh=5;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;   
-                    }
-                    
-            break;
-            
-            case ROOM_206_TO_210:
-                   switch (myBlynk.blynkData)
-                    {
-                      case 1:
-                      break;
-                      
-                      case 2:// ROOM 207
-                            remoteControlRcCh = 7;
-                            recevierCh=7;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;
-                      
-                      case 3:// ROOM 208
-                            remoteControlRcCh = 8;
-                            recevierCh=8;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;      
-                      
-                      case 4:// ROOM 209
-                            remoteControlRcCh = 9;
-                            recevierCh=9;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;               
-                      
-                      case 5:// ROOM 210
-                            remoteControlRcCh = 10;
-                            recevierCh=2;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;   
-                    }
-
-            break;
-            
-            case ROOM_211_TO_215:
-                   switch (myBlynk.blynkData)
-                    {
-                      case 1:
-                      break;
-                      
-                      case 2:// ROOM 212
-                            remoteControlRcCh = 28;
-                            recevierCh=7;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;
-                      
-                      case 3:// ROOM 213
-                      break;      
-                      
-                      case 4:// ROOM 214
-                            remoteControlRcCh = 29;
-                            recevierCh=7;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;               
-                      
-                      case 5:// ROOM 215
-                            remoteControlRcCh = 14;
-                            recevierCh=6;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;   
-                    }
-
-            break;
-            
-            case ROOM_216_TO_220:
-                   switch (myBlynk.blynkData)
-                    {
-                      case 1:// ROOM 216
-                            remoteControlRcCh = 1;
-                            recevierCh=1;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;
-                      
-                      case 2:// ROOM 217
-                            remoteControlRcCh = 2;
-                            recevierCh=2;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;
-                      
-                      case 3:
-                      break;      
-                      
-                      case 4:// ROOM 219
-                            remoteControlRcCh = 4;
-                            recevierCh=4;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;               
-                      
-                      case 5:
-
-                      break;   
-                    }
-
-            break;                                    
-            
-    }  
-}
-
 
 
 void processSms(void)
@@ -917,7 +615,7 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
                 if (ch1 ) 
                   {
                     if (stateMachine == 0) {zaptime= millis();stateMachine =1;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=1;stateMachine =2;}
+                    if (millis() - zaptime > zapTimer) {recevierCh=1;receiverAvByCh (recevierCh);stateMachine =2;}
                   }
                 else stateMachine =2;
             break;
@@ -927,7 +625,7 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
                 if (ch2 ) 
                   {
                     if (stateMachine == 2) {zaptime= millis();stateMachine =3;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=2;stateMachine =4;}
+                    if (millis() - zaptime > zapTimer) {recevierCh=2;receiverAvByCh (recevierCh);stateMachine =4;}
                   }
                 else stateMachine =4;
             break;
@@ -937,7 +635,7 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
                 if (ch3 ) 
                   {
                     if (stateMachine == 4) {zaptime= millis();stateMachine =5;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=3;stateMachine =6;}
+                    if (millis() - zaptime > zapTimer) {recevierCh=3;receiverAvByCh (recevierCh);stateMachine =6;}
                   }
                 else stateMachine =6;
             break;
@@ -947,7 +645,7 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
                 if (ch4 ) 
                   {
                     if (stateMachine == 6) {zaptime= millis();stateMachine =7;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=4;stateMachine =8;}
+                    if (millis() - zaptime > zapTimer) {recevierCh=4;receiverAvByCh (recevierCh);stateMachine =8;}
                   }
                 else stateMachine =8;
             break;
@@ -957,7 +655,7 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
                 if (ch5 ) 
                   {
                     if (stateMachine == 8) {zaptime= millis();stateMachine =9;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=5;stateMachine =10;}
+                    if (millis() - zaptime > zapTimer) {recevierCh=5;receiverAvByCh (recevierCh);stateMachine =10;}
                   }
                 else stateMachine =10;
             break;
@@ -967,7 +665,7 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
                 if (ch6 ) 
                   {
                     if (stateMachine == 10) {zaptime= millis();stateMachine =11;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=6;stateMachine =12;}
+                    if (millis() - zaptime > zapTimer) {recevierCh=6;receiverAvByCh (recevierCh);stateMachine =12;}
                   }
                 else stateMachine =12;
             break;
@@ -977,7 +675,7 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
                 if (ch7 ) 
                   {
                     if (stateMachine == 12) {zaptime= millis();stateMachine =13;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=7;stateMachine =14;}
+                    if (millis() - zaptime > zapTimer) {recevierCh=7;receiverAvByCh (recevierCh);stateMachine =14;}
                   }
                 else stateMachine =14;
             break;
@@ -987,7 +685,7 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
                 if (ch8) 
                   {
                     if (stateMachine == 14) {zaptime= millis();stateMachine =15;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=8;stateMachine =16;}
+                    if (millis() - zaptime > zapTimer) {recevierCh=8;receiverAvByCh (recevierCh);stateMachine =16;}
                   }
                 else stateMachine =16;
             break;
@@ -997,7 +695,7 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
                 if (ch9) 
                   {
                     if (stateMachine == 16) {zaptime= millis();stateMachine =17;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=9;stateMachine =18;}
+                    if (millis() - zaptime > zapTimer) {recevierCh=9;receiverAvByCh (recevierCh);stateMachine =18;}
                   }
                 else stateMachine =18;
             break;
@@ -1006,13 +704,11 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
                 if (ch10) 
                   {
                     if (stateMachine == 18) {zaptime= millis();stateMachine =19;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=10;stateMachine =0;}
+                    if (millis() - zaptime > zapTimer) {recevierCh=10;receiverAvByCh (recevierCh);stateMachine =0;}
                   }
                 else stateMachine =0;
             break;            
           }
-          if (ch1 || ch2 ||ch3 ||ch4 ||ch5 ||ch6 ||ch7 ||ch8 ||ch9  ||ch10 )receiverAvByCh (recevierCh);
-
 }
 
 
@@ -1144,9 +840,6 @@ void otaGsm(void)
 
 
 
-
-
-
 void room (int RC, int AV, int sel)
 {
      switch (sel)
@@ -1202,27 +895,9 @@ void resetWdg(void)
    timerWrite(_timer, 0);                                        //reset timer (feed watchdog)  
   }
 
- 
-void liveCtrl(void)
-{
-   if ( (millis() - liveTimerOn > LIVE_TIMER_ON) && !liveBit ) 
-          {
-            liveBit = true ;
-            liveTimerOff = millis();
-            if ( blynkConnected) myBlynk.sendAlive(liveBit);
-          }
-    if ( (millis() - liveTimerOff > LIVE_TIMER_OFF) && liveBit ) 
-          {
-            liveBit = false ;
-            liveTimerOn = millis();
-           if ( blynkConnected)  myBlynk.sendAlive(liveBit);
-          }
-}
+
 
 /**********************************************************************************************************************************************/
-void  getSettingsFromEeprom(void)
-{
-}
 
 void sendToHMI(char *smsmsg, String notifier_subject, String notifier_body,String fb_path,String fb_cmdString)
 {
@@ -1237,22 +912,6 @@ void rebootSw(void)
  ESP.restart();
 }
 
-void smsActivation(int activate)
-{
-}
-
-void firebaseOnActivation(int activation)
-{
-} 
-
-
-void wifiActivation(int activation)
-{
-}
-
-void blynkActivation (int activation)
-{
-}
 
 void sendVersion(void)
 {
