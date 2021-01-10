@@ -145,7 +145,7 @@ void loop(void)
             myBlynk.sendToBlynkLeds = false;
           }
     
-      if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8);  
+      if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer , zapCh1, zapCh2, zapCh3,zapCh4, zapCh5, zapCh6, zapCh7, zapCh8, zapCh9);  
           
        myBlynk.blynkRunTimer();
 }
@@ -222,8 +222,8 @@ void processBlynkQueu(void)
             case Q_EVENT_AV_7SEG_V2:
                 recevierCh=queuData;
                 DEBUG_PRINT("FB_AV_7SEG: ");DEBUG_PRINTLN(queuData);
-                if (recevierCh > 8) recevierCh = 1;
-                else if (recevierCh < 1) recevierCh = 8;
+                if (recevierCh > 9) recevierCh = 1;
+                else if (recevierCh < 1) recevierCh = 9;
                 receiverAvByCh (recevierCh);
             break;
 
@@ -309,7 +309,7 @@ void processBlynkQueu(void)
                       
                       case 4:// ROOM 209
                             remoteControlRcCh = 9;
-                            recevierCh=1;
+                            recevierCh=9;
                             room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;               
                       
@@ -345,7 +345,7 @@ void processBlynkQueu(void)
                       
                       case 5:// ROOM 214
                             remoteControlRcCh = 14;
-                            recevierCh=6;
+                            recevierCh=7;
                             room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;   
                     }
@@ -435,17 +435,22 @@ void processBlynkQueu(void)
              case Q_EVENT_ZAP_CHANNEL8_V88 :
               zapCh8=queuData;
             break;
- 
+            
+            case Q_EVENT_ZAP_CHANNEL9_V89 :
+              zapCh9=queuData;
+            break; 
+           
             case Q_EVENT_AV_CH_PLUS_V90:
                 recevierCh += 1;
-                if (recevierCh > 8) recevierCh = 1;
-                else if (recevierCh < 1) recevierCh = 8;
+                if (recevierCh > 9) recevierCh = 1;
+                else if (recevierCh < 1) recevierCh = 9;
                 receiverAvByCh (recevierCh);
             break;
+            
             case Q_EVENT_AV_CH_MINUS_V91:
                 recevierCh -= 1;
-                if (recevierCh > 8) recevierCh = 1;
-                else if (recevierCh < 1) recevierCh = 8;
+                if (recevierCh > 9) recevierCh = 1;
+                else if (recevierCh < 1) recevierCh = 9;
                 receiverAvByCh (recevierCh);
             break;
             
@@ -722,7 +727,7 @@ void processBlynk(void)
                       
                       case 4:// ROOM 209
                             remoteControlRcCh = 9;
-                            recevierCh=1;
+                            recevierCh=9;
                             room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;               
                       
@@ -899,7 +904,7 @@ void processSms(void)
     }  
 }
 
-void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool ch4, bool ch5, bool ch6, bool ch7, bool ch8)
+void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool ch4, bool ch5, bool ch6, bool ch7, bool ch8, bool ch9)
 {
          switch (stateMachine)
           {
@@ -978,12 +983,23 @@ void zappingAvCh (bool zapCmd, int zapTimer, bool ch1, bool ch2, bool ch3,bool c
                 if (ch8) 
                   {
                     if (stateMachine == 14) {zaptime= millis();stateMachine =15;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=8;stateMachine =0;}
+                    if (millis() - zaptime > zapTimer) {recevierCh=8;stateMachine =16;}
                   }
                 else stateMachine =0;
             break;
+
+            case 16:
+            case 17:
+                if (ch9) 
+                  {
+                    if (stateMachine == 16) {zaptime= millis();stateMachine =17;}
+                    if (millis() - zaptime > zapTimer) {recevierCh=9;stateMachine =0;}
+                  }
+                else stateMachine =0;
+            break;
+            
           }
-          if (ch1 || ch2 ||ch3 ||ch4 ||ch5 ||ch6 ||ch7 ||ch8 )receiverAvByCh (recevierCh);
+          if (ch1 || ch2 ||ch3 ||ch4 ||ch5 ||ch6 ||ch7 ||ch8 ||ch9 )receiverAvByCh (recevierCh);
 
 }
 
@@ -1072,7 +1088,10 @@ void receiverAvByCh (int Ch)
               if (blynkConnected)  myBlynk.frequencyValue(1360 );
               recevierFreq =1360;
             break;
-
+            case 9:
+              if (blynkConnected)  myBlynk.frequencyValue(1000);
+              recevierFreq =1000;
+            break;
           }
        DEBUG_PRINT("Received freq channel:");DEBUG_PRINTLN(Ch);
        DEBUG_PRINT("ack: ");DEBUG_PRINTLN(ack ? F("NotACK") : F("ACK"));
@@ -1084,7 +1103,7 @@ void receiverAvByFreq (int Freq)
 {
   bool ack=0;
        recevierFreq =Freq;
-       if (blynkConnected) myBlynk.blynkAckLed(true);
+       if (blynkConnected) myBlynk.blynkAckLed(true); 
        int PLL_value =( 512 * ( 1000000 * (Freq + 479.5) ) ) / (16*4000000) ;
        ack = avReceiver.Tuner_PLL(av_pll_addr, PLL_value);
        if (blynkConnected)  { myBlynk.blynkAckLed(ack);myBlynk.frequencyValue(Freq );}

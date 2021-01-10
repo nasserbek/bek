@@ -524,6 +524,21 @@ BLYNK_WRITE(V88)   //Zapping ch8
   else Blynk.setProperty(V88, "color", BLYNK_RED);  
 }
 
+
+BLYNK_WRITE(V89)   //Zapping ch9
+{
+  _tempoVar = param.asInt(); // assigning incoming value from pin V71 to a variable
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    _blynkEventID =FB_ZAP_CHANNEL_ID8;
+    eventdata = Q_EVENT_ZAP_CHANNEL9_V89;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
+  DEBUG_PRINT("V89 Zap ch9: ");
+  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+  if(_blynkData) Blynk.setProperty(V89, "color", BLYNK_BLUE);
+  else Blynk.setProperty(V89, "color", BLYNK_RED);  
+}
 BLYNK_WRITE(V90)   //CH +
 {
   _tempoVar = param.asInt(); // assigning incoming value from pin V15 to a variable

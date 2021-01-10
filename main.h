@@ -67,7 +67,7 @@ bool zapCh5 = true;
 bool zapCh6 = true;
 bool zapCh7 = true;
 bool zapCh8 = true;
-
+bool zapCh9 = true;
 
 struct timerMills_t
 {
@@ -182,7 +182,18 @@ int oldAVCmd =0;
 int avOutput = 0;
 int old_avOutput=0;
 const uint PLL[17] =
-{0,0x30C0,0x3200,0x3340,0x3480,0x35C0,0x3700,0x3840,0x3980,0x30C0,0x3200,0x3340,0x3480,0x35C0,0x3700,0x3840,0x3980 };
+{0,0x30C0,0x3200,0x3340,0x3480,0x35C0,0x3700,0x3840,0x3980,0x2E3C,0x3200,0x3340,0x3480,0x35C0,0x3700,0x3840,0x3980 };
+/*
+ * 1080
+ * 1120
+ * 1160
+ * 1200
+ * 1240
+ * 1280
+ * 1320
+ * 1360
+ * 1000  11836 2E3C
+ */
                   /************PCF8574 I2C ***********/
 int av_pll_addr =0x61;  //0110 0 001 becomes 0xC2
 int pcf8574CmdAddr = 0x20;          // PCF8574 device 1    Commands
