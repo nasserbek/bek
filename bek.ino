@@ -48,7 +48,7 @@ void looadRoomData()
    Ch_9.frequency = 1000;   // 209
    Ch_9.id =9;
 
-   Ch_10.frequency = 1040;   // 207
+   Ch_10.frequency = 1050;   // 207
    Ch_10.id =10;
 
    Ch_11.frequency = 1060;   // 208 NEW
@@ -920,66 +920,56 @@ void receiverAvByCh (int Ch)
         switch (Ch)
           {
             case 1:
-               if (blynkConnected) myBlynk.frequencyValue(1080 );
                recevierFreq =Ch_1.frequency;
             break;
 
             case 2:
-                if (blynkConnected)myBlynk.frequencyValue(1120 );
                 recevierFreq =Ch_2.frequency;
             break;
 
             
             case 3:
-               if (blynkConnected) myBlynk.frequencyValue(1160 );
                recevierFreq =Ch_3.frequency;
             break;
 
 
             case 4:
-               if (blynkConnected) myBlynk.frequencyValue(1200 );
                recevierFreq =Ch_4.frequency;
             break;
 
                        
             case 5:
-              if (blynkConnected)  myBlynk.frequencyValue(1240 );
               recevierFreq =Ch_5.frequency;
             break;
 
                        
             case 6:
-              if (blynkConnected)  myBlynk.frequencyValue(1280 );
               recevierFreq =Ch_6.frequency;
             break;
 
                        
             case 7:
-              if (blynkConnected)  myBlynk.frequencyValue(1320 );
               recevierFreq =Ch_7.frequency;
             break;
 
                        
             case 8:
-              if (blynkConnected)  myBlynk.frequencyValue(1360 );
               recevierFreq =Ch_8.frequency;
             break;
             
             case 9:
-              if (blynkConnected)  myBlynk.frequencyValue(1000);
               recevierFreq =Ch_9.frequency;
             break;
             
             case 10:
-              if (blynkConnected)  myBlynk.frequencyValue(1040);
               recevierFreq =Ch_10.frequency;
             break;
             
             case 11:
-              if (blynkConnected)  myBlynk.frequencyValue(1040);
               recevierFreq =Ch_11.frequency;
             break;            
           }
+       if (blynkConnected) myBlynk.frequencyValue(recevierFreq );
        DEBUG_PRINT("Received freq channel:");DEBUG_PRINTLN(Ch);
        DEBUG_PRINT("ack: ");DEBUG_PRINTLN(ack ? F("NotACK") : F("ACK"));
 }
