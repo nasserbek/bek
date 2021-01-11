@@ -208,8 +208,8 @@ void setup()
      if (wifiAvailable) {if(smsSent) smsSent= sms.SendSMS("WIFI Connected..");}
      else {if(smsSent) smsSent= sms.SendSMS("WIFI failed to connect");}
           
-     if (blynkConnected) {if(smsSent) smsSent= sms.SendSMS("BLYNK Connected, starting the Loop");}
-     else {if(smsSent) smsSent= sms.SendSMS("BLYNK failed to connect, starting the Loop");}
+     if (blynkConnected) {if(smsSent) smsSent= sms.SendSMS("BLYNK Connected...");}
+     else {if(smsSent) smsSent= sms.SendSMS("BLYNK failed to connect...");}
 
 
      DEBUG_PRINT("Blynk: ");DEBUG_PRINTLN( blynkConnected ? F("Connected") : F("Not Connected"));
@@ -247,12 +247,14 @@ void setup()
     DEBUG_PRINT("Wifi: ");DEBUG_PRINTLN(wifiAvailable ? F("Available") : F("Not Available"));
     
     String smsStatus = smsSent ? F("Sim Available to send") : F("Sim Not Available to send");
-    String startString = String( "Restarting "   NOTIFIER_ID   VERSION_ID + smsStatus ) ;
-    if (blynkConnected) {myBlynk.sendVersion(VERSION_ID);myBlynk.notifierDebug(NOTIFIER_ID, startString );}
+    
     createHandleGroup();
     looadRoomData();
     enableWDG(DIS);
     initWDG(SEC_60,EN);
+    if (blynkConnected) myBlynk.sendVersion(VERSION_ID);
+    sendToHMI("Starting the Loop ...", "Starting : ", "Starting the Loop ...",FB_NOTIFIER, "Starting the Loop ..." );
+
 }
 
 
