@@ -88,16 +88,16 @@ void looadRoomData()
    xRoom_205.vCh = Ch_5.id;
    xRoom_205.rCh=5;
    xRoom_205.queuId = 205;
-
+/*
    xRoom_206.frequency = freq =Ch_6.frequency;
    xRoom_206.pll =  _pll[Ch_6.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_206.vCh = Ch_6.id;
    xRoom_206.rCh=6;
    xRoom_206.queuId = 206;
-
-   xRoom_207.frequency = freq =Ch_10.frequency;
-   xRoom_207.pll =  _pll[Ch_10.id]  = ( 512 * (freq + 479.5) ) / 64 ;
-   xRoom_207.vCh = Ch_10.id;
+*/
+   xRoom_207.frequency = freq =Ch_7.frequency;
+   xRoom_207.pll =  _pll[Ch_7.id]  = ( 512 * (freq + 479.5) ) / 64 ;
+   xRoom_207.vCh = Ch_7.id;
    xRoom_207.rCh=7;
    xRoom_207.queuId = 207;
 
@@ -107,9 +107,9 @@ void looadRoomData()
    xRoom_208.rCh=8;
    xRoom_208.queuId = 208;
 
-   xRoom_209.frequency = freq =Ch_9.frequency;
+   xRoom_209.frequency = freq =Ch_1.frequency;
    xRoom_209.pll =  _pll[Ch_9.id]  = ( 512 * (freq + 479.5) ) / 64 ;
-   xRoom_209.vCh = Ch_9.id;
+   xRoom_209.vCh = Ch_1.id;
    xRoom_209.rCh=9;
    xRoom_209.queuId = 209;
 
@@ -118,16 +118,16 @@ void looadRoomData()
    xRoom_210.vCh = Ch_2.id;
    xRoom_210.rCh=10;
    xRoom_210.queuId = 210;
-
+/*
    xRoom_211.frequency = freq =1080;
    xRoom_211.pll = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_211.vCh = 2;
    xRoom_211.rCh=17;
    xRoom_211.queuId = 211;
-
-   xRoom_212.frequency = freq =Ch_7.frequency;
-   xRoom_212.pll =  _pll[Ch_7.id]  = ( 512 * (freq + 479.5) ) / 64 ;
-   xRoom_212.vCh = Ch_7.id;
+*/
+   xRoom_212.frequency = freq =Ch_6.frequency;
+   xRoom_212.pll =  _pll[Ch_6.id]  = ( 512 * (freq + 479.5) ) / 64 ;
+   xRoom_212.vCh = Ch_6.id;
    xRoom_212.rCh=28;
    xRoom_212.queuId = 212;
 
@@ -137,9 +137,9 @@ void looadRoomData()
    xRoom_214.rCh=29;
    xRoom_214.queuId = 214;
 
-   xRoom_215.frequency = freq =Ch_6.frequency;
-   xRoom_215.pll =  _pll[Ch_6.id]  = ( 512 * (freq + 479.5) ) / 64 ;
-   xRoom_215.vCh = Ch_6.id;
+   xRoom_215.frequency = freq =Ch_8.frequency;
+   xRoom_215.pll =  _pll[Ch_8.id]  = ( 512 * (freq + 479.5) ) / 64 ;
+   xRoom_215.vCh = Ch_8.id;
    xRoom_215.rCh=14;
    xRoom_215.queuId = 215;
 
@@ -154,13 +154,13 @@ void looadRoomData()
    xRoom_217.vCh = Ch_2.id;
    xRoom_217.rCh=2;
    xRoom_217.queuId = 217;
-
+/*
    xRoom_218.frequency = freq =1080;
    xRoom_218.pll = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_218.vCh = 2;
    xRoom_218.rCh=17;
    xRoom_218.queuId = 218;
-
+*/
    xRoom_219.frequency = freq =Ch_4.frequency;
    xRoom_219.pll =  _pll[Ch_4.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_219.vCh = Ch_4.id;
@@ -636,7 +636,6 @@ void processBlynkQueu(void)
              
             case Q_EVENT_RC_REPETION_V101:
              repetionRC=queuData;
-             EEPROM.write(RC_REPETION_ADD, repetionRC); EEPROM.commit();
              mySwitch.setRepeatTransmit(repetionRC);
             break;
 
