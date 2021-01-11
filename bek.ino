@@ -68,104 +68,104 @@ void looadRoomData()
    xRoom_202.pll = _pll[Ch_2.id] = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_202.vCh = Ch_2.id;
    xRoom_202.rCh=17;
-   xRoom_202.queuId = 202;
+
 
    xRoom_203.frequency = freq =Ch_3.frequency;
    xRoom_203.pll =  _pll[Ch_3.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_203.vCh = Ch_3.id;
    xRoom_203.rCh=18;
-   xRoom_203.queuId = 203;
+
 
    xRoom_204.frequency = freq =Ch_4.frequency;
    xRoom_204.pll = _pll[Ch_4.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_204.vCh = Ch_4.id;
    xRoom_204.rCh=19;
-   xRoom_204.queuId = 204;
+
 
 
    xRoom_205.frequency = freq =Ch_5.frequency;
    xRoom_205.pll =  _pll[Ch_5.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_205.vCh = Ch_5.id;
    xRoom_205.rCh=5;
-   xRoom_205.queuId = 205;
+
 /*
    xRoom_206.frequency = freq =Ch_6.frequency;
    xRoom_206.pll =  _pll[Ch_6.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_206.vCh = Ch_6.id;
    xRoom_206.rCh=6;
-   xRoom_206.queuId = 206;
+
 */
    xRoom_207.frequency = freq =Ch_7.frequency;
    xRoom_207.pll =  _pll[Ch_7.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_207.vCh = Ch_7.id;
    xRoom_207.rCh=7;
-   xRoom_207.queuId = 207;
+
 
    xRoom_208.frequency = freq =Ch_8.frequency;
    xRoom_208.pll =  _pll[Ch_8.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_208.vCh = Ch_8.id;
    xRoom_208.rCh=8;
-   xRoom_208.queuId = 208;
+ 
 
    xRoom_209.frequency = freq =Ch_1.frequency;
    xRoom_209.pll =  _pll[Ch_9.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_209.vCh = Ch_1.id;
    xRoom_209.rCh=9;
-   xRoom_209.queuId = 209;
+
 
    xRoom_210.frequency = freq =Ch_2.frequency;
    xRoom_210.pll =  _pll[Ch_2.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_210.vCh = Ch_2.id;
    xRoom_210.rCh=10;
-   xRoom_210.queuId = 210;
+
 /*
    xRoom_211.frequency = freq =1080;
    xRoom_211.pll = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_211.vCh = 2;
    xRoom_211.rCh=17;
-   xRoom_211.queuId = 211;
+
 */
    xRoom_212.frequency = freq =Ch_6.frequency;
    xRoom_212.pll =  _pll[Ch_6.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_212.vCh = Ch_6.id;
    xRoom_212.rCh=28;
-   xRoom_212.queuId = 212;
+ 
 
    xRoom_214.frequency = freq =Ch_7.frequency;
    xRoom_214.pll =  _pll[Ch_7.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_214.vCh = Ch_7.id;
    xRoom_214.rCh=29;
-   xRoom_214.queuId = 214;
+
 
    xRoom_215.frequency = freq =Ch_8.frequency;
    xRoom_215.pll =  _pll[Ch_8.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_215.vCh = Ch_8.id;
    xRoom_215.rCh=14;
-   xRoom_215.queuId = 215;
+ 
 
    xRoom_216.frequency = freq =Ch_1.frequency;
    xRoom_216.pll =  _pll[Ch_1.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_216.vCh = Ch_1.id;
    xRoom_216.rCh=1;
-   xRoom_216.queuId = 216;
+
 
    xRoom_217.frequency = freq =Ch_2.frequency;
    xRoom_217.pll =  _pll[Ch_2.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_217.vCh = Ch_2.id;
    xRoom_217.rCh=2;
-   xRoom_217.queuId = 217;
+
 /*
    xRoom_218.frequency = freq =1080;
    xRoom_218.pll = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_218.vCh = 2;
    xRoom_218.rCh=17;
-   xRoom_218.queuId = 218;
+
 */
    xRoom_219.frequency = freq =Ch_4.frequency;
    xRoom_219.pll =  _pll[Ch_4.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_219.vCh = Ch_4.id;
    xRoom_219.rCh=4;
-   xRoom_219.queuId = 219;
+
 
 }
 
@@ -539,7 +539,48 @@ void processBlynkQueu(void)
             break;
 
 
+            case Q_EVENT_209_SEL_V30 :
+              xRoom_209.selected=queuData;
+            break;
+            case Q_EVENT_216_SEL_V31 :
+              xRoom_216.selected=queuData;
+            break;
+
+            case Q_EVENT_202_SEL_V32 :
+              xRoom_202.selected=queuData;
+            break;
+
+             case Q_EVENT_210_SEL_V33 :
+              xRoom_210.selected=queuData;
+            break;
+            case Q_EVENT_204_SEL_V34 :
+              xRoom_204.selected=queuData;
+            break;
+
+            case Q_EVENT_219_SEL_V35 :
+              xRoom_219.selected=queuData;
+            break;
+
+            case Q_EVENT_207_SEL_V36 :
+              xRoom_207.selected=queuData;
+            break;
+
+            case Q_EVENT_214_SEL_V37 :
+              xRoom_214.selected=queuData;
+            break;
+
+            case Q_EVENT_208_SEL_V38 :
+              xRoom_208.selected=queuData;
+            break;
+
+            case Q_EVENT_215_SEL_V39 :
+              xRoom_215.selected=queuData;
+            break;
             
+            case Q_EVENT_217_SEL_V40 :
+              xRoom_217.selected=queuData;
+            break;
+                                               
             case Q_EVENT_ZAP_V71:
               zapOnOff=queuData;
               DEBUG_PRINT("ZAP IS : ");
@@ -553,34 +594,42 @@ void processBlynkQueu(void)
 
             case Q_EVENT_ZAP_CHANNEL1_V81 :
               Ch_1.zap=queuData;
+              Ch_1.mux= xRoom_209.selected && xRoom_216.selected;
             break;
 
              case Q_EVENT_ZAP_CHANNEL2_V82 :
               Ch_2.zap=queuData;
+              Ch_2.mux= xRoom_202.selected && xRoom_210.selected;
             break;
 
              case Q_EVENT_ZAP_CHANNEL3_V83 :
               Ch_3.zap=queuData;
+              Ch_1.mux= false;;
             break;
 
              case Q_EVENT_ZAP_CHANNEL4_V84 :
               Ch_4.zap=queuData;
+              Ch_4.mux= xRoom_204.selected && xRoom_219.selected;
             break;
 
              case Q_EVENT_ZAP_CHANNEL5_V85 :
               Ch_5.zap=queuData;
+              Ch_1.mux= false;
             break;
 
              case Q_EVENT_ZAP_CHANNEL6_V86 :
               Ch_6.zap=queuData;
+              Ch_6.mux= false;
             break;
 
              case Q_EVENT_ZAP_CHANNEL7_V87 :
               Ch_7.zap=queuData;
+              Ch_7.mux= xRoom_207.selected && xRoom_214.selected;
             break;
 
              case Q_EVENT_ZAP_CHANNEL8_V88 :
               Ch_8.zap=queuData;
+              Ch_8.mux= xRoom_208.selected && xRoom_215.selected;
             break;
             
             case Q_EVENT_ZAP_CHANNEL9_V89 :
@@ -770,7 +819,11 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                 if (Ch_1.zap ) 
                   {
                     if (stateMachine == 0) {zaptime= millis();stateMachine =1;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=Ch_1.id;receiverAvByCh (recevierCh);stateMachine =2;}
+                    if (millis() - zaptime > zapTimer) 
+                      {
+                        recevierCh=Ch_1.id;receiverAvByCh (recevierCh);
+                        if(Ch_1.mux) remoteControl(xRoom_209.rCh);
+                        stateMachine =2;}
                   }
                 else stateMachine =2;
             break;
@@ -780,7 +833,11 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                 if (Ch_2.zap ) 
                   {
                     if (stateMachine == 2) {zaptime= millis();stateMachine =3;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=Ch_2.id;receiverAvByCh (recevierCh);stateMachine =4;}
+                    if (millis() - zaptime > zapTimer) 
+                    {
+                        recevierCh=Ch_2.id;receiverAvByCh (recevierCh);
+                        if(Ch_2.mux) remoteControl(xRoom_210.rCh);
+                        stateMachine =4;}
                   }
                 else stateMachine =4;
             break;
@@ -790,7 +847,10 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                 if (Ch_3.zap ) 
                   {
                     if (stateMachine == 4) {zaptime= millis();stateMachine =5;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=Ch_3.id;receiverAvByCh (recevierCh);stateMachine =6;}
+                    if (millis() - zaptime > zapTimer) 
+                    {
+                        recevierCh=Ch_3.id;receiverAvByCh (recevierCh);
+                        stateMachine =6;}
                   }
                 else stateMachine =6;
             break;
@@ -800,7 +860,11 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                 if (Ch_4.zap ) 
                   {
                     if (stateMachine == 6) {zaptime= millis();stateMachine =7;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=Ch_4.id;receiverAvByCh (recevierCh);stateMachine =8;}
+                    if (millis() - zaptime > zapTimer) 
+                    {
+                        recevierCh=Ch_4.id;receiverAvByCh (recevierCh);
+                        if(Ch_4.mux) remoteControl(xRoom_219.rCh);
+                        stateMachine =8;}
                   }
                 else stateMachine =8;
             break;
@@ -830,7 +894,11 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                 if (Ch_7.zap ) 
                   {
                     if (stateMachine == 12) {zaptime= millis();stateMachine =13;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=Ch_7.id;receiverAvByCh (recevierCh);stateMachine =14;}
+                    if (millis() - zaptime > zapTimer) 
+                    {
+                        recevierCh=Ch_7.id;receiverAvByCh (recevierCh);
+                        if(Ch_7.mux) remoteControl(xRoom_207.rCh);
+                        stateMachine =14;}
                   }
                 else stateMachine =14;
             break;
@@ -840,7 +908,11 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                 if (Ch_8.zap) 
                   {
                     if (stateMachine == 14) {zaptime= millis();stateMachine =15;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=Ch_8.id;receiverAvByCh (recevierCh);stateMachine =16;}
+                    if (millis() - zaptime > zapTimer) 
+                      {
+                        recevierCh=Ch_8.id;receiverAvByCh (recevierCh);
+                        if(Ch_8.mux) remoteControl(xRoom_208.rCh);
+                        stateMachine =16;}
                   }
                 else stateMachine =16;
             break;

@@ -32,7 +32,7 @@ struct Roomdata
   int  pll;
   byte vCh;
   byte rCh;
-  byte queuId;
+  bool selected = false;
 };
 
 struct Roomdata xRoom_202,xRoom_203,xRoom_204,xRoom_205,xRoom_206,xRoom_207,xRoom_208,xRoom_209,xRoom_210,xRoom_211,xRoom_212,xRoom_214,xRoom_215,xRoom_216,xRoom_217,xRoom_218,xRoom_219;
@@ -41,7 +41,8 @@ struct Channels
 {
   int  frequency;
   int  id;
-  bool zap=false;;
+  bool zap=false;
+  bool mux=false;
 };
 
 struct Channels Ch_1,Ch_2,Ch_3,Ch_4,Ch_5,Ch_6,Ch_7,Ch_8,Ch_9,Ch_10,Ch_11,Ch_12,Ch_13,Ch_14,Ch_15;
