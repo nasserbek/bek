@@ -52,6 +52,7 @@ class blynk {
     bool wifiConnect(void);
     void sendAvRxIndex(int _index);
     void streamSelect(bool stream);
+    void sendVersion(String ver); 
 
 };
 #endif

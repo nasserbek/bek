@@ -248,7 +248,7 @@ void setup()
     
     String smsStatus = smsSent ? F("Sim Available to send") : F("Sim Not Available to send");
     String startString = String( "Restarting "   NOTIFIER_ID   VERSION_ID + smsStatus ) ;
-    if (blynkConnected) myBlynk.notifierDebug(NOTIFIER_ID, startString );
+    if (blynkConnected) {myBlynk.sendVersion(VERSION_ID);myBlynk.notifierDebug(NOTIFIER_ID, startString );}
     createHandleGroup();
     looadRoomData();
     enableWDG(DIS);
