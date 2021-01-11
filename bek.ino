@@ -583,6 +583,17 @@ void processBlynkQueu(void)
                                                
             case Q_EVENT_ZAP_V71:
               zapOnOff=queuData;
+              if(zapOnOff)
+              {
+                Ch_1.muxTimer = millis();
+                Ch_2.muxTimer = millis();
+                Ch_3.muxTimer = millis();
+                Ch_4.muxTimer = millis();
+                Ch_5.muxTimer = millis();
+                Ch_6.muxTimer = millis();
+                Ch_7.muxTimer = millis();
+                Ch_8.muxTimer = millis();
+              }
               DEBUG_PRINT("ZAP IS : ");
               DEBUG_PRINTLN(zapOnOff ? F("On") : F("Off"));
               myBlynk.zapLed(zapOnOff);
@@ -594,42 +605,42 @@ void processBlynkQueu(void)
 
             case Q_EVENT_ZAP_CHANNEL1_V81 :
               Ch_1.zap=queuData;
-              Ch_1.mux= xRoom_209.selected && xRoom_216.selected;
+              
             break;
 
              case Q_EVENT_ZAP_CHANNEL2_V82 :
               Ch_2.zap=queuData;
-              Ch_2.mux= xRoom_202.selected && xRoom_210.selected;
+              
             break;
 
              case Q_EVENT_ZAP_CHANNEL3_V83 :
               Ch_3.zap=queuData;
-              Ch_1.mux= false;;
+
             break;
 
              case Q_EVENT_ZAP_CHANNEL4_V84 :
               Ch_4.zap=queuData;
-              Ch_4.mux= xRoom_204.selected && xRoom_219.selected;
+
             break;
 
              case Q_EVENT_ZAP_CHANNEL5_V85 :
               Ch_5.zap=queuData;
-              Ch_1.mux= false;
+
             break;
 
              case Q_EVENT_ZAP_CHANNEL6_V86 :
               Ch_6.zap=queuData;
-              Ch_6.mux= false;
+
             break;
 
              case Q_EVENT_ZAP_CHANNEL7_V87 :
               Ch_7.zap=queuData;
-              Ch_7.mux= xRoom_207.selected && xRoom_214.selected;
+              
             break;
 
              case Q_EVENT_ZAP_CHANNEL8_V88 :
               Ch_8.zap=queuData;
-              Ch_8.mux= xRoom_208.selected && xRoom_215.selected;
+              
             break;
             
             case Q_EVENT_ZAP_CHANNEL9_V89 :
@@ -821,8 +832,13 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (stateMachine == 0) {zaptime= millis();stateMachine =1;}
                     if (millis() - zaptime > zapTimer) 
                       {
-                        recevierCh=Ch_1.id;receiverAvByCh (recevierCh);
-                        if(Ch_1.mux) remoteControl(xRoom_209.rCh);
+                        recevierCh=Ch_1.id;
+                        receiverAvByCh (recevierCh);
+                        Ch_1.mux= xRoom_209.selected && xRoom_216.selected;
+                        if(Ch_1.mux) 
+                            {
+                              if (millis() - Ch_1.muxTimer > MUX_ROOM_ZAP) {remoteControl(xRoom_209.rCh);Ch_1.muxTimer = millis();}
+                            }
                         stateMachine =2;}
                   }
                 else stateMachine =2;
@@ -835,8 +851,13 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (stateMachine == 2) {zaptime= millis();stateMachine =3;}
                     if (millis() - zaptime > zapTimer) 
                     {
-                        recevierCh=Ch_2.id;receiverAvByCh (recevierCh);
-                        if(Ch_2.mux) remoteControl(xRoom_210.rCh);
+                        recevierCh=Ch_2.id;
+                        receiverAvByCh (recevierCh);
+                        Ch_2.mux= xRoom_202.selected && xRoom_210.selected;
+                        if(Ch_2.mux) 
+                          {
+                            if (millis() - Ch_2.muxTimer > MUX_ROOM_ZAP) {remoteControl(xRoom_210.rCh);Ch_2.muxTimer = millis();}
+                          }
                         stateMachine =4;}
                   }
                 else stateMachine =4;
@@ -862,8 +883,13 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (stateMachine == 6) {zaptime= millis();stateMachine =7;}
                     if (millis() - zaptime > zapTimer) 
                     {
-                        recevierCh=Ch_4.id;receiverAvByCh (recevierCh);
-                        if(Ch_4.mux) remoteControl(xRoom_219.rCh);
+                        recevierCh=Ch_4.id;
+                        receiverAvByCh (recevierCh);
+                        Ch_4.mux= xRoom_204.selected && xRoom_219.selected;
+                        if(Ch_4.mux) 
+                          {
+                            if (millis() - Ch_4.muxTimer > MUX_ROOM_ZAP) {remoteControl(xRoom_219.rCh);Ch_4.muxTimer = millis();}
+                          }
                         stateMachine =8;}
                   }
                 else stateMachine =8;
@@ -896,8 +922,13 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (stateMachine == 12) {zaptime= millis();stateMachine =13;}
                     if (millis() - zaptime > zapTimer) 
                     {
-                        recevierCh=Ch_7.id;receiverAvByCh (recevierCh);
-                        if(Ch_7.mux) remoteControl(xRoom_207.rCh);
+                        recevierCh=Ch_7.id;
+                        receiverAvByCh (recevierCh);
+                        Ch_7.mux= xRoom_207.selected && xRoom_214.selected;
+                        if(Ch_7.mux) 
+                          {
+                            if (millis() - Ch_7.muxTimer > MUX_ROOM_ZAP) {remoteControl(xRoom_207.rCh);Ch_7.muxTimer = millis();}
+                          }
                         stateMachine =14;}
                   }
                 else stateMachine =14;
@@ -910,8 +941,13 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (stateMachine == 14) {zaptime= millis();stateMachine =15;}
                     if (millis() - zaptime > zapTimer) 
                       {
-                        recevierCh=Ch_8.id;receiverAvByCh (recevierCh);
-                        if(Ch_8.mux) remoteControl(xRoom_208.rCh);
+                        recevierCh=Ch_8.id;
+                        receiverAvByCh (recevierCh);
+                        Ch_8.mux= xRoom_208.selected && xRoom_215.selected;
+                        if(Ch_8.mux) 
+                          {
+                            if (millis() - Ch_8.muxTimer > MUX_ROOM_ZAP) {remoteControl(xRoom_208.rCh);Ch_8.muxTimer = millis();}
+                          }
                         stateMachine =16;}
                   }
                 else stateMachine =16;

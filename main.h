@@ -43,6 +43,7 @@ struct Channels
   int  id;
   bool zap=false;
   bool mux=false;
+  long  muxTimer;
 };
 
 struct Channels Ch_1,Ch_2,Ch_3,Ch_4,Ch_5,Ch_6,Ch_7,Ch_8,Ch_9,Ch_10,Ch_11,Ch_12,Ch_13,Ch_14,Ch_15;
