@@ -837,7 +837,9 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                         Ch_1.mux= xRoom_209.selected && xRoom_216.selected;
                         if(Ch_1.mux) 
                             {
-                              if (millis() - Ch_1.muxTimer > MUX_ROOM_ZAP) {remoteControl(xRoom_209.rCh);Ch_1.muxTimer = millis();}
+                              if (millis() - Ch_1.muxTimer > MUX_ROOM_ZAP) 
+                                  {remoteControl(xRoom_209.rCh);Ch_1.muxTimer = millis();}
+                              else Ch_1.muxTimer = millis();    
                             }
                         stateMachine =2;}
                   }
@@ -856,7 +858,9 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                         Ch_2.mux= xRoom_202.selected && xRoom_210.selected;
                         if(Ch_2.mux) 
                           {
-                            if (millis() - Ch_2.muxTimer > MUX_ROOM_ZAP) {remoteControl(xRoom_210.rCh);Ch_2.muxTimer = millis();}
+                            if (millis() - Ch_2.muxTimer > MUX_ROOM_ZAP) 
+                                {remoteControl(xRoom_210.rCh);Ch_2.muxTimer = millis();}
+                            else Ch_2.muxTimer = millis();    
                           }
                         stateMachine =4;}
                   }
@@ -888,7 +892,9 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                         Ch_4.mux= xRoom_204.selected && xRoom_219.selected;
                         if(Ch_4.mux) 
                           {
-                            if (millis() - Ch_4.muxTimer > MUX_ROOM_ZAP) {remoteControl(xRoom_219.rCh);Ch_4.muxTimer = millis();}
+                            if (millis() - Ch_4.muxTimer > MUX_ROOM_ZAP) 
+                                {remoteControl(xRoom_219.rCh);Ch_4.muxTimer = millis();}
+                            else Ch_4.muxTimer = millis();    
                           }
                         stateMachine =8;}
                   }
@@ -927,7 +933,9 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                         Ch_7.mux= xRoom_207.selected && xRoom_214.selected;
                         if(Ch_7.mux) 
                           {
-                            if (millis() - Ch_7.muxTimer > MUX_ROOM_ZAP) {remoteControl(xRoom_207.rCh);Ch_7.muxTimer = millis();}
+                            if (millis() - Ch_7.muxTimer > MUX_ROOM_ZAP) 
+                                {remoteControl(xRoom_207.rCh);Ch_7.muxTimer = millis();}
+                            else Ch_7.muxTimer = millis();    
                           }
                         stateMachine =14;}
                   }
@@ -946,7 +954,9 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                         Ch_8.mux= xRoom_208.selected && xRoom_215.selected;
                         if(Ch_8.mux) 
                           {
-                            if (millis() - Ch_8.muxTimer > MUX_ROOM_ZAP) {remoteControl(xRoom_208.rCh);Ch_8.muxTimer = millis();}
+                            if (millis() - Ch_8.muxTimer > MUX_ROOM_ZAP) 
+                                {remoteControl(xRoom_208.rCh);Ch_8.muxTimer = millis();}
+                            else Ch_8.muxTimer = millis();
                           }
                         stateMachine =16;}
                   }
