@@ -1037,7 +1037,10 @@ void blynk::sendRsss(int _rsss)
 
 void blynk::sendAvRxIndex(int _index)
 {
- Blynk.virtualWrite(V99, _index);
+ Blynk.virtualWrite(V19, _index);
+  if (_index ==1) Blynk.setProperty(V19, "color", BLYNK_GREEN);
+  if (_index==2) Blynk.setProperty(V19, "color", BLYNK_YELLOW);
+  if (_index ==3) Blynk.setProperty(V19, "color", BLYNK_RED);
 }
 
 bool blynk::blynkStatus(void)

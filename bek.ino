@@ -215,14 +215,6 @@ void setup()
      DEBUG_PRINT("Blynk: ");DEBUG_PRINTLN( blynkConnected ? F("Connected") : F("Not Connected"));
      if (blynkConnected) 
               {
-            /*     
-             *      if (gitHub) 
-                  {
-                    getDateTimeNTP(gitHub); 
-                    sendToHMI(util.dateAndTimeChar, "Version : ", String(util.dateAndTimeChar),FB_NOTIFIER,String(util.dateAndTimeChar));
-                    DEBUG_PRINTLN(String(util.dateAndTimeChar));
-                  }
-              */
                 myBlynk.blynkSmsLed (sim800Available & smsSent);
                 myBlynk.sendAvRxIndex(Av_Rx);
                 myBlynk.streamSelect(streamWebDdns);
