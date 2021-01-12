@@ -53,6 +53,7 @@ class blynk {
     void sendAvRxIndex(int _index);
     void streamSelect(bool stream);
     void sendVersion(String ver); 
+    void sendPulseRepetetion(int pulse, int repetetion);
 
 };
 #endif

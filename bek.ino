@@ -221,11 +221,11 @@ void setup()
                     sendToHMI(util.dateAndTimeChar, "Version : ", String(util.dateAndTimeChar),FB_NOTIFIER,String(util.dateAndTimeChar));
                     DEBUG_PRINTLN(String(util.dateAndTimeChar));
                   }
-                myBlynk.sendToBlynk = true; 
-                myBlynk.sendToBlynkLeds = true;
+
                 myBlynk.blynkSmsLed (sim800Available & smsSent);
                 myBlynk.sendAvRxIndex(Av_Rx);
                 myBlynk.streamSelect(streamWebDdns);
+                myBlynk.sendPulseRepetetion(pulseRC, repetionRC);
              }
       else  sendToHMI("Internet failure", "Internet failure : ", "Internet failure",FB_NOTIFIER, "Internet failure" );
     

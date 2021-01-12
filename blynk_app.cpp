@@ -1018,6 +1018,12 @@ void blynk::sevenSegValue(int freq )
  Blynk.virtualWrite(V2, freq);
 }
 
+void blynk::sendPulseRepetetion(int pulse, int repetetion)
+{
+  Blynk.virtualWrite(V98, pulse);
+  Blynk.virtualWrite(V101, repetetion);
+}
+
 
 void blynk::frequencyValue(int freq )
 {
