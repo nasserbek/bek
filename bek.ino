@@ -215,13 +215,14 @@ void setup()
      DEBUG_PRINT("Blynk: ");DEBUG_PRINTLN( blynkConnected ? F("Connected") : F("Not Connected"));
      if (blynkConnected) 
               {
-                 if (gitHub) 
+            /*     
+             *      if (gitHub) 
                   {
                     getDateTimeNTP(gitHub); 
                     sendToHMI(util.dateAndTimeChar, "Version : ", String(util.dateAndTimeChar),FB_NOTIFIER,String(util.dateAndTimeChar));
                     DEBUG_PRINTLN(String(util.dateAndTimeChar));
                   }
-
+              */
                 myBlynk.blynkSmsLed (sim800Available & smsSent);
                 myBlynk.sendAvRxIndex(Av_Rx);
                 myBlynk.streamSelect(streamWebDdns);
@@ -841,7 +842,6 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                             {
                               if (millis() - Ch_1.muxTimer > MUX_ROOM_ZAP) 
                                   {remoteControl(xRoom_209.rCh);Ch_1.muxTimer = millis();}
-                             // else Ch_1.muxTimer = millis();    
                             }
                         stateMachine =2;}
                   }
@@ -862,7 +862,6 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                           {
                             if (millis() - Ch_2.muxTimer > MUX_ROOM_ZAP) 
                                 {remoteControl(xRoom_210.rCh);Ch_2.muxTimer = millis();}
-                          //  else Ch_2.muxTimer = millis();    
                           }
                         stateMachine =4;}
                   }
@@ -896,7 +895,6 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                           {
                             if (millis() - Ch_4.muxTimer > MUX_ROOM_ZAP) 
                                 {remoteControl(xRoom_204.rCh);Ch_4.muxTimer = millis();}
-                      //      else Ch_4.muxTimer = millis();    
                           }
                         stateMachine =8;}
                   }
@@ -937,7 +935,6 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                           {
                             if (millis() - Ch_7.muxTimer > MUX_ROOM_ZAP) 
                                 {remoteControl(xRoom_207.rCh);Ch_7.muxTimer = millis();}
-                        //    else Ch_7.muxTimer = millis();    
                           }
                         stateMachine =14;}
                   }
@@ -958,7 +955,6 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                           {
                             if (millis() - Ch_8.muxTimer > MUX_ROOM_ZAP) 
                                 {remoteControl(xRoom_208.rCh);Ch_8.muxTimer = millis();}
-                           // else Ch_8.muxTimer = millis();
                           }
                         stateMachine =16;}
                   }
