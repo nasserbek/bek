@@ -240,12 +240,11 @@ void setup()
     initWDG(SEC_60,EN);
     
     String ver = VERSION_ID;
-    if (blynkConnected) myBlynk.sendVersion(VERSION_ID);
+    if (blynkConnected) myBlynk.sendVersion(ver);
     
     char buf[10]; //make this the size of the String
     ver.toCharArray(buf, 10);    
     if(smsSent) smsSent= sms.SendSMS(buf);
-    sendToHMI("Starting the Loop ...", "Starting : ", "Starting the Loop ...",FB_NOTIFIER, "Starting the Loop ..." );
 }
 
 
