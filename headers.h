@@ -1,5 +1,5 @@
 #define BEK
-#define VERSION_ID " V95 "
+#define VERSION_ID " V96 "
 #define DEBUG_SERIAL
 #define BLYNK_SERVER "blynk-cloud.com"
 
@@ -232,7 +232,7 @@ const String FB_T433_STATUS_PATH[32] =
 
 
 
-//utilities
+
 #define   EN              true
 #define   DIS            false
 #define   SEC_1            1000

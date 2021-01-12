@@ -3,9 +3,8 @@
  reciever avReceiver;
  sim800L sms; 
  otaUpload ota; 
- ntpServerUtil util;
  blynk myBlynk;
- cayenne myCayenne;
+
  
 QueueHandle_t g_event_queue_handle = NULL;
 EventGroupHandle_t g_event_group = NULL;
@@ -197,7 +196,6 @@ void setup()
      sim800Available = sms.init();
      mySwitch.enableTransmit(RC_TX_PIN);
 
-     delay(3000);  // Wait for SIM to stablish connection
      smsSent= sms.SendSMS("Sim800 Ok, Connecting to WIFI and Blynk.....");
      
      myBlynk.init();    
@@ -240,7 +238,13 @@ void setup()
     looadRoomData();
     enableWDG(DIS);
     initWDG(SEC_60,EN);
+    
+    String ver = VERSION_ID;
     if (blynkConnected) myBlynk.sendVersion(VERSION_ID);
+    
+    char buf[10]; //make this the size of the String
+    ver.toCharArray(buf, 10);    
+    if(smsSent) smsSent= sms.SendSMS(buf);
     sendToHMI("Starting the Loop ...", "Starting : ", "Starting the Loop ...",FB_NOTIFIER, "Starting the Loop ..." );
 }
 
@@ -734,13 +738,7 @@ void processSms(void)
         else
         {
           if      (smsReceived =="Reset")smsID = FB_RESET_ID;
-          else if (smsReceived =="Firebase") smsID = FB_FB_OFF_ID;
-          else if (smsReceived =="Blynk") smsID = FB_BLYNK_ON_OFF_ID;
-          else if (smsReceived =="Wifi") smsID = FB_WIFI_OFF_ID;
           else if (smsReceived =="Ota") smsID = FB_OTA_ID;
-          else if (smsReceived =="Sms") smsID = FB_SMS_ON_ID;
-          else if (smsReceived =="Ver") smsID =FB_VERSION_ID;
-          else if (smsReceived == "Settings" ) smsID = FB_SETTINGS_ID ;
           else if (smsReceived == "Netgeer" ) ResetNetgeer();
           else if (smsReceived == "Ide" ) smsID = FB_WIFI_IDE_ID ;
           else if (smsReceived == "Web" ) smsID = FB_WIFI_WEB_ID ;
@@ -803,9 +801,6 @@ void processSms(void)
               otaGsm ();
             break;
 
-            case FB_VERSION_ID:
-
-            break;
     }  
 }
 
@@ -1091,18 +1086,6 @@ void receiverAvByFreq (int Freq)
 
 
 
-
-
-void otaGsm(void)
-{
-  DEBUG_PRINTLN("Firmware Upload..."); 
-  enableWDG(DIS);
-  ota.init(true);
-  ota.startOtaUpdate(overTheAirURL);
-}
-
-
-
 void room (int RC, int AV, int sel)
 {
      switch (sel)
@@ -1150,7 +1133,46 @@ void resetWdg(void)
    timerWrite(_timer, 0);                                        //reset timer (feed watchdog)  
   }
 
+void otaWifi(void) {
+  DEBUG_PRINTLN("Starting Ota Web Update from Github");
+  sendToHMI("Ota web Started", "Ota Web : ", "Ota web Started",FB_NOTIFIER, "Ota web Started" );
+while (!otaWifiGithub) 
+       {
+        enableWDG(false);
+        if (  millis() - wifiIDETimer > WIFI_IDE_TIMER )
+        {
+           otaWifiGithub = true;
+           resetWdg();
+           enableWDG(true);
+           wifiIDETimer = millis();
+           ESP.restart();
+        }
+        ota.otaWebGithub();
 
+       }
+ }
+
+
+void otaGsm(void)
+{
+  DEBUG_PRINTLN("Firmware Upload..."); 
+  enableWDG(DIS);
+  ota.init(true);
+  ota.startOtaUpdate(overTheAirURL);
+}
+
+void rebootSw(void)
+{
+ ESP.restart();
+}
+
+
+
+void  dvrOnOff (bool onOff)
+{
+   if (onOff) digitalWrite(AV_RX_DVR_PIN_2, LOW); 
+   else digitalWrite(AV_RX_DVR_PIN_2, HIGH); 
+}
 
 /**********************************************************************************************************************************************/
 
@@ -1161,11 +1183,6 @@ void sendToHMI(char *smsmsg, String notifier_subject, String notifier_body,Strin
   DEBUG_PRINTLN(notifier_body);
 }
 
-
-void rebootSw(void)
-{
- ESP.restart();
-}
 
 int stringToInteger(String str)
 {
@@ -1307,31 +1324,4 @@ void wifiUploadCtrl(void)
         }
         else ArduinoOTA.handle();
        }
-}
-
-
-void otaWifi(void) {
-  DEBUG_PRINTLN("Starting Ota Web Update from Github");
-  sendToHMI("Ota web Started", "Ota Web : ", "Ota web Started",FB_NOTIFIER, "Ota web Started" );
-while (!otaWifiGithub) 
-       {
-        enableWDG(false);
-        if (  millis() - wifiIDETimer > WIFI_IDE_TIMER )
-        {
-           otaWifiGithub = true;
-           resetWdg();
-           enableWDG(true);
-           wifiIDETimer = millis();
-           ESP.restart();
-        }
-        ota.otaWebGithub();
-
-       }
-
- }
-
-void  dvrOnOff (bool onOff)
-{
-   if (onOff) digitalWrite(AV_RX_DVR_PIN_2, LOW); 
-   else digitalWrite(AV_RX_DVR_PIN_2, HIGH); 
 }
