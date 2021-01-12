@@ -861,7 +861,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                         if(Ch_2.mux) 
                           {
                             if (millis() - Ch_2.muxTimer > MUX_ROOM_ZAP) 
-                                {remoteControl(xRoom_202.rCh);Ch_2.muxTimer = millis();}
+                                {remoteControl(xRoom_210.rCh);Ch_2.muxTimer = millis();}
                             else Ch_2.muxTimer = millis();    
                           }
                         stateMachine =4;}
