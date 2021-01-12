@@ -954,7 +954,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                         recevierCh=Ch_8.id;
                         receiverAvByCh (recevierCh);
                         Ch_8.mux= xRoom_208.selected & xRoom_215.selected;
-                        if(Ch_8.mux) 
+                        if(!Ch_8.mux) 
                           {
                             if (millis() - Ch_8.muxTimer > MUX_ROOM_ZAP) 
                                 {remoteControl(xRoom_208.rCh);Ch_8.muxTimer = millis();}
