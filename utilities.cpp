@@ -26,12 +26,8 @@ void ntpServerUtil::printLocalTime(boolean ver)
     strftime(tm_year,10,"%Y", &timeinfo);
     strftime(tm_hour,3, "%H", &timeinfo);
     strftime(tm_min,3,  "%M", &timeinfo);
-    if (EEPROM.read(EEPROM_GITHUB_ADD))
-     {
-      dateAndTimeStr = VERSION_ID + String (tm_day)+ " " + String (tm_mon)+ " " + String (tm_year)+ " "  + String (tm_hour)+ ":" + String (tm_min);
-      EEPROM.write(EEPROM_GITHUB_ADD, 0); EEPROM.commit();
-     }
-    else dateAndTimeStr ="IDE " + String (tm_day)+ " " + String (tm_mon)+ " " + String (tm_year)+ " "  + String (tm_hour)+ ":" + String (tm_min);
+
+    dateAndTimeStr ="IDE " + String (tm_day)+ " " + String (tm_mon)+ " " + String (tm_year)+ " "  + String (tm_hour)+ ":" + String (tm_min);
   }
   sendDateTime(ver);
 }
@@ -48,7 +44,6 @@ void ntpServerUtil::sendDateTime(boolean Ver)
    for (i=EEPROM_VER_ADD;  i<EEPROM_VER_ADD+EEPROM_VER_LEN ;  i++)  //From 0 to 31 for RC cmds
     {
      eepromByte[i-EEPROM_VER_ADD] = byte (dateAndTimeChar[i-EEPROM_VER_ADD]);
-     EEPROM.write(i, eepromByte[i-EEPROM_VER_ADD]); EEPROM.commit();
     }
    DEBUG_PRINT("Write to eeprom: ");DEBUG_PRINTLN(dateAndTimeStr);
   }
@@ -57,7 +52,6 @@ void ntpServerUtil::sendDateTime(boolean Ver)
    {
     for (i=EEPROM_VER_ADD;  i<EEPROM_VER_ADD+EEPROM_VER_LEN ;  i++)
     {
-     eepromByte[i-EEPROM_VER_ADD] = EEPROM.read(i);
      dateAndTimeChar[i-EEPROM_VER_ADD] = char (eepromByte[i-EEPROM_VER_ADD]) ;
     }
     dateAndTimeStr  = String (dateAndTimeChar); 

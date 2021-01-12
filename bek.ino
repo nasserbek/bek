@@ -190,7 +190,6 @@ void setup()
      avReceiver.init_I2C();
      
      EEPROM.begin(EEPROM_SIZE);
-     byte gitHub = EEPROM.read(EEPROM_GITHUB_ADD);
      
      initWDG(MIN_5,EN);
      resetWdg();    //reset timer (feed watchdog) 
@@ -236,18 +235,13 @@ void setup()
     blynkNotActiveTimer     = millis();
     routerResetTimer        = millis();
     resetNetgeerAfterInternetLossTimer = millis();
-    
-    DEBUG_PRINT("Wifi: ");DEBUG_PRINTLN(wifiAvailable ? F("Available") : F("Not Available"));
-    
-    String smsStatus = smsSent ? F("Sim Available to send") : F("Sim Not Available to send");
-    
+   
     createHandleGroup();
     looadRoomData();
     enableWDG(DIS);
     initWDG(SEC_60,EN);
     if (blynkConnected) myBlynk.sendVersion(VERSION_ID);
     sendToHMI("Starting the Loop ...", "Starting : ", "Starting the Loop ...",FB_NOTIFIER, "Starting the Loop ..." );
-
 }
 
 
@@ -810,8 +804,7 @@ void processSms(void)
             break;
 
             case FB_VERSION_ID:
-              DEBUG_PRINT("FB_VERSION: ");DEBUG_PRINTLN(smsReceived);
-              sendVersion();
+
             break;
     }  
 }
@@ -1130,17 +1123,9 @@ void room (int RC, int AV, int sel)
           }
 }                            
 
-void getDateTimeNTP(bool ver)
-{
-   if (ver)util.printLocalTime(true); 
-   else util.sendDateTime(false);
-}    
-
-
 
 void IRAM_ATTR resetModule() 
 {
-EEPROM.write(EEPROM_ERR_ADD, WDG_ERR); EEPROM.commit();
 DEBUG_PRINTLN("Watch Dog Timer Timout, rebooting....");
 ESP.restart();
 }
@@ -1182,13 +1167,6 @@ void rebootSw(void)
  ESP.restart();
 }
 
-
-void sendVersion(void)
-{
- util.printLocalTime(false); 
- sendToHMI(util.dateAndTimeChar, "Version : ", String(util.dateAndTimeChar),FB_NOTIFIER, String(util.dateAndTimeChar) );
-}
-
 int stringToInteger(String str)
 {
 char carray[5]; 
@@ -1198,7 +1176,6 @@ char carray[5];
 
 void goToDeepSleep(int sleepTimer)
 {
-      EEPROM.write(EEPROM_ERR_ADD, DEEP_SLEEP ); EEPROM.commit(); 
       sendToHMI("Going to Deep Sleep", "Going to Deep Sleep", "Going to Deep Sleep",FB_NOTIFIER, "Going to Deep Sleep" );
       sms.sim800PowerOn(false)  ;
       DEBUG_PRINT("Sleep for: ");  DEBUG_PRINT(sleepTimer * 60* 1000000);DEBUG_PRINTLN(" uSec");
@@ -1256,14 +1233,12 @@ void webOtaSetup(void)
       }
     }
   });
-  EEPROM.write(EEPROM_GITHUB_ADD, 1); EEPROM.commit();
   server.begin();
  }
 
  void webUpdateOta (void)
  {
    webOtaSetup();
-   EEPROM.write(EEPROM_GITHUB_ADD, 1); EEPROM.commit();
    while (!wifiWebUpdater) 
        {
         enableWDG(false);
@@ -1308,7 +1283,6 @@ void otaIdeSetup (void)
       else if (error == OTA_RECEIVE_ERROR) Serial.println("Receive Failed");
       else if (error == OTA_END_ERROR) Serial.println("End Failed");
     });
-  EEPROM.write(EEPROM_GITHUB_ADD, 1); EEPROM.commit();
   ArduinoOTA.begin();
 
   Serial.println("Ready");
@@ -1320,7 +1294,6 @@ void otaIdeSetup (void)
 void wifiUploadCtrl(void)
 {
        otaIdeSetup () ;   
-        EEPROM.write(EEPROM_GITHUB_ADD, 1); EEPROM.commit();
        while (!wifiIde) 
        {
         enableWDG(false);
@@ -1330,7 +1303,6 @@ void wifiUploadCtrl(void)
            resetWdg();
            enableWDG(true);
            wifiIDETimer = millis();
-           EEPROM.write(EEPROM_ERR_ADD, IDE_WIFI); EEPROM.commit();
            ESP.restart();
         }
         else ArduinoOTA.handle();
@@ -1341,7 +1313,6 @@ void wifiUploadCtrl(void)
 void otaWifi(void) {
   DEBUG_PRINTLN("Starting Ota Web Update from Github");
   sendToHMI("Ota web Started", "Ota Web : ", "Ota web Started",FB_NOTIFIER, "Ota web Started" );
-  EEPROM.write(EEPROM_GITHUB_ADD, 1); EEPROM.commit();
 while (!otaWifiGithub) 
        {
         enableWDG(false);
@@ -1351,7 +1322,6 @@ while (!otaWifiGithub)
            resetWdg();
            enableWDG(true);
            wifiIDETimer = millis();
-           EEPROM.write(EEPROM_ERR_ADD, IDE_WIFI); EEPROM.commit();
            ESP.restart();
         }
         ota.otaWebGithub();

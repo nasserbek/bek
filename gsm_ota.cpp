@@ -261,8 +261,6 @@ void otaUpload::startOtaUpdate(const String& ota_url)
   }
 
   DEBUG_PRINT("=== Update successfully completed. Rebooting.");
-  EEPROM.write(EEPROM_GITHUB_ADD, 1); EEPROM.commit();
-  EEPROM.write(EEPROM_WIFI_ADD, 1); EEPROM.commit(); //To enable Wifi and get NTP for version date
   ESP.restart();   
 }
 
