@@ -836,7 +836,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                       {
                         recevierCh=Ch_1.id;
                         receiverAvByCh (recevierCh);
-                        Ch_1.mux= xRoom_209.selected && xRoom_216.selected;
+                        Ch_1.mux= xRoom_209.selected & xRoom_216.selected;
                         if(Ch_1.mux) 
                             {
                               if (millis() - Ch_1.muxTimer > MUX_ROOM_ZAP) 
@@ -857,7 +857,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     {
                         recevierCh=Ch_2.id;
                         receiverAvByCh (recevierCh);
-                        Ch_2.mux= xRoom_202.selected && xRoom_210.selected;
+                        Ch_2.mux= xRoom_202.selected & xRoom_210.selected;
                         if(Ch_2.mux) 
                           {
                             if (millis() - Ch_2.muxTimer > MUX_ROOM_ZAP) 
@@ -891,7 +891,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     {
                         recevierCh=Ch_4.id;
                         receiverAvByCh (recevierCh);
-                        Ch_4.mux= xRoom_204.selected && xRoom_219.selected;
+                        Ch_4.mux= xRoom_204.selected & xRoom_219.selected;
                         if(Ch_4.mux) 
                           {
                             if (millis() - Ch_4.muxTimer > MUX_ROOM_ZAP) 
@@ -932,7 +932,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     {
                         recevierCh=Ch_7.id;
                         receiverAvByCh (recevierCh);
-                        Ch_7.mux= xRoom_207.selected && xRoom_214.selected;
+                        Ch_7.mux= xRoom_207.selected & xRoom_214.selected;
                         if(Ch_7.mux) 
                           {
                             if (millis() - Ch_7.muxTimer > MUX_ROOM_ZAP) 
@@ -953,7 +953,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                       {
                         recevierCh=Ch_8.id;
                         receiverAvByCh (recevierCh);
-                        Ch_8.mux= xRoom_208.selected && xRoom_215.selected;
+                        Ch_8.mux= xRoom_208.selected & xRoom_215.selected;
                         if(Ch_8.mux) 
                           {
                             if (millis() - Ch_8.muxTimer > MUX_ROOM_ZAP) 
