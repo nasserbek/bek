@@ -363,9 +363,6 @@ BLYNK_WRITE(V19) // ROOM_AV RC
     
   DEBUG_PRINT("V19 ROOM_AV_RC: ");
   DEBUG_PRINTLN(_sevenSeg);
-  if (_blynkData ==1) Blynk.setProperty(V19, "color", BLYNK_GREEN);
-  if (_blynkData ==2) Blynk.setProperty(V19, "color", BLYNK_YELLOW);
-  if (_blynkData ==3) Blynk.setProperty(V19, "color", BLYNK_RED);
 }
 
 BLYNK_WRITE(V23)   //router reset Timer
@@ -1041,6 +1038,7 @@ void blynk::sendAvRxIndex(int _index)
   if (_index ==1) Blynk.setProperty(V19, "color", BLYNK_GREEN);
   if (_index==2) Blynk.setProperty(V19, "color", BLYNK_YELLOW);
   if (_index ==3) Blynk.setProperty(V19, "color", BLYNK_RED);
+   Blynk.virtualWrite(V99, _index);
 }
 
 bool blynk::blynkStatus(void)
