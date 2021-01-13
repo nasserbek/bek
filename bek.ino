@@ -816,6 +816,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                       {
                         recevierCh=Ch_1.id;
                         receiverAvByCh (recevierCh);
+                        if(Ch_1.mux && !xRoom_216.selected)remoteControl(xRoom_216.rCh);
                         Ch_1.mux= xRoom_209.selected & xRoom_216.selected;
                         if(Ch_1.mux) 
                             {
@@ -836,6 +837,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     {
                         recevierCh=Ch_2.id;
                         receiverAvByCh (recevierCh);
+                        if(Ch_2.mux && !xRoom_202.selected)remoteControl(xRoom_202.rCh);
                         Ch_2.mux= xRoom_202.selected & xRoom_210.selected;
                         if(Ch_2.mux) 
                           {
@@ -869,6 +871,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     {
                         recevierCh=Ch_4.id;
                         receiverAvByCh (recevierCh);
+                        if(Ch_4.mux && !xRoom_219.selected)remoteControl(xRoom_219.rCh);
                         Ch_4.mux= xRoom_204.selected & xRoom_219.selected;
                         if(Ch_4.mux) 
                           {
@@ -909,6 +912,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     {
                         recevierCh=Ch_7.id;
                         receiverAvByCh (recevierCh);
+                        if(Ch_7.mux && !xRoom_214.selected)remoteControl(xRoom_214.rCh);
                         Ch_7.mux= xRoom_207.selected & xRoom_214.selected;
                         if(Ch_7.mux) 
                           {
@@ -929,6 +933,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                       {
                         recevierCh=Ch_8.id;
                         receiverAvByCh (recevierCh);
+                        if(Ch_8.mux && !xRoom_215.selected)remoteControl(xRoom_215.rCh);
                         Ch_8.mux= xRoom_208.selected & xRoom_215.selected;
                         if(Ch_8.mux) 
                           {
