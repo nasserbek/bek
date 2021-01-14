@@ -816,12 +816,15 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                       {
                         recevierCh=Ch_1.id;
                         receiverAvByCh (recevierCh);
-                //         if(Ch_1.mux && !xRoom_216.selected)remoteControl(xRoom_216.rCh);
                         Ch_1.mux= xRoom_209.selected & xRoom_216.selected;
-                        if(Ch_1.mux) 
+                   //     if(Ch_1.mux) 
+                           if(xRoom_209.selected || xRoom_216.selected)
                             {
                               if (millis() - Ch_1.muxTimer > MUX_ROOM_ZAP) 
-                                  {remoteControl(xRoom_216.rCh);Ch_1.muxTimer = millis();}
+                                  {
+                                    if(xRoom_209.selected)remoteControl(xRoom_209.rCh);
+                                    if(xRoom_216.selected)remoteControl(xRoom_216.rCh);
+                                    Ch_1.muxTimer = millis();}
                             }
                         stateMachine =2;}
                   }
@@ -837,13 +840,16 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     {
                         recevierCh=Ch_2.id;
                         receiverAvByCh (recevierCh);
-                //         if(Ch_2.mux && !xRoom_202.selected)remoteControl(xRoom_202.rCh);
                         Ch_2.mux= xRoom_202.selected & xRoom_210.selected;
-                        if(Ch_2.mux) 
-                          {
-                            if (millis() - Ch_2.muxTimer > MUX_ROOM_ZAP) 
-                                {remoteControl(xRoom_210.rCh);Ch_2.muxTimer = millis();}
-                          }
+                   //     if(Ch_2.mux) 
+                           if(xRoom_202.selected || xRoom_210.selected)
+                            {
+                              if (millis() - Ch_2.muxTimer > MUX_ROOM_ZAP) 
+                                  {
+                                    if(xRoom_202.selected)remoteControl(xRoom_202.rCh);
+                                    if(xRoom_210.selected)remoteControl(xRoom_210.rCh);
+                                    Ch_2.muxTimer = millis();}
+                            }
                         stateMachine =4;}
                   }
                 else stateMachine =4;
@@ -871,13 +877,16 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     {
                         recevierCh=Ch_4.id;
                         receiverAvByCh (recevierCh);
-                //        if(Ch_4.mux && !xRoom_219.selected)remoteControl(xRoom_219.rCh);
                         Ch_4.mux= xRoom_204.selected & xRoom_219.selected;
-                        if(Ch_4.mux) 
-                          {
-                            if (millis() - Ch_4.muxTimer > MUX_ROOM_ZAP) 
-                                {remoteControl(xRoom_219.rCh);Ch_4.muxTimer = millis();}
-                          }
+                   //     if(Ch_4.mux) 
+                           if(xRoom_204.selected || xRoom_219.selected)
+                            {
+                              if (millis() - Ch_4.muxTimer > MUX_ROOM_ZAP) 
+                                  {
+                                    if(xRoom_204.selected)remoteControl(xRoom_204.rCh);
+                                    if(xRoom_219.selected)remoteControl(xRoom_219.rCh);
+                                    Ch_4.muxTimer = millis();}
+                            }
                         stateMachine =8;}
                   }
                 else stateMachine =8;
@@ -912,13 +921,16 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     {
                         recevierCh=Ch_7.id;
                         receiverAvByCh (recevierCh);
-                    //     if(Ch_7.mux && !xRoom_214.selected)remoteControl(xRoom_214.rCh);
                         Ch_7.mux= xRoom_207.selected & xRoom_214.selected;
-                        if(Ch_7.mux) 
-                          {
-                            if (millis() - Ch_7.muxTimer > MUX_ROOM_ZAP) 
-                                {remoteControl(xRoom_207.rCh);Ch_7.muxTimer = millis();}
-                          }
+                   //     if(Ch_7.mux) 
+                           if(xRoom_207.selected || xRoom_214.selected)
+                            {
+                              if (millis() - Ch_7.muxTimer > MUX_ROOM_ZAP) 
+                                  {
+                                    if(xRoom_207.selected)remoteControl(xRoom_207.rCh);
+                                    if(xRoom_214.selected)remoteControl(xRoom_214.rCh);
+                                    Ch_7.muxTimer = millis();}
+                            }
                         stateMachine =14;}
                   }
                 else stateMachine =14;
@@ -933,14 +945,17 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                       {
                         recevierCh=Ch_8.id;
                         receiverAvByCh (recevierCh);
-                   //     if(Ch_8.mux && !xRoom_215.selected)remoteControl(xRoom_215.rCh);
                         Ch_8.mux= xRoom_208.selected & xRoom_215.selected;
-                        if(Ch_8.mux) 
-                          {
-                            if (millis() - Ch_8.muxTimer > MUX_ROOM_ZAP) 
-                                {remoteControl(xRoom_215.rCh);Ch_8.muxTimer = millis();}
-                          }
-                        stateMachine =16;}
+                   //     if(Ch_8.mux) 
+                           if(xRoom_208.selected || xRoom_215.selected)
+                            {
+                              if (millis() - Ch_8.muxTimer > MUX_ROOM_ZAP) 
+                                  {
+                                    if(xRoom_208.selected)remoteControl(xRoom_208.rCh);
+                                    if(xRoom_215.selected)remoteControl(xRoom_215.rCh);
+                                    Ch_8.muxTimer = millis();}
+                            }
+                      stateMachine =16;}
                   }
                 else stateMachine =16;
             break;
