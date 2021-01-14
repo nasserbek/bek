@@ -26,7 +26,7 @@ void looadRoomData()
    Ch_2.frequency = 1120;   // 202,217
    Ch_2.id =2;
 
-   Ch_3.frequency = 1160;   // 203
+   Ch_3.frequency = 1171;   // 203   1168
    Ch_3.id =3;
 
    Ch_4.frequency = 1200;   // 204,219
@@ -41,7 +41,7 @@ void looadRoomData()
    Ch_7.frequency = 1320;   // 212,214
    Ch_7.id =7;
 
-   Ch_8.frequency = 1360;   // 208
+   Ch_8.frequency = 1360;   // 208    1355
    Ch_8.id =8;
 
    Ch_9.frequency = 1000;   // 209
