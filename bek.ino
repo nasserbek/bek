@@ -822,8 +822,8 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                             {
                               if (millis() - Ch_1.muxTimer > MUX_ROOM_ZAP) 
                                   {
-                                    if(xRoom_209.selected)remoteControl(xRoom_209.rCh);
-                                    if(xRoom_216.selected)remoteControl(xRoom_216.rCh);
+                                    if(xRoom_209.selected && !xRoom_216.selected)remoteControl(xRoom_209.rCh);
+                                    if(xRoom_216.selected && !xRoom_209.selected)remoteControl(xRoom_216.rCh);
                                     Ch_1.muxTimer = millis();}
                             }
                         stateMachine =2;}
@@ -846,8 +846,8 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                             {
                               if (millis() - Ch_2.muxTimer > MUX_ROOM_ZAP) 
                                   {
-                                    if(xRoom_202.selected)remoteControl(xRoom_202.rCh);
-                                    if(xRoom_210.selected)remoteControl(xRoom_210.rCh);
+                                    if(xRoom_202.selected && !xRoom_210.selected)remoteControl(xRoom_202.rCh);
+                                    if(xRoom_210.selected && !xRoom_202.selected)remoteControl(xRoom_210.rCh);
                                     Ch_2.muxTimer = millis();}
                             }
                         stateMachine =4;}
@@ -883,8 +883,8 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                             {
                               if (millis() - Ch_4.muxTimer > MUX_ROOM_ZAP) 
                                   {
-                                    if(xRoom_204.selected)remoteControl(xRoom_204.rCh);
-                                    if(xRoom_219.selected)remoteControl(xRoom_219.rCh);
+                                    if(xRoom_204.selected && !xRoom_219.selected)remoteControl(xRoom_204.rCh);
+                                    if(xRoom_219.selected && !xRoom_204.selected)remoteControl(xRoom_219.rCh);
                                     Ch_4.muxTimer = millis();}
                             }
                         stateMachine =8;}
@@ -927,8 +927,8 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                             {
                               if (millis() - Ch_7.muxTimer > MUX_ROOM_ZAP) 
                                   {
-                                    if(xRoom_207.selected)remoteControl(xRoom_207.rCh);
-                                    if(xRoom_214.selected)remoteControl(xRoom_214.rCh);
+                                    if(xRoom_207.selected && !xRoom_214.selected)remoteControl(xRoom_207.rCh);
+                                    if(xRoom_214.selected && !xRoom_207.selected)remoteControl(xRoom_214.rCh);
                                     Ch_7.muxTimer = millis();}
                             }
                         stateMachine =14;}
@@ -951,8 +951,8 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                             {
                               if (millis() - Ch_8.muxTimer > MUX_ROOM_ZAP) 
                                   {
-                                    if(xRoom_208.selected)remoteControl(xRoom_208.rCh);
-                                    if(xRoom_215.selected)remoteControl(xRoom_215.rCh);
+                                    if(xRoom_208.selected && !xRoom_215.selected)remoteControl(xRoom_208.rCh);
+                                    if(xRoom_215.selected && !xRoom_208.selected)remoteControl(xRoom_215.rCh);
                                     Ch_8.muxTimer = millis();}
                             }
                       stateMachine =16;}
