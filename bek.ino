@@ -62,17 +62,16 @@ void looadRoomData()
    Ch_14.frequency = 1080;
    Ch_14.id =14;
 */ 
-// needed 202=3,   203=11,  204=13,     214=15
    xRoom_202.frequency = freq =Ch_2.frequency;
    xRoom_202.pll = _pll[Ch_2.id] = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_202.vCh = Ch_2.id;
-   xRoom_202.rCh=17;  //to be 3
+   xRoom_202.rCh=2;  
 
 
    xRoom_203.frequency = freq =Ch_3.frequency;
    xRoom_203.pll =  _pll[Ch_3.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_203.vCh = Ch_3.id;
-   xRoom_203.rCh=3;  //to be 11
+   xRoom_203.rCh=3;  
 
 
    xRoom_204.frequency = freq =Ch_4.frequency;
