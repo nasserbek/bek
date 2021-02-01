@@ -1,5 +1,5 @@
 #define BEK
-#define VERSION_ID " V110 "
+#define VERSION_ID " V112 "
 #define DEBUG_SERIAL
 #define BLYNK_SERVER "blynk-cloud.com"
 
@@ -106,9 +106,9 @@
 #define    CMD_PATH         "/PC/"
 #define    IDLE_PATH         "/"
 #define    FB_AV_7SEG           "/AvReceiver_channel"
-#define    FB_FREQ              "/AvReceiver_freq" 
 #define    FB_T433_CH_NR        "/RcTransmitter_channel"
 #define    FB_OTA               "/Ota"
+#define    FB_FREQ              "/AvReceiver_freq" 
 #define    FB_RESET             "/Reboot"
 #define    FB_SMS_ON            "/Gsm"
 #define    FB_VERSION           "/Version"

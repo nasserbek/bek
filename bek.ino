@@ -47,7 +47,7 @@ void looadRoomData()
    Ch_9.frequency = 1000;   // 209
    Ch_9.id =9;
 
-   Ch_10.frequency = 1050;   // 207
+   Ch_10.frequency = 1240;   // 207
    Ch_10.id =10;
 
    Ch_11.frequency = 1100;   // 208 NEW
@@ -111,9 +111,9 @@ void looadRoomData()
    xRoom_209.rCh=9;
 
 
-   xRoom_210.frequency = freq =Ch_2.frequency;
-   xRoom_210.pll =  _pll[Ch_2.id]  = ( 512 * (freq + 479.5) ) / 64 ;
-   xRoom_210.vCh = Ch_2.id;
+   xRoom_210.frequency = freq =Ch_10.frequency;
+   xRoom_210.pll =  _pll[Ch_10.id]  = ( 512 * (freq + 479.5) ) / 64 ;
+   xRoom_210.vCh = Ch_10.id;
    xRoom_210.rCh=10;
 
 /*
