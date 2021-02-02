@@ -343,7 +343,7 @@ BLYNK_WRITE(V18) // ROOM_216_TO_220
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =ROOM_216_TO_220;
-    eventdata = Q_EVENT_ROOM_216_TO_220_V18;
+    eventdata = Q_EVENT_ROOM_216_227_228_229_230_V18;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
     
   DEBUG_PRINT("V18 ROOM_216_TO_220: ");
@@ -377,6 +377,18 @@ BLYNK_WRITE(V23)   //router reset Timer
   DEBUG_PRINTLN(_tempoVar );
 }
 
+
+
+BLYNK_WRITE(V25) // ROOM_231_232_233
+{
+  _sevenSeg= param.asInt();  
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_ROOM_231_232_233_V25;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+
+  Blynk.setProperty(V25, "color", BLYNK_BLUE);
+}
 
 
 BLYNK_WRITE(V30)   //209 
@@ -799,6 +811,38 @@ BLYNK_WRITE(V95)   //Zapping ch11
   else Blynk.setProperty(V95, "color", BLYNK_RED);  
 }
 
+
+BLYNK_WRITE(V96)   //Zapping ch12
+{
+  _tempoVar = param.asInt(); // assigning incoming value from pin V71 to a variable
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    _blynkEventID =FB_ZAP_CHANNEL_ID8;
+    eventdata = Q_EVENT_ZAP_CHANNEL12_V96;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
+  DEBUG_PRINT("V96 Zap ch12: ");
+  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+  if(_blynkData) Blynk.setProperty(V96, "color", BLYNK_BLUE);
+  else Blynk.setProperty(V96, "color", BLYNK_RED);  
+}
+
+BLYNK_WRITE(V97)   //Zapping ch14
+{
+  _tempoVar = param.asInt(); // assigning incoming value from pin V71 to a variable
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    _blynkEventID =FB_ZAP_CHANNEL_ID8;
+    eventdata = Q_EVENT_ZAP_CHANNEL14_V97;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
+  DEBUG_PRINT("V97 Zap ch14: ");
+  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+  if(_blynkData) Blynk.setProperty(V97, "color", BLYNK_BLUE);
+  else Blynk.setProperty(V97, "color", BLYNK_RED);  
+}
+
+
 BLYNK_WRITE(V98)  //pulse
 {
   _blynkfreqValue = param.asInt(); // assigning incoming value from pin V0 to a variable
@@ -879,6 +923,37 @@ BLYNK_WRITE(V105)  //wifi ota github
     
   DEBUG_PRINT("Wifi Ota Github: ");
   DEBUG_PRINTLN(_smsBlynk ? F("Turn On") : F("Turn Off"));
+}
+
+
+BLYNK_WRITE(V106)   //Zapping ch15
+{
+  _tempoVar = param.asInt(); // assigning incoming value from pin V71 to a variable
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    _blynkEventID =FB_ZAP_CHANNEL_ID8;
+    eventdata = Q_EVENT_ZAP_CHANNEL15_V106;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
+  DEBUG_PRINT("V106 Zap ch15: ");
+  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+  if(_blynkData) Blynk.setProperty(V106, "color", BLYNK_BLUE);
+  else Blynk.setProperty(V106, "color", BLYNK_RED);  
+}
+
+BLYNK_WRITE(V107)   //Zapping ch16
+{
+  _tempoVar = param.asInt(); // assigning incoming value from pin V71 to a variable
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    _blynkEventID =FB_ZAP_CHANNEL_ID8;
+    eventdata = Q_EVENT_ZAP_CHANNEL16_V107;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    
+  DEBUG_PRINT("V107 Zap ch11: ");
+  DEBUG_PRINTLN(_tempoVar ? F("On") : F("Off"));
+  if(_blynkData) Blynk.setProperty(V107, "color", BLYNK_BLUE);
+  else Blynk.setProperty(V107, "color", BLYNK_RED);  
 }
 
 
