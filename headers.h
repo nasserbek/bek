@@ -1,5 +1,5 @@
 #define BEK
-#define VERSION_ID " V112 "
+#define VERSION_ID " V113 "
 #define DEBUG_SERIAL
 #define BLYNK_SERVER "blynk-cloud.com"
 
@@ -371,7 +371,7 @@ Q_EVENT_DVR_ON_SMS_317,
 Q_EVENT_DVR_OFF_SMS_318,
 } ;
 
-#define MAX_NR_CHANNELS  8
+#define MAX_NR_CHANNELS  15
 
 #define WEB 0
 #define DDNS 1
