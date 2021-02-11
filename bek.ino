@@ -20,181 +20,197 @@ void looadRoomData()
 {
   int freq;
 
-   Ch_1.frequency = 1060;   
+   Ch_1.frequency = 1080;   
    Ch_1.id =1;
 
-   Ch_2.frequency = 1080;   
+   Ch_2.frequency = 1120;   
    Ch_2.id =2;
 
-   Ch_3.frequency = 1100;   
+   Ch_3.frequency = 1160;   
    Ch_3.id =3;
 
-   Ch_4.frequency = 1120;   
+   Ch_4.frequency = 1200;   
    Ch_4.id =4;
 
-   Ch_5.frequency = 1140;   
+   Ch_5.frequency = 1240;   
    Ch_5.id =5;
 
-   Ch_6.frequency = 1160;   
+   Ch_6.frequency = 1280;   
    Ch_6.id =6;
 
-   Ch_7.frequency = 1180;   
+   Ch_7.frequency = 1320;   
    Ch_7.id =7;
 
-   Ch_8.frequency = 1200;   
+   Ch_8.frequency = 1360;   
    Ch_8.id =8;
 
-   Ch_9.frequency = 1220;   
+   Ch_9.frequency = 1060;   
    Ch_9.id =9;
 
-   Ch_10.frequency = 1240;   
+   Ch_10.frequency = 1100;   
    Ch_10.id =10;
 
-   Ch_11.frequency = 1260;   
+   Ch_11.frequency = 1140;   
    Ch_11.id =11;
 
-   Ch_12.frequency = 1280;
+   Ch_12.frequency = 1180;
    Ch_12.id =12;
 
-   Ch_14.frequency = 1300;
+   Ch_13.frequency = 1220;
+   Ch_13.id =13;
+
+   Ch_14.frequency = 1260;
    Ch_14.id =14;
 
-   Ch_15.frequency = 1320;
+   Ch_15.frequency = 1300;
    Ch_15.id =15;
 
-   Ch_16.frequency = 1360;
-   Ch_16.id =16;
-
-   // SDP 1
+   // VTR 21
    xRoom_201.frequency = freq =Ch_1.frequency;  
    xRoom_201.pll = _pll[Ch_1.id] = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_201.vCh = Ch_1.id;
    xRoom_201.rCh=1;  
    
-   // SDP 2
+   // VTR 22
    xRoom_202.frequency = freq =Ch_2.frequency;  
    xRoom_202.pll = _pll[Ch_2.id] = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_202.vCh = Ch_2.id;
    xRoom_202.rCh=2;  
 
-   // SDP 3
+   // VTR 23
    xRoom_203.frequency = freq =Ch_3.frequency;
    xRoom_203.pll =  _pll[Ch_3.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_203.vCh = Ch_3.id;
    xRoom_203.rCh=3;  
 
-   // SDP 4
+   // VTR 24
    xRoom_204.frequency = freq =Ch_4.frequency;
    xRoom_204.pll = _pll[Ch_4.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_204.vCh = Ch_4.id;
    xRoom_204.rCh=4;  
 
 
-   // SDP 5
+   // VTR 25
    xRoom_205.frequency = freq =Ch_5.frequency;
    xRoom_205.pll =  _pll[Ch_5.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_205.vCh = Ch_5.id;
    xRoom_205.rCh=5;
 
-   // SDP 6
+   // VTR 26
    xRoom_206.frequency = freq =Ch_6.frequency;
    xRoom_206.pll =  _pll[Ch_6.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_206.vCh = Ch_6.id;
    xRoom_206.rCh=6;
 
-   // SDP 7
+   // VTR 35
    xRoom_207.frequency = freq =Ch_7.frequency;
    xRoom_207.pll =  _pll[Ch_7.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_207.vCh = Ch_7.id;
    xRoom_207.rCh=7;
 
-   // SDP 8
+   // VTR 36
    xRoom_208.frequency = freq =Ch_8.frequency;
    xRoom_208.pll =  _pll[Ch_8.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_208.vCh = Ch_8.id;
    xRoom_208.rCh=8;
  
-   // SDP 9
+   // VTR 37
    xRoom_209.frequency = freq =Ch_9.frequency;
    xRoom_209.pll =  _pll[Ch_9.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_209.vCh = Ch_9.id;
    xRoom_209.rCh=9;
 
-   // SDP 31 + 10
-   xRoom_210.frequency = freq =Ch_10.frequency;  //SDP 31
+   // VTR 38
+   xRoom_210.frequency = freq =Ch_10.frequency;  //VTR 31
    xRoom_210.pll =  _pll[Ch_10.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_210.vCh = Ch_10.id;
-   xRoom_210.rCh=20;  // 10 ON 31 ALREADY
+   xRoom_210.rCh=10;  // 10 ON 31 ALREADY
 
-   // SDP 11 
+   // VTR 39
    xRoom_211.frequency = freq =Ch_11.frequency; 
    xRoom_211.pll =  _pll[Ch_11.id] = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_211.vCh = Ch_11.id;
    xRoom_211.rCh=11;
    
-   // SDP 12 
+   // VTR 40 
    xRoom_212.frequency = freq =Ch_12.frequency;
    xRoom_212.pll =  _pll[Ch_12.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_212.vCh = Ch_12.id;
    xRoom_212.rCh=12;  
- 
-   // SDP 14
+
+
+
+
+
+    // VTR  
+   xRoom_213.frequency = freq =Ch_13.frequency;
+   xRoom_213.pll =  _pll[Ch_13.id]  = ( 512 * (freq + 479.5) ) / 64 ;
+   xRoom_213.vCh = Ch_13.id;
+   xRoom_213.rCh=13;     
+   
+    // VTR    
+   xRoom_214.frequency = freq =Ch_14.frequency;
+   xRoom_214.pll =  _pll[Ch_14.id]  = ( 512 * (freq + 479.5) ) / 64 ;
+   xRoom_214.vCh = Ch_14.id;
+   xRoom_214.rCh=14; 
+   
+   // VTR  
    xRoom_214.frequency = freq =Ch_14.frequency;
    xRoom_214.pll =  _pll[Ch_14.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_214.vCh = Ch_14.id;
    xRoom_214.rCh=14;  
 
-   // SDP 15
+   // VTR 15
    xRoom_215.frequency = freq =Ch_15.frequency;
    xRoom_215.pll =  _pll[Ch_15.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_215.vCh = Ch_15.id;
    xRoom_215.rCh=15;
  
-   // SDP 16
+   // VTR  
    xRoom_216.frequency = freq =Ch_16.frequency;
    xRoom_216.pll =  _pll[Ch_16.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_216.vCh = Ch_16.id;
    xRoom_216.rCh=16;
 
 
-   // SDP 27  
+   // VTR    
    xRoom_227.frequency = freq =Ch_6.frequency;
    xRoom_227.pll =  _pll[Ch_6.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_227.vCh = Ch_6.id;
    xRoom_227.rCh=17;   
 
-   // SDP 28  
+   // VTR    
    xRoom_228.frequency = freq =Ch_7.frequency;
    xRoom_228.pll =  _pll[Ch_7.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_228.vCh = Ch_7.id;
    xRoom_228.rCh=18;   
 
-   // SDP 29  
+   // VTR   
    xRoom_229.frequency = freq =Ch_8.frequency;
    xRoom_229.pll =  _pll[Ch_8.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_229.vCh = Ch_8.id;
    xRoom_229.rCh=19;  // BY ERROR T BE CHANGED TO 21
 
-   // SDP 30  
+   // VTR    
    xRoom_230.frequency = freq =Ch_9.frequency;
    xRoom_230.pll =  _pll[Ch_9.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_230.vCh = Ch_9.id;
    xRoom_230.rCh=21;  // 20IS ON 210
       
       
-   // SDP 31  
+   // VTR    
    xRoom_231.frequency = freq =Ch_10.frequency;
    xRoom_231.pll =  _pll[Ch_10.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_231.vCh = Ch_10.id;
-   xRoom_231.rCh=10;  // BY ERROR T BE CHANGED TO 21
+   xRoom_231.rCh=10;   
 
-   // SDP 32
+   // VTR  
    xRoom_232.frequency = freq =Ch_11.frequency;
    xRoom_232.pll =  _pll[Ch_11.id] = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_232.vCh = Ch_11.id;
    xRoom_232.rCh=22;
 
-   // SDP 33
+   // VTR 33
    xRoom_233.frequency = freq =Ch_12.frequency;
    xRoom_233.pll =  _pll[Ch_12.id]  = ( 512 * (freq + 479.5) ) / 64 ;
    xRoom_233.vCh = Ch_12.id;
@@ -428,35 +444,35 @@ void processBlynkQueu(void)
               ResetNetgeer();
             break;
 
-            case Q_EVENT_ROOM_201_TO_205_V3:
+            case Q_EVENT_ROOM_VTR_21_TO_25_V3:
                   
                   switch (queuData)
                     {
-                      case 1: // ROOM 201
+                      case 1: // ROOM 21
                             remoteControlRcCh = xRoom_201.rCh;
                             recevierCh        =xRoom_201.vCh;
                             room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;
                       
-                      case 2: // ROOM 202
+                      case 2: // ROOM 22
                             remoteControlRcCh = xRoom_202.rCh;
                             recevierCh        =xRoom_202.vCh;
                             room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;
                       
-                      case 3:// ROOM 203
+                      case 3:// ROOM 23
                             remoteControlRcCh = xRoom_203.rCh;
                             recevierCh        =xRoom_203.vCh;
                             room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;      
                       
-                      case 4:// ROOM 204
+                      case 4:// ROOM 24
                             remoteControlRcCh = xRoom_204.rCh;
                             recevierCh        =xRoom_204.vCh;
                             room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;               
                       
-                      case 5:// ROOM 205
+                      case 5:// ROOM 25
                             remoteControlRcCh = xRoom_205.rCh;
                             recevierCh        =xRoom_205.vCh;
                             room (remoteControlRcCh, recevierCh , Av_Rx );
@@ -465,34 +481,34 @@ void processBlynkQueu(void)
                     
             break;
             
-            case Q_EVENT_ROOM_206_TO_210_V16:
+            case Q_EVENT_ROOM_VTR_26_TO_38_V16:
                    switch (queuData)
                     {
-                      case 1:
+                      case 1:// ROOM 26
                             remoteControlRcCh = xRoom_206.rCh;
                             recevierCh        =xRoom_206.vCh;
                             room (remoteControlRcCh, recevierCh , Av_Rx ); 
                       break;
                       
-                      case 2:// ROOM 207
+                      case 2:// ROOM 35
                             remoteControlRcCh = xRoom_207.rCh;
                             recevierCh        =xRoom_207.vCh;
                             room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;
                       
-                      case 3:// ROOM 208
+                      case 3:// ROOM 36
                             remoteControlRcCh = xRoom_208.rCh;
                             recevierCh        =xRoom_208.vCh;
                             room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;      
                       
-                      case 4:// ROOM 209
+                      case 4:// ROOM 37
                             remoteControlRcCh = xRoom_209.rCh;
                             recevierCh        =xRoom_209.vCh;
                             room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;               
                       
-                      case 5:// ROOM 210
+                      case 5:// ROOM 38
                             remoteControlRcCh = xRoom_210.rCh;
                             recevierCh        =xRoom_210.vCh;
                             room (remoteControlRcCh, recevierCh , Av_Rx );
@@ -501,22 +517,25 @@ void processBlynkQueu(void)
 
             break;
             
-            case Q_EVENT_ROOM_211_TO_215_V17:
+            case Q_EVENT_ROOM_VTR_39_TO_40_V17:
                    switch (queuData)
                     {
-                      case 1:
+                      case 1:// ROOM 39
                             remoteControlRcCh = xRoom_211.rCh;
                             recevierCh        =xRoom_211.vCh;
                             room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;
                       
-                      case 2:// ROOM 212
+                      case 2:// ROOM 40
                             remoteControlRcCh = xRoom_212.rCh;
                             recevierCh        =xRoom_212.vCh;
                             room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;
                       
                       case 3:// ROOM 213
+                            remoteControlRcCh = xRoom_213.rCh;
+                            recevierCh        =xRoom_213.vCh;
+                            room (remoteControlRcCh, recevierCh , Av_Rx );
                       break;      
                       
                       case 4:// ROOM 214
@@ -1219,7 +1238,11 @@ void receiverAvByCh (int Ch)
             case 12:
               recevierFreq =Ch_12.frequency;
             break;     
-            
+
+            case 13:
+              recevierFreq =Ch_13.frequency;
+            break;     
+                        
             case 14:
               recevierFreq =Ch_14.frequency;
             break;     
@@ -1227,10 +1250,7 @@ void receiverAvByCh (int Ch)
             case 15:
               recevierFreq =Ch_15.frequency;
             break;     
-            
-            case 16:
-              recevierFreq =Ch_16.frequency;
-            break;                           
+                  
           }
        if (blynkConnected) myBlynk.frequencyValue(recevierFreq );
        DEBUG_PRINT("Received freq channel:");DEBUG_PRINTLN(Ch);

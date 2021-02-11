@@ -232,7 +232,7 @@ BLYNK_WRITE(V3) // ROOM_201_TO_205
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =ROOM_201_TO_205;
-    eventdata = Q_EVENT_ROOM_201_TO_205_V3;
+    eventdata = Q_EVENT_ROOM_VTR_21_TO_25_V3;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
     
   DEBUG_PRINT("V3 ROOM_201_TO_205: ");
@@ -314,7 +314,7 @@ BLYNK_WRITE(V16) // ROOM_206_TO_210
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =ROOM_206_TO_210;
-    eventdata = Q_EVENT_ROOM_206_TO_210_V16;
+    eventdata = Q_EVENT_ROOM_VTR_26_TO_38_V16;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
     
   DEBUG_PRINT("V16 ROOM_206_TO_210: ");
@@ -329,7 +329,7 @@ BLYNK_WRITE(V17) // ROOM_211_TO_215
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =ROOM_211_TO_215;
-    eventdata = Q_EVENT_ROOM_211_TO_215_V17;
+    eventdata = Q_EVENT_ROOM_VTR_39_TO_40_V17;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
     
   DEBUG_PRINT("V17 ROOM_211_TO_215: ");
