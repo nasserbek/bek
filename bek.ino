@@ -374,8 +374,8 @@ void netgeerCtrl(void)
 
 void ResetNetgeer(void)
           {
-              digitalWrite(NETGEER_PIN_0, LOW);
-              if(!routerResetStart){routerResetTimer        = millis();routerResetStart = true;DEBUG_PRINTLN("Netgeer Reset done: ");}
+              digitalWrite(NETGEER_PIN_0, LOW);remoteControl(30);
+              if(!routerResetStart){routerResetTimer        = millis();routerResetStart = true;remoteControl(30);DEBUG_PRINTLN("Netgeer Reset done: ");}
           }
 
 
