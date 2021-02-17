@@ -231,6 +231,8 @@ void setup()
      pinMode(NETGEER_PIN_0, OUTPUT);
      digitalWrite(NETGEER_PIN_0, HIGH);// NC ACTIVATE ON POWER ON BY DOING NOTHING
 
+    
+    
      pinMode(AV_RX_DVR_PIN_2, OUTPUT);
      digitalWrite(AV_RX_DVR_PIN_2, LOW);  // NC DISACTIVATE AV RECEIVER ON POWER ON
 
@@ -374,8 +376,8 @@ void netgeerCtrl(void)
 
 void ResetNetgeer(void)
           {
-              digitalWrite(NETGEER_PIN_0, LOW);remoteControl(30);
-              if(!routerResetStart){routerResetTimer        = millis();routerResetStart = true;remoteControl(30);DEBUG_PRINTLN("Netgeer Reset done: ");}
+              digitalWrite(NETGEER_PIN_0, LOW);
+              if(!routerResetStart){routerResetTimer        = millis();routerResetStart = true;DEBUG_PRINTLN("Netgeer Reset done: ");}
           }
 
 
