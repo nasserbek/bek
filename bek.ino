@@ -224,7 +224,8 @@ void processBlynkQueu(void)
             case Q_EVENT_FREQ_V0:
               recevierFreq=queuData;
               DEBUG_PRINT("FB_FREQ: ");DEBUG_PRINTLN(queuData);
-              if (recevierFreq >= 920 && recevierFreq <= 1500) receiverAvByFreq (recevierFreq);
+              //if (recevierFreq >= 920 && recevierFreq <= 1500) 
+              receiverAvByFreq (recevierFreq);
             break;
             
             case Q_EVENT_RC_CH_NR_V1:
@@ -383,12 +384,14 @@ void processBlynkQueu(void)
             
              case Q_EVENT_AV_FR_MINUS_V92:
               recevierFreq -= 1;
-              if (recevierFreq >= 920 && recevierFreq <= 1500) receiverAvByFreq (recevierFreq);
+              //if (recevierFreq >= 920 && recevierFreq <= 1500) 
+              receiverAvByFreq (recevierFreq);
             break;
 
            case Q_EVENT_AV_FR_PLUS_V93:
               recevierFreq += 1;
-              if (recevierFreq >= 920 && recevierFreq <= 1500) receiverAvByFreq (recevierFreq);
+              //if (recevierFreq >= 920 && recevierFreq <= 1500) 
+              receiverAvByFreq (recevierFreq);
             break;
 
 
@@ -470,7 +473,7 @@ void processSms(void)
           smsValue = stringToInteger(smsReceived);
           if (smsValue >= 1 && smsValue <= 30)     smsID =Q_EVENT_RC_CH_NR_V1;
           if (smsValue >= 41 && smsValue <= 48)    smsID =Q_EVENT_VIDEO_CH_V2;
-          if (smsValue >= 900 && smsValue <= 1360) smsID =Q_EVENT_FREQ_V0;
+          if (smsValue >= 900 && smsValue <= 5000) smsID =Q_EVENT_FREQ_V0;
         }
         else
         {
@@ -485,7 +488,8 @@ void processSms(void)
           {
              case Q_EVENT_FREQ_V0:
               recevierFreq=smsValue;
-              if (recevierFreq >= 920 && recevierFreq <= 1500) receiverAvByFreq (recevierFreq);
+              //if (recevierFreq >= 920 && recevierFreq <= 1500) 
+              receiverAvByFreq (recevierFreq);
             break;
             
             case Q_EVENT_RC_CH_NR_V1:
