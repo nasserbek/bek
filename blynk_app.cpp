@@ -150,7 +150,7 @@ void blynk::init()
 {
   Serial.println();
 
-    wifiMulti.addAP("HUAWEI-BOUY", WIFI_PASSWORD);
+    wifiMulti.addAP("GIGACUBE_BEK", WIFI_PASSWORD);
     wifiMulti.addAP("NETGEER_BEK", WIFI_PASSWORD);
     wifiMulti.addAP("Freebox_bek" , WIFI_PASSWORD);
     wifiMulti.addAP("SFR_A870", WIFI_PASSWORD);
@@ -207,7 +207,7 @@ BLYNK_WRITE(V1) //rc433
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_T433_CH_NR_ID;
-    eventdata = Q_EVENT_T433_CH_NR_V1;
+    eventdata = Q_EVENT_RC_CH_NR_V1;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
     
   DEBUG_PRINT("V1 T433: ");
@@ -220,7 +220,7 @@ BLYNK_WRITE(V2) // receiver ch
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_AV_7SEG_ID;
-    eventdata = Q_EVENT_AV_7SEG_V2;
+    eventdata = Q_EVENT_VIDEO_CH_V2;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
     
   DEBUG_PRINT("V2 Seven Segments: ");
@@ -247,7 +247,7 @@ BLYNK_WRITE(V7)   // ota
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_OTA_ID;
-    eventdata = Q_EVENT_OTA_V7;
+    eventdata = Q_EVENT_OTA_GSM_V7;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
     
   DEBUG_PRINT("V7 Ota Gsm: ");
@@ -260,7 +260,7 @@ BLYNK_WRITE(V8)   //boot
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_RESET_ID;
-    eventdata = Q_EVENT_RESET_V8;
+    eventdata = Q_EVENT_REBOOT_V8;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
     
   DEBUG_PRINT("V8 reboot: ");
@@ -834,7 +834,7 @@ BLYNK_WRITE(V97)   //Zapping ch14
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_ZAP_CHANNEL_ID8;
-    eventdata = Q_EVENT_ZAP_CHANNEL14_V97;
+    eventdata = Q_EVENT_ZAP_CHANNEL13_V97;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
     
   DEBUG_PRINT("V97 Zap ch14: ");
@@ -919,7 +919,7 @@ BLYNK_WRITE(V105)  //wifi ota github
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_WIFI_OTA_ID ;
-    eventdata = Q_EVENT_WIFI_OTA_V105;
+    eventdata = Q_EVENT_OTA_GITHUB_V105;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
     
   DEBUG_PRINT("Wifi Ota Github: ");
@@ -933,7 +933,7 @@ BLYNK_WRITE(V106)   //Zapping ch15
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_ZAP_CHANNEL_ID8;
-    eventdata = Q_EVENT_ZAP_CHANNEL15_V106;
+    eventdata = Q_EVENT_ZAP_CHANNEL14_V106;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
     
   DEBUG_PRINT("V106 Zap ch15: ");
@@ -948,7 +948,7 @@ BLYNK_WRITE(V107)   //Zapping ch16
     _blynkEvent = true;
     _blynkData=param.asInt();
     _blynkEventID =FB_ZAP_CHANNEL_ID8;
-    eventdata = Q_EVENT_ZAP_CHANNEL16_V107;
+    eventdata = Q_EVENT_ZAP_CHANNEL15_V107;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
     
   DEBUG_PRINT("V107 Zap ch11: ");

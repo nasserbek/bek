@@ -19,203 +19,13 @@ bool routerResetStart =false;
 void looadRoomData()
 {
   int freq;
-
-   Ch_1.frequency = 1080;   
-   Ch_1.id =1;
-
-   Ch_2.frequency = 1120;   
-   Ch_2.id =2;
-
-   Ch_3.frequency = 1160;   
-   Ch_3.id =3;
-
-   Ch_4.frequency = 1200;   
-   Ch_4.id =4;
-
-   Ch_5.frequency = 1240;   
-   Ch_5.id =5;
-
-   Ch_6.frequency = 1280;   
-   Ch_6.id =6;
-
-   Ch_7.frequency = 1320;   
-   Ch_7.id =7;
-
-   Ch_8.frequency = 1360;   
-   Ch_8.id =8;
-
-   Ch_9.frequency = 1060;   
-   Ch_9.id =9;
-
-   Ch_10.frequency = 1100;   
-   Ch_10.id =10;
-
-   Ch_11.frequency = 1140;   
-   Ch_11.id =11;
-
-   Ch_12.frequency = 1180;
-   Ch_12.id =12;
-
-   Ch_13.frequency = 1220;
-   Ch_13.id =13;
-
-   Ch_14.frequency = 1260;
-   Ch_14.id =14;
-
-   Ch_15.frequency = 1300;
-   Ch_15.id =15;
-
-   // VTR 21
-   xRoom_201.frequency = freq =Ch_1.frequency;  
-   xRoom_201.pll = _pll[Ch_1.id] = ( 512 * (freq + 479.5) ) / 64 ;
-   xRoom_201.vCh = Ch_1.id;
-   xRoom_201.rCh=1;  
-   
-   // VTR 22
-   xRoom_202.frequency = freq =Ch_2.frequency;  
-   xRoom_202.pll = _pll[Ch_2.id] = ( 512 * (freq + 479.5) ) / 64 ;
-   xRoom_202.vCh = Ch_2.id;
-   xRoom_202.rCh=2;  
-
-   // VTR 23
-   xRoom_203.frequency = freq =Ch_3.frequency;
-   xRoom_203.pll =  _pll[Ch_3.id]  = ( 512 * (freq + 479.5) ) / 64 ;
-   xRoom_203.vCh = Ch_3.id;
-   xRoom_203.rCh=3;  
-
-   // VTR 24
-   xRoom_204.frequency = freq =Ch_4.frequency;
-   xRoom_204.pll = _pll[Ch_4.id]  = ( 512 * (freq + 479.5) ) / 64 ;
-   xRoom_204.vCh = Ch_4.id;
-   xRoom_204.rCh=4;  
-
-
-   // VTR 25
-   xRoom_205.frequency = freq =Ch_5.frequency;
-   xRoom_205.pll =  _pll[Ch_5.id]  = ( 512 * (freq + 479.5) ) / 64 ;
-   xRoom_205.vCh = Ch_5.id;
-   xRoom_205.rCh=5;
-
-   // VTR 26
-   xRoom_206.frequency = freq =Ch_6.frequency;
-   xRoom_206.pll =  _pll[Ch_6.id]  = ( 512 * (freq + 479.5) ) / 64 ;
-   xRoom_206.vCh = Ch_6.id;
-   xRoom_206.rCh=6;
-
-   // VTR 35
-   xRoom_207.frequency = freq =Ch_7.frequency;
-   xRoom_207.pll =  _pll[Ch_7.id]  = ( 512 * (freq + 479.5) ) / 64 ;
-   xRoom_207.vCh = Ch_7.id;
-   xRoom_207.rCh=7;
-
-   // VTR 36
-   xRoom_208.frequency = freq =Ch_8.frequency;
-   xRoom_208.pll =  _pll[Ch_8.id]  = ( 512 * (freq + 479.5) ) / 64 ;
-   xRoom_208.vCh = Ch_8.id;
-   xRoom_208.rCh=8;
- 
-   // VTR 37
-   xRoom_209.frequency = freq =Ch_9.frequency;
-   xRoom_209.pll =  _pll[Ch_9.id]  = ( 512 * (freq + 479.5) ) / 64 ;
-   xRoom_209.vCh = Ch_9.id;
-   xRoom_209.rCh=9;
-
-   // VTR 38
-   xRoom_210.frequency = freq =Ch_10.frequency;  //VTR 31
-   xRoom_210.pll =  _pll[Ch_10.id]  = ( 512 * (freq + 479.5) ) / 64 ;
-   xRoom_210.vCh = Ch_10.id;
-   xRoom_210.rCh=10;  // 10 ON 31 ALREADY
-
-   // VTR 39
-   xRoom_211.frequency = freq =Ch_11.frequency; 
-   xRoom_211.pll =  _pll[Ch_11.id] = ( 512 * (freq + 479.5) ) / 64 ;
-   xRoom_211.vCh = Ch_11.id;
-   xRoom_211.rCh=11;
-   
-   // VTR 40 
-   xRoom_212.frequency = freq =Ch_12.frequency;
-   xRoom_212.pll =  _pll[Ch_12.id]  = ( 512 * (freq + 479.5) ) / 64 ;
-   xRoom_212.vCh = Ch_12.id;
-   xRoom_212.rCh=12;  
-
-
-
-
-
-    // VTR  
-   xRoom_213.frequency = freq =Ch_13.frequency;
-   xRoom_213.pll =  _pll[Ch_13.id]  = ( 512 * (freq + 479.5) ) / 64 ;
-   xRoom_213.vCh = Ch_13.id;
-   xRoom_213.rCh=13;     
-   
-    // VTR    
-   xRoom_214.frequency = freq =Ch_14.frequency;
-   xRoom_214.pll =  _pll[Ch_14.id]  = ( 512 * (freq + 479.5) ) / 64 ;
-   xRoom_214.vCh = Ch_14.id;
-   xRoom_214.rCh=14; 
-   
-   // VTR  
-   xRoom_214.frequency = freq =Ch_14.frequency;
-   xRoom_214.pll =  _pll[Ch_14.id]  = ( 512 * (freq + 479.5) ) / 64 ;
-   xRoom_214.vCh = Ch_14.id;
-   xRoom_214.rCh=14;  
-
-   // VTR 15
-   xRoom_215.frequency = freq =Ch_15.frequency;
-   xRoom_215.pll =  _pll[Ch_15.id]  = ( 512 * (freq + 479.5) ) / 64 ;
-   xRoom_215.vCh = Ch_15.id;
-   xRoom_215.rCh=15;
- 
-   // VTR  
-   xRoom_216.frequency = freq =Ch_16.frequency;
-   xRoom_216.pll =  _pll[Ch_16.id]  = ( 512 * (freq + 479.5) ) / 64 ;
-   xRoom_216.vCh = Ch_16.id;
-   xRoom_216.rCh=16;
-
-
-   // VTR    
-   xRoom_227.frequency = freq =Ch_6.frequency;
-   xRoom_227.pll =  _pll[Ch_6.id]  = ( 512 * (freq + 479.5) ) / 64 ;
-   xRoom_227.vCh = Ch_6.id;
-   xRoom_227.rCh=17;   
-
-   // VTR    
-   xRoom_228.frequency = freq =Ch_7.frequency;
-   xRoom_228.pll =  _pll[Ch_7.id]  = ( 512 * (freq + 479.5) ) / 64 ;
-   xRoom_228.vCh = Ch_7.id;
-   xRoom_228.rCh=18;   
-
-   // VTR   
-   xRoom_229.frequency = freq =Ch_8.frequency;
-   xRoom_229.pll =  _pll[Ch_8.id]  = ( 512 * (freq + 479.5) ) / 64 ;
-   xRoom_229.vCh = Ch_8.id;
-   xRoom_229.rCh=19;  // BY ERROR T BE CHANGED TO 21
-
-   // VTR    
-   xRoom_230.frequency = freq =Ch_9.frequency;
-   xRoom_230.pll =  _pll[Ch_9.id]  = ( 512 * (freq + 479.5) ) / 64 ;
-   xRoom_230.vCh = Ch_9.id;
-   xRoom_230.rCh=21;  // 20IS ON 210
-      
-      
-   // VTR    
-   xRoom_231.frequency = freq =Ch_10.frequency;
-   xRoom_231.pll =  _pll[Ch_10.id]  = ( 512 * (freq + 479.5) ) / 64 ;
-   xRoom_231.vCh = Ch_10.id;
-   xRoom_231.rCh=10;   
-
-   // VTR  
-   xRoom_232.frequency = freq =Ch_11.frequency;
-   xRoom_232.pll =  _pll[Ch_11.id] = ( 512 * (freq + 479.5) ) / 64 ;
-   xRoom_232.vCh = Ch_11.id;
-   xRoom_232.rCh=22;
-
-   // VTR 33
-   xRoom_233.frequency = freq =Ch_12.frequency;
-   xRoom_233.pll =  _pll[Ch_12.id]  = ( 512 * (freq + 479.5) ) / 64 ;
-   xRoom_233.vCh = Ch_12.id;
-   xRoom_233.rCh=23;
-
+       for(byte i=1;i<16;i++)
+          {
+            videoCh[i].frequency = freqTable[i];
+            freq=videoCh[i].frequency;
+            roomId[i].vCh  = roomId[i].rCh = videoCh[i].id = i;
+            _pll[i] = ( 512 * (freq + 479.5) ) / 64 ;
+          }
 }
 
 void createHandleGroup()
@@ -229,12 +39,16 @@ void setup()
 {
 //RELE WITH LOW TRIGGER, ON IF LOW AND OFF IF HIGH
      pinMode(NETGEER_PIN_0, OUTPUT);
-     digitalWrite(NETGEER_PIN_0, HIGH);// NC ACTIVATE ON POWER ON BY DOING NOTHING
-
-    
-    
      pinMode(AV_RX_DVR_PIN_2, OUTPUT);
-     digitalWrite(AV_RX_DVR_PIN_2, LOW);  // NC DISACTIVATE AV RECEIVER ON POWER ON
+
+
+#ifdef BEK   // 4 RELAYS 0 ACTIVE
+     digitalWrite(NETGEER_PIN_0, HIGH);
+     digitalWrite(AV_RX_DVR_PIN_2, LOW);   
+#else // SINGLE RELAY 1 ACTIVE
+     digitalWrite(NETGEER_PIN_0, LOW);// NC ACTIVATE ON POWER ON BY DOING NOTHING
+     digitalWrite(AV_RX_DVR_PIN_2, HIGH);  // NC DISACTIVATE AV RECEIVER ON POWER ON
+#endif
 
      Serial.begin(115200);
      
@@ -347,7 +161,11 @@ void netgeerCtrl(void)
                  
        if ( (  (millis() - routerResetTimer) >= routerTimer) && routerResetStart)
                 {
-                digitalWrite(NETGEER_PIN_0, HIGH);
+#ifdef BEK   // 4 RELAYS 0 ACTIVE
+              digitalWrite(NETGEER_PIN_0, HIGH);  
+#else // SINGLE RELAY 1 ACTIVE
+              digitalWrite(NETGEER_PIN_0, LOW);
+#endif               
                 routerResetStart=false;
                 routerResetTimer        = millis();
                 restartAfterResetNG     = millis();
@@ -376,7 +194,12 @@ void netgeerCtrl(void)
 
 void ResetNetgeer(void)
           {
-              digitalWrite(NETGEER_PIN_0, LOW);
+
+#ifdef BEK   // 4 RELAYS 0 ACTIVE
+              digitalWrite(NETGEER_PIN_0, LOW);  
+#else // SINGLE RELAY 1 ACTIVE
+              digitalWrite(NETGEER_PIN_0, HIGH);
+#endif
               if(!routerResetStart){routerResetTimer        = millis();routerResetStart = true;DEBUG_PRINTLN("Netgeer Reset done: ");}
           }
 
@@ -404,13 +227,13 @@ void processBlynkQueu(void)
               if (recevierFreq >= 920 && recevierFreq <= 1500) receiverAvByFreq (recevierFreq);
             break;
             
-            case Q_EVENT_T433_CH_NR_V1:
+            case Q_EVENT_RC_CH_NR_V1:
               remoteControlRcCh=queuData;
               DEBUG_PRINT("FB_T433_CH_NR: ");DEBUG_PRINTLN(queuData);
               if (remoteControlRcCh >= 1 && remoteControlRcCh <= 15) {remoteControl(remoteControlRcCh );}
             break;      
                   
-            case Q_EVENT_AV_7SEG_V2:
+            case Q_EVENT_VIDEO_CH_V2:
                 recevierCh=queuData;
                 DEBUG_PRINT("FB_AV_7SEG: ");DEBUG_PRINTLN(queuData);
                 if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
@@ -418,13 +241,13 @@ void processBlynkQueu(void)
                 receiverAvByCh (recevierCh);
             break;
 
-           case Q_EVENT_OTA_V7:
+           case Q_EVENT_OTA_GSM_V7:
               otaCmd=queuData;
               DEBUG_PRINT("FB_OTA: ");DEBUG_PRINTLN(queuData);
               otaGsm ();
             break;
  
-            case Q_EVENT_RESET_V8:
+            case Q_EVENT_REBOOT_V8:
               rebootCmd=queuData;
               DEBUG_PRINT("FB_RESET: ");DEBUG_PRINTLN(queuData);
               rebootSw();
@@ -447,244 +270,48 @@ void processBlynkQueu(void)
             break;
 
             case Q_EVENT_ROOM_VTR_21_TO_25_V3:
-                  
-                  switch (queuData)
-                    {
-                      case 1: // ROOM 21
-                            remoteControlRcCh = xRoom_201.rCh;
-                            recevierCh        =xRoom_201.vCh;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;
-                      
-                      case 2: // ROOM 22
-                            remoteControlRcCh = xRoom_202.rCh;
-                            recevierCh        =xRoom_202.vCh;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;
-                      
-                      case 3:// ROOM 23
-                            remoteControlRcCh = xRoom_203.rCh;
-                            recevierCh        =xRoom_203.vCh;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;      
-                      
-                      case 4:// ROOM 24
-                            remoteControlRcCh = xRoom_204.rCh;
-                            recevierCh        =xRoom_204.vCh;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;               
-                      
-                      case 5:// ROOM 25
-                            remoteControlRcCh = xRoom_205.rCh;
-                            recevierCh        =xRoom_205.vCh;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;   
-                    }
-                    
-            break;
+                  remoteControlRcCh = queuData;
+                  recevierCh        = queuData;
+                  room (remoteControlRcCh, recevierCh , Av_Rx );
+           break;
             
             case Q_EVENT_ROOM_VTR_26_TO_38_V16:
-                   switch (queuData)
-                    {
-                      case 1:// ROOM 26
-                            remoteControlRcCh = xRoom_206.rCh;
-                            recevierCh        =xRoom_206.vCh;
-                            room (remoteControlRcCh, recevierCh , Av_Rx ); 
-                      break;
-                      
-                      case 2:// ROOM 35
-                            remoteControlRcCh = xRoom_207.rCh;
-                            recevierCh        =xRoom_207.vCh;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;
-                      
-                      case 3:// ROOM 36
-                            remoteControlRcCh = xRoom_208.rCh;
-                            recevierCh        =xRoom_208.vCh;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;      
-                      
-                      case 4:// ROOM 37
-                            remoteControlRcCh = xRoom_209.rCh;
-                            recevierCh        =xRoom_209.vCh;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;               
-                      
-                      case 5:// ROOM 38
-                            remoteControlRcCh = xRoom_210.rCh;
-                            recevierCh        =xRoom_210.vCh;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;   
-                    }
-
+                  remoteControlRcCh = queuData+5;
+                  recevierCh        = queuData+5;
+                  room (remoteControlRcCh, recevierCh , Av_Rx );            
             break;
             
             case Q_EVENT_ROOM_VTR_39_TO_40_V17:
-                   switch (queuData)
-                    {
-                      case 1:// ROOM 39
-                            remoteControlRcCh = xRoom_211.rCh;
-                            recevierCh        =xRoom_211.vCh;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;
-                      
-                      case 2:// ROOM 40
-                            remoteControlRcCh = xRoom_212.rCh;
-                            recevierCh        =xRoom_212.vCh;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;
-                      
-                      case 3:// ROOM 213
-                            remoteControlRcCh = xRoom_213.rCh;
-                            recevierCh        =xRoom_213.vCh;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;      
-                      
-                      case 4:// ROOM 214
-                            remoteControlRcCh = xRoom_214.rCh;
-                            recevierCh        =xRoom_214.vCh;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;               
-                      
-                      case 5:// ROOM 215
-                            remoteControlRcCh = xRoom_215.rCh;
-                            recevierCh        =xRoom_215.vCh;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;   
-                    }
-
+                  remoteControlRcCh = queuData+10;
+                  recevierCh        = queuData+10;
+                  room (remoteControlRcCh, recevierCh , Av_Rx );             
             break;
             
             case Q_EVENT_ROOM_216_227_228_229_230_V18:
-                   switch (queuData)
-                    {
-                      case 1:// ROOM 216
-                            remoteControlRcCh = xRoom_216.rCh;
-                            recevierCh        =xRoom_216.vCh;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;
-                      
-                      case 2:// ROOM 227  
-                            remoteControlRcCh = xRoom_227.rCh;
-                            recevierCh        =xRoom_227.vCh;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;
-                      
-                      case 3:// ROOM 228
-                            remoteControlRcCh = xRoom_228.rCh;
-                            recevierCh        =xRoom_228.vCh;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;        
-                      
-                      case 4:// ROOM 229
-                            remoteControlRcCh = xRoom_229.rCh;
-                            recevierCh        =xRoom_229.vCh;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;               
-                      
-                      case 5:// ROOM 230
-                            remoteControlRcCh = xRoom_230.rCh;
-                            recevierCh        =xRoom_230.vCh;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;   
-                    }
-
+                  remoteControlRcCh = queuData+15;
+                  recevierCh        = queuData+15;
+                  room (remoteControlRcCh, recevierCh , Av_Rx );                
             break;                                    
 
             case Q_EVENT_ROOM_AV_RC_V19:
              Av_Rx=queuData;
              myBlynk.sendAvRxIndex(Av_Rx);
             break;
+            
             case Q_EVENT_ROUTER_RESET_TIMER_V23:
                   routerTimer = queuData;
             break;
 
  
             case Q_EVENT_ROOM_231_232_233_V25:
-                   switch (queuData)
-                    {
-                      case 1:// ROOM 231
-                            remoteControlRcCh = xRoom_231.rCh;
-                            recevierCh        =xRoom_231.vCh;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;
-                      
-                      case 2:// ROOM 232  
-                            remoteControlRcCh = xRoom_232.rCh;
-                            recevierCh        =xRoom_232.vCh;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;
-                      
-                      case 3:// ROOM 233
-                            remoteControlRcCh = xRoom_233.rCh;
-                            recevierCh        =xRoom_233.vCh;
-                            room (remoteControlRcCh, recevierCh , Av_Rx );
-                      break;        
-                      
-                      case 4:
-                      break;               
-                      
-                      case 5:
-                      break;   
-                    }
-
+                  remoteControlRcCh = queuData+20;
+                  recevierCh        = queuData+20;
+                  room (remoteControlRcCh, recevierCh , Av_Rx );               
             break;     
             
-            case Q_EVENT_209_SEL_V30 :
-              xRoom_209.selected=queuData;
-            break;
-            case Q_EVENT_216_SEL_V31 :
-              xRoom_216.selected=queuData;
-            break;
-
-            case Q_EVENT_202_SEL_V32 :
-              xRoom_202.selected=queuData;
-            break;
-
-             case Q_EVENT_210_SEL_V33 :
-              xRoom_210.selected=queuData;
-            break;
-            case Q_EVENT_204_SEL_V34 :
-              xRoom_204.selected=queuData;
-            break;
-
-            case Q_EVENT_219_SEL_V35 :
-              xRoom_233.selected=queuData;
-            break;
-
-            case Q_EVENT_207_SEL_V36 :
-              xRoom_207.selected=queuData;
-            break;
-
-            case Q_EVENT_214_SEL_V37 :
-              xRoom_214.selected=queuData;
-            break;
-
-            case Q_EVENT_208_SEL_V38 :
-              xRoom_208.selected=queuData;
-            break;
-
-            case Q_EVENT_215_SEL_V39 :
-              xRoom_215.selected=queuData;
-            break;
-            
-            case Q_EVENT_217_SEL_V40 :
-              xRoom_231.selected=queuData;
-            break;
-                                               
+                                   
             case Q_EVENT_ZAP_V71:
               zapOnOff=queuData;
-              if(zapOnOff)
-              {
-                Ch_1.muxTimer = millis();
-                Ch_2.muxTimer = millis();
-                Ch_3.muxTimer = millis();
-                Ch_4.muxTimer = millis();
-                Ch_5.muxTimer = millis();
-                Ch_6.muxTimer = millis();
-                Ch_7.muxTimer = millis();
-                Ch_8.muxTimer = millis();
-              }
               DEBUG_PRINT("ZAP IS : ");
               DEBUG_PRINTLN(zapOnOff ? F("On") : F("Off"));
               myBlynk.zapLed(zapOnOff);
@@ -695,47 +322,47 @@ void processBlynkQueu(void)
             break;
 
             case Q_EVENT_ZAP_CHANNEL1_V81 :
-              Ch_1.zap=queuData;
+              videoCh[1].zap=queuData;
               
             break;
 
              case Q_EVENT_ZAP_CHANNEL2_V82 :
-              Ch_2.zap=queuData;
+              videoCh[2].zap=queuData;
               
             break;
 
              case Q_EVENT_ZAP_CHANNEL3_V83 :
-              Ch_3.zap=queuData;
+              videoCh[3].zap=queuData;
 
             break;
 
              case Q_EVENT_ZAP_CHANNEL4_V84 :
-              Ch_4.zap=queuData;
+              videoCh[4].zap=queuData;
 
             break;
 
              case Q_EVENT_ZAP_CHANNEL5_V85 :
-              Ch_5.zap=queuData;
+              videoCh[5].zap=queuData;
 
             break;
 
              case Q_EVENT_ZAP_CHANNEL6_V86 :
-              Ch_6.zap=queuData;
+              videoCh[6].zap=queuData;
 
             break;
 
              case Q_EVENT_ZAP_CHANNEL7_V87 :
-              Ch_7.zap=queuData;
+              videoCh[7].zap=queuData;
               
             break;
 
              case Q_EVENT_ZAP_CHANNEL8_V88 :
-              Ch_8.zap=queuData;
+              videoCh[8].zap=queuData;
               
             break;
             
             case Q_EVENT_ZAP_CHANNEL9_V89 :
-              Ch_9.zap=queuData;
+              videoCh[9].zap=queuData;
             break; 
 
                       
@@ -766,19 +393,19 @@ void processBlynkQueu(void)
 
 
             case Q_EVENT_ZAP_CHANNEL10_V94 :
-              Ch_10.zap=queuData;
+              videoCh[10].zap=queuData;
             break; 
  
             case Q_EVENT_ZAP_CHANNEL11_V95 :
-              Ch_11.zap=queuData;
+              videoCh[11].zap=queuData;
             break; 
 
             case Q_EVENT_ZAP_CHANNEL12_V96 :
-              Ch_12.zap=queuData;
+              videoCh[12].zap=queuData;
             break; 
  
-            case Q_EVENT_ZAP_CHANNEL14_V97 :
-              Ch_14.zap=queuData;
+            case Q_EVENT_ZAP_CHANNEL13_V97 :
+              videoCh[13].zap=queuData;
             break; 
             
             case Q_EVENT_RC_PULSE_V98:
@@ -797,14 +424,11 @@ void processBlynkQueu(void)
              mySwitch.setRepeatTransmit(repetionRC);
             break;
 
-
-            
+           
             case Q_EVENT_SLEEP_TIMER_V102:
              deepSleepTimerHours=queuData;
              goToDeepSleep(deepSleepTimerHours);
             break;
-
-             
                           
             case Q_EVENT_WIFI_WEB_V104:
                wifiWebUpdater = false;
@@ -812,27 +436,26 @@ void processBlynkQueu(void)
                webUpdateOta ();
              break;
 
-             case Q_EVENT_WIFI_OTA_V105:
+             case Q_EVENT_OTA_GITHUB_V105:
                otaWifiGithub = false;         
                wifiIDETimer = millis();
                otaWifi();
              break;
 
-            case Q_EVENT_ZAP_CHANNEL15_V106 :
-              Ch_15.zap=queuData;
+            case Q_EVENT_ZAP_CHANNEL14_V106 :
+              videoCh[14].zap=queuData;
             break; 
  
-            case Q_EVENT_ZAP_CHANNEL16_V107 :
-              Ch_16.zap=queuData;
+            case Q_EVENT_ZAP_CHANNEL15_V107 :
+              videoCh[15].zap=queuData;
             break; 
-             
     }  
 }
 
 
 void processSms(void)
 {
-      boolean isValidNumber =false;
+    boolean isValidNumber =false;
       int smsID=0;
       
       smsReceived =  sms.smsString;
@@ -845,76 +468,56 @@ void processSms(void)
         if(isValidNumber)
         {
           smsValue = stringToInteger(smsReceived);
-          if (smsValue >= 1 && smsValue <= 30)     smsID =FB_T433_CH_NR_ID;
-          if (smsValue >= 41 && smsValue <= 48)    smsID =FB_AV_7SEG_ID;
-          if (smsValue >= 900 && smsValue <= 1360) smsID =FB_FREQ_ID;
+          if (smsValue >= 1 && smsValue <= 30)     smsID =Q_EVENT_RC_CH_NR_V1;
+          if (smsValue >= 41 && smsValue <= 48)    smsID =Q_EVENT_VIDEO_CH_V2;
+          if (smsValue >= 900 && smsValue <= 1360) smsID =Q_EVENT_FREQ_V0;
         }
         else
         {
-          if      (smsReceived =="Reset")smsID = FB_RESET_ID;
-          else if (smsReceived =="Ota") smsID = FB_OTA_ID;
-          else if (smsReceived == "Netgeer" ) ResetNetgeer();
-          else if (smsReceived == "Ide" ) smsID = FB_WIFI_IDE_ID ;
-          else if (smsReceived == "Web" ) smsID = FB_WIFI_WEB_ID ;
-          else if (smsReceived == "Otaweb" ) smsID = FB_WIFI_OTA_ID ;
-          else if (smsReceived == "Dvron" )  smsID = FB_DVR_ON_ID ;
-          else if (smsReceived == "Dvroff" )  smsID = FB_DVR_OFF_ID ;
+          if      (smsReceived =="Reboot")        smsID = Q_EVENT_REBOOT_V8;
+          else if (smsReceived =="Otagsm")        smsID = Q_EVENT_OTA_GSM_V7;
+          else if (smsReceived == "Netgeer" )     smsID = Q_EVENT_NETGEER_V15;
+          else if (smsReceived == "Otagithub" )   smsID = Q_EVENT_OTA_GITHUB_V105  ;
         }
+   
+
         switch (smsID)
           {
-            case FB_DVR_ON_ID:
-               dvrOnOff (true)  ;
-             break;
-             
-             case FB_DVR_OFF_ID:
-               dvrOnOff (false)  ;
-             break;
-                                                 
-            case FB_WIFI_IDE_ID:
-               wifiIde = false;         
-               wifiIDETimer = millis();
-               wifiUploadCtrl();
-             break;
+             case Q_EVENT_FREQ_V0:
+              recevierFreq=smsValue;
+              if (recevierFreq >= 920 && recevierFreq <= 1500) receiverAvByFreq (recevierFreq);
+            break;
+            
+            case Q_EVENT_RC_CH_NR_V1:
+              remoteControlRcCh=smsValue;
+              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 15) {remoteControl(remoteControlRcCh );}
+            break;      
+                  
+            case Q_EVENT_VIDEO_CH_V2:
+                recevierCh=smsValue;
+                if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
+                else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
+                receiverAvByCh (recevierCh);
+            break;
 
-            case FB_WIFI_OTA_ID:
+           case Q_EVENT_OTA_GSM_V7:
+              otaGsm ();
+            break;
+ 
+            case Q_EVENT_REBOOT_V8:
+              rebootSw();
+            break;
+             
+           case Q_EVENT_NETGEER_V15  :
+              ResetNetgeer();
+            break;
+   
+             case Q_EVENT_OTA_GITHUB_V105:
                otaWifiGithub = false;         
                wifiIDETimer = millis();
                otaWifi();
              break;
-                        
-            case FB_WIFI_WEB_ID:
-               wifiWebUpdater = false;
-               wifiIDETimer = millis();
-               webUpdateOta ();
-             break;
              
-            case FB_AV_7SEG_ID:
-                recevierCh=smsValue-40;
-                DEBUG_PRINT("FB_AV_7SEG: ");DEBUG_PRINTLN(recevierCh);
-                if (recevierCh > 8) recevierCh = 1;
-                else if (recevierCh < 1) recevierCh = 8;
-                receiverAvByCh (recevierCh);
-            break;
-            case FB_FREQ_ID:
-              recevierFreq=smsValue;
-              DEBUG_PRINT("FB_FREQ: ");DEBUG_PRINTLN(recevierFreq);
-              if (recevierFreq >= 920 && recevierFreq <= 1500) receiverAvByFreq (recevierFreq);
-            break;
-            case FB_T433_CH_NR_ID:
-              remoteControlRcCh=smsValue;
-              DEBUG_PRINT("FB_T433_CH_NR: ");DEBUG_PRINTLN(remoteControlRcCh);
-              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 30) {remoteControl(remoteControlRcCh );}
-            break;
-            case FB_RESET_ID:
-              DEBUG_PRINT("FB_RESET: ");DEBUG_PRINTLN(smsReceived);
-              rebootSw();
-            break;
-            case FB_OTA_ID:
-              otaCmd=myBlynk.blynkData;
-              DEBUG_PRINT("FB_OTA: ");DEBUG_PRINTLN(smsReceived);
-              otaGsm ();
-            break;
-
     }  
 }
 
@@ -924,221 +527,223 @@ void zappingAvCh (bool zapCmd, int zapTimer)
           {
             case 0:
             case 1:
-                if (Ch_1.zap ) 
+                if (videoCh[1].zap ) 
                   {
                     if (stateMachine == 0) {zaptime= millis();stateMachine =1;}
                     if (millis() - zaptime > zapTimer) 
                       {
-                        recevierCh=Ch_1.id;
+                        recevierCh=videoCh[1].id;
                         receiverAvByCh (recevierCh);
-                        Ch_1.mux= xRoom_209.selected & xRoom_216.selected;
-                   //     if(Ch_1.mux) 
-                           if(xRoom_209.selected || xRoom_216.selected)
-                            {
-                              if (millis() - Ch_1.muxTimer > MUX_ROOM_ZAP) 
-                                  {
-                                    if(xRoom_209.selected && !xRoom_216.selected)remoteControl(xRoom_209.rCh);
-                                    if(xRoom_216.selected && !xRoom_209.selected)remoteControl(xRoom_216.rCh);
-                                    Ch_1.muxTimer = millis();}
-                            }
-                        stateMachine =2;}
+                        stateMachine =2;
+                      }
                   }
                 else stateMachine =2;
             break;
 
             case 2:
             case 3:
-                if (Ch_2.zap ) 
+                if (videoCh[2].zap ) 
                   {
                     if (stateMachine == 2) {zaptime= millis();stateMachine =3;}
                     if (millis() - zaptime > zapTimer) 
-                    {
-                        recevierCh=Ch_2.id;
+                      {
+                        recevierCh=videoCh[2].id;
                         receiverAvByCh (recevierCh);
-                        Ch_2.mux= xRoom_202.selected & xRoom_210.selected;
-                   //     if(Ch_2.mux) 
-                           if(xRoom_202.selected || xRoom_210.selected)
-                            {
-                              if (millis() - Ch_2.muxTimer > MUX_ROOM_ZAP) 
-                                  {
-                                    if(xRoom_202.selected && !xRoom_210.selected)remoteControl(xRoom_202.rCh);
-                                    if(xRoom_210.selected && !xRoom_202.selected)remoteControl(xRoom_210.rCh);
-                                    Ch_2.muxTimer = millis();}
-                            }
-                        stateMachine =4;}
+                        stateMachine =4;
+                     }
                   }
                 else stateMachine =4;
             break;
             
             case 4:
             case 5:
-                if (Ch_3.zap ) 
+                if (videoCh[3].zap ) 
                   {
                     if (stateMachine == 4) {zaptime= millis();stateMachine =5;}
                     if (millis() - zaptime > zapTimer) 
-                    {
-                        recevierCh=Ch_3.id;receiverAvByCh (recevierCh);
-                        stateMachine =6;}
+                      {
+                        recevierCh=videoCh[3].id;
+                        receiverAvByCh (recevierCh);
+                        stateMachine =6;
+                      }
                   }
                 else stateMachine =6;
             break;
 
             case 6:
             case 7:
-                if (Ch_4.zap ) 
+                if (videoCh[4].zap ) 
                   {
                     if (stateMachine == 6) {zaptime= millis();stateMachine =7;}
                     if (millis() - zaptime > zapTimer) 
-                    {
-                        recevierCh=Ch_4.id;
-                        receiverAvByCh (recevierCh);
-                        Ch_4.mux= xRoom_204.selected & xRoom_233.selected;
-                   //     if(Ch_4.mux) 
-                           if(xRoom_204.selected || xRoom_233.selected)
-                            {
-                              if (millis() - Ch_4.muxTimer > MUX_ROOM_ZAP) 
-                                  {
-                                    if(xRoom_204.selected && !xRoom_233.selected)remoteControl(xRoom_204.rCh);
-                                    if(xRoom_233.selected && !xRoom_204.selected)remoteControl(xRoom_233.rCh);
-                                    Ch_4.muxTimer = millis();}
-                            }
-                        stateMachine =8;}
-                  }
+                         {
+                          recevierCh=videoCh[4].id;
+                          receiverAvByCh (recevierCh);
+                          stateMachine =8;
+                         }
+                   }
                 else stateMachine =8;
             break;
                        
             case 8:
             case 9:
-                if (Ch_5.zap ) 
+                if (videoCh[5].zap ) 
                   {
                     if (stateMachine == 8) {zaptime= millis();stateMachine =9;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=Ch_5.id;receiverAvByCh (recevierCh);stateMachine =10;}
+                    if (millis() - zaptime > zapTimer) 
+                    {
+                      recevierCh=videoCh[5].id;
+                      receiverAvByCh (recevierCh);
+                      stateMachine =10;
+                     }
                   }
                 else stateMachine =10;
             break;
                        
             case 10:
             case 11:
-                if (Ch_6.zap ) 
+                if (videoCh[6].zap ) 
                   {
                     if (stateMachine == 10) {zaptime= millis();stateMachine =11;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=Ch_6.id;receiverAvByCh (recevierCh);stateMachine =12;}
+                    if (millis() - zaptime > zapTimer) 
+                     {
+                      recevierCh=videoCh[6].id;
+                      receiverAvByCh (recevierCh);
+                      stateMachine =12;
+                     }
                   }
                 else stateMachine =12;
             break;
                        
             case 12:
             case 13:
-                if (Ch_7.zap ) 
+                if (videoCh[7].zap ) 
                   {
                     if (stateMachine == 12) {zaptime= millis();stateMachine =13;}
                     if (millis() - zaptime > zapTimer) 
-                    {
-                        recevierCh=Ch_7.id;
+                      {
+                        recevierCh=videoCh[7].id;
                         receiverAvByCh (recevierCh);
-                        Ch_7.mux= xRoom_207.selected & xRoom_214.selected;
-                   //     if(Ch_7.mux) 
-                           if(xRoom_207.selected || xRoom_214.selected)
-                            {
-                              if (millis() - Ch_7.muxTimer > MUX_ROOM_ZAP) 
-                                  {
-                                    if(xRoom_207.selected && !xRoom_214.selected)remoteControl(xRoom_207.rCh);
-                                    if(xRoom_214.selected && !xRoom_207.selected)remoteControl(xRoom_214.rCh);
-                                    Ch_7.muxTimer = millis();}
-                            }
-                        stateMachine =14;}
+                        stateMachine =14;
+                       }
                   }
                 else stateMachine =14;
             break;
                        
             case 14:
             case 15:
-                if (Ch_8.zap) 
+                if (videoCh[8].zap) 
                   {
                     if (stateMachine == 14) {zaptime= millis();stateMachine =15;}
                     if (millis() - zaptime > zapTimer) 
                       {
-                        recevierCh=Ch_8.id;
+                        recevierCh=videoCh[8].id;
                         receiverAvByCh (recevierCh);
-                        Ch_8.mux= xRoom_208.selected & xRoom_215.selected;
-                   //     if(Ch_8.mux) 
-                           if(xRoom_208.selected || xRoom_215.selected)
-                            {
-                              if (millis() - Ch_8.muxTimer > MUX_ROOM_ZAP) 
-                                  {
-                                    if(xRoom_208.selected && !xRoom_215.selected)remoteControl(xRoom_208.rCh);
-                                    if(xRoom_215.selected && !xRoom_208.selected)remoteControl(xRoom_215.rCh);
-                                    Ch_8.muxTimer = millis();}
-                            }
-                      stateMachine =16;}
+                        stateMachine =16;
+                      }
                   }
                 else stateMachine =16;
             break;
 
             case 16:
             case 17:
-                if (Ch_9.zap) 
+                if (videoCh[9].zap) 
                   {
                     if (stateMachine == 16) {zaptime= millis();stateMachine =17;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=Ch_9.id;receiverAvByCh (recevierCh);stateMachine =18;}
+                    if (millis() - zaptime > zapTimer) 
+                    {
+                      recevierCh=videoCh[9].id;
+                      receiverAvByCh (recevierCh);
+                      stateMachine =18;
+                    }
                   }
                 else stateMachine =18;
             break;
             case 18:
             case 19:
-                if (Ch_10.zap) 
+                if (videoCh[10].zap) 
                   {
                     if (stateMachine == 18) {zaptime= millis();stateMachine =19;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=Ch_10.id;receiverAvByCh (recevierCh);stateMachine =20;}
+                    if (millis() - zaptime > zapTimer) 
+                    {
+                      recevierCh=videoCh[10].id;
+                      receiverAvByCh (recevierCh);
+                      stateMachine =20;
+                    }
                   }
                 else stateMachine =20;
             break; 
              
             case 20:
             case 21:
-                if (Ch_11.zap) 
+                if (videoCh[11].zap) 
                   {
                     if (stateMachine == 20) {zaptime= millis();stateMachine =21;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=Ch_11.id;receiverAvByCh (recevierCh);stateMachine =22;}
+                    if (millis() - zaptime > zapTimer) 
+                    {
+                      recevierCh=videoCh[11].id;
+                      receiverAvByCh (recevierCh);
+                      stateMachine =22;
+                    }
                   }
                 else stateMachine =22;
             break;     
 
             case 22:
             case 23:
-                if (Ch_12.zap) 
+                if (videoCh[12].zap) 
                   {
                     if (stateMachine == 22) {zaptime= millis();stateMachine =23;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=Ch_12.id;receiverAvByCh (recevierCh);stateMachine =24;}
+                    if (millis() - zaptime > zapTimer) 
+                    {
+                      recevierCh=videoCh[12].id;
+                      receiverAvByCh (recevierCh);
+                      stateMachine =24;
+                    }
                   }
                 else stateMachine =24;
             break;  
             case 24:
             case 25:
-                if (Ch_14.zap) 
+                if (videoCh[13].zap) 
                   {
                     if (stateMachine == 24) {zaptime= millis();stateMachine =25;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=Ch_14.id;receiverAvByCh (recevierCh);stateMachine =26;}
+                    if (millis() - zaptime > zapTimer) 
+                    {
+                      recevierCh=videoCh[13].id;
+                      receiverAvByCh (recevierCh);
+                      stateMachine =26;
+                    }
                   }
                 else stateMachine =26;
             break;  
 
             case 26:
             case 27:
-                if (Ch_15.zap) 
+                if (videoCh[14].zap) 
                   {
                     if (stateMachine == 26) {zaptime= millis();stateMachine =27;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=Ch_15.id;receiverAvByCh (recevierCh);stateMachine =28;}
+                    if (millis() - zaptime > zapTimer) 
+                    {
+                      recevierCh=videoCh[14].id;
+                      receiverAvByCh (recevierCh);
+                      stateMachine =28;
+                    }
                   }
                 else stateMachine =28;
             break;  
             
             case 28:
             case 29:
-                if (Ch_16.zap) 
+                if (videoCh[15].zap) 
                   {
                     if (stateMachine == 28) {zaptime= millis();stateMachine =29;}
-                    if (millis() - zaptime > zapTimer) {recevierCh=Ch_16.id;receiverAvByCh (recevierCh);stateMachine =0;}
+                    if (millis() - zaptime > zapTimer) 
+                    {
+                      recevierCh=videoCh[15].id;
+                      receiverAvByCh (recevierCh);
+                      stateMachine =0;
+                     }
                   }
                 else stateMachine =0;
             break;                         
@@ -1177,83 +782,13 @@ void receiverAvByCh (int Ch)
   bool ack;
   int PLL_value;
        if (blynkConnected) myBlynk.blynkAckLed(true);
-       
-      // ack = avReceiver.Tuner_PLL(av_pll_addr, PLL[Ch]); 
-      
        ack = avReceiver.Tuner_PLL(av_pll_addr, _pll[Ch]); 
        delay(500);
        
        if (blynkConnected) {myBlynk.blynkAckLed(ack); myBlynk.sevenSegValue(Ch );}
-      
-        switch (Ch)
-          {
-            case 1:
-               recevierFreq =Ch_1.frequency;
-            break;
 
-            case 2:
-                recevierFreq =Ch_2.frequency;
-            break;
-
-            
-            case 3:
-               recevierFreq =Ch_3.frequency;
-            break;
-
-
-            case 4:
-               recevierFreq =Ch_4.frequency;
-            break;
-
-                       
-            case 5:
-              recevierFreq =Ch_5.frequency;
-            break;
-
-                       
-            case 6:
-              recevierFreq =Ch_6.frequency;
-            break;
-
-                       
-            case 7:
-              recevierFreq =Ch_7.frequency;
-            break;
-
-                       
-            case 8:
-              recevierFreq =Ch_8.frequency;
-            break;
-            
-            case 9:
-              recevierFreq =Ch_9.frequency;
-            break;
-            
-            case 10:
-              recevierFreq =Ch_10.frequency;
-            break;
-            
-            case 11:
-              recevierFreq =Ch_11.frequency;
-            break;     
-                   
-            case 12:
-              recevierFreq =Ch_12.frequency;
-            break;     
-
-            case 13:
-              recevierFreq =Ch_13.frequency;
-            break;     
-                        
-            case 14:
-              recevierFreq =Ch_14.frequency;
-            break;     
-            
-            case 15:
-              recevierFreq =Ch_15.frequency;
-            break;     
-                  
-          }
+       recevierFreq =videoCh[Ch].frequency;   
+       
        if (blynkConnected) myBlynk.frequencyValue(recevierFreq );
        DEBUG_PRINT("Received freq channel:");DEBUG_PRINTLN(Ch);
        DEBUG_PRINT("ack: ");DEBUG_PRINTLN(ack ? F("NotACK") : F("ACK"));

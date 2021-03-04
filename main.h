@@ -35,7 +35,7 @@ struct Roomdata
   bool selected = false;
 };
 
-struct Roomdata xRoom_201,xRoom_202,xRoom_203,xRoom_204,xRoom_205,xRoom_206,xRoom_207,xRoom_208,xRoom_209,xRoom_210,xRoom_211,xRoom_212,xRoom_213,xRoom_214,xRoom_215,xRoom_216,xRoom_227,xRoom_228,xRoom_229,xRoom_230,xRoom_231,xRoom_232,xRoom_233;
+struct Roomdata roomId[20];
 
 struct Channels
 {
@@ -46,8 +46,11 @@ struct Channels
   long  muxTimer;
 };
 
-struct Channels Ch_1,Ch_2,Ch_3,Ch_4,Ch_5,Ch_6,Ch_7,Ch_8,Ch_9,Ch_10,Ch_11,Ch_12,Ch_13,Ch_14,Ch_15,Ch_16;
+struct Channels videoCh[15];
+
 uint _pll[20];
+const uint freqTable[16] = {0,1080,1120, 1160, 1200, 1240, 1280, 1320, 1360, 1060, 1100, 1140, 1180, 1220, 1260, 1300 };
+const unsigned long CH_433[32] ={0,4674819,4674828,4674864,4675020,4675023,4674876,4674879,4675056,4675011,4674831,4675068,4675059,4675071,4675008,4674867,7722243,7722252,7722288,7722444,7722447,7722300,7722303,7722480,7722435,7722255,7722492,7722483,7722495,7722432,7722291,0};
 
 int blynkStatus = 1;
 bool googleConnected=false;
@@ -186,21 +189,7 @@ int oldSegmentsValue=1;
 int oldAVCmd =0;
 int avOutput = 0;
 int old_avOutput=0;
-const uint PLL[17] =
-{0,0x30C0,0x3200,0x3340,0x3480,0x35C0,0x3700,0x3840,0x3980,0x2E3C,0x2F7C,0x301C,0x3480,0x35C0,0x3700,0x3840,0x3980 };
-/*
- * 1080
- * 1120
- * 1160
- * 1200
- * 1240
- * 1280
- * 1320
- * 1360
- * 1000  11836 2E3C
- * 1040  12156 2F7C
- * 1060  12316 301C
- */
+
                   /************PCF8574 I2C ***********/
 int av_pll_addr =0x61;  //0110 0 001 becomes 0xC2
 int pcf8574CmdAddr = 0x20;          // PCF8574 device 1    Commands
@@ -213,10 +202,6 @@ int T433_Ch_Status[32];
 int T315_Ch_Status[16];
 int T433_St;
 int T315_St;
-//433 Mhz Codes from 1 to 15
-const unsigned long CH_433[32] ={0,4674819,4674828,4674864,4675020,4675023,4674876,4674879,4675056,4675011,4674831,4675068,4675059,4675071,4675008,4674867,7722243,7722252,7722288,7722444,7722447,7722300,7722303,7722480,7722435,7722255,7722492,7722483,7722495,7722432,7722291,0};
-//315 Mhz Codes from 1 to 15
-const unsigned long CH_315[16] ={0,7722243,7722252,7722288,7722444,7722447,7722300,7722303,7722480,7722435,7722255,7722492,7722483,7722495,7722432,7722291};
 RCSwitch mySwitch = RCSwitch();
 
 
