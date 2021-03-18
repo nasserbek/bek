@@ -152,8 +152,6 @@ void blynk::init()
 
     wifiMulti.addAP("GIGACUBE_BEK", WIFI_PASSWORD);
     wifiMulti.addAP("NETGEER_BEK", WIFI_PASSWORD);
-    wifiMulti.addAP("Freebox_bek" , WIFI_PASSWORD);
-    wifiMulti.addAP("SFR_A870", WIFI_PASSWORD);
     wifiMulti.addAP("OPPO Reno2 Bek" , WIFI_PASSWORD);
 
  // if(WiFi.status() == 6){
