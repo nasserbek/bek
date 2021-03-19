@@ -231,8 +231,8 @@ void processFirebase(void)
             case Q_EVENT_VIDEO_CH_V2:
                 recevierCh=queuData;
                 DEBUG_PRINT("FB_VIDEO_CH_PATH: ");DEBUG_PRINTLN(queuData);
-                if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
-                else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
+           //     if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
+            //    else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
                 receiverAvByCh (recevierCh);
             break;
             
