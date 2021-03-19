@@ -1,5 +1,5 @@
 #define BEK
-#define VERSION_ID " V138 "
+#define VERSION_ID " V139 "
 #define DEBUG_SERIAL
 #define BLYNK_SERVER "blynk-cloud.com"
 
@@ -120,7 +120,7 @@
 #define    FB_NOTIFIER          "/FB_SMS"
 
 //Status
-#define    FB_ACK_LED           "/PC/Rooms_I2C_status"
+#define    FB_ACK_LED           "PC/Rooms_I2C_status"
 
 
 //BLYNK
