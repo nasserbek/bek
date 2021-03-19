@@ -158,7 +158,19 @@ void loop(void)
             myBlynk.sendToBlynkLeds = false;
           }
 
-      if (FBConnected ) { if(fbEvent = fb.firebaseRun()) processFirebase(); }
+      if (FBConnected ) 
+          { 
+            if(fbEvent = fb.firebaseRun()) processFirebase(); 
+            
+            if(sendTime_7500ms)
+            {
+             fb.SendString (FB_DAYS, String(_days) ) ;
+             fb.SendString (FB_HOURS, String(_hours) ); 
+             fb.SendString (FB_MINUTES, String(_minutes) ); 
+             fb.SendString (FB_SECONDS, String(_seconds) ) ;
+             sendTime_7500ms = false;
+            }
+          }
       
       if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer);  
           
@@ -228,14 +240,7 @@ void processFirebase(void)
 {
         switch (fb.eventID)
           {
-            case Q_EVENT_VIDEO_CH_V2:
-                recevierCh=fb.eventValue;
-                DEBUG_PRINT("FB_VIDEO_CH_PATH: ");DEBUG_PRINTLN(queuData);
-               if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
-               else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
-                receiverAvByCh (recevierCh);
-            break;
-            
+
             case Q_EVENT_FREQ_V0:
               recevierFreq=fb.eventValue;
               DEBUG_PRINT("FB_FREQ: ");DEBUG_PRINTLN(queuData);
@@ -247,21 +252,160 @@ void processFirebase(void)
               remoteControlRcCh=fb.eventValue;
               DEBUG_PRINT("FB_T433_CH_NR: ");DEBUG_PRINTLN(queuData);
               if (remoteControlRcCh >= 1 && remoteControlRcCh <= 15) {remoteControl(remoteControlRcCh );}
+            break;      
+                  
+            case Q_EVENT_VIDEO_CH_V2:
+                recevierCh=fb.eventValue;
+                DEBUG_PRINT("FB_VIDEO_CH_PATH: ");DEBUG_PRINTLN(queuData);
+                if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
+                else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
+                receiverAvByCh (recevierCh);
+            break;
+
+            case Q_EVENT_T315_CH_NR_V14:
+              remoteControlRcCh=fb.eventValue;
+              DEBUG_PRINT("FB_T315_CH_NR: ");DEBUG_PRINTLN( (queuData) -15);
+              if (remoteControlRcCh >= 16 && remoteControlRcCh <= 30) {remoteControl(remoteControlRcCh );}
+            break;
+
+
+
+            case Q_EVENT_ROOM_VTR_21_TO_25_V3:
+                  remoteControlRcCh = fb.eventValue;
+                  recevierCh        = fb.eventValue;
+                  room (remoteControlRcCh, recevierCh , Av_Rx );
+           break;
+            
+            case Q_EVENT_ROOM_VTR_26_TO_38_V16:
+                  remoteControlRcCh = fb.eventValue+5;
+                  recevierCh        = fb.eventValue+5;
+                  room (remoteControlRcCh, recevierCh , Av_Rx );            
             break;
             
+            case Q_EVENT_ROOM_VTR_39_TO_40_V17:
+                  remoteControlRcCh = fb.eventValue+10;
+                  recevierCh        = fb.eventValue+10;
+                  room (remoteControlRcCh, recevierCh , Av_Rx );             
+            break;
+            
+            case Q_EVENT_ROOM_216_227_228_229_230_V18:
+                  remoteControlRcCh = fb.eventValue+15;
+                  recevierCh        = fb.eventValue+15;
+                  room (remoteControlRcCh, recevierCh , Av_Rx );                
+            break;                                    
+ 
+            case Q_EVENT_ROOM_231_232_233_V25:
+                  remoteControlRcCh = fb.eventValue+20;
+                  recevierCh        = fb.eventValue+20;
+                  room (remoteControlRcCh, recevierCh , Av_Rx );               
+            break;     
+          
+  
+            case Q_EVENT_ROOM_AV_RC_V19:
+                Av_Rx=fb.eventValue;
+                myBlynk.sendAvRxIndex(Av_Rx);
+            break;
+
+                                             
+            case Q_EVENT_ZAP_V71:
+              zapOnOff=fb.eventValue;
+              DEBUG_PRINT("ZAP IS : ");
+              DEBUG_PRINTLN(zapOnOff ? F("On") : F("Off"));
+              myBlynk.zapLed(zapOnOff);
+            break;
+
+            case Q_EVENT_ZAP_CHANNEL1_V81 :
+              videoCh[1].zap=fb.eventValue;
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL2_V82 :
+              videoCh[2].zap=fb.eventValue;
+              
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL3_V83 :
+              videoCh[3].zap=fb.eventValue;
+
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL4_V84 :
+              videoCh[4].zap=fb.eventValue;
+
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL5_V85 :
+              videoCh[5].zap=fb.eventValue;
+
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL6_V86 :
+              videoCh[6].zap=fb.eventValue;
+
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL7_V87 :
+              videoCh[7].zap=fb.eventValue;
+              
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL8_V88 :
+              videoCh[8].zap=fb.eventValue;
+              
+            break;
+            
+            case Q_EVENT_ZAP_CHANNEL9_V89 :
+              videoCh[9].zap=fb.eventValue;
+            break; 
+
+            case Q_EVENT_ZAP_CHANNEL10_V94 :
+              videoCh[10].zap=fb.eventValue;
+            break; 
+ 
+            case Q_EVENT_ZAP_CHANNEL11_V95 :
+              videoCh[11].zap=fb.eventValue;
+            break; 
+
+            case Q_EVENT_ZAP_CHANNEL12_V96 :
+              videoCh[12].zap=fb.eventValue;
+            break; 
+ 
+            case Q_EVENT_ZAP_CHANNEL13_V97 :
+              videoCh[13].zap=fb.eventValue;
+            break; 
+            
+            case Q_EVENT_ZAP_CHANNEL14_V106 :
+              videoCh[14].zap=fb.eventValue;
+            break; 
+ 
+            case Q_EVENT_ZAP_CHANNEL15_V107 :
+              videoCh[15].zap=fb.eventValue;
+            break; 
+ 
+   
+             case Q_EVENT_OTA_GITHUB_V105:
+               otaWifiGithub = false;         
+               wifiIDETimer = millis();
+               otaWifi();
+             break;
+             
+           case Q_EVENT_OTA_GSM_V7:
+              otaCmd=fb.eventValue;
+              DEBUG_PRINT("FB_OTA: ");DEBUG_PRINTLN(queuData);
+              otaGsm ();
+            break;
+ 
             case Q_EVENT_REBOOT_V8:
               rebootCmd=fb.eventValue;
               DEBUG_PRINT("FB_RESET: ");DEBUG_PRINTLN(queuData);
               rebootSw();
             break;
             
-             case Q_EVENT_OTA_GITHUB_V105:
-               otaWifiGithub = false;         
-               wifiIDETimer = millis();
-               otaWifi();
-             break;
-      
-    }
+            case Q_EVENT_NETGEER_V15  :
+          //   myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset from Blynk");
+              ResetNetgeer();
+            break;                                        
+    }  
+        
 }    
 
 /********************************************Blynk *******************************/

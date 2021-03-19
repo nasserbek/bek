@@ -1,5 +1,5 @@
 #define BEK
-#define VERSION_ID " V141 "
+#define VERSION_ID " V142 "
 #define DEBUG_SERIAL
 #define BLYNK_SERVER "blynk-cloud.com"
 
@@ -102,27 +102,72 @@
 
 //firebase
 /************************************FIREBASE ***********************************/
-
-// Commands
-#define    CMD_PATH         "/PC/"
-#define    IDLE_PATH         "/"
-#define    FB_VIDEO_CH_PATH     "/Rooms_Video_ch"
-#define    FB_T433_CH_NR        "/Rooms_T433_ch"
-#define    FB_OTA_GITHUB        "/Settings_Github_OTA"
-#define    FB_FREQ              "/Rooms_Frequency" 
-#define    FB_RESET             "/Settings_Restart_ESP"
-
-#define    FB_T315_CH_NR        "/RcTransmitter_channel_315"
-#define    FB_DAYS              "/Settings_Bek1_days"
-#define    FB_HOURS             "/Settings_Bek1_hours"
-#define    FB_MINUTES           "/Settings_Bek1_minutes"
-#define    FB_SECONDS           "/Settings_Bek1_seconds"
 #define    FB_NOTIFIER          "/FB_SMS"
 
-//Status
-#define    FB_ACK_LED           "PC/Rooms_I2C_status"
+// ROOMS Commands
+#define    CMD_PATH         "/PC/"
+#define    IDLE_PATH         "/"
+
+#define    FB_FREQ              "/Rooms_CMD_Frequency" 
+#define    FB_VIDEO_CH         "/Rooms_CMD_Video_ch"
+
+#define    FB_T315_CH_NR        "/Rooms_CMD_T315_ch"
+#define    FB_T433_CH_NR        "/Rooms_CMD_T433_ch"
+
+#define    FB_REMOTE_CTRL_BOTH  "/Rooms_CMD_Remote_control_Both"
+#define    FB_REMOTE_CTRL_RC    "/Rooms_CMD_Remote_control_Solo_RC"
+#define    FB_REMOTE_CTRL_VIDEO "/Rooms_CMD_Remote_control_Solo_Video"
+
+#define    FB_ROOM_NR_1_5       "/Rooms_CMD_Room_nr_Room_1_5"
+#define    FB_ROOM_NR_6_10      "/Rooms_CMD_Room_nr_Room_6_10"
+#define    FB_ROOM_NR_11_15     "/Rooms_CMD_Room_nr_Room_11_15"
+#define    FB_ROOM_NR_16_20     "/Rooms_CMD_Room_nr_Room_16_20"
+
+//ROOMS Status
+#define    FB_ACK_LED            "PC/Rooms_ST_I2C_status"
+#define    FB_T315_STATUS        "PC/Rooms_ST_T315_status"
+#define    FB_T433_STATUS        "PC/Rooms_ST_T433_status"
+#define    FB_VIDEO_CH_STATUS    "PC/Rooms_ST_Video_ch"
+#define    FB_FREQ_STATUS        "PC/Rooms_ST_Frequency"
 
 
+// SETTINGS Commands
+#define    FB_OTA_GITHUB        "/Settings_CMD_Github_OTA"
+#define    FB_OTA_GSM           "/Settings_CMD_GSM_OTA"
+#define    FB_RESET             "/Settings_CMD_Restart_ESP"
+#define    FB_RESET_NETGEER     "/Settings_CMD_Netgeer_reset"
+#define    FB_DVR_CMD           "/Settings_CMD_DVR"
+
+// SETTINGS STATUS
+#define    FB_DAYS              "PC/Settings_ST_Bek1_days"
+#define    FB_HOURS             "PC/Settings_ST_Bek1_hours"
+#define    FB_MINUTES           "PC/Settings_ST_Bek1_minutes"
+#define    FB_SECONDS           "PC/Settings_ST_Bek1_seconds"
+
+
+// ZAPCommands
+#define    FB_ZAP_CMD           "/Zapping_CMD_Zapping"
+#define    FB_ZAP_CH_1          "/Zapping_CMD_Ch1"
+#define    FB_ZAP_CH_2          "/Zapping_CMD_Ch2"
+#define    FB_ZAP_CH_3          "/Zapping_CMD_Ch3"
+#define    FB_ZAP_CH_4          "/Zapping_CMD_Ch4"
+#define    FB_ZAP_CH_5          "/Zapping_CMD_Ch5"
+#define    FB_ZAP_CH_6          "/Zapping_CMD_Ch6"
+#define    FB_ZAP_CH_7          "/Zapping_CMD_Ch7"
+#define    FB_ZAP_CH_8          "/Zapping_CMD_Ch8"
+#define    FB_ZAP_CH_9          "/Zapping_CMD_Ch9"
+#define    FB_ZAP_CH_10          "/Zapping_CMD_Ch10"
+#define    FB_ZAP_CH_11          "/Zapping_CMD_Ch11"
+#define    FB_ZAP_CH_12          "/Zapping_CMD_Ch12"
+#define    FB_ZAP_CH_13          "/Zapping_CMD_Ch13"
+#define    FB_ZAP_CH_14          "/Zapping_CMD_Ch14"
+#define    FB_ZAP_CH_15          "/Zapping_CMD_Ch15"
+
+// ZAP STATUS
+#define    FB_ZAP_STATUS         "PC/Zapping_ST_Zapping"
+
+
+    
 //BLYNK
 /*****e*******************************BLYNK***********************************/
 #define    FB_FREQ_ID           0
