@@ -1,5 +1,5 @@
 #define BEK
-#define VERSION_ID " V130 "
+#define VERSION_ID " V131 "
 #define DEBUG_SERIAL
 #define BLYNK_SERVER "blynk-cloud.com"
 
@@ -105,17 +105,12 @@
 
 #define    CMD_PATH         "/PC/"
 #define    IDLE_PATH         "/"
-#define    FB_AV_7SEG           "/AvReceiver_channel"
-#define    FB_T433_CH_NR        "/RcTransmitter_channel"
-#define    FB_OTA               "/Ota"
-#define    FB_FREQ              "/AvReceiver_freq" 
-#define    FB_RESET             "/Reboot"
-#define    FB_SMS_ON            "/Gsm"
-#define    FB_VERSION           "/Version"
-#define    FB_FB_OFF            "/Firebase"
-#define    FB_BLYNK_ON_OFF      "/Blynk"
-#define    FB_WIFI_OFF          "/Wifi"
-#define    FB_SETTINGS         "/Settings"
+#define    FB_VIDEO_CH_PATH     "/Rooms/AVideo_ch"
+#define    FB_T433_CH_NR        "/Rooms/T433_ch"
+#define    FB_OTA_GITHUB        "/Settings/Github_OTA"
+#define    FB_FREQ              "/Rooms/Frequency" 
+#define    FB_RESET             "/Settings/Restart_ESP"
+#define    FB_ACK_LED           "/Rooms/T433_stqtus"
 #define    FB_T315_CH_NR        "/RcTransmitter_channel_315"
 
 

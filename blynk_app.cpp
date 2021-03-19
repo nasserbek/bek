@@ -63,6 +63,11 @@ int hours = 0;
 int minutes = 0;
 int seconds = 0;
 int eventdata;
+extern bool sendTime_7500ms;
+extern int _days  ;
+extern int _hours;
+extern int _minutes ;
+extern int _seconds ;
 
 void printDigits(byte digits){
  // utility function for digital clock display: prints colon and leading 0
@@ -75,10 +80,10 @@ void printDigits(byte digits){
 void counterTime(){
 long timeNow = millis();
  
-days = timeNow / day ;                                //number of days
-hours = (timeNow % day) / hour;                       //the remainder from days division (in milliseconds) divided by hours, this gives the full hours
-minutes = ((timeNow % day) % hour) / minute ;         //and so on...
-seconds = (((timeNow % day) % hour) % minute) / second;
+_days =days = timeNow / day ;                                //number of days
+_hours = hours = (timeNow % day) / hour;                       //the remainder from days division (in milliseconds) divided by hours, this gives the full hours
+_minutes = minutes = ((timeNow % day) % hour) / minute ;         //and so on...
+_seconds = seconds = (((timeNow % day) % hour) % minute) / second;
 
  // digital clock display of current time
  Serial.print(days,DEC);  
@@ -102,7 +107,7 @@ void ledInit(void)
   ZAP_LED_V80.on(); //Enable colours for Zapping
 }
 
-void myfunction(){
+void sendTimeToBlynk_7500ms(){
   Serial.println("\tLook, no Blynk  block.");
   if(wifiMulti.run()== 3){
     Serial.println("\tWiFi still  connected.");
@@ -115,8 +120,7 @@ void myfunction(){
     Blynk.virtualWrite(V21, minutes);
     Blynk.virtualWrite(V11, seconds);
     Serial.println("\tTick update to blynk.");
- // if(firstConnect== false) {firstConnect= true;Blynk.syncAll();}
-    
+    sendTime_7500ms = !sendTime_7500ms;
     _blynkIsConnected = true;
   }
 }
@@ -159,7 +163,7 @@ void blynk::init()
     Serial.println("\tWiFi not connected yet.");
   }
   
-  timer.setInterval(functionInterval, myfunction);// run some function at intervals per functionInterval
+  timer.setInterval(functionInterval, sendTimeToBlynk_7500ms);// run some function at intervals per functionInterval
   timer.setInterval(blynkInterval, checkBlynk);   // check connection to server per blynkInterval
   unsigned long startWiFi = millis();
 //  WiFi.begin(ssid, pass);

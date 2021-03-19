@@ -88,11 +88,11 @@ void streamCallback(StreamData firebaseData1)
 
     _eventPath = firebaseData1.dataPath();
   
-    if (_eventPath == FB_AV_7SEG )     _eventID = Q_EVENT_VIDEO_CH_V2;
+    if (_eventPath == FB_VIDEO_CH_PATH )     _eventID = Q_EVENT_VIDEO_CH_V2;
     if (_eventPath == FB_FREQ )        _eventID = Q_EVENT_FREQ_V0;
     if (_eventPath == FB_T433_CH_NR)   _eventID = Q_EVENT_RC_CH_NR_V1;
     if (_eventPath == FB_RESET)        _eventID = Q_EVENT_REBOOT_V8;
-    if (_eventPath == FB_OTA)          _eventID = Q_EVENT_OTA_GSM_V7;
+    if (_eventPath == FB_OTA_GITHUB)          _eventID = Q_EVENT_OTA_GITHUB_V105;
     if (_eventPath == IDLE_PATH)       _eventID = IDLE_PATH_ID;
  }
 

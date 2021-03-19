@@ -6,6 +6,12 @@
  blynk myBlynk;
  fireBase fb;
  
+bool sendTime_7500ms;
+int _days  ;
+int _hours;
+int _minutes ;
+int _seconds ;
+
 QueueHandle_t g_event_queue_handle = NULL;
 EventGroupHandle_t g_event_group = NULL;
 
@@ -224,7 +230,7 @@ void processFirebase(void)
           {
             case Q_EVENT_VIDEO_CH_V2:
                 recevierCh=queuData;
-                DEBUG_PRINT("FB_AV_7SEG: ");DEBUG_PRINTLN(queuData);
+                DEBUG_PRINT("FB_VIDEO_CH_PATH: ");DEBUG_PRINTLN(queuData);
                 if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
                 else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
                 receiverAvByCh (recevierCh);
@@ -249,11 +255,11 @@ void processFirebase(void)
               rebootSw();
             break;
             
-           case Q_EVENT_OTA_GSM_V7:
-              otaCmd=queuData;
-              DEBUG_PRINT("FB_OTA: ");DEBUG_PRINTLN(queuData);
-              otaGsm ();
-            break;
+             case Q_EVENT_OTA_GITHUB_V105:
+               otaWifiGithub = false;         
+               wifiIDETimer = millis();
+               otaWifi();
+             break;
       
     }
 }    
@@ -280,7 +286,7 @@ void processBlynkQueu(void)
                   
             case Q_EVENT_VIDEO_CH_V2:
                 recevierCh=queuData;
-                DEBUG_PRINT("FB_AV_7SEG: ");DEBUG_PRINTLN(queuData);
+                DEBUG_PRINT("FB_VIDEO_CH_PATH: ");DEBUG_PRINTLN(queuData);
                 if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
                 else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
                 receiverAvByCh (recevierCh);
@@ -849,9 +855,11 @@ void receiverAvByFreq (int Freq)
   bool ack=0;
        recevierFreq =Freq;
        if (blynkConnected) myBlynk.blynkAckLed(true); 
+       if (FBConnected) fb.SendString (FB_ACK_LED, String(true) );
        int PLL_value =( 512 * ( 1000000 * (Freq + 479.5) ) ) / (16*4000000) ;
        ack = avReceiver.Tuner_PLL(av_pll_addr, PLL_value);
        if (blynkConnected)  { myBlynk.blynkAckLed(ack);myBlynk.frequencyValue(Freq );}
+       if (FBConnected) fb.SendString (FB_ACK_LED, String(ack) );
        DEBUG_PRINT("Received manual_freq:");DEBUG_PRINTLN(manual_freq);
        DEBUG_PRINT("ack: ");DEBUG_PRINTLN(ack ? F("NotACK") : F("ACK"));
 }

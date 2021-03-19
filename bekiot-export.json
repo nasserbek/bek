@@ -1,0 +1,51 @@
+{
+  "PC" : {
+    "Rooms" : {
+      "Frequency" : 1080,
+      "I2C_status" : 1,
+      "Remote_control" : {
+        "Both" : 3,
+        "Solo_radio" : 2,
+        "Solo_video" : 1
+      },
+      "Room_nr" : {
+        "Room_201_205" : 1,
+        "Room_206_210" : 1,
+        "Room_211_215" : 1,
+        "Room_216_220" : 1
+      },
+      "T315_ch" : 16,
+      "T315_status" : 1,
+      "T433_ch" : 1,
+      "T433_stqtus" : 1,
+      "Video_ch" : 1
+    },
+    "Settings" : {
+      "Bek1_days" : 1,
+      "Bek1_hours" : 1,
+      "Bek1_minutes" : 1,
+      "Bek1_seconds" : 1,
+      "Bek2_days" : 1,
+      "Bek2_hours" : 1,
+      "Bek2_minutes" : 1,
+      "Bek2_seconds" : 1,
+      "Github_OTA" : 1,
+      "Netgeer_reset" : 1,
+      "Restart_ESP" : 1,
+      "Sleep_timer" : 30,
+      "Video_cmd" : 1
+    },
+    "Zapping" : {
+      "Ch1" : 1,
+      "Ch2" : 1,
+      "Ch3" : 1,
+      "Ch4" : 1,
+      "Ch5" : 1,
+      "Ch6" : 1,
+      "Ch7" : 1,
+      "Ch8" : 1,
+      "Zap_cmd" : 1,
+      "Zap_status" : 1
+    }
+  }
+}
