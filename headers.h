@@ -105,16 +105,17 @@
 
 #define    CMD_PATH         "/PC/"
 #define    IDLE_PATH         "/"
-#define    FB_VIDEO_CH_PATH     "/Rooms/AVideo_ch"
-#define    FB_T433_CH_NR        "/Rooms/T433_ch"
-#define    FB_OTA_GITHUB        "/Settings/Github_OTA"
-#define    FB_FREQ              "/Rooms/Frequency" 
-#define    FB_RESET             "/Settings/Restart_ESP"
-#define    FB_ACK_LED           "/Rooms/T433_stqtus"
+#define    FB_VIDEO_CH_PATH     "/Rooms_AVideo_ch"
+#define    FB_T433_CH_NR        "/Rooms_T433_ch"
+#define    FB_OTA_GITHUB        "/Settings_Github_OTA"
+#define    FB_FREQ              "/Rooms_Frequency" 
+#define    FB_RESET             "/Settings_Restart_ESP"
+#define    FB_ACK_LED           "/Rooms_I2C_status"
 #define    FB_T315_CH_NR        "/RcTransmitter_channel_315"
-
-
-
+#define    FB_DAYS              "/Settings_Bek1_days"
+#define    FB_HOURS             "/Settings_Bek1_hours"
+#define    FB_MINUTES           "/Settings_Bek1_minutes"
+#define    FB_SECONDS           "/Settings_Bek1_seconds"
 
 
 //BLYNK
