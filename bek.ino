@@ -229,28 +229,28 @@ void processFirebase(void)
         switch (fb.eventID)
           {
             case Q_EVENT_VIDEO_CH_V2:
-                recevierCh=queuData;
+                recevierCh=fb.eventValue;
                 DEBUG_PRINT("FB_VIDEO_CH_PATH: ");DEBUG_PRINTLN(queuData);
-           //     if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
-            //    else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
+               if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
+               else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
                 receiverAvByCh (recevierCh);
             break;
             
             case Q_EVENT_FREQ_V0:
-              recevierFreq=queuData;
+              recevierFreq=fb.eventValue;
               DEBUG_PRINT("FB_FREQ: ");DEBUG_PRINTLN(queuData);
               //if (recevierFreq >= 920 && recevierFreq <= 1500) 
               receiverAvByFreq (recevierFreq);
             break;
             
             case Q_EVENT_RC_CH_NR_V1:
-              remoteControlRcCh=queuData;
+              remoteControlRcCh=fb.eventValue;
               DEBUG_PRINT("FB_T433_CH_NR: ");DEBUG_PRINTLN(queuData);
               if (remoteControlRcCh >= 1 && remoteControlRcCh <= 15) {remoteControl(remoteControlRcCh );}
             break;
             
             case Q_EVENT_REBOOT_V8:
-              rebootCmd=queuData;
+              rebootCmd=fb.eventValue;
               DEBUG_PRINT("FB_RESET: ");DEBUG_PRINTLN(queuData);
               rebootSw();
             break;
