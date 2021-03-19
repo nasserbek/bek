@@ -217,7 +217,7 @@ BLYNK_WRITE(V2) // receiver ch
   _sevenSeg= param.asInt(); // assigning incoming value from pin V2 to a variable
     _blynkEvent = true;
     _blynkData=param.asInt();
-    _blynkEventID =FB_AV_7SEG_ID;
+    _blynkEventID =Q_EVENT_FREQ_V0;
     eventdata = Q_EVENT_VIDEO_CH_V2;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
     

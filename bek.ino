@@ -4,7 +4,7 @@
  sim800L sms; 
  otaUpload ota; 
  blynk myBlynk;
-
+ fireBase fb;
  
 QueueHandle_t g_event_queue_handle = NULL;
 EventGroupHandle_t g_event_group = NULL;
@@ -86,8 +86,10 @@ void setup()
       else  sendToHMI("Internet failure", "Internet failure : ", "Internet failure",FB_NOTIFIER, "Internet failure" );
     
       if (!wifiAvailable) sendToHMI("Wifi failure", "Wifi failure: ", "Wifi failure",FB_NOTIFIER, "Wifi failure" );
-    
-    
+      else FBConnected = fb.init();
+      if(FBConnected ) smsSent= sms.SendSMS("FireBase connected...");
+      else sms.SendSMS("FireBase Failed to connect...!!!");
+      
     NetgeerResetTimer       = millis();
     wifiSurvilanceTimer     = millis();
     internetSurvilanceTimer = millis();
@@ -149,7 +151,9 @@ void loop(void)
             myBlynk.sendToBlynk = false;
             myBlynk.sendToBlynkLeds = false;
           }
-    
+
+      if (FBConnected ) { if(fbEvent = fb.firebaseRun()) processFirebase(); }
+      
       if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer);  
           
        myBlynk.blynkRunTimer();
@@ -213,8 +217,48 @@ bool pingGoogleConnection(void)
 
 
 
+/********************************** FireBase **************************************/
+void processFirebase(void)
+{
+        switch (fb.eventID)
+          {
+            case Q_EVENT_VIDEO_CH_V2:
+                recevierCh=queuData;
+                DEBUG_PRINT("FB_AV_7SEG: ");DEBUG_PRINTLN(queuData);
+                if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
+                else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
+                receiverAvByCh (recevierCh);
+            break;
+            
+            case Q_EVENT_FREQ_V0:
+              recevierFreq=queuData;
+              DEBUG_PRINT("FB_FREQ: ");DEBUG_PRINTLN(queuData);
+              //if (recevierFreq >= 920 && recevierFreq <= 1500) 
+              receiverAvByFreq (recevierFreq);
+            break;
+            
+            case Q_EVENT_RC_CH_NR_V1:
+              remoteControlRcCh=queuData;
+              DEBUG_PRINT("FB_T433_CH_NR: ");DEBUG_PRINTLN(queuData);
+              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 15) {remoteControl(remoteControlRcCh );}
+            break;
+            
+            case Q_EVENT_REBOOT_V8:
+              rebootCmd=queuData;
+              DEBUG_PRINT("FB_RESET: ");DEBUG_PRINTLN(queuData);
+              rebootSw();
+            break;
+            
+           case Q_EVENT_OTA_GSM_V7:
+              otaCmd=queuData;
+              DEBUG_PRINT("FB_OTA: ");DEBUG_PRINTLN(queuData);
+              otaGsm ();
+            break;
+      
+    }
+}    
 
-/***************************************************************************/
+/********************************************Blynk *******************************/
 
 void processBlynkQueu(void)
 {

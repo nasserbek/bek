@@ -19,6 +19,7 @@
 #include "time.h"
 #include "av.h"
 #include "sim.h"
+#include "FB.h"
 
 #include "blynk_app.h"
 
@@ -56,6 +57,7 @@ int blynkStatus = 1;
 bool googleConnected=false;
 bool blynkInitDone=false;
 bool blynkConnected = false;
+bool FBConnected = false;
 bool  blynkActive =false;
 bool sendToBlynk = false;
 bool fireBaseOn =false;
