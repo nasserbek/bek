@@ -1,5 +1,5 @@
 #define BEK
-#define VERSION_ID " V137 "
+#define VERSION_ID " V138 "
 #define DEBUG_SERIAL
 #define BLYNK_SERVER "blynk-cloud.com"
 
@@ -103,6 +103,7 @@
 //firebase
 /************************************FIREBASE ***********************************/
 
+// Commands
 #define    CMD_PATH         "/PC/"
 #define    IDLE_PATH         "/"
 #define    FB_VIDEO_CH_PATH     "/Rooms_Video_ch"
@@ -110,13 +111,17 @@
 #define    FB_OTA_GITHUB        "/Settings_Github_OTA"
 #define    FB_FREQ              "/Rooms_Frequency" 
 #define    FB_RESET             "/Settings_Restart_ESP"
-#define    FB_ACK_LED           "/Rooms_I2C_status"
+
 #define    FB_T315_CH_NR        "/RcTransmitter_channel_315"
 #define    FB_DAYS              "/Settings_Bek1_days"
 #define    FB_HOURS             "/Settings_Bek1_hours"
 #define    FB_MINUTES           "/Settings_Bek1_minutes"
 #define    FB_SECONDS           "/Settings_Bek1_seconds"
 #define    FB_NOTIFIER          "/FB_SMS"
+
+//Status
+#define    FB_ACK_LED           "/PC/Rooms_I2C_status"
+
 
 //BLYNK
 /*****e*******************************BLYNK***********************************/
