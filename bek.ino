@@ -836,11 +836,12 @@ void receiverAvByCh (int Ch)
   bool ack;
   int PLL_value;
        if (blynkConnected) myBlynk.blynkAckLed(true);
+       if (FBConnected) fb.SendString (FB_ACK_LED, String(1) );
        ack = avReceiver.Tuner_PLL(av_pll_addr, _pll[Ch]); 
        delay(500);
        
        if (blynkConnected) {myBlynk.blynkAckLed(ack); myBlynk.sevenSegValue(Ch );}
-
+       if (FBConnected) fb.SendString (FB_ACK_LED, String(ack) );
        recevierFreq =videoCh[Ch].frequency;   
        
        if (blynkConnected) myBlynk.frequencyValue(recevierFreq );
