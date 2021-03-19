@@ -1,5 +1,5 @@
 #define BEK
-#define VERSION_ID " V132 "
+#define VERSION_ID " V133 "
 #define DEBUG_SERIAL
 #define BLYNK_SERVER "blynk-cloud.com"
 
@@ -105,18 +105,18 @@
 
 #define    CMD_PATH         "/PC/"
 #define    IDLE_PATH         "/"
-#define    FB_VIDEO_CH_PATH     "/Rooms_Video_ch"
-#define    FB_T433_CH_NR        "/Rooms_T433_ch"
-#define    FB_OTA_GITHUB        "/Settings_Github_OTA"
-#define    FB_FREQ              "/Rooms_Frequency" 
-#define    FB_RESET             "/Settings_Restart_ESP"
-#define    FB_ACK_LED           "/Rooms_I2C_status"
-#define    FB_T315_CH_NR        "/RcTransmitter_channel_315"
-#define    FB_DAYS              "/Settings_Bek1_days"
-#define    FB_HOURS             "/Settings_Bek1_hours"
-#define    FB_MINUTES           "/Settings_Bek1_minutes"
-#define    FB_SECONDS           "/Settings_Bek1_seconds"
-
+#define    FB_VIDEO_CH_PATH     "PC/Rooms_Video_ch"
+#define    FB_T433_CH_NR        "PC/Rooms_T433_ch"
+#define    FB_OTA_GITHUB        "PC/Settings_Github_OTA"
+#define    FB_FREQ              "PC/Rooms_Frequency" 
+#define    FB_RESET             "PC/Settings_Restart_ESP"
+#define    FB_ACK_LED           "PC/Rooms_I2C_status"
+#define    FB_T315_CH_NR        "PC/RcTransmitter_channel_315"
+#define    FB_DAYS              "PC/Settings_Bek1_days"
+#define    FB_HOURS             "PC/Settings_Bek1_hours"
+#define    FB_MINUTES           "PC/Settings_Bek1_minutes"
+#define    FB_SECONDS           "PC/Settings_Bek1_seconds"
+#define    FB_NOTIFIER          "PC/FB_SMS"
 
 //BLYNK
 /*****e*******************************BLYNK***********************************/
@@ -169,7 +169,7 @@
 
 
 
-
+/*
 #define    FB_RC_LED           "/PC/RcTransmitter_Led"
 #define    FB_ACK_LED          "/PC/AvReceiver_Led"
 #define    FB_NACK_LED          "/PC/AvReceiver_nLed"
@@ -203,9 +203,9 @@
 #define    FB_DV_ON         "PC/FB_DV_ON"
 #define    FB_DV_ST         "PC/FB_DV_ST" 
 #define    FB_LCD           "PC/FB_LCD"
-#define    FB_NOTIFIER      "PC/FB_SMS"
 
 
+*/
 
 const String FB_T433_STATUS_PATH[32] =
 {"","PC/T433_CH1_ST","PC/T433_CH2_ST","PC/T433_CH3_ST","PC/T433_CH4_ST","PC/T433_CH5_ST","PC/T433_CH6_ST",
