@@ -1,5 +1,5 @@
 #define BEK
-#define VERSION_ID " V131 "
+#define VERSION_ID " V132 "
 #define DEBUG_SERIAL
 #define BLYNK_SERVER "blynk-cloud.com"
 
@@ -105,7 +105,7 @@
 
 #define    CMD_PATH         "/PC/"
 #define    IDLE_PATH         "/"
-#define    FB_VIDEO_CH_PATH     "/Rooms_AVideo_ch"
+#define    FB_VIDEO_CH_PATH     "/Rooms_Video_ch"
 #define    FB_T433_CH_NR        "/Rooms_T433_ch"
 #define    FB_OTA_GITHUB        "/Settings_Github_OTA"
 #define    FB_FREQ              "/Rooms_Frequency" 
