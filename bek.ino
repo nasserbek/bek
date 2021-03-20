@@ -96,7 +96,7 @@ void setup()
       if(FBConnected ) smsSent= sms.SendSMS("FireBase connected...");
       else sms.SendSMS("FireBase Failed to connect...!!!");
       
-    NetgeerResetTimer       = millis();
+    Sms_24_hoursTimer       = millis();
     wifiSurvilanceTimer     = millis();
     internetSurvilanceTimer = millis();
     liveTimerOff            = millis();
@@ -164,16 +164,19 @@ void loop(void)
             
             if(sendTime_7500ms)
             {
-             fb.SendString (FB_DAYS, String(_days) ) ;
-             fb.SendString (FB_HOURS, String(_hours) ); 
-             fb.SendString (FB_MINUTES, String(_minutes) ); 
              fb.SendString (FB_SECONDS, String(_seconds) ) ;
              sendTime_7500ms = false;
             }
           }
       
       if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer);  
-          
+      
+      if ( (millis() - Sms_24_hoursTimer) >=  SMS_24_HOURS  )
+          {
+            sms.SendSMS("VTR Alive");
+            Sms_24_hoursTimer       = millis();
+          }
+   
        myBlynk.blynkRunTimer();
 }
 
