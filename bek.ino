@@ -724,6 +724,8 @@ void processSms(void)
 
 void zappingAvCh (bool zapCmd, int zapTimer)
 {
+ if( zapCmd )
+  { 
          switch (stateMachine)
           {
             case 0:
@@ -946,10 +948,12 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                       stateMachine =0;
                      }
                   }
-                else stateMachine =0;
+                else {zaptime= millis();stateMachine =0;}
             break;                         
                                  
           }
+  }
+  else {zaptime= millis();stateMachine =0;}
 }
 
 
