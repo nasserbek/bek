@@ -790,7 +790,7 @@ void blynk::sevenSegValue(int vch, int roomNr )
 {
  sevenSeg = vch;
  Blynk.virtualWrite(V2, vch);
-  Blynk.virtualWrite(V9, roomNr);
+ Blynk.virtualWrite(V9, vch);
 }
 
 
