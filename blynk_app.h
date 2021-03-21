@@ -42,7 +42,7 @@ class blynk {
     void resetT315Cmd(int cmd );
     void blynkFirebaseLed(bool _data);
     void blynkSmsLed(bool _data);
-    void sevenSegValue(int vch, int roomNr  );
+    void sevenSegValue(int vch);
     void frequencyValue(int freq );
     bool getData();
     void sendRsss(int _rsss);

@@ -786,7 +786,7 @@ void blynk::resetT315Cmd(int cmd)
  Blynk.virtualWrite(V14, cmd);
 }
 
-void blynk::sevenSegValue(int vch, int roomNr )
+void blynk::sevenSegValue(int vch )
 {
  sevenSeg = vch;
  Blynk.virtualWrite(V2, vch);
