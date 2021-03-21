@@ -238,6 +238,14 @@ BLYNK_WRITE(V8)   //boot
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
+BLYNK_WRITE(V9) // Room Nr
+{
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_VIDEO_CH_V2;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+}
+
 BLYNK_WRITE(V10)  //Send to blynk
 {
     _blynkEvent = true;
@@ -778,11 +786,13 @@ void blynk::resetT315Cmd(int cmd)
  Blynk.virtualWrite(V14, cmd);
 }
 
-void blynk::sevenSegValue(int freq )
+void blynk::sevenSegValue(int vch, int roomNr )
 {
- sevenSeg = freq;
- Blynk.virtualWrite(V2, freq);
+ sevenSeg = vch;
+ Blynk.virtualWrite(V2, vch);
+  Blynk.virtualWrite(V9, roomNr);
 }
+
 
 void blynk::sendPulseRepetetion(int pulse, int repetetion)
 {
