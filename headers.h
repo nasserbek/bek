@@ -1,5 +1,5 @@
 #define BEK
-#define VERSION_ID " V146 "
+#define VERSION_ID " V147 "
 #define DEBUG_SERIAL
 #define BLYNK_SERVER "blynk-cloud.com"
 
@@ -429,3 +429,36 @@ Q_EVENT_DVR_OFF_SMS_318,
 
 #define WEB 0
 #define DDNS 1
+
+enum {
+  SM_CH1_A,
+  SM_CH1_B,
+  SM_CH2_A,
+  SM_CH2_B,
+  SM_CH3_A,
+  SM_CH3_B,
+  SM_CH4_A,
+  SM_CH4_B,
+  SM_CH5_A,
+  SM_CH5_B,
+  SM_CH6_A,
+  SM_CH6_B,
+  SM_CH7_A,
+  SM_CH7_B,
+  SM_CH8_A,
+  SM_CH8_B,
+  SM_CH9_A,
+  SM_CH9_B,
+  SM_CH10_A,
+  SM_CH10_B,
+  SM_CH11_A,
+  SM_CH11_B,
+  SM_CH12_A,
+  SM_CH12_B,
+  SM_CH13_A,
+  SM_CH13_B,
+  SM_CH14_A,
+  SM_CH14_B,
+  SM_CH15_A,
+  SM_CH15_B,
+};

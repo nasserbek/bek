@@ -728,232 +728,234 @@ void zappingAvCh (bool zapCmd, int zapTimer)
   { 
          switch (stateMachine)
           {
-            case 0:
-            case 1:
+            case SM_CH1_A:
+            case SM_CH1_B:
                 if (videoCh[1].zap ) 
                   {
-                    if (stateMachine == 0) {zaptime= millis();stateMachine =1;}
+                    if (stateMachine == SM_CH1_A) {zaptime= millis();stateMachine =SM_CH1_B;}
                     if (millis() - zaptime > zapTimer) 
                       {
                         recevierCh=videoCh[1].id;
                         receiverAvByCh (recevierCh);
-                        stateMachine =2;
+                        stateMachine =SM_CH2_A;
                       }
                   }
-                else stateMachine =2;
+                else stateMachine =SM_CH2_A;
             break;
 
-            case 2:
-            case 3:
+            case SM_CH2_A:
+            case SM_CH2_B:
                 if (videoCh[2].zap ) 
                   {
-                    if (stateMachine == 2) {zaptime= millis();stateMachine =3;}
+                    if (stateMachine == SM_CH2_A) {zaptime= millis();stateMachine =SM_CH2_B;}
                     if (millis() - zaptime > zapTimer) 
                       {
                         recevierCh=videoCh[2].id;
                         receiverAvByCh (recevierCh);
-                        stateMachine =4;
+                        stateMachine =SM_CH3_A;
                      }
                   }
-                else stateMachine =4;
+                else stateMachine =SM_CH3_A;
             break;
             
-            case 4:
-            case 5:
+            case SM_CH3_A:
+            case SM_CH3_B:
                 if (videoCh[3].zap ) 
                   {
-                    if (stateMachine == 4) {zaptime= millis();stateMachine =5;}
+                    if (stateMachine == SM_CH3_A) {zaptime= millis();stateMachine =SM_CH3_B;}
                     if (millis() - zaptime > zapTimer) 
                       {
                         recevierCh=videoCh[3].id;
                         receiverAvByCh (recevierCh);
-                        stateMachine =6;
+                        stateMachine =SM_CH4_A;
                       }
                   }
-                else stateMachine =6;
+                else stateMachine =SM_CH4_A;
             break;
 
-            case 6:
-            case 7:
+            case SM_CH4_A:
+            case SM_CH4_B:
                 if (videoCh[4].zap ) 
                   {
-                    if (stateMachine == 6) {zaptime= millis();stateMachine =7;}
+                    if (stateMachine == SM_CH4_A) {zaptime= millis();stateMachine =SM_CH4_B;}
                     if (millis() - zaptime > zapTimer) 
                          {
                           recevierCh=videoCh[4].id;
                           receiverAvByCh (recevierCh);
-                          stateMachine =8;
+                          stateMachine =SM_CH5_A;
                          }
                    }
-                else stateMachine =8;
+                else stateMachine =SM_CH5_A;
             break;
                        
-            case 8:
-            case 9:
+            case SM_CH5_A:
+            case SM_CH5_B:
                 if (videoCh[5].zap ) 
                   {
-                    if (stateMachine == 8) {zaptime= millis();stateMachine =9;}
+                    if (stateMachine == SM_CH5_A) {zaptime= millis();stateMachine =SM_CH5_B;}
                     if (millis() - zaptime > zapTimer) 
                     {
                       recevierCh=videoCh[5].id;
                       receiverAvByCh (recevierCh);
-                      stateMachine =10;
+                      stateMachine =SM_CH6_A;
                      }
                   }
-                else stateMachine =10;
+                else stateMachine =SM_CH6_A;
             break;
                        
-            case 10:
-            case 11:
+            case SM_CH6_A:
+            case SM_CH6_B:
                 if (videoCh[6].zap ) 
                   {
-                    if (stateMachine == 10) {zaptime= millis();stateMachine =11;}
+                    if (stateMachine == SM_CH6_A) {zaptime= millis();stateMachine =SM_CH6_B;}
                     if (millis() - zaptime > zapTimer) 
                      {
                       recevierCh=videoCh[6].id;
                       receiverAvByCh (recevierCh);
-                      stateMachine =12;
+                      stateMachine =SM_CH7_A;
                      }
                   }
-                else stateMachine =12;
+                else stateMachine =SM_CH7_A;
             break;
                        
-            case 12:
-            case 13:
+            case SM_CH7_A:
+            case SM_CH7_B:
                 if (videoCh[7].zap ) 
                   {
-                    if (stateMachine == 12) {zaptime= millis();stateMachine =13;}
+                    if (stateMachine == SM_CH7_A) {zaptime= millis();stateMachine =SM_CH7_B;}
                     if (millis() - zaptime > zapTimer) 
                       {
                         recevierCh=videoCh[7].id;
                         receiverAvByCh (recevierCh);
-                        stateMachine =14;
+                        stateMachine =SM_CH8_A;
                        }
                   }
-                else stateMachine =14;
+                else stateMachine =SM_CH8_A;
             break;
                        
-            case 14:
-            case 15:
+            case SM_CH8_A:
+            case SM_CH8_B:
                 if (videoCh[8].zap) 
                   {
-                    if (stateMachine == 14) {zaptime= millis();stateMachine =15;}
+                    if (stateMachine == SM_CH8_A) {zaptime= millis();stateMachine =SM_CH8_B;}
                     if (millis() - zaptime > zapTimer) 
                       {
                         recevierCh=videoCh[8].id;
                         receiverAvByCh (recevierCh);
-                        stateMachine =16;
+                        stateMachine =SM_CH9_A;
                       }
                   }
-                else stateMachine =16;
+                else stateMachine =SM_CH9_A;
             break;
 
-            case 16:
-            case 17:
+            case SM_CH9_A:
+            case SM_CH9_B:
                 if (videoCh[9].zap) 
                   {
-                    if (stateMachine == 16) {zaptime= millis();stateMachine =17;}
+                    if (stateMachine == SM_CH9_A) {zaptime= millis();stateMachine =SM_CH9_B;}
                     if (millis() - zaptime > zapTimer) 
                     {
                       recevierCh=videoCh[9].id;
                       receiverAvByCh (recevierCh);
-                      stateMachine =18;
+                      stateMachine =SM_CH10_A;
                     }
                   }
-                else stateMachine =18;
+                else stateMachine =SM_CH10_A;
             break;
-            case 18:
-            case 19:
+            
+            case SM_CH10_A:
+            case SM_CH10_B:
                 if (videoCh[10].zap) 
                   {
-                    if (stateMachine == 18) {zaptime= millis();stateMachine =19;}
+                    if (stateMachine == SM_CH10_A) {zaptime= millis();stateMachine =SM_CH10_B;}
                     if (millis() - zaptime > zapTimer) 
                     {
                       recevierCh=videoCh[10].id;
                       receiverAvByCh (recevierCh);
-                      stateMachine =20;
+                      stateMachine =SM_CH11_A;
                     }
                   }
-                else stateMachine =20;
+                else stateMachine =SM_CH11_A;
             break; 
              
-            case 20:
-            case 21:
+            case SM_CH11_A:
+            case SM_CH11_B:
                 if (videoCh[11].zap) 
                   {
-                    if (stateMachine == 20) {zaptime= millis();stateMachine =21;}
+                    if (stateMachine == SM_CH11_A) {zaptime= millis();stateMachine =SM_CH11_B;}
                     if (millis() - zaptime > zapTimer) 
                     {
                       recevierCh=videoCh[11].id;
                       receiverAvByCh (recevierCh);
-                      stateMachine =22;
+                      stateMachine =SM_CH12_A;
                     }
                   }
-                else stateMachine =22;
+                else stateMachine =SM_CH12_A;
             break;     
 
-            case 22:
-            case 23:
+            case SM_CH12_A:
+            case SM_CH12_B:
                 if (videoCh[12].zap) 
                   {
-                    if (stateMachine == 22) {zaptime= millis();stateMachine =23;}
+                    if (stateMachine == SM_CH12_A) {zaptime= millis();stateMachine =SM_CH12_B;}
                     if (millis() - zaptime > zapTimer) 
                     {
                       recevierCh=videoCh[12].id;
                       receiverAvByCh (recevierCh);
-                      stateMachine =24;
+                      stateMachine =SM_CH13_A;
                     }
                   }
-                else stateMachine =24;
+                else stateMachine =SM_CH13_A;
             break;  
-            case 24:
-            case 25:
+            
+            case SM_CH13_A:
+            case SM_CH13_B:
                 if (videoCh[13].zap) 
                   {
-                    if (stateMachine == 24) {zaptime= millis();stateMachine =25;}
+                    if (stateMachine == SM_CH13_A) {zaptime= millis();stateMachine =SM_CH13_B;}
                     if (millis() - zaptime > zapTimer) 
                     {
                       recevierCh=videoCh[13].id;
                       receiverAvByCh (recevierCh);
-                      stateMachine =26;
+                      stateMachine =SM_CH14_A;
                     }
                   }
-                else stateMachine =26;
+                else stateMachine =SM_CH14_A;
             break;  
 
-            case 26:
-            case 27:
+            case SM_CH14_A:
+            case SM_CH14_B:
                 if (videoCh[14].zap) 
                   {
-                    if (stateMachine == 26) {zaptime= millis();stateMachine =27;}
+                    if (stateMachine == SM_CH14_A) {zaptime= millis();stateMachine =SM_CH14_B;}
                     if (millis() - zaptime > zapTimer) 
                     {
                       recevierCh=videoCh[14].id;
                       receiverAvByCh (recevierCh);
-                      stateMachine =28;
+                      stateMachine =SM_CH15_A;
                     }
                   }
-                else stateMachine =28;
+                else stateMachine =SM_CH15_A;
             break;  
             
-            case 28:
-            case 29:
+            case SM_CH15_A:
+            case SM_CH15_B:
                 if (videoCh[15].zap) 
                   {
-                    if (stateMachine == 28) {zaptime= millis();stateMachine =29;}
+                    if (stateMachine == SM_CH15_A) {zaptime= millis();stateMachine =SM_CH15_B;}
                     if (millis() - zaptime > zapTimer) 
                     {
                       recevierCh=videoCh[15].id;
                       receiverAvByCh (recevierCh);
-                      stateMachine =0;
+                      stateMachine =SM_CH1_A;
                      }
                   }
-                else {zaptime= millis();stateMachine =0;}
+                else {zaptime= millis();stateMachine =SM_CH1_A;}
             break;                         
                                  
           }
   }
-  else {zaptime= millis();stateMachine =0;}
+  else {zaptime= millis();stateMachine =SM_CH1_A;}
 }
 
 
