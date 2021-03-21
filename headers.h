@@ -1,5 +1,5 @@
 #define BEK
-#define VERSION_ID " V151 "
+#define VERSION_ID " V153 "
 #define DEBUG_SERIAL
 #define BLYNK_SERVER "blynk-cloud.com"
 
@@ -55,7 +55,7 @@
 #define PING_GOOGLE_BLYNK_TIMER 30000  // 30 sec
 #define INTERNET_LOSS_TO_RESET_NG_TIMER 120000   // 2 MIN
 #define RESTART_AFTER_NG_RESET_TIMER 180000   // 3 MIN
-#define SMS_24_HOURS 86400000  // 24 HOURS
+#define SMS_24_HOURS 120000 //86400000  // 24 HOURS
 #define ROUTER_RESET_TIMER  2000  // 2 SEC
 #define MUX_ROOM_ZAP        30000  // 2 SEC
 

@@ -92,9 +92,13 @@ void setup()
       else  sendToHMI("Internet failure", "Internet failure : ", "Internet failure",FB_NOTIFIER, "Internet failure" );
     
       if (!wifiAvailable) sendToHMI("Wifi failure", "Wifi failure: ", "Wifi failure",FB_NOTIFIER, "Wifi failure" );
-      else FBConnected = fb.init();
-      if(FBConnected ) smsSent= sms.SendSMS("FireBase connected...");
-      else sms.SendSMS("FireBase Failed to connect...!!!");
+      else if(fireBaseOn)
+        {
+          FBConnected = fb.init();
+          if(FBConnected ) smsSent= sms.SendSMS("FireBase connected...");
+          else sms.SendSMS("FireBase Failed to connect...!!!");
+        }
+      
       
     Sms_24_hoursTimer       = millis();
     wifiSurvilanceTimer     = millis();
