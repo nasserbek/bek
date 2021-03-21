@@ -220,7 +220,6 @@ BLYNK_WRITE(V3) // ROOM_201_TO_205
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ROOM_VTR_21_TO_25_V3;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    Blynk.setProperty(V3, "color", BLYNK_BLUE);
 }
 
 BLYNK_WRITE(V7)   // ota
@@ -273,7 +272,6 @@ BLYNK_WRITE(V16) // ROOM_206_TO_210
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ROOM_VTR_26_TO_38_V16;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    Blynk.setProperty(V16, "color", BLYNK_BLUE);
 }
 
 
@@ -283,7 +281,6 @@ BLYNK_WRITE(V17) // ROOM_211_TO_215
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ROOM_VTR_39_TO_40_V17;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    Blynk.setProperty(V17, "color", BLYNK_BLUE);
 }
 
 BLYNK_WRITE(V18) // ROOM_216_TO_220
@@ -292,7 +289,6 @@ BLYNK_WRITE(V18) // ROOM_216_TO_220
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ROOM_216_227_228_229_230_V18;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    Blynk.setProperty(V18, "color", BLYNK_BLUE);
 }
 
 
@@ -320,8 +316,6 @@ BLYNK_WRITE(V25) // ROOM_231_232_233
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ROOM_231_232_233_V25;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    
-    Blynk.setProperty(V25, "color", BLYNK_BLUE);
 }
 
 
@@ -332,9 +326,6 @@ BLYNK_WRITE(V30)   //209
     _blynkEventID =FB_ZAP_CHANNEL_ID1;
     eventdata = Q_EVENT_209_SEL_V30;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    
-    if(_blynkData) Blynk.setProperty(V30, "color", BLYNK_GREEN);
-    else Blynk.setProperty(V30, "color", BLYNK_RED);
 }
 
 
@@ -345,9 +336,6 @@ BLYNK_WRITE(V31)   //216
     _blynkData=param.asInt();
     eventdata = Q_EVENT_216_SEL_V31;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    
-    if(_blynkData) Blynk.setProperty(V31, "color", BLYNK_GREEN);
-    else Blynk.setProperty(V31, "color", BLYNK_RED);
 }
 
 
@@ -357,9 +345,6 @@ BLYNK_WRITE(V32)   //202
     _blynkData=param.asInt();
     eventdata = Q_EVENT_202_SEL_V32;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-
-  if(_blynkData) Blynk.setProperty(V32, "color", BLYNK_GREEN);
-  else Blynk.setProperty(V32, "color", BLYNK_RED);
 }
 
 
@@ -369,9 +354,6 @@ BLYNK_WRITE(V33)   //210
     _blynkData=param.asInt();
     eventdata = Q_EVENT_210_SEL_V33;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    
-  if(_blynkData) Blynk.setProperty(V33, "color", BLYNK_GREEN);
-  else Blynk.setProperty(V33, "color", BLYNK_RED);
 }
 
 
@@ -381,9 +363,6 @@ BLYNK_WRITE(V34)   //204
     _blynkData=param.asInt();
     eventdata = Q_EVENT_204_SEL_V34;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    
-  if(_blynkData) Blynk.setProperty(V34, "color", BLYNK_GREEN);
-  else Blynk.setProperty(V34, "color", BLYNK_RED);
 }
 
 
@@ -393,9 +372,6 @@ BLYNK_WRITE(V35)   //219
     _blynkData=param.asInt();
     eventdata = Q_EVENT_219_SEL_V35;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-
-  if(_blynkData) Blynk.setProperty(V35, "color", BLYNK_GREEN);
-  else Blynk.setProperty(V35, "color", BLYNK_RED);
 }
 
 
@@ -405,9 +381,6 @@ BLYNK_WRITE(V36)   //207
     _blynkData=param.asInt();
     eventdata = Q_EVENT_207_SEL_V36;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    
-  if(_blynkData) Blynk.setProperty(V36, "color", BLYNK_GREEN);
-  else Blynk.setProperty(V36, "color", BLYNK_RED);
 }
 
 
@@ -417,9 +390,6 @@ BLYNK_WRITE(V37)   //214
     _blynkData=param.asInt();
     eventdata = Q_EVENT_214_SEL_V37;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    
-  if(_blynkData) Blynk.setProperty(V37, "color", BLYNK_GREEN);
-  else Blynk.setProperty(V37, "color", BLYNK_RED);
 }
 
 
@@ -429,9 +399,6 @@ BLYNK_WRITE(V38)   //208
     _blynkData=param.asInt();
     eventdata = Q_EVENT_208_SEL_V38;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    
-  if(_blynkData) Blynk.setProperty(V38, "color", BLYNK_GREEN);
-  else Blynk.setProperty(V38, "color", BLYNK_RED);
 }
 
 
@@ -441,9 +408,6 @@ BLYNK_WRITE(V39)   //215
     _blynkData=param.asInt();
     eventdata = Q_EVENT_215_SEL_V39;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-
-  if(_blynkData) Blynk.setProperty(V39, "color", BLYNK_GREEN);
-  else Blynk.setProperty(V39, "color", BLYNK_RED);
 }
 
 
@@ -453,9 +417,6 @@ BLYNK_WRITE(V40)   //217
     _blynkData=param.asInt();
     eventdata = Q_EVENT_217_SEL_V40;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-
-  if(_blynkData) Blynk.setProperty(V40, "color", BLYNK_GREEN);
-  else Blynk.setProperty(V40, "color", BLYNK_RED);
 }
 
 
@@ -465,9 +426,6 @@ BLYNK_WRITE(V71)   //Zapping On Off Switch
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_V71;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-
-//  if(_blynkData) Blynk.setProperty(V71, "color", BLYNK_BLUE);
-//  else Blynk.setProperty(V71, "color", BLYNK_RED); 
 }
 
 
@@ -485,9 +443,6 @@ BLYNK_WRITE(V81)   //Zapping ch1
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL1_V81;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-
-//  if(_blynkData) Blynk.setProperty(V81, "color", BLYNK_BLUE);
-//  else Blynk.setProperty(V81, "color", BLYNK_RED);
 }
 
 BLYNK_WRITE(V82)   //Zapping ch2
@@ -496,9 +451,6 @@ BLYNK_WRITE(V82)   //Zapping ch2
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL2_V82;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-
-  if(_blynkData) Blynk.setProperty(V82, "color", BLYNK_BLUE);
-  else Blynk.setProperty(V82, "color", BLYNK_RED);
 }
 
 BLYNK_WRITE(V83)   //Zapping ch3
@@ -508,18 +460,14 @@ BLYNK_WRITE(V83)   //Zapping ch3
     eventdata = Q_EVENT_ZAP_CHANNEL3_V83;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 
-  if(_blynkData) Blynk.setProperty(V83, "color", BLYNK_BLUE);
-  else Blynk.setProperty(V83, "color", BLYNK_RED);  
 }
+
 BLYNK_WRITE(V84)   //Zapping ch4
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL4_V84;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-
-  if(_blynkData) Blynk.setProperty(V84, "color", BLYNK_BLUE);
-  else Blynk.setProperty(V84, "color", BLYNK_RED);  
 }
 
 BLYNK_WRITE(V85)   //Zapping ch5
@@ -528,9 +476,6 @@ BLYNK_WRITE(V85)   //Zapping ch5
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL5_V85;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-
-  if(_blynkData) Blynk.setProperty(V85, "color", BLYNK_BLUE);
-  else Blynk.setProperty(V85, "color", BLYNK_RED);  
 }
 
 BLYNK_WRITE(V86)   //Zapping ch6
@@ -539,9 +484,6 @@ BLYNK_WRITE(V86)   //Zapping ch6
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL6_V86;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-
-  if(_blynkData) Blynk.setProperty(V86, "color", BLYNK_BLUE);
-  else Blynk.setProperty(V86, "color", BLYNK_RED);
 }
 
 BLYNK_WRITE(V87)   //Zapping ch7
@@ -550,9 +492,6 @@ BLYNK_WRITE(V87)   //Zapping ch7
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL7_V87;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-
-  if(_blynkData) Blynk.setProperty(V87, "color", BLYNK_BLUE);
-  else Blynk.setProperty(V87, "color", BLYNK_RED);
 }
 
 BLYNK_WRITE(V88)   //Zapping ch8
@@ -561,9 +500,6 @@ BLYNK_WRITE(V88)   //Zapping ch8
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL8_V88;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-
-  if(_blynkData) Blynk.setProperty(V88, "color", BLYNK_BLUE);
-  else Blynk.setProperty(V88, "color", BLYNK_RED);  
 }
 
 
@@ -573,9 +509,6 @@ BLYNK_WRITE(V89)   //Zapping ch9
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL9_V89;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-
-  if(_blynkData) Blynk.setProperty(V89, "color", BLYNK_BLUE);
-  else Blynk.setProperty(V89, "color", BLYNK_RED);  
 }
 
 BLYNK_WRITE(V90)   //CH +
@@ -619,9 +552,6 @@ BLYNK_WRITE(V94)   //Zapping ch10
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL10_V94;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-
-  if(_blynkData) Blynk.setProperty(V94, "color", BLYNK_BLUE);
-  else Blynk.setProperty(V94, "color", BLYNK_RED);  
 }
 
 BLYNK_WRITE(V95)   //Zapping ch11
@@ -630,9 +560,6 @@ BLYNK_WRITE(V95)   //Zapping ch11
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL11_V95;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-
-  if(_blynkData) Blynk.setProperty(V95, "color", BLYNK_BLUE);
-  else Blynk.setProperty(V95, "color", BLYNK_RED);  
 }
 
 
@@ -642,9 +569,6 @@ BLYNK_WRITE(V96)   //Zapping ch12
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL12_V96;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-
-  if(_blynkData) Blynk.setProperty(V96, "color", BLYNK_BLUE);
-  else Blynk.setProperty(V96, "color", BLYNK_RED);  
 }
 
 BLYNK_WRITE(V97)   //Zapping ch14
@@ -653,9 +577,6 @@ BLYNK_WRITE(V97)   //Zapping ch14
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL13_V97;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-
-  if(_blynkData) Blynk.setProperty(V97, "color", BLYNK_BLUE);
-  else Blynk.setProperty(V97, "color", BLYNK_RED);  
 }
 
 
@@ -718,9 +639,6 @@ BLYNK_WRITE(V106)   //Zapping ch14
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL14_V106;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-
-  if(_blynkData) Blynk.setProperty(V106, "color", BLYNK_BLUE);
-  else Blynk.setProperty(V106, "color", BLYNK_RED);  
 }
 
 BLYNK_WRITE(V107)   //Zapping ch15
@@ -730,9 +648,6 @@ BLYNK_WRITE(V107)   //Zapping ch15
     _blynkEventID =FB_ZAP_CHANNEL_ID8;
     eventdata = Q_EVENT_ZAP_CHANNEL15_V107;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-
-  if(_blynkData) Blynk.setProperty(V107, "color", BLYNK_BLUE);
-  else Blynk.setProperty(V107, "color", BLYNK_RED);  
 }
 
 
@@ -835,7 +750,7 @@ void blynk::blynkSmsLed(bool _data)
 void blynk::zapLed(bool _data)
 {
  if (_data==0)  ZAP_LED_V80.setColor(BLYNK_RED);
- else           ZAP_LED_V80.setColor(BLYNK_BLUE);
+ else           ZAP_LED_V80.setColor(BLYNK_GREEN);
 }
 
 void blynk::sendToBlynkLed(bool _data)
