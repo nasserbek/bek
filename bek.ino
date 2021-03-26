@@ -102,7 +102,6 @@ void setup()
       
       
     Sms_24_hoursTimer       = millis();
-    blynkAtiveTimer     = millis();
     internetSurvilanceTimer = millis();
     liveTimerOff            = millis();
     liveTimerOn             = millis();
@@ -147,15 +146,8 @@ void loop(void)
                     myBlynk.getData ();
                     queuData = myBlynk.blynkData;
                     processBlynkQueu();
-                    myBlynk.blynkActive = true; blynkAtiveTimer     = millis();
                   }
-            else  
-             { 
-               if ( (  (millis() - blynkAtiveTimer) >=  BLYNK_ACTIVE_TIMEOUT ) && myBlynk.blynkActive )
-                {
-                  myBlynk.blynkActive = false; blynkAtiveTimer     = millis();
-                }
-             }    
+
             InternetLoss = false;   resetNetgeerAfterInternetLossTimer = millis();
             netGeerReset = false;   restartAfterResetNG = millis();
           }

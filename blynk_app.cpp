@@ -13,6 +13,7 @@
 
 WiFiMulti wifiMulti;
 
+long  blynkAtiveTimer;
 int _t433ChNumber, _t315ChNumber,_blynkfreqValue,_sevenSeg;
 int _otaBlynk=0;
 int _bootBlynk=0;
@@ -192,6 +193,7 @@ void blynk::init()
   Blynk.connect(); 
   checkBlynk();
   ledInit();
+  blynkAtiveTimer     = millis();
 }
 
 BLYNK_WRITE(V0)  //freq
@@ -708,6 +710,8 @@ bool blynk::getData()
       blynkData=_blynkData;
       blynkEventID =_blynkEventID;
       _blynkEvent = false;
+      blynkActive = true; 
+      blynkAtiveTimer     = millis();
       return true;
     }  
     else return false;
@@ -717,6 +721,10 @@ bool blynk::getData()
 void blynk::blynkRunTimer()
 {
   timer.run();
+  if ( (  (millis() - blynkAtiveTimer) >=  BLYNK_ACTIVE_TIMEOUT ) && blynkActive )
+    {
+      blynkActive = false; blynkAtiveTimer     = millis();
+   }
 }
 
 void blynk::blynkRun()
@@ -828,11 +836,44 @@ void blynk::sendAvRxIndex(int _index)
 
 void blynk::visualActiveRoom(int id)
 {
-  if ( (id >= 1) && (id <= 5)) { Blynk.setProperty(V3, "color", BLYNK_GREEN);Blynk.setProperty(V16,V17,V18,V25, "color", BLYNK_BLACK);}
-  if ( (id >= 6) && (id <= 10)) { Blynk.setProperty(V16, "color", BLYNK_GREEN);Blynk.setProperty(V3,V17,V18,V25, "color", BLYNK_BLACK);}
-  if ( (id >= 11) && (id <= 15)) { Blynk.setProperty(V17, "color", BLYNK_GREEN);Blynk.setProperty(V16,V3,V18,V25, "color", BLYNK_BLACK);}
-  if ( (id >= 16) && (id <= 20)) { Blynk.setProperty(V18, "color", BLYNK_GREEN);Blynk.setProperty(V16,V17,V3,V25, "color", BLYNK_BLACK);}
-  if ( (id >= 21) && (id <= 25)) { Blynk.setProperty(V25, "color", BLYNK_GREEN);Blynk.setProperty(V16,V17,V18,V3, "color", BLYNK_BLACK);}
+  if ( (id >= 1) && (id <= 5)) 
+    { Blynk.setProperty(V3, "color", BLYNK_GREEN);
+      Blynk.setProperty(V16, "color", BLYNK_BLACK);
+      Blynk.setProperty(V17, "color", BLYNK_BLACK);
+      Blynk.setProperty(V18, "color", BLYNK_BLACK);
+      Blynk.setProperty(V25, "color", BLYNK_BLACK);
+    }
+  if ( (id >= 6) && (id <= 10)) 
+    { 
+      Blynk.setProperty(V16, "color", BLYNK_GREEN);
+      Blynk.setProperty(V3, "color", BLYNK_BLACK);
+      Blynk.setProperty(V17, "color", BLYNK_BLACK);
+      Blynk.setProperty(V18, "color", BLYNK_BLACK);
+      Blynk.setProperty(V25, "color", BLYNK_BLACK);
+   }
+  if ( (id >= 11) && (id <= 15)) 
+    { 
+      Blynk.setProperty(V17, "color", BLYNK_GREEN);
+      Blynk.setProperty(V3, "color", BLYNK_BLACK);
+      Blynk.setProperty(V16, "color", BLYNK_BLACK);
+      Blynk.setProperty(V18, "color", BLYNK_BLACK);
+      Blynk.setProperty(V25, "color", BLYNK_BLACK);
+   }
+  if ( (id >= 16) && (id <= 20)) 
+    { 
+      Blynk.setProperty(V18, "color", BLYNK_GREEN);
+      Blynk.setProperty(V3, "color", BLYNK_BLACK);
+      Blynk.setProperty(V16, "color", BLYNK_BLACK);
+      Blynk.setProperty(V17, "color", BLYNK_BLACK);
+      Blynk.setProperty(V25, "color", BLYNK_BLACK);
+   }
+  if ( (id >= 21) && (id <= 25)) 
+    { Blynk.setProperty(V25, "color", BLYNK_GREEN);
+      Blynk.setProperty(V3, "color", BLYNK_BLACK);
+      Blynk.setProperty(V16, "color", BLYNK_BLACK);
+      Blynk.setProperty(V17, "color", BLYNK_BLACK);
+      Blynk.setProperty(V18, "color", BLYNK_BLACK);
+   }
 }
 
 
