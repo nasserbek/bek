@@ -1011,6 +1011,7 @@ void receiverAvByFreq (int Freq)
        recevierFreq =Freq;
        if (blynkConnected) myBlynk.blynkAckLed(true); 
        if (FBConnected) fb.SendString (FB_ACK_LED, String(1) );
+       videoCh[recevierCh].frequency = Freq;
        _pll[recevierCh] =( 512 * (Freq + 479.5) ) / 64 ;
   //     int PLL_value    =( 512 * (Freq + 479.5) ) / 64 ;
        ack = avReceiver.Tuner_PLL(av_pll_addr, _pll[recevierCh]);
