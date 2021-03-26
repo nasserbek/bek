@@ -998,7 +998,7 @@ void receiverAvByCh (int Ch)
        if (FBConnected) fb.SendString (FB_ACK_LED, String(ack) );
        recevierFreq =videoCh[Ch].frequency;   
        
-       if (blynkConnected) {myBlynk.frequencyValue(recevierFreq );myBlynk.visualActiveRoom(recevierCh);}
+       if (blynkConnected) {myBlynk.frequencyValue(recevierFreq );myBlynk.visualActiveRoom(Ch);}
        DEBUG_PRINT("Received freq channel:");DEBUG_PRINTLN(Ch);
        DEBUG_PRINT("ack: ");DEBUG_PRINTLN(ack ? F("NotACK") : F("ACK"));
 }
