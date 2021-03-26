@@ -857,7 +857,7 @@ void blynk::visualActiveRoom(int id, bool zap)
   if ( (id >= 1) && (id <= 5)) 
     { 
       if (zap) Blynk.virtualWrite(V3, id);
-      Blynk.setProperty(V3, "color", BLYNK_GREEN);
+      Blynk.setProperty(V3, "color", BLYNK_GRAY);
       Blynk.setProperty(V16, "color", BLYNK_BLACK);
       Blynk.setProperty(V17, "color", BLYNK_BLACK);
       Blynk.setProperty(V18, "color", BLYNK_BLACK);
@@ -866,7 +866,7 @@ void blynk::visualActiveRoom(int id, bool zap)
   if ( (id >= 6) && (id <= 10)) 
     { 
       if (zap)Blynk.virtualWrite(V16, id-5);
-      Blynk.setProperty(V16, "color", BLYNK_GREEN);
+      Blynk.setProperty(V16, "color", BLYNK_GRAY);
       Blynk.setProperty(V3, "color", BLYNK_BLACK);
       Blynk.setProperty(V17, "color", BLYNK_BLACK);
       Blynk.setProperty(V18, "color", BLYNK_BLACK);
@@ -875,7 +875,7 @@ void blynk::visualActiveRoom(int id, bool zap)
   if ( (id >= 11) && (id <= 15)) 
     { 
       if (zap)Blynk.virtualWrite(V17, id-10);
-      Blynk.setProperty(V17, "color", BLYNK_GREEN);
+      Blynk.setProperty(V17, "color", BLYNK_GRAY);
       Blynk.setProperty(V3, "color", BLYNK_BLACK);
       Blynk.setProperty(V16, "color", BLYNK_BLACK);
       Blynk.setProperty(V18, "color", BLYNK_BLACK);
@@ -884,7 +884,7 @@ void blynk::visualActiveRoom(int id, bool zap)
   if ( (id >= 16) && (id <= 20)) 
     { 
       if (zap)Blynk.virtualWrite(V18, id-15);
-      Blynk.setProperty(V18, "color", BLYNK_GREEN);
+      Blynk.setProperty(V18, "color", BLYNK_GRAY);
       Blynk.setProperty(V3, "color", BLYNK_BLACK);
       Blynk.setProperty(V16, "color", BLYNK_BLACK);
       Blynk.setProperty(V17, "color", BLYNK_BLACK);
@@ -893,7 +893,7 @@ void blynk::visualActiveRoom(int id, bool zap)
   if ( (id >= 21) && (id <= 25)) 
     { 
      if (zap) Blynk.virtualWrite(V25, id-20);
-      Blynk.setProperty(V25, "color", BLYNK_GREEN);
+      Blynk.setProperty(V25, "color", BLYNK_GRAY);
       Blynk.setProperty(V3, "color", BLYNK_BLACK);
       Blynk.setProperty(V16, "color", BLYNK_BLACK);
       Blynk.setProperty(V17, "color", BLYNK_BLACK);

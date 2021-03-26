@@ -1,5 +1,5 @@
 #define BEK
-#define VERSION_ID " V166 "
+#define VERSION_ID " V167 "
 #define DEBUG_SERIAL
 #define BLYNK_SERVER "blynk-cloud.com"
 
@@ -97,6 +97,8 @@
 #define BLYNK_RED       "#D3435C"
 #define BLYNK_DARK_BLUE "#5F7CD8"
 #define BLYNK_BLACK      "#444444"
+#define BLYNK_GRAY      "#cdd6f2"
+
 
 
 
