@@ -96,7 +96,7 @@
 #define BLYNK_YELLOW    "#ED9D00"
 #define BLYNK_RED       "#D3435C"
 #define BLYNK_DARK_BLUE "#5F7CD8"
-#define BLYNK_BLACK      "#000000"
+#define BLYNK_BLACK      "#444444"
 
 
 
