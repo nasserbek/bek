@@ -894,7 +894,7 @@ void blynk::visualActiveRoom(int id, bool zap)
     { 
      if (zap) Blynk.virtualWrite(V25, id-20);
       Blynk.setProperty(V25, "color", BLYNK_GRAY);
-      Blynk.setProperty(V3, "color", BLYNK_BLACK);
+      Blynk.setProperty(V3, "color",  BLYNK_BLACK);
       Blynk.setProperty(V16, "color", BLYNK_BLACK);
       Blynk.setProperty(V17, "color", BLYNK_BLACK);
       Blynk.setProperty(V18, "color", BLYNK_BLACK);
