@@ -149,11 +149,13 @@ void loop(void)
                     processBlynkQueu();
                     myBlynk.blynkActive = true; blynkAtiveTimer     = millis();
                   }
-            else  if ( (  (millis() - blynkAtiveTimer) >=  BLYNK_ACTIVE_TIMEOUT ) && myBlynk.blynkActive )
+            else  
+             { 
+               if ( (  (millis() - blynkAtiveTimer) >=  BLYNK_ACTIVE_TIMEOUT ) && myBlynk.blynkActive )
                 {
                   myBlynk.blynkActive = false; blynkAtiveTimer     = millis();
                 }
-                
+             }    
             InternetLoss = false;   resetNetgeerAfterInternetLossTimer = millis();
             netGeerReset = false;   restartAfterResetNG = millis();
           }
