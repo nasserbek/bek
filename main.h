@@ -55,7 +55,6 @@ const unsigned long CH_433[32] ={0,4674819,4674828,4674864,4675020,4675023,46748
 
 
 int blynkStatus = 1;
-bool blynkActive = false;
 bool googleConnected=false;
 bool blynkInitDone=false;
 bool blynkConnected = false;

@@ -968,22 +968,17 @@ void zappingAvCh (bool zapCmd, int zapTimer)
 
 void remoteControl(int cmd )
 {
-     if (blynkConnected)    
-      {
-        if (cmd >= 1 && cmd <= 15)  {myBlynk.blynkRCLed(1); }
-        if (cmd >= 16 && cmd <= 30) {myBlynk.blynkRCLed315(1);}
-      }
-
+     if (blynkConnected)  myBlynk.blynkRCLed(1, cmd); 
+     
      mySwitch.send(CH_433[cmd], RC_CODE_LENGTH);
      DEBUG_PRINT("ch433:");DEBUG_PRINTLN(cmd);
      delay(500);
      
-     if (blynkConnected)    
+     if (blynkConnected) 
       {
-        if (cmd >= 1 && cmd <= 15) {myBlynk.blynkRCLed(0);myBlynk.resetT433Cmd(cmd);}
-        if (cmd >= 16 && cmd <= 30) {myBlynk.blynkRCLed315(0);myBlynk.resetT315Cmd(cmd);}
+        myBlynk.blynkRCLed(0, cmd);
+        myBlynk.resetT433Cmd(cmd);
       }
-
 }
 
 

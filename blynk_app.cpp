@@ -14,6 +14,8 @@
 WiFiMulti wifiMulti;
 
 long  blynkAtiveTimer;
+bool  blynkActive =false;
+
 int _t433ChNumber, _t315ChNumber,_blynkfreqValue,_sevenSeg;
 int _otaBlynk=0;
 int _bootBlynk=0;
@@ -29,7 +31,6 @@ bool firstConnect= false;
 
 extern EventGroupHandle_t g_event_group;
 extern QueueHandle_t g_event_queue_handle;
-extern bool blynkActive;
 
 WidgetLED ACK_LED_V5(V5);   //Ack
 WidgetLED T433_LED_V6(V6);   //T433 St
@@ -750,11 +751,28 @@ void blynk::blynkAckLed(bool _data)
 }
 
 
-void blynk::blynkRCLed(bool _data)
+void blynk::blynkRCLed(bool _data, int cmd)
 {
-      if (_data==0)  T433_LED_V6.setColor(BLYNK_RED);
-      else           T433_LED_V6.setColor(BLYNK_GREEN);
+      if (_data==0)  
+          {
+            T433_LED_V6.setColor(BLYNK_RED);
+            if ( (cmd >= 1) && (cmd <= 5))  Blynk.setProperty(V3, "color", BLYNK_RED);
+            if ( (cmd >= 6) && (cmd <= 10))  Blynk.setProperty(V16, "color", BLYNK_RED);
+            if ( (cmd >= 11) && (cmd <= 15))  Blynk.setProperty(V17, "color", BLYNK_RED);
+            if ( (cmd >= 16) && (cmd <= 20))  Blynk.setProperty(V18, "color", BLYNK_RED);
+            if ( (cmd >= 20) && (cmd <= 25))  Blynk.setProperty(V25, "color", BLYNK_RED);
+          }
+      else           
+      {
+            T433_LED_V6.setColor(BLYNK_GREEN);
+            if ( (cmd >= 1) && (cmd <= 5))  Blynk.setProperty(V3, "color", BLYNK_GREEN);
+            if ( (cmd >= 6) && (cmd <= 10))  Blynk.setProperty(V16, "color", BLYNK_GREEN);
+            if ( (cmd >= 11) && (cmd <= 15))  Blynk.setProperty(V17, "color", BLYNK_GREEN);
+            if ( (cmd >= 16) && (cmd <= 20))  Blynk.setProperty(V18, "color", BLYNK_GREEN);
+            if ( (cmd >= 20) && (cmd <= 25))  Blynk.setProperty(V25, "color", BLYNK_GREEN);      
+      }
 }
+
 
 void blynk::blynkRCLed315(bool _data)
 {

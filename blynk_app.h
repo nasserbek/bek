@@ -25,7 +25,7 @@ class blynk {
     int  t433ChNumber,t315ChNumber, blynkfreqValue,sevenSeg,frequency,otaBlynk,bootBlynk,fbonBlynk,smsBlynk;
     bool wifiIsConnected = false;
     bool blynkIsConnected = false;
-    bool  blynkActive =false;
+
 
     blynk(void) ;
     void init();
@@ -37,7 +37,7 @@ class blynk {
     bool wifiStatus();
     void sendAlive( int _data);
     void blynkAckLed(bool _data);
-    void blynkRCLed(bool _data);
+    void blynkRCLed(bool _data, int cmd);
     void blynkRCLed315(bool _data);
     void resetT433Cmd(int cmd );
     void resetT315Cmd(int cmd );
