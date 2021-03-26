@@ -55,11 +55,12 @@ const unsigned long CH_433[32] ={0,4674819,4674828,4674864,4675020,4675023,46748
 
 
 int blynkStatus = 1;
+bool blynkActive = false;
 bool googleConnected=false;
 bool blynkInitDone=false;
 bool blynkConnected = false;
 bool FBConnected = false;
-bool  blynkActive =false;
+
 bool sendToBlynk = false;
 bool fireBaseOn =false;
 bool blynkOn    =true;
@@ -68,7 +69,7 @@ bool smsOn      =true;
 
 int zapTimer = 5000;
 int routerTimer = 5000;
-long  routerResetTimer, resetNetgeerAfterInternetLossTimer,zaptime, Sms_24_hoursTimer, wifiSurvilanceTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff,wifiIDETimer,restartAfterResetNG,NetgeerResetGooglLostTimer,blynkNotActiveTimer;
+long  routerResetTimer, resetNetgeerAfterInternetLossTimer,zaptime, Sms_24_hoursTimer, blynkAtiveTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff,wifiIDETimer,restartAfterResetNG,NetgeerResetGooglLostTimer,blynkNotActiveTimer;
 bool pingGoogle= false;
 bool googlePingOk= true;
 bool netGeerReset = false;

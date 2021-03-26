@@ -25,6 +25,7 @@ class blynk {
     int  t433ChNumber,t315ChNumber, blynkfreqValue,sevenSeg,frequency,otaBlynk,bootBlynk,fbonBlynk,smsBlynk;
     bool wifiIsConnected = false;
     bool blynkIsConnected = false;
+    bool  blynkActive =false;
 
     blynk(void) ;
     void init();
@@ -54,6 +55,7 @@ class blynk {
     void streamSelect(bool stream);
     void sendVersion(String ver); 
     void sendPulseRepetetion(int pulse, int repetetion);
+    void visualActiveRoom(int id);
 
 };
 #endif

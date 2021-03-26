@@ -28,6 +28,7 @@ bool firstConnect= false;
 
 extern EventGroupHandle_t g_event_group;
 extern QueueHandle_t g_event_queue_handle;
+extern bool blynkActive;
 
 WidgetLED ACK_LED_V5(V5);   //Ack
 WidgetLED T433_LED_V6(V6);   //T433 St
@@ -115,11 +116,15 @@ void sendTimeToBlynk_7500ms(){
   }
   if(Blynk.connected()){
     counterTime();
-    Blynk.virtualWrite(V4, days);
-    Blynk.virtualWrite(V20, hours);
-    Blynk.virtualWrite(V21, minutes);
-    Blynk.virtualWrite(V11, seconds);
-    Serial.println("\tTick update to blynk.");
+    if(!blynkActive)
+    {
+      Blynk.virtualWrite(V4, days);
+      Blynk.virtualWrite(V20, hours);
+      Blynk.virtualWrite(V21, minutes);
+      Blynk.virtualWrite(V11, seconds);
+      Serial.println("\tTick update to blynk.");
+    }
+    
     sendTime_7500ms = !sendTime_7500ms;
     _blynkIsConnected = true;
   }
@@ -214,11 +219,11 @@ BLYNK_WRITE(V2) // receiver ch
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
-BLYNK_WRITE(V3) // ROOM_201_TO_205
+BLYNK_WRITE(V3) // ROOM_1_TO_5
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_ROOM_VTR_21_TO_25_V3;
+    eventdata = Q_EVENT_ROOM_ID_1_TO_5_V3;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -274,28 +279,28 @@ BLYNK_WRITE(V15)   //NETGEER
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
-BLYNK_WRITE(V16) // ROOM_206_TO_210
+BLYNK_WRITE(V16) // ROOM_6_TO_10
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_ROOM_VTR_26_TO_38_V16;
+    eventdata = Q_EVENT_ROOM_ID_6_TO_10_V16;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
 
-BLYNK_WRITE(V17) // ROOM_211_TO_215
+BLYNK_WRITE(V17) // ROOM_11_TO_15
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_ROOM_VTR_39_TO_40_V17;
+    eventdata = Q_EVENT_ROOM_ID_11_TO_15_V17;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
-BLYNK_WRITE(V18) // ROOM_216_TO_220
+BLYNK_WRITE(V18) // ROOM_16_TO_20
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_ROOM_216_227_228_229_230_V18;
+    eventdata = Q_EVENT_ROOM_ID_16_TO_20_V18;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -318,11 +323,11 @@ BLYNK_WRITE(V23)   //router reset Timer
 
 
 
-BLYNK_WRITE(V25) // ROOM_231_232_233
+BLYNK_WRITE(V25) // ROOM_21_25
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_ROOM_231_232_233_V25;
+    eventdata = Q_EVENT_ROOM_ID_21_25_V25;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -814,11 +819,22 @@ void blynk::sendRsss(int _rsss)
 void blynk::sendAvRxIndex(int _index)
 {
  Blynk.virtualWrite(V19, _index);
-  if (_index ==1) Blynk.setProperty(V19, "color", BLYNK_GREEN);
-  if (_index==2) Blynk.setProperty(V19, "color", BLYNK_YELLOW);
-  if (_index ==3) Blynk.setProperty(V19, "color", BLYNK_RED);
-   Blynk.virtualWrite(V99, _index);
+ Blynk.virtualWrite(V99, _index);
+  if (_index ==1) Blynk.setProperty(V19,V99, "color", BLYNK_GREEN);
+  if (_index ==2) Blynk.setProperty(V19,V99, "color", BLYNK_YELLOW);
+  if (_index ==3) Blynk.setProperty(V19,V99, "color", BLYNK_RED);
+   
 }
+
+void blynk::visualActiveRoom(int id)
+{
+  if ( (id >= 1) && (id <= 5)) { Blynk.setProperty(V3, "color", BLYNK_GREEN);Blynk.setProperty(V16,V17,V18,V25, "color", BLYNK_BLACK);}
+  if ( (id >= 6) && (id <= 10)) { Blynk.setProperty(V16, "color", BLYNK_GREEN);Blynk.setProperty(V3,V17,V18,V25, "color", BLYNK_BLACK);}
+  if ( (id >= 11) && (id <= 15)) { Blynk.setProperty(V17, "color", BLYNK_GREEN);Blynk.setProperty(V16,V3,V18,V25, "color", BLYNK_BLACK);}
+  if ( (id >= 16) && (id <= 20)) { Blynk.setProperty(V18, "color", BLYNK_GREEN);Blynk.setProperty(V16,V17,V3,V25, "color", BLYNK_BLACK);}
+  if ( (id >= 21) && (id <= 25)) { Blynk.setProperty(V25, "color", BLYNK_GREEN);Blynk.setProperty(V16,V17,V18,V3, "color", BLYNK_BLACK);}
+}
+
 
 bool blynk::blynkStatus(void)
 {

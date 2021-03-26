@@ -98,10 +98,10 @@ void streamCallback(StreamData firebaseData1)
     if (_eventPath == FB_REMOTE_CTRL_BOTH)      _eventID = Q_EVENT_ROOM_AV_RC_V19;
     if (_eventPath == FB_REMOTE_CTRL_RC)        _eventID = Q_EVENT_ROOM_AV_RC_V19;   
     if (_eventPath == FB_REMOTE_CTRL_VIDEO)     _eventID = Q_EVENT_ROOM_AV_RC_V19;
-    if (_eventPath == FB_ROOM_NR_1_5 )          _eventID = Q_EVENT_ROOM_VTR_21_TO_25_V3;    
-    if (_eventPath == FB_ROOM_NR_6_10 )         _eventID = Q_EVENT_ROOM_VTR_26_TO_38_V16;  
-    if (_eventPath == FB_ROOM_NR_11_15 )        _eventID = Q_EVENT_ROOM_VTR_39_TO_40_V17; 
-    if (_eventPath == FB_ROOM_NR_16_20 )        _eventID = Q_EVENT_ROOM_216_227_228_229_230_V18;  
+    if (_eventPath == FB_ROOM_NR_1_5 )          _eventID = Q_EVENT_ROOM_ID_1_TO_5_V3;    
+    if (_eventPath == FB_ROOM_NR_6_10 )         _eventID = Q_EVENT_ROOM_ID_6_TO_10_V16;  
+    if (_eventPath == FB_ROOM_NR_11_15 )        _eventID = Q_EVENT_ROOM_ID_11_TO_15_V17; 
+    if (_eventPath == FB_ROOM_NR_16_20 )        _eventID = Q_EVENT_ROOM_ID_16_TO_20_V18;  
     
     if (_eventPath == FB_ZAP_CMD)               _eventID = Q_EVENT_ZAP_V71;  
     if (_eventPath == FB_ZAP_CH_1)              _eventID = Q_EVENT_ZAP_CHANNEL1_V81 ;      

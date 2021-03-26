@@ -15,6 +15,7 @@ int _seconds ;
 QueueHandle_t g_event_queue_handle = NULL;
 EventGroupHandle_t g_event_group = NULL;
 
+
 int queuData;
 int queuDataID;
 bool queuValidData=false;
@@ -101,7 +102,7 @@ void setup()
       
       
     Sms_24_hoursTimer       = millis();
-    wifiSurvilanceTimer     = millis();
+    blynkAtiveTimer     = millis();
     internetSurvilanceTimer = millis();
     liveTimerOff            = millis();
     liveTimerOn             = millis();
@@ -145,8 +146,14 @@ void loop(void)
                   {
                     myBlynk.getData ();
                     queuData = myBlynk.blynkData;
-                    processBlynkQueu();}
-            
+                    processBlynkQueu();
+                    myBlynk.blynkActive = true; blynkAtiveTimer     = millis();
+                  }
+            else  if ( (  (millis() - blynkAtiveTimer) >=  BLYNK_ACTIVE_TIMEOUT ) && myBlynk.blynkActive )
+                {
+                  myBlynk.blynkActive = false; blynkAtiveTimer     = millis();
+                }
+                
             InternetLoss = false;   resetNetgeerAfterInternetLossTimer = millis();
             netGeerReset = false;   restartAfterResetNG = millis();
           }
@@ -177,9 +184,9 @@ void loop(void)
       
       if ( (millis() - Sms_24_hoursTimer) >=  SMS_24_HOURS  )
           {
-            sms.SendSMS("VTR Alive");
             Sms_24_hoursTimer       = millis();
-          }
+            sms.SendSMS("VTR Alive");
+           }
    
        myBlynk.blynkRunTimer();
 }
@@ -277,31 +284,31 @@ void processFirebase(void)
 
 
 
-            case Q_EVENT_ROOM_VTR_21_TO_25_V3:
+            case Q_EVENT_ROOM_ID_1_TO_5_V3:
                   remoteControlRcCh = fb.eventValue;
                   recevierCh        = fb.eventValue;
                   room (remoteControlRcCh, recevierCh , Av_Rx );
            break;
             
-            case Q_EVENT_ROOM_VTR_26_TO_38_V16:
+            case Q_EVENT_ROOM_ID_6_TO_10_V16:
                   remoteControlRcCh = fb.eventValue+5;
                   recevierCh        = fb.eventValue+5;
                   room (remoteControlRcCh, recevierCh , Av_Rx );            
             break;
             
-            case Q_EVENT_ROOM_VTR_39_TO_40_V17:
+            case Q_EVENT_ROOM_ID_11_TO_15_V17:
                   remoteControlRcCh = fb.eventValue+10;
                   recevierCh        = fb.eventValue+10;
                   room (remoteControlRcCh, recevierCh , Av_Rx );             
             break;
             
-            case Q_EVENT_ROOM_216_227_228_229_230_V18:
+            case Q_EVENT_ROOM_ID_16_TO_20_V18:
                   remoteControlRcCh = fb.eventValue+15;
                   recevierCh        = fb.eventValue+15;
                   room (remoteControlRcCh, recevierCh , Av_Rx );                
             break;                                    
  
-            case Q_EVENT_ROOM_231_232_233_V25:
+            case Q_EVENT_ROOM_ID_21_25_V25:
                   remoteControlRcCh = fb.eventValue+20;
                   recevierCh        = fb.eventValue+20;
                   room (remoteControlRcCh, recevierCh , Av_Rx );               
@@ -441,6 +448,7 @@ void processBlynkQueu(void)
                 if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
                 else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
                 receiverAvByCh (recevierCh);
+                
             break;
 
            case Q_EVENT_OTA_GSM_V7:
@@ -471,25 +479,25 @@ void processBlynkQueu(void)
               ResetNetgeer();
             break;
 
-            case Q_EVENT_ROOM_VTR_21_TO_25_V3:
+            case Q_EVENT_ROOM_ID_1_TO_5_V3:
                   remoteControlRcCh = queuData;
                   recevierCh        = queuData;
                   room (remoteControlRcCh, recevierCh , Av_Rx );
            break;
             
-            case Q_EVENT_ROOM_VTR_26_TO_38_V16:
+            case Q_EVENT_ROOM_ID_6_TO_10_V16:
                   remoteControlRcCh = queuData+5;
                   recevierCh        = queuData+5;
                   room (remoteControlRcCh, recevierCh , Av_Rx );            
             break;
             
-            case Q_EVENT_ROOM_VTR_39_TO_40_V17:
+            case Q_EVENT_ROOM_ID_11_TO_15_V17:
                   remoteControlRcCh = queuData+10;
                   recevierCh        = queuData+10;
                   room (remoteControlRcCh, recevierCh , Av_Rx );             
             break;
             
-            case Q_EVENT_ROOM_216_227_228_229_230_V18:
+            case Q_EVENT_ROOM_ID_16_TO_20_V18:
                   remoteControlRcCh = queuData+15;
                   recevierCh        = queuData+15;
                   room (remoteControlRcCh, recevierCh , Av_Rx );                
@@ -505,7 +513,7 @@ void processBlynkQueu(void)
             break;
 
  
-            case Q_EVENT_ROOM_231_232_233_V25:
+            case Q_EVENT_ROOM_ID_21_25_V25:
                   remoteControlRcCh = queuData+20;
                   recevierCh        = queuData+20;
                   room (remoteControlRcCh, recevierCh , Av_Rx );               
@@ -1001,7 +1009,7 @@ void receiverAvByCh (int Ch)
        if (FBConnected) fb.SendString (FB_ACK_LED, String(ack) );
        recevierFreq =videoCh[Ch].frequency;   
        
-       if (blynkConnected) myBlynk.frequencyValue(recevierFreq );
+       if (blynkConnected) {myBlynk.frequencyValue(recevierFreq );myBlynk.visualActiveRoom(recevierCh);}
        DEBUG_PRINT("Received freq channel:");DEBUG_PRINTLN(Ch);
        DEBUG_PRINT("ack: ");DEBUG_PRINTLN(ack ? F("NotACK") : F("ACK"));
 }
@@ -1014,8 +1022,9 @@ void receiverAvByFreq (int Freq)
        recevierFreq =Freq;
        if (blynkConnected) myBlynk.blynkAckLed(true); 
        if (FBConnected) fb.SendString (FB_ACK_LED, String(1) );
-       int PLL_value =( 512 * ( 1000000 * (Freq + 479.5) ) ) / (16*4000000) ;
-       ack = avReceiver.Tuner_PLL(av_pll_addr, PLL_value);
+       _pll[recevierCh] =( 512 * (Freq + 479.5) ) / 64 ;
+  //     int PLL_value    =( 512 * (Freq + 479.5) ) / 64 ;
+       ack = avReceiver.Tuner_PLL(av_pll_addr, _pll[recevierCh]);
        if (blynkConnected)  { myBlynk.blynkAckLed(ack);myBlynk.frequencyValue(Freq );}
        if (FBConnected) fb.SendString (FB_ACK_LED, String(ack) );
        DEBUG_PRINT("Received manual_freq:");DEBUG_PRINTLN(manual_freq);
