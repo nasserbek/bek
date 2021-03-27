@@ -335,6 +335,14 @@ BLYNK_WRITE(V25) // ROOM_21_25
 }
 
 
+BLYNK_WRITE(V26)   //RESET FREQ
+{
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_RESET_FREQ_V26;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+}
+
 BLYNK_WRITE(V30)   //209 
 {
     _blynkEvent = true;

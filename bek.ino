@@ -513,7 +513,11 @@ void processBlynkQueu(void)
                   room (remoteControlRcCh, recevierCh , Av_Rx );               
             break;     
             
-                                   
+                    
+             case Q_EVENT_RESET_FREQ_V26:
+                  videoCh[recevierCh].frequency =   freqTable[recevierCh];           
+            break;         
+                                       
             case Q_EVENT_ZAP_V71:
               zapOnOff=queuData;
               DEBUG_PRINT("ZAP IS : ");
