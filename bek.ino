@@ -515,7 +515,8 @@ void processBlynkQueu(void)
             
                     
              case Q_EVENT_RESET_FREQ_V26:
-                  videoCh[recevierCh].frequency =   freqTable[recevierCh];           
+                  recevierFreq = videoCh[recevierCh].frequency =   freqTable[recevierCh];   
+                  receiverAvByFreq (recevierFreq);        
             break;         
                                        
             case Q_EVENT_ZAP_V71:
