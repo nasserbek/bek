@@ -689,7 +689,7 @@ void processSms(void)
           else if (smsReceived =="Otagsm")        smsID = Q_EVENT_OTA_GSM_V7;
           else if (smsReceived == "Netgeer" )     smsID = Q_EVENT_NETGEER_V15;
           else if (smsReceived == "Otagithub" )   smsID = Q_EVENT_OTA_GITHUB_V105  ;
-          else if (smsReceived == "C6" )          sms.SendSMS("I'm VTR and Alive");   
+          else if (smsReceived == "C6" )          smsID = Q_EVENT_C6_SMS_319;   
         }
    
 
@@ -729,6 +729,10 @@ void processSms(void)
                otaWifiGithub = false;         
                wifiIDETimer = millis();
                otaWifi();
+             break;
+
+             case Q_EVENT_C6_SMS_319:
+               sms.SendSMS("I'm VTR and Alive");         
              break;
              
     }  
