@@ -689,6 +689,7 @@ void processSms(void)
           else if (smsReceived =="Otagsm")        smsID = Q_EVENT_OTA_GSM_V7;
           else if (smsReceived == "Netgeer" )     smsID = Q_EVENT_NETGEER_V15;
           else if (smsReceived == "Otagithub" )   smsID = Q_EVENT_OTA_GITHUB_V105  ;
+          else if (smsReceived == "C6" )          sms.SendSMS("I'm VTR and Alive");   
         }
    
 
