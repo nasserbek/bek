@@ -343,6 +343,17 @@ BLYNK_WRITE(V26)   //RESET FREQ
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
+
+
+BLYNK_WRITE(V27)   //DVR ON OFF
+{
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_DVR_ON_OFF_V27;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+}
+
+
 BLYNK_WRITE(V30)   //209 
 {
     _blynkEvent = true;

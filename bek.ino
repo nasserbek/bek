@@ -518,7 +518,11 @@ void processBlynkQueu(void)
                   recevierFreq = videoCh[recevierCh].frequency =   freqTable[recevierCh];   
                   receiverAvByFreq (recevierFreq);        
             break;         
-                                       
+                 
+             case Q_EVENT_DVR_ON_OFF_V27:
+                  dvrOnOff (queuData);  
+            break;   
+                                                   
             case Q_EVENT_ZAP_V71:
               zapOnOff=queuData;
               DEBUG_PRINT("ZAP IS : ");
@@ -668,6 +672,7 @@ void processSms(void)
 {
     boolean isValidNumber =false;
       int smsID=0;
+      bool dvr = false;
       
       smsReceived =  sms.smsString;
       
@@ -690,6 +695,9 @@ void processSms(void)
           else if (smsReceived == "Netgeer" )     smsID = Q_EVENT_NETGEER_V15;
           else if (smsReceived == "Otagithub" )   smsID = Q_EVENT_OTA_GITHUB_V105  ;
           else if (smsReceived == "Alive" )       smsID = Q_EVENT_C6_SMS_319;   
+          else if (smsReceived == "Dvr on" )      {dvr = true;smsID = Q_EVENT_DVR_ON_OFF_V27;}
+          else if (smsReceived == "Dvr off" )     {dvr = false;smsID = Q_EVENT_DVR_ON_OFF_V27;}
+          
         }
    
 
@@ -734,7 +742,10 @@ void processSms(void)
              case Q_EVENT_C6_SMS_319:
                sms.SendSMS("I'm VTR and Alive");         
              break;
-             
+
+            case Q_EVENT_DVR_ON_OFF_V27  :
+              dvrOnOff (dvr); 
+            break;            
     }  
 }
 
@@ -1118,8 +1129,14 @@ void rebootSw(void)
 
 void  dvrOnOff (bool onOff)
 {
+#ifdef BEK   // 4 RELAYS 0 ACTIVE
    if (onOff) digitalWrite(AV_RX_DVR_PIN_2, LOW); 
    else digitalWrite(AV_RX_DVR_PIN_2, HIGH); 
+#else // SINGLE RELAY 1 ACTIVE
+   if (onOff) digitalWrite(AV_RX_DVR_PIN_2, HIGH); 
+   else digitalWrite(AV_RX_DVR_PIN_2, LOW); 
+#endif
+
 }
 
 /**********************************************************************************************************************************************/
