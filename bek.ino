@@ -51,10 +51,10 @@ void setup()
 
 #ifdef BEK   // 4 RELAYS 0 ACTIVE
      digitalWrite(NETGEER_PIN_0, HIGH);
-     digitalWrite(AV_RX_DVR_PIN_2, LOW);   
+     digitalWrite(AV_RX_DVR_PIN_2, HIGH);   
 #else // SINGLE RELAY 1 ACTIVE
      digitalWrite(NETGEER_PIN_0, LOW);// NC ACTIVATE ON POWER ON BY DOING NOTHING
-     digitalWrite(AV_RX_DVR_PIN_2, HIGH);  // NC DISACTIVATE AV RECEIVER ON POWER ON
+     digitalWrite(AV_RX_DVR_PIN_2, LOW);  // NC DISACTIVATE AV RECEIVER ON POWER ON
 #endif
 
      Serial.begin(115200);
@@ -1130,11 +1130,11 @@ void rebootSw(void)
 void  dvrOnOff (bool onOff)
 {
 #ifdef BEK   // 4 RELAYS 0 ACTIVE
-   if (onOff) digitalWrite(AV_RX_DVR_PIN_2, LOW); 
-   else digitalWrite(AV_RX_DVR_PIN_2, HIGH); 
-#else // SINGLE RELAY 1 ACTIVE
    if (onOff) digitalWrite(AV_RX_DVR_PIN_2, HIGH); 
    else digitalWrite(AV_RX_DVR_PIN_2, LOW); 
+#else // SINGLE RELAY 1 ACTIVE
+   if (onOff) digitalWrite(AV_RX_DVR_PIN_2, LOW); 
+   else digitalWrite(AV_RX_DVR_PIN_2, HIGH); 
 #endif
 
 }
