@@ -63,7 +63,7 @@ bool FBConnected = false;
 bool sendToBlynk = false;
 bool fireBaseOn =false;
 bool blynkOn    =true;
-bool wifiOn     =true;
+bool wifiOn     =false;
 bool smsOn      =true;
 
 int zapTimer = 5000;
