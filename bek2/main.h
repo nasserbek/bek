@@ -16,7 +16,7 @@
 
 #include "gsm_ota.h"
 #include "esp_system.h"
-#include "time.h"
+//#include "time.h"
 #include "av.h"
 #include "sim.h"
 #include "FB.h"
@@ -24,22 +24,6 @@
 #include "blynk_app.h"
 
 #include "headers.h"
-
-bool sendTime_7500ms;
-int _days  ;
-int _hours;
-int _minutes ;
-int _seconds ;
-
-QueueHandle_t g_event_queue_handle = NULL;
-EventGroupHandle_t g_event_group = NULL;
-
-
-int queuData;
-int queuDataID;
-bool queuValidData=false;
-bool streamWebDdns = DDNS;
-bool routerResetStart =false;
 
 
 
@@ -69,28 +53,28 @@ uint _pll[20];
 const uint freqTable[16] = {0,1080,1120, 1160, 1200, 1240, 1280, 1320, 1360, 990, 1050, 1140, 1180, 1220, 1340, 1300 };
 const unsigned long CH_433[32] ={0,4674819,4674828,4674864,4675020,4675023,4674876,4674879,4675056,4675011,4674831,4675068,4675059,4675071,4675008,4675015,7722243,7722252,7722288,7722444,7722447,7722300,7722303,7722480,7722435,7722255,7722492,7722483,7722495,7722432,7722291,0};
 
-bool blynkOn    =true;
-bool fireBaseOn =false;
-bool FBConnected = false;
 
 int blynkStatus = 1;
 bool googleConnected=false;
 bool blynkInitDone=false;
 bool blynkConnected = false;
-
+bool FBConnected = false;
 
 bool sendToBlynk = false;
-
-
+bool fireBaseOn =false;
+bool blynkOn    =true;
 bool wifiOn     =true;
 bool smsOn      =true;
 
 int zapTimer = 5000;
 int routerTimer = 5000;
-long  routerResetTimer, resetNetgeerAfterInternetLossTimer,zaptime, Sms_24_hoursTimer, internetSurvilanceTimer, liveTimerOn,googlePingTimer,wifiIDETimer,restartAfterResetNG,NetgeerResetGooglLostTimer,blynkNotActiveTimer;
+long  routerResetTimer, resetNetgeerAfterInternetLossTimer,zaptime, Sms_24_hoursTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff,wifiIDETimer,restartAfterResetNG,NetgeerResetGooglLostTimer,blynkNotActiveTimer;
 bool pingGoogle= false;
 bool googlePingOk= true;
 bool netGeerReset = false;
+bool liveBit = false;
+IPAddress ip (192, 168, 0, 1); // The remote ip to ping
+bool aliveTimout = false;
 int stateMachine =0;
 bool wifiIde = true;
 bool wifiWebUpdater = true;
@@ -101,7 +85,10 @@ int Av_Rx = 1;
 int deepSleepTimerHours = 1 ;
 bool startLostInternetTimer = false;
 bool InternetLoss = false;
+
 bool zapOnOff = false;
+
+
 boolean fbEvent = false;
 boolean blynkEvent = false;
 boolean smsEvent=false;
@@ -115,11 +102,15 @@ int smsOnOffCmd=0;
 int firebaseOnOffCmd=0;
 int blynkOnOffCmd=0;
 int wifiOnOffCmd=0;
-bool liveBit = false;
-IPAddress ip (192, 168, 0, 1); // The remote ip to ping
-bool aliveTimout = false;
 
 
+
+
+
+boolean old_fireBaseOn =true;
+boolean old_blynkOn    =false;
+boolean old_wifiOn    =false;
+boolean old_smsOn    =false;
 
 
 boolean otaBlynk=false;

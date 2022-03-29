@@ -49,7 +49,7 @@ bool sim800L::init()
             sim800lSerial->begin(4800, SERIAL_8N1, _rx_pin , _tx_pin);   // Make it slow so its easy to read!
             smsBeginStatus = sim800l.begin(*sim800lSerial);
             smsRebegin = millis();
-            DEBUG_PRINTLN("Sms Reconnection trail");
+            DEBUG_PRINTLN("Sms Re-Begin");
           }
         if (millis() - timeout > 20000){DEBUG_PRINTLN("Couldn't find GSM SIM800L"); return (simStatus = false); }
       }

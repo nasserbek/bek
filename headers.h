@@ -1,17 +1,20 @@
-#define SDP
+#define BEK
 #define FREE
 #define VERSION_ID " V200 "
 #define DEBUG_SERIAL
 #define BLYNK_SERVER  "192.168.1.28" //PI4
 //#define BLYNK_SERVER  "192.168.1.112" //PI3
 
-#ifdef SDP
-    #define NOTIFIER_ID " SDP_MAIN -"
+#ifdef BEK
+    #define NOTIFIER_ID " BEK VTR -"
 #else
-    #define NOTIFIER_ID " SPARE -"
+    #define NOTIFIER_ID " BEK2 xxx -"
 #endif
 
 #define WIFI_PASSWORD "ali09042010"
+#ifdef FREE
+  #define WIFI_SSID "Freebox-bek"                                              
+#endif
 
 #ifdef BOUY
   #define WIFI_SSID "GIGACUBE_BEK"                                                
@@ -19,10 +22,6 @@
 
 #ifdef OPPO
   #define WIFI_SSID "OPPO Reno2 Bek"                                              
-#endif
-
-#ifdef FREE
-  #define WIFI_SSID "Freebox-bek"                                              
 #endif
 
 #ifdef HUAWEI
@@ -406,16 +405,15 @@ Q_EVENT_OTA_GITHUB_V105,
 Q_EVENT_ZAP_CHANNEL14_V106,
 Q_EVENT_ZAP_CHANNEL15_V107,
 
-Q_EVENT_BLYNK_ON_SMS_309,
-Q_EVENT_BLYNK_OFF_SMS_310,
-Q_EVENT_FIREBASE_ON_SMS_311,
-Q_EVENT_FIREBASE_OFF_SMS_312,
-Q_EVENT_ZAP_ON_SMS_313,
-Q_EVENT_ZAP_OFF_SMS_314,
-Q_EVENT_DVR_ON_SMS_315,
-Q_EVENT_DVR_OFF_SMS_316,
-Q_EVENT_ALIVE_SMS_319,
-Q_EVENT_ZAP_CH_ON_OFF_320,
+Q_EVENT_VERSION_SMS_307,
+Q_EVENT_BLYNK_ON_OFF_SMS_309,
+Q_EVENT_WIFI_OFF_SMS_310,
+Q_EVENT_SETTINGS_SMS_311,
+Q_EVENT_IDLE_PATH_SMS_312,
+Q_EVENT_ZAP_CHANNEL_SMS_316,
+Q_EVENT_DVR_ON_SMS_317,
+Q_EVENT_DVR_OFF_SMS_318,
+Q_EVENT_C6_SMS_319,
 } ;
 
 #define MAX_NR_CHANNELS  15
@@ -455,8 +453,3 @@ enum {
   SM_CH15_A,
   SM_CH15_B,
 };
-
-#define ROUTER        1
-#define DVR           0
-#define POWER_ON      1
-#define POWER_OFF     0

@@ -39,11 +39,12 @@ WidgetLED SMS_LED_V12(V12);  //sms
 WidgetLED ZAP_LED_V80(V80);  //Zap Status
 
 
-#ifdef SDP
+#ifdef BEK
     char auth[] = "gu_ZdcjSU6csKvO7gpJWgh8IQJrevB-f"; //MAIN BOX
 #else
     char auth[] = "3SSt-ZshvBk_-gy3xw3tpx7oX0RGISH8";  //SPARE BOX
 #endif
+
 
 char ssid[] = WIFI_SSID;
 char pass[] = WIFI_PASSWORD;
@@ -190,9 +191,8 @@ void blynk::init()
     _wifiIsConnected = true;
   }
   
-   Blynk.config(auth, blynk_server,8080);
-   Blynk.connect(); 
-// Blynk.begin(auth, "Freebox-bek", "ali09042010", "192.168.1.28", 8080);
+  Blynk.config(auth, blynk_server,8080);
+  Blynk.connect(); 
   checkBlynk();
   ledInit();
   blynkAtiveTimer     = millis();

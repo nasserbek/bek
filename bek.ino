@@ -1,19 +1,65 @@
-#include "main.h" //200
+#include "main.h"//177
 
  reciever avReceiver;
  sim800L sms; 
  otaUpload ota; 
  blynk myBlynk;
  fireBase fb;
+
+#include <ESP32httpUpdate.h>
+#define USE_SERIAL Serial
  
+bool sendTime_7500ms;
+int _days  ;
+int _hours;
+int _minutes ;
+int _seconds ;
+
+QueueHandle_t g_event_queue_handle = NULL;
+EventGroupHandle_t g_event_group = NULL;
+
+
+int queuData;
+int queuDataID;
+bool queuValidData=false;
+bool streamWebDdns = DDNS;
+bool routerResetStart =false;
+
+
+void looadRoomData()
+{
+  int freq;
+       for(byte i=1;i<16;i++)
+          {
+            videoCh[i].frequency = freqTable[i];
+            freq=videoCh[i].frequency;
+            roomId[i].vCh  = roomId[i].rCh = videoCh[i].id = i;
+            _pll[i] = ( 512 * (freq + 479.5) ) / 64 ;
+          }
+}
+
+void createHandleGroup()
+{
+     //Create a program that allows the required message objects and group flags
+    g_event_queue_handle = xQueueCreate(50, sizeof(int)); // Creates a queue of 50 int elements
+    g_event_group = xEventGroupCreate();
+}
 
 void setup() 
 {
+//RELE WITH LOW TRIGGER, ON IF LOW AND OFF IF HIGH
      pinMode(NETGEER_PIN_0, OUTPUT);
      pinMode(AV_RX_DVR_PIN_2, OUTPUT);
-     releCommand(ROUTER, POWER_ON); 
-     releCommand(DVR, POWER_ON); 
-     
+
+
+#ifdef BEK   // 4 RELAYS 0 ACTIVE
+     digitalWrite(NETGEER_PIN_0, HIGH);
+     digitalWrite(AV_RX_DVR_PIN_2, HIGH);   
+#else // SINGLE RELAY 1 ACTIVE
+     digitalWrite(NETGEER_PIN_0, LOW);// NC ACTIVATE ON POWER ON BY DOING NOTHING
+     digitalWrite(AV_RX_DVR_PIN_2, LOW);  // NC DISACTIVATE AV RECEIVER ON POWER ON
+#endif
+
      Serial.begin(115200);
      
      avReceiver.init_I2C();
@@ -28,11 +74,46 @@ void setup()
 
      smsSent= sms.SendSMS("Sim800 Ok, Connecting to WIFI and Blynk.....");
      
-     if (blynkOn) blynkInitialisation();    
-     if (fireBaseOn) firebaseInitialisation();
-     if (!wifiAvailable) sendToHMI("Wifi failure", "Wifi failure: ", "Wifi failure",FB_NOTIFIER, "Wifi failure" );
+     myBlynk.init();    
+     blynkConnected=myBlynk.blynkStatus();
+     wifiAvailable = myBlynk.wifiStatus();
+     
+     if (wifiAvailable) {if(smsSent) smsSent= sms.SendSMS("WIFI Connected..");}
+     else {if(smsSent) smsSent= sms.SendSMS("WIFI failed to connect");}
+          
+     if (blynkConnected) {if(smsSent) smsSent= sms.SendSMS("BLYNK Connected...");}
+     else {if(smsSent) smsSent= sms.SendSMS("BLYNK failed to connect...");}
+
+
+     DEBUG_PRINT("Blynk: ");DEBUG_PRINTLN( blynkConnected ? F("Connected") : F("Not Connected"));
+     if (blynkConnected) 
+              {
+                myBlynk.blynkSmsLed (sim800Available & smsSent);
+                myBlynk.sendAvRxIndex(Av_Rx);
+                myBlynk.streamSelect(streamWebDdns);
+                myBlynk.sendPulseRepetetion(pulseRC, repetionRC);
+             }
+      else  sendToHMI("Internet failure", "Internet failure : ", "Internet failure",FB_NOTIFIER, "Internet failure" );
+    
+      if (!wifiAvailable) sendToHMI("Wifi failure", "Wifi failure: ", "Wifi failure",FB_NOTIFIER, "Wifi failure" );
+      else if(fireBaseOn)
+        {
+          FBConnected = fb.init();
+          if(FBConnected ) smsSent= sms.SendSMS("FireBase connected...");
+          else sms.SendSMS("FireBase Failed to connect...!!!");
+        }
       
-    InitAllTimers();
+      
+    Sms_24_hoursTimer       = millis();
+    internetSurvilanceTimer = millis();
+    liveTimerOff            = millis();
+    liveTimerOn             = millis();
+    wifiIDETimer            = millis();
+    restartAfterResetNG     = millis();
+    NetgeerResetGooglLostTimer = millis();
+    blynkNotActiveTimer     = millis();
+    routerResetTimer        = millis();
+    resetNetgeerAfterInternetLossTimer = millis();
    
     createHandleGroup();
     looadRoomData();
@@ -51,22 +132,13 @@ void setup()
 void loop(void) 
 {
        resetWdg();    //reset timer (feed watchdog) 
-
+       
+      if( smsEvent =sms.smsRun()) processSms();
+       
+       blynkConnected=myBlynk.blynkStatus(); 
+       
        netgeerCtrl();
-
-       smsProcessing();
- 
-       blynkProcess();
-
-       FirebaseProcess();
-              
-      if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer);  
-}
-
-void blynkProcess(void)
-{
-     blynkConnected=myBlynk.blynkStatus(); 
-        
+       
        if ( blynkConnected )
           {
             myBlynk.blynkRun();
@@ -93,45 +165,40 @@ void blynkProcess(void)
             myBlynk.sendToBlynk = false;
             myBlynk.sendToBlynkLeds = false;
           }
-          
-myBlynk.blynkRunTimer();
-}
 
-
-void FirebaseProcess(void)
-{
       if (FBConnected ) 
-       { 
+          { 
             if(fbEvent = fb.firebaseRun()) processFirebase(); 
             
-            if(pingGoogle) 
-             {
-                InternetLoss = false;   resetNetgeerAfterInternetLossTimer = millis();
-                netGeerReset = false;   restartAfterResetNG = millis();
-             }
-            
-            else if( !InternetLoss && !pingGoogle)
-              {
-                if(smsSent) smsSent= sms.SendSMS("Google Ping Failed , Internet Loss!!!");
-                DEBUG_PRINTLN("Google Ping Failed , Internet Loss!!!");
-                InternetLoss = true; 
-                resetNetgeerAfterInternetLossTimer = millis();
-                fbEvent=false; 
+            if(sendTime_7500ms)
+            {
+             fb.SendString (FB_SECONDS, String(_seconds) ) ;
+             sendTime_7500ms = false;
             }
-       }
-}
-
-
-void smsProcessing(void)
-{
-  if( smsEvent =sms.smsRun()) processSms();  
+          }
+      
+      if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer);  
+      
+      if ( (millis() - Sms_24_hoursTimer) >=  SMS_24_HOURS  )
+          {
+            Sms_24_hoursTimer       = millis();
+            sms.SendSMS("VTR Alive");
+           }
+   
+       myBlynk.blynkRunTimer();
 }
 
 void netgeerCtrl(void)
 {
+
+                 
        if ( (  (millis() - routerResetTimer) >= routerTimer) && routerResetStart)
                 {
-                releCommand(ROUTER, POWER_ON);
+#ifdef BEK   // 4 RELAYS 0 ACTIVE
+              digitalWrite(NETGEER_PIN_0, HIGH);  
+#else // SINGLE RELAY 1 ACTIVE
+              digitalWrite(NETGEER_PIN_0, LOW);
+#endif               
                 routerResetStart=false;
                 routerResetTimer        = millis();
                 restartAfterResetNG     = millis();
@@ -153,27 +220,21 @@ void netgeerCtrl(void)
             DEBUG_PRINTLN("Resetaring 3 min after Netgeer Rreset");
             ESP.restart(); 
           }
-         
-         if  ( (millis() - googlePingTimer) >=  PING_GOOGLE_BLYNK_TIMER)  
-          {
-            pingGoogle = pingGoogleConnection();
-            googlePingTimer        = millis();
-          }
-         
+          
 }     
 
 
 
 void ResetNetgeer(void)
           {
-              releCommand(ROUTER, POWER_OFF);
-              if(!routerResetStart)
-                {
-                  routerResetTimer        = millis();
-                  routerResetStart = true;
-                  DEBUG_PRINTLN("Netgeer Reset done: ");
-                }
-}
+
+#ifdef BEK   // 4 RELAYS 0 ACTIVE
+              digitalWrite(NETGEER_PIN_0, LOW);  
+#else // SINGLE RELAY 1 ACTIVE
+              digitalWrite(NETGEER_PIN_0, HIGH);
+#endif
+              if(!routerResetStart){routerResetTimer        = millis();routerResetStart = true;DEBUG_PRINTLN("Netgeer Reset done: ");}
+          }
 
 
 bool pingGoogleConnection(void)
@@ -185,7 +246,178 @@ bool pingGoogleConnection(void)
 
 
 
+/********************************** FireBase **************************************/
+void processFirebase(void)
+{
+        switch (fb.eventID)
+          {
 
+            case Q_EVENT_FREQ_V0:
+              recevierFreq=fb.eventValue;
+              DEBUG_PRINT("FB_FREQ: ");DEBUG_PRINTLN(queuData);
+              //if (recevierFreq >= 920 && recevierFreq <= 1500) 
+              receiverAvByFreq (recevierFreq);
+            break;
+            
+            case Q_EVENT_RC_CH_NR_V1:
+              remoteControlRcCh=fb.eventValue;
+              DEBUG_PRINT("FB_T433_CH_NR: ");DEBUG_PRINTLN(queuData);
+              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 15) {remoteControl(remoteControlRcCh );}
+            break;      
+                  
+            case Q_EVENT_VIDEO_CH_V2:
+                recevierCh=fb.eventValue;
+                DEBUG_PRINT("FB_VIDEO_CH_PATH: ");DEBUG_PRINTLN(queuData);
+                if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
+                else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
+                receiverAvByCh (recevierCh);
+            break;
+
+            case Q_EVENT_T315_CH_NR_V14:
+              remoteControlRcCh=fb.eventValue;
+              DEBUG_PRINT("FB_T315_CH_NR: ");DEBUG_PRINTLN( (queuData) -15);
+              if (remoteControlRcCh >= 16 && remoteControlRcCh <= 30) {remoteControl(remoteControlRcCh );}
+            break;
+
+
+
+            case Q_EVENT_ROOM_ID_1_TO_5_V3:
+                  remoteControlRcCh = fb.eventValue;
+                  recevierCh        = fb.eventValue;
+                  room (remoteControlRcCh, recevierCh , Av_Rx );
+           break;
+            
+            case Q_EVENT_ROOM_ID_6_TO_10_V16:
+                  remoteControlRcCh = fb.eventValue+5;
+                  recevierCh        = fb.eventValue+5;
+                  room (remoteControlRcCh, recevierCh , Av_Rx );            
+            break;
+            
+            case Q_EVENT_ROOM_ID_11_TO_15_V17:
+                  remoteControlRcCh = fb.eventValue+10;
+                  recevierCh        = fb.eventValue+10;
+                  room (remoteControlRcCh, recevierCh , Av_Rx );             
+            break;
+            
+            case Q_EVENT_ROOM_ID_16_TO_20_V18:
+                  remoteControlRcCh = fb.eventValue+15;
+                  recevierCh        = fb.eventValue+15;
+                  room (remoteControlRcCh, recevierCh , Av_Rx );                
+            break;                                    
+ 
+            case Q_EVENT_ROOM_ID_21_25_V25:
+                  remoteControlRcCh = fb.eventValue+20;
+                  recevierCh        = fb.eventValue+20;
+                  room (remoteControlRcCh, recevierCh , Av_Rx );               
+            break;     
+          
+  
+            case Q_EVENT_ROOM_AV_RC_V19:
+                Av_Rx=fb.eventValue;
+                myBlynk.sendAvRxIndex(Av_Rx);
+            break;
+
+                                             
+            case Q_EVENT_ZAP_V71:
+              zapOnOff=fb.eventValue;
+              DEBUG_PRINT("ZAP IS : ");
+              DEBUG_PRINTLN(zapOnOff ? F("On") : F("Off"));
+              myBlynk.zapLed(zapOnOff);
+            break;
+
+            case Q_EVENT_ZAP_CHANNEL1_V81 :
+              videoCh[1].zap=fb.eventValue;
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL2_V82 :
+              videoCh[2].zap=fb.eventValue;
+              
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL3_V83 :
+              videoCh[3].zap=fb.eventValue;
+
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL4_V84 :
+              videoCh[4].zap=fb.eventValue;
+
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL5_V85 :
+              videoCh[5].zap=fb.eventValue;
+
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL6_V86 :
+              videoCh[6].zap=fb.eventValue;
+
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL7_V87 :
+              videoCh[7].zap=fb.eventValue;
+              
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL8_V88 :
+              videoCh[8].zap=fb.eventValue;
+              
+            break;
+            
+            case Q_EVENT_ZAP_CHANNEL9_V89 :
+              videoCh[9].zap=fb.eventValue;
+            break; 
+
+            case Q_EVENT_ZAP_CHANNEL10_V94 :
+              videoCh[10].zap=fb.eventValue;
+            break; 
+ 
+            case Q_EVENT_ZAP_CHANNEL11_V95 :
+              videoCh[11].zap=fb.eventValue;
+            break; 
+
+            case Q_EVENT_ZAP_CHANNEL12_V96 :
+              videoCh[12].zap=fb.eventValue;
+            break; 
+ 
+            case Q_EVENT_ZAP_CHANNEL13_V97 :
+              videoCh[13].zap=fb.eventValue;
+            break; 
+            
+            case Q_EVENT_ZAP_CHANNEL14_V106 :
+              videoCh[14].zap=fb.eventValue;
+            break; 
+ 
+            case Q_EVENT_ZAP_CHANNEL15_V107 :
+              videoCh[15].zap=fb.eventValue;
+            break; 
+ 
+   
+             case Q_EVENT_OTA_GITHUB_V105:
+               otaWifiGithub = false;         
+               wifiIDETimer = millis();
+               otaWifi();
+             break;
+             
+           case Q_EVENT_OTA_GSM_V7:
+              otaCmd=fb.eventValue;
+              DEBUG_PRINT("FB_OTA: ");DEBUG_PRINTLN(queuData);
+              otaGsm ();
+            break;
+ 
+            case Q_EVENT_REBOOT_V8:
+              rebootCmd=fb.eventValue;
+              DEBUG_PRINT("FB_RESET: ");DEBUG_PRINTLN(queuData);
+              rebootSw();
+            break;
+            
+            case Q_EVENT_NETGEER_V15  :
+          //   myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset from Blynk");
+              ResetNetgeer();
+            break;                                        
+    }  
+        
+}    
 
 /********************************************Blynk *******************************/
 
@@ -195,15 +427,21 @@ void processBlynkQueu(void)
           {
 
             case Q_EVENT_FREQ_V0:
-             if (queuData >= 920 && queuData <= 1500) {recevierFreq=queuData;receiverAvByFreq (recevierFreq);}
+              recevierFreq=queuData;
+              DEBUG_PRINT("FB_FREQ: ");DEBUG_PRINTLN(queuData);
+              //if (recevierFreq >= 920 && recevierFreq <= 1500) 
+              receiverAvByFreq (recevierFreq);
             break;
             
             case Q_EVENT_RC_CH_NR_V1:
-               if (queuData >= 1 && queuData <= 30) {remoteControlRcCh=queuData; remoteControl(remoteControlRcCh );}
+              remoteControlRcCh=queuData;
+              DEBUG_PRINT("FB_T433_CH_NR: ");DEBUG_PRINTLN(queuData);
+              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 15) {remoteControl(remoteControlRcCh );}
             break;      
                   
             case Q_EVENT_VIDEO_CH_V2:
                 recevierCh=queuData;
+                DEBUG_PRINT("FB_VIDEO_CH_PATH: ");DEBUG_PRINTLN(queuData);
                 if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
                 else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
                 receiverAvByCh (recevierCh);
@@ -212,11 +450,13 @@ void processBlynkQueu(void)
 
            case Q_EVENT_OTA_GSM_V7:
               otaCmd=queuData;
+              DEBUG_PRINT("FB_OTA: ");DEBUG_PRINTLN(queuData);
               otaGsm ();
             break;
  
             case Q_EVENT_REBOOT_V8:
               rebootCmd=queuData;
+              DEBUG_PRINT("FB_RESET: ");DEBUG_PRINTLN(queuData);
               rebootSw();
             break;
              
@@ -227,11 +467,12 @@ void processBlynkQueu(void)
 
             case Q_EVENT_T315_CH_NR_V14:
               remoteControlRcCh=queuData;
-               if (remoteControlRcCh >= 16 && remoteControlRcCh <= 30) {remoteControl(remoteControlRcCh );}
+              DEBUG_PRINT("FB_T315_CH_NR: ");DEBUG_PRINTLN( (queuData) -15);
+              if (remoteControlRcCh >= 16 && remoteControlRcCh <= 30) {remoteControl(remoteControlRcCh );}
             break;
 
             case Q_EVENT_NETGEER_V15  :
-              myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset from Blynk");
+             myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset from Blynk");
               ResetNetgeer();
             break;
 
@@ -265,7 +506,7 @@ void processBlynkQueu(void)
             break;
             
             case Q_EVENT_ROUTER_RESET_TIMER_V23:
-                  if (queuData >= 1000 && queuData <= 60000)routerTimer = queuData;
+                  routerTimer = queuData;
             break;
 
  
@@ -287,11 +528,13 @@ void processBlynkQueu(void)
                                                    
             case Q_EVENT_ZAP_V71:
               zapOnOff=queuData;
+              DEBUG_PRINT("ZAP IS : ");
+              DEBUG_PRINTLN(zapOnOff ? F("On") : F("Off"));
               myBlynk.zapLed(zapOnOff);
             break;
 
             case Q_EVENT_ZAP_TIMER_V72:
-             if (queuData >= 1000 && queuData <= 60000) zapTimer=queuData;
+              zapTimer=queuData;
             break;
 
             case Q_EVENT_ZAP_CHANNEL1_V81 :
@@ -356,11 +599,13 @@ void processBlynkQueu(void)
             
              case Q_EVENT_AV_FR_MINUS_V92:
               recevierFreq -= 1;
+              //if (recevierFreq >= 920 && recevierFreq <= 1500) 
               receiverAvByFreq (recevierFreq);
             break;
 
            case Q_EVENT_AV_FR_PLUS_V93:
               recevierFreq += 1;
+              //if (recevierFreq >= 920 && recevierFreq <= 1500) 
               receiverAvByFreq (recevierFreq);
             break;
 
@@ -382,7 +627,7 @@ void processBlynkQueu(void)
             break; 
             
             case Q_EVENT_RC_PULSE_V98:
-             if (queuData >= 100 && queuData <= 1000)pulseRC=queuData;
+             pulseRC=queuData;
              mySwitch.setPulseLength(pulseRC);
             break;
 
@@ -393,17 +638,14 @@ void processBlynkQueu(void)
              break;
              
             case Q_EVENT_RC_REPETION_V101:
-             if (queuData >= 1 && queuData <= 20)repetionRC=queuData;
+             repetionRC=queuData;
              mySwitch.setRepeatTransmit(repetionRC);
             break;
 
            
             case Q_EVENT_SLEEP_TIMER_V102:
-                       if (queuData >= 1 && queuData <= 60)
-                        {
-                          deepSleepTimerHours=queuData;
-                          goToDeepSleep(deepSleepTimerHours);
-                        }
+             deepSleepTimerHours=queuData;
+             goToDeepSleep(deepSleepTimerHours);
             break;
                           
             case Q_EVENT_WIFI_WEB_V104:
@@ -448,49 +690,38 @@ void processSms(void)
           if (smsValue >= 1 && smsValue <= 30)     smsID =Q_EVENT_RC_CH_NR_V1;
           if (smsValue >= 41 && smsValue <= 48)    smsID =Q_EVENT_VIDEO_CH_V2;
           if (smsValue >= 900 && smsValue <= 5000) smsID =Q_EVENT_FREQ_V0;
-          if (smsValue >= 61 && smsValue <= 65)    smsID = Q_EVENT_ZAP_CH_ON_OFF_320;
         }
         else
         {
-         if      (smsReceived =="Reboot")         smsID = Q_EVENT_REBOOT_V8;
+          if      (smsReceived =="Reboot")        smsID = Q_EVENT_REBOOT_V8;
           else if (smsReceived =="Otagsm")        smsID = Q_EVENT_OTA_GSM_V7;
           else if (smsReceived == "Netgeer" )     smsID = Q_EVENT_NETGEER_V15;
           else if (smsReceived == "Otagithub" )   smsID = Q_EVENT_OTA_GITHUB_V105  ;
-          else if (smsReceived == "Alive" )       smsID = Q_EVENT_ALIVE_SMS_319;   
-          else if (smsReceived == "Dvr on" )      smsID = Q_EVENT_DVR_ON_SMS_315;
-          else if (smsReceived == "Dvr off" )     smsID = Q_EVENT_DVR_OFF_SMS_316;
-          else if (smsReceived =="Blynk on")      smsID = Q_EVENT_BLYNK_ON_SMS_309;
-          else if (smsReceived =="Blynk off")     smsID = Q_EVENT_BLYNK_OFF_SMS_310;
-          else if (smsReceived =="Firebase on")   smsID = Q_EVENT_FIREBASE_ON_SMS_311;
-          else if (smsReceived =="Firebase off")  smsID = Q_EVENT_FIREBASE_OFF_SMS_312;
-          else if (smsReceived =="Zap on")        smsID = Q_EVENT_ZAP_ON_SMS_313;
-          else if (smsReceived =="Zap off")       smsID = Q_EVENT_ZAP_OFF_SMS_314;
+          else if (smsReceived == "Alive" )       smsID = Q_EVENT_C6_SMS_319;   
+          else if (smsReceived == "Dvr on" )      {dvr = true;smsID = Q_EVENT_DVR_ON_OFF_V27;}
+          else if (smsReceived == "Dvr off" )     {dvr = false;smsID = Q_EVENT_DVR_ON_OFF_V27;}
+          
         }
    
 
         switch (smsID)
           {
              case Q_EVENT_FREQ_V0:
-              if (smsValue >= 920 && smsValue <= 1500) recevierFreq=smsValue;
+              recevierFreq=smsValue;
+              //if (recevierFreq >= 920 && recevierFreq <= 1500) 
               receiverAvByFreq (recevierFreq);
             break;
             
             case Q_EVENT_RC_CH_NR_V1:
-               if (smsValue >= 1) 
-                {
-                  remoteControlRcCh=smsValue;
-                  remoteControl(remoteControlRcCh );
-                }
+              remoteControlRcCh=smsValue;
+              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 15) {remoteControl(remoteControlRcCh );}
             break;      
                   
             case Q_EVENT_VIDEO_CH_V2:
-            if (smsValue >= 1) 
-            {
-                recevierCh=smsValue-40;
+                recevierCh=smsValue;
                 if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
                 else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
                 receiverAvByCh (recevierCh);
-            }
             break;
 
            case Q_EVENT_OTA_GSM_V7:
@@ -511,288 +742,15 @@ void processSms(void)
                otaWifi();
              break;
 
-             case Q_EVENT_ALIVE_SMS_319:
+             case Q_EVENT_C6_SMS_319:
                sms.SendSMS("I'm VTR and Alive");         
              break;
 
-            case Q_EVENT_DVR_ON_SMS_315  :
-              dvrOnOff (POWER_ON); 
-            break;   
-
-            case Q_EVENT_DVR_OFF_SMS_316  :
-              dvrOnOff (POWER_OFF); 
-            break;                                
-
-            case Q_EVENT_BLYNK_ON_SMS_309  :
-                  blynkOn = true;
-                  blynkInitialisation();
-            break;   
-
-            case Q_EVENT_BLYNK_OFF_SMS_310  :
-                  blynkOn = false;
-            break;   
-            
-            case Q_EVENT_FIREBASE_ON_SMS_311  :
-              fireBaseOn = true;
-              firebaseInitialisation();
-            break;   
-
-            case Q_EVENT_FIREBASE_OFF_SMS_312  :
-                fireBaseOn = false;
-                fb.endTheOpenStream();
-            break;       
-                        
-            case Q_EVENT_ZAP_ON_SMS_313 :
-                 zapOnOff=true;
-            break;   
-
-            case Q_EVENT_ZAP_OFF_SMS_314  :
-                zapOnOff=false;
-            break;   
- 
-            case Q_EVENT_ZAP_CH_ON_OFF_320  :
-                byte i = smsValue-60;
-                videoCh[i].zap=!videoCh[i].zap;
-            break;  
+            case Q_EVENT_DVR_ON_OFF_V27  :
+              dvrOnOff (dvr); 
+            break;            
     }  
 }
-
-
-/********************************** FireBase **************************************/
-void processFirebase(void)
-{
-        switch (fb.eventID)
-          {
-
-              recevierFreq=fb.eventValue;
-            case Q_EVENT_FREQ_V0:
-             if (fb.eventValue >= 920 && fb.eventValue <= 1500) {recevierFreq=fb.eventValue;receiverAvByFreq (recevierFreq);}
-            break;
-            
-            case Q_EVENT_RC_CH_NR_V1:
-               if (fb.eventValue >= 1 && fb.eventValue <= 30) {remoteControlRcCh=fb.eventValue; remoteControl(remoteControlRcCh );}
-            break;      
-                  
-            case Q_EVENT_VIDEO_CH_V2:
-                recevierCh=fb.eventValue;
-                if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
-                else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
-                receiverAvByCh (recevierCh);
-                
-            break;
-
-           case Q_EVENT_OTA_GSM_V7:
-              otaCmd=fb.eventValue;
-              otaGsm ();
-            break;
- 
-            case Q_EVENT_REBOOT_V8:
-              rebootCmd=fb.eventValue;
-              rebootSw();
-            break;
-             
-            case Q_EVENT_STREAMING_WEB_DDNS_V10:
-                  streamWebDdns = fb.eventValue;
-             break;
-
-            case Q_EVENT_T315_CH_NR_V14:
-              remoteControlRcCh=fb.eventValue;
-               if (remoteControlRcCh >= 16 && remoteControlRcCh <= 30) {remoteControl(remoteControlRcCh );}
-            break;
-
-            case Q_EVENT_NETGEER_V15  :
-              ResetNetgeer();
-            break;
-
-            case Q_EVENT_ROOM_ID_1_TO_5_V3:
-                  remoteControlRcCh = fb.eventValue;
-                  recevierCh        = fb.eventValue;
-                  room (remoteControlRcCh, recevierCh , Av_Rx );
-           break;
-            
-            case Q_EVENT_ROOM_ID_6_TO_10_V16:
-                  remoteControlRcCh = fb.eventValue+5;
-                  recevierCh        = fb.eventValue+5;
-                  room (remoteControlRcCh, recevierCh , Av_Rx );            
-            break;
-            
-            case Q_EVENT_ROOM_ID_11_TO_15_V17:
-                  remoteControlRcCh = fb.eventValue+10;
-                  recevierCh        = fb.eventValue+10;
-                  room (remoteControlRcCh, recevierCh , Av_Rx );             
-            break;
-            
-            case Q_EVENT_ROOM_ID_16_TO_20_V18:
-                  remoteControlRcCh = fb.eventValue+15;
-                  recevierCh        = fb.eventValue+15;
-                  room (remoteControlRcCh, recevierCh , Av_Rx );                
-            break;                                    
-
-            case Q_EVENT_ROOM_AV_RC_V19:
-             Av_Rx=fb.eventValue;
-            break;
-            
-            case Q_EVENT_ROUTER_RESET_TIMER_V23:
-                  if (fb.eventValue >= 1000 && fb.eventValue <= 60000)routerTimer = fb.eventValue;
-            break;
-
- 
-            case Q_EVENT_ROOM_ID_21_25_V25:
-                  remoteControlRcCh = fb.eventValue+20;
-                  recevierCh        = fb.eventValue+20;
-                  room (remoteControlRcCh, recevierCh , Av_Rx );               
-            break;     
-            
-                    
-             case Q_EVENT_RESET_FREQ_V26:
-                  recevierFreq = videoCh[recevierCh].frequency =   freqTable[recevierCh];   
-                  receiverAvByFreq (recevierFreq);        
-            break;         
-                 
-             case Q_EVENT_DVR_ON_OFF_V27:
-                  dvrOnOff (fb.eventValue);  
-            break;   
-                                                   
-            case Q_EVENT_ZAP_V71:
-              zapOnOff=fb.eventValue;
-            break;
-
-            case Q_EVENT_ZAP_TIMER_V72:
-             if (fb.eventValue >= 1000 && fb.eventValue <= 60000) zapTimer=fb.eventValue;
-            break;
-
-            case Q_EVENT_ZAP_CHANNEL1_V81 :
-              videoCh[1].zap=fb.eventValue;
-              
-            break;
-
-             case Q_EVENT_ZAP_CHANNEL2_V82 :
-              videoCh[2].zap=fb.eventValue;
-              
-            break;
-
-             case Q_EVENT_ZAP_CHANNEL3_V83 :
-              videoCh[3].zap=fb.eventValue;
-
-            break;
-
-             case Q_EVENT_ZAP_CHANNEL4_V84 :
-              videoCh[4].zap=fb.eventValue;
-
-            break;
-
-             case Q_EVENT_ZAP_CHANNEL5_V85 :
-              videoCh[5].zap=fb.eventValue;
-
-            break;
-
-             case Q_EVENT_ZAP_CHANNEL6_V86 :
-              videoCh[6].zap=fb.eventValue;
-
-            break;
-
-             case Q_EVENT_ZAP_CHANNEL7_V87 :
-              videoCh[7].zap=fb.eventValue;
-              
-            break;
-
-             case Q_EVENT_ZAP_CHANNEL8_V88 :
-              videoCh[8].zap=fb.eventValue;
-              
-            break;
-            
-            case Q_EVENT_ZAP_CHANNEL9_V89 :
-              videoCh[9].zap=fb.eventValue;
-            break; 
-
-                      
-            case Q_EVENT_AV_CH_PLUS_V90:
-                recevierCh += 1;
-                if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
-                else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
-                receiverAvByCh (recevierCh);
-            break;
-                     
-            
-            case Q_EVENT_AV_CH_MINUS_V91:
-                recevierCh -= 1;
-                if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
-                else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
-                receiverAvByCh (recevierCh);
-            break;
-            
-             case Q_EVENT_AV_FR_MINUS_V92:
-              recevierFreq -= 1;
-              receiverAvByFreq (recevierFreq);
-            break;
-
-           case Q_EVENT_AV_FR_PLUS_V93:
-              recevierFreq += 1;
-              receiverAvByFreq (recevierFreq);
-            break;
-
-
-            case Q_EVENT_ZAP_CHANNEL10_V94 :
-              videoCh[10].zap=fb.eventValue;
-            break; 
- 
-            case Q_EVENT_ZAP_CHANNEL11_V95 :
-              videoCh[11].zap=fb.eventValue;
-            break; 
-
-            case Q_EVENT_ZAP_CHANNEL12_V96 :
-              videoCh[12].zap=fb.eventValue;
-            break; 
- 
-            case Q_EVENT_ZAP_CHANNEL13_V97 :
-              videoCh[13].zap=fb.eventValue;
-            break; 
-            
-            case Q_EVENT_RC_PULSE_V98:
-             if (fb.eventValue >= 100 && fb.eventValue <= 1000)pulseRC=fb.eventValue;
-            break;
-
-            case Q_EVENT_WIFI_IDE_V100:
-               wifiIde = false;         
-               wifiIDETimer = millis();
-               wifiUploadCtrl();
-             break;
-             
-            case Q_EVENT_RC_REPETION_V101:
-             if (fb.eventValue >= 1 && fb.eventValue <= 20)repetionRC=fb.eventValue;
-            break;
-
-           
-            case Q_EVENT_SLEEP_TIMER_V102:
-                       if (fb.eventValue >= 1 && fb.eventValue <= 60)
-                        {
-                          deepSleepTimerHours=fb.eventValue;
-                          goToDeepSleep(deepSleepTimerHours);
-                        }
-            break;
-                          
-            case Q_EVENT_WIFI_WEB_V104:
-               wifiWebUpdater = false;
-               wifiIDETimer = millis();
-               webUpdateOta ();
-             break;
-
-             case Q_EVENT_OTA_GITHUB_V105:
-               otaWifiGithub = false;         
-               wifiIDETimer = millis();
-               otaWifi();
-             break;
-
-            case Q_EVENT_ZAP_CHANNEL14_V106 :
-              videoCh[14].zap=fb.eventValue;
-            break; 
- 
-            case Q_EVENT_ZAP_CHANNEL15_V107 :
-              videoCh[15].zap=fb.eventValue;
-            break;                                       
-    }  
-        
-}    
 
 void zappingAvCh (bool zapCmd, int zapTimer)
 {
@@ -1137,9 +1095,19 @@ void resetWdg(void)
    timerWrite(_timer, 0);                                        //reset timer (feed watchdog)  
   }
 
+
+
+
+
+#ifdef BEK
+    String gitHubURL = "https://raw.githubusercontent.com/nasserbek/bek/master/bek.ino.ttgo-t1.bin";  // URL to download the firmware from
+#else
+    String gitHubURL = "https://raw.githubusercontent.com/nasserbek/bek/master/bek2.ino.ttgo-t1.bin";  // URL to download the firmware from
+#endif
+
 void otaWifi(void) {
   DEBUG_PRINTLN("Starting Ota Web Update from Github");
-  sendToHMI("Ota web Started", "Ota Web : ", "Ota web Started",FB_NOTIFIER, "Ota web Started" );
+  sendToHMI("Ota GitHub Started", "Ota Web : ", "Ota web Started",FB_NOTIFIER, "Ota GitHub Started" );
 while (!otaWifiGithub) 
        {
         enableWDG(false);
@@ -1151,9 +1119,31 @@ while (!otaWifiGithub)
            wifiIDETimer = millis();
            ESP.restart();
         }
-        ota.otaWebGithub();
+//        ota.otaWebGithub();
+    USE_SERIAL.println();
+    USE_SERIAL.println();
+    USE_SERIAL.println();
+    for(uint8_t t = 3; t > 0; t--) {
+        USE_SERIAL.printf("[SETUP] WAIT %d...\n", t);
+        delay(500);
+    }
 
-       }
+      t_httpUpdate_return ret = ESPhttpUpdate.update(gitHubURL);
+
+        switch(ret) {
+            case HTTP_UPDATE_FAILED:
+                USE_SERIAL.printf("HTTP_UPDATE_FAILD Error (%d): %s", ESPhttpUpdate.getLastError(), ESPhttpUpdate.getLastErrorString().c_str());
+                break;
+
+            case HTTP_UPDATE_NO_UPDATES:
+                USE_SERIAL.println("HTTP_UPDATE_NO_UPDATES");
+                break;
+
+            case HTTP_UPDATE_OK:
+                USE_SERIAL.println("HTTP_UPDATE_OK");
+                break;
+                }
+      }
  }
 
 
@@ -1174,7 +1164,14 @@ void rebootSw(void)
 
 void  dvrOnOff (bool onOff)
 {
-  releCommand(DVR, onOff);
+#ifdef BEK   // 4 RELAYS 0 ACTIVE
+   if (onOff) digitalWrite(AV_RX_DVR_PIN_2, HIGH); 
+   else digitalWrite(AV_RX_DVR_PIN_2, LOW); 
+#else // SINGLE RELAY 1 ACTIVE
+   if (onOff) digitalWrite(AV_RX_DVR_PIN_2, LOW); 
+   else digitalWrite(AV_RX_DVR_PIN_2, HIGH); 
+#endif
+
 }
 
 /**********************************************************************************************************************************************/
@@ -1327,97 +1324,4 @@ void wifiUploadCtrl(void)
         }
         else ArduinoOTA.handle();
        }
-}
-
-
-void releCommand(bool rele ,bool cmd)  //RELE WITH LOW TRIGGER, ON IF LOW AND OFF IF HIGH
-{
-     if (cmd==POWER_ON)
-       {
-          #ifdef SDP   // 4 RELAYS 0 ACTIVE
-            if (rele == ROUTER)digitalWrite(NETGEER_PIN_0, HIGH);
-            else digitalWrite(AV_RX_DVR_PIN_2, HIGH);
-          #else // SINGLE RELAY 1 ACTIVE
-            if (rele == ROUTER)digitalWrite(NETGEER_PIN_0, LOW);// NC ACTIVATE ON POWER ON BY DOING NOTHING
-            else digitalWrite(AV_RX_DVR_PIN_2, LOW);
-          #endif          
-       }
-
-     else if (cmd==POWER_OFF)
-       {
-          #ifdef SDP   // 4 RELAYS 0 ACTIVE
-            if (rele == ROUTER) digitalWrite(NETGEER_PIN_0, LOW);
-            else digitalWrite(AV_RX_DVR_PIN_2, LOW);         
-          #else // SINGLE RELAY 1 ACTIVE
-            if (rele == ROUTER) digitalWrite(NETGEER_PIN_0, HIGH);// NC ACTIVATE ON POWER ON BY DOING NOTHING
-            else digitalWrite(AV_RX_DVR_PIN_2, HIGH); 
-          #endif          
-       }
-}
-
-
-void blynkInitialisation(void)
-{
-     myBlynk.init();    
-     blynkConnected=myBlynk.blynkStatus();
-     wifiAvailable = myBlynk.wifiStatus();
-     
-     if (wifiAvailable) {if(smsSent) smsSent= sms.SendSMS("WIFI Connected..");}
-     else {if(smsSent) smsSent= sms.SendSMS("WIFI failed to connect");}
-          
-     if (blynkConnected) {if(smsSent) smsSent= sms.SendSMS("BLYNK Connected...");}
-     else {if(smsSent) smsSent= sms.SendSMS("BLYNK failed to connect...");}
-
-
-     DEBUG_PRINT("Blynk: ");DEBUG_PRINTLN( blynkConnected ? F("Connected") : F("Not Connected"));
-     if (blynkConnected) 
-              {
-                myBlynk.blynkSmsLed (sim800Available & smsSent);
-                myBlynk.sendAvRxIndex(Av_Rx);
-                myBlynk.streamSelect(streamWebDdns);
-                myBlynk.sendPulseRepetetion(pulseRC, repetionRC);
-             }
-      else  sendToHMI("Internet failure", "Internet failure : ", "Internet failure",FB_NOTIFIER, "Internet failure" );
-}
-
-void firebaseInitialisation(void)
-{
-    FBConnected = fb.init();
-    if(FBConnected ) smsSent= sms.SendSMS("FireBase connected...");
-    else sms.SendSMS("FireBase Failed to connect...!!!");
-}
-
-
-
-void looadRoomData()
-{
-  int freq;
-       for(byte i=1;i<16;i++)
-          {
-            videoCh[i].frequency = freqTable[i];
-            freq=videoCh[i].frequency;
-            roomId[i].vCh  = roomId[i].rCh = videoCh[i].id = i;
-            _pll[i] = ( 512 * (freq + 479.5) ) / 64 ;
-          }
-}
-
-void createHandleGroup()
-{
-     //Create a program that allows the required message objects and group flags
-    g_event_queue_handle = xQueueCreate(50, sizeof(int)); // Creates a queue of 50 int elements
-    g_event_group = xEventGroupCreate();
-}
-
-void InitAllTimers(void)
-{
-    Sms_24_hoursTimer       = millis();
-    internetSurvilanceTimer = millis();
-    googlePingTimer            = millis();
-    liveTimerOn             = millis();
-    wifiIDETimer            = millis();
-    restartAfterResetNG     = millis();
-    NetgeerResetGooglLostTimer = millis();
-    blynkNotActiveTimer     = millis();
-    routerResetTimer        = millis();
-    resetNetgeerAfterInternetLossTimer = millis();
 }

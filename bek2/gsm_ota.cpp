@@ -4,7 +4,7 @@
 #define DEBUG
 #define FREE
 
-#ifdef SDP
+#ifdef BEK
     String _overTheAirURL = "https://raw.githubusercontent.com/nasserbek/bek/master/bek.ino.ttgo-t1.bin";  // URL to download the firmware from
 #else
     String _overTheAirURL = "https://raw.githubusercontent.com/nasserbek/bek/master/bek2.ino.ttgo-t1.bin";  // URL to download the firmware from
@@ -65,9 +65,16 @@ otaUpload::otaUpload()
 
 void otaUpload::otaWebGithub(void)
 {
-        t_httpUpdate_return ret = ESPhttpUpdate.update(_overTheAirURL);
-//        t_httpUpdate_return ret = ESPhttpUpdate.update(_overTheAirURL,"","F:0E:79:24:71:C5:A7:D2:A7:46:76:30:C1:3C:B7:2A:13:B0:01:B2");
+  Serial.println();
+  Serial.println();
+  Serial.println();
+  for (uint8_t t = 4; t > 0; t--) {
+    Serial.printf("[SETUP] WAIT %d...\n", t);
+    delay(500);
+  }
 
+
+       t_httpUpdate_return ret = ESPhttpUpdate.update(_overTheAirURL);
       switch (ret) {
       case HTTP_UPDATE_FAILED:
         Serial.printf("HTTP_UPDATE_FAILED Error (%d): %s\n", ESPhttpUpdate.getLastError(), ESPhttpUpdate.getLastErrorString().c_str());
