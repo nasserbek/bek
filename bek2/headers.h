@@ -1,14 +1,14 @@
-//#define BEK
+//#define MAIN_BOARD
 #define FREE
 #define VERSION_ID " V200 "
 #define DEBUG_SERIAL
 #define BLYNK_SERVER  "192.168.1.28" //PI4
 //#define BLYNK_SERVER  "192.168.1.112" //PI3
 
-#ifdef BEK
-    #define NOTIFIER_ID " BEK VTR -"
+#ifdef MAIN_BOARD
+    #define NOTIFIER_ID " MAIN_BOARD -"
 #else
-    #define NOTIFIER_ID " BEK2 xxx -"
+    #define NOTIFIER_ID " SPARE_BOARD -"
 #endif
 
 #define WIFI_PASSWORD "ali09042010"

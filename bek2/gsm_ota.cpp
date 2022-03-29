@@ -4,7 +4,7 @@
 #define DEBUG
 #define FREE
 
-#ifdef BEK
+#ifdef MAIN_BOARD
     String _overTheAirURL = "https://raw.githubusercontent.com/nasserbek/bek/master/bek.ino.ttgo-t1.bin";  // URL to download the firmware from
 #else
     String _overTheAirURL = "https://raw.githubusercontent.com/nasserbek/bek/master/bek2.ino.ttgo-t1.bin";  // URL to download the firmware from

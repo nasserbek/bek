@@ -52,7 +52,7 @@ void setup()
      pinMode(AV_RX_DVR_PIN_2, OUTPUT);
 
 
-#ifdef BEK   // 4 RELAYS 0 ACTIVE
+#ifdef MAIN_BOARD   // 4 RELAYS 0 ACTIVE
      digitalWrite(NETGEER_PIN_0, HIGH);
      digitalWrite(AV_RX_DVR_PIN_2, HIGH);   
 #else // SINGLE RELAY 1 ACTIVE
@@ -194,7 +194,7 @@ void netgeerCtrl(void)
                  
        if ( (  (millis() - routerResetTimer) >= routerTimer) && routerResetStart)
                 {
-#ifdef BEK   // 4 RELAYS 0 ACTIVE
+#ifdef MAIN_BOARD   // 4 RELAYS 0 ACTIVE
               digitalWrite(NETGEER_PIN_0, HIGH);  
 #else // SINGLE RELAY 1 ACTIVE
               digitalWrite(NETGEER_PIN_0, LOW);
@@ -228,7 +228,7 @@ void netgeerCtrl(void)
 void ResetNetgeer(void)
           {
 
-#ifdef BEK   // 4 RELAYS 0 ACTIVE
+#ifdef MAIN_BOARD   // 4 RELAYS 0 ACTIVE
               digitalWrite(NETGEER_PIN_0, LOW);  
 #else // SINGLE RELAY 1 ACTIVE
               digitalWrite(NETGEER_PIN_0, HIGH);
@@ -1099,7 +1099,7 @@ void resetWdg(void)
 
 
 
-#ifdef BEK
+#ifdef MAIN_BOARD
     String gitHubURL = "https://raw.githubusercontent.com/nasserbek/bek/master/bek.ino.ttgo-t1.bin";  // URL to download the firmware from
 #else
     String gitHubURL = "https://raw.githubusercontent.com/nasserbek/bek/master/bek2.ino.ttgo-t1.bin";  // URL to download the firmware from
@@ -1164,7 +1164,7 @@ void rebootSw(void)
 
 void  dvrOnOff (bool onOff)
 {
-#ifdef BEK   // 4 RELAYS 0 ACTIVE
+#ifdef MAIN_BOARD   // 4 RELAYS 0 ACTIVE
    if (onOff) digitalWrite(AV_RX_DVR_PIN_2, HIGH); 
    else digitalWrite(AV_RX_DVR_PIN_2, LOW); 
 #else // SINGLE RELAY 1 ACTIVE
