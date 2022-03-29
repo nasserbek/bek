@@ -1,4 +1,4 @@
-#define SDP
+//#define SDP
 #define FREE
 #define VERSION_ID " V200 "
 #define DEBUG_SERIAL
