@@ -66,6 +66,8 @@ otaUpload::otaUpload()
 void otaUpload::otaWebGithub(void)
 {
         t_httpUpdate_return ret = ESPhttpUpdate.update(_overTheAirURL);
+//        t_httpUpdate_return ret = ESPhttpUpdate.update(_overTheAirURL,"","F:0E:79:24:71:C5:A7:D2:A7:46:76:30:C1:3C:B7:2A:13:B0:01:B2");
+
       switch (ret) {
       case HTTP_UPDATE_FAILED:
         Serial.printf("HTTP_UPDATE_FAILED Error (%d): %s\n", ESPhttpUpdate.getLastError(), ESPhttpUpdate.getLastErrorString().c_str());
