@@ -1,9 +1,26 @@
 //#define MAIN_BOARD
+#define PI0
+//#define PI3
+//#define PI4
+
 #define FREE
-#define VERSION_ID " V0 "
+#define VERSION_ID " Vb0.00 " //Vxy.zz  x=a Main, b Spare  y=4 PI4 , 3 PI3 , 0 PI0 zz version
 #define DEBUG_SERIAL
-#define BLYNK_SERVER  "192.168.1.28" //PI4
-//#define BLYNK_SERVER  "192.168.1.112" //PI3
+
+
+#ifdef PI0
+  #define BLYNK_SERVER  "192.168.1.46" //PI0                                             
+#endif
+
+
+#ifdef PI3
+  #define BLYNK_SERVER  "192.168.1.112" //PI3                                             
+#endif
+
+#ifdef PI4
+  #define BLYNK_SERVER  "192.168.1.28" //PI4                                             
+#endif
+
 
 #ifdef MAIN_BOARD
     #define NOTIFIER_ID " MAIN_BOARD -"

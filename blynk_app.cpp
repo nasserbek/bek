@@ -39,11 +39,13 @@ WidgetLED SMS_LED_V12(V12);  //sms
 WidgetLED ZAP_LED_V80(V80);  //Zap Status
 
 
-#ifdef MAIN_BOARD
-    char auth[] = "gu_ZdcjSU6csKvO7gpJWgh8IQJrevB-f"; //MAIN BOX
-#else
-    char auth[] = "3SSt-ZshvBk_-gy3xw3tpx7oX0RGISH8";  //SPARE BOX
-#endif
+
+      #ifdef MAIN_BOARD
+          char auth[] = "gu_ZdcjSU6csKvO7gpJWgh8IQJrevB-f"; //MAIN BOX
+      #else
+          char auth[] = "3SSt-ZshvBk_-gy3xw3tpx7oX0RGISH8";  //SPARE BOX
+      #endif                                            
+
 
 
 char ssid[] = WIFI_SSID;

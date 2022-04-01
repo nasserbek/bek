@@ -44,14 +44,14 @@ bool sim800L::init()
     bool smsBeginStatus = sim800l.begin(*sim800lSerial);
     while (!smsBeginStatus)
       {
-        if (millis() - smsRebegin > 5000 ) 
+        if (millis() - smsRebegin > 2000 ) 
           {
             sim800lSerial->begin(4800, SERIAL_8N1, _rx_pin , _tx_pin);   // Make it slow so its easy to read!
             smsBeginStatus = sim800l.begin(*sim800lSerial);
             smsRebegin = millis();
             DEBUG_PRINTLN("Sms Re-Begin");
           }
-        if (millis() - timeout > 20000){DEBUG_PRINTLN("Couldn't find GSM SIM800L"); return (simStatus = false); }
+        if (millis() - timeout > 10000){DEBUG_PRINTLN("Couldn't find GSM SIM800L"); return (simStatus = false); }
       }
  
   DEBUG_PRINTLN("Seting up a notification when an SMS is received.");
