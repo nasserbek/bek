@@ -1,10 +1,10 @@
 //#define MAIN_BOARD
-#define PI0
+//#define PI0
 //#define PI3
-//#define PI4
+#define PI4
 
 #define FREE
-#define VERSION_ID " Vb0.00 " //Vxy.zz  x=a Main, b Spare  y=4 PI4 , 3 PI3 , 0 PI0 zz version
+#define VERSION_ID " Vb4.03 " //Vxy.zz  x=a Main, b Spare  y=4 PI4 , 3 PI3 , 0 PI0 zz version
 #define DEBUG_SERIAL
 
 

@@ -41,9 +41,9 @@ WidgetLED ZAP_LED_V80(V80);  //Zap Status
 
 
       #ifdef MAIN_BOARD
-          char auth[] = "gu_ZdcjSU6csKvO7gpJWgh8IQJrevB-f"; //MAIN BOX
+          char auth[] = "mnjUdg63gkJ0Rl7Pbfw2qb9aGkI35wPJ"; //MAIN BOX
       #else
-          char auth[] = "3SSt-ZshvBk_-gy3xw3tpx7oX0RGISH8";  //SPARE BOX
+          char auth[] = "cfefMEczv_cZVHomzDd4uCbY5CRL8X5m";  //SPARE BOX
       #endif                                            
 
 
