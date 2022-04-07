@@ -1,0 +1,6 @@
+#!/bin/bash
+# GitHub sync
+echo hello world
+git add .
+git commit -m "Version Pi nr0"
+git push origin master 
