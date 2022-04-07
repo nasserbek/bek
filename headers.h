@@ -4,7 +4,7 @@
 #define PI4
 
 #define FREE
-#define VERSION_ID " Vm4.pi_01 " //Vxy.zz  x=m Main, s Spare  y=4 PI4 , 3 PI3 , 0 PI0 zz pi or pc version
+#define VERSION_ID " Vm4.pi_04 " //Vxy.zz  x=m Main, s Spare  y=4 PI4 , 3 PI3 , 0 PI0 zz pi or pc version
 #define DEBUG_SERIAL
 
 
