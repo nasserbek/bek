@@ -1,5 +1,0 @@
-#!/bin/bash
-# GitHub sync
-cd
-cd bek
-git pull origin master 

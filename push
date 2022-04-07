@@ -1,7 +1,0 @@
-#!/bin/bash
-# GitHub sync
-cd
-cd bek
-git add .
-git commit -m "Push"
-git push origin master 
