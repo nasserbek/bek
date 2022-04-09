@@ -4,13 +4,6 @@
 #define DEBUG
 #define FREE
 
-#ifdef MAIN_BOARD
-    String _overTheAirURL = "https://raw.githubusercontent.com/nasserbek/bek/master/bek.ino.ttgo-t1.bin";  // URL to download the firmware from
-#else
-    String _overTheAirURL = "https://raw.githubusercontent.com/nasserbek/bek/master/bek2.ino.ttgo-t1.bin";  // URL to download the firmware from
-#endif
-
-
 #ifdef FREE
 const char apn[]      = "free"; // Your APN)
 #else
@@ -74,7 +67,7 @@ void otaUpload::otaWebGithub(void)
   }
 
 
-       t_httpUpdate_return ret = ESPhttpUpdate.update(_overTheAirURL);
+       t_httpUpdate_return ret = ESPhttpUpdate.update(gitHubURL);
       switch (ret) {
       case HTTP_UPDATE_FAILED:
         Serial.printf("HTTP_UPDATE_FAILED Error (%d): %s\n", ESPhttpUpdate.getLastError(), ESPhttpUpdate.getLastErrorString().c_str());
@@ -145,7 +138,7 @@ void otaUpload::init(bool _start)
     DEBUG_FATAL(F("APN failed to connect"));
   }
   else  DEBUG_PRINT(F("GPRS Connected successifully"));
-  if (_start) startOtaUpdate(_overTheAirURL);  
+  if (_start) startOtaUpdate(gitHubURL);  
 }
 
 void otaUpload::startOtaUpdate(const String& ota_url)
@@ -350,7 +343,7 @@ bool otaUpload::parseURL(String url, String& protocol, String& host, int& port, 
  
     HTTPClient http;
  
-    http.begin(_overTheAirURL); //Specify the URL
+    http.begin(gitHubURL); //Specify the URL
     int httpCode = http.GET();                                        //Make the request
      if (httpCode > 0) { //Check for the returning code
           String payload = http.getString();

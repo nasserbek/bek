@@ -1098,11 +1098,7 @@ void resetWdg(void)
 
 
 
-#ifdef MAIN_BOARD
-    String gitHubURL = "https://raw.githubusercontent.com/nasserbek/bek/master/bek.ino.ttgo-t1.bin";  // URL to download the firmware from
-#else
-    String gitHubURL = "https://raw.githubusercontent.com/nasserbek/bek/master/bek2/bek2.ino.ttgo-t1.bin";  // URL to download the firmware from
-#endif
+
 
 void otaWifi(void) {
   DEBUG_PRINTLN("Starting Ota Web Update from Github");

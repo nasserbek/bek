@@ -39,15 +39,6 @@ WidgetLED SMS_LED_V12(V12);  //sms
 WidgetLED ZAP_LED_V80(V80);  //Zap Status
 
 
-
-      #ifdef MAIN_BOARD
-          char auth[] = "mnjUdg63gkJ0Rl7Pbfw2qb9aGkI35wPJ"; //MAIN BOX
-      #else
-          char auth[] = "cfefMEczv_cZVHomzDd4uCbY5CRL8X5m";  //SPARE BOX
-      #endif                                            
-
-
-
 char ssid[] = WIFI_SSID;
 char pass[] = WIFI_PASSWORD;
 char blynk_server[] = BLYNK_SERVER;
@@ -192,8 +183,14 @@ void blynk::init()
     Serial.println(WiFi.localIP());
     _wifiIsConnected = true;
   }
-  
-  Blynk.config(auth, blynk_server,8080);
+
+#ifdef BLYNK_REMOTE_SERVER
+    Blynk.config(BLYNK_AUTH, BLYNK_SERVER);
+#else
+   Blynk.config(BLYNK_AUTH, BLYNK_SERVER,8080);                                           
+#endif
+
+
   Blynk.connect(); 
   checkBlynk();
   ledInit();

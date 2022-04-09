@@ -1,11 +1,16 @@
 #define MAIN_BOARD
+
+//#define BLYNK_REMOTE_SERVER
 //#define PI0
 //#define PI3
 #define PI4
 
 #define FREE
-#define VERSION_ID " Vm4.pi_04 " //Vxy.zz  x=m Main, s Spare  y=4 PI4 , 3 PI3 , 0 PI0 zz pi or pc version
-#define DEBUG_SERIAL
+//#define BOUY
+//#define OPPO
+//#define HUAWEI
+
+#define VERSION_ID " Vm4.pi_05 " //Vxy.zz  x=m Main, s Spare  y=4 PI4 , 3 PI3 , 0 PI0 zz pi or pc version
 
 
 #ifdef PI0
@@ -21,6 +26,25 @@
   #define BLYNK_SERVER  "192.168.1.28" //PI4                                             
 #endif
 
+#ifdef BLYNK_REMOTE_SERVER
+  #define BLYNK_SERVER "blynk-cloud.com" //BLYNK REMOTE SERVER                                          
+#endif
+
+
+
+#ifdef MAIN_BOARD
+          #define BLYNK_AUTH "mnjUdg63gkJ0Rl7Pbfw2qb9aGkI35wPJ" //MAIN BOX
+#else
+          #define BLYNK_AUTH "cfefMEczv_cZVHomzDd4uCbY5CRL8X5m"  //SPARE BOX
+#endif                                            
+
+
+#ifdef MAIN_BOARD
+    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/bek.ino.ttgo-t1.bin"  // URL to download the firmware from
+#else
+    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/bek2/bek2.ino.ttgo-t1.bin" // URL to download the firmware from
+#endif
+
 
 #ifdef MAIN_BOARD
     #define NOTIFIER_ID " MAIN_BOARD -"
@@ -29,6 +53,10 @@
 #endif
 
 #define WIFI_PASSWORD "ali09042010"
+
+#define DEBUG_SERIAL
+
+
 #ifdef FREE
   #define WIFI_SSID "Freebox-bek"                                              
 #endif
