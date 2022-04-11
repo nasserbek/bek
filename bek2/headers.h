@@ -31,12 +31,22 @@
 #endif
 
 
+#ifdef BLYNK_REMOTE_SERVER
+    
+      #ifdef MAIN_BOARD
+                #define BLYNK_AUTH "D4AU1HexWcErQ9vtpkP_EgocpnoArZKC" //MAIN BOX
+      #else
+                #define BLYNK_AUTH "ya1T2eipkMhB3NvyLeAyRVRHqPAUXUG-"  //SPARE BOX
+      #endif   
+#else    
+      #ifdef MAIN_BOARD
+                #define BLYNK_AUTH "mnjUdg63gkJ0Rl7Pbfw2qb9aGkI35wPJ" //MAIN BOX
+      #else
+                #define BLYNK_AUTH "cfefMEczv_cZVHomzDd4uCbY5CRL8X5m"  //SPARE BOX
+      #endif                                            
+#endif  
 
-#ifdef MAIN_BOARD
-          #define BLYNK_AUTH "mnjUdg63gkJ0Rl7Pbfw2qb9aGkI35wPJ" //MAIN BOX
-#else
-          #define BLYNK_AUTH "cfefMEczv_cZVHomzDd4uCbY5CRL8X5m"  //SPARE BOX
-#endif                                            
+
 
 
 #ifdef MAIN_BOARD
