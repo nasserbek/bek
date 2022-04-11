@@ -70,7 +70,7 @@
 #endif
 
 #ifdef NETGEER
-  #define WIFI_SSID "NETGEER-BEK"                                                
+  #define WIFI_SSID "NETGEER_BEK"                                                
 #endif
 
 
