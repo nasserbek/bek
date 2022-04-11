@@ -1,16 +1,16 @@
 //#define MAIN_BOARD
 
-//#define BLYNK_REMOTE_SERVER
+#define BLYNK_REMOTE_SERVER
 //#define PI0
 //#define PI3
-#define PI4
+//#define PI4
 
-#define FREE
+//#define FREE
 //#define BOUY
 //#define OPPO
-//#define HUAWEI
+#define NETGEER
 
-#define VERSION_ID " VS4.pi_05 " //Vxy.zz  x=m Main, s Spare  y=4 PI4 , 3 PI3 , 0 PI0 zz pi or pc version
+#define VERSION_ID " VSNB.pc_06 " //VxyW.zz  x=m Main, s Spare  y=F FREE N NETGEER W =B BLYNK zz pi or pc version
 
 
 #ifdef PI0
@@ -69,8 +69,8 @@
   #define WIFI_SSID "OPPO Reno2 Bek"                                              
 #endif
 
-#ifdef HUAWEI
-  #define WIFI_SSID "HUAWEI-BEK"                                                
+#ifdef NETGEER
+  #define WIFI_SSID "NETGEER-BEK"                                                
 #endif
 
 
