@@ -20,7 +20,6 @@
   #define BLYNK_SERVER  "192.168.1.46" //PI0                                             
 #endif
 
-
 #ifdef PI3
   #define BLYNK_SERVER  "192.168.1.112" //PI3                                             
 #endif
