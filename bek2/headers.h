@@ -5,21 +5,18 @@
 //#define PI3
 //#define PI4
 
-//#define FREE
+#define FREE
 //#define BOUY
 //#define OPPO
-#define GIGACUBE
+//#define GIGACUBE
 
 #define VERSION_ID " VSGB.pc_00 " //VxyW.zz  x=m Main, s Spare  y=F FREE N NETGEER W =B BLYNK zz pi or pc version
 
-#define WIFI_SSID_GIGA "GIGACUBE_BEK"                                                
-#define WIFI_SSID_FREE "Freebox-bek"                                              
-#define WIFI_SSID_OPPO "OPPO Reno2 Bek"    
+   
 
 #ifdef PI0
   #define BLYNK_SERVER  "192.168.1.46" //PI0                                             
 #endif
-
 
 #ifdef PI3
   #define BLYNK_SERVER  "192.168.1.112" //PI3                                             
@@ -65,6 +62,9 @@
     #define NOTIFIER_ID " SPARE BOARD -"
 #endif
 
+#define WIFI_SSID_GIGA "GIGACUBE_BEK"                                                
+#define WIFI_SSID_FREE "Freebox-bek"                                              
+#define WIFI_SSID_OPPO "OPPO Reno2 Bek" 
 
 #ifdef FREE
   #define WIFI_SSID WIFI_SSID_FREE                                              
