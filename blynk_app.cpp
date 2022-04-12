@@ -155,9 +155,9 @@ void blynk::init()
 {
   Serial.println();
 
-    wifiMulti.addAP("GIGACUBE_BEK", WIFI_PASSWORD);
-    wifiMulti.addAP("Freebox-bek", WIFI_PASSWORD);
-    wifiMulti.addAP("OPPO Reno2 Bek" , WIFI_PASSWORD);
+    wifiMulti.addAP(WIFI_SSID_GIGA, WIFI_PASSWORD);
+    wifiMulti.addAP(WIFI_SSID_FREE, WIFI_PASSWORD);
+    wifiMulti.addAP(WIFI_SSID_OPPO , WIFI_PASSWORD);
 
  // if(WiFi.status() == 6){
     if(wifiMulti.run() == 6){

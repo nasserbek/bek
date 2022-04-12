@@ -8,10 +8,13 @@
 //#define FREE
 //#define BOUY
 //#define OPPO
-#define NETGEER
+#define GIGACUBE
 
-#define VERSION_ID " VSNB.pc_06 " //VxyW.zz  x=m Main, s Spare  y=F FREE N NETGEER W =B BLYNK zz pi or pc version
+#define VERSION_ID " VSGB.pc_00 " //VxyW.zz  x=m Main, s Spare  y=F FREE N NETGEER W =B BLYNK zz pi or pc version
 
+#define WIFI_SSID_GIGA "GIGACUBE_BEK"                                                
+#define WIFI_SSID_FREE "Freebox-bek"                                              
+#define WIFI_SSID_OPPO "OPPO Reno2 Bek"    
 
 #ifdef PI0
   #define BLYNK_SERVER  "192.168.1.46" //PI0                                             
@@ -62,26 +65,23 @@
     #define NOTIFIER_ID " SPARE BOARD -"
 #endif
 
+
+#ifdef FREE
+  #define WIFI_SSID WIFI_SSID_FREE                                              
+#endif
+
+
+#ifdef OPPO
+  #define WIFI_SSID WIFI_SSID_OPPO                                             
+#endif
+
+#ifdef GIGACUBE
+  #define WIFI_SSID WIFI_SSID_GIGA                                                
+#endif
+
 #define WIFI_PASSWORD "ali09042010"
 
 #define DEBUG_SERIAL
-
-
-#ifdef FREE
-  #define WIFI_SSID "Freebox-bek"                                              
-#endif
-
-#ifdef BOUY
-  #define WIFI_SSID "GIGACUBE_BEK"                                                
-#endif
-
-#ifdef OPPO
-  #define WIFI_SSID "OPPO Reno2 Bek"                                              
-#endif
-
-#ifdef NETGEER
-  #define WIFI_SSID "NETGEER_BEK"                                                
-#endif
 
 
 #define BLYNK_ACTIVE_TIMEOUT   60000 // 1 MIN
