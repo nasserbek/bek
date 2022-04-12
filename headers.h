@@ -8,9 +8,9 @@
 #define FREE
 //#define BOUY
 //#define OPPO
-//#define HUAWEI
+//#define NETGEER
 
-#define VERSION_ID " Vm4.pi_05 " //Vxy.zz  x=m Main, s Spare  y=4 PI4 , 3 PI3 , 0 PI0 zz pi or pc version
+#define VERSION_ID " VMFP.pi_06 " //VxyW.zz  x=m Main, s Spare  y=F FREE N NETGEER W =B BLYNK zz pi or pc version
 
 
 #ifdef PI0
@@ -31,12 +31,22 @@
 #endif
 
 
+#ifdef BLYNK_REMOTE_SERVER
+    
+      #ifdef MAIN_BOARD
+                #define BLYNK_AUTH "D4AU1HexWcErQ9vtpkP_EgocpnoArZKC" //MAIN BOX
+      #else
+                #define BLYNK_AUTH "ya1T2eipkMhB3NvyLeAyRVRHqPAUXUG-"  //SPARE BOX
+      #endif   
+#else    
+      #ifdef MAIN_BOARD
+                #define BLYNK_AUTH "mnjUdg63gkJ0Rl7Pbfw2qb9aGkI35wPJ" //MAIN BOX
+      #else
+                #define BLYNK_AUTH "cfefMEczv_cZVHomzDd4uCbY5CRL8X5m"  //SPARE BOX
+      #endif                                            
+#endif  
 
-#ifdef MAIN_BOARD
-          #define BLYNK_AUTH "mnjUdg63gkJ0Rl7Pbfw2qb9aGkI35wPJ" //MAIN BOX
-#else
-          #define BLYNK_AUTH "cfefMEczv_cZVHomzDd4uCbY5CRL8X5m"  //SPARE BOX
-#endif                                            
+
 
 
 #ifdef MAIN_BOARD
@@ -69,8 +79,8 @@
   #define WIFI_SSID "OPPO Reno2 Bek"                                              
 #endif
 
-#ifdef HUAWEI
-  #define WIFI_SSID "HUAWEI-BEK"                                                
+#ifdef NETGEER
+  #define WIFI_SSID "NETGEER_BEK"                                                
 #endif
 
 
