@@ -1,6 +1,6 @@
 #define MAIN_BOARD
 
-#define BLYNK_REMOTE_SERVER
+//#define BLYNK_REMOTE_SERVER
 //#define PI0
 //#define PI3
 #define PI4
