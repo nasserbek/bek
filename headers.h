@@ -10,7 +10,7 @@
 //#define OPPO
 //#define GIGACUBE
 
-#define VERSION_ID " VMFP.pi_01 " //VxyW.zz  x=m Main, s Spare  y=F FREE N NETGEER W =B BLYNK zz pi or pc version
+#define VERSION_ID " VMFP.pi_00 " //VxyW.zz  x=m Main, s Spare  y=F FREE N NETGEER W =B BLYNK zz pi or pc version
 
    
 
@@ -31,20 +31,20 @@
 #endif
 
 
-//#ifdef BLYNK_REMOTE_SERVER
-//    
-//      #ifdef MAIN_BOARD
-//                #define BLYNK_AUTH "D4AU1HexWcErQ9vtpkP_EgocpnoArZKC" //MAIN BOX
-//      #else
-//                #define BLYNK_AUTH "ya1T2eipkMhB3NvyLeAyRVRHqPAUXUG-"  //SPARE BOX
-//      #endif   
-//#else    
+#ifdef BLYNK_REMOTE_SERVER
+    
+      #ifdef MAIN_BOARD
+                #define BLYNK_AUTH "D4AU1HexWcErQ9vtpkP_EgocpnoArZKC" //MAIN BOX
+      #else
+                #define BLYNK_AUTH "ya1T2eipkMhB3NvyLeAyRVRHqPAUXUG-"  //SPARE BOX
+      #endif   
+#else    
       #ifdef MAIN_BOARD
                 #define BLYNK_AUTH "mnjUdg63gkJ0Rl7Pbfw2qb9aGkI35wPJ" //MAIN BOX
       #else
                 #define BLYNK_AUTH "cfefMEczv_cZVHomzDd4uCbY5CRL8X5m"  //SPARE BOX
       #endif                                            
-//#endif  
+#endif  
 
 
 

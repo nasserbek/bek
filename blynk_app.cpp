@@ -184,11 +184,11 @@ void blynk::init()
     _wifiIsConnected = true;
   }
 
-//#ifdef BLYNK_REMOTE_SERVER
-//    Blynk.config(BLYNK_AUTH, BLYNK_SERVER);
-//#else
+#ifdef BLYNK_REMOTE_SERVER
+    Blynk.config(BLYNK_AUTH, BLYNK_SERVER);
+#else
    Blynk.config(BLYNK_AUTH, BLYNK_SERVER,8080);                                           
-//#endif
+#endif
 
 
   Blynk.connect(); 
