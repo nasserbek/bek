@@ -10,7 +10,7 @@
 //#define OPPO
 //#define GIGACUBE
 
-#define VERSION_ID " VSGB.pc_00 " //VxyW.zz  x=m Main, s Spare  y=F FREE N NETGEER W =B BLYNK zz pi or pc version
+#define VERSION_ID " VSGB.pc_01 " //VxyW.zz  x=m Main, s Spare  y=F FREE N NETGEER W =B BLYNK zz pi or pc version
 
    
 
