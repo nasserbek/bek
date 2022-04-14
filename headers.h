@@ -1,16 +1,16 @@
 #define MAIN_BOARD
 
-//#define BLYNK_REMOTE_SERVER
+#define BLYNK_REMOTE_SERVER
 //#define PI0
 //#define PI3
-#define PI4
+//#define PI4
 
-#define FREE
+//#define FREE
 //#define BOUY
 //#define OPPO
-//#define GIGACUBE
+#define GIGACUBE
 
-#define VERSION_ID " VMFP.pi_00 " //VxyW.zz  x=m Main, s Spare  y=F FREE N NETGEER W =B BLYNK zz pi or pc version
+#define VERSION_ID " VMGB.140422 " //VxyW.zz  x=m Main, s Spare  y=F FREE N NETGEER W =B BLYNK zz pi or pc version
 
    
 
