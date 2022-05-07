@@ -156,7 +156,7 @@ void blynk::init()
   Serial.println();
 
     wifiMulti.addAP(WIFI_SSID_GIGA, WIFI_PASSWORD);
-//    wifiMulti.addAP(WIFI_SSID_FREE, WIFI_PASSWORD);
+    wifiMulti.addAP(WIFI_SSID_FREE, WIFI_PASSWORD);
     wifiMulti.addAP(WIFI_SSID_OPPO , WIFI_PASSWORD);
 
  // if(WiFi.status() == 6){
