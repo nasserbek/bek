@@ -8,10 +8,12 @@
 //#define FREE
 //#define BOUY
 //#define OPPO
+//#define HUWAWEI
 #define GIGACUBE
 
-#define VERSION_ID " SGB.140522 " //VxyW.zz  x=m Main, s Spare  y=F FREE N NETGEER W =B BLYNK zz pi or pc version
-
+#define VERSION_ID " SGB.200522 " //VxyW.zz  x=m Main, s Spare  y=F FREE N NETGEER W =B BLYNK zz pi or pc version
+//Added 45,46,50,52,03
+//Added Huawei
    
 
 #ifdef PI0
@@ -62,9 +64,10 @@
     #define NOTIFIER_ID " SPARE BOARD -"
 #endif
 
-#define WIFI_SSID_GIGA "GIGACUBE_BEK"                                                
-#define WIFI_SSID_FREE "Freebox-bek"                                              
-#define WIFI_SSID_OPPO "OPPO Reno2 Bek" 
+#define WIFI_SSID_GIGA    "GIGACUBE_BEK"                                                
+#define WIFI_SSID_FREE    "Freebox-bek"                                              
+#define WIFI_SSID_OPPO    "OPPO Reno2 Bek" 
+#define WIFI_SSID_HUWAWEI "HUWAWEI_BEK" 
 
 #ifdef FREE
   #define WIFI_SSID WIFI_SSID_FREE                                              
@@ -77,6 +80,10 @@
 
 #ifdef GIGACUBE
   #define WIFI_SSID WIFI_SSID_GIGA                                                
+#endif
+
+#ifdef HUWAWEI
+  #define WIFI_SSID WIFI_SSID_HUWAWEI                                                
 #endif
 
 #define WIFI_PASSWORD "ali09042010"
