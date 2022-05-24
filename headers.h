@@ -1,4 +1,5 @@
 #define MAIN_BOARD
+#define SDB
 
 #define BLYNK_REMOTE_SERVER
 //#define PI0
