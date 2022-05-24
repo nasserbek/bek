@@ -28,7 +28,7 @@ bool routerResetStart =false;
 void looadRoomData()
 {
   int freq;
-       for(byte i=1;i<20;i++)
+       for(byte i=1;i<21;i++)
           {
             videoCh[i].frequency = freqTable[i];
             freq=videoCh[i].frequency;

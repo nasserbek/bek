@@ -28,7 +28,7 @@ bool routerResetStart =false;
 void looadRoomData()
 {
   int freq;
-       for(byte i=1;i<20;i++)
+       for(byte i=1;i<21;i++)
           {
             videoCh[i].frequency = freqTable[i];
             freq=videoCh[i].frequency;
@@ -689,23 +689,23 @@ void processBlynkQueu(void)
 
             
             case Q_EVENT_ZAP_CHANNEL16_V108 :
-              videoCh[16].zap=fb.eventValue;
+              videoCh[16].zap=queuData;
             break; 
 
              case Q_EVENT_ZAP_CHANNEL17_V109 :
-              videoCh[17].zap=fb.eventValue;
+              videoCh[17].zap=queuData;
             break; 
 
             case Q_EVENT_ZAP_CHANNEL18_V110 :
-              videoCh[18].zap=fb.eventValue;
+              videoCh[18].zap=queuData;
             break;             
 
              case Q_EVENT_ZAP_CHANNEL19_V111 :
-              videoCh[19].zap=fb.eventValue;
+              videoCh[19].zap=queuData;
             break; 
  
              case Q_EVENT_ZAP_CHANNEL20_V112 :
-              videoCh[20].zap=fb.eventValue;
+              videoCh[20].zap=queuData;
             break; 
                        
             
