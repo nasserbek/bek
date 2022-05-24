@@ -356,14 +356,14 @@ BLYNK_WRITE(V27)   //DVR ON OFF
 }
 
 
-BLYNK_WRITE(V30)   //209 
-{
-    _blynkEvent = true;
-    _blynkData=param.asInt();
-    _blynkEventID =FB_ZAP_CHANNEL_ID1;
-    eventdata = Q_EVENT_209_SEL_V30;
-    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-}
+//BLYNK_WRITE(V30)   //209 
+//{
+//    _blynkEvent = true;
+//    _blynkData=param.asInt();
+//    _blynkEventID =FB_ZAP_CHANNEL_ID1;
+//    eventdata = Q_EVENT_209_SEL_V30;
+//    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+//}
 
 
 
@@ -682,17 +682,15 @@ BLYNK_WRITE(V107)   //Zapping ch15
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-//    _blynkEventID =FB_ZAP_CHANNEL_ID8;
     eventdata = Q_EVENT_ZAP_CHANNEL15_V107;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
 
-BLYNK_WRITE(V108)   //Zapping ch16
+BLYNK_WRITE(V30)   //Zapping ch16
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-//    _blynkEventID =FB_ZAP_CHANNEL_ID8;
     eventdata = Q_EVENT_ZAP_CHANNEL16_V108;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
@@ -702,7 +700,6 @@ BLYNK_WRITE(V109)   //Zapping ch17
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-//    _blynkEventID =FB_ZAP_CHANNEL_ID8;
     eventdata = Q_EVENT_ZAP_CHANNEL17_V109;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
@@ -712,7 +709,6 @@ BLYNK_WRITE(V110)   //Zapping ch18
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-//    _blynkEventID =FB_ZAP_CHANNEL_ID8;
     eventdata = Q_EVENT_ZAP_CHANNEL18_V110;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
@@ -721,7 +717,6 @@ BLYNK_WRITE(V111)   //Zapping ch19
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-//    _blynkEventID =FB_ZAP_CHANNEL_ID8;
     eventdata = Q_EVENT_ZAP_CHANNEL19_V111;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
@@ -730,7 +725,6 @@ BLYNK_WRITE(V112)   //Zapping ch20
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-//    _blynkEventID =FB_ZAP_CHANNEL_ID8;
     eventdata = Q_EVENT_ZAP_CHANNEL20_V112;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
