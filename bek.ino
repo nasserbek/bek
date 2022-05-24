@@ -689,23 +689,23 @@ void processBlynkQueu(void)
 
             
             case Q_EVENT_ZAP_CHANNEL16_V108 :
-              videoCh[16].zap=true ;//fb.eventValue;
+              videoCh[16].zap=queuData;
             break; 
 
              case Q_EVENT_ZAP_CHANNEL17_V109 :
-              videoCh[17].zap=true ;//fb.eventValue;
+              videoCh[17].zap=queuData;
             break; 
 
             case Q_EVENT_ZAP_CHANNEL18_V110 :
-              videoCh[18].zap=true ;//fb.eventValue;
+              videoCh[18].zap=queuData;
             break;             
 
              case Q_EVENT_ZAP_CHANNEL19_V111 :
-              videoCh[19].zap=true ;//fb.eventValue;
+              videoCh[19].zap=queuData;
             break; 
  
              case Q_EVENT_ZAP_CHANNEL20_V112 :
-              videoCh[20].zap=true ;//fb.eventValue;
+              videoCh[20].zap=queuData;
             break; 
                        
             
