@@ -120,6 +120,12 @@ void streamCallback(StreamData firebaseData1)
     if (_eventPath == FB_ZAP_CH_14)              _eventID = Q_EVENT_ZAP_CHANNEL14_V106  ;
     if (_eventPath == FB_ZAP_CH_15)              _eventID = Q_EVENT_ZAP_CHANNEL15_V107;
 
+    if (_eventPath == FB_ZAP_CH_16)              _eventID = Q_EVENT_ZAP_CHANNEL16_V108 ;
+    if (_eventPath == FB_ZAP_CH_17)              _eventID = Q_EVENT_ZAP_CHANNEL17_V109 ;
+    if (_eventPath == FB_ZAP_CH_18)              _eventID = Q_EVENT_ZAP_CHANNEL18_V110 ;
+    if (_eventPath == FB_ZAP_CH_19)              _eventID = Q_EVENT_ZAP_CHANNEL19_V111  ;
+    if (_eventPath == FB_ZAP_CH_20)              _eventID = Q_EVENT_ZAP_CHANNEL20_V112;
+ 
     if (_eventPath == IDLE_PATH)                _eventID = IDLE_PATH_ID;
  }
 

@@ -214,6 +214,11 @@
 #define    FB_ZAP_CH_14          "/Zapping_CMD_Ch14"
 #define    FB_ZAP_CH_15          "/Zapping_CMD_Ch15"
 
+#define    FB_ZAP_CH_16         "/Zapping_CMD_Ch16"
+#define    FB_ZAP_CH_17          "/Zapping_CMD_Ch17"
+#define    FB_ZAP_CH_18         "/Zapping_CMD_Ch18"
+#define    FB_ZAP_CH_19         "/Zapping_CMD_Ch19"
+#define    FB_ZAP_CH_20         "/Zapping_CMD_Ch20"
 // ZAP STATUS
 #define    FB_ZAP_STATUS         "PC/Zapping_ST_Zapping"
 
@@ -467,6 +472,11 @@ Q_EVENT_OTA_GITHUB_V105,
 
 Q_EVENT_ZAP_CHANNEL14_V106,
 Q_EVENT_ZAP_CHANNEL15_V107,
+Q_EVENT_ZAP_CHANNEL16_V108,
+Q_EVENT_ZAP_CHANNEL17_V109,
+Q_EVENT_ZAP_CHANNEL18_V110,
+Q_EVENT_ZAP_CHANNEL19_V111,
+Q_EVENT_ZAP_CHANNEL20_V112,
 
 Q_EVENT_VERSION_SMS_307,
 Q_EVENT_BLYNK_ON_OFF_SMS_309,
@@ -515,4 +525,15 @@ enum {
   SM_CH14_B,
   SM_CH15_A,
   SM_CH15_B,
+
+  SM_CH16_A,
+  SM_CH16_B,
+  SM_CH17_A,
+  SM_CH17_B,
+  SM_CH18_A,
+  SM_CH18_B,
+  SM_CH19_A,
+  SM_CH19_B,
+  SM_CH20_A,
+  SM_CH20_B,
 };

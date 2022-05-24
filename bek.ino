@@ -386,12 +386,32 @@ void processFirebase(void)
             case Q_EVENT_ZAP_CHANNEL14_V106 :
               videoCh[14].zap=fb.eventValue;
             break; 
- 
-            case Q_EVENT_ZAP_CHANNEL15_V107 :
+
+             case Q_EVENT_ZAP_CHANNEL15_V107 :
               videoCh[15].zap=fb.eventValue;
             break; 
+            
+            case Q_EVENT_ZAP_CHANNEL16_V108 :
+              videoCh[16].zap=fb.eventValue;
+            break; 
+
+             case Q_EVENT_ZAP_CHANNEL17_V109 :
+              videoCh[17].zap=fb.eventValue;
+            break; 
+
+            case Q_EVENT_ZAP_CHANNEL18_V110 :
+              videoCh[18].zap=fb.eventValue;
+            break;             
+
+             case Q_EVENT_ZAP_CHANNEL19_V111 :
+              videoCh[19].zap=fb.eventValue;
+            break; 
  
-   
+             case Q_EVENT_ZAP_CHANNEL20_V112 :
+              videoCh[20].zap=fb.eventValue;
+            break; 
+                       
+
              case Q_EVENT_OTA_GITHUB_V105:
                otaWifiGithub = false;         
                wifiIDETimer = millis();
@@ -666,6 +686,29 @@ void processBlynkQueu(void)
             case Q_EVENT_ZAP_CHANNEL15_V107 :
               videoCh[15].zap=queuData;
             break; 
+
+            
+            case Q_EVENT_ZAP_CHANNEL16_V108 :
+              videoCh[16].zap=fb.eventValue;
+            break; 
+
+             case Q_EVENT_ZAP_CHANNEL17_V109 :
+              videoCh[17].zap=fb.eventValue;
+            break; 
+
+            case Q_EVENT_ZAP_CHANNEL18_V110 :
+              videoCh[18].zap=fb.eventValue;
+            break;             
+
+             case Q_EVENT_ZAP_CHANNEL19_V111 :
+              videoCh[19].zap=fb.eventValue;
+            break; 
+ 
+             case Q_EVENT_ZAP_CHANNEL20_V112 :
+              videoCh[20].zap=fb.eventValue;
+            break; 
+                       
+            
     }  
 }
 
@@ -976,12 +1019,89 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     {
                       recevierCh=videoCh[15].id;
                       receiverAvByCh (recevierCh);
+                      stateMachine =SM_CH16_A;
+                     }
+                  }
+                else {zaptime= millis();stateMachine =SM_CH16_A;}
+            break;                         
+
+            case SM_CH16_A:
+            case SM_CH16_B:
+                if (videoCh[16].zap) 
+                  {
+                    if (stateMachine == SM_CH16_A) {zaptime= millis();stateMachine =SM_CH16_B;}
+                    if (millis() - zaptime > zapTimer) 
+                    {
+                      recevierCh=videoCh[16].id;
+                      receiverAvByCh (recevierCh);
+                      stateMachine =SM_CH17_A;
+                     }
+                  }
+                else {zaptime= millis();stateMachine =SM_CH17_A;}
+            break;                         
+
+            case SM_CH17_A:
+            case SM_CH17_B:
+                if (videoCh[17].zap) 
+                  {
+                    if (stateMachine == SM_CH17_A) {zaptime= millis();stateMachine =SM_CH17_B;}
+                    if (millis() - zaptime > zapTimer) 
+                    {
+                      recevierCh=videoCh[17].id;
+                      receiverAvByCh (recevierCh);
+                      stateMachine =SM_CH18_A;
+                     }
+                  }
+                else {zaptime= millis();stateMachine =SM_CH18_A;}
+            break;                         
+
+
+            case SM_CH18_A:
+            case SM_CH18_B:
+                if (videoCh[18].zap) 
+                  {
+                    if (stateMachine == SM_CH18_A) {zaptime= millis();stateMachine =SM_CH18_B;}
+                    if (millis() - zaptime > zapTimer) 
+                    {
+                      recevierCh=videoCh[18].id;
+                      receiverAvByCh (recevierCh);
+                      stateMachine =SM_CH19_A;
+                     }
+                  }
+                else {zaptime= millis();stateMachine =SM_CH19_A;}
+            break;                         
+
+            case SM_CH19_A:
+            case SM_CH19_B:
+                if (videoCh[19].zap) 
+                  {
+                    if (stateMachine == SM_CH19_A) {zaptime= millis();stateMachine =SM_CH19_B;}
+                    if (millis() - zaptime > zapTimer) 
+                    {
+                      recevierCh=videoCh[19].id;
+                      receiverAvByCh (recevierCh);
+                      stateMachine =SM_CH20_A;
+                     }
+                  }
+                else {zaptime= millis();stateMachine =SM_CH20_A;}
+            break;                         
+
+            case SM_CH20_A:
+            case SM_CH20_B:
+                if (videoCh[20].zap) 
+                  {
+                    if (stateMachine == SM_CH20_A) {zaptime= millis();stateMachine =SM_CH20_B;}
+                    if (millis() - zaptime > zapTimer) 
+                    {
+                      recevierCh=videoCh[20].id;
+                      receiverAvByCh (recevierCh);
                       stateMachine =SM_CH1_A;
                      }
                   }
                 else {zaptime= millis();stateMachine =SM_CH1_A;}
             break;                         
-                                 
+
+                                                           
           }
   }
   else {zaptime= millis();stateMachine =SM_CH1_A;}

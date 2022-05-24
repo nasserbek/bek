@@ -1,4 +1,5 @@
 //#define MAIN_BOARD
+#define SDB
 
 #define BLYNK_REMOTE_SERVER
 //#define PI0
@@ -11,7 +12,7 @@
 //#define HUWAWEI
 #define GIGACUBE
 
-#define VERSION_ID " SGB.200522 " //VxyW.zz  x=m Main, s Spare  y=F FREE N NETGEER W =B BLYNK zz pi or pc version
+#define VERSION_ID " SGB.20-05 " //VxyW.zz  x=m Main, s Spare  y=F FREE N NETGEER W =B BLYNK zz pi or pc version
 //Added 45,46,50,52,03
 //Added Huawei
    
