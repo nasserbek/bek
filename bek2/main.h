@@ -45,7 +45,7 @@ struct Channels
   long  muxTimer;
 };
 
-struct Channels videoCh[15];
+struct Channels videoCh[20];
 
 uint _pll[20];
 
