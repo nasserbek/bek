@@ -356,14 +356,14 @@ BLYNK_WRITE(V27)   //DVR ON OFF
 }
 
 
-BLYNK_WRITE(V30)   //209 
-{
-    _blynkEvent = true;
-    _blynkData=param.asInt();
-    _blynkEventID =FB_ZAP_CHANNEL_ID1;
-    eventdata = Q_EVENT_209_SEL_V30;
-    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-}
+//BLYNK_WRITE(V30)   //209 
+//{
+//    _blynkEvent = true;
+//    _blynkData=param.asInt();
+//    _blynkEventID =FB_ZAP_CHANNEL_ID1;
+//    eventdata = Q_EVENT_209_SEL_V30;
+//    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+//}
 
 
 
@@ -688,7 +688,7 @@ BLYNK_WRITE(V107)   //Zapping ch15
 }
 
 
-BLYNK_WRITE(V108)   //Zapping ch16
+BLYNK_WRITE(V30)   //Zapping ch16
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
