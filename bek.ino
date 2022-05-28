@@ -922,7 +922,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                         recevierCh=videoCh[7].id;
                         receiverAvByCh (recevierCh);
                         stateMachine =SM_CH8_A;
-                        if (videoCh[7].mux)remoteControl(7);
+                        if (videoCh[7].mux && videoCh[16].zap)remoteControl(7); //50 and 27
                        }
                   }
                 else stateMachine =SM_CH8_A;
@@ -986,7 +986,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                       recevierCh=videoCh[11].id;
                       receiverAvByCh (recevierCh);
                       stateMachine =SM_CH12_A;
-                      if (videoCh[11].mux)remoteControl(11);
+                      if (videoCh[11].mux && videoCh[14].zap)remoteControl(11); //03 and 21
                     }
                   }
                 else stateMachine =SM_CH12_A;
@@ -1034,7 +1034,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                       recevierCh=videoCh[14].id;
                       receiverAvByCh (recevierCh);
                       stateMachine =SM_CH15_A;
-                      if (videoCh[14].mux)remoteControl(14);
+                      if (videoCh[14].mux && videoCh[11].zap)remoteControl(14); //03 and 21
                     }
                   }
                 else stateMachine =SM_CH15_A;
@@ -1066,7 +1066,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                       recevierCh=videoCh[16].id;
                       receiverAvByCh (recevierCh);
                       stateMachine =SM_CH17_A;
-                      if (videoCh[16].mux)remoteControl(16);
+                      if (videoCh[16].mux && videoCh[7].zap)remoteControl(16); //50 and 27
                      }
                   }
                 else {zaptime= millis();stateMachine =SM_CH17_A;}
