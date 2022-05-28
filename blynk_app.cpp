@@ -356,40 +356,39 @@ BLYNK_WRITE(V27)   //DVR ON OFF
 }
 
 
-BLYNK_WRITE(V30)   //209 
+BLYNK_WRITE(V30)   //03 
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    _blynkEventID =FB_ZAP_CHANNEL_ID1;
-    eventdata = Q_EVENT_209_SEL_V30;
+    eventdata = Q_EVENT_03_SEL_V30;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
 
 
-BLYNK_WRITE(V31)   //216 
+BLYNK_WRITE(V31)   //21
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_216_SEL_V31;
+    eventdata = Q_EVENT_21_SEL_V31;    
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
 
-BLYNK_WRITE(V32)   //202 
+BLYNK_WRITE(V32)   //27
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_202_SEL_V32;
+    eventdata = Q_EVENT_27_SEL_V32;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
 
-BLYNK_WRITE(V33)   //210 
+BLYNK_WRITE(V33)   //50
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_210_SEL_V33;
+    eventdata = Q_EVENT_50_SEL_V33;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -682,7 +681,6 @@ BLYNK_WRITE(V107)   //Zapping ch15
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-//    _blynkEventID =FB_ZAP_CHANNEL_ID8;
     eventdata = Q_EVENT_ZAP_CHANNEL15_V107;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
@@ -692,7 +690,6 @@ BLYNK_WRITE(V108)   //Zapping ch16
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-//    _blynkEventID =FB_ZAP_CHANNEL_ID8;
     eventdata = Q_EVENT_ZAP_CHANNEL16_V108;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
@@ -702,7 +699,6 @@ BLYNK_WRITE(V109)   //Zapping ch17
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-//    _blynkEventID =FB_ZAP_CHANNEL_ID8;
     eventdata = Q_EVENT_ZAP_CHANNEL17_V109;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
@@ -712,7 +708,6 @@ BLYNK_WRITE(V110)   //Zapping ch18
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-//    _blynkEventID =FB_ZAP_CHANNEL_ID8;
     eventdata = Q_EVENT_ZAP_CHANNEL18_V110;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
@@ -721,7 +716,6 @@ BLYNK_WRITE(V111)   //Zapping ch19
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-//    _blynkEventID =FB_ZAP_CHANNEL_ID8;
     eventdata = Q_EVENT_ZAP_CHANNEL19_V111;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
@@ -730,7 +724,6 @@ BLYNK_WRITE(V112)   //Zapping ch20
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-//    _blynkEventID =FB_ZAP_CHANNEL_ID8;
     eventdata = Q_EVENT_ZAP_CHANNEL20_V112;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }

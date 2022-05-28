@@ -12,10 +12,10 @@
 //#define HUWAWEI
 #define GIGACUBE
 
-#define VERSION_ID " SGB.20-05a " //VxyW.zz  x=m Main, s Spare  y=F FREE N NETGEER W =B BLYNK zz pi or pc version
+#define VERSION_ID " MGB.28-05 " 
 //Added 45,46,50,52,03
 //Added Huawei
-   
+//28.05.2022 Channel On Off same frequency   
 
 #ifdef PI0
   #define BLYNK_SERVER  "192.168.1.46" //PI0                                             
@@ -427,10 +427,10 @@ Q_EVENT_ROUTER_RESET_TIMER_V23,
 Q_EVENT_ROOM_ID_21_25_V25,
 Q_EVENT_RESET_FREQ_V26,
 Q_EVENT_DVR_ON_OFF_V27,
-Q_EVENT_209_SEL_V30,
-Q_EVENT_216_SEL_V31,
-Q_EVENT_202_SEL_V32,
-Q_EVENT_210_SEL_V33,
+Q_EVENT_03_SEL_V30,
+Q_EVENT_21_SEL_V31,
+Q_EVENT_27_SEL_V32,
+Q_EVENT_50_SEL_V33,
 Q_EVENT_204_SEL_V34,
 Q_EVENT_219_SEL_V35,
 Q_EVENT_207_SEL_V36,
