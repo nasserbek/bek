@@ -1,0 +1,234 @@
+name: Compile Examples
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/compile-examples.yml"
+      - "examples/**"
+      - "src/**"
+  push:
+    paths:
+      - ".github/workflows/compile-examples.yml"
+      - "examples/**"
+      - "src/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      # libraries to install for all boards
+      UNIVERSAL_LIBRARIES: |
+        # Install the ArduinoIoTCloud library from the repository
+        - source-path: ./
+        - name: Arduino_ConnectionHandler
+        - name: Arduino_DebugUtils
+        - name: ArduinoMqttClient
+      # sketch paths to compile (recursive) for all boards
+      UNIVERSAL_SKETCH_PATHS: |
+        - examples/ArduinoIoTCloud-Advanced
+        - examples/ArduinoIoTCloud-Basic
+        - examples/utility/ArduinoIoTCloud_Travis_CI
+      ARDUINOCORE_MBED_STAGING_PATH: extras/ArduinoCore-mbed
+      ARDUINOCORE_API_STAGING_PATH: extras/ArduinoCore-API
+      SKETCHES_REPORTS_PATH: sketches-reports
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        board:
+          - fqbn: arduino:samd:mkr1000
+            type: mkr1000
+          - fqbn: arduino:samd:mkrwifi1010
+            type: nina
+          - fqbn: arduino:samd:nano_33_iot
+            type: nina
+          - fqbn: arduino:samd:mkrwan1300
+            type: wan
+          - fqbn: arduino:samd:mkrgsm1400
+            type: gsm
+          - fqbn: arduino:samd:mkrnb1500
+            type: nb
+          - fqbn: arduino:mbed:envie_m7
+            type: mbed
+          - fqbn: esp8266:esp8266:huzzah
+            type: esp8266
+          - fqbn: esp32:esp32:esp32
+            type: esp32
+          - fqbn: arduino:mbed_nano:nanorp2040connect
+            type: nina
+          - fqbn: arduino:mbed_nicla:nicla_vision
+            type: mbed_nicla
+
+        # make board type-specific customizations to the matrix jobs
+        include:
+          # MKR 1000
+          - board:
+              type: mkr1000
+            platforms: |
+              # Install Arduino SAMD Boards via Boards Manager for the toolchain
+              - name: arduino:samd
+            libraries: |
+              - name: ArduinoECCX08
+              - name: RTCZero
+              - name: WiFi101
+              - source-url: https://github.com/adafruit/Adafruit_SleepyDog.git
+            sketch-paths: |
+              - examples/utility/Provisioning
+          # MKR WiFi 1010, Nano 33 IoT, Nano RP2040 Connect
+          - board:
+              type: nina
+            platforms: |
+              # Install Arduino SAMD Boards via Boards Manager for the toolchain
+              - name: arduino:samd
+              - name: arduino:mbed_nano
+            libraries: |
+              - name: ArduinoECCX08
+              - name: RTCZero
+              - name: WiFiNINA
+              - name: Arduino_JSON
+              - name: ArduinoBearSSL
+              - source-url: https://github.com/adafruit/Adafruit_SleepyDog.git
+            sketch-paths: |
+              - examples/utility/Provisioning
+              - examples/utility/SelfProvisioning
+          - board:
+              type: wan
+            platforms: |
+              - name: arduino:samd
+            libraries: |
+              - name: ArduinoECCX08
+              - name: RTCZero
+              - name: MKRWAN
+              - source-url: https://github.com/adafruit/Adafruit_SleepyDog.git
+            sketch-paths:
+          # GSM boards
+          - board:
+              type: gsm
+            platforms: |
+              - name: arduino:samd
+            libraries: |
+              - name: ArduinoECCX08
+              - name: RTCZero
+              - name: MKRGSM
+              - source-url: https://github.com/adafruit/Adafruit_SleepyDog.git
+            sketch-paths: |
+              - examples/utility/Provisioning
+          # NB boards
+          - board:
+              type: nb
+            platforms: |
+              - name: arduino:samd
+            libraries: |
+              - name: ArduinoECCX08
+              - name: RTCZero
+              - name: MKRNB
+              - source-url: https://github.com/adafruit/Adafruit_SleepyDog.git
+            sketch-paths: |
+              - examples/utility/Provisioning
+          # Portenta
+          - board:
+              type: mbed
+            platforms: |
+              # Install Arduino mbed-Enabled Boards via Boards Manager for the toolchain
+              - name: arduino:mbed
+              # Overwrite the Arduino mbed-Enabled Boards release version with version from the tip of the master branch (located in local path because of the need to first install ArduinoCore-API)
+              - source-path: extras/ArduinoCore-mbed
+                name: arduino:mbed
+            libraries: |
+              - name: ArduinoECCX08
+              - name: Arduino_Portenta_OTA
+            sketch-paths: |
+              - examples/utility/Provisioning
+          - board:
+              type: mbed_nicla
+            platforms: |
+              # Install Arduino mbed-Enabled Boards via Boards Manager for the toolchain
+              - name: arduino:mbed_nicla
+            libraries: |
+              - name: Arduino_Portenta_OTA
+            sketch-paths: |
+              - examples/utility/Provisioning
+          # ESP8266 boards
+          - board:
+              type: esp8266
+            platforms: |
+              # Install ESP8266 platform via Boards Manager
+              - name: esp8266:esp8266
+                source-url: https://arduino.esp8266.com/stable/package_esp8266com_index.json
+                version: 2.5.0
+            libraries:
+            sketch-paths:
+          # ESP32 boards
+          - board:
+              type: esp32
+            platforms: |
+              # Install ESP32 platform via Boards Manager
+              - name: esp32:esp32
+                source-url: https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
+            libraries:
+            sketch-paths:
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # it's necessary to checkout the platform before installing it so that the ArduinoCore-API dependency can be added
+      - name: Checkout ArduinoCore-mbed
+        # this step only needed when the Arduino mbed-Enabled Boards platform sourced from the repository is being used
+        if: matrix.board.type == 'mbed'
+        uses: actions/checkout@v2
+        with:
+          repository: arduino/ArduinoCore-mbed
+          # the arduino/compile-sketches action will install the platform from this path
+          path: ${{ env.ARDUINOCORE_MBED_STAGING_PATH }}
+
+      - name: Checkout ArduinoCore-API
+        # this step only needed when the Arduino mbed-Enabled Boards platform sourced from the repository is being used
+        if: matrix.board.type == 'mbed'
+        uses: actions/checkout@v2
+        with:
+          repository: arduino/ArduinoCore-API
+          path: ${{ env.ARDUINOCORE_API_STAGING_PATH }}
+
+      - name: Install ArduinoCore-API
+        # this step only needed when the Arduino mbed-Enabled Boards platform sourced from the repository is being used
+        if: matrix.board.type == 'mbed'
+        run: |
+          mv "${{ env.ARDUINOCORE_API_STAGING_PATH }}/api" "${{ env.ARDUINOCORE_MBED_STAGING_PATH }}/cores/arduino"
+
+      - name: Install ESP32 platform dependencies
+        if: matrix.board.type == 'esp32'
+        run: pip3 install pyserial
+
+      - name: Compile examples
+        uses: arduino/compile-sketches@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          platforms: ${{ matrix.platforms }}
+          fqbn: ${{ matrix.board.fqbn }}
+          libraries: |
+            ${{ env.UNIVERSAL_LIBRARIES }}
+            ${{ matrix.libraries }}
+          sketch-paths: |
+            ${{ env.UNIVERSAL_SKETCH_PATHS }}
+            ${{ matrix.sketch-paths }}
+          enable-deltas-report: "true"
+          sketches-report-path: ${{ env.SKETCHES_REPORTS_PATH }}
+
+      - name: Write data to size trends report spreadsheet
+        # Update report on every push to the master branch
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: arduino/report-size-trends@main
+        with:
+          sketches-report-path: ${{ env.SKETCHES_REPORTS_PATH }}
+          google-key-file: ${{ secrets.GOOGLE_KEY_FILE }}
+          spreadsheet-id: 1I6NZkpZpf8KugBkE92adB1Z3_b7ZepOpCdYTOigJpN4
+
+      - name: Save memory usage change report as artifact
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.SKETCHES_REPORTS_PATH }}
+          path: ${{ env.SKETCHES_REPORTS_PATH }}

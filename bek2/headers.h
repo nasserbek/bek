@@ -9,8 +9,8 @@
 //#define FREE
 //#define BOUY
 //#define OPPO
-//#define HUWAWEI
-#define GIGACUBE
+#define HUAWEI
+//#define GIGACUBE
 
 #define VERSION_ID " MGB.28-05 " 
 //Added 45,46,50,52,03
@@ -68,7 +68,7 @@
 #define WIFI_SSID_GIGA    "GIGACUBE_BEK"                                                
 #define WIFI_SSID_FREE    "Freebox-bek"                                              
 #define WIFI_SSID_OPPO    "OPPO Reno2 Bek" 
-#define WIFI_SSID_HUWAWEI "HUWAWEI_BEK" 
+#define WIFI_SSID_HUAWEI "HUAWEI_BEK" 
 
 #ifdef FREE
   #define WIFI_SSID WIFI_SSID_FREE                                              
@@ -83,8 +83,8 @@
   #define WIFI_SSID WIFI_SSID_GIGA                                                
 #endif
 
-#ifdef HUWAWEI
-  #define WIFI_SSID WIFI_SSID_HUWAWEI                                                
+#ifdef HUAWEI
+  #define WIFI_SSID WIFI_SSID_HUAWEI                                                
 #endif
 
 #define WIFI_PASSWORD "ali09042010"
@@ -329,8 +329,8 @@ const String FB_T433_STATUS_PATH[32] =
 #define PCF8574_STATUS_ADDRESS  0x21          // PCF8574 device 2    7 Segment Display Reader
    
 
-#define   ON              true
-#define   OFF             false
+//#define   ON              true
+//#define   OFF             false
 
 
 
