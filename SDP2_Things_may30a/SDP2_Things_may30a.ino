@@ -75,13 +75,39 @@
 
 #include "thingProperties.h"
 
+#include "main.h"//177
 
+reciever avReceiver;
+sim800L sms;
+otaUpload ota;
+blynk myBlynk;
+fireBase fb;
+
+
+#include <ESP32httpUpdate.h>
+#define USE_SERIAL Serial
+
+bool sendTime_7500ms;
+int _days  ;
+int _hours;
+int _minutes ;
+int _seconds ;
+
+QueueHandle_t g_event_queue_handle = NULL;
+EventGroupHandle_t g_event_group = NULL;
+
+int queuData;
+int queuDataID;
+bool queuValidData = false;
+bool streamWebDdns = DDNS;
+bool routerResetStart = false;
 /*
   Since AV is READ_WRITE variable, onAVChange() is
   executed every time a new value is received from IoT Cloud.
 */
 void onAVChange()  {
   // Add your code here to act upon AV change
+    if (aV)Serial.println("\t AV is ON.");
 }
 
 /*
@@ -558,32 +584,7 @@ void onLOCALIDEUPLOADChange()  {
 
 
 
-#include "main.h"//177
 
-reciever avReceiver;
-sim800L sms;
-otaUpload ota;
-blynk myBlynk;
-fireBase fb;
-
-
-#include <ESP32httpUpdate.h>
-#define USE_SERIAL Serial
-
-bool sendTime_7500ms;
-int _days  ;
-int _hours;
-int _minutes ;
-int _seconds ;
-
-QueueHandle_t g_event_queue_handle = NULL;
-EventGroupHandle_t g_event_group = NULL;
-
-int queuData;
-int queuDataID;
-bool queuValidData = false;
-bool streamWebDdns = DDNS;
-bool routerResetStart = false;
 
 
 void looadRoomData()

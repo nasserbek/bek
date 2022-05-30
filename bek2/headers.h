@@ -10,7 +10,7 @@
 //#define BOUY
 //#define OPPO
 #define HUAWEI
-//#define GIGACUBE
+#define GIGACUBE
 
 #define VERSION_ID " MGB.28-05 " 
 //Added 45,46,50,52,03
@@ -329,8 +329,8 @@ const String FB_T433_STATUS_PATH[32] =
 #define PCF8574_STATUS_ADDRESS  0x21          // PCF8574 device 2    7 Segment Display Reader
    
 
-//#define   ON              true
-//#define   OFF             false
+#define   ON              true
+#define   OFF             false
 
 
 
