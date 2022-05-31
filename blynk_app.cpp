@@ -11,6 +11,42 @@
 #include <BlynkSimpleEsp32.h>
 #include <WiFiMulti.h>
 
+
+
+/*************************************************************
+  This is a simple demo of sending and receiving some data.
+  Be sure to check out other examples!
+ *************************************************************/
+// Template ID, Device Name and Auth Token are provided by the Blynk.Cloud
+// See the Device Info tab, or Template settings
+#define BLYNK_TEMPLATE_ID           "TMPLp0sRB0p5"
+#define BLYNK_DEVICE_NAME           "Quickstart Device"
+#define BLYNK_AUTH_TOKEN            "LyY4eLpE3TJfIuMkf4hf--ZFZdBxkAID"
+
+
+// Comment this out to disable prints and save space
+#define BLYNK_PRINT Serial
+
+
+char auth[] = BLYNK_AUTH_TOKEN;
+// Your WiFi credentials.
+// Set password to "" for open networks.
+char ssid[] = "GIGACUBE_BEK";
+char pass[] = "ali09042010";
+
+// This function is called every time the device is connected to the Blynk.Cloud
+//BLYNK_CONNECTED()
+//{
+//  // Change Web Link Button message to "Congratulations!"
+//  Blynk.setProperty(V3, "offImageUrl", "https://static-image.nyc3.cdn.digitaloceanspaces.com/general/fte/congratulations.png");
+//  Blynk.setProperty(V3, "onImageUrl",  "https://static-image.nyc3.cdn.digitaloceanspaces.com/general/fte/congratulations_pressed.png");
+//  Blynk.setProperty(V3, "url", "https://docs.blynk.io/en/getting-started/what-do-i-need-to-blynk/how-quickstart-device-was-made");
+//}
+
+
+
+
+
 WiFiMulti wifiMulti;
 
 long  blynkAtiveTimer;
@@ -38,10 +74,6 @@ WidgetLED T315_LED_V13(V13);  //T315 St
 WidgetLED SMS_LED_V12(V12);  //sms
 WidgetLED ZAP_LED_V80(V80);  //Zap Status
 
-
-char ssid[] = WIFI_SSID;
-char pass[] = WIFI_PASSWORD;
-char blynk_server[] = BLYNK_SERVER;
 
 BlynkTimer timer;
 unsigned int myServerTimeout  =  3500;  //  3.5s server connection timeout (SCT)
@@ -157,7 +189,7 @@ void blynk::init()
 
     wifiMulti.addAP(WIFI_SSID_GIGA, WIFI_PASSWORD);
     wifiMulti.addAP(WIFI_SSID_OPPO , WIFI_PASSWORD);
-    wifiMulti.addAP(WIFI_SSID_HUWAWEI , WIFI_PASSWORD);
+    wifiMulti.addAP(WIFI_SSID_HUAWEI , WIFI_PASSWORD);
     wifiMulti.addAP(WIFI_SSID_FREE, WIFI_PASSWORD);
     
 
@@ -169,7 +201,7 @@ void blynk::init()
   timer.setInterval(functionInterval, sendTimeToBlynk_7500ms);// run some function at intervals per functionInterval
   timer.setInterval(blynkInterval, checkBlynk);   // check connection to server per blynkInterval
   unsigned long startWiFi = millis();
-//  WiFi.begin(ssid, pass);
+
   while (wifiMulti.run() != WL_CONNECTED){
     delay(500);
     if(millis() > startWiFi + myWiFiTimeout){
@@ -192,7 +224,16 @@ void blynk::init()
    Blynk.config(BLYNK_AUTH, BLYNK_SERVER,8080);                                           
 #endif
 
-
+#ifdef BLYNK2
+          Blynk.begin(auth, ssid, pass);
+#else
+      #ifdef BLYNK_REMOTE_SERVER
+          Blynk.config(BLYNK_AUTH, BLYNK_SERVER);
+      #else
+          Blynk.config(BLYNK_AUTH, BLYNK_SERVER,8080);                                           
+      #endif
+#endif
+  
   Blynk.connect(); 
   checkBlynk();
   ledInit();
@@ -744,9 +785,9 @@ void blynk::notifierDebug(String subject, String body)
 }
 
 
-bool blynk::wifiConnect()
+bool blynk::wifiConnectFB()
   {
-    WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+    WiFi.begin(WIFI_SSID_FB, WIFI_PASSWORD);
     if (WiFi.status()  == WL_CONNECTED ){DEBUG_PRINTLN("Wifi connected");return true; }
   
     long timeout = millis();
@@ -756,7 +797,7 @@ bool blynk::wifiConnect()
       {
         if (millis() - wifiReconnect > WIFI_RECONNECT_TIMER ) 
           {
-            WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+            WiFi.begin(WIFI_SSID_FB, WIFI_PASSWORD);
             wifiReconnect = millis();
             DEBUG_PRINTLN("Wifi Reconnect");
           }

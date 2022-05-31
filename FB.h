@@ -23,7 +23,7 @@ class fireBase {
     
     fireBase(void) ;
     bool init();
-    bool wifiConnect(void);
+    bool wifiConnectFB(void);
     int  getInteger( String _path);
     bool SendString(String _path,String _cmdString);
     void sendAlive(String _path);

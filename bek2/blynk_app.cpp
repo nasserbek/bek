@@ -2,9 +2,6 @@
 #include "headers.h"
 
 
-
-
-
 #define BLYNK_PRINT Serial
 #include <WiFi.h>
 #include <WiFiClient.h>
@@ -154,14 +151,11 @@ void checkBlynk() {
 void blynk::init() 
 {
   Serial.println();
-
     wifiMulti.addAP(WIFI_SSID_GIGA, WIFI_PASSWORD);
     wifiMulti.addAP(WIFI_SSID_OPPO , WIFI_PASSWORD);
     wifiMulti.addAP(WIFI_SSID_HUAWEI , WIFI_PASSWORD);
     wifiMulti.addAP(WIFI_SSID_FREE, WIFI_PASSWORD);
     
-
- // if(WiFi.status() == 6){
     if(wifiMulti.run() == 6){
     Serial.println("\tWiFi not connected yet.");
   }
@@ -169,7 +163,7 @@ void blynk::init()
   timer.setInterval(functionInterval, sendTimeToBlynk_7500ms);// run some function at intervals per functionInterval
   timer.setInterval(blynkInterval, checkBlynk);   // check connection to server per blynkInterval
   unsigned long startWiFi = millis();
-//  WiFi.begin(ssid, pass);
+
   while (wifiMulti.run() != WL_CONNECTED){
     delay(500);
     if(millis() > startWiFi + myWiFiTimeout){
@@ -185,6 +179,9 @@ void blynk::init()
     Serial.println(WiFi.localIP());
     _wifiIsConnected = true;
   }
+  
+ 
+//  Blynk.begin(BLYNK_AUTH, WIFI_SSID_FREE, WIFI_PASSWORD);
 
 #ifdef BLYNK_REMOTE_SERVER
     Blynk.config(BLYNK_AUTH, BLYNK_SERVER);
@@ -192,11 +189,20 @@ void blynk::init()
    Blynk.config(BLYNK_AUTH, BLYNK_SERVER,8080);                                           
 #endif
 
-
   Blynk.connect(); 
   checkBlynk();
   ledInit();
   blynkAtiveTimer     = millis();
+}
+
+
+// This function is called every time the device is connected to the Blynk.Cloud
+BLYNK_CONNECTED()
+{
+  // Change Web Link Button message to "Congratulations!"
+  Blynk.setProperty(V3, "offImageUrl", "https://static-image.nyc3.cdn.digitaloceanspaces.com/general/fte/congratulations.png");
+  Blynk.setProperty(V3, "onImageUrl",  "https://static-image.nyc3.cdn.digitaloceanspaces.com/general/fte/congratulations_pressed.png");
+  Blynk.setProperty(V3, "url", "https://docs.blynk.io/en/getting-started/what-do-i-need-to-blynk/how-quickstart-device-was-made");
 }
 
 BLYNK_WRITE(V0)  //freq
@@ -740,7 +746,15 @@ blynk::blynk(void)
 
 void blynk::notifierDebug(String subject, String body)
 {
-  Blynk.notify(String(subject +"**"+ body) );
+  #ifdef BLYNK2
+      Blynk.logEvent(String(subject +"**"+ body) );
+  #else
+      Blynk.notify(String(subject +"**"+ body) );
+  #endif  
+
+
+
+  
 }
 
 

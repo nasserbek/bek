@@ -1,5 +1,6 @@
 #define MAIN_BOARD
 #define SDB
+#define BLYNK2
 
 #define BLYNK_REMOTE_SERVER
 //#define PI0
@@ -9,10 +10,10 @@
 //#define FREE
 //#define BOUY
 //#define OPPO
-//#define HUWAWEI
+//#define HUAWEI
 #define GIGACUBE
 
-#define VERSION_ID " MGB.28-05 " 
+#define VERSION_ID " MGB.30-05 " 
 //Added 45,46,50,52,03
 //Added Huawei
 //28.05.2022 Channel On Off same frequency   
@@ -50,8 +51,6 @@
 #endif  
 
 
-
-
 #ifdef MAIN_BOARD
     #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/bek.ino.ttgo-t1.bin"  // URL to download the firmware from
 #else
@@ -68,28 +67,29 @@
 #define WIFI_SSID_GIGA    "GIGACUBE_BEK"                                                
 #define WIFI_SSID_FREE    "Freebox-bek"                                              
 #define WIFI_SSID_OPPO    "OPPO Reno2 Bek" 
-#define WIFI_SSID_HUWAWEI "HUWAWEI_BEK" 
+#define WIFI_SSID_HUAWEI "HUAWEI_BEK" 
+#define WIFI_PASSWORD "ali09042010"
+
+
+
+#define DEBUG_SERIAL
 
 #ifdef FREE
-  #define WIFI_SSID WIFI_SSID_FREE                                              
+  #define WIFI_SSID_FB WIFI_SSID_FREE                                              
 #endif
 
 
 #ifdef OPPO
-  #define WIFI_SSID WIFI_SSID_OPPO                                             
+  #define WIFI_SSID_FB WIFI_SSID_OPPO                                             
 #endif
 
 #ifdef GIGACUBE
-  #define WIFI_SSID WIFI_SSID_GIGA                                                
+  #define WIFI_SSID_FB WIFI_SSID_GIGA                                                
 #endif
 
-#ifdef HUWAWEI
-  #define WIFI_SSID WIFI_SSID_HUWAWEI                                                
+#ifdef HUAWEI
+  #define WIFI_SSID_FB WIFI_SSID_HUAWEI                                                
 #endif
-
-#define WIFI_PASSWORD "ali09042010"
-
-#define DEBUG_SERIAL
 
 
 #define BLYNK_ACTIVE_TIMEOUT   60000 // 1 MIN

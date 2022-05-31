@@ -1,5 +1,7 @@
 //#define MAIN_BOARD
 #define SDB
+#define BLYNK2
+
 
 #define BLYNK_REMOTE_SERVER
 //#define PI0
@@ -12,7 +14,7 @@
 #define HUAWEI
 #define GIGACUBE
 
-#define VERSION_ID " MGB.28-05 " 
+#define VERSION_ID " BLYNK2.30-05 " 
 //Added 45,46,50,52,03
 //Added Huawei
 //28.05.2022 Channel On Off same frequency   
@@ -30,25 +32,39 @@
 #endif
 
 #ifdef BLYNK_REMOTE_SERVER
+  #ifdef BLYNK2
+      #define BLYNK_SERVER "blynk.cloud" //BLYNK REMOTE SERVER                                          
+  #endif
+#else
   #define BLYNK_SERVER "blynk-cloud.com" //BLYNK REMOTE SERVER                                          
 #endif
 
 
-#ifdef BLYNK_REMOTE_SERVER
-    
-      #ifdef MAIN_BOARD
-                #define BLYNK_AUTH "D4AU1HexWcErQ9vtpkP_EgocpnoArZKC" //MAIN BOX
-      #else
-                #define BLYNK_AUTH "ya1T2eipkMhB3NvyLeAyRVRHqPAUXUG-"  //SPARE BOX
-      #endif   
-#else    
-      #ifdef MAIN_BOARD
-                #define BLYNK_AUTH "mnjUdg63gkJ0Rl7Pbfw2qb9aGkI35wPJ" //MAIN BOX
-      #else
-                #define BLYNK_AUTH "cfefMEczv_cZVHomzDd4uCbY5CRL8X5m"  //SPARE BOX
-      #endif                                            
-#endif  
 
+
+#define BLYNK_TEMPLATE_ID "TMPLOM3pqxfl"
+#define BLYNK_DEVICE_NAME "SDP"
+#define BLYNK_AUTH_TOKEN "mV23d4sndz2HNeJ3RvMS6_NItFXQ1R9O"
+
+
+#ifdef BLYNK2
+      #define BLYNK_AUTH BLYNK_AUTH_TOKEN //Blynk2
+#else
+      #ifdef BLYNK_REMOTE_SERVER
+         
+            #ifdef MAIN_BOARD
+                      #define BLYNK_AUTH "D4AU1HexWcErQ9vtpkP_EgocpnoArZKC" //MAIN BOX
+            #else
+                      #define BLYNK_AUTH "ya1T2eipkMhB3NvyLeAyRVRHqPAUXUG-"  //SPARE BOX
+            #endif   
+      #else    
+            #ifdef MAIN_BOARD
+                      #define BLYNK_AUTH "mnjUdg63gkJ0Rl7Pbfw2qb9aGkI35wPJ" //MAIN BOX
+            #else
+                      #define BLYNK_AUTH "cfefMEczv_cZVHomzDd4uCbY5CRL8X5m"  //SPARE BOX
+            #endif                                            
+      #endif  
+#endif  
 
 
 

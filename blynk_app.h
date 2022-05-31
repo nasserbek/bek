@@ -50,7 +50,7 @@ class blynk {
     void notifierDebug(String subject, String body);
     void zapLed(bool _data);
     void sendToBlynkLed(bool _data);
-    bool wifiConnect(void);
+    bool wifiConnectFB(void);
     void sendAvRxIndex(int _index);
     void streamSelect(bool stream);
     void sendVersion(String ver); 
