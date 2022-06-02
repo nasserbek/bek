@@ -14,7 +14,7 @@
 //#define HUAWEI
 #define GIGACUBE
 
-#define VERSION_ID " BLYNK2.31-05 " 
+#define VERSION_ID " BLYNK2.01_06 " 
 //Added 45,46,50,52,03
 //Added Huawei
 //28.05.2022 Channel On Off same frequency   
