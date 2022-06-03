@@ -126,6 +126,7 @@ void setup()
     char buf[10]; //make this the size of the String
     ver.toCharArray(buf, 10);    
     if(smsSent) smsSent= sms.SendSMS(buf);
+    if (blynkConnected) {myBlynk.SyncAll();}
 }
 
 
@@ -999,7 +1000,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                       recevierCh=videoCh[11].id;
                       receiverAvByCh (recevierCh);
                       stateMachine =SM_CH12_A;
-                      if (videoCh[11].mux && videoCh[14].mux &&videoCh[14].zap)remoteControl(11); //03 and 21
+                      if (videoCh[11].mux && videoCh[14].mux &&videoCh[14].zap)remoteControl(14); //03 and 21 OFF 21
                     }
                   }
                 else stateMachine =SM_CH12_A;
@@ -1046,7 +1047,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                       recevierCh=videoCh[14].id;
                       receiverAvByCh (recevierCh);
                       stateMachine =SM_CH15_A;
-                      if (videoCh[14].mux && videoCh[11].mux && videoCh[11].zap)remoteControl(11); //03 and 21
+                      if (videoCh[14].mux && videoCh[11].mux && videoCh[11].zap)remoteControl(14); //03 and 21 OFF 21
                     }
                   }
                 else stateMachine =SM_CH15_A;

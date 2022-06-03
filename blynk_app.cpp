@@ -1016,3 +1016,8 @@ void blynk::sendVersion(String ver)
 {
   Blynk.virtualWrite(V24, ver);
 }
+
+void blynk::SyncAll(void)
+{
+ Blynk.syncVirtual(V30, V31, V32, V33, V34,V35,V36,V37,V81,V82,V83,V84,V85,V86,V87,V88,V89,V94,V95,V96,V97,V106,V107,V108,V109,V110,V111,V112,V71);
+}

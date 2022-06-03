@@ -28,6 +28,7 @@ class blynk {
 
 
     blynk(void) ;
+    void SyncAll(void);
     void init();
     void blynkRun();
     void blynkRunTimer();
