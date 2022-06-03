@@ -126,7 +126,7 @@ void setup()
     char buf[10]; //make this the size of the String
     ver.toCharArray(buf, 10);    
     if(smsSent) smsSent= sms.SendSMS(buf);
-    if (blynkConnected) {myBlynk.SyncAll();}
+//    if (blynkConnected) {myBlynk.SyncAll();}
 }
 
 

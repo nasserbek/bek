@@ -1,6 +1,8 @@
 #define BEK
 
-#define VERSION_ID " BEK_BLYNK2.7 " 
+#define VERSION_ID " BEK_BLYNK2.8 " 
+
+
 //Added 45,46,50,52,03
 //Added Huawei
 //28.05.2022 Channel On Off same frequency   
