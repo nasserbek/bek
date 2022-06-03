@@ -1,6 +1,6 @@
 #define BEK
 
-#define VERSION_ID " BEK_BLYNK2.9 " 
+#define VERSION_ID " BEK_BLYNK2.11 " 
 
 
 //Added 45,46,50,52,03
