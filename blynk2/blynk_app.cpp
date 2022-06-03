@@ -80,11 +80,6 @@ WidgetLED SMS_LED_V12(V12);  //sms
 WidgetLED ZAP_LED_V80(V80);  //Zap Status
 
 
-char ssid[] = WIFI_SSID;
-char pass[] = WIFI_PASSWORD;
-char blynk_server[] = BLYNK_SERVER;
-
-
 unsigned int myServerTimeout  =  3500;  //  3.5s server connection timeout (SCT)
 unsigned int myWiFiTimeout    =  3200;  //  3.2s WiFi connection timeout   (WCT)
 unsigned int functionInterval =  7500;  //  7.5s function call frequency   (FCF)
@@ -224,15 +219,7 @@ void blynk::init()
     _wifiIsConnected = true;
   }
   
- 
-//  Blynk.begin(BLYNK_AUTH, WIFI_SSID_FREE, WIFI_PASSWORD);
-
-#ifdef BLYNK_REMOTE_SERVER
-    Blynk.config(BLYNK_AUTH, BLYNK_SERVER);
-#else
-   Blynk.config(BLYNK_AUTH, BLYNK_SERVER,8080);                                           
-#endif
-
+  Blynk.config(BLYNK_AUTH_TOKEN, BLYNK_SERVER);
   Blynk.connect(); 
   checkBlynk();
   ledInit();
@@ -785,21 +772,13 @@ BLYNK_WRITE(V112)   //Zapping ch20
 
 void blynk::notifierDebug(String subject, String body)
 {
-  #ifdef BLYNK2
       Blynk.logEvent(String(subject +"**"+ body) );
-  #else
-      Blynk.notify(String(subject +"**"+ body) );
-  #endif  
-
-
-
-  
 }
 
 
 bool blynk::wifiConnect()
   {
-    WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+    WiFi.begin(WIFI_SSID_FB, WIFI_PASSWORD);
     if (WiFi.status()  == WL_CONNECTED ){DEBUG_PRINTLN("Wifi connected");return true; }
   
     long timeout = millis();
@@ -809,7 +788,7 @@ bool blynk::wifiConnect()
       {
         if (millis() - wifiReconnect > WIFI_RECONNECT_TIMER ) 
           {
-            WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+            WiFi.begin(WIFI_SSID_FB, WIFI_PASSWORD);
             wifiReconnect = millis();
             DEBUG_PRINTLN("Wifi Reconnect");
           }

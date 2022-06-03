@@ -2,52 +2,57 @@
 #include "headers.h"
 
 
-
-
-
 #define BLYNK_PRINT Serial
 #include <WiFi.h>
 #include <WiFiClient.h>
 #include <BlynkSimpleEsp32.h>
 #include <WiFiMulti.h>
-
-
-
-/*************************************************************
-  This is a simple demo of sending and receiving some data.
-  Be sure to check out other examples!
- *************************************************************/
-// Template ID, Device Name and Auth Token are provided by the Blynk.Cloud
-// See the Device Info tab, or Template settings
-#define BLYNK_TEMPLATE_ID           "TMPLp0sRB0p5"
-#define BLYNK_DEVICE_NAME           "Quickstart Device"
-#define BLYNK_AUTH_TOKEN            "LyY4eLpE3TJfIuMkf4hf--ZFZdBxkAID"
-
-
-// Comment this out to disable prints and save space
-#define BLYNK_PRINT Serial
-
-
-char auth[] = BLYNK_AUTH_TOKEN;
-// Your WiFi credentials.
-// Set password to "" for open networks.
-char ssid[] = "GIGACUBE_BEK";
-char pass[] = "ali09042010";
-
-// This function is called every time the device is connected to the Blynk.Cloud
-//BLYNK_CONNECTED()
-//{
-//  // Change Web Link Button message to "Congratulations!"
-//  Blynk.setProperty(V3, "offImageUrl", "https://static-image.nyc3.cdn.digitaloceanspaces.com/general/fte/congratulations.png");
-//  Blynk.setProperty(V3, "onImageUrl",  "https://static-image.nyc3.cdn.digitaloceanspaces.com/general/fte/congratulations_pressed.png");
-//  Blynk.setProperty(V3, "url", "https://docs.blynk.io/en/getting-started/what-do-i-need-to-blynk/how-quickstart-device-was-made");
-//}
-
-
-
-
-
 WiFiMulti wifiMulti;
+BlynkTimer timer;
+
+
+blynk::blynk(void) 
+{
+
+}
+
+#include <Update.h>
+#include <HTTPClient.h>
+void reboot()
+{
+#if defined(ARDUINO_ARCH_MEGAAVR)
+  wdt_enable(WDT_PERIOD_8CLK_gc);
+#elif defined(__AVR__)
+  wdt_enable(WDTO_15MS);
+#elif defined(__arm__)
+  NVIC_SystemReset();
+#elif defined(ESP8266) || defined(ESP32)
+  ESP.restart();
+#else
+  #error "MCU reset procedure not implemented"
+#endif
+  for (;;) {}
+}
+
+BLYNK_WRITE(InternalPinOTA) {
+  Blynk.disconnect();
+  String overTheAirURL = param.asString();
+  HTTPClient http;
+  http.begin(overTheAirURL);
+  int httpCode = http.GET();
+  if (httpCode != HTTP_CODE_OK) {Blynk.connect(); return;}
+  int contentLength = http.getSize();
+  if (contentLength <= 0) {Blynk.connect();return; }
+  bool canBegin = Update.begin(contentLength);
+  if (!canBegin) { Blynk.connect();return;}
+  Client& client = http.getStream();
+  int written = Update.writeStream(client);
+  if (written != contentLength) {Blynk.connect();return;}
+  if (!Update.end()) {Blynk.connect();return;}
+  if (!Update.isFinished()) {Blynk.connect();return;}
+reboot();
+}
+
 
 long  blynkAtiveTimer;
 bool  blynkActive =false;
@@ -75,7 +80,6 @@ WidgetLED SMS_LED_V12(V12);  //sms
 WidgetLED ZAP_LED_V80(V80);  //Zap Status
 
 
-BlynkTimer timer;
 unsigned int myServerTimeout  =  3500;  //  3.5s server connection timeout (SCT)
 unsigned int myWiFiTimeout    =  3200;  //  3.2s WiFi connection timeout   (WCT)
 unsigned int functionInterval =  7500;  //  7.5s function call frequency   (FCF)
@@ -186,14 +190,11 @@ void checkBlynk() {
 void blynk::init() 
 {
   Serial.println();
-
     wifiMulti.addAP(WIFI_SSID_GIGA, WIFI_PASSWORD);
     wifiMulti.addAP(WIFI_SSID_OPPO , WIFI_PASSWORD);
     wifiMulti.addAP(WIFI_SSID_HUAWEI , WIFI_PASSWORD);
     wifiMulti.addAP(WIFI_SSID_FREE, WIFI_PASSWORD);
     
-
- // if(WiFi.status() == 6){
     if(wifiMulti.run() == 6){
     Serial.println("\tWiFi not connected yet.");
   }
@@ -217,27 +218,22 @@ void blynk::init()
     Serial.println(WiFi.localIP());
     _wifiIsConnected = true;
   }
-
-#ifdef BLYNK_REMOTE_SERVER
-    Blynk.config(BLYNK_AUTH, BLYNK_SERVER);
-#else
-   Blynk.config(BLYNK_AUTH, BLYNK_SERVER,8080);                                           
-#endif
-
-#ifdef BLYNK2
-          Blynk.begin(auth, ssid, pass);
-#else
-      #ifdef BLYNK_REMOTE_SERVER
-          Blynk.config(BLYNK_AUTH, BLYNK_SERVER);
-      #else
-          Blynk.config(BLYNK_AUTH, BLYNK_SERVER,8080);                                           
-      #endif
-#endif
   
+  Blynk.config(BLYNK_AUTH_TOKEN, BLYNK_SERVER);
   Blynk.connect(); 
   checkBlynk();
   ledInit();
   blynkAtiveTimer     = millis();
+}
+
+
+// This function is called every time the device is connected to the Blynk.Cloud
+BLYNK_CONNECTED()
+{
+  // Change Web Link Button message to "Congratulations!"
+  Blynk.setProperty(V3, "offImageUrl", "https://static-image.nyc3.cdn.digitaloceanspaces.com/general/fte/congratulations.png");
+  Blynk.setProperty(V3, "onImageUrl",  "https://static-image.nyc3.cdn.digitaloceanspaces.com/general/fte/congratulations_pressed.png");
+  Blynk.setProperty(V3, "url", "https://docs.blynk.io/en/getting-started/what-do-i-need-to-blynk/how-quickstart-device-was-made");
 }
 
 BLYNK_WRITE(V0)  //freq
@@ -434,38 +430,38 @@ BLYNK_WRITE(V33)   //50
 }
 
 
-BLYNK_WRITE(V34)   //204 
+BLYNK_WRITE(V34)   //20
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_204_SEL_V34;
+    eventdata = Q_EVENT_20_SEL_V34;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
 
-BLYNK_WRITE(V35)   //219 
+BLYNK_WRITE(V35)   //52
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_219_SEL_V35;
+    eventdata = Q_EVENT_52_SEL_V35;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
 
-BLYNK_WRITE(V36)   //207 
+BLYNK_WRITE(V36)   //53 
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_207_SEL_V36;
+    eventdata = Q_EVENT_53_SEL_V36;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
 
-BLYNK_WRITE(V37)   //214 
+BLYNK_WRITE(V37)   //22 
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_214_SEL_V37;
+    eventdata = Q_EVENT_22_SEL_V37;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -770,22 +766,17 @@ BLYNK_WRITE(V112)   //Zapping ch20
 }
 
 
-blynk::blynk(void) 
-{
-
-}
-
 
 
 
 
 void blynk::notifierDebug(String subject, String body)
 {
-  Blynk.notify(String(subject +"**"+ body) );
+      Blynk.logEvent(String(subject +"**"+ body) );
 }
 
 
-bool blynk::wifiConnectFB()
+bool blynk::wifiConnect()
   {
     WiFi.begin(WIFI_SSID_FB, WIFI_PASSWORD);
     if (WiFi.status()  == WL_CONNECTED ){DEBUG_PRINTLN("Wifi connected");return true; }
@@ -960,7 +951,7 @@ void blynk::visualActiveRoom(int id, bool zap)
   if ( (id >= 1) && (id <= 5)) 
     { 
       if (zap) Blynk.virtualWrite(V3, id);
-      Blynk.setProperty(V3, "color", BLYNK_GRAY);
+      Blynk.setProperty(V3, "color", BLYNK_GREEN);
       Blynk.setProperty(V16, "color", BLYNK_BLACK);
       Blynk.setProperty(V17, "color", BLYNK_BLACK);
       Blynk.setProperty(V18, "color", BLYNK_BLACK);
@@ -969,7 +960,7 @@ void blynk::visualActiveRoom(int id, bool zap)
   if ( (id >= 6) && (id <= 10)) 
     { 
       if (zap)Blynk.virtualWrite(V16, id-5);
-      Blynk.setProperty(V16, "color", BLYNK_GRAY);
+      Blynk.setProperty(V16, "color", BLYNK_GREEN);
       Blynk.setProperty(V3, "color", BLYNK_BLACK);
       Blynk.setProperty(V17, "color", BLYNK_BLACK);
       Blynk.setProperty(V18, "color", BLYNK_BLACK);
@@ -978,7 +969,7 @@ void blynk::visualActiveRoom(int id, bool zap)
   if ( (id >= 11) && (id <= 15)) 
     { 
       if (zap)Blynk.virtualWrite(V17, id-10);
-      Blynk.setProperty(V17, "color", BLYNK_GRAY);
+      Blynk.setProperty(V17, "color", BLYNK_GREEN);
       Blynk.setProperty(V3, "color", BLYNK_BLACK);
       Blynk.setProperty(V16, "color", BLYNK_BLACK);
       Blynk.setProperty(V18, "color", BLYNK_BLACK);
@@ -987,7 +978,7 @@ void blynk::visualActiveRoom(int id, bool zap)
   if ( (id >= 16) && (id <= 20)) 
     { 
       if (zap)Blynk.virtualWrite(V18, id-15);
-      Blynk.setProperty(V18, "color", BLYNK_GRAY);
+      Blynk.setProperty(V18, "color", BLYNK_GREEN);
       Blynk.setProperty(V3, "color", BLYNK_BLACK);
       Blynk.setProperty(V16, "color", BLYNK_BLACK);
       Blynk.setProperty(V17, "color", BLYNK_BLACK);
@@ -996,7 +987,7 @@ void blynk::visualActiveRoom(int id, bool zap)
   if ( (id >= 21) && (id <= 25)) 
     { 
      if (zap) Blynk.virtualWrite(V25, id-20);
-      Blynk.setProperty(V25, "color", BLYNK_GRAY);
+      Blynk.setProperty(V25, "color", BLYNK_GREEN);
       Blynk.setProperty(V3, "color",  BLYNK_BLACK);
       Blynk.setProperty(V16, "color", BLYNK_BLACK);
       Blynk.setProperty(V17, "color", BLYNK_BLACK);

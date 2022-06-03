@@ -51,7 +51,7 @@ bool sim800L::init()
             smsRebegin = millis();
             DEBUG_PRINTLN("Sms Re-Begin");
           }
-        if (millis() - timeout > 10000){DEBUG_PRINTLN("Couldn't find GSM SIM800L"); return (simStatus = false); }
+        if (millis() - timeout > 5000){DEBUG_PRINTLN("Couldn't find GSM SIM800L"); return (simStatus = false); }
       }
  
   DEBUG_PRINTLN("Seting up a notification when an SMS is received.");

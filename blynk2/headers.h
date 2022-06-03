@@ -1,12 +1,31 @@
-//#define MAIN_BOARD
-#define SDB
-#define BLYNK2
+#define MAIN_BOARD
+
+#define VERSION_ID " BLYNK2.02_06 " 
+//Added 45,46,50,52,03
+//Added Huawei
+//28.05.2022 Channel On Off same frequency   
+                                       
+#define BLYNK_TEMPLATE_ID "TMPLOM3pqxfl"
+#define BLYNK_DEVICE_NAME "SDP"
+#define BLYNK_AUTH_TOKEN "mV23d4sndz2HNeJ3RvMS6_NItFXQ1R9O"
+#define BLYNK_SERVER "blynk.cloud" //BLYNK2 REMOTE SERVER 
+
+#define WIFI_SSID_GIGA    "GIGACUBE_BEK"                                                
+#define WIFI_SSID_FREE    "Freebox-bek"                                              
+#define WIFI_SSID_OPPO    "OPPO Reno2 Bek" 
+#define WIFI_SSID_HUAWEI "HUAWEI_BEK" 
 
 
-#define BLYNK_REMOTE_SERVER
-//#define PI0
-//#define PI3
-//#define PI4
+#ifdef MAIN_BOARD
+    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/bek.ino.ttgo-t1.bin"  // URL to download the firmware from
+    #define NOTIFIER_ID " MAIN_BOARD -"
+#else
+    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/blynk2/blynk2.ino.ttgo-t1.bin" // URL to download the firmware from
+    #define NOTIFIER_ID " Main_BLYNK 2 -"
+#endif
+
+
+// FOR FIREBASE ONLY
 
 //#define FREE
 //#define BOUY
@@ -14,93 +33,21 @@
 //#define HUAWEI
 #define GIGACUBE
 
-#define VERSION_ID " BLYNK2.01_06 " 
-//Added 45,46,50,52,03
-//Added Huawei
-//28.05.2022 Channel On Off same frequency   
-
-#ifdef PI0
-  #define BLYNK_SERVER  "192.168.1.46" //PI0                                             
-#endif
-
-#ifdef PI3
-  #define BLYNK_SERVER  "192.168.1.112" //PI3                                             
-#endif
-
-#ifdef PI4
-  #define BLYNK_SERVER  "192.168.1.28" //PI4                                             
-#endif
-
-#ifdef BLYNK_REMOTE_SERVER
-  #ifdef BLYNK2
-      #define BLYNK_SERVER "blynk.cloud" //BLYNK REMOTE SERVER                                          
-  #endif
-#else
-  #define BLYNK_SERVER "blynk-cloud.com" //BLYNK REMOTE SERVER                                          
-#endif
-
-
-
-
-#define BLYNK_TEMPLATE_ID "TMPLOM3pqxfl"
-#define BLYNK_DEVICE_NAME "SDP"
-#define BLYNK_AUTH_TOKEN "mV23d4sndz2HNeJ3RvMS6_NItFXQ1R9O"
-
-
-#ifdef BLYNK2
-      #define BLYNK_AUTH BLYNK_AUTH_TOKEN //Blynk2
-#else
-      #ifdef BLYNK_REMOTE_SERVER
-         
-            #ifdef MAIN_BOARD
-                      #define BLYNK_AUTH "D4AU1HexWcErQ9vtpkP_EgocpnoArZKC" //MAIN BOX
-            #else
-                      #define BLYNK_AUTH "ya1T2eipkMhB3NvyLeAyRVRHqPAUXUG-"  //SPARE BOX
-            #endif   
-      #else    
-            #ifdef MAIN_BOARD
-                      #define BLYNK_AUTH "mnjUdg63gkJ0Rl7Pbfw2qb9aGkI35wPJ" //MAIN BOX
-            #else
-                      #define BLYNK_AUTH "cfefMEczv_cZVHomzDd4uCbY5CRL8X5m"  //SPARE BOX
-            #endif                                            
-      #endif  
-#endif  
-
-
-
-#ifdef MAIN_BOARD
-    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/bek.ino.ttgo-t1.bin"  // URL to download the firmware from
-#else
-    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/blynk2/blynk2.ino.ttgo-t1.bin" // URL to download the firmware from
-#endif
-
-
-#ifdef MAIN_BOARD
-    #define NOTIFIER_ID " MAIN_BOARD -"
-#else
-    #define NOTIFIER_ID " SPARE BOARD -"
-#endif
-
-#define WIFI_SSID_GIGA    "GIGACUBE_BEK"                                                
-#define WIFI_SSID_FREE    "Freebox-bek"                                              
-#define WIFI_SSID_OPPO    "OPPO Reno2 Bek" 
-#define WIFI_SSID_HUAWEI "HUAWEI_BEK" 
-
 #ifdef FREE
-  #define WIFI_SSID WIFI_SSID_FREE                                              
+  #define WIFI_SSID_FB WIFI_SSID_FREE                                              
 #endif
 
 
 #ifdef OPPO
-  #define WIFI_SSID WIFI_SSID_OPPO                                             
+  #define WIFI_SSID_FB WIFI_SSID_OPPO                                             
 #endif
 
 #ifdef GIGACUBE
-  #define WIFI_SSID WIFI_SSID_GIGA                                                
+  #define WIFI_SSID_FB WIFI_SSID_GIGA                                                
 #endif
 
 #ifdef HUAWEI
-  #define WIFI_SSID WIFI_SSID_HUAWEI                                                
+  #define WIFI_SSID_FB WIFI_SSID_HUAWEI                                                
 #endif
 
 #define WIFI_PASSWORD "ali09042010"
