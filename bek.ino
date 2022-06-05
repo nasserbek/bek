@@ -52,13 +52,10 @@ void setup()
      pinMode(AV_RX_DVR_PIN_2, OUTPUT);
 
 
-#ifdef BEK   // 4 RELAYS 0 ACTIVE
-     digitalWrite(NETGEER_PIN_0, HIGH);
-     digitalWrite(AV_RX_DVR_PIN_2, HIGH);   
-#else // SINGLE RELAY 1 ACTIVE
+
      digitalWrite(NETGEER_PIN_0, LOW);// NC ACTIVATE ON POWER ON BY DOING NOTHING
      digitalWrite(AV_RX_DVR_PIN_2, LOW);  // NC DISACTIVATE AV RECEIVER ON POWER ON
-#endif
+
 
      Serial.begin(115200);
      
@@ -195,11 +192,9 @@ void netgeerCtrl(void)
                  
        if ( (  (millis() - routerResetTimer) >= routerTimer) && routerResetStart)
                 {
-#ifdef BEK   // 4 RELAYS 0 ACTIVE
-              digitalWrite(NETGEER_PIN_0, HIGH);  
-#else // SINGLE RELAY 1 ACTIVE
+
               digitalWrite(NETGEER_PIN_0, LOW);
-#endif               
+     
                 routerResetStart=false;
                 routerResetTimer        = millis();
                 restartAfterResetNG     = millis();
@@ -229,11 +224,8 @@ void netgeerCtrl(void)
 void ResetNetgeer(void)
           {
 
-#ifdef BEK   // 4 RELAYS 0 ACTIVE
-              digitalWrite(NETGEER_PIN_0, LOW);  
-#else // SINGLE RELAY 1 ACTIVE
+
               digitalWrite(NETGEER_PIN_0, HIGH);
-#endif
               if(!routerResetStart){routerResetTimer        = millis();routerResetStart = true;DEBUG_PRINTLN("Netgeer Reset done: ");}
           }
 
@@ -1327,13 +1319,9 @@ void rebootSw(void)
 
 void  dvrOnOff (bool onOff)
 {
-#ifdef BEK   // 4 RELAYS 0 ACTIVE
-   if (onOff) digitalWrite(AV_RX_DVR_PIN_2, HIGH); 
-   else digitalWrite(AV_RX_DVR_PIN_2, LOW); 
-#else // SINGLE RELAY 1 ACTIVE
+
    if (onOff) digitalWrite(AV_RX_DVR_PIN_2, LOW); 
    else digitalWrite(AV_RX_DVR_PIN_2, HIGH); 
-#endif
 
 }
 

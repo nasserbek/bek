@@ -1,6 +1,6 @@
-#define BEK
+//#define MAIN_BAORD
 
-#define VERSION_ID " BEK_BLYNK2.11 " 
+#define VERSION_ID " BEK_BLYNK2.15 " 
 
 
 //Added 45,46,50,52,03
@@ -18,12 +18,12 @@
 #define WIFI_SSID_HUAWEI "HUAWEI_BEK" 
 
 
-#ifdef BEK
+#ifdef MAIN_BAORD
     #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/bek.ino.ttgo-t1.bin"  // URL to download the firmware from
-    #define NOTIFIER_ID " BEK -"
+    #define NOTIFIER_ID " MAIN -"
 #else
     #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/blynk2/blynk2.ino.ttgo-t1.bin" // URL to download the firmware from
-    #define NOTIFIER_ID " BEK2 -"
+    #define NOTIFIER_ID " SPARE -"
 #endif
 
 
