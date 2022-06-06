@@ -1,6 +1,6 @@
 //#define SDP
 
-#define VERSION_ID " BEK_BLYNK2.17 " 
+#define VERSION_ID " VHY_BLYNK2.18 " 
 
 
 //Added 45,46,50,52,03
