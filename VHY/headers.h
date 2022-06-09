@@ -134,7 +134,7 @@
 #define    FB_FREQ              "/Rooms_CMD_Frequency" 
 #define    FB_VIDEO_CH         "/Rooms_CMD_Video_ch"
 
-#define    FB_T315_CH_NR        "/Rooms_CMD_T315_ch"
+#define    FB_BLYNK1        "/Rooms_CMD_T315_ch"
 #define    FB_T433_CH_NR        "/Rooms_CMD_T433_ch"
 
 #define    FB_REMOTE_CTRL_BOTH  "/Rooms_CMD_Remote_control_Both"
@@ -206,7 +206,7 @@
 #define    FB_RESET_ID          8
 #define    FB_SEND_TO_BLYNK_ID  10
 #define    FB_SMS_ON_ID         11
-#define    FB_T315_CH_NR_ID     14
+#define    FB_BLYNK1R_ID        14
 #define    FB_NETGEER_ID        15
 #define    ROOM_206_TO_210      16
 #define    ROOM_211_TO_215      17
@@ -385,7 +385,7 @@ Q_EVENT_STREAMING_WEB_DDNS_V10,  //SPARE
 //V11, seconds);
 //SMS_LED_V12(V12);  //sms
 //T315_LED_V13(V13);  //T315 St
-Q_EVENT_T315_CH_NR_V14,
+Q_EVENT_BLYNK1_V14,
 Q_EVENT_NETGEER_V15,
 Q_EVENT_ROOM_ID_6_TO_10_V16,
 Q_EVENT_ROOM_ID_11_TO_15_V17,

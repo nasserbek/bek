@@ -266,10 +266,10 @@ void processFirebase(void)
                 receiverAvByCh (recevierCh);
             break;
 
-            case Q_EVENT_T315_CH_NR_V14:
-              remoteControlRcCh=fb.eventValue;
-              DEBUG_PRINT("FB_T315_CH_NR: ");DEBUG_PRINTLN( (queuData) -15);
-              if (remoteControlRcCh >= 16 && remoteControlRcCh <= 30) {remoteControl(remoteControlRcCh );}
+            case Q_EVENT_BLYNK1_V14:
+//              remoteControlRcCh=fb.eventValue;
+//              DEBUG_PRINT("FB_T315_CH_NR: ");DEBUG_PRINTLN( (queuData) -15);
+//              if (remoteControlRcCh >= 16 && remoteControlRcCh <= 30) {remoteControl(remoteControlRcCh );}
             break;
 
 
@@ -478,10 +478,10 @@ void processBlynkQueu(void)
                   myBlynk.streamSelect(streamWebDdns);
              break;
 
-            case Q_EVENT_T315_CH_NR_V14:
-              remoteControlRcCh=queuData;
-              DEBUG_PRINT("FB_T315_CH_NR: ");DEBUG_PRINTLN( (queuData) -15);
-              if (remoteControlRcCh >= 16 && remoteControlRcCh <= 30) {remoteControl(remoteControlRcCh );}
+            case Q_EVENT_BLYNK1_V14:
+//              remoteControlRcCh=queuData;
+//              DEBUG_PRINT("FB_T315_CH_NR: ");DEBUG_PRINTLN( (queuData) -15);
+//              if (remoteControlRcCh >= 16 && remoteControlRcCh <= 30) {remoteControl(remoteControlRcCh );}
             break;
 
             case Q_EVENT_NETGEER_V15  :

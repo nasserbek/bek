@@ -1,22 +1,18 @@
 #define SDP
 
-#define VERSION_ID " SDP_BLYNK2.18 " 
+#define VERSION_ID " SDP_BLYNK2.19 " 
 
 
 //Added 45,46,50,52,03
 //Added Huawei
 //28.05.2022 Channel On Off same frequency   
                                        
-
-
-
-
 #define BLYNK_SERVER "blynk.cloud" //BLYNK2 REMOTE SERVER 
 
 #define WIFI_SSID_GIGA    "GIGACUBE_BEK"                                                
 #define WIFI_SSID_FREE    "Freebox-bek"                                              
 #define WIFI_SSID_OPPO    "OPPO Reno2 Bek" 
-#define WIFI_SSID_HUAWEI "HUAWEI_BEK" 
+#define WIFI_SSID_HUAWEI   "HUAWEI_BEK" 
 
 
 #ifdef SDP
@@ -74,7 +70,7 @@
 
 #define PING_GOOGLE_BLYNK_TIMER 30000  // 30 sec
 #define INTERNET_LOSS_TO_RESET_NG_TIMER 120000   // 2 MIN
-#define RESTART_AFTER_NG_RESET_TIMER 180000   // 3 MIN
+#define RESTART_AFTER_NG_RESET_TIMER 1800000   // 30 MIN
 #define SMS_24_HOURS 86400000  // 24 HOURS
 #define ROUTER_RESET_TIMER  2000  // 2 SEC
 #define MUX_ROOM_ZAP        30000  // 2 SEC
@@ -461,7 +457,7 @@ Q_EVENT_DVR_OFF_SMS_318,
 Q_EVENT_C6_SMS_319,
 } ;
 
-#define MAX_NR_CHANNELS  15
+#define MAX_NR_CHANNELS  20
 
 #define WEB 0
 #define DDNS 1

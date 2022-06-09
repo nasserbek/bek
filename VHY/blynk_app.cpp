@@ -303,12 +303,65 @@ BLYNK_WRITE(V10)  //Send to blynk
 
 
 
-BLYNK_WRITE(V14) //rc315
+BLYNK_WRITE(V14) //BLYNK1
 {
+    Serial.println("Switching to Blynk 1 : Discoonect Blynk 2....");
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_T315_CH_NR_V14;
+    eventdata = Q_EVENT_BLYNK1_V14;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    Blynk.disconnect();
+    delay(5000);
+
+//#define MAIN_BOARD
+
+#define BLYNK_REMOTE_SERVER
+
+#ifdef PI0
+  #define BLYNK_SERVER  "192.168.1.46" //PI0                                             
+#endif
+
+#ifdef PI3
+  #define BLYNK_SERVER  "192.168.1.112" //PI3                                             
+#endif
+
+#ifdef PI4
+  #define BLYNK_SERVER  "192.168.1.28" //PI4                                             
+#endif
+
+#ifdef BLYNK_REMOTE_SERVER
+  #define BLYNK_SERVER "blynk-cloud.com" //BLYNK REMOTE SERVER                                          
+#endif
+
+
+#ifdef BLYNK_REMOTE_SERVER
+    
+      #ifdef MAIN_BOARD
+                #define BLYNK_AUTH "D4AU1HexWcErQ9vtpkP_EgocpnoArZKC" //MAIN BOX
+      #else
+                #define BLYNK_AUTH "ya1T2eipkMhB3NvyLeAyRVRHqPAUXUG-"  //SPARE BOX
+      #endif   
+#else    
+      #ifdef MAIN_BOARD
+                #define BLYNK_AUTH "mnjUdg63gkJ0Rl7Pbfw2qb9aGkI35wPJ" //MAIN BOX
+      #else
+                #define BLYNK_AUTH "cfefMEczv_cZVHomzDd4uCbY5CRL8X5m"  //SPARE BOX
+      #endif                                            
+#endif  
+
+#ifdef BLYNK_REMOTE_SERVER
+    Serial.println("Switching to Blynk 1 : Connecting to Blynk 1 remote server....");
+    Blynk.config(BLYNK_AUTH, BLYNK_SERVER);
+#else
+   Serial.println("Switching to Blynk 1 : Connecting to Blynk 1 local server....");
+   Blynk.config(BLYNK_AUTH, BLYNK_SERVER,8080);                                           
+#endif
+
+  Blynk.connect(); 
+  checkBlynk();
+  ledInit();
+  blynkAtiveTimer     = millis();
+
 }
 
 
@@ -908,7 +961,7 @@ void blynk::resetT433Cmd(int cmd)
 void blynk::resetT315Cmd(int cmd)
 {
  t315ChNumber = cmd;
- Blynk.virtualWrite(V14, cmd);
+// Blynk.virtualWrite(V14, cmd);
 }
 
 void blynk::sevenSegValue(int vch )
