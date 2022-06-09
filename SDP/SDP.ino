@@ -1102,6 +1102,8 @@ void processSms(void)
                        
           
     }  
+
+    smsID = NONE;
 }
 
 

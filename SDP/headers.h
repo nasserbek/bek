@@ -1,6 +1,6 @@
 #define SDP
 
-#define VERSION_ID " SDP.20 " 
+#define VERSION_ID " SDP.21 " 
 
 
 //Added 45,46,50,52,03
@@ -366,6 +366,7 @@ const String FB_T433_STATUS_PATH[32] =
 #define NETGEER_PIN_0       0
 
 enum {
+NONE,
 Q_EVENT_FREQ_V0,
 Q_EVENT_RC_CH_NR_V1,
 Q_EVENT_VIDEO_CH_V2,
