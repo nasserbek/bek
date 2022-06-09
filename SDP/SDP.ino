@@ -755,9 +755,40 @@ void processSms(void)
         if(isValidNumber)
         {
           smsValue = stringToInteger(smsReceived);
-          if (smsValue >= 900 && smsValue <= 5000) smsID =Q_EVENT_FREQ_V0;
-          if (smsValue >= 1 && smsValue <= 30)     smsID =Q_EVENT_RC_CH_NR_V1;
-          if (smsValue >= 41 && smsValue <= 60)    smsID =Q_EVENT_VIDEO_CH_V2;
+//          if (smsValue >= 900 && smsValue <= 5000) smsID =Q_EVENT_FREQ_V0;
+//          if (smsValue >= 1 && smsValue <= 30)     smsID =Q_EVENT_RC_CH_NR_V1;
+//          if (smsValue >= 41 && smsValue <= 60)    smsID =Q_EVENT_VIDEO_CH_V2;
+          
+          if (smsValue  == 1 )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 1;}
+          if (smsValue  == 2 )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 2;}
+          if (smsValue  == 3 )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 3;}
+          if (smsValue  == 4 )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 4;}
+          if (smsValue  == 5 )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 5;}
+                  
+          if (smsValue  == 6 )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 1;}
+          if (smsValue  == 7 )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 2;}
+          if (smsValue  == 8 )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 3;}
+          if (smsValue  == 9 )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 4;}
+          if (smsValue  == 10 )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 5;}
+          
+          if (smsValue  == 11 )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 1;}
+          if (smsValue  == 12 )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 2;}
+          if (smsValue  == 13 )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 3;}
+          if (smsValue  == 14 )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 4;}
+          if (smsValue  == 15 )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 5;}
+          
+          if (smsValue  == 16 )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 1;}
+          if (smsValue  == 17 )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 2;}
+          if (smsValue  == 18 )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 3;}
+          if (smsValue  == 19 )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 4;}
+          if (smsValue  == 20 )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 5;}
+          
+          if (smsValue  == 21 )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 1;}
+          if (smsValue  == 22 )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 2;}
+          if (smsValue  == 23 )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 3;}
+          if (smsValue  == 24 )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 4;}
+          if (smsValue  == 25 )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 5;}
+          
         }
         else
         {
@@ -782,35 +813,35 @@ void processSms(void)
           else if (smsReceived == "Rc" )         {smsID = Q_EVENT_ROOM_AV_RC_V19 ;smsValue = 2;}
           else if (smsReceived == "Both" )       {smsID = Q_EVENT_ROOM_AV_RC_V19 ;smsValue = 3;}
           
-          else if (smsReceived == "Ch1" )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 1;}
-          else if (smsReceived == "Ch2" )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 2;}
-          else if (smsReceived == "Ch3" )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 3;}
-          else if (smsReceived == "Ch4" )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 4;}
-          else if (smsReceived == "Ch5" )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 5;}
-          
-          else if (smsReceived == "Ch6" )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 1;}
-          else if (smsReceived == "Ch7" )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 2;}
-          else if (smsReceived == "Ch8" )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 3;}
-          else if (smsReceived == "Ch9" )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 4;}
-          else if (smsReceived == "Ch10" )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 5;}
-
-          else if (smsReceived == "Ch11" )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 1;}
-          else if (smsReceived == "Ch12" )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 2;}
-          else if (smsReceived == "Ch13" )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 3;}
-          else if (smsReceived == "Ch14" )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 4;}
-          else if (smsReceived == "Ch15" )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 5;}
-
-          else if (smsReceived == "Ch16" )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 1;}
-          else if (smsReceived == "Ch17" )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 2;}
-          else if (smsReceived == "Ch18" )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 3;}
-          else if (smsReceived == "Ch19" )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 4;}
-          else if (smsReceived == "Ch20" )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 5;}
-
-          else if (smsReceived == "Ch21" )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 1;}
-          else if (smsReceived == "Ch22" )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 2;}
-          else if (smsReceived == "Ch23" )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 3;}
-          else if (smsReceived == "Ch24" )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 4;}
-          else if (smsReceived == "Ch25" )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 5;}
+//          else if (smsReceived == "Ch1" )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 1;}
+//          else if (smsReceived == "Ch2" )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 2;}
+//          else if (smsReceived == "Ch3" )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 3;}
+//          else if (smsReceived == "Ch4" )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 4;}
+//          else if (smsReceived == "Ch5" )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 5;}
+//          
+//          else if (smsReceived == "Ch6" )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 1;}
+//          else if (smsReceived == "Ch7" )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 2;}
+//          else if (smsReceived == "Ch8" )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 3;}
+//          else if (smsReceived == "Ch9" )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 4;}
+//          else if (smsReceived == "Ch10" )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 5;}
+//
+//          else if (smsReceived == "Ch11" )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 1;}
+//          else if (smsReceived == "Ch12" )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 2;}
+//          else if (smsReceived == "Ch13" )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 3;}
+//          else if (smsReceived == "Ch14" )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 4;}
+//          else if (smsReceived == "Ch15" )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 5;}
+//
+//          else if (smsReceived == "Ch16" )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 1;}
+//          else if (smsReceived == "Ch17" )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 2;}
+//          else if (smsReceived == "Ch18" )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 3;}
+//          else if (smsReceived == "Ch19" )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 4;}
+//          else if (smsReceived == "Ch20" )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 5;}
+//
+//          else if (smsReceived == "Ch21" )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 1;}
+//          else if (smsReceived == "Ch22" )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 2;}
+//          else if (smsReceived == "Ch23" )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 3;}
+//          else if (smsReceived == "Ch24" )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 4;}
+//          else if (smsReceived == "Ch25" )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 5;}
               
           
         }
