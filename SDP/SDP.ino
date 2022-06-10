@@ -314,6 +314,7 @@ void processFirebase(void)
               zapOnOff=fb.eventValue;
               DEBUG_PRINT("ZAP IS : ");
               DEBUG_PRINTLN(zapOnOff ? F("On") : F("Off"));
+              if (zapOnOff) {zaptime= millis();stateMachine =SM_CH1_A;}
               myBlynk.zapLed(zapOnOff);
             break;
 
@@ -575,6 +576,7 @@ void processBlynkQueu(void)
               zapOnOff=queuData;
               DEBUG_PRINT("ZAP IS : ");
               DEBUG_PRINTLN(zapOnOff ? F("On") : F("Off"));
+              if (zapOnOff) {zaptime= millis();stateMachine =SM_CH1_A;}
               myBlynk.zapLed(zapOnOff);
             break;
 
@@ -972,6 +974,7 @@ void processSms(void)
               zapOnOff=smsValue;
               DEBUG_PRINT("ZAP IS : ");
               DEBUG_PRINTLN(zapOnOff ? F("On") : F("Off"));
+              if (zapOnOff) {zaptime= millis();stateMachine =SM_CH1_A;}
               myBlynk.zapLed(zapOnOff);
             break;
 
