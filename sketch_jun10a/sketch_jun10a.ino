@@ -39,9 +39,9 @@ TinyGsm modem(SerialAT);
 
 TinyGsmClient client(modem);
 
-const char server[]   = "vsh.pp.ua";
-const char resource[] = "/TinyGSM/logo.txt";
-const int port = 80;
+const char server[]   = "raw.githubusercontent.com";
+const char resource[] = "/nasserbek/bek/master/bek2/bek2.ino.ttgo-t1.bin";
+const int port = 443;
 
 
 uint32_t knownCRC32 = 0x6f50d767;
@@ -117,7 +117,7 @@ void loop()
     Serial.println(" OK");
     
     // Make a HTTP request:
-    client.print(String("GET ") + resource + " HTTP/1.0\r\n");
+    client.print(String("GET ") + resource + " HTTPS/1.0\r\n");
     client.print(String("Host: ") + server + "\r\n");
     client.print("Connection: close\r\n\r\n");
 
