@@ -1291,6 +1291,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     {
                       recevierCh=videoCh[10].id;
                       receiverAvByCh (recevierCh);
+                      stateMachine =SM_CH11_A;
                     }
                   }
                 else stateMachine =SM_CH11_A;

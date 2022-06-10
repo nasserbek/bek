@@ -1,32 +1,28 @@
 //#define SDP
 
-#define VERSION_ID " VHY_BLYNK2.18 " 
+#define VERSION_ID " VHY.22 " 
 
 
 //Added 45,46,50,52,03
 //Added Huawei
 //28.05.2022 Channel On Off same frequency   
                                        
-
-
-
-
 #define BLYNK_SERVER "blynk.cloud" //BLYNK2 REMOTE SERVER 
 
 #define WIFI_SSID_GIGA    "GIGACUBE_BEK"                                                
 #define WIFI_SSID_FREE    "Freebox-bek"                                              
 #define WIFI_SSID_OPPO    "OPPO Reno2 Bek" 
-#define WIFI_SSID_HUAWEI "HUAWEI_BEK" 
+#define WIFI_SSID_HUAWEI   "HUAWEI_BEK" 
 
 
 #ifdef SDP
-    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/bek.ino.ttgo-t1.bin"  // URL to download the firmware from
+    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/sdp/sdp.ino.ttgo-t1.bin"  // URL to download the firmware from
     #define NOTIFIER_ID " SDP -"
     #define BLYNK_TEMPLATE_ID "TMPLOM3pqxfl"
     #define BLYNK_DEVICE_NAME "SDP"
     #define BLYNK_AUTH_TOKEN "mV23d4sndz2HNeJ3RvMS6_NItFXQ1R9O"
 #else
-    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/blynk2/blynk2.ino.ttgo-t1.bin" // URL to download the firmware from
+    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/vhy/vhy.ino.ttgo-t1.bin" // URL to download the firmware from
     #define NOTIFIER_ID " VHY -"
     #define BLYNK_TEMPLATE_ID "TMPLOM3pqxfl"
     #define BLYNK_DEVICE_NAME "VHY"
@@ -74,7 +70,7 @@
 
 #define PING_GOOGLE_BLYNK_TIMER 30000  // 30 sec
 #define INTERNET_LOSS_TO_RESET_NG_TIMER 120000   // 2 MIN
-#define RESTART_AFTER_NG_RESET_TIMER 180000   // 3 MIN
+#define RESTART_AFTER_NG_RESET_TIMER 1800000   // 30 MIN
 #define SMS_24_HOURS 86400000  // 24 HOURS
 #define ROUTER_RESET_TIMER  2000  // 2 SEC
 #define MUX_ROOM_ZAP        30000  // 2 SEC
@@ -134,7 +130,7 @@
 #define    FB_FREQ              "/Rooms_CMD_Frequency" 
 #define    FB_VIDEO_CH         "/Rooms_CMD_Video_ch"
 
-#define    FB_BLYNK1        "/Rooms_CMD_T315_ch"
+#define    FB_T315_CH_NR        "/Rooms_CMD_T315_ch"
 #define    FB_T433_CH_NR        "/Rooms_CMD_T433_ch"
 
 #define    FB_REMOTE_CTRL_BOTH  "/Rooms_CMD_Remote_control_Both"
@@ -206,7 +202,7 @@
 #define    FB_RESET_ID          8
 #define    FB_SEND_TO_BLYNK_ID  10
 #define    FB_SMS_ON_ID         11
-#define    FB_BLYNK1R_ID        14
+#define    FB_T315_CH_NR_ID     14
 #define    FB_NETGEER_ID        15
 #define    ROOM_206_TO_210      16
 #define    ROOM_211_TO_215      17
@@ -370,6 +366,7 @@ const String FB_T433_STATUS_PATH[32] =
 #define NETGEER_PIN_0       0
 
 enum {
+NONE,
 Q_EVENT_FREQ_V0,
 Q_EVENT_RC_CH_NR_V1,
 Q_EVENT_VIDEO_CH_V2,
@@ -385,7 +382,7 @@ Q_EVENT_STREAMING_WEB_DDNS_V10,  //SPARE
 //V11, seconds);
 //SMS_LED_V12(V12);  //sms
 //T315_LED_V13(V13);  //T315 St
-Q_EVENT_BLYNK1_V14,
+Q_EVENT_T315_CH_NR_V14,
 Q_EVENT_NETGEER_V15,
 Q_EVENT_ROOM_ID_6_TO_10_V16,
 Q_EVENT_ROOM_ID_11_TO_15_V17,
@@ -461,7 +458,7 @@ Q_EVENT_DVR_OFF_SMS_318,
 Q_EVENT_C6_SMS_319,
 } ;
 
-#define MAX_NR_CHANNELS  15
+#define MAX_NR_CHANNELS  20
 
 #define WEB 0
 #define DDNS 1
