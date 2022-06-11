@@ -434,6 +434,8 @@ void processFirebase(void)
 
 void processBlynkQueu(void)
 {
+  String ver = VERSION_ID;
+  
         switch (queuDataID)
           {
 
@@ -479,6 +481,7 @@ void processBlynkQueu(void)
             case Q_EVENT_BLYNK1_V14:
               myBlynk.blynk1();
               DEBUG_PRINT("Switching to Blynk 1");
+              if (blynkConnected) myBlynk.sendVersion(ver);
             break;
 
             case Q_EVENT_NETGEER_V15  :

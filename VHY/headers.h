@@ -1,14 +1,10 @@
 //#define SDP
 
-
-#define VERSION_ID " VHY.26 " 
+#define VERSION_ID " VHY.28 " 
+                   
+#define BLYNK_SERVER "blynk.cloud" //BLYNK2 REMOTE SERVER 
 #define BLYNK1_SERVER "blynk-cloud.com" //BLYNK REMOTE SERVER
 
-//Added 45,46,50,52,03
-//Added Huawei
-//28.05.2022 Channel On Off same frequency   
-                                       
-#define BLYNK_SERVER "blynk.cloud" //BLYNK2 REMOTE SERVER 
 
 #define WIFI_SSID_GIGA    "GIGACUBE_BEK"                                                
 #define WIFI_SSID_FREE    "Freebox-bek"                                              
