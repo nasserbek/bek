@@ -265,10 +265,8 @@ void processFirebase(void)
                 receiverAvByCh (recevierCh);
             break;
 
-            case Q_EVENT_T315_CH_NR_V14:
-              remoteControlRcCh=fb.eventValue;
-              DEBUG_PRINT("FB_T315_CH_NR: ");DEBUG_PRINTLN( (queuData) -15);
-              if (remoteControlRcCh >= 16 && remoteControlRcCh <= 30) {remoteControl(remoteControlRcCh );}
+            case Q_EVENT_BLYNK1_V14:
+              myBlynk.blynk1();
             break;
 
 
@@ -314,6 +312,7 @@ void processFirebase(void)
               zapOnOff=fb.eventValue;
               DEBUG_PRINT("ZAP IS : ");
               DEBUG_PRINTLN(zapOnOff ? F("On") : F("Off"));
+              if (zapOnOff) {zaptime= millis();stateMachine =SM_CH1_A;}
               myBlynk.zapLed(zapOnOff);
             break;
 
@@ -477,10 +476,9 @@ void processBlynkQueu(void)
                   myBlynk.streamSelect(streamWebDdns);
              break;
 
-            case Q_EVENT_T315_CH_NR_V14:
-              remoteControlRcCh=queuData;
-              DEBUG_PRINT("FB_T315_CH_NR: ");DEBUG_PRINTLN( (queuData) -15);
-              if (remoteControlRcCh >= 16 && remoteControlRcCh <= 30) {remoteControl(remoteControlRcCh );}
+            case Q_EVENT_BLYNK1_V14:
+              myBlynk.blynk1();
+              DEBUG_PRINT("Switching to Blynk 1");
             break;
 
             case Q_EVENT_NETGEER_V15  :
@@ -492,6 +490,7 @@ void processBlynkQueu(void)
                   remoteControlRcCh = queuData;
                   recevierCh        = queuData;
                   room (remoteControlRcCh, recevierCh , Av_Rx );
+                   Serial.println(queuData);
            break;
             
             case Q_EVENT_ROOM_ID_6_TO_10_V16:
@@ -575,6 +574,7 @@ void processBlynkQueu(void)
               zapOnOff=queuData;
               DEBUG_PRINT("ZAP IS : ");
               DEBUG_PRINTLN(zapOnOff ? F("On") : F("Off"));
+              if (zapOnOff) {zaptime= millis();stateMachine =SM_CH1_A;}
               myBlynk.zapLed(zapOnOff);
             break;
 
@@ -792,6 +792,9 @@ void processSms(void)
         }
         else
         {
+          
+          if      (smsReceived =="Blynk1")        smsID = Q_EVENT_BLYNK1_V14;
+          
           if      (smsReceived =="Reboot")        smsID = Q_EVENT_REBOOT_V8;
           
           else if (smsReceived == "Netgeer" )     smsID = Q_EVENT_NETGEER_V15;
@@ -879,7 +882,11 @@ void processSms(void)
               DEBUG_PRINT("RESET: ");DEBUG_PRINTLN("Reboot ESP32");
               rebootSw();
             break;
-             
+            
+            case Q_EVENT_BLYNK1_V14:
+              myBlynk.blynk1();
+              DEBUG_PRINT("Switching to Blynk 1");
+            break;             
 
             case Q_EVENT_NETGEER_V15  :
               ResetNetgeer();
@@ -972,6 +979,7 @@ void processSms(void)
               zapOnOff=smsValue;
               DEBUG_PRINT("ZAP IS : ");
               DEBUG_PRINTLN(zapOnOff ? F("On") : F("Off"));
+              if (zapOnOff) {zaptime= millis();stateMachine =SM_CH1_A;}
               myBlynk.zapLed(zapOnOff);
             break;
 

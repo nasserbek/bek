@@ -1,7 +1,8 @@
 //#define SDP
 
-#define VERSION_ID " VHY.23 " 
 
+#define VERSION_ID " VHY.26 " 
+#define BLYNK1_SERVER "blynk-cloud.com" //BLYNK REMOTE SERVER
 
 //Added 45,46,50,52,03
 //Added Huawei
@@ -21,12 +22,16 @@
     #define BLYNK_TEMPLATE_ID "TMPLOM3pqxfl"
     #define BLYNK_DEVICE_NAME "SDP"
     #define BLYNK_AUTH_TOKEN "mV23d4sndz2HNeJ3RvMS6_NItFXQ1R9O"
+    
+    #define BLYNK1_AUTH_TOKEN "D4AU1HexWcErQ9vtpkP_EgocpnoArZKC" //MAIN BOX
 #else
     #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/vhy/vhy.ino.ttgo-t1.bin" // URL to download the firmware from
     #define NOTIFIER_ID " VHY -"
     #define BLYNK_TEMPLATE_ID "TMPLOM3pqxfl"
     #define BLYNK_DEVICE_NAME "VHY"
-    #define BLYNK_AUTH_TOKEN "Lx1zRLy1OXHddGtiAwrK2aHvVYerPDpQ"    
+    #define BLYNK_AUTH_TOKEN "Lx1zRLy1OXHddGtiAwrK2aHvVYerPDpQ"  
+      
+    #define BLYNK1_AUTH_TOKEN "ya1T2eipkMhB3NvyLeAyRVRHqPAUXUG-"  //SPARE BOX
 #endif
 
 
@@ -382,7 +387,7 @@ Q_EVENT_STREAMING_WEB_DDNS_V10,  //SPARE
 //V11, seconds);
 //SMS_LED_V12(V12);  //sms
 //T315_LED_V13(V13);  //T315 St
-Q_EVENT_T315_CH_NR_V14,
+Q_EVENT_BLYNK1_V14,
 Q_EVENT_NETGEER_V15,
 Q_EVENT_ROOM_ID_6_TO_10_V16,
 Q_EVENT_ROOM_ID_11_TO_15_V17,

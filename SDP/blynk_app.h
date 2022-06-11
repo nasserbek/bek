@@ -27,7 +27,9 @@ class blynk {
     bool blynkIsConnected = false;
 
 
+
     blynk(void) ;
+    void blynk1(void);
     void SyncAll(void);
     void init();
     void blynkRun();

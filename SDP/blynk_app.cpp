@@ -86,7 +86,7 @@ unsigned int functionInterval =  7500;  //  7.5s function call frequency   (FCF)
 unsigned int blynkInterval    = 25000;  // 25.0s check server frequency    (CSF)
 
 
-
+bool blynk2 = true;
 long day = 86400000; // 86400000 milliseconds in a day
 long hour = 3600000; // 3600000 milliseconds in an hour
 long minute = 60000; // 60000 milliseconds in a minute
@@ -228,13 +228,13 @@ void blynk::init()
 
 
 // This function is called every time the device is connected to the Blynk.Cloud
-BLYNK_CONNECTED()
-{
-  // Change Web Link Button message to "Congratulations!"
-  Blynk.setProperty(V3, "offImageUrl", "https://static-image.nyc3.cdn.digitaloceanspaces.com/general/fte/congratulations.png");
-  Blynk.setProperty(V3, "onImageUrl",  "https://static-image.nyc3.cdn.digitaloceanspaces.com/general/fte/congratulations_pressed.png");
-  Blynk.setProperty(V3, "url", "https://docs.blynk.io/en/getting-started/what-do-i-need-to-blynk/how-quickstart-device-was-made");
-}
+//BLYNK_CONNECTED()
+//{
+//  // Change Web Link Button message to "Congratulations!"
+//  Blynk.setProperty(V3, "offImageUrl", "https://static-image.nyc3.cdn.digitaloceanspaces.com/general/fte/congratulations.png");
+//  Blynk.setProperty(V3, "onImageUrl",  "https://static-image.nyc3.cdn.digitaloceanspaces.com/general/fte/congratulations_pressed.png");
+//  Blynk.setProperty(V3, "url", "https://docs.blynk.io/en/getting-started/what-do-i-need-to-blynk/how-quickstart-device-was-made");
+//}
 
 BLYNK_WRITE(V0)  //freq
 {
@@ -266,6 +266,7 @@ BLYNK_WRITE(V3) // ROOM_1_TO_5
     _blynkEvent = true;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ROOM_ID_1_TO_5_V3;
+    Serial.println(_blynkData);
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -303,11 +304,11 @@ BLYNK_WRITE(V10)  //Send to blynk
 
 
 
-BLYNK_WRITE(V14) //rc315
+BLYNK_WRITE(V14) //BLYNK1_V14
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_T315_CH_NR_V14;
+    eventdata = Q_EVENT_BLYNK1_V14;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -838,34 +839,7 @@ void blynk::blynkConnect()
 }
 
 
-void blynk::blynkAckLed(bool _data)
-{
-      if (_data==1)  ACK_LED_V5.setColor(BLYNK_RED);
-      else           ACK_LED_V5.setColor(BLYNK_GREEN);
-}
 
-
-void blynk::blynkRCLed(bool _data, int cmd)
-{
-      if (_data==0)  
-          {
-            T433_LED_V6.setColor(BLYNK_RED);
-            if ( (cmd >= 1) && (cmd <= 5))  Blynk.setProperty(V3, "color", BLYNK_GREEN);
-            if ( (cmd >= 6) && (cmd <= 10))  Blynk.setProperty(V16, "color", BLYNK_GREEN);
-            if ( (cmd >= 11) && (cmd <= 15))  Blynk.setProperty(V17, "color", BLYNK_GREEN);
-            if ( (cmd >= 16) && (cmd <= 20))  Blynk.setProperty(V18, "color", BLYNK_GREEN);
-            if ( (cmd >= 20) && (cmd <= 25))  Blynk.setProperty(V25, "color", BLYNK_GREEN);
-          }
-      else           
-      {
-            T433_LED_V6.setColor(BLYNK_GREEN);
-            if ( (cmd >= 1) && (cmd <= 5))  Blynk.setProperty(V3, "color", BLYNK_RED);
-            if ( (cmd >= 6) && (cmd <= 10))  Blynk.setProperty(V16, "color", BLYNK_RED);
-            if ( (cmd >= 11) && (cmd <= 15))  Blynk.setProperty(V17, "color", BLYNK_RED);
-            if ( (cmd >= 16) && (cmd <= 20))  Blynk.setProperty(V18, "color", BLYNK_RED);
-            if ( (cmd >= 20) && (cmd <= 25))  Blynk.setProperty(V25, "color", BLYNK_RED);      
-      }
-}
 
 
 void blynk::blynkRCLed315(bool _data)
@@ -946,8 +920,69 @@ void blynk::sendAvRxIndex(int _index)
    
 }
 
+
+
+void blynk::blynkAckLed(bool _data)
+{
+      if (_data==1)  ACK_LED_V5.setColor(BLYNK_RED);
+      else           ACK_LED_V5.setColor(BLYNK_GREEN);
+}
+
+
+void blynk::blynkRCLed(bool _data, int cmd)
+{
+
+if (blynk2)  
+  {
+      if (_data==0)  
+          {
+            T433_LED_V6.setColor(BLYNK_RED);
+            if ( (cmd >= 1) && (cmd <= 25))  Blynk.setProperty(V3, "color", BLYNK_GREEN);
+          }
+      else           
+          {
+            T433_LED_V6.setColor(BLYNK_GREEN);
+            if ( (cmd >= 1) && (cmd <= 25))  Blynk.setProperty(V3, "color", BLYNK_RED);
+          }
+  }
+ else
+ {
+     if (_data==0)  
+          {
+            T433_LED_V6.setColor(BLYNK_RED);
+            if ( (cmd >= 1) && (cmd <= 5))  Blynk.setProperty(V3, "color", BLYNK_GREEN);
+            if ( (cmd >= 6) && (cmd <= 10))  Blynk.setProperty(V16, "color", BLYNK_GREEN);
+            if ( (cmd >= 11) && (cmd <= 15))  Blynk.setProperty(V17, "color", BLYNK_GREEN);
+            if ( (cmd >= 16) && (cmd <= 20))  Blynk.setProperty(V18, "color", BLYNK_GREEN);
+            if ( (cmd >= 20) && (cmd <= 25))  Blynk.setProperty(V25, "color", BLYNK_GREEN);
+          }
+      else           
+      {
+            T433_LED_V6.setColor(BLYNK_GREEN);
+            if ( (cmd >= 1) && (cmd <= 5))  Blynk.setProperty(V3, "color", BLYNK_RED);
+            if ( (cmd >= 6) && (cmd <= 10))  Blynk.setProperty(V16, "color", BLYNK_RED);
+            if ( (cmd >= 11) && (cmd <= 15))  Blynk.setProperty(V17, "color", BLYNK_RED);
+            if ( (cmd >= 16) && (cmd <= 20))  Blynk.setProperty(V18, "color", BLYNK_RED);
+            if ( (cmd >= 20) && (cmd <= 25))  Blynk.setProperty(V25, "color", BLYNK_RED);      
+      }  
+ }
+
+}
+
 void blynk::visualActiveRoom(int id, bool zap)
 {
+
+ if (blynk2)  
+    { 
+      if ( (id >= 1) && (id <= 25)) 
+        { 
+          if (zap) Blynk.virtualWrite(V3, id);
+          Blynk.setProperty(V3, "color", BLYNK_GREEN);
+        }
+  }
+
+  else
+ { 
   if ( (id >= 1) && (id <= 5)) 
     { 
       if (zap) Blynk.virtualWrite(V3, id);
@@ -993,6 +1028,12 @@ void blynk::visualActiveRoom(int id, bool zap)
       Blynk.setProperty(V17, "color", BLYNK_BLACK);
       Blynk.setProperty(V18, "color", BLYNK_BLACK);
    }
+
+  }
+
+  
+
+  
 }
 
 
@@ -1021,3 +1062,15 @@ void blynk::SyncAll(void)
 {
  Blynk.syncVirtual(V30, V31, V32, V33, V34,V35,V36,V37,V81,V82,V83,V84,V85,V86,V87,V88,V89,V94,V95,V96,V97,V106,V107,V108,V109,V110,V111,V112,V71);
 }
+
+void blynk::blynk1(void)
+{
+    blynk2 = false;
+    Blynk.disconnect();
+    delay(5000);
+    Blynk.config(BLYNK1_AUTH_TOKEN, BLYNK1_SERVER);
+    Blynk.connect(); 
+    checkBlynk();
+    ledInit();
+    blynkAtiveTimer     = millis();
+}    
