@@ -78,7 +78,7 @@ WidgetLED T433_LED_V6(V6);   //T433 St
 WidgetLED T315_LED_V13(V13);  //T315 St
 WidgetLED SMS_LED_V12(V12);  //sms
 WidgetLED ZAP_LED_V80(V80);  //Zap Status
-
+WidgetTerminal terminal(V102);
 
 unsigned int myServerTimeout  =  3500;  //  3.5s server connection timeout (SCT)
 unsigned int myWiFiTimeout    =  3200;  //  3.2s WiFi connection timeout   (WCT)
@@ -224,6 +224,15 @@ void blynk::init()
   checkBlynk();
   ledInit();
   blynkAtiveTimer     = millis();
+  
+  if(_blynkIsConnected)
+  {
+  terminal.clear();  
+  Blynk.virtualWrite(V102,"Blynk v ", VERSION_ID, ": Device started\n");
+  Blynk.virtualWrite(V102,"-------------\n");
+  Blynk.virtualWrite(V102,"Type 'Marco' and get a reply, or type\n");
+  Blynk.virtualWrite(V102,"anything else and get it printed back.\n");
+  }
 }
 
 
@@ -681,12 +690,31 @@ BLYNK_WRITE(V101)  //repetion
 }
 
 
-BLYNK_WRITE(V102)  //sleep timer
+
+BLYNK_WRITE(V102)  //TERMINAL
 {
-    _blynkEvent = true;
-    _blynkData=param.asInt();
-    eventdata = Q_EVENT_SLEEP_TIMER_V102;
-    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+
+    // if you type "Marco" into Terminal Widget - it will respond: "Polo:"
+  if (String("Marco") == param.asStr()) 
+  {
+    Blynk.virtualWrite(V102, "You said: 'Marco'\nI said: 'Polo'\n");
+  } 
+  else 
+  {
+    // Send it back
+    Blynk.virtualWrite(V1, "\nYou said:", param.asStr());
+
+/*  OLDER EXAMPLE VERSION HAD THESE LINES     
+*   terminal.print("You said:");
+*   terminal.write(param.getBuffer(), param.getLength());
+*   terminal.println(); 
+*/
+  }   
+   
+//    _blynkEvent = true;
+//    _blynkData=param.asInt();
+//    eventdata = Q_EVENT_TERMINAL_V102;
+//    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
 BLYNK_WRITE(V104)  //wifi WEB
@@ -1040,4 +1068,13 @@ void blynk::blynk1(void)
     checkBlynk();
     ledInit();
     blynkAtiveTimer     = millis();
+
+  if(_blynkIsConnected)
+  {
+  terminal.clear();
+  Blynk.virtualWrite(V102,"Blynk v ", VERSION_ID, ": Device started\n");
+  Blynk.virtualWrite(V102,"-------------\n");
+  Blynk.virtualWrite(V102,"Type 'Marco' and get a reply, or type\n");
+  Blynk.virtualWrite(V102,"anything else and get it printed back.\n");
+  }
 }    

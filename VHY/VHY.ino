@@ -691,9 +691,9 @@ void processBlynkQueu(void)
             break;
 
            
-            case Q_EVENT_SLEEP_TIMER_V102:
-             deepSleepTimerHours=queuData;
-             goToDeepSleep(deepSleepTimerHours);
+            case Q_EVENT_TERMINAL_V102:
+//             deepSleepTimerHours=queuData;
+//             goToDeepSleep(deepSleepTimerHours);
             break;
                           
             case Q_EVENT_WIFI_WEB_V104:
@@ -1096,9 +1096,9 @@ void processSms(void)
             break;
 
            
-            case Q_EVENT_SLEEP_TIMER_V102:
-             deepSleepTimerHours=smsValue;
-             goToDeepSleep(deepSleepTimerHours);
+            case Q_EVENT_TERMINAL_V102:
+//             deepSleepTimerHours=smsValue;
+//             goToDeepSleep(deepSleepTimerHours);
             break;
                           
             case Q_EVENT_WIFI_WEB_V104:
