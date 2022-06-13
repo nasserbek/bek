@@ -1,6 +1,6 @@
 #define SDP
 
-#define VERSION_ID " SDP.31 " 
+#define VERSION_ID " SDP.32 " 
                    
 #define BLYNK_SERVER "blynk.cloud" //BLYNK2 REMOTE SERVER 
 #define BLYNK1_SERVER "blynk-cloud.com" //BLYNK REMOTE SERVER
@@ -13,7 +13,7 @@
 
 
 #ifdef SDP
-    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/sdp/sdp.ino.ttgo-t1.bin"  // URL to download the firmware from
+    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/SDP/SDP.ino.ttgo-t1.bin"  // URL to download the firmware from
     #define NOTIFIER_ID " SDP -"
     #define BLYNK_TEMPLATE_ID "TMPLOM3pqxfl"
     #define BLYNK_DEVICE_NAME "SDP"
@@ -21,7 +21,7 @@
     
     #define BLYNK1_AUTH_TOKEN "D4AU1HexWcErQ9vtpkP_EgocpnoArZKC" //MAIN BOX
 #else
-    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/vhy/vhy.ino.ttgo-t1.bin" // URL to download the firmware from
+    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/VHY/VHY.ino.ttgo-t1.bin" // URL to download the firmware from
     #define NOTIFIER_ID " VHY -"
     #define BLYNK_TEMPLATE_ID "TMPLOM3pqxfl"
     #define BLYNK_DEVICE_NAME "VHY"
