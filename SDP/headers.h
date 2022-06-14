@@ -1,6 +1,6 @@
 #define SDP
 
-#define VERSION_ID " SDP.32 " 
+#define VERSION_ID " SDP.34 " 
                    
 #define BLYNK_SERVER "blynk.cloud" //BLYNK2 REMOTE SERVER 
 #define BLYNK1_SERVER "blynk-cloud.com" //BLYNK REMOTE SERVER
@@ -9,7 +9,7 @@
 #define WIFI_SSID_GIGA    "GIGACUBE_BEK"                                                
 #define WIFI_SSID_FREE    "Freebox-bek"                                              
 #define WIFI_SSID_OPPO    "OPPO Reno2 Bek" 
-#define WIFI_SSID_HUAWEI   "HUAWEI_BEK" 
+#define WIFI_SSID_HUAWEI  "HUAWEI_BEK" 
 
 
 #ifdef SDP
@@ -379,7 +379,7 @@ Q_EVENT_ROOM_ID_1_TO_5_V3,
 Q_EVENT_OTA_GSM_V7,
 Q_EVENT_REBOOT_V8,
 //ROOM INDEX V9; 
-Q_EVENT_STREAMING_WEB_DDNS_V10,  //SPARE
+Q_EVENT_ALL_CH_V10,  //SPARE
 //V11, seconds);
 //SMS_LED_V12(V12);  //sms
 //T315_LED_V13(V13);  //T315 St

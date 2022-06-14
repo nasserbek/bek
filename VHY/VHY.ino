@@ -472,11 +472,7 @@ void processBlynkQueu(void)
               DEBUG_PRINT("FB_RESET: ");DEBUG_PRINTLN(queuData);
               rebootSw();
             break;
-             
-            case Q_EVENT_STREAMING_WEB_DDNS_V10:
-                  streamWebDdns = queuData;
-                  myBlynk.streamSelect(streamWebDdns);
-             break;
+
 
             case Q_EVENT_BLYNK1_V14:
               myBlynk.blynk1();
@@ -490,6 +486,13 @@ void processBlynkQueu(void)
             break;
 
             case Q_EVENT_ROOM_ID_1_TO_5_V3:
+                  remoteControlRcCh = queuData;
+                  recevierCh        = queuData;
+                  room (remoteControlRcCh, recevierCh , Av_Rx );
+                   Serial.println(queuData);
+           break;
+
+            case Q_EVENT_ALL_CH_V10:
                   remoteControlRcCh = queuData;
                   recevierCh        = queuData;
                   room (remoteControlRcCh, recevierCh , Av_Rx );
