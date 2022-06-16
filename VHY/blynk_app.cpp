@@ -964,10 +964,6 @@ void blynk::blynkAckLed(bool _data)
 
 void blynk::blynkRCLed(bool _data, int cmd)
 {
-
-
-if (!blynk2)
-  {
      if (_data==0)  
           {
             T433_LED_V6.setColor(BLYNK_RED);
@@ -986,29 +982,12 @@ if (!blynk2)
             if ( (cmd >= 16) && (cmd <= 20))  Blynk.setProperty(V18, "color", BLYNK_RED);
             if ( (cmd >= 20) && (cmd <= 25))  Blynk.setProperty(V25, "color", BLYNK_RED);      
       }  
-  }
-
-else
-  {
-     if (_data==0)  
-          {
-            T433_LED_V6.setColor(BLYNK_RED);
-//            Blynk.virtualWrite(V10, cmd) ; Blynk.setProperty(V10, "color", BLYNK_GREEN);
-          }
-      else           
-      {
-            T433_LED_V6.setColor(BLYNK_GREEN);
-            Blynk.virtualWrite(V10, cmd) ; Blynk.setProperty(V10, "color", BLYNK_RED);
-       }  
-  }
   
 }
 
 void blynk::visualActiveRoom(int id, bool zap)
 {
 
- if (!blynk2)
-  { 
   if ( (id >= 1) && (id <= 5)) 
     { 
       if (zap) Blynk.virtualWrite(V3, id);
@@ -1054,15 +1033,6 @@ void blynk::visualActiveRoom(int id, bool zap)
       Blynk.setProperty(V17, "color", BLYNK_BLACK);
       Blynk.setProperty(V18, "color", BLYNK_BLACK);
    }
-
-  }
-
-  else
-  {
-    Blynk.virtualWrite(V10, id) ;
-    Blynk.setProperty(V10, "color", BLYNK_GREEN);
-  }
-
   
 }
 
