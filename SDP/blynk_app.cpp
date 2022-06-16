@@ -993,7 +993,7 @@ else
      if (_data==0)  
           {
             T433_LED_V6.setColor(BLYNK_RED);
-//            Blynk.virtualWrite(V10, cmd) ; Blynk.setProperty(V10, "color", BLYNK_GREEN);
+            Blynk.virtualWrite(V10, cmd) ; Blynk.setProperty(V10, "color", BLYNK_GREEN);
           }
       else           
       {
