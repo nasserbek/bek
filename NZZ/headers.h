@@ -15,6 +15,7 @@
 #ifdef NZZ
     #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/NZZ/.ino.ttgo-t1.bin"  // URL to download the firmware from
     #define NOTIFIER_ID " NZZ -"
+    
     //2023
     #define BLYNK_TEMPLATE_ID           "TMPL5Y2na6zpd"
     #define BLYNK_TEMPLATE_NAME         "Quickstart Device"

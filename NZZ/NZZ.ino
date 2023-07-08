@@ -238,197 +238,7 @@ bool pingGoogleConnection(void)
 
 
 
-/********************************** FireBase **************************************/
-void processFirebase(void)
-{
-        switch (fb.eventID)
-          {
 
-            case Q_EVENT_FREQ_V0:
-              recevierFreq=fb.eventValue;
-              DEBUG_PRINT("FB_FREQ: ");DEBUG_PRINTLN(queuData);
-              //if (recevierFreq >= 920 && recevierFreq <= 1500) 
-              receiverAvByFreq (recevierFreq);
-            break;
-            
-            case Q_EVENT_RC_CH_NR_V1:
-              remoteControlRcCh=fb.eventValue;
-              DEBUG_PRINT("FB_T433_CH_NR: ");DEBUG_PRINTLN(queuData);
-              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 15) {remoteControl(remoteControlRcCh );}
-            break;      
-                  
-            case Q_EVENT_VIDEO_CH_V2:
-                recevierCh=fb.eventValue;
-                DEBUG_PRINT("FB_VIDEO_CH_PATH: ");DEBUG_PRINTLN(queuData);
-                if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
-                else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
-                receiverAvByCh (recevierCh);
-            break;
-
-            case Q_EVENT_BLYNK1_V14:
-              myBlynk.blynk1();
-            break;
-
-
-
-            case Q_EVENT_ROOM_ID_1_TO_5_V3:
-                  remoteControlRcCh = fb.eventValue;
-                  recevierCh        = fb.eventValue;
-                  room (remoteControlRcCh, recevierCh , Av_Rx );
-           break;
-            
-            case Q_EVENT_ROOM_ID_6_TO_10_V16:
-                  remoteControlRcCh = fb.eventValue+5;
-                  recevierCh        = fb.eventValue+5;
-                  room (remoteControlRcCh, recevierCh , Av_Rx );            
-            break;
-            
-            case Q_EVENT_ROOM_ID_11_TO_15_V17:
-                  remoteControlRcCh = fb.eventValue+10;
-                  recevierCh        = fb.eventValue+10;
-                  room (remoteControlRcCh, recevierCh , Av_Rx );             
-            break;
-            
-            case Q_EVENT_ROOM_ID_16_TO_20_V18:
-                  remoteControlRcCh = fb.eventValue+15;
-                  recevierCh        = fb.eventValue+15;
-                  room (remoteControlRcCh, recevierCh , Av_Rx );                
-            break;                                    
- 
-            case Q_EVENT_ROOM_ID_21_25_V25:
-                  remoteControlRcCh = fb.eventValue+20;
-                  recevierCh        = fb.eventValue+20;
-                  room (remoteControlRcCh, recevierCh , Av_Rx );               
-            break;     
-          
-  
-            case Q_EVENT_ROOM_AV_RC_V19:
-                Av_Rx=fb.eventValue;
-                myBlynk.sendAvRxIndex(Av_Rx);
-            break;
-
-                                             
-            case Q_EVENT_ZAP_V71:
-              zapOnOff=fb.eventValue;
-              DEBUG_PRINT("ZAP IS : ");
-              DEBUG_PRINTLN(zapOnOff ? F("On") : F("Off"));
-              if (zapOnOff) {zaptime= millis();stateMachine =SM_CH1_A;}
-              myBlynk.zapLed(zapOnOff);
-            break;
-
-            case Q_EVENT_ZAP_CHANNEL1_V81 :
-              videoCh[1].zap=fb.eventValue;
-            break;
-
-             case Q_EVENT_ZAP_CHANNEL2_V82 :
-              videoCh[2].zap=fb.eventValue;
-              
-            break;
-
-             case Q_EVENT_ZAP_CHANNEL3_V83 :
-              videoCh[3].zap=fb.eventValue;
-
-            break;
-
-             case Q_EVENT_ZAP_CHANNEL4_V84 :
-              videoCh[4].zap=fb.eventValue;
-
-            break;
-
-             case Q_EVENT_ZAP_CHANNEL5_V85 :
-              videoCh[5].zap=fb.eventValue;
-
-            break;
-
-             case Q_EVENT_ZAP_CHANNEL6_V86 :
-              videoCh[6].zap=fb.eventValue;
-
-            break;
-
-             case Q_EVENT_ZAP_CHANNEL7_V87 :
-              videoCh[7].zap=fb.eventValue;
-              
-            break;
-
-             case Q_EVENT_ZAP_CHANNEL8_V88 :
-              videoCh[8].zap=fb.eventValue;
-              
-            break;
-            
-            case Q_EVENT_ZAP_CHANNEL9_V89 :
-              videoCh[9].zap=fb.eventValue;
-            break; 
-
-            case Q_EVENT_ZAP_CHANNEL10_V94 :
-              videoCh[10].zap=fb.eventValue;
-            break; 
- 
-            case Q_EVENT_ZAP_CHANNEL11_V95 :
-              videoCh[11].zap=fb.eventValue;
-            break; 
-
-            case Q_EVENT_ZAP_CHANNEL12_V96 :
-              videoCh[12].zap=fb.eventValue;
-            break; 
- 
-            case Q_EVENT_ZAP_CHANNEL13_V97 :
-              videoCh[13].zap=fb.eventValue;
-            break; 
-            
-            case Q_EVENT_ZAP_CHANNEL14_V106 :
-              videoCh[14].zap=fb.eventValue;
-            break; 
-
-             case Q_EVENT_ZAP_CHANNEL15_V107 :
-              videoCh[15].zap=fb.eventValue;
-            break; 
-            
-            case Q_EVENT_ZAP_CHANNEL16_V108 :
-              videoCh[16].zap=fb.eventValue;
-            break; 
-
-             case Q_EVENT_ZAP_CHANNEL17_V109 :
-              videoCh[17].zap=fb.eventValue;
-            break; 
-
-            case Q_EVENT_ZAP_CHANNEL18_V110 :
-              videoCh[18].zap=fb.eventValue;
-            break;             
-
-             case Q_EVENT_ZAP_CHANNEL19_V111 :
-              videoCh[19].zap=fb.eventValue;
-            break; 
- 
-             case Q_EVENT_ZAP_CHANNEL20_V112 :
-              videoCh[20].zap=fb.eventValue;
-            break; 
-                       
-
-             case Q_EVENT_OTA_GITHUB_V105:
-               otaWifiGithub = false;         
-               wifiIDETimer = millis();
-               otaWifi();
-             break;
-             
-           case Q_EVENT_OTA_GSM_V7:
-              otaCmd=fb.eventValue;
-              DEBUG_PRINT("FB_OTA: ");DEBUG_PRINTLN(queuData);
-              otaGsm ();
-            break;
- 
-            case Q_EVENT_REBOOT_V8:
-              rebootCmd=fb.eventValue;
-              DEBUG_PRINT("FB_RESET: ");DEBUG_PRINTLN(queuData);
-              rebootSw();
-            break;
-            
-            case Q_EVENT_NETGEER_V15  :
-          //   myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset from Blynk");
-              ResetNetgeer();
-            break;                                        
-    }  
-        
-}    
 
 /********************************************Blynk *******************************/
 
@@ -500,20 +310,20 @@ void processBlynkQueu(void)
            break;
             
             case Q_EVENT_ROOM_ID_6_TO_10_V16:
-                  remoteControlRcCh = queuData+5;
-                  recevierCh        = queuData+5;
+                  remoteControlRcCh = queuData;
+                  recevierCh        = queuData;
                   room (remoteControlRcCh, recevierCh , Av_Rx );            
             break;
             
             case Q_EVENT_ROOM_ID_11_TO_15_V17:
-                  remoteControlRcCh = queuData+10;
-                  recevierCh        = queuData+10;
+                  remoteControlRcCh = queuData;
+                  recevierCh        = queuData;
                   room (remoteControlRcCh, recevierCh , Av_Rx );             
             break;
             
             case Q_EVENT_ROOM_ID_16_TO_20_V18:
-                  remoteControlRcCh = queuData+15;
-                  recevierCh        = queuData+15;
+                  remoteControlRcCh = queuData;
+                  recevierCh        = queuData;
                   room (remoteControlRcCh, recevierCh , Av_Rx );                
             break;                                    
 
@@ -528,8 +338,8 @@ void processBlynkQueu(void)
 
  
             case Q_EVENT_ROOM_ID_21_25_V25:
-                  remoteControlRcCh = queuData+20;
-                  recevierCh        = queuData+20;
+                  remoteControlRcCh = queuData;
+                  recevierCh        = queuData;
                   room (remoteControlRcCh, recevierCh , Av_Rx );               
             break;     
             
@@ -742,413 +552,6 @@ void processBlynkQueu(void)
                        
             
     }  
-}
-
-
-void processSms(void)
-{
-    boolean isValidNumber =false;
-      int smsID=0;
-      bool dvr = false;
-      
-      smsReceived =  sms.smsString;
-      
-       for(byte i=0;i<smsReceived.length();i++)
-          {
-            if(isDigit(smsReceived.charAt(i))) isValidNumber =true;
-            else isValidNumber=false;
-          }
-        if(isValidNumber)
-        {
-          smsValue = stringToInteger(smsReceived);
-//          if (smsValue >= 900 && smsValue <= 5000) smsID =Q_EVENT_FREQ_V0;
-//          if (smsValue >= 1 && smsValue <= 30)     smsID =Q_EVENT_RC_CH_NR_V1;
-//          if (smsValue >= 41 && smsValue <= 60)    smsID =Q_EVENT_VIDEO_CH_V2;
-          
-          if (smsValue  == 1 )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 1;}
-          if (smsValue  == 2 )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 2;}
-          if (smsValue  == 3 )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 3;}
-          if (smsValue  == 4 )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 4;}
-          if (smsValue  == 5 )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 5;}
-                  
-          if (smsValue  == 6 )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 1;}
-          if (smsValue  == 7 )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 2;}
-          if (smsValue  == 8 )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 3;}
-          if (smsValue  == 9 )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 4;}
-          if (smsValue  == 10 )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 5;}
-          
-          if (smsValue  == 11 )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 1;}
-          if (smsValue  == 12 )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 2;}
-          if (smsValue  == 13 )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 3;}
-          if (smsValue  == 14 )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 4;}
-          if (smsValue  == 15 )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 5;}
-          
-          if (smsValue  == 16 )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 1;}
-          if (smsValue  == 17 )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 2;}
-          if (smsValue  == 18 )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 3;}
-          if (smsValue  == 19 )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 4;}
-          if (smsValue  == 20 )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 5;}
-          
-          if (smsValue  == 21 )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 1;}
-          if (smsValue  == 22 )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 2;}
-          if (smsValue  == 23 )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 3;}
-          if (smsValue  == 24 )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 4;}
-          if (smsValue  == 25 )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 5;}
-          
-        }
-        else
-        {
-          
-          if      (smsReceived =="Blynk1")        smsID = Q_EVENT_BLYNK1_V14;
-          
-          if      (smsReceived =="Reboot")        smsID = Q_EVENT_REBOOT_V8;
-          
-          else if (smsReceived == "Netgeer" )     smsID = Q_EVENT_NETGEER_V15;
-
-          else if (smsReceived =="Otagsm")        smsID = Q_EVENT_OTA_GSM_V7;
-          
-          else if (smsReceived == "Otagithub" )   smsID = Q_EVENT_OTA_GITHUB_V105  ;
-          
-           else if (smsReceived == "WifiIde" )      smsID = Q_EVENT_WIFI_IDE_V100  ;
-           
-          else if (smsReceived == "WifiLocalWebOta" )      smsID = Q_EVENT_WIFI_WEB_V104  ;
-          
-          else if (smsReceived == "Preset" )      smsID = Q_EVENT_RESET_FREQ_V26  ;
-                                
-          else if (smsReceived == "Dvr on" )      {smsValue = 1; smsID = Q_EVENT_DVR_ON_OFF_V27;}
-          else if (smsReceived == "Dvr off" )     {smsValue = 0; smsID = Q_EVENT_DVR_ON_OFF_V27;}
-                             
-          else if (smsReceived == "Av" )         {smsID = Q_EVENT_ROOM_AV_RC_V19 ;smsValue = 1;}
-          else if (smsReceived == "Rc" )         {smsID = Q_EVENT_ROOM_AV_RC_V19 ;smsValue = 2;}
-          else if (smsReceived == "Both" )       {smsID = Q_EVENT_ROOM_AV_RC_V19 ;smsValue = 3;}
-          
-//          else if (smsReceived == "Ch1" )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 1;}
-//          else if (smsReceived == "Ch2" )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 2;}
-//          else if (smsReceived == "Ch3" )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 3;}
-//          else if (smsReceived == "Ch4" )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 4;}
-//          else if (smsReceived == "Ch5" )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 5;}
-//          
-//          else if (smsReceived == "Ch6" )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 1;}
-//          else if (smsReceived == "Ch7" )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 2;}
-//          else if (smsReceived == "Ch8" )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 3;}
-//          else if (smsReceived == "Ch9" )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 4;}
-//          else if (smsReceived == "Ch10" )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 5;}
-//
-//          else if (smsReceived == "Ch11" )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 1;}
-//          else if (smsReceived == "Ch12" )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 2;}
-//          else if (smsReceived == "Ch13" )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 3;}
-//          else if (smsReceived == "Ch14" )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 4;}
-//          else if (smsReceived == "Ch15" )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 5;}
-//
-//          else if (smsReceived == "Ch16" )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 1;}
-//          else if (smsReceived == "Ch17" )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 2;}
-//          else if (smsReceived == "Ch18" )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 3;}
-//          else if (smsReceived == "Ch19" )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 4;}
-//          else if (smsReceived == "Ch20" )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 5;}
-//
-//          else if (smsReceived == "Ch21" )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 1;}
-//          else if (smsReceived == "Ch22" )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 2;}
-//          else if (smsReceived == "Ch23" )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 3;}
-//          else if (smsReceived == "Ch24" )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 4;}
-//          else if (smsReceived == "Ch25" )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 5;}
-              
-          
-        }
-   
-        switch (smsID)
-          {
-            case Q_EVENT_FREQ_V0:
-              recevierFreq=smsValue;
-              DEBUG_PRINT("FREQ: ");DEBUG_PRINTLN(smsValue);
-              receiverAvByFreq (recevierFreq);
-            break;
-            
-            case Q_EVENT_RC_CH_NR_V1:
-              remoteControlRcCh=smsValue;
-              DEBUG_PRINT("T433_CH_NR: ");DEBUG_PRINTLN(smsValue);
-              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 30) {remoteControl(remoteControlRcCh );}
-            break;      
-                  
-            case Q_EVENT_VIDEO_CH_V2:
-                recevierCh=smsValue;
-                DEBUG_PRINT("VIDEO_CH_PATH: ");DEBUG_PRINTLN(smsValue);
-                if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
-                else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
-                receiverAvByCh (recevierCh);
-                
-            break;
-
-           case Q_EVENT_OTA_GSM_V7:
-              DEBUG_PRINT("OTA: ");DEBUG_PRINTLN("Ota Gsm");
-              otaGsm ();
-            break;
- 
-            case Q_EVENT_REBOOT_V8:
-              rebootCmd=smsValue;
-              DEBUG_PRINT("RESET: ");DEBUG_PRINTLN("Reboot ESP32");
-              rebootSw();
-            break;
-            
-            case Q_EVENT_BLYNK1_V14:
-              myBlynk.blynk1();
-              DEBUG_PRINT("Switching to Blynk 1");
-            break;             
-
-            case Q_EVENT_NETGEER_V15  :
-              ResetNetgeer();
-            break;
-
-            case Q_EVENT_ROOM_ID_1_TO_5_V3:
-                  remoteControlRcCh = smsValue;
-                  recevierCh        = smsValue;
-                  room (remoteControlRcCh, recevierCh , Av_Rx );
-           break;
-            
-            case Q_EVENT_ROOM_ID_6_TO_10_V16:
-                  remoteControlRcCh = smsValue+5;
-                  recevierCh        = smsValue+5;
-                  room (remoteControlRcCh, recevierCh , Av_Rx );            
-            break;
-            
-            case Q_EVENT_ROOM_ID_11_TO_15_V17:
-                  remoteControlRcCh = smsValue+10;
-                  recevierCh        = smsValue+10;
-                  room (remoteControlRcCh, recevierCh , Av_Rx );             
-            break;
-            
-            case Q_EVENT_ROOM_ID_16_TO_20_V18:
-                  remoteControlRcCh = smsValue+15;
-                  recevierCh        = smsValue+15;
-                  room (remoteControlRcCh, recevierCh , Av_Rx );                
-            break;                                    
-
-            case Q_EVENT_ROOM_AV_RC_V19:
-             Av_Rx=smsValue;
-             myBlynk.sendAvRxIndex(Av_Rx);
-            break;
-            
-            case Q_EVENT_ROUTER_RESET_TIMER_V23:
-                  routerTimer = smsValue;
-            break;
-
- 
-            case Q_EVENT_ROOM_ID_21_25_V25:
-                  remoteControlRcCh = smsValue+20;
-                  recevierCh        = smsValue+20;
-                  room (remoteControlRcCh, recevierCh , Av_Rx );               
-            break;     
-            
-                    
-             case Q_EVENT_RESET_FREQ_V26:
-                  recevierFreq = videoCh[recevierCh].frequency =   freqTable[recevierCh];   
-                  receiverAvByFreq (recevierFreq);        
-            break;         
-                 
-            case Q_EVENT_DVR_ON_OFF_V27:
-                  dvrOnOff (smsValue);  
-            break;   
-
-            case Q_EVENT_03_SEL_V30:  //ROOM 3
-                  videoCh[13].mux=smsValue;  
-            break;   
-
-            case Q_EVENT_21_SEL_V31:   // ROOM 1
-                  videoCh[11].mux=smsValue;  
-            break;  
-
-            case Q_EVENT_27_SEL_V32: // ROOM 27
-                  videoCh[14].mux=smsValue;  
-            break;   
-
-            case Q_EVENT_50_SEL_V33:  //ROOM 50
-                  videoCh[7].mux=smsValue;  
-            break;  
-
-            case Q_EVENT_20_SEL_V34:  //ROOM 51
-                  videoCh[8].mux=smsValue;  
-            break;   
-
-            case Q_EVENT_52_SEL_V35: // ROOM 31
-                  videoCh[15].mux=smsValue;  
-            break;                  
- 
-             case Q_EVENT_53_SEL_V36:  // ROOM 48
-                  videoCh[5].mux=smsValue;  
-            break;   
-
-            case Q_EVENT_22_SEL_V37:  //ROOM 22
-                  videoCh[16].mux=smsValue;  
-            break;     
-
-                                                                      
-            case Q_EVENT_ZAP_V71:
-              zapOnOff=smsValue;
-              DEBUG_PRINT("ZAP IS : ");
-              DEBUG_PRINTLN(zapOnOff ? F("On") : F("Off"));
-              if (zapOnOff) {zaptime= millis();stateMachine =SM_CH1_A;}
-              myBlynk.zapLed(zapOnOff);
-            break;
-
-            case Q_EVENT_ZAP_TIMER_V72:
-              zapTimer=smsValue;
-            break;
-
-            case Q_EVENT_ZAP_CHANNEL1_V81 :
-              videoCh[1].zap=smsValue;
-              
-            break;
-
-             case Q_EVENT_ZAP_CHANNEL2_V82 :
-              videoCh[2].zap=smsValue;
-              
-            break;
-
-             case Q_EVENT_ZAP_CHANNEL3_V83 :
-              videoCh[3].zap=smsValue;
-
-            break;
-
-             case Q_EVENT_ZAP_CHANNEL4_V84 :
-              videoCh[4].zap=smsValue;
-
-            break;
-
-             case Q_EVENT_ZAP_CHANNEL5_V85 :
-              videoCh[5].zap=smsValue;
-
-            break;
-
-             case Q_EVENT_ZAP_CHANNEL6_V86 :
-              videoCh[6].zap=smsValue;
-
-            break;
-
-             case Q_EVENT_ZAP_CHANNEL7_V87 :
-              videoCh[7].zap=smsValue;
-              
-            break;
-
-             case Q_EVENT_ZAP_CHANNEL8_V88 :
-              videoCh[8].zap=smsValue;
-              
-            break;
-            
-            case Q_EVENT_ZAP_CHANNEL9_V89 :
-              videoCh[9].zap=smsValue;
-            break; 
-
-                      
-            case Q_EVENT_AV_CH_PLUS_V90:
-                recevierCh += 1;
-                if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
-                else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
-                receiverAvByCh (recevierCh);
-            break;
-                     
-            
-            case Q_EVENT_AV_CH_MINUS_V91:
-                recevierCh -= 1;
-                if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
-                else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
-                receiverAvByCh (recevierCh);
-            break;
-            
-             case Q_EVENT_AV_FR_MINUS_V92:
-              recevierFreq -= 1;
-              //if (recevierFreq >= 920 && recevierFreq <= 1500) 
-              receiverAvByFreq (recevierFreq);
-            break;
-
-           case Q_EVENT_AV_FR_PLUS_V93:
-              recevierFreq += 1;
-              //if (recevierFreq >= 920 && recevierFreq <= 1500) 
-              receiverAvByFreq (recevierFreq);
-            break;
-
-
-            case Q_EVENT_ZAP_CHANNEL10_V94 :
-              videoCh[10].zap=smsValue;
-            break; 
- 
-            case Q_EVENT_ZAP_CHANNEL11_V95 :
-              videoCh[11].zap=smsValue;
-            break; 
-
-            case Q_EVENT_ZAP_CHANNEL12_V96 :
-              videoCh[12].zap=smsValue;
-            break; 
- 
-            case Q_EVENT_ZAP_CHANNEL13_V97 :
-              videoCh[13].zap=smsValue;
-            break; 
-            
-            case Q_EVENT_RC_PULSE_V98:
-             pulseRC=smsValue;
-             mySwitch.setPulseLength(pulseRC);
-            break;
-
-            case Q_EVENT_WIFI_IDE_V100:
-               wifiIde = false;         
-               wifiIDETimer = millis();
-               wifiUploadCtrl();
-             break;
-             
-            case Q_EVENT_RC_REPETION_V101:
-             repetionRC=smsValue;
-             mySwitch.setRepeatTransmit(repetionRC);
-            break;
-
-           
-            case Q_EVENT_TERMINAL_V102:
-//             deepSleepTimerHours=smsValue;
-//             goToDeepSleep(deepSleepTimerHours);
-            break;
-                          
-            case Q_EVENT_WIFI_WEB_V104:
-               wifiWebUpdater = false;
-               wifiIDETimer = millis();
-               webUpdateOta ();
-             break;
-
-             case Q_EVENT_OTA_GITHUB_V105:
-               otaWifiGithub = false;         
-               wifiIDETimer = millis();
-               otaWifi();
-             break;
-
-            case Q_EVENT_ZAP_CHANNEL14_V106 :
-              videoCh[14].zap=smsValue;
-            break; 
- 
-            case Q_EVENT_ZAP_CHANNEL15_V107 :
-              videoCh[15].zap=smsValue;
-            break; 
-
-            
-            case Q_EVENT_ZAP_CHANNEL16_V108 :
-              videoCh[16].zap=smsValue;
-            break; 
-
-             case Q_EVENT_ZAP_CHANNEL17_V109 :
-              videoCh[17].zap=smsValue;
-            break; 
-
-            case Q_EVENT_ZAP_CHANNEL18_V110 :
-              videoCh[18].zap=smsValue;
-            break;             
-
-             case Q_EVENT_ZAP_CHANNEL19_V111 :
-              videoCh[19].zap=smsValue;
-            break; 
- 
-             case Q_EVENT_ZAP_CHANNEL20_V112 :
-              videoCh[20].zap=smsValue;
-            break; 
-                       
-          
-    }  
-
-    smsID = NONE;
 }
 
 
@@ -1803,3 +1206,606 @@ void wifiUploadCtrl(void)
         else ArduinoOTA.handle();
        }
 }
+
+
+
+
+
+
+void processSms(void)
+{
+    boolean isValidNumber =false;
+      int smsID=0;
+      bool dvr = false;
+      
+      smsReceived =  sms.smsString;
+      
+       for(byte i=0;i<smsReceived.length();i++)
+          {
+            if(isDigit(smsReceived.charAt(i))) isValidNumber =true;
+            else isValidNumber=false;
+          }
+        if(isValidNumber)
+        {
+          smsValue = stringToInteger(smsReceived);
+//          if (smsValue >= 900 && smsValue <= 5000) smsID =Q_EVENT_FREQ_V0;
+//          if (smsValue >= 1 && smsValue <= 30)     smsID =Q_EVENT_RC_CH_NR_V1;
+//          if (smsValue >= 41 && smsValue <= 60)    smsID =Q_EVENT_VIDEO_CH_V2;
+          
+          if (smsValue  == 1 )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 1;}
+          if (smsValue  == 2 )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 2;}
+          if (smsValue  == 3 )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 3;}
+          if (smsValue  == 4 )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 4;}
+          if (smsValue  == 5 )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 5;}
+                  
+          if (smsValue  == 6 )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 1;}
+          if (smsValue  == 7 )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 2;}
+          if (smsValue  == 8 )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 3;}
+          if (smsValue  == 9 )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 4;}
+          if (smsValue  == 10 )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 5;}
+          
+          if (smsValue  == 11 )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 1;}
+          if (smsValue  == 12 )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 2;}
+          if (smsValue  == 13 )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 3;}
+          if (smsValue  == 14 )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 4;}
+          if (smsValue  == 15 )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 5;}
+          
+          if (smsValue  == 16 )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 1;}
+          if (smsValue  == 17 )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 2;}
+          if (smsValue  == 18 )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 3;}
+          if (smsValue  == 19 )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 4;}
+          if (smsValue  == 20 )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 5;}
+          
+          if (smsValue  == 21 )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 1;}
+          if (smsValue  == 22 )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 2;}
+          if (smsValue  == 23 )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 3;}
+          if (smsValue  == 24 )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 4;}
+          if (smsValue  == 25 )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 5;}
+          
+        }
+        else
+        {
+          
+          if      (smsReceived =="Blynk1")        smsID = Q_EVENT_BLYNK1_V14;
+          
+          if      (smsReceived =="Reboot")        smsID = Q_EVENT_REBOOT_V8;
+          
+          else if (smsReceived == "Netgeer" )     smsID = Q_EVENT_NETGEER_V15;
+
+          else if (smsReceived =="Otagsm")        smsID = Q_EVENT_OTA_GSM_V7;
+          
+          else if (smsReceived == "Otagithub" )   smsID = Q_EVENT_OTA_GITHUB_V105  ;
+          
+           else if (smsReceived == "WifiIde" )      smsID = Q_EVENT_WIFI_IDE_V100  ;
+           
+          else if (smsReceived == "WifiLocalWebOta" )      smsID = Q_EVENT_WIFI_WEB_V104  ;
+          
+          else if (smsReceived == "Preset" )      smsID = Q_EVENT_RESET_FREQ_V26  ;
+                                
+          else if (smsReceived == "Dvr on" )      {smsValue = 1; smsID = Q_EVENT_DVR_ON_OFF_V27;}
+          else if (smsReceived == "Dvr off" )     {smsValue = 0; smsID = Q_EVENT_DVR_ON_OFF_V27;}
+                             
+          else if (smsReceived == "Av" )         {smsID = Q_EVENT_ROOM_AV_RC_V19 ;smsValue = 1;}
+          else if (smsReceived == "Rc" )         {smsID = Q_EVENT_ROOM_AV_RC_V19 ;smsValue = 2;}
+          else if (smsReceived == "Both" )       {smsID = Q_EVENT_ROOM_AV_RC_V19 ;smsValue = 3;}
+          
+//          else if (smsReceived == "Ch1" )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 1;}
+//          else if (smsReceived == "Ch2" )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 2;}
+//          else if (smsReceived == "Ch3" )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 3;}
+//          else if (smsReceived == "Ch4" )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 4;}
+//          else if (smsReceived == "Ch5" )        {smsID = Q_EVENT_ROOM_ID_1_TO_5_V3 ;smsValue = 5;}
+//          
+//          else if (smsReceived == "Ch6" )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 1;}
+//          else if (smsReceived == "Ch7" )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 2;}
+//          else if (smsReceived == "Ch8" )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 3;}
+//          else if (smsReceived == "Ch9" )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 4;}
+//          else if (smsReceived == "Ch10" )        {smsID = Q_EVENT_ROOM_ID_6_TO_10_V16 ;smsValue = 5;}
+//
+//          else if (smsReceived == "Ch11" )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 1;}
+//          else if (smsReceived == "Ch12" )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 2;}
+//          else if (smsReceived == "Ch13" )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 3;}
+//          else if (smsReceived == "Ch14" )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 4;}
+//          else if (smsReceived == "Ch15" )        {smsID = Q_EVENT_ROOM_ID_11_TO_15_V17 ;smsValue = 5;}
+//
+//          else if (smsReceived == "Ch16" )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 1;}
+//          else if (smsReceived == "Ch17" )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 2;}
+//          else if (smsReceived == "Ch18" )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 3;}
+//          else if (smsReceived == "Ch19" )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 4;}
+//          else if (smsReceived == "Ch20" )        {smsID = Q_EVENT_ROOM_ID_16_TO_20_V18 ;smsValue = 5;}
+//
+//          else if (smsReceived == "Ch21" )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 1;}
+//          else if (smsReceived == "Ch22" )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 2;}
+//          else if (smsReceived == "Ch23" )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 3;}
+//          else if (smsReceived == "Ch24" )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 4;}
+//          else if (smsReceived == "Ch25" )        {smsID = Q_EVENT_ROOM_ID_21_25_V25 ;smsValue = 5;}
+              
+          
+        }
+   
+        switch (smsID)
+          {
+            case Q_EVENT_FREQ_V0:
+              recevierFreq=smsValue;
+              DEBUG_PRINT("FREQ: ");DEBUG_PRINTLN(smsValue);
+              receiverAvByFreq (recevierFreq);
+            break;
+            
+            case Q_EVENT_RC_CH_NR_V1:
+              remoteControlRcCh=smsValue;
+              DEBUG_PRINT("T433_CH_NR: ");DEBUG_PRINTLN(smsValue);
+              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 30) {remoteControl(remoteControlRcCh );}
+            break;      
+                  
+            case Q_EVENT_VIDEO_CH_V2:
+                recevierCh=smsValue;
+                DEBUG_PRINT("VIDEO_CH_PATH: ");DEBUG_PRINTLN(smsValue);
+                if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
+                else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
+                receiverAvByCh (recevierCh);
+                
+            break;
+
+           case Q_EVENT_OTA_GSM_V7:
+              DEBUG_PRINT("OTA: ");DEBUG_PRINTLN("Ota Gsm");
+              otaGsm ();
+            break;
+ 
+            case Q_EVENT_REBOOT_V8:
+              rebootCmd=smsValue;
+              DEBUG_PRINT("RESET: ");DEBUG_PRINTLN("Reboot ESP32");
+              rebootSw();
+            break;
+            
+            case Q_EVENT_BLYNK1_V14:
+              myBlynk.blynk1();
+              DEBUG_PRINT("Switching to Blynk 1");
+            break;             
+
+            case Q_EVENT_NETGEER_V15  :
+              ResetNetgeer();
+            break;
+
+            case Q_EVENT_ROOM_ID_1_TO_5_V3:
+                  remoteControlRcCh = smsValue;
+                  recevierCh        = smsValue;
+                  room (remoteControlRcCh, recevierCh , Av_Rx );
+           break;
+            
+            case Q_EVENT_ROOM_ID_6_TO_10_V16:
+                  remoteControlRcCh = smsValue+5;
+                  recevierCh        = smsValue+5;
+                  room (remoteControlRcCh, recevierCh , Av_Rx );            
+            break;
+            
+            case Q_EVENT_ROOM_ID_11_TO_15_V17:
+                  remoteControlRcCh = smsValue+10;
+                  recevierCh        = smsValue+10;
+                  room (remoteControlRcCh, recevierCh , Av_Rx );             
+            break;
+            
+            case Q_EVENT_ROOM_ID_16_TO_20_V18:
+                  remoteControlRcCh = smsValue+15;
+                  recevierCh        = smsValue+15;
+                  room (remoteControlRcCh, recevierCh , Av_Rx );                
+            break;                                    
+
+            case Q_EVENT_ROOM_AV_RC_V19:
+             Av_Rx=smsValue;
+             myBlynk.sendAvRxIndex(Av_Rx);
+            break;
+            
+            case Q_EVENT_ROUTER_RESET_TIMER_V23:
+                  routerTimer = smsValue;
+            break;
+
+ 
+            case Q_EVENT_ROOM_ID_21_25_V25:
+                  remoteControlRcCh = smsValue+20;
+                  recevierCh        = smsValue+20;
+                  room (remoteControlRcCh, recevierCh , Av_Rx );               
+            break;     
+            
+                    
+             case Q_EVENT_RESET_FREQ_V26:
+                  recevierFreq = videoCh[recevierCh].frequency =   freqTable[recevierCh];   
+                  receiverAvByFreq (recevierFreq);        
+            break;         
+                 
+            case Q_EVENT_DVR_ON_OFF_V27:
+                  dvrOnOff (smsValue);  
+            break;   
+
+            case Q_EVENT_03_SEL_V30:  //ROOM 3
+                  videoCh[13].mux=smsValue;  
+            break;   
+
+            case Q_EVENT_21_SEL_V31:   // ROOM 1
+                  videoCh[11].mux=smsValue;  
+            break;  
+
+            case Q_EVENT_27_SEL_V32: // ROOM 27
+                  videoCh[14].mux=smsValue;  
+            break;   
+
+            case Q_EVENT_50_SEL_V33:  //ROOM 50
+                  videoCh[7].mux=smsValue;  
+            break;  
+
+            case Q_EVENT_20_SEL_V34:  //ROOM 51
+                  videoCh[8].mux=smsValue;  
+            break;   
+
+            case Q_EVENT_52_SEL_V35: // ROOM 31
+                  videoCh[15].mux=smsValue;  
+            break;                  
+ 
+             case Q_EVENT_53_SEL_V36:  // ROOM 48
+                  videoCh[5].mux=smsValue;  
+            break;   
+
+            case Q_EVENT_22_SEL_V37:  //ROOM 22
+                  videoCh[16].mux=smsValue;  
+            break;     
+
+                                                                      
+            case Q_EVENT_ZAP_V71:
+              zapOnOff=smsValue;
+              DEBUG_PRINT("ZAP IS : ");
+              DEBUG_PRINTLN(zapOnOff ? F("On") : F("Off"));
+              if (zapOnOff) {zaptime= millis();stateMachine =SM_CH1_A;}
+              myBlynk.zapLed(zapOnOff);
+            break;
+
+            case Q_EVENT_ZAP_TIMER_V72:
+              zapTimer=smsValue;
+            break;
+
+            case Q_EVENT_ZAP_CHANNEL1_V81 :
+              videoCh[1].zap=smsValue;
+              
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL2_V82 :
+              videoCh[2].zap=smsValue;
+              
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL3_V83 :
+              videoCh[3].zap=smsValue;
+
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL4_V84 :
+              videoCh[4].zap=smsValue;
+
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL5_V85 :
+              videoCh[5].zap=smsValue;
+
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL6_V86 :
+              videoCh[6].zap=smsValue;
+
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL7_V87 :
+              videoCh[7].zap=smsValue;
+              
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL8_V88 :
+              videoCh[8].zap=smsValue;
+              
+            break;
+            
+            case Q_EVENT_ZAP_CHANNEL9_V89 :
+              videoCh[9].zap=smsValue;
+            break; 
+
+                      
+            case Q_EVENT_AV_CH_PLUS_V90:
+                recevierCh += 1;
+                if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
+                else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
+                receiverAvByCh (recevierCh);
+            break;
+                     
+            
+            case Q_EVENT_AV_CH_MINUS_V91:
+                recevierCh -= 1;
+                if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
+                else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
+                receiverAvByCh (recevierCh);
+            break;
+            
+             case Q_EVENT_AV_FR_MINUS_V92:
+              recevierFreq -= 1;
+              //if (recevierFreq >= 920 && recevierFreq <= 1500) 
+              receiverAvByFreq (recevierFreq);
+            break;
+
+           case Q_EVENT_AV_FR_PLUS_V93:
+              recevierFreq += 1;
+              //if (recevierFreq >= 920 && recevierFreq <= 1500) 
+              receiverAvByFreq (recevierFreq);
+            break;
+
+
+            case Q_EVENT_ZAP_CHANNEL10_V94 :
+              videoCh[10].zap=smsValue;
+            break; 
+ 
+            case Q_EVENT_ZAP_CHANNEL11_V95 :
+              videoCh[11].zap=smsValue;
+            break; 
+
+            case Q_EVENT_ZAP_CHANNEL12_V96 :
+              videoCh[12].zap=smsValue;
+            break; 
+ 
+            case Q_EVENT_ZAP_CHANNEL13_V97 :
+              videoCh[13].zap=smsValue;
+            break; 
+            
+            case Q_EVENT_RC_PULSE_V98:
+             pulseRC=smsValue;
+             mySwitch.setPulseLength(pulseRC);
+            break;
+
+            case Q_EVENT_WIFI_IDE_V100:
+               wifiIde = false;         
+               wifiIDETimer = millis();
+               wifiUploadCtrl();
+             break;
+             
+            case Q_EVENT_RC_REPETION_V101:
+             repetionRC=smsValue;
+             mySwitch.setRepeatTransmit(repetionRC);
+            break;
+
+           
+            case Q_EVENT_TERMINAL_V102:
+//             deepSleepTimerHours=smsValue;
+//             goToDeepSleep(deepSleepTimerHours);
+            break;
+                          
+            case Q_EVENT_WIFI_WEB_V104:
+               wifiWebUpdater = false;
+               wifiIDETimer = millis();
+               webUpdateOta ();
+             break;
+
+             case Q_EVENT_OTA_GITHUB_V105:
+               otaWifiGithub = false;         
+               wifiIDETimer = millis();
+               otaWifi();
+             break;
+
+            case Q_EVENT_ZAP_CHANNEL14_V106 :
+              videoCh[14].zap=smsValue;
+            break; 
+ 
+            case Q_EVENT_ZAP_CHANNEL15_V107 :
+              videoCh[15].zap=smsValue;
+            break; 
+
+            
+            case Q_EVENT_ZAP_CHANNEL16_V108 :
+              videoCh[16].zap=smsValue;
+            break; 
+
+             case Q_EVENT_ZAP_CHANNEL17_V109 :
+              videoCh[17].zap=smsValue;
+            break; 
+
+            case Q_EVENT_ZAP_CHANNEL18_V110 :
+              videoCh[18].zap=smsValue;
+            break;             
+
+             case Q_EVENT_ZAP_CHANNEL19_V111 :
+              videoCh[19].zap=smsValue;
+            break; 
+ 
+             case Q_EVENT_ZAP_CHANNEL20_V112 :
+              videoCh[20].zap=smsValue;
+            break; 
+                       
+          
+    }  
+
+    smsID = NONE;
+}
+
+/********************************** FireBase **************************************/
+void processFirebase(void)
+{
+        switch (fb.eventID)
+          {
+
+            case Q_EVENT_FREQ_V0:
+              recevierFreq=fb.eventValue;
+              DEBUG_PRINT("FB_FREQ: ");DEBUG_PRINTLN(queuData);
+              //if (recevierFreq >= 920 && recevierFreq <= 1500) 
+              receiverAvByFreq (recevierFreq);
+            break;
+            
+            case Q_EVENT_RC_CH_NR_V1:
+              remoteControlRcCh=fb.eventValue;
+              DEBUG_PRINT("FB_T433_CH_NR: ");DEBUG_PRINTLN(queuData);
+              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 15) {remoteControl(remoteControlRcCh );}
+            break;      
+                  
+            case Q_EVENT_VIDEO_CH_V2:
+                recevierCh=fb.eventValue;
+                DEBUG_PRINT("FB_VIDEO_CH_PATH: ");DEBUG_PRINTLN(queuData);
+                if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
+                else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
+                receiverAvByCh (recevierCh);
+            break;
+
+            case Q_EVENT_BLYNK1_V14:
+              myBlynk.blynk1();
+            break;
+
+
+
+            case Q_EVENT_ROOM_ID_1_TO_5_V3:
+                  remoteControlRcCh = fb.eventValue;
+                  recevierCh        = fb.eventValue;
+                  room (remoteControlRcCh, recevierCh , Av_Rx );
+           break;
+            
+            case Q_EVENT_ROOM_ID_6_TO_10_V16:
+                  remoteControlRcCh = fb.eventValue+5;
+                  recevierCh        = fb.eventValue+5;
+                  room (remoteControlRcCh, recevierCh , Av_Rx );            
+            break;
+            
+            case Q_EVENT_ROOM_ID_11_TO_15_V17:
+                  remoteControlRcCh = fb.eventValue+10;
+                  recevierCh        = fb.eventValue+10;
+                  room (remoteControlRcCh, recevierCh , Av_Rx );             
+            break;
+            
+            case Q_EVENT_ROOM_ID_16_TO_20_V18:
+                  remoteControlRcCh = fb.eventValue+15;
+                  recevierCh        = fb.eventValue+15;
+                  room (remoteControlRcCh, recevierCh , Av_Rx );                
+            break;                                    
+ 
+            case Q_EVENT_ROOM_ID_21_25_V25:
+                  remoteControlRcCh = fb.eventValue+20;
+                  recevierCh        = fb.eventValue+20;
+                  room (remoteControlRcCh, recevierCh , Av_Rx );               
+            break;     
+          
+  
+            case Q_EVENT_ROOM_AV_RC_V19:
+                Av_Rx=fb.eventValue;
+                myBlynk.sendAvRxIndex(Av_Rx);
+            break;
+
+                                             
+            case Q_EVENT_ZAP_V71:
+              zapOnOff=fb.eventValue;
+              DEBUG_PRINT("ZAP IS : ");
+              DEBUG_PRINTLN(zapOnOff ? F("On") : F("Off"));
+              if (zapOnOff) {zaptime= millis();stateMachine =SM_CH1_A;}
+              myBlynk.zapLed(zapOnOff);
+            break;
+
+            case Q_EVENT_ZAP_CHANNEL1_V81 :
+              videoCh[1].zap=fb.eventValue;
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL2_V82 :
+              videoCh[2].zap=fb.eventValue;
+              
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL3_V83 :
+              videoCh[3].zap=fb.eventValue;
+
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL4_V84 :
+              videoCh[4].zap=fb.eventValue;
+
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL5_V85 :
+              videoCh[5].zap=fb.eventValue;
+
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL6_V86 :
+              videoCh[6].zap=fb.eventValue;
+
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL7_V87 :
+              videoCh[7].zap=fb.eventValue;
+              
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL8_V88 :
+              videoCh[8].zap=fb.eventValue;
+              
+            break;
+            
+            case Q_EVENT_ZAP_CHANNEL9_V89 :
+              videoCh[9].zap=fb.eventValue;
+            break; 
+
+            case Q_EVENT_ZAP_CHANNEL10_V94 :
+              videoCh[10].zap=fb.eventValue;
+            break; 
+ 
+            case Q_EVENT_ZAP_CHANNEL11_V95 :
+              videoCh[11].zap=fb.eventValue;
+            break; 
+
+            case Q_EVENT_ZAP_CHANNEL12_V96 :
+              videoCh[12].zap=fb.eventValue;
+            break; 
+ 
+            case Q_EVENT_ZAP_CHANNEL13_V97 :
+              videoCh[13].zap=fb.eventValue;
+            break; 
+            
+            case Q_EVENT_ZAP_CHANNEL14_V106 :
+              videoCh[14].zap=fb.eventValue;
+            break; 
+
+             case Q_EVENT_ZAP_CHANNEL15_V107 :
+              videoCh[15].zap=fb.eventValue;
+            break; 
+            
+            case Q_EVENT_ZAP_CHANNEL16_V108 :
+              videoCh[16].zap=fb.eventValue;
+            break; 
+
+             case Q_EVENT_ZAP_CHANNEL17_V109 :
+              videoCh[17].zap=fb.eventValue;
+            break; 
+
+            case Q_EVENT_ZAP_CHANNEL18_V110 :
+              videoCh[18].zap=fb.eventValue;
+            break;             
+
+             case Q_EVENT_ZAP_CHANNEL19_V111 :
+              videoCh[19].zap=fb.eventValue;
+            break; 
+ 
+             case Q_EVENT_ZAP_CHANNEL20_V112 :
+              videoCh[20].zap=fb.eventValue;
+            break; 
+                       
+
+             case Q_EVENT_OTA_GITHUB_V105:
+               otaWifiGithub = false;         
+               wifiIDETimer = millis();
+               otaWifi();
+             break;
+             
+           case Q_EVENT_OTA_GSM_V7:
+              otaCmd=fb.eventValue;
+              DEBUG_PRINT("FB_OTA: ");DEBUG_PRINTLN(queuData);
+              otaGsm ();
+            break;
+ 
+            case Q_EVENT_REBOOT_V8:
+              rebootCmd=fb.eventValue;
+              DEBUG_PRINT("FB_RESET: ");DEBUG_PRINTLN(queuData);
+              rebootSw();
+            break;
+            
+            case Q_EVENT_NETGEER_V15  :
+          //   myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset from Blynk");
+              ResetNetgeer();
+            break;                                        
+    }  
+        
+}    

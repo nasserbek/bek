@@ -1050,8 +1050,8 @@ bool blynk::wifiStatus(void)
 
 void blynk::streamSelect(bool stream)
 {
-  if (stream == DDNS) Blynk.setProperty(V22,"url", "rtsp://sdp:basma28112018@bouy.ddns.net:5001/ch01/0");
-  else if (stream == WEB) Blynk.setProperty(V22, "url","rtsp://sdp:basma28112018@192.168.1.94:554/ch01/0");
+  if (stream == DDNS) Blynk.setProperty(V22,"url", "rtsp://NZZ:basma28112018@bouy.ddns.net:5001/ch01/0");
+  else if (stream == WEB) Blynk.setProperty(V22, "url","rtsp://NZZ:basma28112018@192.168.1.94:554/ch01/0");
 }
 
 void blynk::sendVersion(String ver)
