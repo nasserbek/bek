@@ -1372,20 +1372,20 @@ void processSms(void)
            break;
             
             case Q_EVENT_ROOM_ID_6_TO_10_V16:
-                  remoteControlRcCh = smsValue+5;
-                  recevierCh        = smsValue+5;
+                  remoteControlRcCh = smsValue;
+                  recevierCh        = smsValue;
                   room (remoteControlRcCh, recevierCh , Av_Rx );            
             break;
             
             case Q_EVENT_ROOM_ID_11_TO_15_V17:
-                  remoteControlRcCh = smsValue+10;
-                  recevierCh        = smsValue+10;
+                  remoteControlRcCh = smsValue;
+                  recevierCh        = smsValue;
                   room (remoteControlRcCh, recevierCh , Av_Rx );             
             break;
             
             case Q_EVENT_ROOM_ID_16_TO_20_V18:
-                  remoteControlRcCh = smsValue+15;
-                  recevierCh        = smsValue+15;
+                  remoteControlRcCh = smsValue;
+                  recevierCh        = smsValue;
                   room (remoteControlRcCh, recevierCh , Av_Rx );                
             break;                                    
 
@@ -1400,8 +1400,8 @@ void processSms(void)
 
  
             case Q_EVENT_ROOM_ID_21_25_V25:
-                  remoteControlRcCh = smsValue+20;
-                  recevierCh        = smsValue+20;
+                  remoteControlRcCh = smsValue;
+                  recevierCh        = smsValue;
                   room (remoteControlRcCh, recevierCh , Av_Rx );               
             break;     
             
@@ -1658,26 +1658,26 @@ void processFirebase(void)
            break;
             
             case Q_EVENT_ROOM_ID_6_TO_10_V16:
-                  remoteControlRcCh = fb.eventValue+5;
-                  recevierCh        = fb.eventValue+5;
+                  remoteControlRcCh = fb.eventValue;
+                  recevierCh        = fb.eventValue;
                   room (remoteControlRcCh, recevierCh , Av_Rx );            
             break;
             
             case Q_EVENT_ROOM_ID_11_TO_15_V17:
-                  remoteControlRcCh = fb.eventValue+10;
-                  recevierCh        = fb.eventValue+10;
+                  remoteControlRcCh = fb.eventValue;
+                  recevierCh        = fb.eventValue;
                   room (remoteControlRcCh, recevierCh , Av_Rx );             
             break;
             
             case Q_EVENT_ROOM_ID_16_TO_20_V18:
-                  remoteControlRcCh = fb.eventValue+15;
-                  recevierCh        = fb.eventValue+15;
+                  remoteControlRcCh = fb.eventValue;
+                  recevierCh        = fb.eventValue;
                   room (remoteControlRcCh, recevierCh , Av_Rx );                
             break;                                    
  
             case Q_EVENT_ROOM_ID_21_25_V25:
-                  remoteControlRcCh = fb.eventValue+20;
-                  recevierCh        = fb.eventValue+20;
+                  remoteControlRcCh = fb.eventValue;
+                  recevierCh        = fb.eventValue;
                   room (remoteControlRcCh, recevierCh , Av_Rx );               
             break;     
           
