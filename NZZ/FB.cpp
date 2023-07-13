@@ -148,7 +148,7 @@ bool fireBase::firebaseRun(void)
 int fireBase::getInteger( String _path)
 {
  String sValue;
-   if ( Firebase.getString(firebaseData,_path ,  sValue) ) return (stringToInt(sValue) );
+/*   if ( Firebase.getString(firebaseData,_path ,  sValue) ) return (stringToInt(sValue) );
    else 
    {
     DEBUG_PRINTLN(_path);
@@ -159,7 +159,8 @@ int fireBase::getInteger( String _path)
     DEBUG_PRINTLN();
     return -1;
     }
-
+*/
+return -1;
 }
 
 bool fireBase::SendString(String _path,String _cmdString)
