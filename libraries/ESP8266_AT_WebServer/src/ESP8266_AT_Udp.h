@@ -11,30 +11,32 @@
   @file       Esp8266WebServer.h
   @author     Ivan Grokhotkov
 
-  Version: 1.5.4
+  Version: 1.7.1
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
   1.0.0   K Hoang      12/02/2020 Initial coding for Arduino Mega, Teensy, etc
   ...
-  1.4.0   K Hoang      14/08/2021 Add support to Adafruit nRF52 core v0.22.0+
-  1.4.1   K Hoang      08/12/2021 Add Packages_Patches and instructions for BOARD_SIPEED_MAIX_DUINO
-  1.5.0   K Hoang      19/12/2021 Reduce usage of Arduino String with std::string
-  1.5.1   K Hoang      24/12/2021 Fix bug
-  1.5.2   K Hoang      28/12/2021 Fix wrong http status header bug
-  1.5.3   K Hoang      12/01/2022 Fix authenticate issue caused by libb64
-  1.5.4   K Hoang      26/04/2022 Use new arduino.tips site. Improve examples
+  1.6.0   K Hoang      16/11/2022 Fix severe limitation to permit sending larger data than 2K buffer. Add CORS
+  1.7.0   K Hoang      16/01/2023 Add support to WizNet WizFi360 such as WIZNET_WIZFI360_EVB_PICO
+  1.7.1   K Hoang      17/01/2023 Fix AP and version bugs for WizNet WizFi360
  *****************************************************************************************************************************/
 
 #ifndef ESP8266_AT_UDP_h
 #define ESP8266_AT_UDP_h
 
+////////////////////////////////////////
+
 #include <Udp.h>
+
+////////////////////////////////////////
 
 //#define UDP_TX_PACKET_MAX_SIZE 24
 #define UDP_TX_PACKET_MAX_SIZE 1000
 
-class ESP8266_AT_UDP : public UDP 
+////////////////////////////////////////
+
+class ESP8266_AT_UDP : public UDP
 {
   private:
     uint8_t _sock;  // socket ID for Wiz5100
@@ -44,16 +46,19 @@ class ESP8266_AT_UDP : public UDP
     uint16_t _remotePort;
     char _remoteHost[30];
 
-
   public:
     ESP8266_AT_UDP();  // Constructor
 
-    virtual uint8_t begin(uint16_t);	// initialize, start listening on specified port. Returns 1 if successful, 0 if there are no sockets available to use
-    
+    // initialize, start listening on specified port.
+    // Returns 1 if successful, 0 if there are no sockets available to use
+    virtual uint8_t begin(uint16_t);
+
     // KH, add to support MultiCast for v1.1.0
-    virtual uint8_t beginMulticast(IPAddress, uint16_t);  // initialize, start listening on specified multicast IP address and port. Returns 1 if successful, 0 if there are no sockets available to use
+    // initialize, start listening on specified multicast IP address and port.
+    // Returns 1 if successful, 0 if there are no sockets available to use
+    virtual uint8_t beginMulticast(IPAddress, uint16_t);
     //////
-    
+
     virtual void stop();  // Finish with the UDP socket
 
     // Sending UDP packets
@@ -92,16 +97,21 @@ class ESP8266_AT_UDP : public UDP
     // Returns the number of bytes read, or 0 if none are available
     virtual int read(unsigned char* buffer, size_t len);
 
+    ////////////////////////////////////////
+
     // Read up to len characters from the current packet and place them into buffer
     // Returns the number of characters read, or 0 if none are available
-    virtual int read(char* buffer, size_t len) {
+    virtual int read(char* buffer, size_t len)
+    {
       return read((unsigned char*)buffer, len);
     };
+
+    ////////////////////////////////////////
 
     // Return the next byte from the current packet without moving on to the next byte
     virtual int peek();
 
-    virtual void flush();	// Finish reading the current packet
+    virtual void flush(); // Finish reading the current packet
 
     // Return the IP address of the host who sent the current incoming packet
     virtual IPAddress remoteIP();
@@ -113,6 +123,10 @@ class ESP8266_AT_UDP : public UDP
     friend class ESP8266_AT_Server;
 };
 
+////////////////////////////////////////
+
 #include "ESP8266_AT_Udp-impl.h"
+
+////////////////////////////////////////
 
 #endif    //ESP8266_AT_UDP_h

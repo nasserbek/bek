@@ -6,12 +6,19 @@
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#Contributing)
 [![GitHub issues](https://img.shields.io/github/issues/khoih-prog/ESP8266_AT_WebServer.svg)](http://github.com/khoih-prog/ESP8266_AT_WebServer/issues)
 
+<a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Donate to my libraries using BuyMeACoffee" style="height: 50px !important;width: 181px !important;" ></a>
+<a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-orange.svg?logo=buy-me-a-coffee&logoColor=FFDD00" style="height: 20px !important;width: 200px !important;" ></a>
+
+
 ---
 ---
 
 ## Table of Contents
 
 * [Changelog](#changelog)
+  * [Releases v1.7.1](#releases-v171)
+  * [Releases v1.7.0](#releases-v170)
+  * [Releases v1.6.0](#releases-v160)
   * [Releases v1.5.4](#releases-v154)
   * [Releases v1.5.3](#releases-v153)
   * [Releases v1.5.2](#releases-v152)
@@ -40,6 +47,23 @@
 ---
 
 ## Changelog
+
+### Releases v1.7.1
+
+1. Fix AP and version bugs for WizNet `WizFi360`
+
+### Releases v1.7.0
+
+1. Add support to WizNet `WizFi360`, such as `WIZNET_WIZFI360_EVB_PICO` using `arduino-pico` core
+
+### Releases v1.6.0
+
+1. Fix severe limitation to permit sending larger data than 2K buffer
+2. Add example [ATWebServer_BigData](https://github.com/khoih-prog/ESP8266_AT_WebServer/tree/master/examples/ATWebServer_BigData) to demo how to send larger data than 2K buffer
+3. Modify example [AdvancedWebServer](https://github.com/khoih-prog/ESP8266_AT_WebServer/tree/master/examples/AdvancedWebServer) to demo how to send larger data than 2K buffer
+4. Add new features, such as `CORS`, etc.
+5. Use `allman astyle` and add `utils`
+6. Update `Packages' Patches`
 
 ### Releases v1.5.4
 

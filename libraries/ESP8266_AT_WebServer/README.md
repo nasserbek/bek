@@ -15,6 +15,7 @@
 
 ## Table of Contents
 
+* [Important Note from v1.6.0](#Important-Note-from-v160)
 * [Why do we need this ESP8266_AT_WebServer library](#why-do-we-need-this-esp8266_at_webserver-library)
   * [Features](#features)
   * [Currently Supported Boards](#currently-supported-boards)
@@ -49,6 +50,7 @@
   * [10. For RTL8720DN boards using AmebaD core](#10-for-rtl8720dn-boards-using-amebad-core)
   * [11. For SAMD21 and SAMD51 boards using ArduinoCore-fab-sam core](#11-For-SAMD21-and-SAMD51-boards-using-ArduinoCore-fab-sam-core)
   * [12. For Seeeduino RP2040 boards](#12-For-Seeeduino-RP2040-boards)
+  * [13. For Seeeduino nRF52840 boards](#13-For-Seeeduino-nRF52840-boards)
 * [Usage](#usage) 
   * [Class Constructor](#class-constructor) 
   * [Basic Operations](#basic-operations) 
@@ -72,7 +74,8 @@
   * [15. WebClient](examples/WebClient) 
   * [16. WebClientRepeating](examples/WebClientRepeating)
   * [17. WebServer](examples/WebServer)
-  * [18. WebServerAP](examples/WebServerAP).
+  * [18. WebServerAP](examples/WebServerAP)
+  * [19. ATWebServer_BigData](examples/ATWebServer_BigData) **New**
 * [Example AdvancedWebServer](#example-advancedwebserver)
   * [1. File AdvancedWebServer.ino](#1-file-advancedwebserverino)
   * [2. File defines.h](#2-file-definesh)
@@ -81,9 +84,12 @@
   * [2. MQTT_ThingStream on Adafruit SAMD51 ITSYBITSY_M4 using ESP8266-AT shield](#2-mqtt_thingstream-on-adafruit-samd51-itsybitsy_m4-using-esp8266-at-shield)
   * [3. MQTTClient_Auth on Adafruit SAMD51 ITSYBITSY_M4 using ESP8266-AT shield](#3-mqttclient_auth-on-adafruit-samd51-itsybitsy_m4-using-esp8266-at-shield)
   * [4. MQTTClient_Basic on Adafruit SAMD51 ITSYBITSY_M4 using ESP8266-AT shield](#4-mqttclient_basic-on-adafruit-samd51-itsybitsy_m4-using-esp8266-at-shield)
-  * [5. WebClientRepeating on RASPBERRY_PI_PICO using ESP8266-AT shield](#5-webclientrepeating-on-raspberry_pi_pico-using-esp8266-at-shield)
-  * [6. MQTTClient_Auth on RASPBERRY_PI_PICO using ESP8266-AT shield](#6-mqttclient_auth-on-raspberry_pi_pico-using-esp8266-at-shield)
-  * [7. UdpNTPClient on MBED RASPBERRY_PI_PICO using ESP8266-AT shield](#7-udpntpclient-on-mbed-raspberry_pi_pico-using-esp8266-at-shield)
+  * [5. WebClientRepeating on RASPBERRY_PI_PICO using ESP8266-AT shield](#5-webclientrepeating-on-RASPBERRY_PI_PICO-using-esp8266-at-shield)
+  * [6. MQTTClient_Auth on RASPBERRY_PI_PICO using ESP8266-AT shield](#6-MQTTClient_Auth-on-RASPBERRY_PI_PICO-using-esp8266-at-shield)
+  * [7. UdpNTPClient on MBED RASPBERRY_PI_PICO using ESP8266-AT shield](#7-UdpNTPClient-on-mbed-RASPBERRY_PI_PICO-using-esp8266-at-shield)
+  * [8. AdvancedWebServer on NRF52840_ITSYBITSY](#8-AdvancedWebServer-on-nrf52840_itsybitsy)
+  * [9. ATWebServer_BigData on NRF52840_ITSYBITSY](#9-ATWebServer_BigData-on-NRF52840_ITSYBITSY)
+  * [10. AdvancedWebServer on WIZNET_WIZFI360_EVB_PICO](#10-AdvancedWebServer-on-WIZNET_WIZFI360_EVB_PICO)
 * [Screen Shots](#screen-shots)
   * [1. SAMD51 Itsy-Bitsy M4](#1-samd51-itsy-bitsy-m4)
   * [2. STM32 Nucleo-144 NUCLEO_F767ZI](#2-stm32-nucleo-144-nucleo_f767zi)
@@ -91,6 +97,7 @@
   * [4. Seeeduino SEEED_XIAO_M0](#4-seeeduino-seeed_xiao_m0)
   * [5. RASPBERRY_PI_PICO](#5-raspberry_pi_pico)
   * [6. MBED RASPBERRY_PI_PICO](#6-mbed-raspberry_pi_pico)
+  * [7. nRF52 Itsy-Bitsy nRF52840 BigData](#7-nrf52-itsy-bitsy-nrf52840-BigData)
 * [Debug](#debug)
 * [Troubleshooting](#troubleshooting)
 * [Issues](#issues)
@@ -101,6 +108,13 @@
 * [License](#license)
 * [Copyright](#copyright)
 
+
+---
+---
+
+### Important Note from v1.6.0
+
+The new [ESP8266_AT_WebServer v1.7.1+](https://github.com/khoih-prog/ESP8266_AT_WebServer/releases/tag/v1.6.0) fixes severe limitation to permit sending much larger data than total than **2K** buffer of **ESP8266/ESP32 AT-command shield**.
 
 ---
 ---
@@ -169,14 +183,29 @@ The ESP8266_AT_Web_Server class found in `ESP8266_AT_Web_Server.h` header, is a 
 
  9. RP2040-based boards, such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, using [**Arduino-mbed RP2040** core](https://github.com/arduino/ArduinoCore-mbed) or [**Earle Philhower's arduino-pico** core](https://github.com/earlephilhower/arduino-pico).
  
+10. **WIZNET_WIZFI360_EVB_PICO** using [**Earle Philhower's arduino-pico** core](https://github.com/earlephilhower/arduino-pico)
+
+#### WIZNET_WIZFI360_EVB_PICO
+
+<p align="center">
+    <img src="https://github.com/khoih-prog/ESP8266_AT_WebServer/raw/master/pics/WIZNET_WIZFI360_EVB_PICO.png">
+</p>
 
 ---
 
 #### Currently Supported AT-command shields
 
- 1. ESP8266-AT-command shield
- 2. ESP32-AT-command shield
- 3. W600 and WIS600-01S AT-command shield
+ 1. `ESP8266-AT-command` shield
+ 2. `ESP32-AT-command` shield
+ 3. `W600` and `WIS600-01S` AT-command shield
+ 4. `WizFi360` AT-command shield
+ 
+#### WIZFI360
+ 
+<p align="center">
+    <img src="https://github.com/khoih-prog/ESP8266_AT_WebServer/raw/master/pics/wizfi360-pa.png">
+</p>
+
  
 ---
 ---
@@ -185,21 +214,23 @@ The ESP8266_AT_Web_Server class found in `ESP8266_AT_Web_Server.h` header, is a 
 ## Prerequisites
 
  1. [`Arduino IDE 1.8.19+` for Arduino](https://github.com/arduino/Arduino). [![GitHub release](https://img.shields.io/github/release/arduino/Arduino.svg)](https://github.com/arduino/Arduino/releases/latest)
- 2. [`Arduino AVR core 1.8.5+`](https://github.com/arduino/ArduinoCore-avr) for Arduino (Use Arduino Board Manager) for AVR boards. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-avr.svg)](https://github.com/arduino/ArduinoCore-avr/releases/latest)
- 3. [`Teensy core v1.56+`](https://www.pjrc.com/teensy/td_download.html) for Teensy (4.1, 4.0, 3.6, 3.5, 3,2, 3.1, 3.0) boards.
+ 2. [`Arduino AVR core 1.8.6+`](https://github.com/arduino/ArduinoCore-avr) for Arduino (Use Arduino Board Manager) for AVR boards. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-avr.svg)](https://github.com/arduino/ArduinoCore-avr/releases/latest)
+ 3. [`Teensy core v1.57+`](https://github.com/PaulStoffregen/cores) for Teensy 4.1.  [![GitHub release](https://img.shields.io/github/release/PaulStoffregen/cores.svg)](https://github.com/PaulStoffregen/cores/releases/latest)
  4. [`Arduino SAM DUE core v1.6.12+`](https://github.com/arduino/ArduinoCore-sam) for SAM DUE ARM Cortex-M3 boards.
  5. [`Arduino SAMD core 1.8.13+`](https://github.com/arduino/ArduinoCore-samd) for SAMD ARM Cortex-M0+ boards. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-samd.svg)](https://github.com/arduino/ArduinoCore-samd/releases/latest)
- 6. [`Adafruit SAMD core 1.7.10+`](https://github.com/adafruit/ArduinoCore-samd) for SAMD ARM Cortex-M0+ and M4 boards (Nano 33 IoT, etc.). [![GitHub release](https://img.shields.io/github/release/adafruit/ArduinoCore-samd.svg)](https://github.com/adafruit/ArduinoCore-samd/releases/latest)
- 7. [`Seeeduino SAMD core 1.8.2+`](https://github.com/Seeed-Studio/ArduinoCore-samd) for SAMD21/SAMD51 boards (XIAO M0, Wio Terminal, etc.). [![Latest release](https://img.shields.io/github/release/Seeed-Studio/ArduinoCore-samd.svg)](https://github.com/Seeed-Studio/ArduinoCore-samd/releases/latest/)
+ 6. [`Adafruit SAMD core 1.7.11+`](https://github.com/adafruit/ArduinoCore-samd) for SAMD ARM Cortex-M0+ and M4 boards (Nano 33 IoT, etc.). [![GitHub release](https://img.shields.io/github/release/adafruit/ArduinoCore-samd.svg)](https://github.com/adafruit/ArduinoCore-samd/releases/latest)
+ 7. [`Seeeduino SAMD core 1.8.3+`](https://github.com/Seeed-Studio/ArduinoCore-samd) for SAMD21/SAMD51 boards (XIAO M0, Wio Terminal, etc.). [![Latest release](https://img.shields.io/github/release/Seeed-Studio/ArduinoCore-samd.svg)](https://github.com/Seeed-Studio/ArduinoCore-samd/releases/latest/)
  8. [`Adafruit nRF52 v1.3.0+`](https://www.adafruit.com) for nRF52 boards such as Adafruit NRF52840_FEATHER, NRF52832_FEATHER, NRF52840_FEATHER_SENSE, NRF52840_ITSYBITSY, NRF52840_CIRCUITPLAY, NRF52840_CLUE, NRF52840_METRO, NRF52840_PCA10056, PARTICLE_XENON, **NINA_B302_ublox**, etc. [![GitHub release](https://img.shields.io/github/release/adafruit/Adafruit_nRF52_Arduino.svg)](https://github.com/adafruit/Adafruit_nRF52_Arduino/releases/latest). Please remember to use latest [`Packages_Patches`](https://github.com/khoih-prog/WiFiWebServer/tree/master/Packages_Patches) or getting compiler errors.
- 9. [`Arduino Core for STM32 v2.2.0+`](https://github.com/stm32duino/Arduino_Core_STM32) for STM32F/L/H/G/WB/MP1 boards. [![GitHub release](https://img.shields.io/github/release/stm32duino/Arduino_Core_STM32.svg)](https://github.com/stm32duino/Arduino_Core_STM32/releases/latest)
-10. [`Arduino mbed_rp2040 core 3.0.1+`](https://github.com/arduino/ArduinoCore-mbed) for Arduino (Use Arduino Board Manager) RP2040-based boards, such as **Arduino Nano RP2040 Connect, RASPBERRY_PI_PICO, etc.**. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-mbed.svg)](https://github.com/arduino/ArduinoCore-mbed/releases/latest)
-11. [`Earle Philhower's arduino-pico core v1.13.3+`](https://github.com/earlephilhower/arduino-pico) for RP2040-based boards such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, etc. [![GitHub release](https://img.shields.io/github/release/earlephilhower/arduino-pico.svg)](https://github.com/earlephilhower/arduino-pico/releases/latest)
+ 9. [`Arduino Core for STM32 v2.4.0+`](https://github.com/stm32duino/Arduino_Core_STM32) for STM32F/L/H/G/WB/MP1 boards. [![GitHub release](https://img.shields.io/github/release/stm32duino/Arduino_Core_STM32.svg)](https://github.com/stm32duino/Arduino_Core_STM32/releases/latest)
+10. [`Arduino mbed_rp2040 core 3.5.4+`](https://github.com/arduino/ArduinoCore-mbed) for Arduino (Use Arduino Board Manager) RP2040-based boards, such as **Arduino Nano RP2040 Connect, RASPBERRY_PI_PICO, etc.**. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-mbed.svg)](https://github.com/arduino/ArduinoCore-mbed/releases/latest)
+11. [`Earle Philhower's arduino-pico core v2.7.1+`](https://github.com/earlephilhower/arduino-pico) for RP2040-based boards such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, etc. [![GitHub release](https://img.shields.io/github/release/earlephilhower/arduino-pico.svg)](https://github.com/earlephilhower/arduino-pico/releases/latest)
 12. [`Sipeed Maixduino core v0.3.11+`](https://github.com/sipeed/Maixduino) for K210-RISC-V-based boards such as **Maixduino AI Development Kit K210 RISC-V AI + IoT ESP32, Sipeed Maix Go, Sipeed Maix Bit**, etc. [![GitHub release](https://img.shields.io/github/release/sipeed/Maixduino.svg)](https://github.com/sipeed/Maixduino/releases/latest)
 13. [`Functional-Vlpp library v1.0.2+`](https://github.com/khoih-prog/functional-vlpp) to use server's lambda function. To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/Functional-Vlpp.svg?)](https://www.ardu-badge.com/Functional-Vlpp)
 14. [`Ai-Thinker AT Firmware v1.5.4`](AT_Firmwares/At_firmware_bin1.54.zip) or [`AT Firmware v1.7.4.0`](AT_Firmwares/AT_Firmware_bin_1.7.4.0.zip) for ESP8266-AT shields.
 15. [`AT version_2.1.0.0_dev`](AT_Firmwares/AT_version_2.1.0.0_dev.zip) for ESP32-AT shields.
-16. `AT version_1.1.4` for WIS600-01S and W600-AT WiFi shields.
+16. `AT version_1.1.4` for `WIS600-01S` and `W600-AT` WiFi shields
+17. `AT version 3.2.0` for `WizFi360` WiFi shields
+
 
 ---
 ---
@@ -210,7 +241,7 @@ The ESP8266_AT_Web_Server class found in `ESP8266_AT_Web_Server.h` header, is a 
 
   - [`Ai-Thinker AT Firmware v1.5.4`](https://github.com/khoih-prog/ESP8266_AT_WebServer/blob/master/AT_Firmwares/At_firmware_bin1.54.zip)
   
-    ```
+    ```cpp
     AT version:1.1.0.0(May 11 2016 18:09:56)
     SDK version:1.5.4(baaeaebb)
     Ai-Thinker Technology Co. Ltd.
@@ -218,7 +249,7 @@ The ESP8266_AT_Web_Server class found in `ESP8266_AT_Web_Server.h` header, is a 
     ```
   - [`AT Firmware v1.7.4.0`](https://github.com/khoih-prog/ESP8266_AT_WebServer/blob/master/AT_Firmwares/AT_Firmware_bin_1.7.4.0.zip)
   
-    ```
+    ```cpp
     AT version:1.7.4.0(May 11 2020 19:13:04)
     SDK version:3.0.4(9532ceb)
     compile time:May 27 2020 10:12:17
@@ -227,7 +258,7 @@ The ESP8266_AT_Web_Server class found in `ESP8266_AT_Web_Server.h` header, is a 
     
   - [`WIS600-01S`](https://www.aliexpress.com/item/32956707239.html) and [`W600`](https://www.seeedstudio.com/w600.html) using either ESP8266 or ESP32-AT commands and stock firmware
   
-    ```
+    ```cpp
     AT version:1.1.4(Dec 05 2018 11:06:45)
     SDK version:3.0.0
     Dec 05 2018 11:06:45
@@ -238,7 +269,7 @@ The ESP8266_AT_Web_Server class found in `ESP8266_AT_Web_Server.h` header, is a 
 
   - [`AT version_2.1.0.0_dev`](https://github.com/khoih-prog/ESP8266_AT_WebServer/blob/master/AT_Firmwares/AT_version_2.1.0.0_dev.zip)
     
-    ```
+    ```cpp
     AT version:2.1.0.0-dev(4f6b92c - Jun 10 2020 10:36:54)
     SDK version:v4.0.1-193-ge7ac221b4
     compile time(b85a8df):Jun 18 2020 14:00:59
@@ -252,7 +283,7 @@ The ESP8266_AT_Web_Server class found in `ESP8266_AT_Web_Server.h` header, is a 
   
 Upload [`AT Firmware v1.7.4.0`](https://github.com/khoih-prog/ESP8266_AT_WebServer/blob/master/AT_Firmwares/AT_Firmware_bin_1.7.4.0.zip) bin files to correct locations as follows:
 
-```
+```ini
 # BOOT MODE
 
 ### Flash size 8Mbit: 512KB+512KB
@@ -299,7 +330,7 @@ You can also use this link [![arduino-library-badge](https://www.ardu-badge.com/
 
 1. Install [VS Code](https://code.visualstudio.com/)
 2. Install [PlatformIO](https://platformio.org/platformio-ide)
-3. Install [**ESP8266_AT_WebServer** library](https://registry.platformio.org/libraries/khoih-prog/ESP8266_AT_WebServer) by using [Library Manager](https://registry.platformio.org/libraries/khoih-prog/ESP8266_AT_WebServer/installation) or [Library Manager](https://platformio.org/lib/show/11453/ESP8266_AT_WebServer/installation). Search for **ESP8266_AT_WebServer** in [Platform.io Author's Libraries](https://platformio.org/lib/search?query=author:%22Khoi%20Hoang%22)
+3. Install [**ESP8266_AT_WebServer** library](https://registry.platformio.org/libraries/khoih-prog/ESP8266_AT_WebServer) by using [Library Manager](https://registry.platformio.org/libraries/khoih-prog/ESP8266_AT_WebServer/installation). Search for **ESP8266_AT_WebServer** in [Platform.io Author's Libraries](https://platformio.org/lib/search?query=author:%22Khoi%20Hoang%22)
 4. Use included [platformio.ini](platformio/platformio.ini) file from examples to ensure that all dependent libraries will installed automatically. Please visit documentation for the other options and examples at [Project Configuration File](https://docs.platformio.org/page/projectconf.html)
 
 
@@ -411,16 +442,16 @@ Whenever the above-mentioned compiler error issue is fixed with the new Arduino 
 
 #### 5. For Adafruit SAMD boards
  
- ***To be able to compile, run and automatically detect and display BOARD_NAME on Adafruit SAMD (Itsy-Bitsy M4, etc) boards***, you have to copy the whole [Adafruit SAMD Packages_Patches](Packages_Patches/adafruit/hardware/samd/1.7.9) directory into Adafruit samd directory (~/.arduino15/packages/adafruit/hardware/samd/1.7.9). 
+ ***To be able to compile, run and automatically detect and display BOARD_NAME on Adafruit SAMD (Itsy-Bitsy M4, etc) boards***, you have to copy the whole [Adafruit SAMD Packages_Patches](Packages_Patches/adafruit/hardware/samd/1.7.11) directory into Adafruit samd directory (~/.arduino15/packages/adafruit/hardware/samd/1.7.11). 
 
-Supposing the Adafruit SAMD core version is 1.7.9. This file must be copied into the directory:
+Supposing the Adafruit SAMD core version is 1.7.11. These files must be copied into the directory:
 
-- `~/.arduino15/packages/adafruit/hardware/samd/1.7.9/platform.txt`
-- `~/.arduino15/packages/adafruit/hardware/samd/1.7.9/cores/arduino/Print.h`
-- `~/.arduino15/packages/adafruit/hardware/samd/1.7.9/cores/arduino/Print.cpp`
+- `~/.arduino15/packages/adafruit/hardware/samd/1.7.11/platform.txt`
+- `~/.arduino15/packages/adafruit/hardware/samd/1.7.11/cores/arduino/Print.h`
+- `~/.arduino15/packages/adafruit/hardware/samd/1.7.11/cores/arduino/Print.cpp`
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz
-This file must be copied into the directory:
+These files must be copied into the directory:
 
 - `~/.arduino15/packages/adafruit/hardware/samd/x.yy.zz/platform.txt`
 - `~/.arduino15/packages/adafruit/hardware/samd/x.yy.zz/cores/arduino/Print.h`
@@ -428,17 +459,17 @@ This file must be copied into the directory:
 
 #### 6. For Seeeduino SAMD boards
  
- ***To be able to compile, run and automatically detect and display BOARD_NAME on Seeeduino SAMD (XIAO M0, Wio Terminal, etc) boards***, you have to copy the whole [Seeeduino SAMD Packages_Patches](Packages_Patches/Seeeduino/hardware/samd/1.8.2) directory into Seeeduino samd directory (~/.arduino15/packages/Seeeduino/hardware/samd/1.8.2). 
+ ***To be able to compile, run and automatically detect and display BOARD_NAME on Seeeduino SAMD (XIAO M0, Wio Terminal, etc) boards***, you have to copy the whole [Seeeduino SAMD Packages_Patches](Packages_Patches/Seeeduino/hardware/samd/1.8.3) directory into Seeeduino samd directory (~/.arduino15/packages/Seeeduino/hardware/samd/1.8.3). 
 
-Supposing the Seeeduino SAMD core version is 1.8.2. This file must be copied into the directory:
+Supposing the Seeeduino SAMD core version is 1.8.3. These files must be copied into the directory:
 
-- `~/.arduino15/packages/Seeeduino/hardware/samd/1.8.2/platform.txt`
-- `~/.arduino15/packages/Seeeduino/hardware/samd/1.8.2/cores/arduino/Arduino.h`
-- `~/.arduino15/packages/Seeeduino/hardware/samd/1.8.2/cores/arduino/Print.h`
-- `~/.arduino15/packages/Seeeduino/hardware/samd/1.8.2/cores/arduino/Print.cpp`
+- `~/.arduino15/packages/Seeeduino/hardware/samd/1.8.3/platform.txt`
+- `~/.arduino15/packages/Seeeduino/hardware/samd/1.8.3/cores/arduino/Arduino.h`
+- `~/.arduino15/packages/Seeeduino/hardware/samd/1.8.3/cores/arduino/Print.h`
+- `~/.arduino15/packages/Seeeduino/hardware/samd/1.8.3/cores/arduino/Print.cpp`
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz
-This file must be copied into the directory:
+These files must be copied into the directory:
 
 - `~/.arduino15/packages/Seeeduino/hardware/samd/x.yy.zz/platform.txt`
 - `~/.arduino15/packages/Seeeduino/hardware/samd/x.yy.zz/cores/arduino/Arduino.h`
@@ -455,15 +486,15 @@ To use LAN8720 on some STM32 boards
 - **Discovery (DISCO_F746NG)**
 - **STM32F4 boards (BLACK_F407VE, BLACK_F407VG, BLACK_F407ZE, BLACK_F407ZG, BLACK_F407VE_Mini, DIYMORE_F407VGT, FK407M1)**
 
-you have to copy the files [stm32f4xx_hal_conf_default.h](Packages_Patches/STM32/hardware/stm32/2.2.0/system/STM32F4xx) and [stm32f7xx_hal_conf_default.h](Packages_Patches/STM32/hardware/stm32/2.2.0/system/STM32F7xx) into STM32 stm32 directory (~/.arduino15/packages/STM32/hardware/stm32/2.2.0/system) to overwrite the old files.
+you have to copy the files [stm32f4xx_hal_conf_default.h](Packages_Patches/STM32/hardware/stm32/2.3.0/system/STM32F4xx) and [stm32f7xx_hal_conf_default.h](Packages_Patches/STM32/hardware/stm32/2.3.0/system/STM32F7xx) into STM32 stm32 directory (~/.arduino15/packages/STM32/hardware/stm32/2.3.0/system) to overwrite the old files.
 
-Supposing the STM32 stm32 core version is 2.2.0. These files must be copied into the directory:
+Supposing the STM32 stm32 core version is 2.3.0. These files must be copied into the directory:
 
-- `~/.arduino15/packages/STM32/hardware/stm32/2.2.0/system/STM32F4xx/stm32f4xx_hal_conf_default.h` for STM32F4.
-- `~/.arduino15/packages/STM32/hardware/stm32/2.2.0/system/STM32F7xx/stm32f7xx_hal_conf_default.h` for Nucleo-144 STM32F7.
+- `~/.arduino15/packages/STM32/hardware/stm32/2.3.0/system/STM32F4xx/stm32f4xx_hal_conf_default.h` for STM32F4.
+- `~/.arduino15/packages/STM32/hardware/stm32/2.3.0/system/STM32F7xx/stm32f7xx_hal_conf_default.h` for Nucleo-144 STM32F7.
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz,
-theses files must be copied into the corresponding directory:
+these files must be copied into the corresponding directory:
 
 - `~/.arduino15/packages/STM32/hardware/stm32/x.yy.zz/system/STM32F4xx/stm32f4xx_hal_conf_default.h`
 - `~/.arduino15/packages/STM32/hardware/stm32/x.yy.zz/system/STM32F7xx/stm32f7xx_hal_conf_default.h
@@ -471,15 +502,15 @@ theses files must be copied into the corresponding directory:
 
 #### 7.2 For STM32 boards to use Serial1
 
-**To use Serial1 on some STM32 boards without Serial1 definition (Nucleo-144 NUCLEO_F767ZI, Nucleo-64 NUCLEO_L053R8, etc.) boards**, you have to copy the files [STM32 variant.h](Packages_Patches/STM32/hardware/stm32/2.2.0) into STM32 stm32 directory (~/.arduino15/packages/STM32/hardware/stm32/2.2.0). You have to modify the files corresponding to your boards, this is just an illustration how to do.
+**To use Serial1 on some STM32 boards without Serial1 definition (Nucleo-144 NUCLEO_F767ZI, Nucleo-64 NUCLEO_L053R8, etc.) boards**, you have to copy the files [STM32 variant.h](Packages_Patches/STM32/hardware/stm32/2.3.0) into STM32 stm32 directory (~/.arduino15/packages/STM32/hardware/stm32/2.3.0). You have to modify the files corresponding to your boards, this is just an illustration how to do.
 
-Supposing the STM32 stm32 core version is 2.2.0. These files must be copied into the directory:
+Supposing the STM32 stm32 core version is 2.3.0. These files must be copied into the directory:
 
-- `~/.arduino15/packages/STM32/hardware/stm32/2.2.0/variants/STM32F7xx/F765Z(G-I)T_F767Z(G-I)T_F777ZIT/NUCLEO_F767ZI/variant.h` for Nucleo-144 NUCLEO_F767ZI.
-- `~/.arduino15/packages/STM32/hardware/stm32/2.2.0/variants/STM32L0xx/L052R(6-8)T_L053R(6-8)T_L063R8T/NUCLEO_L053R8/variant.h` for Nucleo-64 NUCLEO_L053R8.
+- `~/.arduino15/packages/STM32/hardware/stm32/2.3.0/variants/STM32F7xx/F765Z(G-I)T_F767Z(G-I)T_F777ZIT/NUCLEO_F767ZI/variant.h` for Nucleo-144 NUCLEO_F767ZI.
+- `~/.arduino15/packages/STM32/hardware/stm32/2.3.0/variants/STM32L0xx/L052R(6-8)T_L053R(6-8)T_L063R8T/NUCLEO_L053R8/variant.h` for Nucleo-64 NUCLEO_L053R8.
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz,
-theses files must be copied into the corresponding directory:
+these files must be copied into the corresponding directory:
 
 - `~/.arduino15/packages/STM32/hardware/stm32/x.yy.zz/variants/STM32F7xx/F765Z(G-I)T_F767Z(G-I)T_F777ZIT/NUCLEO_F767ZI/variant.h`
 - `~/.arduino15/packages/STM32/hardware/stm32/x.yy.zz/variants/STM32L0xx/L052R(6-8)T_L053R(6-8)T_L063R8T/NUCLEO_L053R8/variant.h`
@@ -519,12 +550,12 @@ With core after v1.5.0, this step is not necessary anymore thanks to the PR [Add
 
 #### 9. For Portenta_H7 boards using Arduino IDE in Linux
 
-  **To be able to upload firmware to Portenta_H7 using Arduino IDE in Linux (Ubuntu, etc.)**, you have to copy the file [portenta_post_install.sh](Packages_Patches/arduino/hardware/mbed_portenta/3.0.0/portenta_post_install.sh) into mbed_portenta directory (~/.arduino15/packages/arduino/hardware/mbed_portenta/3.0.0/portenta_post_install.sh). 
+  **To be able to upload firmware to Portenta_H7 using Arduino IDE in Linux (Ubuntu, etc.)**, you have to copy the file [portenta_post_install.sh](Packages_Patches/arduino/hardware/mbed_portenta/3.4.1/portenta_post_install.sh) into mbed_portenta directory (~/.arduino15/packages/arduino/hardware/mbed_portenta/3.4.1/portenta_post_install.sh). 
   
   Then run the following command using `sudo`
   
 ```
-$ cd ~/.arduino15/packages/arduino/hardware/mbed_portenta/3.0.0
+$ cd ~/.arduino15/packages/arduino/hardware/mbed_portenta/3.4.1
 $ chmod 755 portenta_post_install.sh
 $ sudo ./portenta_post_install.sh
 ```
@@ -537,9 +568,9 @@ This will create the file `/etc/udev/rules.d/49-portenta_h7.rules` as follows:
 SUBSYSTEMS=="usb", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="035b", GROUP="plugdev", MODE="0666"
 ```
 
-Supposing the ArduinoCore-mbed core version is 3.0.0. Now only one file must be copied into the directory:
+Supposing the ArduinoCore-mbed core version is 3.4.1. Now only one file must be copied into the directory:
 
-- `~/.arduino15/packages/arduino/hardware/mbed_portenta/3.0.0/portenta_post_install.sh`
+- `~/.arduino15/packages/arduino/hardware/mbed_portenta/3.4.1/portenta_post_install.sh`
 
 Whenever a new version is installed, remember to copy this files into the new version directory. For example, new version is x.yy.zz
 
@@ -550,25 +581,25 @@ This file must be copied into the directory:
 
 #### 10. For RTL8720DN boards using AmebaD core
  
- To avoid compile error relating to PROGMEM, you have to copy the file [Realtek AmebaD core pgmspace.h](Packages_Patches/realtek/hardware/AmebaD/3.1.2/cores/arduino/avr/pgmspace.h) into Realtek AmebaD directory (~/.arduino15/packages/realtek/hardware/AmebaD/3.1.2/cores/arduino/avr/pgmspace.h). 
+ To avoid compile error relating to PROGMEM, you have to copy the file [Realtek AmebaD core pgmspace.h](Packages_Patches/realtek/hardware/AmebaD/3.1.4/cores/ambd/avr/pgmspace.h) into Realtek AmebaD directory (~/.arduino15/packages/realtek/hardware/AmebaD/3.1.4/cores/ambd/avr/pgmspace.h). 
 
-Supposing the Realtek AmebaD core version is 3.1.2. This file must be copied into the directory:
+Supposing the Realtek AmebaD core version is 3.1.4. This file must be copied into the directory:
 
-- `~/.arduino15/packages/realtek/hardware/AmebaD/3.1.2/cores/arduino/avr/pgmspace.h`
+- `~/.arduino15/packages/realtek/hardware/AmebaD/3.1.4/cores/ambd/avr/pgmspace.h`
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz
 This file must be copied into the directory:
 
-- `~/.arduino15/packages/realtek/hardware/AmebaD/x.yy.zz/cores/arduino/avr/pgmspace.h`
+- `~/.arduino15/packages/realtek/hardware/AmebaD/x.yy.zz/cores/ambd/avr/pgmspace.h`
 
 
 #### 11. For SAMD21 and SAMD51 boards using ArduinoCore-fab-sam core
  
- To avoid compile error relating to SAMD21/SAMD51, you have to copy the file [ArduinoCore-fab-sam core pgmspace.h](Packages_Patches/Fab_SAM_Arduino/hardware/samd/1.6.18-alpha2/boards.txt) into `ArduinoCore-fab-sam` samd directory (~/.arduino15/packages/Fab_SAM_Arduino/hardware/samd/1.6.18-alpha2/boards.txt). 
+ To avoid compile error relating to SAMD21/SAMD51, you have to copy the file [ArduinoCore-fab-sam core pgmspace.h](Packages_Patches/Fab_SAM_Arduino/hardware/samd/1.9.0/boards.txt) into `ArduinoCore-fab-sam` samd directory (~/.arduino15/packages/Fab_SAM_Arduino/hardware/samd/1.9.0/boards.txt). 
 
-Supposing the `ArduinoCore-fab-sam` samd core version is 1.6.18-alpha2. This file must be copied into the directory:
+Supposing the `ArduinoCore-fab-sam` samd core version is 1.9.0. This file must be copied into the directory:
 
-- `~/.arduino15/packages/Fab_SAM_Arduino/hardware/samd/1.6.18-alpha2/boards.txt`
+- `~/.arduino15/packages/Fab_SAM_Arduino/hardware/samd/1.9.0/boards.txt`
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz
 This file must be copied into the directory:
@@ -580,16 +611,38 @@ This file must be copied into the directory:
  
  ***To be able to compile, run and automatically detect and display BOARD_NAME on Seeeduino RP2040 (XIAO RP2040, Wio RP2040 Mini) boards***, you have to copy the whole [Seeeduino RP2040 Packages_Patches](Packages_Patches/Seeeduino/hardware/rp2040/2.7.2) directory into Seeeduino samd directory (~/.arduino15/packages/Seeeduino/hardware/rp2040/2.7.2). 
 
-Supposing the Seeeduino SAMD core version is 2.7.2. This file must be copied into the directory:
+Supposing the Seeeduino RP2040 core version is 2.7.2. These files must be copied into the directory:
 
 - `~/.arduino15/packages/Seeeduino/hardware/rp2040/2.7.2/boards.txt`
 - `~/.arduino15/packages/Seeeduino/hardware/rp2040/2.7.2/variants/Seeed_XIAO_RP2040/pins_arduino.h`
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz
-This file must be copied into the directory:
+These files must be copied into the directory:
 
 - `~/.arduino15/packages/Seeeduino/hardware/samd/x.yy.zz/boards.txt`
 - `~/.arduino15/packages/Seeeduino/hardware/samd/x.yy.zz/variants/Seeed_XIAO_RP2040/pins_arduino.h`
+
+
+---
+
+#### 13. For Seeeduino nRF52840 boards
+
+**To be able to compile and run on Xiao nRF52840 boards**, you have to copy the whole [nRF52 1.0.0](Packages_Patches/Seeeduino/hardware/nrf52/1.0.0) directory into Seeeduino nRF52 directory (~/.arduino15/packages/Seeeduino/hardware/nrf52/1.0.0). 
+
+Supposing the Seeeduino nRF52 version is 1.0.0. These files must be copied into the directory:
+
+- **`~/.arduino15/packages/Seeeduino/hardware/nrf52/1.0.0/platform.txt`**
+- **`~/.arduino15/packages/Seeeduino/hardware/nrf52/1.0.0/cores/nRF5/Print.h`**
+- **`~/.arduino15/packages/Seeeduino/hardware/nrf52/1.0.0/cores/nRF5/Print.cpp`**
+- **`~/.arduino15/packages/Seeeduino/hardware/nrf52/1.0.0/cores/nRF5/Udp.h`**
+
+Whenever a new version is installed, remember to copy these files into the new version directory. For example, new version is x.yy.z
+These files must be copied into the directory:
+
+- **`~/.arduino15/packages/Seeeduino/hardware/nrf52/x.yy.z/platform.txt`**
+- **`~/.arduino15/packages/Seeeduino/hardware/nrf52/x.yy.z/cores/nRF5/Print.h`**
+- **`~/.arduino15/packages/Seeeduino/hardware/nrf52/x.yy.z/cores/nRF5/Print.cpp`**
+- **`~/.arduino15/packages/Seeeduino/hardware/nrf52/x.yy.z/cores/nRF5/Udp.h`**
 
 ---
 ---
@@ -599,7 +652,7 @@ This file must be copied into the directory:
 #### Class Constructor
 
 ```cpp
-  ESP8266_AT_WebServer server(80);
+ESP8266_AT_WebServer server(80);
 ```
 
 Creates the ESP8266_AT_WebServer class object.
@@ -613,20 +666,20 @@ host port number: ``int port`` (default is the standard HTTP port 80)
 **Starting the server**
 
 ```cpp
-  void begin();
+void begin();
 ```
 
 **Handling incoming client requests**
 
 ```cpp
-  void handleClient();
+void handleClient();
 ```
 
 **Disabling the server**
 
 ```cpp
-  void close();
-  void stop();
+void close();
+void stop();
 ```
 
 Both methods function the same
@@ -634,25 +687,25 @@ Both methods function the same
 **Client request handlers**
 
 ```cpp
-  void on();
-  void addHandler();
-  void onNotFound();
-  void onFileUpload();	
+void on();
+void addHandler();
+void onNotFound();
+void onFileUpload();	
 ```
 
 Example:
 
 ```cpp
-  server.on("/", handlerFunction);
-  server.onNotFound(handlerFunction);   // called when handler is not assigned
-  server.onFileUpload(handlerFunction); // handle file uploads
+server.on("/", handlerFunction);
+server.onNotFound(handlerFunction);   // called when handler is not assigned
+server.onFileUpload(handlerFunction); // handle file uploads
 ```
 
 **Sending responses to the client**
 
 ```cpp
-  void send();
-  void send_P();
+void send();
+void send_P();
 ```
 
 `Parameters:`
@@ -668,10 +721,10 @@ Example:
 **Getting information about request arguments**
 
 ```cpp
-  const String & arg();
-  const String & argName();
-  int args();
-  bool hasArg();
+const String & arg();
+const String & argName();
+int args();
+bool hasArg();
 ```
 
 `Function usage:`
@@ -687,12 +740,13 @@ Example:
 **Getting information about request headers**
 
 ```cpp
-  const String & header();
-  const String & headerName();
-  const String & hostHeader();
-  int headers();
-  bool hasHeader();
+const String & header();
+const String & headerName();
+const String & hostHeader();
+int headers();
+bool hasHeader();
 ``` 
+
 `Function usage:`
 
 `header` - get request header value
@@ -708,8 +762,8 @@ Example:
 **Authentication**
 
 ```cpp
-  bool authenticate();
-  void requestAuthentication();
+bool authenticate();
+void requestAuthentication();
 ```
 
 `Function usage:`
@@ -721,26 +775,26 @@ Example:
 `Example Usage:`
 
 ```cpp
-
-  if(!server.authenticate(username, password)){
-    server.requestAuthentication();
-  }
+if(!server.authenticate(username, password))
+{
+  server.requestAuthentication();
+}
 ```
 
 #### Other Function Calls
 
 ```cpp
-  const String & uri(); // get the current uri
-  HTTPMethod  method(); // get the current method 
-  WiFiClient client(); // get the current client
-  HTTPUpload & upload(); // get the current upload
-  void setContentLength(); // set content length
-  void sendHeader(); // send HTTP header
-  void sendContent(); // send content
-  void sendContent_P(); 
-  void collectHeaders(); // set the request headers to collect
-  void serveStatic();
-  size_t streamFile();
+const String & uri(); // get the current uri
+HTTPMethod  method(); // get the current method 
+WiFiClient client(); // get the current client
+HTTPUpload & upload(); // get the current upload
+void setContentLength(); // set content length
+void sendHeader(); // send HTTP header
+void sendContent(); // send content
+void sendContent_P(); 
+void collectHeaders(); // set the request headers to collect
+void serveStatic();
+size_t streamFile();
 ```
 
 ---
@@ -768,6 +822,8 @@ Also see examples:
 16. [WebClientRepeating](examples/WebClientRepeating)
 17. [WebServer](examples/WebServer)
 18. [WebServerAP](examples/WebServerAP)
+19. [ATWebServer_BigData](examples/ATWebServer_BigData) **New**
+
 
 ---
 ---
@@ -779,13 +835,13 @@ Please take a look at other examples, as well.
 #### 1. File [AdvancedWebServer.ino](examples/AdvancedWebServer/AdvancedWebServer.ino)
 
 
-https://github.com/khoih-prog/ESP8266_AT_WebServer/blob/6dd9b07c7f3f32898067adc23ab6cc9460ba1aee/examples/AdvancedWebServer/AdvancedWebServer.ino#L39-L316
+https://github.com/khoih-prog/ESP8266_AT_WebServer/blob/1839e2f68d950c65bf397a882cd3a2914ec7c468/examples/AdvancedWebServer/AdvancedWebServer.ino#L60-L305
 
 ---
 
 #### 2. File [defines.h](examples/AdvancedWebServer/defines.h)
 
-https://github.com/khoih-prog/ESP8266_AT_WebServer/blob/6dd9b07c7f3f32898067adc23ab6cc9460ba1aee/examples/AdvancedWebServer/defines.h#L15-L397
+https://github.com/khoih-prog/ESP8266_AT_WebServer/blob/1839e2f68d950c65bf397a882cd3a2914ec7c468/examples/AdvancedWebServer/defines.h#L15-L433
 
 ---
 
@@ -798,7 +854,7 @@ The following are debug terminal output when running example [AdvancedWebServer]
 
 ```
 Starting AdvancedWebServer on NRF52840_ITSYBITSY_EXPRESS
-ESP8266_AT_WebServer v1.5.4
+ESP8266_AT_WebServer v1.7.1
 [ESP_AT] Initializing ESP module
 [ESP_AT] Use ES8266-AT Command
 WiFi shield init done
@@ -927,7 +983,7 @@ The following are debug terminal output when running example [MQTT_ThingStream](
 
 ```
 Start MQTT_ThingStream on ITSYBITSY_M4 with ESP8266-AT & ESP8266_AT_WebServer Library
-ESP8266_AT_WebServer v1.5.4
+ESP8266_AT_WebServer v1.7.1
 [ESP_AT] Use ES8266-AT Command
 WiFi shield init done
 Connecting to SSID: HueNet1
@@ -939,7 +995,7 @@ STM32_Pub
 Attempting MQTT connection to broker.emqx.io
 ...connected
 Published connection message successfully!
-Subcribed to: STM32_Sub
+Subscribed to: STM32_Sub
 MQTT Message Send : STM32_Pub => Hello from MQTT_ThingStream on ITSYBITSY_M4 with ESP8266-AT & ESP8266_AT_WebServer Library
 MQTT Message receive [STM32_Pub] Hello from MQTT_ThingStream on ITSYBITSY_M4 with ESP8266-AT & ESP8266_AT_WebServer Library
 MQTT Message Send : STM32_Pub => Hello from MQTT_ThingStream on ITSYBITSY_M4 with ESP8266-AT & ESP8266_AT_WebServer Library
@@ -962,7 +1018,7 @@ The following are debug terminal output when running example [MQTTClient_Auth](e
 
 ```
 Starting MQTTClient_Auth on ITSYBITSY_M4 with ESP8266-AT & ESP8266_AT_WebServer Library
-ESP8266_AT_WebServer v1.5.4
+ESP8266_AT_WebServer v1.7.1
 [ESP_AT] Use ES8266-AT Command
 WiFi shield init done
 Connecting to SSID: HueNet1
@@ -988,7 +1044,7 @@ The following are debug terminal output when running example [MQTTClient_Basic](
 
 ```
 MQTTClient_Basic on ITSYBITSY_M4 with ESP8266-AT & ESP8266_AT_WebServer Library
-ESP8266_AT_WebServer v1.5.4
+ESP8266_AT_WebServer v1.7.1
 [ESP_AT] Use ES8266-AT Command
 WiFi shield init done
 Connecting to SSID: HueNet1
@@ -1013,7 +1069,7 @@ The following are debug terminal output when running example [WebClientRepeating
 
 ```
 Starting WebClientRepeating on RASPBERRY_PI_PICO with ESP8266-AT & ESP8266_AT_WebServer Library
-ESP8266_AT_WebServer v1.5.4
+ESP8266_AT_WebServer v1.7.1
 [ESP_AT] Use ES8266-AT Command
 WiFi shield init done
 Connecting to SSID: HueNet1
@@ -1082,7 +1138,7 @@ The following are debug terminal output when running example [MQTTClient_Auth](e
 
 ```
 Starting MQTTClient_Auth on RASPBERRY_PI_PICO with ESP8266-AT & ESP8266_AT_WebServer Library
-ESP8266_AT_WebServer v1.5.4
+ESP8266_AT_WebServer v1.7.1
 [ESP_AT] Use ES8266-AT Command
 WiFi shield init done
 Connecting to SSID: HueNet1
@@ -1107,7 +1163,7 @@ The following are debug terminal output when running example [UdpNTPClient](exam
 
 ```
 Starting UdpNTPClient on MBED RASPBERRY_PI_PICO with ESP8266-AT & ESP8266_AT_WebServer Library
-ESP8266_AT_WebServer v1.5.4
+ESP8266_AT_WebServer v1.7.1
 [ESP_AT] Use ES8266-AT Command
 WiFi shield init done
 Connecting to WPA SSID: HueNet1
@@ -1125,6 +1181,156 @@ The UTC time is 5:12:24
 ```
 
 ---
+
+#### 8. [AdvancedWebServer](examples/AdvancedWebServer) on NRF52840_ITSYBITSY
+
+The following is debug terminal output when running example [AdvancedServer](examples/AdvancedServer) on `NRF52840_ITSYBITSY` board, to demo how to send much larger data than total 2K of `ESP8266/ESP32 AT-command` shields
+
+##### MULTIPLY_FACTOR = 4.0f
+
+
+```
+Starting AdvancedServer on NRF52840_ITSYBITSY with ESP8266-AT & ESP8266_AT_WebServer Library
+ESP8266_AT_WebServer v1.7.1
+[ESP_AT] Initializing ESP module
+[ESP_AT] Use ES8266-AT Command
+WiFi shield init done
+Connecting to WPA SSID: HueNet1
+[ESP_AT] Server started on port 80
+HTTP server started @ 192.168.2.142, Port = 80
+.[ESP_AT] New client 0
+[ESP_AT] ESP8266_AT_Client::write: size =  84 , MAX_SIZE = 2048
+[ESP_AT] ESP8266_AT_Client::write: written =  84 , totalBytesSent = 84
+[ESP_AT] ESP8266_AT_Client::write: Done, written =  84 , totalBytesSent = 84
+[ESP_AT] ESP8266_AT_Client::write: size =  396 , MAX_SIZE = 2048
+[ESP_AT] ESP8266_AT_Client::write: written =  396 , totalBytesSent = 396
+[ESP_AT] ESP8266_AT_Client::write: Done, written =  396 , totalBytesSent = 396
+[ESP_AT] handleClient: Client disconnected
+[ESP_AT] New client 0
+[ESP_AT] String Len =  11219
+[ESP_AT] ESP8266_AT_Client::write: size =  90 , MAX_SIZE = 2048
+[ESP_AT] ESP8266_AT_Client::write: written =  90 , totalBytesSent = 90
+[ESP_AT] ESP8266_AT_Client::write: Done, written =  90 , totalBytesSent = 90
+[ESP_AT] ESP8266_AT_Client::write: size =  11219 , MAX_SIZE = 2048
+[ESP_AT] ESP8266_AT_Client::write: written =  2048 , totalBytesSent = 2048
+[ESP_AT] ESP8266_AT_Client::write: Partially Done, written =  2048 , bytesRemaining = 9171
+[ESP_AT] ESP8266_AT_Client::write: written =  2048 , totalBytesSent = 4096
+[ESP_AT] ESP8266_AT_Client::write: Partially Done, written =  2048 , bytesRemaining = 7123
+[ESP_AT] ESP8266_AT_Client::write: written =  2048 , totalBytesSent = 6144
+[ESP_AT] ESP8266_AT_Client::write: Partially Done, written =  2048 , bytesRemaining = 5075
+[ESP_AT] ESP8266_AT_Client::write: written =  2048 , totalBytesSent = 8192
+[ESP_AT] ESP8266_AT_Client::write: Partially Done, written =  2048 , bytesRemaining = 3027
+[ESP_AT] ESP8266_AT_Client::write: written =  2048 , totalBytesSent = 10240
+[ESP_AT] ESP8266_AT_Client::write: Partially Done, written =  2048 , bytesRemaining = 979
+[ESP_AT] ESP8266_AT_Client::write: written =  979 , totalBytesSent = 11219
+[ESP_AT] ESP8266_AT_Client::write: Done, written =  979 , totalBytesSent = 11219
+[ESP_AT] handleClient: Client disconnected
+[ESP_AT] New client 0
+[ESP_AT] ESP8266_AT_Client::write: size =  84 , MAX_SIZE = 2048
+[ESP_AT] ESP8266_AT_Client::write: written =  84 , totalBytesSent = 84
+[ESP_AT] ESP8266_AT_Client::write: Done, written =  84 , totalBytesSent = 84
+[ESP_AT] ESP8266_AT_Client::write: size =  396 , MAX_SIZE = 2048
+[ESP_AT] ESP8266_AT_Client::write: written =  396 , totalBytesSent = 396
+[ESP_AT] ESP8266_AT_Client::write: Done, written =  396 , totalBytesSent = 396
+[ESP_AT] handleClient: Client disconnected
+[ESP_AT] New client 0
+[ESP_AT] String Len =  11209
+[ESP_AT] ESP8266_AT_Client::write: size =  90 , MAX_SIZE = 2048
+[ESP_AT] ESP8266_AT_Client::write: written =  90 , totalBytesSent = 90
+[ESP_AT] ESP8266_AT_Client::write: Done, written =  90 , totalBytesSent = 90
+[ESP_AT] ESP8266_AT_Client::write: size =  11209 , MAX_SIZE = 2048
+[ESP_AT] ESP8266_AT_Client::write: written =  2048 , totalBytesSent = 2048
+[ESP_AT] ESP8266_AT_Client::write: Partially Done, written =  2048 , bytesRemaining = 9161
+[ESP_AT] ESP8266_AT_Client::write: written =  2048 , totalBytesSent = 4096
+[ESP_AT] ESP8266_AT_Client::write: Partially Done, written =  2048 , bytesRemaining = 7113
+[ESP_AT] ESP8266_AT_Client::write: written =  2048 , totalBytesSent = 6144
+[ESP_AT] ESP8266_AT_Client::write: Partially Done, written =  2048 , bytesRemaining = 5065
+[ESP_AT] ESP8266_AT_Client::write: written =  2048 , totalBytesSent = 8192
+[ESP_AT] ESP8266_AT_Client::write: Partially Done, written =  2048 , bytesRemaining = 3017
+[ESP_AT] ESP8266_AT_Client::write: written =  2048 , totalBytesSent = 10240
+[ESP_AT] ESP8266_AT_Client::write: Partially Done, written =  2048 , bytesRemaining = 969
+[ESP_AT] ESP8266_AT_Client::write: written =  969 , totalBytesSent = 11209
+[ESP_AT] ESP8266_AT_Client::write: Done, written =  969 , totalBytesSent = 11209
+[ESP_AT] handleClient: Client disconnected
+```
+
+---
+
+#### 9. [ATWebServer_BigData](examples/ATWebServer_BigData) on NRF52840_ITSYBITSY
+
+The following is debug terminal output when running example [ATWebServer_BigData](examples/ATWebServer_BigData) on `NRF52840_ITSYBITSY` board, to demo how to send much larger data than total 2K of `ESP8266/ESP32 AT-command` shields
+
+##### MULTIPLY_FACTOR = 3.0f
+
+
+```
+Start ATWebServer_BigData on NRF52840_ITSYBITSY with ESP8266-AT & ESP8266_AT_WebServer Library
+ESP8266_AT_WebServer v1.7.1
+[ESP_AT] Initializing ESP module
+[ESP_AT] Use ES8266-AT Command
+WiFi shield init done
+Connecting to WPA SSID: HueNet1
+[ESP_AT] Server started on port 80
+HTTP server started @ 192.168.2.142, Port = 80
+[ESP_AT] New client 0
+String Len = 23106
+[ESP_AT] ESP8266_AT_Client::write: size =  86 , MAX_SIZE = 2048
+[ESP_AT] ESP8266_AT_Client::write: written =  86 , totalBytesSent = 86
+[ESP_AT] ESP8266_AT_Client::write: Done, written =  86 , totalBytesSent = 86
+[ESP_AT] ESP8266_AT_Client::write: size =  23106 , MAX_SIZE = 2048
+[ESP_AT] ESP8266_AT_Client::write: written =  2048 , totalBytesSent = 2048
+[ESP_AT] ESP8266_AT_Client::write: Partially Done, written =  2048 , bytesRemaining = 21058
+[ESP_AT] ESP8266_AT_Client::write: written =  2048 , totalBytesSent = 4096
+[ESP_AT] ESP8266_AT_Client::write: Partially Done, written =  2048 , bytesRemaining = 19010
+[ESP_AT] ESP8266_AT_Client::write: written =  2048 , totalBytesSent = 6144
+[ESP_AT] ESP8266_AT_Client::write: Partially Done, written =  2048 , bytesRemaining = 16962
+[ESP_AT] ESP8266_AT_Client::write: written =  2048 , totalBytesSent = 8192
+[ESP_AT] ESP8266_AT_Client::write: Partially Done, written =  2048 , bytesRemaining = 14914
+[ESP_AT] ESP8266_AT_Client::write: written =  2048 , totalBytesSent = 10240
+[ESP_AT] ESP8266_AT_Client::write: Partially Done, written =  2048 , bytesRemaining = 12866
+[ESP_AT] ESP8266_AT_Client::write: written =  2048 , totalBytesSent = 12288
+[ESP_AT] ESP8266_AT_Client::write: Partially Done, written =  2048 , bytesRemaining = 10818
+[ESP_AT] ESP8266_AT_Client::write: written =  2048 , totalBytesSent = 14336
+[ESP_AT] ESP8266_AT_Client::write: Partially Done, written =  2048 , bytesRemaining = 8770
+[ESP_AT] ESP8266_AT_Client::write: written =  2048 , totalBytesSent = 16384
+[ESP_AT] ESP8266_AT_Client::write: Partially Done, written =  2048 , bytesRemaining = 6722
+[ESP_AT] ESP8266_AT_Client::write: written =  2048 , totalBytesSent = 18432
+[ESP_AT] ESP8266_AT_Client::write: Partially Done, written =  2048 , bytesRemaining = 4674
+[ESP_AT] ESP8266_AT_Client::write: written =  2048 , totalBytesSent = 20480
+[ESP_AT] ESP8266_AT_Client::write: Partially Done, written =  2048 , bytesRemaining = 2626
+[ESP_AT] ESP8266_AT_Client::write: written =  2048 , totalBytesSent = 22528
+[ESP_AT] ESP8266_AT_Client::write: Partially Done, written =  2048 , bytesRemaining = 578
+[ESP_AT] ESP8266_AT_Client::write: written =  578 , totalBytesSent = 23106
+[ESP_AT] ESP8266_AT_Client::write: Done, written =  578 , totalBytesSent = 23106
+[ESP_AT] handleClient: Client disconnected
+```
+
+
+---
+
+#### 10. AdvancedWebServer on WIZNET_WIZFI360_EVB_PICO
+
+The following is debug terminal output when running example [AdvancedServer](examples/AdvancedServer) on `WIZNET_WIZFI360_EVB_PICO` board, using [arduino-pico](https://github.com/earlephilhower/arduino-pico) core
+
+
+```
+Starting AdvancedWebServer on WIZNET_WIZFI360_EVB_PICO with ESP32-AT & ESP8266_AT_WebServer Library
+ESP8266_AT_WebServer v1.7.1
+[ESP_AT] Using ESP32-AT Command
+WiFi shield init done
+Connecting to WPA SSID: HueNet
+HTTP server started @ 192.168.2.124, Port = 80
+.......... .......... .
+```
+
+
+<p align="center">
+    <img src="https://github.com/khoih-prog/ESP8266_AT_WebServer/raw/master/pics/AdvancedWebServer_WIZFI360.png">
+</p>
+
+
+
+---
 ---
 
 ### Screen Shots
@@ -1134,7 +1340,7 @@ The UTC time is 5:12:24
 This is the screen shot when running example [AdvancedWebServer](https://github.com/khoih-prog/ESP8266_AT_WebServer/tree/master/examples/AdvancedWebServer) on **Adafruit SAMD51 Itsy-Bitsy M4** board using this [ESP8266_AT_WebServer Library](https://github.com/khoih-prog/ESP8266_AT_WebServer)
 
 <p align="center">
-    <img src="https://github.com/khoih-prog/ESP8266_AT_WebServer/blob/master/pics/AdvancedWebServer.png">
+    <img src="https://github.com/khoih-prog/ESP8266_AT_WebServer/raw/master/pics/AdvancedWebServer.png">
 </p>
 
 
@@ -1143,7 +1349,7 @@ This is the screen shot when running example [AdvancedWebServer](https://github.
 This is the screen shot when running example [AdvancedWebServer_STM32](https://github.com/khoih-prog/ESP8266_AT_WebServer/tree/master/examples/AdvancedWebServer_STM32) on **STM32 Nucleo-144 NUCLEO_F767ZI** board using this [ESP8266_AT_WebServer Library](https://github.com/khoih-prog/ESP8266_AT_WebServer)
 
 <p align="center">
-    <img src="https://github.com/khoih-prog/ESP8266_AT_WebServer/blob/master/pics/AdvancedWebServer_STM32.png">
+    <img src="https://github.com/khoih-prog/ESP8266_AT_WebServer/raw/master/pics/AdvancedWebServer_STM32.png">
 </p>
 
 #### 3. nRF52 Itsy-Bitsy nRF52840
@@ -1151,7 +1357,7 @@ This is the screen shot when running example [AdvancedWebServer_STM32](https://g
 This is the screen shot when running example [AdvancedWebServer](https://github.com/khoih-prog/ESP8266_AT_WebServer/tree/master/examples/AdvancedWebServer) on **Adadruit nRF52840 Itsy-Bitsy** board using this [ESP8266_AT_WebServer Library](https://github.com/khoih-prog/ESP8266_AT_WebServer)
 
 <p align="center">
-    <img src="https://github.com/khoih-prog/ESP8266_AT_WebServer/blob/master/pics/AdvancedWebServer_nRF52840.png">
+    <img src="https://github.com/khoih-prog/ESP8266_AT_WebServer/raw/master/pics/AdvancedWebServer_nRF52840.png">
 </p>
 
 
@@ -1160,7 +1366,7 @@ This is the screen shot when running example [AdvancedWebServer](https://github.
 This is the screen shot when running an example using UDP Multicast on **Seeeduino SEEED_XIAO_M0** board using this [ESP8266_AT_WebServer Library](https://github.com/khoih-prog/ESP8266_AT_WebServer). The UDP MUlticast is used to manage Internet Gateway's Port Forwarding so that we can access from WAN, port 5990, the WebServer running in LAN, port 5990.
 
 <p align="center">
-    <img src="https://github.com/khoih-prog/ESP8266_AT_WebServer/blob/master/pics/UPnP_Multicast.png">
+    <img src="https://github.com/khoih-prog/ESP8266_AT_WebServer/raw/master/pics/UPnP_Multicast.png">
 </p>
 
 
@@ -1169,7 +1375,7 @@ This is the screen shot when running an example using UDP Multicast on **Seeedui
 This is the screen shot when running example [AdvancedWebServer](https://github.com/khoih-prog/ESP8266_AT_WebServer/tree/master/examples/AdvancedWebServer) on **RASPBERRY_PI_PICO** board using this [ESP8266_AT_WebServer Library](https://github.com/khoih-prog/ESP8266_AT_WebServer)
 
 <p align="center">
-    <img src="https://github.com/khoih-prog/ESP8266_AT_WebServer/blob/master/pics/AdvancedWebServer_RPi_Pico.png">
+    <img src="https://github.com/khoih-prog/ESP8266_AT_WebServer/raw/master/pics/AdvancedWebServer_RPi_Pico.png">
 </p>
 
 
@@ -1178,7 +1384,16 @@ This is the screen shot when running example [AdvancedWebServer](https://github.
 This is the screen shot when running example [AdvancedWebServer](https://github.com/khoih-prog/ESP8266_AT_WebServer/tree/master/examples/AdvancedWebServer) on **MBED RASPBERRY_PI_PICO** board using this [ESP8266_AT_WebServer Library](https://github.com/khoih-prog/ESP8266_AT_WebServer)
 
 <p align="center">
-    <img src="https://github.com/khoih-prog/ESP8266_AT_WebServer/blob/master/pics/AdvancedWebServer_Mbed_RPi_Pico.png">
+    <img src="https://github.com/khoih-prog/ESP8266_AT_WebServer/raw/master/pics/AdvancedWebServer_Mbed_RPi_Pico.png">
+</p>
+
+
+#### 7. nRF52 Itsy-Bitsy nRF52840 BigData
+
+This is the screen shot when running example [AdvancedWebServer](https://github.com/khoih-prog/ESP8266_AT_WebServer/tree/master/examples/AdvancedWebServer) on **Adadruit nRF52840 Itsy-Bitsy** board using this [ESP8266_AT_WebServer Library](https://github.com/khoih-prog/ESP8266_AT_WebServer) sending `BigData`
+
+<p align="center">
+    <img src="https://github.com/khoih-prog/ESP8266_AT_WebServer/raw/master/pics/AdvancedWebServer_BigData.png">
 </p>
 
 ---
@@ -1243,7 +1458,12 @@ Submit issues to: [ESP8266_AT_WebServer issues](https://github.com/khoih-prog/ES
 18. Add support to RP2040-based boards, such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, using [**Arduino-mbed RP2040** core](https://github.com/arduino/ArduinoCore-mbed)
 19. Reduce usage of Arduino String with std::string
 20. Optimize library code and examples by using **reference-passing instead of value-passing**.
- 
+21. Fix severe limitation to permit sending larger data than 2K buffer of ESP8266/ESP32 AT-command shields
+22. Add example [ATWebServer_BigData](https://github.com/khoih-prog/ESP8266_AT_WebServer/tree/master/examples/ATWebServer_BigData) to demo how to send larger data than 2K buffer
+23. Modify example [AdvancedWebServer](https://github.com/khoih-prog/ESP8266_AT_WebServer/tree/master/examples/AdvancedWebServer) to demo how to send larger data than 2K buffer
+24. Add support to WizNet `WizFi360`, such as `WIZNET_WIZFI360_EVB_PICO` using `arduino-pico` core
+
+
 ---
 ---
  
@@ -1251,7 +1471,7 @@ Submit issues to: [ESP8266_AT_WebServer issues](https://github.com/khoih-prog/ES
 
 1. Based on and modified [Ivan Grokhotkov's ESP8266WebServer](https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266WebServer)
 2. Based on and modified from [bportaluri's WiFiEsp library](https://github.com/bportaluri/WiFiEsp)
-3. Thanks to good work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip) for initiating, inspriring, working with, developing, debugging and testing. Without that, support to nRF52, especially **U-Blox B302 running as nRF52840 and U-Blox B112 running as nRF52832**, has never been started and finished. Also see [U-BLOX NINA B302/ENC28J60 wth Alexa/SinricPro](https://u-blox-ethernet-ninaw.blogspot.com/).
+3. Thanks to good work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip) for initiating, inspriring, working with, developing, debugging and testing. Without that, support to nRF52, especially **U-Blox B302 running as nRF52840 and U-Blox B112 running as nRF52832**, has never been started and finished. Also see [U-BLOX NINA B302/ENC28J60 with Alexa/SinricPro](https://u-blox-ethernet-ninaw.blogspot.com/).
 4. Thanks to [reltkaine](https://github.com/reltkaine) to report the compile error issue with Sipeed Maixduino core, leading to v1.4.1 to introduce `Packages_Patches` for Sipeed Maixduino core
 
 
@@ -1269,6 +1489,7 @@ Submit issues to: [ESP8266_AT_WebServer issues](https://github.com/khoih-prog/ES
 ### Contributing
 
 If you want to contribute to this project:
+
 - Report bugs and errors
 - Ask for enhancements
 - Create issues and pull requests
@@ -1284,6 +1505,6 @@ If you want to contribute to this project:
 
 ### Copyright
 
-Copyright 2020- Khoi Hoang
+Copyright (C) 2020- Khoi Hoang
 
 

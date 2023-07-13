@@ -11,23 +11,21 @@
   @file       Esp8266WebServer.h
   @author     Ivan Grokhotkov
 
-  Version: 1.5.4
+  Version: 1.7.1
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
   1.0.0   K Hoang      12/02/2020 Initial coding for Arduino Mega, Teensy, etc
   ...
-  1.4.0   K Hoang      14/08/2021 Add support to Adafruit nRF52 core v0.22.0+
-  1.4.1   K Hoang      08/12/2021 Add Packages_Patches and instructions for BOARD_SIPEED_MAIX_DUINO
-  1.5.0   K Hoang      19/12/2021 Reduce usage of Arduino String with std::string
-  1.5.1   K Hoang      24/12/2021 Fix bug
-  1.5.2   K Hoang      28/12/2021 Fix wrong http status header bug
-  1.5.3   K Hoang      12/01/2022 Fix authenticate issue caused by libb64
-  1.5.4   K Hoang      26/04/2022 Use new arduino.tips site. Improve examples
+  1.6.0   K Hoang      16/11/2022 Fix severe limitation to permit sending larger data than 2K buffer. Add CORS
+  1.7.0   K Hoang      16/01/2023 Add support to WizNet WizFi360 such as WIZNET_WIZFI360_EVB_PICO
+  1.7.1   K Hoang      17/01/2023 Fix AP and version bugs for WizNet WizFi360
  *****************************************************************************************************************************/
 
 #ifndef ESP8266_AT_Drv_h
 #define ESP8266_AT_Drv_h
+
+////////////////////////////////////////
 
 #if defined(ARDUINO_ARCH_MBED)
   #include <stdarg.h>
@@ -38,9 +36,13 @@
 
 #include "RingBuffer.h"
 
+////////////////////////////////////////
+
 #ifndef ESP_AT_UNUSED
   #define ESP_AT_UNUSED(x) (void)(x)
 #endif
+
+////////////////////////////////////////
 
 extern bool useESP32_AT;
 
@@ -51,13 +53,14 @@ extern bool useESP32_AT;
 #define WL_MAC_ADDR_LENGTH 6
 
 // Size of a MAC-address or BSSID
-#define WL_IPV4_LENGTH 4
+//#define WL_IPV4_LENGTH 4
+#define WL_IPV4_LENGTH 8
 
 // Maximum size of a SSID list
-#define WL_NETWORKS_LIST_MAXNUM	10
+#define WL_NETWORKS_LIST_MAXNUM 10
 
 // Maxmium number of socket
-#define	MAX_SOCK_NUM		4
+#define MAX_SOCK_NUM    4
 
 // Socket not available constant
 #define SOCK_NOT_AVAIL  255
@@ -67,29 +70,37 @@ extern bool useESP32_AT;
 
 #define WL_FW_VER_LENGTH 6
 
+// For WizFi360
+//#define WL_FW_VER_LENGTH 8
+
 #define NO_SOCKET_AVAIL 255
 
 // maximum size of AT command
 #define CMD_BUFFER_SIZE 200
 
+////////////////////////////////////////
+
 // KH, add UDP_MULTICAST_MODE to support MultiCast for v1.1.0
-typedef enum eProtMode 
+typedef enum eProtMode
 {
-  TCP_MODE, 
-  UDP_MODE, 
+  TCP_MODE,
+  UDP_MODE,
   SSL_MODE,
   UDP_MULTICAST_MODE
 } tProtMode;
-//////
 
-typedef enum 
+////////////////////////////////////////
+
+typedef enum
 {
   WL_FAILURE = -1,
   WL_SUCCESS = 1,
 } wl_error_code_t;
 
+////////////////////////////////////////
+
 /* Authentication modes */
-enum wl_auth_mode 
+enum wl_auth_mode
 {
   AUTH_MODE_INVALID,
   AUTH_MODE_AUTO,
@@ -101,8 +112,9 @@ enum wl_auth_mode
   AUTH_MODE_WPA2_PSK
 };
 
+////////////////////////////////////////
 
-typedef enum 
+typedef enum
 {
   WL_NO_SHIELD    = 255,
   WL_IDLE_STATUS  = 0,
@@ -114,8 +126,10 @@ typedef enum
   WL_DISCONNECTED
 } wl_status_t;
 
+////////////////////////////////////////
+
 /* Encryption modes */
-enum wl_enc_type 
+enum wl_enc_type
 {
   ENC_TYPE_NONE         = 0,
   ENC_TYPE_WEP          = 1,
@@ -124,8 +138,9 @@ enum wl_enc_type
   ENC_TYPE_WPA_WPA2_PSK = 4
 };
 
+////////////////////////////////////////
 
-enum wl_tcp_state 
+enum wl_tcp_state
 {
   CLOSED      = 0,
   LISTEN      = 1,
@@ -140,18 +155,19 @@ enum wl_tcp_state
   TIME_WAIT   = 10
 };
 
+////////////////////////////////////////
+
+//using IPAddress = arduino::IPAddress;
 
 class ESP8266_AT_Drv
 {
-
   public:
-  
+
     // KH New from v1.0.8
     // ReInit, don't need to specify but use current espSerial
     static void wifiDriverReInit(void);
 
     static void wifiDriverInit(Stream *espSerial);
-
 
     /* Start Wifi connection with passphrase
 
@@ -160,12 +176,10 @@ class ESP8266_AT_Drv
     */
     static bool wifiConnect(const char* ssid, const char* passphrase);
 
-
     /*
        Start the Access Point
     */
     static bool wifiStartAP(const char* ssid, const char* pwd, uint8_t channel, uint8_t enc, uint8_t espMode);
-
 
     /*
        Set ip configuration disabling dhcp client
@@ -177,7 +191,6 @@ class ESP8266_AT_Drv
     */
     static void configAP(IPAddress local_ip);
 
-
     /*
        Disconnect from the network
 
@@ -186,8 +199,6 @@ class ESP8266_AT_Drv
     static int8_t disconnect();
 
     /*
-
-
        return: one value of wl_status_t enum
     */
     static uint8_t getConnectionStatus();
@@ -205,7 +216,7 @@ class ESP8266_AT_Drv
        return: copy the ip address value in IPAddress object
     */
     static void getIpAddress(IPAddress& ip);
-
+    
     static void getIpAddressAP(IPAddress& ip);
 
     /*
@@ -281,17 +292,14 @@ class ESP8266_AT_Drv
     */
     static uint8_t getEncTypeNetowrks(uint8_t networkItem);
 
-
     /*
        Get the firmware version
     */
     static char* getFwVersion();
 
-
     ////////////////////////////////////////////////////////////////////////////
     // Client/Server methods
     ////////////////////////////////////////////////////////////////////////////
-
 
     static bool startServer(uint16_t port, uint8_t sock);
     static bool startClient(const char* host, uint16_t port, uint8_t sock, uint8_t protMode);
@@ -305,10 +313,9 @@ class ESP8266_AT_Drv
     static bool sendDataUdp(uint8_t sock, const char* host, uint16_t port, const uint8_t *data, uint16_t len);
     static uint16_t availData(uint8_t connId);
 
-
     static bool ping(const char *host);
     static void reset();
-    
+
     // KH New from v1.0.8
     // For ESP32-AT to restores the Factory Default Settings
     static void restore();
@@ -316,8 +323,7 @@ class ESP8266_AT_Drv
     static void getRemoteIpAddress(IPAddress& ip);
     static uint16_t getRemotePort();
 
-
-    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////
 
   private:
     static Stream *espSerial;
@@ -328,22 +334,19 @@ class ESP8266_AT_Drv
     static uint16_t _remotePort;
     static uint8_t  _remoteIp[WL_IPV4_LENGTH];
 
-
     // firmware version string
-    static char 	fwVersion[WL_FW_VER_LENGTH];
+    static char   fwVersion[WL_FW_VER_LENGTH];
 
     // settings of requested network
-    static char 	  _networkSsid[WL_NETWORKS_LIST_MAXNUM][WL_SSID_MAX_LENGTH];
-    static int32_t 	_networkRssi[WL_NETWORKS_LIST_MAXNUM];
-    static uint8_t 	_networkEncr[WL_NETWORKS_LIST_MAXNUM];
-
+    static char     _networkSsid[WL_NETWORKS_LIST_MAXNUM][WL_SSID_MAX_LENGTH];
+    static int32_t  _networkRssi[WL_NETWORKS_LIST_MAXNUM];
+    static uint8_t  _networkEncr[WL_NETWORKS_LIST_MAXNUM];
 
     // settings of current selected network
-    static char 	  _ssid[WL_SSID_MAX_LENGTH];
-    static uint8_t 	_bssid[WL_MAC_ADDR_LENGTH];
-    static uint8_t 	_mac[WL_MAC_ADDR_LENGTH];
+    static char     _ssid[WL_SSID_MAX_LENGTH];
+    static uint8_t  _bssid[WL_MAC_ADDR_LENGTH];
+    static uint8_t  _mac[WL_MAC_ADDR_LENGTH];
     static uint8_t  _localIp[WL_IPV4_LENGTH];
-
 
     // the ring buffer is used to search the tags in the stream
     static AT_RingBuffer ringBuf;
@@ -353,13 +356,13 @@ class ESP8266_AT_Drv
 
     static bool sendCmdGet(const char* cmd, const char* startTag, const char* endTag, char* outStr, int outStrLen);
 
-    // KH, Restore PROGMEM commands
     static int sendCmd(const __FlashStringHelper* cmd, int timeout = 1000);
     static int sendCmd(const __FlashStringHelper* cmd, int timeout, ...);
 
-    static bool sendCmdGet(const __FlashStringHelper* cmd, const char* startTag, const char* endTag, char* outStr, int outStrLen);
-    static bool sendCmdGet(const __FlashStringHelper* cmd, const __FlashStringHelper* startTag, const __FlashStringHelper* endTag, char* outStr, int outStrLen);
-    //////
+    static bool sendCmdGet(const __FlashStringHelper* cmd, const char* startTag, const char* endTag, char* outStr,
+                           int outStrLen);
+    static bool sendCmdGet(const __FlashStringHelper* cmd, const __FlashStringHelper* startTag,
+                           const __FlashStringHelper* endTag, char* outStr, int outStrLen);
 
     static int readUntil(unsigned int timeout, const char* tag = NULL, bool findTags = true);
 
@@ -367,6 +370,7 @@ class ESP8266_AT_Drv
 
     static int timedRead();
 
+    ////////////////////////////////////////
 
     friend class ESP8266_AT;
     friend class ESP8266_AT_Server;
@@ -374,6 +378,10 @@ class ESP8266_AT_Drv
     friend class ESP8266_AT_UDP;
 };
 
+////////////////////////////////////////
+
 extern ESP8266_AT_Drv esp8266_AT_Drv;
+
+////////////////////////////////////////
 
 #endif

@@ -11,29 +11,28 @@
   @file       Esp8266WebServer.h
   @author     Ivan Grokhotkov
 
-  Version: 1.5.4
+  Version: 1.7.1
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
   1.0.0   K Hoang      12/02/2020 Initial coding for Arduino Mega, Teensy, etc
   ...
-  1.4.0   K Hoang      14/08/2021 Add support to Adafruit nRF52 core v0.22.0+
-  1.4.1   K Hoang      08/12/2021 Add Packages_Patches and instructions for BOARD_SIPEED_MAIX_DUINO
-  1.5.0   K Hoang      19/12/2021 Reduce usage of Arduino String with std::string
-  1.5.1   K Hoang      24/12/2021 Fix bug
-  1.5.2   K Hoang      28/12/2021 Fix wrong http status header bug
-  1.5.3   K Hoang      12/01/2022 Fix authenticate issue caused by libb64
-  1.5.4   K Hoang      26/04/2022 Use new arduino.tips site. Improve examples
+  1.6.0   K Hoang      16/11/2022 Fix severe limitation to permit sending larger data than 2K buffer. Add CORS
+  1.7.0   K Hoang      16/01/2023 Add support to WizNet WizFi360 such as WIZNET_WIZFI360_EVB_PICO
+  1.7.1   K Hoang      17/01/2023 Fix AP and version bugs for WizNet WizFi360
  *****************************************************************************************************************************/
 
 #ifndef ESP8266_AT_Client_h
 #define ESP8266_AT_Client_h
 
+////////////////////////////////////////
 
 #include "Arduino.h"
 #include "Print.h"
 #include "Client.h"
 #include "IPAddress.h"
+
+////////////////////////////////////////
 
 class ESP8266_AT_Client : public Client
 {
@@ -41,12 +40,10 @@ class ESP8266_AT_Client : public Client
     ESP8266_AT_Client();
     ESP8266_AT_Client(uint8_t sock);
 
-
     // override Print.print method
 
     size_t print(const __FlashStringHelper *ifsh);
     size_t println(const __FlashStringHelper *ifsh);
-
 
     /*
       Connect to the specified IP address and port. The return value indicates success or failure.
@@ -83,7 +80,6 @@ class ESP8266_AT_Client : public Client
       Returns the number of characters written.
     */
     virtual size_t write(const uint8_t *buf, size_t size);
-
 
     virtual int available();
 
@@ -123,19 +119,16 @@ class ESP8266_AT_Client : public Client
 
     virtual operator bool();
 
-
     // needed to correctly handle overriding
     // see http://stackoverflow.com/questions/888235/overriding-a-bases-overloaded-function-in-c
     using Print::write;
     using Print::print;
     using Print::println;
 
-
     /*
       Returns the remote IP address.
     */
     IPAddress remoteIP();
-
 
     friend class ESP8266_AT_Server;
 
@@ -146,8 +139,9 @@ class ESP8266_AT_Client : public Client
     int connect(const char* host, uint16_t port, uint8_t protMode);
 
     size_t printFSH(const __FlashStringHelper *ifsh, bool appendCrLf);
-
 };
+
+////////////////////////////////////////
 
 #include "ESP8266_AT_Client-impl.h"
 

@@ -1,8 +1,8 @@
 /****************************************************************************************************************************
   ESP_AT_Lib_Impl.h - Dead simple ESP8266/ESP32-AT-command wrapper
-  For ESP8266/ESP32-AT-command running shields
+  For WizFi360/ESP8266/ESP32-AT-command running shields
 
-  ESP_AT_Lib is a wrapper library for the ESP8266/ESP32 AT-command shields
+  ESP_AT_Lib is a wrapper library for the WizFi360/ESP8266/ESP32 AT-command shields
 
   Based on and modified from ESP8266 https://github.com/esp8266/Arduino/releases
   Built by Khoi Hoang https://github.com/khoih-prog/ESP_AT_Lib
@@ -27,7 +27,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 
-  Version: 1.4.1
+  Version: 1.5.1
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -36,13 +36,17 @@
   1.2.0   K Hoang      17/05/2021 Add support to RP2040-based boards using Arduino-mbed RP2040 core. Fix compiler warnings
   1.3.0   K Hoang      29/05/2021 Add support to RP2040-based Nano_RP2040_Connect using Arduino-mbed RP2040 core
   1.4.0   K Hoang      13/08/2021 Add support to Adafruit nRF52 core v0.22.0+
-  1.4.1   K Hoang      10/10/2021  Update `platform.ini` and `library.json`
+  1.4.1   K Hoang      10/10/2021 Update `platform.ini` and `library.json`
+  1.5.0   K Hoang      19/01/2023 Add support to WizNet WizFi360 such as WIZNET_WIZFI360_EVB_PICO
+  1.5.1   K Hoang      19/01/2023 Fix mistakes
  *****************************************************************************************************************************/
 
 #ifndef __ESP_AT_LIB_IMPL_H__
 #define __ESP_AT_LIB_IMPL_H__
 
 #include <avr/pgmspace.h>
+
+////////////////////////////////////////
 
 ESP8266::ESP8266(Stream *uart)
   : m_puart(uart)
@@ -51,12 +55,16 @@ ESP8266::ESP8266(Stream *uart)
   m_onDataPtr = NULL;
 }
 
-bool ESP8266::kick(void)
+////////////////////////////////////////
+
+bool ESP8266::kick()
 {
   return eAT();
 }
 
-bool ESP8266::restart(void)
+////////////////////////////////////////
+
+bool ESP8266::restart()
 {
   unsigned long start;
   if (eATRST())
@@ -75,40 +83,55 @@ bool ESP8266::restart(void)
       delay(100);
     }
   }
+  
   return false;
 }
 
-String ESP8266::getVersion(void)
+////////////////////////////////////////
+
+String ESP8266::getVersion()
 {
   String version;
 
   eATGMR(version);
+  
   return version;
 }
+
+////////////////////////////////////////
 
 bool ESP8266::setEcho(uint8_t mode)
 {
   return eATE(mode);
 }
 
-bool ESP8266::restore(void)
+////////////////////////////////////////
+
+bool ESP8266::restore()
 {
   return eATRESTORE();
 }
+
+////////////////////////////////////////
 
 bool ESP8266::setUart(uint32_t baudrate, uint8_t pattern)
 {
   return eATSETUART(baudrate, pattern);
 }
 
+////////////////////////////////////////
+
 bool ESP8266::deepSleep(uint32_t time)
 {
   return eATGSLP(time);
 }
 
+////////////////////////////////////////
+
 bool ESP8266::setOprToStation(uint8_t pattern1, uint8_t pattern2)
 {
   uint8_t mode;
+  
   if (!qATCWMODE(&mode, pattern1))
   {
     return false;
@@ -131,12 +154,17 @@ bool ESP8266::setOprToStation(uint8_t pattern1, uint8_t pattern2)
   }
 }
 
-String ESP8266::getWifiModeList(void)
+////////////////////////////////////////
+
+String ESP8266::getWifiModeList()
 {
   String list;
   eATCWMODE(list);
+  
   return list;
 }
+
+////////////////////////////////////////
 
 bool ESP8266::setOprToSoftAP(uint8_t pattern1, uint8_t pattern2)
 {
@@ -164,6 +192,8 @@ bool ESP8266::setOprToSoftAP(uint8_t pattern1, uint8_t pattern2)
   }
 }
 
+////////////////////////////////////////
+
 bool ESP8266::setOprToStationSoftAP(uint8_t pattern1, uint8_t pattern2)
 {
   uint8_t mode;
@@ -190,6 +220,8 @@ bool ESP8266::setOprToStationSoftAP(uint8_t pattern1, uint8_t pattern2)
   }
 }
 
+////////////////////////////////////////
+
 uint8_t ESP8266::getOprMode(uint8_t pattern1)
 {
   uint8_t mode;
@@ -204,32 +236,43 @@ uint8_t ESP8266::getOprMode(uint8_t pattern1)
   }
 }
 
+////////////////////////////////////////
+
 String ESP8266::getNowConecAp(uint8_t pattern)
 {
   String ssid;
 
   qATCWJAP(ssid, pattern);
+  
   return ssid;
 }
 
+////////////////////////////////////////
 
-String ESP8266::getAPList(void)
+String ESP8266::getAPList()
 {
   String list;
 
   eATCWLAP(list);
+  
   return list;
 }
+
+////////////////////////////////////////
 
 bool ESP8266::joinAP(String ssid, String pwd, uint8_t pattern)
 {
   return sATCWJAP(ssid, pwd, pattern);
 }
 
-bool ESP8266::leaveAP(void)
+////////////////////////////////////////
+
+bool ESP8266::leaveAP()
 {
   return eATCWQAP();
 }
+
+////////////////////////////////////////
 
 String ESP8266::getSoftAPParam(uint8_t pattern)
 {
@@ -239,18 +282,24 @@ String ESP8266::getSoftAPParam(uint8_t pattern)
   return list;
 }
 
+////////////////////////////////////////
+
 bool ESP8266::setSoftAPParam(String ssid, String pwd, uint8_t chl, uint8_t ecn, uint8_t pattern)
 {
   return sATCWSAP(ssid, pwd, chl, ecn, pattern);
 }
 
-String ESP8266::getJoinedDeviceIP(void)
+////////////////////////////////////////
+
+String ESP8266::getJoinedDeviceIP()
 {
   String list;
 
   eATCWLIF(list);
   return list;
 }
+
+////////////////////////////////////////
 
 String ESP8266::getDHCP(uint8_t pattern)
 {
@@ -259,6 +308,8 @@ String ESP8266::getDHCP(uint8_t pattern)
   qATCWDHCP(dhcp, pattern);
   return dhcp;
 }
+
+////////////////////////////////////////
 
 #if USE_ESP32_AT
 // For ESP32-AT
@@ -292,36 +343,50 @@ bool ESP8266::setDHCP(uint8_t mode, uint8_t en, uint8_t pattern)
 }
 #endif
 
+////////////////////////////////////////
+
 bool ESP8266::setAutoConnect(uint8_t en)
 {
   return eATCWAUTOCONN(en);
 }
+
+////////////////////////////////////////
 
 String ESP8266::getStationMac(uint8_t pattern)
 {
   String mac;
 
   qATCIPSTAMAC(mac, pattern);
+  
   return mac;
 }
+
+////////////////////////////////////////
 
 bool ESP8266::setStationMac(String mac, uint8_t pattern)
 {
   return eATCIPSTAMAC(mac, pattern);
 }
 
+////////////////////////////////////////
+
 String ESP8266::getStationIp(uint8_t pattern)
 {
   String ip;
 
   qATCIPSTAIP(ip, pattern);
+  
   return ip;
 }
+
+////////////////////////////////////////
 
 bool ESP8266::setStationIp(String ip, String gateway, String netmask, uint8_t pattern)
 {
   return eATCIPSTAIP(ip, gateway, netmask, pattern);
 }
+
+////////////////////////////////////////
 
 String ESP8266::getAPIp(uint8_t pattern)
 {
@@ -331,30 +396,41 @@ String ESP8266::getAPIp(uint8_t pattern)
   return ip;
 }
 
+////////////////////////////////////////
+
 bool ESP8266::setAPIp(String ip, uint8_t pattern)
 {
   return eATCIPAP(ip, pattern);
 }
+
+////////////////////////////////////////
 
 bool ESP8266::startSmartConfig(uint8_t type)
 {
   return eCWSTARTSMART(type);
 }
 
-bool ESP8266::stopSmartConfig(void)
+////////////////////////////////////////
+
+bool ESP8266::stopSmartConfig()
 {
   return eCWSTOPSMART();
 }
 
-String ESP8266::getIPStatus(void)
+////////////////////////////////////////
+
+String ESP8266::getIPStatus()
 {
   String list;
 
   eATCIPSTATUS(list);
+  
   return list;
 }
 
-String ESP8266::getLocalIP(void)
+////////////////////////////////////////
+
+String ESP8266::getLocalIP()
 {
   String list;
 
@@ -362,60 +438,84 @@ String ESP8266::getLocalIP(void)
   return list;
 }
 
-bool ESP8266::enableMUX(void)
+////////////////////////////////////////
+
+bool ESP8266::enableMUX()
 {
   return sATCIPMUX(1);
 }
 
-bool ESP8266::disableMUX(void)
+////////////////////////////////////////
+
+bool ESP8266::disableMUX()
 {
   return sATCIPMUX(0);
 }
+
+////////////////////////////////////////
 
 bool ESP8266::createTCP(String addr, uint32_t port)
 {
   return sATCIPSTARTSingle("TCP", addr, port);
 }
 
-bool ESP8266::releaseTCP(void)
+////////////////////////////////////////
+
+bool ESP8266::releaseTCP()
 {
   return eATCIPCLOSESingle();
 }
+
+////////////////////////////////////////
 
 bool ESP8266::registerUDP(String addr, uint32_t port)
 {
   return sATCIPSTARTSingle("UDP", addr, port);
 }
 
-bool ESP8266::unregisterUDP(void)
+////////////////////////////////////////
+
+bool ESP8266::unregisterUDP()
 {
   return eATCIPCLOSESingle();
 }
+
+////////////////////////////////////////
 
 bool ESP8266::createTCP(uint8_t mux_id, String addr, uint32_t port)
 {
   return sATCIPSTARTMultiple(mux_id, "TCP", addr, port);
 }
 
+////////////////////////////////////////
+
 bool ESP8266::releaseTCP(uint8_t mux_id)
 {
   return sATCIPCLOSEMultiple(mux_id);
 }
+
+////////////////////////////////////////
 
 bool ESP8266::registerUDP(uint8_t mux_id, String addr, uint32_t port)
 {
   return sATCIPSTARTMultiple(mux_id, "UDP", addr, port);
 }
 
+////////////////////////////////////////
+
 bool ESP8266::unregisterUDP(uint8_t mux_id)
 {
   return sATCIPCLOSEMultiple(mux_id);
 }
 
+////////////////////////////////////////
+
 bool ESP8266::setTCPServerTimeout(uint32_t timeout)
 {
   return sATCIPSTO(timeout);
 }
+
+////////////////////////////////////////
 
 bool ESP8266::startTCPServer(uint32_t port)
 {
@@ -427,62 +527,87 @@ bool ESP8266::startTCPServer(uint32_t port)
   return false;
 }
 
-bool ESP8266::stopTCPServer(void)
+////////////////////////////////////////
+
+bool ESP8266::stopTCPServer()
 {
   sATCIPSERVER(0);
   restart();
+  
   return false;
 }
+
+////////////////////////////////////////
 
 bool ESP8266::setCIPMODE(uint8_t mode)
 {
   return sATCIPMODE(mode);
 }
 
+////////////////////////////////////////
+
 bool ESP8266::saveTransLink (uint8_t mode, String ip, uint32_t port)
 {
   return eATSAVETRANSLINK(mode, ip, port);
 }
+
+////////////////////////////////////////
 
 bool ESP8266::setPing(String ip)
 {
   return eATPING(ip);
 }
 
+////////////////////////////////////////
+
 bool ESP8266::startServer(uint32_t port)
 {
   return startTCPServer(port);
 }
 
-bool ESP8266::stopServer(void)
+////////////////////////////////////////
+
+bool ESP8266::stopServer()
 {
   return stopTCPServer();
 }
+
+////////////////////////////////////////
 
 bool ESP8266::send(const uint8_t *buffer, uint32_t len)
 {
   return sATCIPSENDSingle(buffer, len);
 }
 
+////////////////////////////////////////
+
 bool ESP8266::sendFromFlash(uint8_t mux_id, const uint8_t *buffer, uint32_t len)
 {
   return sATCIPSENDMultipleFromFlash(mux_id, buffer, len);
 }
+
+////////////////////////////////////////
 
 bool ESP8266::sendFromFlash(const uint8_t *buffer, uint32_t len)
 {
   return sATCIPSENDSingleFromFlash(buffer, len);
 }
 
+////////////////////////////////////////
+
 bool ESP8266::send(uint8_t mux_id, const uint8_t *buffer, uint32_t len)
 {
   return sATCIPSENDMultiple(mux_id, buffer, len);
 }
 
+////////////////////////////////////////
+
 void ESP8266::run()
 {
   rx_empty();
 }
+
+////////////////////////////////////////
 
 /*----------------------------------------------------------------------------*/
 /* +IPD,<id>,<len>:<data> */
@@ -552,7 +677,9 @@ uint32_t ESP8266::checkIPD(String& data)
   return 0;
 }
 
-void ESP8266::rx_empty(void)
+////////////////////////////////////////
+
+void ESP8266::rx_empty()
 {
   String data;
   char a;
@@ -578,6 +705,8 @@ void ESP8266::rx_empty(void)
     }
   }
 }
+
+////////////////////////////////////////
 
 String ESP8266::recvString(String target, uint32_t timeout)
 {
@@ -609,6 +738,8 @@ String ESP8266::recvString(String target, uint32_t timeout)
 
   return data;
 }
+
+////////////////////////////////////////
 
 String ESP8266::recvString(String target1, String target2, uint32_t timeout)
 {
@@ -644,6 +775,8 @@ String ESP8266::recvString(String target1, String target2, uint32_t timeout)
 
   return data;
 }
+
+////////////////////////////////////////
 
 String ESP8266::recvString(String target1, String target2, String target3, uint32_t timeout)
 {
@@ -684,6 +817,8 @@ String ESP8266::recvString(String target1, String target2, String target3, uint3
   return data;
 }
 
+////////////////////////////////////////
+
 bool ESP8266::recvFind(String target, uint32_t timeout)
 {
   String data_tmp;
@@ -697,6 +832,8 @@ bool ESP8266::recvFind(String target, uint32_t timeout)
 
   return false;
 }
+
+////////////////////////////////////////
 
 bool ESP8266::recvFindAndFilter(String target, String begin, String end, String &data, uint32_t timeout)
 {
@@ -741,7 +878,10 @@ bool ESP8266::recvFindAndFilter(String target, String begin, String end, String 
   return false;
 }
 
-bool ESP8266::eAT(void)
+////////////////////////////////////////
+////////////////////////////////////////
+
+bool ESP8266::eAT()
 {
   rx_empty();
   m_puart->println(F("AT"));
@@ -751,7 +891,9 @@ bool ESP8266::eAT(void)
   return recvFind("OK");
 }
 
-bool ESP8266::eATRST(void)
+////////////////////////////////////////
+
+bool ESP8266::eATRST()
 {
   rx_empty();
 
@@ -771,9 +913,9 @@ bool ESP8266::eATRST(void)
   
   return recvFind("OK");
 #endif
-
-
 }
+
+////////////////////////////////////////
 
 bool ESP8266::eATGMR(String &version)
 {
@@ -785,6 +927,8 @@ bool ESP8266::eATGMR(String &version)
 
   return recvFindAndFilter("OK", "\r\r\n", "\r\n\r\nOK", version, 10000);
 }
+
+////////////////////////////////////////
 
 // Enters Deep-sleep Mode in time
 bool ESP8266::eATGSLP(uint32_t time)
@@ -798,6 +942,8 @@ bool ESP8266::eATGSLP(uint32_t time)
   return recvFind("OK");
 }
 
+////////////////////////////////////////
+
 // AT Commands Echoing (mode = 0: OFF, 1: ON)
 bool ESP8266::eATE(uint8_t mode)
 {
@@ -810,8 +956,10 @@ bool ESP8266::eATE(uint8_t mode)
   return recvFind("OK");
 }
 
+////////////////////////////////////////
+
 // Restores the Factory Default Settings
-bool ESP8266::eATRESTORE(void)
+bool ESP8266::eATRESTORE()
 {
   rx_empty();
   m_puart->println(F("AT+RESTORE"));
@@ -821,6 +969,7 @@ bool ESP8266::eATRESTORE(void)
   return recvFind("OK");
 }
 
+////////////////////////////////////////
 
 bool ESP8266::eATSETUART(uint32_t baudrate, uint8_t pattern)
 {
@@ -871,6 +1020,8 @@ bool ESP8266::eATSETUART(uint32_t baudrate, uint8_t pattern)
   }
 }
 
+////////////////////////////////////////
+
 // Get the Wi-Fi Mode (Station/SoftAP/Station+SoftAP)
 // ESP32-AT not support _CUR and _DEF here
 bool ESP8266::qATCWMODE(uint8_t *mode, uint8_t pattern)
@@ -915,6 +1066,8 @@ bool ESP8266::qATCWMODE(uint8_t *mode, uint8_t pattern)
   }
 }
 
+////////////////////////////////////////
+
 // Test if the Wi-Fi Mode (Station/SoftAP/Station+SoftAP) supported
 bool ESP8266::eATCWMODE(String &list)
 {
@@ -925,6 +1078,8 @@ bool ESP8266::eATCWMODE(String &list)
 
   return recvFindAndFilter("OK", "+CWMODE:(", ")\r\n\r\nOK", list);
 }
+
+////////////////////////////////////////
 
 // Set the Wi-Fi Mode (Station/SoftAP/Station+SoftAP)
 // ESP32-AT not support _CUR and _DEF here
@@ -951,10 +1106,18 @@ bool ESP8266::sATCWMODE(uint8_t mode, uint8_t pattern)
       AT_LIB_LOGDEBUG(F("AT+CWMODE_CUR="));
       break;
 #endif
+
+#if (USING_WIZFI360) || defined(ARDUINO_WIZNET_WIZFI360_EVB_PICO)
+    default:
+      m_puart->print(F("AT+CWMODE_DEF="));
+      AT_LIB_LOGDEBUG(F("AT+CWMODE_DEF="));
+      break;
+#else
     default:
       m_puart->print(F("AT+CWMODE="));
       AT_LIB_LOGDEBUG(F("AT+CWMODE="));
       break;
+#endif
   }
 
   m_puart->println(mode);
@@ -967,6 +1130,8 @@ bool ESP8266::sATCWMODE(uint8_t mode, uint8_t pattern)
 
   return false;
 }
+
+////////////////////////////////////////
 
 // Get connected AP info
 // ESP32-AT not support _CUR and _DEF here
@@ -1007,8 +1172,9 @@ bool ESP8266::qATCWJAP(String &ssid, uint8_t pattern)
   }
 
   return false;
-
 }
+
+////////////////////////////////////////
 
 // Connects to an AP
 // ESP32-AT not support _CUR and _DEF here
@@ -1035,10 +1201,18 @@ bool ESP8266::sATCWJAP(String ssid, String pwd, uint8_t pattern)
       AT_LIB_LOGDEBUG(F("AT+CWJAP_CUR=\""));
       break;
 #endif
+
+#if (USING_WIZFI360) || defined(ARDUINO_WIZNET_WIZFI360_EVB_PICO)
+    default:
+      m_puart->print(F("AT+CWJAP_DEF=\""));
+      AT_LIB_LOGDEBUG(F("AT+CWJAP_DEF=\""));
+      break;
+#else
     default:
       m_puart->print(F("AT+CWJAP=\""));
       AT_LIB_LOGDEBUG(F("AT+CWJAP=\""));
       break;
+#endif      
   }
 
   m_puart->print(ssid);
@@ -1060,6 +1234,8 @@ bool ESP8266::sATCWJAP(String ssid, String pwd, uint8_t pattern)
   return false;
 }
 
+////////////////////////////////////////
+
 // Lists the Available APs
 bool ESP8266::eATCWLAP(String &list)
 {
@@ -1072,8 +1248,10 @@ bool ESP8266::eATCWLAP(String &list)
   return recvFindAndFilter("OK", "\r\r\n", "\r\n\r\nOK", list, 15000);
 }
 
+////////////////////////////////////////
+
 // Disconnects from the AP
-bool ESP8266::eATCWQAP(void)
+bool ESP8266::eATCWQAP()
 {
   String data;
 
@@ -1084,6 +1262,8 @@ bool ESP8266::eATCWQAP(void)
 
   return recvFind("OK");
 }
+
+////////////////////////////////////////
 
 // Get Configuration Params of the ESP8266/ESP32 SoftAP
 // ESP32-AT not support _CUR and _DEF here
@@ -1116,6 +1296,8 @@ bool ESP8266::qATCWSAP(String &List, uint8_t pattern)
 
   return recvFindAndFilter("OK", "\r\r\n", "\r\n\r\nOK", List, 10000);
 }
+
+////////////////////////////////////////
 
 // Set Configuration Params of the ESP8266/ESP32 SoftAP
 // ESP32-AT not support _CUR and _DEF here
@@ -1170,6 +1352,8 @@ bool ESP8266::sATCWSAP(String ssid, String pwd, uint8_t chl, uint8_t ecn, uint8_
   return false;
 }
 
+////////////////////////////////////////
+
 // Get IP of Stations to Which the ESP8266/ESP32 SoftAP is connected
 bool ESP8266::eATCWLIF(String &list)
 {
@@ -1182,6 +1366,8 @@ bool ESP8266::eATCWLIF(String &list)
 
   return recvFindAndFilter("OK", "\r\r\n", "\r\n\r\nOK", list);
 }
+
+////////////////////////////////////////
 
 // Get info if DHCP Enabled or Disabled
 // ESP32-AT not support _CUR and _DEF here and has different command format
@@ -1215,6 +1401,8 @@ bool ESP8266::qATCWDHCP(String &List, uint8_t pattern)
   return recvFindAndFilter("OK", "\r\r\n", "\r\nOK", List, 10000);
 }
 
+////////////////////////////////////////
+
 // Get info if DHCP Enabled or Disabled
 // ESP32-AT not support _CUR and _DEF here and has different command format
 // Be careful
@@ -1234,6 +1422,8 @@ bool ESP8266::qATCWDHCP(String &List, uint8_t pattern)
 // • <en>:
 //    ‣ 0: disable DHCP
 //    ‣ 1: enable DHCP
+
+////////////////////////////////////////
 
 #if USE_ESP32_AT
 // For ESP32-AT
@@ -1274,7 +1464,13 @@ bool ESP8266::sATCWDHCP(uint8_t op, uint8_t mode, uint8_t pattern)
 
   return false;
 }
+
+////////////////////////////////////////
+
 #else
+
+////////////////////////////////////////
+
 // For ESP8266
 // ESP8266-AT => AT+CWDHCP=<mode>,<en>
 // • <mode>:
@@ -1322,7 +1518,12 @@ bool ESP8266::sATCWDHCP(uint8_t mode, uint8_t en, uint8_t pattern)
 
   return false;
 }
+
+////////////////////////////////////////
+
 #endif
+
+////////////////////////////////////////
 
 // ESP8266-AT => AT+CWDHCP=<mode>,<en>
 // • <en>:
@@ -1346,6 +1547,8 @@ bool ESP8266::eATCWAUTOCONN(uint8_t en)
 
   return recvFind("OK");
 }
+
+////////////////////////////////////////
 
 // Get the MAC Address of the ESP8266/ESP32 Station
 // ESP32-AT not support _CUR and _DEF here
@@ -1378,6 +1581,8 @@ bool ESP8266::qATCIPSTAMAC(String &mac, uint8_t pattern)
 
   return recvFindAndFilter("OK", "\r\r\n", "\r\n\r\nOK", mac, 2000);
 }
+
+////////////////////////////////////////
 
 // Set the MAC Address of the ESP8266/ESP32 Station
 // ESP32-AT not support _CUR and _DEF here
@@ -1415,6 +1620,8 @@ bool ESP8266::eATCIPSTAMAC(String mac, uint8_t pattern)
   return recvFind("OK");
 }
 
+////////////////////////////////////////
+
 // Get the IP Address of the ESP8266/ESP32 Station
 // ESP32-AT not support _CUR and _DEF here
 bool ESP8266::qATCIPSTAIP(String &ip, uint8_t pattern)
@@ -1447,11 +1654,12 @@ bool ESP8266::qATCIPSTAIP(String &ip, uint8_t pattern)
   return recvFindAndFilter("OK", "\r\r\n", "\r\n\r\nOK", ip, 2000);
 }
 
+////////////////////////////////////////
+
 // Set the IP Address of the ESP8266/ESP32 Station
 // ESP32-AT not support _CUR and _DEF here
 bool ESP8266::eATCIPSTAIP(String ip, String gateway, String netmask, uint8_t pattern)
 {
-
   rx_empty();
 
   if (!pattern)
@@ -1488,6 +1696,8 @@ bool ESP8266::eATCIPSTAIP(String ip, String gateway, String netmask, uint8_t pat
   return recvFind("OK");
 }
 
+////////////////////////////////////////
+
 // Get the IP Address of the ESP8266/ESP32 SoftAP
 // ESP32-AT not support _CUR and _DEF here
 bool ESP8266::qATCIPAP(String &ip, uint8_t pattern)
@@ -1519,6 +1729,8 @@ bool ESP8266::qATCIPAP(String &ip, uint8_t pattern)
 
   return recvFindAndFilter("OK", "\r\r\n", "\r\n\r\nOK", ip, 2000);
 }
+
+////////////////////////////////////////
 
 // Set the IP Address of the ESP8266/ESP32 SoftAP
 // ESP32-AT not support _CUR and _DEF here
@@ -1556,6 +1768,8 @@ bool ESP8266::eATCIPAP(String ip, uint8_t pattern)
   return recvFind("OK");
 }
 
+////////////////////////////////////////
+
 // Starts SmartConfig
 // <type>:
 // ‣ 1: ESP-TOUCH
@@ -1572,8 +1786,10 @@ bool ESP8266::eCWSTARTSMART(uint8_t type)
   return recvFind("OK");
 }
 
+////////////////////////////////////////
+
 // Stops SmartConfig
-bool ESP8266::eCWSTOPSMART(void)
+bool ESP8266::eCWSTOPSMART()
 {
   rx_empty();
   m_puart->println(F("AT+CWSTOPSMART"));
@@ -1582,6 +1798,8 @@ bool ESP8266::eCWSTOPSMART(void)
 
   return recvFind("OK");
 }
+
+////////////////////////////////////////
 
 // Gets the Connection Status
 bool ESP8266::eATCIPSTATUS(String &list)
@@ -1596,6 +1814,8 @@ bool ESP8266::eATCIPSTATUS(String &list)
 
   return recvFindAndFilter("OK", "\r\r\n", "\r\n\r\nOK", list);
 }
+
+////////////////////////////////////////
 
 // Establishes TCP Connection, UDP Transmission or SSL Connection
 // Single connection (AT+CIPMUX=0)
@@ -1619,6 +1839,8 @@ bool ESP8266::sATCIPSTARTSingle(String type, String addr, uint32_t port)
 
 #if USE_ESP32_AT
   data = recvString("OK", 10000);
+  
+  AT_LIB_LOGDEBUG1("data=", data);
 
   if (data.indexOf("OK") != -1)
   {
@@ -1635,6 +1857,8 @@ bool ESP8266::sATCIPSTARTSingle(String type, String addr, uint32_t port)
 
   return false;
 }
+
+////////////////////////////////////////
 
 // Establishes TCP Connection, UDP Transmission or SSL Connection
 // Multiple Connections (AT+CIPMUX=1)
@@ -1677,6 +1901,8 @@ bool ESP8266::sATCIPSTARTMultiple(uint8_t mux_id, String type, String addr, uint
   return false;
 }
 
+////////////////////////////////////////
+
 // Sends Data of designated length.
 // Single connection: (+CIPMUX=0)     => AT+CIPSEND=<length>
 bool ESP8266::sATCIPSENDSingle(const uint8_t *buffer, uint32_t len)
@@ -1702,6 +1928,8 @@ bool ESP8266::sATCIPSENDSingle(const uint8_t *buffer, uint32_t len)
 
   return false;
 }
+
+////////////////////////////////////////
 
 // Sends Data of designated length.
 // Multiple connections: (+CIPMUX=1)  => AT+CIPSEND=<link ID>,<length>
@@ -1731,6 +1959,8 @@ bool ESP8266::sATCIPSENDMultiple(uint8_t mux_id, const uint8_t *buffer, uint32_t
   return false;
 }
 
+////////////////////////////////////////
+
 // Sends Data of designated length.
 // Single connection: (+CIPMUX=0)     => AT+CIPSEND=<length>
 bool ESP8266::sATCIPSENDSingleFromFlash(const uint8_t *buffer, uint32_t len)
@@ -1755,6 +1985,8 @@ bool ESP8266::sATCIPSENDSingleFromFlash(const uint8_t *buffer, uint32_t len)
   }
   return false;
 }
+
+////////////////////////////////////////
 
 // Sends Data of designated length.
 // Multiple connections: (+CIPMUX=1)  => AT+CIPSEND=<link ID>,<length>
@@ -1783,6 +2015,8 @@ bool ESP8266::sATCIPSENDMultipleFromFlash(uint8_t mux_id, const uint8_t *buffer,
 
   return false;
 }
+
+////////////////////////////////////////
 
 // Closes TCP/UDP/SSL Connection for multiple connections
 // AT+CIPCLOSE=<link ID>
@@ -1816,8 +2050,10 @@ bool ESP8266::sATCIPCLOSEMultiple(uint8_t mux_id)
   return false;
 }
 
+////////////////////////////////////////
+
 // Closes TCP/UDP/SSL Connection for single connections
-bool ESP8266::eATCIPCLOSESingle(void)
+bool ESP8266::eATCIPCLOSESingle()
 {
   rx_empty();
   m_puart->println(F("AT+CIPCLOSE"));
@@ -1826,6 +2062,8 @@ bool ESP8266::eATCIPCLOSESingle(void)
 
   return recvFind("OK", 5000);
 }
+
+////////////////////////////////////////
 
 // Gets the Local IP Address
 bool ESP8266::eATCIFSR(String &list)
@@ -1837,6 +2075,8 @@ bool ESP8266::eATCIFSR(String &list)
 
   return recvFindAndFilter("OK", "\r\r\n", "\r\n\r\nOK", list);
 }
+
+////////////////////////////////////////
 
 // Enables/Disables Multiple Connections
 bool ESP8266::sATCIPMUX(uint8_t mode)
@@ -1860,6 +2100,8 @@ bool ESP8266::sATCIPMUX(uint8_t mode)
 
   return false;
 }
+
+////////////////////////////////////////
 
 // Deletes/Creates TCP Server
 // • <mode>:
@@ -1909,6 +2151,8 @@ bool ESP8266::sATCIPSERVER(uint8_t mode, uint32_t port)
   }
 }
 
+////////////////////////////////////////
+
 // Sets Transmission Mode
 // ‣ 0: normal transmission mode.
 // ‣ 1: UART-Wi-Fi passthrough mode (transparent transmission), which can only be enabled in TCP/SSL
@@ -1940,13 +2184,14 @@ bool ESP8266::sATCIPMODE(uint8_t mode)
   return false;
 }
 
+////////////////////////////////////////
+
 // Saves the Transparent Transmission Link in Flash
 // • <mode>:
 // ‣ 0: ESP8266/ESP32 will NOT enter UART-Wi-Fi passthrough mode on power-up.
 // ‣ 1: ESP8266/ESP32 will enter UART-Wi-Fi passthrough mode on power-up.
 bool ESP8266::eATSAVETRANSLINK(uint8_t mode, String ip, uint32_t port)
 {
-
   String data;
 
   rx_empty();
@@ -1971,6 +2216,8 @@ bool ESP8266::eATSAVETRANSLINK(uint8_t mode, String ip, uint32_t port)
   return false;
 }
 
+////////////////////////////////////////
+
 // Ping Packets
 bool ESP8266::eATPING(String ip)
 {
@@ -1986,6 +2233,8 @@ bool ESP8266::eATPING(String ip)
   return recvFind("OK", 2000);
 }
 
+////////////////////////////////////////
+
 // Sets the TCP Server Timeout
 bool ESP8266::sATCIPSTO(uint32_t timeout)
 {
@@ -1999,12 +2248,16 @@ bool ESP8266::sATCIPSTO(uint32_t timeout)
   return recvFind("OK");
 }
 
+////////////////////////////////////////
+
 //KH Added
 /////////////
 uint32_t ESP8266::recv(uint8_t *buffer, uint32_t buffer_size, uint32_t timeout)
 {
   return recvPkg(buffer, buffer_size, NULL, timeout, NULL);
 }
+
+////////////////////////////////////////
 
 uint32_t ESP8266::recv(uint8_t mux_id, uint8_t *buffer, uint32_t buffer_size, uint32_t timeout)
 {
@@ -2021,10 +2274,14 @@ uint32_t ESP8266::recv(uint8_t mux_id, uint8_t *buffer, uint32_t buffer_size, ui
   return 0;
 }
 
+////////////////////////////////////////
+
 uint32_t ESP8266::recv(uint8_t *coming_mux_id, uint8_t *buffer, uint32_t buffer_size, uint32_t timeout)
 {
   return recvPkg(buffer, buffer_size, NULL, timeout, coming_mux_id);
 }
+
+////////////////////////////////////////
 
 /*----------------------------------------------------------------------------*/
 /* +IPD,<id>,<len>:<data> */
@@ -2137,7 +2394,8 @@ uint32_t ESP8266::recvPkg(uint8_t *buffer, uint32_t buffer_size, uint32_t *data_
   }
   return 0;
 }
-///////////////
+
+////////////////////////////////////////
 
 #endif    // __ESP_AT_LIB_IMPL_H__
 

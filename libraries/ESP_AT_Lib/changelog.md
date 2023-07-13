@@ -1,4 +1,4 @@
-## ESP_AT_Lib
+## ESP_AT_Lib Library
 
 [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP_AT_Lib.svg?)](https://www.ardu-badge.com/ESP_AT_Lib)
 [![GitHub release](https://img.shields.io/github/release/khoih-prog/ESP_AT_Lib.svg)](https://github.com/khoih-prog/ESP_AT_Lib/releases)
@@ -7,12 +7,18 @@
 [![GitHub issues](https://img.shields.io/github/issues/khoih-prog/ESP_AT_Lib.svg)](http://github.com/khoih-prog/ESP_AT_Lib/issues)
 
 
+<a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Donate to my libraries using BuyMeACoffee" style="height: 50px !important;width: 181px !important;" ></a>
+<a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-orange.svg?logo=buy-me-a-coffee&logoColor=FFDD00" style="height: 20px !important;width: 200px !important;" ></a>
+
+
 ---
 ---
 
 ## Table of Contents
 
 * [Changelog](#changelog)
+  * [Releases v1.5.1](#releases-v151)
+  * [Releases v1.5.0](#releases-v150)
   * [Releases v1.4.1](#releases-v141)
   * [Releases v1.4.0](#releases-v140)
   * [Releases v1.3.0](#releases-v130)
@@ -24,6 +30,16 @@
 ---
 
 ### Changelog
+
+### Releases v1.5.1
+
+1. Fix missing author in `library.properties`
+2. Fix not updated library's code
+
+### Releases v1.5.0
+
+1. Add support to WizNet `WizFi360`, such as `WIZNET_WIZFI360_EVB_PICO` using `arduino-pico` core
+2. Modify examples to Enable `IP MUX`
 
 ### Releases v1.4.1
 
