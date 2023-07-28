@@ -1,6 +1,6 @@
 #define NZZ
 
-#define VERSION_ID " NZZ.1 " 
+#define VERSION_ID " MRT.1 " 
                    
 #define BLYNK_SERVER "blynk.cloud" //BLYNK2 REMOTE SERVER 
 #define BLYNK1_SERVER "blynk-cloud.com" //BLYNK REMOTE SERVER
