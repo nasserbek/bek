@@ -997,6 +997,11 @@ void blynk::visualActiveRoom(int id, bool zap)
       Blynk.setProperty(V17, "color", BLYNK_BLACK);
       Blynk.setProperty(V18, "color", BLYNK_BLACK);
       Blynk.setProperty(V25, "color", BLYNK_BLACK);
+      Blynk.virtualWrite(V3, 6);
+      Blynk.virtualWrite(V16, 11);
+      Blynk.virtualWrite(V17, 16);
+      Blynk.virtualWrite(V18, 21);
+      Blynk.virtualWrite(V25, 26);
     }
   if ( (id >= 6) && (id <= 10)) 
     { 
@@ -1006,6 +1011,11 @@ void blynk::visualActiveRoom(int id, bool zap)
       Blynk.setProperty(V17, "color", BLYNK_BLACK);
       Blynk.setProperty(V18, "color", BLYNK_BLACK);
       Blynk.setProperty(V25, "color", BLYNK_BLACK);
+      Blynk.virtualWrite(V3, 6);
+      Blynk.virtualWrite(V16, 11);
+      Blynk.virtualWrite(V17, 16);
+      Blynk.virtualWrite(V18, 21);
+      Blynk.virtualWrite(V25, 26);
    }
   if ( (id >= 11) && (id <= 15)) 
     { 
@@ -1015,6 +1025,11 @@ void blynk::visualActiveRoom(int id, bool zap)
       Blynk.setProperty(V16, "color", BLYNK_BLACK);
       Blynk.setProperty(V18, "color", BLYNK_BLACK);
       Blynk.setProperty(V25, "color", BLYNK_BLACK);
+      Blynk.virtualWrite(V16, 11);
+      Blynk.virtualWrite(V3, 6);
+      Blynk.virtualWrite(V17, 16);
+      Blynk.virtualWrite(V18, 21);
+      Blynk.virtualWrite(V25, 26);
    }
   if ( (id >= 16) && (id <= 20)) 
     { 
@@ -1024,6 +1039,11 @@ void blynk::visualActiveRoom(int id, bool zap)
       Blynk.setProperty(V16, "color", BLYNK_BLACK);
       Blynk.setProperty(V17, "color", BLYNK_BLACK);
       Blynk.setProperty(V25, "color", BLYNK_BLACK);
+      Blynk.virtualWrite(V16, 11);
+      Blynk.virtualWrite(V17, 16);
+      Blynk.virtualWrite(V3, 6);
+      Blynk.virtualWrite(V18, 21);
+      Blynk.virtualWrite(V25, 26);
    }
   if ( (id >= 21) && (id <= 25)) 
     { 
@@ -1033,6 +1053,11 @@ void blynk::visualActiveRoom(int id, bool zap)
       Blynk.setProperty(V16, "color", BLYNK_BLACK);
       Blynk.setProperty(V17, "color", BLYNK_BLACK);
       Blynk.setProperty(V18, "color", BLYNK_BLACK);
+      Blynk.virtualWrite(V16, 11);
+      Blynk.virtualWrite(V17, 16);
+      Blynk.virtualWrite(V18, 21);
+      Blynk.virtualWrite(V3, 26);
+      Blynk.virtualWrite(V25, 26);
    }
   
 }
