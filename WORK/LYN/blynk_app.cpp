@@ -73,7 +73,7 @@ bool firstConnect= false;
 extern EventGroupHandle_t g_event_group;
 extern QueueHandle_t g_event_queue_handle;
 
-WidgetLED ACK_LED_V5(V5);   //Ack
+//WidgetLED ACK_LED_V5(V5);   //Ack
 WidgetLED T433_LED_V6(V6);   //T433 St
 WidgetLED T315_LED_V13(V13);  //T315 St
 WidgetLED SMS_LED_V12(V12);  //sms
@@ -133,7 +133,7 @@ _seconds = seconds = (((timeNow % day) % hour) % minute) / second;
 
 void ledInit(void)
 {
-  ACK_LED_V5.on(); //Enable colours for Ack Led
+  //ACK_LED_V5.on(); //Enable colours for Ack Led
   T433_LED_V6.on(); //Enable colours for T433 St Led
   T315_LED_V13.on(); //Enable colours for T315 St Led
   SMS_LED_V12.on(); //Enable colours for firebase
@@ -269,6 +269,7 @@ BLYNK_WRITE(V2) // receiver ch
     _blynkData=param.asInt();
     eventdata = Q_EVENT_VIDEO_CH_V2;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    Blynk.virtualWrite(V5, _blynkData);
 }
 
 BLYNK_WRITE(V3) // ROOM_1_TO_5
@@ -958,8 +959,8 @@ void blynk::sendAvRxIndex(int _index)
 
 void blynk::blynkAckLed(bool _data)
 {
-      if (_data==1)  ACK_LED_V5.setColor(BLYNK_RED);
-      else           ACK_LED_V5.setColor(BLYNK_GREEN);
+     // if (_data==1)  ACK_LED_V5.setColor(BLYNK_RED);
+      //else           ACK_LED_V5.setColor(BLYNK_GREEN);
 }
 
 
