@@ -1,4 +1,4 @@
-#define MRT
+#define CSR
 
 #define VERSION_ID " CSR.0 " 
                    
@@ -12,13 +12,13 @@
 #define WIFI_SSID_HUAWEI  "HUAWEI_BEK" 
 
 
-#ifdef MRT
-    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/CSR/.ino.ttgo-t1.bin"  // URL to download the firmware from
-    #define NOTIFIER_ID " CSRT -"
+#ifdef CSR
+    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/build/esp32.esp32.ttgo-t1/CSR.ino.bin"  // URL to download the firmware from
+    #define NOTIFIER_ID " CSR -"
     
     //2023
     #define BLYNK_TEMPLATE_ID           "TMPL5Y2na6zpd"
-    #define BLYNK_TEMPLATE_NAME         "MrtTemplate"
+    #define BLYNK_TEMPLATE_NAME         "CSRTemplate"
     #define BLYNK_AUTH_TOKEN            "B1pZ48rPHfdQ8LxlqCoiPk8fxWBbv7B0"
     
     #define BLYNK1_AUTH_TOKEN "D4AU1HexWcErQ9vtpkP_EgocpnoArZKC" //MAIN BOX
