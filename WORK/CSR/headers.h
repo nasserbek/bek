@@ -1,6 +1,7 @@
 #define CSR
+//#define CSR2
 
-#define VERSION_ID " CSR.0 " 
+#define VERSION_ID " CSR.3 " 
                    
 #define BLYNK_SERVER "blynk.cloud" //BLYNK2 REMOTE SERVER 
 #define BLYNK1_SERVER "blynk-cloud.com" //BLYNK REMOTE SERVER
@@ -18,19 +19,28 @@
     
     //2023
     #define BLYNK_TEMPLATE_ID           "TMPL5Y2na6zpd"
-    #define BLYNK_TEMPLATE_NAME         "CSRTemplate"
-    #define BLYNK_AUTH_TOKEN            "B1pZ48rPHfdQ8LxlqCoiPk8fxWBbv7B0"
-    
-    #define BLYNK1_AUTH_TOKEN "D4AU1HexWcErQ9vtpkP_EgocpnoArZKC" //MAIN BOX
-#else
-    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/VHY/VHY.ino.ttgo-t1.bin" // URL to download the firmware from
-    #define NOTIFIER_ID " VHY -"
-    #define BLYNK_TEMPLATE_ID "TMPLOM3pqxfl"
-    #define BLYNK_DEVICE_NAME "VHY"
-    #define BLYNK_AUTH_TOKEN "Lx1zRLy1OXHddGtiAwrK2aHvVYerPDpQ"  
-      
-    #define BLYNK1_AUTH_TOKEN "ya1T2eipkMhB3NvyLeAyRVRHqPAUXUG-"  //SPARE BOX
+    #define BLYNK_TEMPLATE_NAME         "CSR"
+    #define BLYNK_AUTH_TOKEN            "B1pZ48rPHfdQ8LxlqCoiPk8fxWBbv7B0" //CSR
+    ///#define BLYNK_AUTH_TOKEN            "_cqYD1seWElWB-S1IxutIEI7VWmDpb05" //CS2
+
+
+    #define BLYNK1_AUTH_TOKEN "_cqYD1seWElWB-S1IxutIEI7VWmDpb05" //MAIN BOX
 #endif
+
+#ifdef CSR2
+    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/build/esp32.esp32.ttgo-t1/CSR.ino.bin"  // URL to download the firmware from
+    #define NOTIFIER_ID " CSR -"
+    
+    //2023
+    #define BLYNK_TEMPLATE_ID           "TMPL5Y2na6zpd"
+    #define BLYNK_TEMPLATE_NAME         "CSR"
+   // #define BLYNK_AUTH_TOKEN            "B1pZ48rPHfdQ8LxlqCoiPk8fxWBbv7B0" //CSR
+    #define BLYNK_AUTH_TOKEN            "_cqYD1seWElWB-S1IxutIEI7VWmDpb05" //CS2
+
+
+    #define BLYNK1_AUTH_TOKEN "_cqYD1seWElWB-S1IxutIEI7VWmDpb05" //MAIN BOX
+#endif
+
 
 
 // FOR FIREBASE ONLY
