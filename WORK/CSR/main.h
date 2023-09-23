@@ -56,8 +56,8 @@ uint _pll[21];
 //                                  11        10        63        29        65       27      52        48        28        66        17        24        62        64       XX         22        37         EX20      XX         Xxx
 
 //FREQ CSR IN ORDER ROOM NR
-const uint freqTable[21] =      {0,1120,     1080,     1140,     1180,    1280,    1060,    1200,     1360,     1320,     1120 ,     1160,     1080   ,  1240,     1100,     1300,     1340,         1060,      1100,     1140,     1180}; 
-//                                  10        11        17        24        27       28      29        48        52        62        63        64        65        66       XX         22        37         EX20      XX         Xxx
+const uint freqTable[21] =      {0,1120,     1080,     1140,     1180,    1280,    1060,    1200,     1360,     1320,     1120 ,     1160,     1080   ,  1240,     1100,     1160,     1340,         1060,      1100,     1140,     1180}; 
+//                                  10        11        17        24        27       28      29        48        52        62        63        64        65        66        68         22        37         EX20      XX         Xxx
 // 
 
 // OLD RC const unsigned long CH_433[32] =  {0,4674831,4675071,  4675008,  4674876,  7722288,  4674879,  4675015,  4675056,  7722243,  4675011,  4674864,  4675023, 7722252, 4674819, 4675059,   4674828,  4675068,    4675020, 7722444,  7722447,7722300,7722303,7722480,7722435,7722255,7722492,7722483,7722495,7722432,7722291,0}; 
@@ -118,6 +118,22 @@ const unsigned long CH_433[32] ={0, 349452,   349443,  349652,    349649,   3495
  * 18 1120   7722288   X         53      9       18
  * 19 1240   7722444   X         53      9       18
 */
+
+bool ch1_on = false;
+bool ch2_on = false;
+bool ch3_on = false;
+bool ch4_on = false;
+bool ch5_on = false;
+bool ch6_on = false;
+bool ch7_on = false;
+bool ch8_on = false;
+bool ch9_on = false;
+bool ch10_on = false;
+bool ch11_on = false;
+bool ch12_on = false;
+bool ch13_on = false;
+bool ch14_on = false;
+bool ch15_on = false;
 
 int blynkStatus = 1;
 bool googleConnected=false;

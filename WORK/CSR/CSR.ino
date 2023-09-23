@@ -354,35 +354,42 @@ void processBlynkQueu(void)
                   dvrOnOff (queuData);  
             break;   
 
-            case Q_EVENT_03_SEL_V30:  //10
-                  videoCh[10].mux=queuData;  
+            case Q_EVENT_03_SEL_V30:  //64
+                  videoCh[12].mux=queuData; 
+                  if (!videoCh[12].mux) ch12_on == false ;
             break;   
 
-            case Q_EVENT_21_SEL_V31:   // 2
+            case Q_EVENT_21_SEL_V31:   // 11
                   videoCh[2].mux=queuData;  
+                  if (!videoCh[2].mux) ch2_on == false ;
             break;  
 
-            case Q_EVENT_27_SEL_V32: // 12
-                  videoCh[12].mux=queuData;  
+            case Q_EVENT_27_SEL_V32: // 62
+                  videoCh[10].mux=queuData;  
+                  if (!videoCh[10].mux) ch10_on == false ;
             break;   
 
-            case Q_EVENT_50_SEL_V33:  //1
+            case Q_EVENT_50_SEL_V33:  //10
                   videoCh[1].mux=queuData;  
+                  if (!videoCh[1].mux) ch1_on == false ;
             break;  
 
-            case Q_EVENT_20_SEL_V34:  //ROOM 51
-                  videoCh[8].mux=queuData;  
+            case Q_EVENT_20_SEL_V34:  //ROOM 66
+                  videoCh[14].mux=queuData;  
+                  if (!videoCh[14].mux) ch14_on == false ;
             break;   
 
-            case Q_EVENT_52_SEL_V35: // ROOM 31
-                  videoCh[15].mux=queuData;  
+            case Q_EVENT_52_SEL_V35: // ROOM 24
+                  videoCh[4].mux=queuData;  
+                  if (!videoCh[4].mux) ch4_on == false ;
             break;                  
  
-             case Q_EVENT_53_SEL_V36:  // ROOM 48
-                  videoCh[5].mux=queuData;  
+             case Q_EVENT_53_SEL_V36:  // ROOM 29
+                  videoCh[7].mux=queuData;  
+                  if (!videoCh[7].mux) ch7_on == false ;
             break;   
 
-            case Q_EVENT_22_SEL_V37:  //ROOM 22
+            case Q_EVENT_22_SEL_V37:  //ROOM 
                   videoCh[16].mux=queuData;  
             break;     
 
@@ -563,7 +570,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
   { 
          switch (stateMachine)
           {
-            case SM_CH1_A:    //1
+            case SM_CH1_A:    //1 10
             case SM_CH1_B:
                 if (videoCh[1].zap ) 
                   {
@@ -573,13 +580,46 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                         recevierCh=videoCh[1].id;
                         receiverAvByCh (recevierCh);
                         stateMachine =SM_CH2_A;
-                        if (videoCh[1].mux && videoCh[12].zap)remoteControl(1); //1 and 12 on/off 1
+                        if (videoCh[10].zap)
+                          {
+                            if (videoCh[1].mux && (!(videoCh[10].mux) ))remoteControl(1); //switch 1 10
+                            else if (videoCh[10].mux && (!(videoCh[1].mux) ))remoteControl(10); //switch 10 62
+                            else if (videoCh[10].mux && videoCh[1].mux )
+                            {
+
+                             if ( ch1_on == true && ch10_on == false)
+                              {
+                                remoteControl(10); //switch 10 62  10 ON
+                                delay(500);
+                                remoteControl(1); //switch 10 62   62 OFF
+                                ch1_on = false;
+                                ch10_on = true;
+                              }
+                             else if ( ch10_on == true && ch1_on == false)
+                              {
+                                remoteControl(1); //switch 10 62
+                                delay(500);
+                                remoteControl(10); //switch 10 62
+                                ch1_on = true;
+                                ch10_on = false;
+                              }
+                            else
+                              {
+                                remoteControl(1); //switch 10 62
+                                delay(500);
+                                remoteControl(10); //switch 10 62
+                                ch1_on = true;
+                                ch10_on = false;
+                              }
+                            }
+                                                      
+                          }
                       }
                   }
                 else stateMachine =SM_CH2_A;
             break;
 
-            case SM_CH2_A:    //2
+            case SM_CH2_A:    //2 11
             case SM_CH2_B:
                 if (videoCh[2].zap ) 
                   {
@@ -589,13 +629,17 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                         recevierCh=videoCh[2].id;
                         receiverAvByCh (recevierCh);
                         stateMachine =SM_CH3_A;
-                        if (videoCh[2].mux && videoCh[10].zap)remoteControl(2); //2 and 14 on/off 2
+                         if (videoCh[12].zap)
+                          {
+                            if (videoCh[2].mux)remoteControl(2); //switch 2 11
+                            if (videoCh[12].mux)remoteControl(12); //switch 12 64
+                          }  
                      }
                   }
                 else stateMachine =SM_CH3_A;
             break;
             
-            case SM_CH3_A:    //3
+            case SM_CH3_A:    //3 17
             case SM_CH3_B:
                 if (videoCh[3].zap ) 
                   {
@@ -610,7 +654,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                 else stateMachine =SM_CH4_A;
             break;
 
-            case SM_CH4_A:    //4
+            case SM_CH4_A:    //4 24
             case SM_CH4_B:
                 if (videoCh[4].zap ) 
                   {
@@ -620,12 +664,17 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                           recevierCh=videoCh[4].id;
                           receiverAvByCh (recevierCh);
                           stateMachine =SM_CH5_A;
+                        if (videoCh[7].zap)
+                          {
+                            if (videoCh[4].mux)remoteControl(4); //switch 4 24
+                            if (videoCh[7].mux)remoteControl(7); //switch 7 29
+                          }                          
                          }
                    }
                 else stateMachine =SM_CH5_A;
             break;
                        
-            case SM_CH5_A:    //5
+            case SM_CH5_A:    //5 27
             case SM_CH5_B:
                 if (videoCh[5].zap ) 
                   {
@@ -635,13 +684,12 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                       recevierCh=videoCh[5].id;
                       receiverAvByCh (recevierCh);
                       stateMachine =SM_CH6_A;
-                      if (videoCh[5].mux && videoCh[16].zap)remoteControl(16); //48 and 22 off 22
                      }
                   }
                 else stateMachine =SM_CH6_A;
             break;
                        
-            case SM_CH6_A:    //6
+            case SM_CH6_A:    //6 28
             case SM_CH6_B:
                 if (videoCh[6].zap ) 
                   {
@@ -656,7 +704,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                 else stateMachine =SM_CH7_A;
             break;
                        
-            case SM_CH7_A:    //7
+            case SM_CH7_A:    //7 29
             case SM_CH7_B:
                 if (videoCh[7].zap ) 
                   {
@@ -666,13 +714,17 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                         recevierCh=videoCh[7].id;
                         receiverAvByCh (recevierCh);
                         stateMachine =SM_CH8_A;
-                        if (videoCh[7].mux && videoCh[14].zap)remoteControl(7); //50 and 27 off 50
+                        if (videoCh[4].zap)
+                          {
+                            if (videoCh[4].mux)remoteControl(4); //switch 4 24
+                            if (videoCh[7].mux)remoteControl(7); //switch 7 29
+                          }  
                        }
                   }
                 else stateMachine =SM_CH8_A;
             break;
                        
-            case SM_CH8_A:    //8
+            case SM_CH8_A:    //8 48
             case SM_CH8_B:
                 if (videoCh[8].zap) 
                   {
@@ -682,13 +734,12 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                         recevierCh=videoCh[8].id;
                         receiverAvByCh (recevierCh);
                         stateMachine =SM_CH9_A;
-                        if (videoCh[8].mux && videoCh[15].zap)remoteControl(8); //51 and 31 off 51
                       }
                   }
                 else stateMachine =SM_CH9_A;
             break;
 
-            case SM_CH9_A:    //9
+            case SM_CH9_A:    //9 52
             case SM_CH9_B:
                 if (videoCh[9].zap) 
                   {
@@ -703,7 +754,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                 else stateMachine =SM_CH10_A;
             break;
             
-            case SM_CH10_A:   //10
+            case SM_CH10_A:   //10 62
             case SM_CH10_B:
                 if (videoCh[10].zap) 
                   {
@@ -713,13 +764,46 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                       recevierCh=videoCh[10].id;
                       receiverAvByCh (recevierCh);
                       stateMachine =SM_CH11_A;
-                      if (videoCh[10].mux && videoCh[2].zap)remoteControl(2); //2 and 10 on/off 2
-                    }
+                      if (videoCh[1].zap)
+                          {
+                            if (videoCh[1].mux && (!(videoCh[10].mux) ))remoteControl(1); //switch 1 10
+                            else if (videoCh[10].mux && (!(videoCh[1].mux) ))remoteControl(10); //switch 10 62
+                            else if (videoCh[10].mux && videoCh[1].mux )
+                            {
+
+                             if ( ch1_on == true && ch10_on == false)
+                              {
+                                remoteControl(10); //switch 10 62
+                                 delay(500);
+                                 remoteControl(1); //switch 10 62
+                                ch1_on = false;
+                                ch10_on = true;
+                              }
+                             else if ( ch10_on == true && ch1_on == false)
+                              {
+                                remoteControl(1); //switch 10 62
+                                 delay(500);
+                                 remoteControl(10); //switch 10 62
+                                ch1_on = true;
+                                ch10_on = false;
+                              }
+                            else
+                              {
+                                remoteControl(1); //switch 10 62
+                                 delay(500);
+                                 remoteControl(10); //switch 10 62
+                                ch1_on = true;
+                                ch10_on = false;
+                              }
+                            }
+                                                      
+                        }       
+                      }
                   }
                 else stateMachine =SM_CH11_A;
             break; 
              
-            case SM_CH11_A:   //11
+            case SM_CH11_A:   //11 63
             case SM_CH11_B:
                 if (videoCh[11].zap) 
                   {
@@ -729,13 +813,12 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                       recevierCh=videoCh[11].id;
                       receiverAvByCh (recevierCh);
                       stateMachine =SM_CH12_A;
-                      if (videoCh[11].mux  &&videoCh[13].zap)remoteControl(13); //01 and 03 OFF 03
                     }
                   }
                 else stateMachine =SM_CH12_A;
             break;     
 
-            case SM_CH12_A:   //12
+            case SM_CH12_A:   //12 64
             case SM_CH12_B:
                 if (videoCh[12].zap) 
                   {
@@ -745,13 +828,18 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                       recevierCh=videoCh[12].id;
                       receiverAvByCh (recevierCh);
                       stateMachine =SM_CH13_A;
-                      if (videoCh[12].mux  &&videoCh[1].zap)remoteControl(1); //12 and 1 on/OFF 
+                        if (videoCh[2].zap)
+                          {
+                            if (videoCh[2].mux)remoteControl(2); //switch 2 11
+                            if (videoCh[12].mux)remoteControl(12); //switch 12 64
+                          }
+
                     }
                   }
                 else stateMachine =SM_CH13_A;
             break;  
             
-            case SM_CH13_A:   // 13
+            case SM_CH13_A:   // 13 65
             case SM_CH13_B:
                 if (videoCh[13].zap) 
                   {
@@ -761,13 +849,12 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                       recevierCh=videoCh[13].id;
                       receiverAvByCh (recevierCh);
                       stateMachine =SM_CH14_A;
-                      if (videoCh[13].mux  &&videoCh[1].zap)remoteControl(1); //13 and 1 on/OFF 1
                     }
                   }
                 else stateMachine =SM_CH14_A;
             break;  
 
-            case SM_CH14_A:   //14
+            case SM_CH14_A:   //14 66
             case SM_CH14_B:
                 if (videoCh[14].zap) 
                   {
@@ -777,7 +864,6 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                       recevierCh=videoCh[14].id;
                       receiverAvByCh (recevierCh);
                       stateMachine =SM_CH15_A;
-                      if (videoCh[14].mux && videoCh[2].zap)remoteControl(2); //14 and 2 on/OFF 2
                     }
                   }
                 else stateMachine =SM_CH15_A;
@@ -793,7 +879,6 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                       recevierCh=videoCh[15].id;
                       receiverAvByCh (recevierCh);
                       stateMachine =SM_CH16_A;
-                      if (videoCh[15].mux && videoCh[8].zap)remoteControl(8); //51 and 31 off 51
                      }
                   }
                 else {zaptime= millis();stateMachine =SM_CH16_A;}
