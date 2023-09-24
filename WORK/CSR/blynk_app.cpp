@@ -73,9 +73,9 @@ bool firstConnect= false;
 extern EventGroupHandle_t g_event_group;
 extern QueueHandle_t g_event_queue_handle;
 
-//WidgetLED ACK_LED_V5(V5);   //Ack
+
 WidgetLED T433_LED_V6(V6);   //T433 St
-WidgetLED T315_LED_V13(V13);  //T315 St
+WidgetLED I2C_LED_V13(V13);  //I2C ACK
 WidgetLED SMS_LED_V12(V12);  //sms
 WidgetLED ZAP_LED_V80(V80);  //Zap Status
 WidgetTerminal terminal(V102);
@@ -133,9 +133,8 @@ _seconds = seconds = (((timeNow % day) % hour) % minute) / second;
 
 void ledInit(void)
 {
-  //ACK_LED_V5.on(); //Enable colours for Ack Led
   T433_LED_V6.on(); //Enable colours for T433 St Led
-  T315_LED_V13.on(); //Enable colours for T315 St Led
+  I2C_LED_V13.on(); //Enable colours for T315 St Led
   SMS_LED_V12.on(); //Enable colours for firebase
   ZAP_LED_V80.on(); //Enable colours for Zapping
 }
@@ -879,8 +878,7 @@ void blynk::blynkConnect()
 
 void blynk::blynkRCLed315(bool _data)
 {
-      if (_data==0)  T315_LED_V13.setColor(BLYNK_RED);
-      else           T315_LED_V13.setColor(BLYNK_GREEN);
+
 }
 
 void blynk::blynkSmsLed(bool _data)
@@ -959,8 +957,8 @@ void blynk::sendAvRxIndex(int _index)
 
 void blynk::blynkAckLed(bool _data)
 {
-     // if (_data==1)  ACK_LED_V5.setColor(BLYNK_RED);
-      //else           ACK_LED_V5.setColor(BLYNK_GREEN);
+      if (_data==1)  I2C_LED_V13.setColor(BLYNK_RED);
+      else           I2C_LED_V13.setColor(BLYNK_GREEN);
 }
 
 
