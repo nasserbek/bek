@@ -1,5 +1,5 @@
-#define CSR
-//#define CSR2
+//#define CSR
+#define CSR2
 
 #define VERSION_ID " CSR.6 " 
                    

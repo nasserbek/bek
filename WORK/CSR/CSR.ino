@@ -2,7 +2,7 @@
 
 
  reciever avReceiver;
- sim800L sms; 
+ //sim800L sms; 
  otaUpload ota; 
  blynk myBlynk;
  fireBase fb;
@@ -67,26 +67,26 @@ void setup()
      initWDG(MIN_5,EN);
      resetWdg();    //reset timer (feed watchdog) 
      
-     sim800Available = sms.init();
+     //sim800Available = sms.init();
      mySwitch.enableTransmit(RC_TX_PIN);
 
-     smsSent= sms.SendSMS("Sim800 Ok, Connecting to WIFI and Blynk.....");
+     //smsSent= sms.SendSMS("Sim800 Ok, Connecting to WIFI and Blynk.....");
      
      myBlynk.init();    
      blynkConnected=myBlynk.blynkStatus();
      wifiAvailable = myBlynk.wifiStatus();
      
-     if (wifiAvailable) {if(smsSent) smsSent= sms.SendSMS("WIFI Connected..");}
-     else {if(smsSent) smsSent= sms.SendSMS("WIFI failed to connect");}
+     //if (wifiAvailable) {if(smsSent) smsSent= sms.SendSMS("WIFI Connected..");}
+     //else {if(smsSent) smsSent= sms.SendSMS("WIFI failed to connect");}
           
-     if (blynkConnected) {if(smsSent) smsSent= sms.SendSMS("BLYNK Connected...");}
-     else {if(smsSent) smsSent= sms.SendSMS("BLYNK failed to connect...");}
+     //if (blynkConnected) {if(smsSent) smsSent= sms.SendSMS("BLYNK Connected...");}
+     //else {if(smsSent) smsSent= sms.SendSMS("BLYNK failed to connect...");}
 
 
      DEBUG_PRINT("Blynk: ");DEBUG_PRINTLN( blynkConnected ? F("Connected") : F("Not Connected"));
      if (blynkConnected) 
               {
-                myBlynk.blynkSmsLed (sim800Available & smsSent);
+    //            myBlynk.blynkSmsLed (sim800Available & smsSent);
                 myBlynk.sendAvRxIndex(Av_Rx);
                 myBlynk.streamSelect(streamWebDdns);
                 myBlynk.sendPulseRepetetion(pulseRC, repetionRC);
@@ -97,8 +97,8 @@ void setup()
       else if(fireBaseOn)
         {
           FBConnected = fb.init();
-          if(FBConnected ) smsSent= sms.SendSMS("FireBase connected...");
-          else sms.SendSMS("FireBase Failed to connect...!!!");
+        //  if(FBConnected ) smsSent= sms.SendSMS("FireBase connected...");
+        //  else sms.SendSMS("FireBase Failed to connect...!!!");
         }
       
       
@@ -123,8 +123,8 @@ void setup()
     
     char buf[10]; //make this the size of the String
     ver.toCharArray(buf, 10);    
-    if(smsSent) smsSent= sms.SendSMS(buf);
-//    if (blynkConnected) {myBlynk.SyncAll();}
+   // if(smsSent) smsSent= sms.SendSMS(buf);
+
 }
 
 
@@ -132,7 +132,7 @@ void loop(void)
 {
        resetWdg();    //reset timer (feed watchdog) 
        
-      if( smsEvent =sms.smsRun()) processSms();
+   //   if( smsEvent =sms.smsRun()) processSms();
        
        blynkConnected=myBlynk.blynkStatus(); 
        
@@ -156,7 +156,7 @@ void loop(void)
 
        if( !InternetLoss && !blynkConnected)  
           {
-            if(smsSent) smsSent= sms.SendSMS("Blynk Disconnected , Internet Loss!!!");
+           // if(smsSent) smsSent= sms.SendSMS("Blynk Disconnected , Internet Loss!!!");
             DEBUG_PRINTLN("Blynk Disconnected , Internet Loss!!!");
             InternetLoss = true; 
             resetNetgeerAfterInternetLossTimer = millis();
@@ -181,7 +181,7 @@ void loop(void)
       if ( (millis() - Sms_24_hoursTimer) >=  SMS_24_HOURS  )
           {
             Sms_24_hoursTimer       = millis();
-            sms.SendSMS("VTR Alive");
+       //     sms.SendSMS("VTR Alive");
            }
    
        myBlynk.blynkRunTimer();
@@ -206,7 +206,7 @@ void netgeerCtrl(void)
 
        if ( ( (millis() - resetNetgeerAfterInternetLossTimer) >= INTERNET_LOSS_TO_RESET_NG_TIMER) && InternetLoss && !blynkConnected && !netGeerReset)
         {
-              if(smsSent) smsSent= sms.SendSMS("Blynk Disconnected for 2 min, Reset Netgeer");
+             // if(smsSent) smsSent= sms.SendSMS("Blynk Disconnected for 2 min, Reset Netgeer");
               DEBUG_PRINTLN("Blynk Disconnected for 2 min, Reset Netgeer");
 //              ResetNetgeer();   //No more Router reset, can be done manually
                 if(!routerResetStart){routerResetTimer        = millis();routerResetStart = true;DEBUG_PRINTLN("Netgeer Reset done: ");}
@@ -214,7 +214,7 @@ void netgeerCtrl(void)
 
        if (  ( (millis() - restartAfterResetNG) >=  RESTART_AFTER_NG_RESET_TIMER) && netGeerReset )
           {
-            if(smsSent) smsSent= sms.SendSMS("Resetaring 3 min after Netgeer Reset");
+           // if(smsSent) smsSent= sms.SendSMS("Resetaring 3 min after Netgeer Reset");
             DEBUG_PRINTLN("Resetaring 30 min after Netgeer Rreset");
             ESP.restart(); 
           }
@@ -1132,7 +1132,7 @@ void  dvrOnOff (bool onOff)
 
 void sendToHMI(char *smsmsg, String notifier_subject, String notifier_body,String fb_path,String fb_cmdString)
 {
-  if(smsSent) smsSent=sms.SendSMS(smsmsg);
+ // if(smsSent) smsSent=sms.SendSMS(smsmsg);
   if (blynkConnected) myBlynk.notifierDebug(NOTIFIER_ID, notifier_body);
   DEBUG_PRINTLN(notifier_body);
 }
@@ -1148,7 +1148,7 @@ char carray[5];
 void goToDeepSleep(int sleepTimer)
 {
       sendToHMI("Going to Deep Sleep", "Going to Deep Sleep", "Going to Deep Sleep",FB_NOTIFIER, "Going to Deep Sleep" );
-      sms.sim800PowerOn(false)  ;
+    //  sms.sim800PowerOn(false)  ;
       DEBUG_PRINT("Sleep for: ");  DEBUG_PRINT(sleepTimer * 60* 1000000);DEBUG_PRINTLN(" uSec");
       esp_sleep_enable_timer_wakeup(sleepTimer * 60 * 1000000); // in microseconds
       Serial.flush(); 
@@ -1284,7 +1284,7 @@ void wifiUploadCtrl(void)
 
 
 
-
+/*
 void processSms(void)
 {
     boolean isValidNumber =false;
@@ -1690,6 +1690,8 @@ void processSms(void)
 
     smsID = NONE;
 }
+
+*/
 
 /********************************** FireBase **************************************/
 void processFirebase(void)
