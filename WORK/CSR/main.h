@@ -1,28 +1,15 @@
-#include <EEPROM.h>
+//#include <EEPROM.h>
 #include <Wire.h>
 #include <RCSwitch.h>
-
-
-#include <ESPmDNS.h>
-#include <WiFiUdp.h>
-#include <ArduinoOTA.h>
 #include <ESP32Ping.h>
-
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/timers.h"
 #include "freertos/queue.h"
-
-
-#include "gsm_ota.h"
 #include "esp_system.h"
-//#include "time.h"
+
 #include "av.h"
-#include "sim.h"
-#include "FB.h"
-
 #include "blynk_app.h"
-
 #include "headers.h"
 
 
@@ -56,7 +43,7 @@ uint _pll[21];
 //                                  11        10        63        29        65       27      52        48        28        66        17        24        62        64       XX         22        37         EX20      XX         Xxx
 
 //FREQ CSR IN ORDER ROOM NR
-const uint freqTable[21] =      {0,1120,     1080,     1140,     1180,    1280,    1060,    1200,     1360,     1320,     1120 ,     1160,     1080   ,  1240,     1100,     1160,     1340,         1060,      1100,     1140,     1180}; 
+const uint freqTable[21] =      {0,1120,     1080,     1200,     1180,    1280,    1060,    1200,     1360,     1320,     1120 ,     1160,     1080   ,  1240,     1280,     1160,     1340,         1060,      1100,     1140,     1180}; 
 //                                  10        11        17        24        27       28      29        48        52        62        63        64        65        66        68         22        37         EX20      XX         Xxx
 // 
 
@@ -72,52 +59,6 @@ const unsigned long CH_433[32] ={0, 349452,   349443,  349652,    349649,   3495
 // 
 
 
-/*
-1     16    27
-2     15    22
-3     14    21
-4     13    20
-5     12    11
-
-6     4   47
-18*   5   48
-7     6   49
-8     8   51
-9     10  53
-10    1   44
-11    17  37
-12    18  38
-13    2   45
-14    3   46
-15    7   50
-16    9   52
-17    11  03
-
-
- * INDEX    
- * 1 1080    4674819   27        03      17      1
- * 2 1120    4674828   22        11      5       2
- * 3 1160    4674864   21        20      4       3
- * 4 1200    4675020   20        21      3       4
- * 5 1240    4675023   11        22      2       5
- * 
- * 6  1280   4674876   47        27      1       6
- * 7  1320   4674879   49        37      11      7
- * 8  1360   4675056   51        38      12      8
- * 9  1100   4675011   53        44      10      9
- * 10 1060   4674831   44        45      13      10
- * 
- * 11 1140   4675068   37        46      14      11
- * 12 1180   4675059   38        47      6       12
- * 13 1220   4675071   45        48*      *      13*
- * 14 1260   4675008   46        49      7       14
- * 15 1080   4675015   50        50      15      15
- * 
- * 16 1200   7722243   52        51      8       16
- * 17 1160   7722252   03        52      16      17
- * 18 1120   7722288   X         53      9       18
- * 19 1240   7722444   X         53      9       18
-*/
 
 bool ch1_on = false;
 bool ch2_on = false;
@@ -135,6 +76,7 @@ bool ch13_on = false;
 bool ch14_on = false;
 bool ch15_on = false;
 
+int selected_Rx = 1;
 int blynkStatus = 1;
 bool googleConnected=false;
 bool blynkInitDone=false;
@@ -287,101 +229,3 @@ int T315_Ch_Status[16];
 int T433_St;
 int T315_St;
 RCSwitch mySwitch = RCSwitch();
-
-
-/*********************************************** web upodater *********************************************/
-#include <WiFi.h>
-#include <WiFiClient.h>
-#include <WebServer.h>
-#include <ESPmDNS.h>
-#include <Update.h>
-
-const char* host = "esp32";
-WebServer server(80);
-/*
- * Login page
- */
-
-const char* loginIndex = 
- "<form name='loginForm'>"
-    "<table width='20%' bgcolor='A09F9F' align='center'>"
-        "<tr>"
-            "<td colspan=2>"
-                "<center><font size=4><b>ESP32 Login Page</b></font></center>"
-                "<br>"
-            "</td>"
-            "<br>"
-            "<br>"
-        "</tr>"
-        "<td>Username:</td>"
-        "<td><input type='text' size=25 name='userid'><br></td>"
-        "</tr>"
-        "<br>"
-        "<br>"
-        "<tr>"
-            "<td>Password:</td>"
-            "<td><input type='Password' size=25 name='pwd'><br></td>"
-            "<br>"
-            "<br>"
-        "</tr>"
-        "<tr>"
-            "<td><input type='submit' onclick='check(this.form)' value='Login'></td>"
-        "</tr>"
-    "</table>"
-"</form>"
-"<script>"
-    "function check(form)"
-    "{"
-    "if(form.userid.value=='admin' && form.pwd.value=='admin')"
-    "{"
-    "window.open('/serverIndex')"
-    "}"
-    "else"
-    "{"
-    " alert('Error Password or Username')/*displays error message*/"
-    "}"
-    "}"
-"</script>";
-
-
- /*
- * Server Index Page
- */
- 
-const char* serverIndex = 
-"<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>"
-"<form method='POST' action='#' enctype='multipart/form-data' id='upload_form'>"
-   "<input type='file' name='update'>"
-        "<input type='submit' value='Update'>"
-    "</form>"
- "<div id='prg'>progress: 0%</div>"
- "<script>"
-  "$('form').submit(function(e){"
-  "e.preventDefault();"
-  "var form = $('#upload_form')[0];"
-  "var data = new FormData(form);"
-  " $.ajax({"
-  "url: '/update',"
-  "type: 'POST',"
-  "data: data,"
-  "contentType: false,"
-  "processData:false,"
-  "xhr: function() {"
-  "var xhr = new window.XMLHttpRequest();"
-  "xhr.upload.addEventListener('progress', function(evt) {"
-  "if (evt.lengthComputable) {"
-  "var per = evt.loaded / evt.total;"
-  "$('#prg').html('progress: ' + Math.round(per*100) + '%');"
-  "}"
-  "}, false);"
-  "return xhr;"
-  "},"
-  "success:function(d, s) {"
-  "console.log('success!')" 
- "},"
- "error: function (a, b, c) {"
- "}"
- "});"
- "});"
- "</script>";
-/*********************************************** lcd fb *********************************************/

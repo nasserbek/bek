@@ -1,7 +1,7 @@
-//#define CSR
-#define CSR2
+#define CSR
+//#define CSR2
 
-#define VERSION_ID " CSR.6 " 
+#define VERSION_ID " CSR.7 " 
                    
 #define BLYNK_SERVER "blynk.cloud" //BLYNK2 REMOTE SERVER 
 #define BLYNK1_SERVER "blynk-cloud.com" //BLYNK REMOTE SERVER
@@ -11,7 +11,7 @@
 #define WIFI_SSID_FREE    "Freebox-bek"                                              
 #define WIFI_SSID_XIAOMI    "XIAOMI_BEK" 
 #define WIFI_SSID_HUAWEI  "HUAWEI_BEK" 
-
+#define WIFI_SSID_METEOR  "Meteor" 
 
 #ifdef CSR
     #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/build/esp32.esp32.ttgo-t1/CSR.ino.bin"  // URL to download the firmware from
@@ -21,10 +21,7 @@
     #define BLYNK_TEMPLATE_ID           "TMPL5Y2na6zpd"
     #define BLYNK_TEMPLATE_NAME         "CSR"
     #define BLYNK_AUTH_TOKEN            "B1pZ48rPHfdQ8LxlqCoiPk8fxWBbv7B0" //CSR
-    ///#define BLYNK_AUTH_TOKEN            "_cqYD1seWElWB-S1IxutIEI7VWmDpb05" //CS2
 
-
-    #define BLYNK1_AUTH_TOKEN "_cqYD1seWElWB-S1IxutIEI7VWmDpb05" //MAIN BOX
 #endif
 
 #ifdef CSR2
@@ -66,6 +63,10 @@
 
 #ifdef HUAWEI
   #define WIFI_SSID_FB WIFI_SSID_HUAWEI                                                
+#endif
+
+#ifdef METEOR
+  #define WIFI_SSID_FB WIFI_SSID_METEOR                                                
 #endif
 
 #define WIFI_PASSWORD "ali09042010"
@@ -366,17 +367,26 @@ const String FB_T433_STATUS_PATH[32] =
 #define MODEM_PWKEY         4
 #define MODEM_POWER_ON      23
 #define MODEM_RST           5
+
+//av1
 #define I2C_SDA             21
 #define I2C_SCL             22
-//av
 #define AV_OUTPUT_AN        34
+
+//av1
+#define I2C_SDA_1             12
+#define I2C_SCL_1             13
+#define AV_OUTPUT_AN_1        35
+
+
+//RC
 #define RC_TX_PIN           15
-#define MRT                 13 
 
+
+//RELAYS
 #define AV_RX_DVR_PIN_2     2
-
-
 #define NETGEER_PIN_0       0
+
 
 enum {
 NONE,
@@ -390,10 +400,10 @@ Q_EVENT_ROOM_ID_1_TO_5_V3,
 //T433_LED_V6(V6);   //T433 St
 Q_EVENT_OTA_GSM_V7,
 Q_EVENT_REBOOT_V8,
-//ROOM INDEX V9; 
+Q_EVENT_SELECTED_RECIEVER_V9,
 Q_EVENT_ALL_CH_V10,  //SPARE
 //V11, seconds);
-//SMS_LED_V12(V12);  //sms
+//I2C_SEC_LED(V12);  //sms
 //T315_LED_V13(V13);  //T315 St
 Q_EVENT_BLYNK1_V14,
 Q_EVENT_NETGEER_V15,

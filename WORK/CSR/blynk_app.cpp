@@ -76,7 +76,7 @@ extern QueueHandle_t g_event_queue_handle;
 
 WidgetLED T433_LED_V6(V6);   //T433 St
 WidgetLED I2C_LED_V13(V13);  //I2C ACK
-WidgetLED SMS_LED_V12(V12);  //sms
+WidgetLED I2C_SEC_LED_V12(V12);  //sms
 WidgetLED ZAP_LED_V80(V80);  //Zap Status
 WidgetTerminal terminal(V102);
 
@@ -96,46 +96,13 @@ int hours = 0;
 int minutes = 0;
 int seconds = 0;
 int eventdata;
-extern bool sendTime_7500ms;
-extern int _days  ;
-extern int _hours;
-extern int _minutes ;
-extern int _seconds ;
-
-void printDigits(byte digits){
- // utility function for digital clock display: prints colon and leading 0
- Serial.print(":");
- if(digits < 10)
-   Serial.print('0');
- Serial.print(digits,DEC);  
-}
-
-void counterTime(){
-long timeNow = millis();
- 
-_days =days = timeNow / day ;                                //number of days
-_hours = hours = (timeNow % day) / hour;                       //the remainder from days division (in milliseconds) divided by hours, this gives the full hours
-_minutes = minutes = ((timeNow % day) % hour) / minute ;         //and so on...
-_seconds = seconds = (((timeNow % day) % hour) % minute) / second;
-
- // digital clock display of current time
- Serial.print(days,DEC);  
- printDigits(hours);  
- printDigits(minutes);
- printDigits(seconds);
- Serial.println();  
- 
-}
-
-
-
 
 
 void ledInit(void)
 {
   T433_LED_V6.on(); //Enable colours for T433 St Led
   I2C_LED_V13.on(); //Enable colours for T315 St Led
-  SMS_LED_V12.on(); //Enable colours for firebase
+  I2C_SEC_LED_V12.on(); //Enable colours for firebase
   ZAP_LED_V80.on(); //Enable colours for Zapping
 }
 
@@ -145,18 +112,13 @@ void sendTimeToBlynk_7500ms(){
     Serial.println("\tWiFi still  connected.");
     _wifiIsConnected = true;
   }
-  if(Blynk.connected()){
-    counterTime();
+
+  if(Blynk.connected())
+  {
     if(!blynkActive)
     {
-      Blynk.virtualWrite(V4, days);
-      Blynk.virtualWrite(V20, hours);
-      Blynk.virtualWrite(V21, minutes);
-      Blynk.virtualWrite(V11, seconds);
       Serial.println("\tTick update to blynk.");
     }
-    
-    sendTime_7500ms = !sendTime_7500ms;
     _blynkIsConnected = true;
   }
 }
@@ -189,8 +151,10 @@ void checkBlynk() {
 void blynk::init() 
 {
   Serial.println();
-    wifiMulti.addAP(WIFI_SSID_FREE, WIFI_PASSWORD);
+
+    wifiMulti.addAP(WIFI_SSID_METEOR , "Meteor-ali09042010");
     wifiMulti.addAP(WIFI_SSID_GIGA, WIFI_PASSWORD);
+    wifiMulti.addAP(WIFI_SSID_FREE, WIFI_PASSWORD);
     wifiMulti.addAP(WIFI_SSID_XIAOMI , WIFI_PASSWORD);
     wifiMulti.addAP(WIFI_SSID_HUAWEI , WIFI_PASSWORD);
     
@@ -235,15 +199,6 @@ void blynk::init()
   }
 }
 
-
-// This function is called every time the device is connected to the Blynk.Cloud
-//BLYNK_CONNECTED()
-//{
-//  // Change Web Link Button message to "Congratulations!"
-//  Blynk.setProperty(V3, "offImageUrl", "https://static-image.nyc3.cdn.digitaloceanspaces.com/general/fte/congratulations.png");
-//  Blynk.setProperty(V3, "onImageUrl",  "https://static-image.nyc3.cdn.digitaloceanspaces.com/general/fte/congratulations_pressed.png");
-//  Blynk.setProperty(V3, "url", "https://docs.blynk.io/en/getting-started/what-do-i-need-to-blynk/how-quickstart-device-was-made");
-//}
 
 BLYNK_WRITE(V0)  //freq
 {
@@ -301,7 +256,7 @@ BLYNK_WRITE(V9) // Room Nr
 
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_VIDEO_CH_V2;
+    eventdata = Q_EVENT_SELECTED_RECIEVER_V9;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 
 }
@@ -703,7 +658,7 @@ BLYNK_WRITE(V102)  //TERMINAL
     // if you type "Marco" into Terminal Widget - it will respond: "Polo:"
   if (String("Marco") == param.asStr()) 
   {
-    Blynk.virtualWrite(V102, "You said: 'Marco'\nI said: 'Polo'\n");
+    Blynk.virtualWrite(V102, "You said: 'Marco'\nI said: 'Paolo'\n");
   } 
   else 
   {
@@ -883,8 +838,6 @@ void blynk::blynkRCLed315(bool _data)
 
 void blynk::blynkSmsLed(bool _data)
 {
- if (_data==0)  SMS_LED_V12.setColor(BLYNK_RED);
- else           SMS_LED_V12.setColor(BLYNK_GREEN);
 }
 
 void blynk::zapLed(bool _data)
@@ -922,7 +875,6 @@ void blynk::sevenSegValue(int vch )
 {
  sevenSeg = vch;
  Blynk.virtualWrite(V2, vch);
- Blynk.virtualWrite(V9, vch);
 }
 
 
@@ -955,10 +907,34 @@ void blynk::sendAvRxIndex(int _index)
 
 
 
-void blynk::blynkAckLed(bool _data)
+void blynk::blynkAckLed(int Rx, bool _data)
 {
-      if (_data==1)  I2C_LED_V13.setColor(BLYNK_RED);
-      else           I2C_LED_V13.setColor(BLYNK_GREEN);
+
+  switch (Rx)
+          {
+
+            case 1:
+                  if (_data==1)  I2C_LED_V13.setColor(BLYNK_RED);
+                  else           I2C_LED_V13.setColor(BLYNK_GREEN);
+            break;
+
+            case 2:
+                  if (_data==1)  I2C_SEC_LED_V12.setColor(BLYNK_RED);
+                  else           I2C_SEC_LED_V12.setColor(BLYNK_GREEN);
+            break;
+
+            case 3:
+                  if (_data==1)   {
+                                  I2C_LED_V13.setColor(BLYNK_RED);
+                                  I2C_SEC_LED_V12.setColor(BLYNK_RED);
+                                  } 
+                  else           {
+                                  I2C_LED_V13.setColor(BLYNK_GREEN);
+                                  I2C_SEC_LED_V12.setColor(BLYNK_GREEN);        
+                                 }          
+              break;            
+
+          } 
 }
 
 
@@ -1061,7 +1037,6 @@ void blynk::visualActiveRoom(int id, bool zap)
   
 }
 
-
 bool blynk::blynkStatus(void)
 {
  return  _blynkIsConnected;
@@ -1085,26 +1060,10 @@ void blynk::sendVersion(String ver)
 
 void blynk::SyncAll(void)
 {
- Blynk.syncVirtual(V30, V31, V32, V33, V34,V35,V36,V37,V81,V82,V83,V84,V85,V86,V87,V88,V89,V94,V95,V96,V97,V106,V107,V108,V109,V110,V111,V112,V71);
+ //Blynk.syncVirtual(V30, V31, V32, V33, V34,V35,V36,V37,V81,V82,V83,V84,V85,V86,V87,V88,V89,V94,V95,V96,V97,V106,V107,V108,V109,V110,V111,V112,V71);
 }
 
 void blynk::blynk1(void)
 {
-    blynk2 = false;
-    Blynk.disconnect();
-    delay(5000);
-    Blynk.config(BLYNK1_AUTH_TOKEN, BLYNK1_SERVER);
-    Blynk.connect(); 
-    checkBlynk();
-    ledInit();
-    blynkAtiveTimer     = millis();
 
-  if(_blynkIsConnected)
-  {
-  terminal.clear();
-  Blynk.virtualWrite(V102,"Blynk v ", VERSION_ID, ": Device started\n");
-  Blynk.virtualWrite(V102,"-------------\n");
-  Blynk.virtualWrite(V102,"Type 'Marco' and get a reply, or type\n");
-  Blynk.virtualWrite(V102,"anything else and get it printed back.\n");
-  }
 }    
