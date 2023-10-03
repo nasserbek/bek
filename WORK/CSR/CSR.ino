@@ -170,14 +170,14 @@ void ResetNetgeer(void)
               if(!routerResetStart){routerResetTimer        = millis();routerResetStart = true;DEBUG_PRINTLN("Netgeer Reset done: ");}
           }
 
-
+/*
 bool pingGoogleConnection(void)
 {
        bool pingInternet= Ping.ping("www.google.com");
        DEBUG_PRINT("Ping Google: ");DEBUG_PRINTLN(pingInternet ? F("succesiful") : F("failed"));
        return (pingInternet);
 }
-
+*/
 
 
 

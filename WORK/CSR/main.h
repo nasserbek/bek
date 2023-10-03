@@ -1,7 +1,5 @@
-//#include <EEPROM.h>
 #include <Wire.h>
 #include <RCSwitch.h>
-#include <ESP32Ping.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/timers.h"
