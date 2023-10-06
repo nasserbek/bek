@@ -152,7 +152,7 @@ void blynk::init()
 {
   Serial.println();
 
-    wifiMulti.addAP(WIFI_SSID_METEOR , "Meteor-ali09042010");
+    
     wifiMulti.addAP(WIFI_SSID_GIGA, WIFI_PASSWORD);
     wifiMulti.addAP(WIFI_SSID_FREE, WIFI_PASSWORD);
     wifiMulti.addAP(WIFI_SSID_XIAOMI , WIFI_PASSWORD);
@@ -907,34 +907,12 @@ void blynk::sendAvRxIndex(int _index)
 
 
 
-void blynk::blynkAckLed(int Rx, bool _data)
+void blynk::blynkAckLed( bool _data)
 {
 
-  switch (Rx)
-          {
-
-            case 1:
                   if (_data==1)  I2C_LED_V13.setColor(BLYNK_RED);
                   else           I2C_LED_V13.setColor(BLYNK_GREEN);
-            break;
-
-            case 2:
-                  if (_data==1)  I2C_SEC_LED_V12.setColor(BLYNK_RED);
-                  else           I2C_SEC_LED_V12.setColor(BLYNK_GREEN);
-            break;
-
-            case 3:
-                  if (_data==1)   {
-                                  I2C_LED_V13.setColor(BLYNK_RED);
-                                  I2C_SEC_LED_V12.setColor(BLYNK_RED);
-                                  } 
-                  else           {
-                                  I2C_LED_V13.setColor(BLYNK_GREEN);
-                                  I2C_SEC_LED_V12.setColor(BLYNK_GREEN);        
-                                 }          
-              break;            
-
-          } 
+ 
 }
 
 

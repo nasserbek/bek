@@ -41,10 +41,11 @@ void setup()
 //RELE WITH LOW TRIGGER, ON IF LOW AND OFF IF HIGH
      pinMode(NETGEER_PIN_0, OUTPUT);
      pinMode(AV_RX_DVR_PIN_2, OUTPUT);
+     pinMode(I2C_SCL_1, OUTPUT);
 
      digitalWrite(NETGEER_PIN_0, LOW);// NC ACTIVATE ON POWER ON BY DOING NOTHING
      digitalWrite(AV_RX_DVR_PIN_2, LOW);  // NC DISACTIVATE AV RECEIVER ON POWER ON
-
+     digitalWrite(I2C_SCL_1, LOW);  // NC IIC MAIN
 
      Serial.begin(115200);
      
@@ -195,7 +196,7 @@ void processBlynkQueu(void)
               recevierFreq=queuData;
               DEBUG_PRINT("FB_FREQ: ");DEBUG_PRINTLN(queuData);
               //if (recevierFreq >= 920 && recevierFreq <= 1500) 
-              receiverAvByFreq (selected_Rx, recevierFreq);
+              receiverAvByFreq ( recevierFreq);
             break;
             
             case Q_EVENT_RC_CH_NR_V1:
@@ -209,7 +210,7 @@ void processBlynkQueu(void)
                 DEBUG_PRINT("FB_VIDEO_CH_PATH: ");DEBUG_PRINTLN(queuData);
                 if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
                 else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
-                receiverAvByCh (selected_Rx, recevierCh);
+                receiverAvByCh ( recevierCh);
                 
             break;
 
@@ -225,6 +226,15 @@ void processBlynkQueu(void)
 
            case Q_EVENT_SELECTED_RECIEVER_V9:
                selected_Rx = queuData;
+               if (selected_Rx == 1)
+                  {
+                   digitalWrite(I2C_SCL_1, LOW);  // NC IIC MAIN
+                 }
+
+                else
+                  {
+                    digitalWrite(I2C_SCL_1, HIGH);  // NC IIC MAIN
+                 }
             break;
  
 
@@ -243,33 +253,33 @@ void processBlynkQueu(void)
             case Q_EVENT_ROOM_ID_1_TO_5_V3:
                   remoteControlRcCh = queuData;
                   recevierCh        = queuData;
-                  room (selected_Rx, remoteControlRcCh, recevierCh , Av_Rx );
+                  room ( remoteControlRcCh, recevierCh , Av_Rx );
                    Serial.println(queuData);
            break;
 
             case Q_EVENT_ALL_CH_V10:
                   remoteControlRcCh = queuData;
                   recevierCh        = queuData;
-                  room (selected_Rx, remoteControlRcCh, recevierCh , Av_Rx );
+                  room ( remoteControlRcCh, recevierCh , Av_Rx );
                    Serial.println(queuData);
            break;
             
             case Q_EVENT_ROOM_ID_6_TO_10_V16:
                   remoteControlRcCh = queuData;
                   recevierCh        = queuData;
-                  room (selected_Rx, remoteControlRcCh, recevierCh , Av_Rx );            
+                  room ( remoteControlRcCh, recevierCh , Av_Rx );            
             break;
             
             case Q_EVENT_ROOM_ID_11_TO_15_V17:
                   remoteControlRcCh = queuData;
                   recevierCh        = queuData;
-                  room (selected_Rx, remoteControlRcCh, recevierCh , Av_Rx );             
+                  room ( remoteControlRcCh, recevierCh , Av_Rx );             
             break;
             
             case Q_EVENT_ROOM_ID_16_TO_20_V18:
                   remoteControlRcCh = queuData;
                   recevierCh        = queuData;
-                  room (selected_Rx, remoteControlRcCh, recevierCh , Av_Rx );                
+                  room ( remoteControlRcCh, recevierCh , Av_Rx );                
             break;                                    
 
             case Q_EVENT_ROOM_AV_RC_V19:
@@ -285,13 +295,13 @@ void processBlynkQueu(void)
             case Q_EVENT_ROOM_ID_21_25_V25:
                   remoteControlRcCh = queuData;
                   recevierCh        = queuData;
-                  room (selected_Rx, remoteControlRcCh, recevierCh , Av_Rx );               
+                  room ( remoteControlRcCh, recevierCh , Av_Rx );               
             break;     
             
                     
              case Q_EVENT_RESET_FREQ_V26:
                   recevierFreq = videoCh[recevierCh].frequency =   freqTable[recevierCh];   
-                  receiverAvByFreq (selected_Rx, recevierFreq);        
+                  receiverAvByFreq ( recevierFreq);        
             break;         
                  
             case Q_EVENT_DVR_ON_OFF_V27:
@@ -324,7 +334,7 @@ void processBlynkQueu(void)
             break;   
 
             case Q_EVENT_52_SEL_V35: // 53
-                  videoCh[4].mux=queuData;  
+                  videoCh[3].mux=queuData;  
                   if (!videoCh[4].mux) ch4_on == false ;
             break;                  
  
@@ -408,7 +418,7 @@ void processBlynkQueu(void)
                 recevierCh += 1;
                 if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
                 else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
-                receiverAvByCh (selected_Rx, recevierCh);
+                receiverAvByCh ( recevierCh);
             break;
                      
             
@@ -416,17 +426,17 @@ void processBlynkQueu(void)
                 recevierCh -= 1;
                 if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
                 else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
-                receiverAvByCh (selected_Rx, recevierCh);
+                receiverAvByCh ( recevierCh);
             break;
             
              case Q_EVENT_AV_FR_MINUS_V92:
               recevierFreq -= 1;
-              receiverAvByFreq (selected_Rx, recevierFreq);
+              receiverAvByFreq ( recevierFreq);
             break;
 
            case Q_EVENT_AV_FR_PLUS_V93:
               recevierFreq += 1;
-              receiverAvByFreq (selected_Rx, recevierFreq);
+              receiverAvByFreq ( recevierFreq);
             break;
 
 
@@ -524,7 +534,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                         Switching(1, 10, ch1_on, ch10_on );  
                         delay(1000);
                         recevierCh=videoCh[1].id;
-                        receiverAvByCh (selected_Rx, recevierCh);
+                        receiverAvByCh (recevierCh);
                         stateMachine =SM_CH2_A;
                                                    
                       }
@@ -542,7 +552,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                         Switching(2, 12, ch2_on, ch12_on );  
                         delay(1000);
                         recevierCh=videoCh[2].id;
-                        receiverAvByCh (selected_Rx, recevierCh);
+                        receiverAvByCh ( recevierCh);
                         stateMachine =SM_CH3_A;
                         
                      }
@@ -560,7 +570,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                         Switching(3, 7, ch2_on, ch12_on );  
                         delay(1000);
                         recevierCh=videoCh[3].id;
-                        receiverAvByCh (selected_Rx, recevierCh);
+                        receiverAvByCh ( recevierCh);
                         stateMachine =SM_CH4_A;
                       }
                   }
@@ -577,7 +587,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                         //  Switching(4, 7, ch4_on, ch7_on );  
                          // delay(1000);
                           recevierCh=videoCh[4].id;
-                          receiverAvByCh (selected_Rx, recevierCh);
+                          receiverAvByCh ( recevierCh);
                           stateMachine =SM_CH5_A;
                           
                          }
@@ -595,7 +605,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                       Switching(5, 14, ch2_on, ch12_on );  
                       delay(1000);
                       recevierCh=videoCh[5].id;
-                      receiverAvByCh (selected_Rx, recevierCh);
+                      receiverAvByCh ( recevierCh);
                       stateMachine =SM_CH6_A;
                      }
                   }
@@ -610,7 +620,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (millis() - zaptime > zapTimer) 
                      {
                       recevierCh=videoCh[6].id;
-                      receiverAvByCh (selected_Rx, recevierCh);
+                      receiverAvByCh ( recevierCh);
                       stateMachine =SM_CH7_A;
                      }
                   }
@@ -627,7 +637,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                         Switching(7, 3, ch7_on, ch4_on ); 
                         delay(1000); 
                         recevierCh=videoCh[7].id;
-                        receiverAvByCh (selected_Rx, recevierCh);
+                        receiverAvByCh ( recevierCh);
                         stateMachine =SM_CH8_A;
                         
                        }
@@ -643,7 +653,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (millis() - zaptime > zapTimer) 
                       {
                         recevierCh=videoCh[8].id;
-                        receiverAvByCh (selected_Rx, recevierCh);
+                        receiverAvByCh ( recevierCh);
                         stateMachine =SM_CH9_A;
                       }
                   }
@@ -658,7 +668,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (millis() - zaptime > zapTimer) 
                     {
                       recevierCh=videoCh[9].id;
-                      receiverAvByCh (selected_Rx, recevierCh);
+                      receiverAvByCh ( recevierCh);
                       stateMachine =SM_CH10_A;
                     }
                   }
@@ -675,7 +685,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                       Switching(10, 1, ch10_on, ch1_on );
                       delay(1000);
                       recevierCh=videoCh[10].id;
-                      receiverAvByCh (selected_Rx, recevierCh);
+                      receiverAvByCh ( recevierCh);
                       stateMachine =SM_CH11_A;
                       
                       }
@@ -693,7 +703,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                       Switching(11, 15, ch11_on, ch15_on );  //63 68
                       delay(1000);
                       recevierCh=videoCh[11].id;
-                      receiverAvByCh (selected_Rx, recevierCh);
+                      receiverAvByCh ( recevierCh);
                       stateMachine =SM_CH12_A;
                       
                     }
@@ -711,7 +721,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                       Switching(12, 2, ch12_on, ch2_on );  
                       delay(1000);
                       recevierCh=videoCh[12].id;
-                      receiverAvByCh (selected_Rx, recevierCh);
+                      receiverAvByCh ( recevierCh);
                       stateMachine =SM_CH13_A;
                       
                     }
@@ -727,7 +737,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (millis() - zaptime > zapTimer) 
                     {
                       recevierCh=videoCh[13].id;
-                      receiverAvByCh (selected_Rx, recevierCh);
+                      receiverAvByCh ( recevierCh);
                       stateMachine =SM_CH14_A;
                     }
                   }
@@ -744,7 +754,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                       Switching(14, 5, ch2_on, ch12_on );  
                       delay(1000);
                       recevierCh=videoCh[14].id;
-                      receiverAvByCh (selected_Rx, recevierCh);
+                      receiverAvByCh ( recevierCh);
                       stateMachine =SM_CH15_A;
                     }
                   }
@@ -761,7 +771,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                       Switching(15, 11, ch15_on, ch11_on );  //63 68
                       delay(1000);
                       recevierCh=videoCh[15].id;
-                      receiverAvByCh (selected_Rx, recevierCh);
+                      receiverAvByCh ( recevierCh);
                       stateMachine =SM_CH16_A;
                       
                      }
@@ -777,7 +787,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (millis() - zaptime > zapTimer) 
                     {
                       recevierCh=videoCh[16].id;
-                      receiverAvByCh (selected_Rx, recevierCh);
+                      receiverAvByCh ( recevierCh);
                       stateMachine =SM_CH17_A;
                       if (videoCh[16].mux && videoCh[5].zap)remoteControl(16); //48 and 22 off 22
                      }
@@ -793,7 +803,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (millis() - zaptime > zapTimer) 
                     {
                       recevierCh=videoCh[17].id;
-                      receiverAvByCh (selected_Rx, recevierCh);
+                      receiverAvByCh ( recevierCh);
                       stateMachine =SM_CH18_A;
                      }
                   }
@@ -809,7 +819,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (millis() - zaptime > zapTimer) 
                     {
                       recevierCh=videoCh[18].id;
-                      receiverAvByCh (selected_Rx, recevierCh);
+                      receiverAvByCh ( recevierCh);
                       stateMachine =SM_CH19_A;
                      }
                   }
@@ -824,7 +834,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (millis() - zaptime > zapTimer) 
                     {
                       recevierCh=videoCh[19].id;
-                      receiverAvByCh (selected_Rx, recevierCh);
+                      receiverAvByCh ( recevierCh);
                       stateMachine =SM_CH20_A;
                      }
                   }
@@ -839,7 +849,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (millis() - zaptime > zapTimer) 
                     {
                       recevierCh=videoCh[20].id;
-                      receiverAvByCh (selected_Rx, recevierCh);
+                      receiverAvByCh ( recevierCh);
                       stateMachine =SM_CH1_A;
                       if (videoCh[20].mux)remoteControl(20);
                      }
@@ -867,7 +877,7 @@ void Switching(int id1, int id2, bool chOnA, bool chOnB )
     if ( chOnA == true && chOnB  == false)
       {
         remoteControl(id2); //switch 10 62  10 ON
-        delay(500);
+        delay(1000);
         remoteControl(id1); //switch 10 62   62 OFF
         chOnA = false;
         chOnB  = true;
@@ -875,7 +885,7 @@ void Switching(int id1, int id2, bool chOnA, bool chOnB )
     else if ( chOnB  == true && chOnA == false)
       {
         remoteControl(id1); //switch 10 62
-        delay(500);
+        delay(1000);
         remoteControl(id2); //switch 10 62
         chOnA = true;
         chOnB  = false;
@@ -912,15 +922,15 @@ void remoteControl(int cmd )
 
 
         
-void receiverAvByCh (int Rx,int Ch)
+void receiverAvByCh (int Ch)
 {
   bool ack;
   int PLL_value;
-       if (blynkConnected) myBlynk.blynkAckLed(Rx,true);
-       ack = avReceiver.Tuner_PLL(Rx, av_pll_addr, _pll[Ch]); 
+       if (blynkConnected) myBlynk.blynkAckLed(true);
+       ack = avReceiver.Tuner_PLL( av_pll_addr, _pll[Ch]); 
        delay(500);
        
-       if (blynkConnected) {myBlynk.blynkAckLed(Rx, ack); myBlynk.sevenSegValue(Ch);}
+       if (blynkConnected) {myBlynk.blynkAckLed( ack); myBlynk.sevenSegValue(Ch);}
        recevierFreq =videoCh[Ch].frequency;   
        
        if (blynkConnected) {myBlynk.frequencyValue(recevierFreq );myBlynk.visualActiveRoom(Ch,zapOnOff );}
@@ -930,15 +940,15 @@ void receiverAvByCh (int Rx,int Ch)
 
 
 
-void receiverAvByFreq (int Rx, int Freq)
+void receiverAvByFreq ( int Freq)
 {
   bool ack=0;
        recevierFreq =Freq;
-       if (blynkConnected) myBlynk.blynkAckLed(Rx, true); 
+       if (blynkConnected) myBlynk.blynkAckLed( true); 
         videoCh[recevierCh].frequency = Freq;
        _pll[recevierCh] =( 512 * (Freq + 479.5) ) / 64 ;
-       ack = avReceiver.Tuner_PLL(Rx,av_pll_addr, _pll[recevierCh]);
-       if (blynkConnected)  { myBlynk.blynkAckLed(Rx,ack);myBlynk.frequencyValue(Freq );}
+       ack = avReceiver.Tuner_PLL(av_pll_addr, _pll[recevierCh]);
+       if (blynkConnected)  { myBlynk.blynkAckLed(ack);myBlynk.frequencyValue(Freq );}
        DEBUG_PRINT("Received manual_freq:");DEBUG_PRINTLN(manual_freq);
        DEBUG_PRINT("ack: ");DEBUG_PRINTLN(ack ? F("NotACK") : F("ACK"));
 }
@@ -946,12 +956,12 @@ void receiverAvByFreq (int Rx, int Freq)
 
 
 
-void room (int Rx, int RC, int AV, int sel)
+void room ( int RC, int AV, int sel)
 {
      switch (sel)
           {
             case 1:
-                receiverAvByCh (Rx, AV);
+                receiverAvByCh ( AV);
             break;
 
             case 2:
@@ -960,7 +970,7 @@ void room (int Rx, int RC, int AV, int sel)
 
             
             case 3:
-                receiverAvByCh (Rx, AV);
+                receiverAvByCh ( AV);
                 remoteControl(RC);
             break;
           }

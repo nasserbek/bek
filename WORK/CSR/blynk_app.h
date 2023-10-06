@@ -40,7 +40,7 @@ class blynk {
     bool wifiStatus();
     void sendAlive( int _data);
     bool Tuner_PLL(int x, int _address, uint _pll);
-    void blynkAckLed(int Rx,bool _data);
+    void blynkAckLed(bool _data);
     void blynkRCLed(bool _data, int cmd);
     void blynkRCLed315(bool _data);
     void resetT433Cmd(int cmd );

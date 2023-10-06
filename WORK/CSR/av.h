@@ -13,8 +13,8 @@ class reciever {
  
     reciever(void) ;
     void init_I2C();
-    void sendCmd(int Rx, int _address , byte _byte);
-    bool Tuner_PLL(int x, int _address, uint _pll);
+    void sendCmd(int _address , byte _byte);
+    bool Tuner_PLL(int _address, uint _pll);
 };
 
 
