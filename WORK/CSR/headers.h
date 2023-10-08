@@ -374,13 +374,13 @@ const String FB_T433_STATUS_PATH[32] =
 #define MODEM_RST           5
 
 //av1
-#define I2C_SDA             21
-#define I2C_SCL             22
+#define I2C_SDA             21  //green
+#define I2C_SCL             22  //yellow
 #define AV_OUTPUT_AN        34
 
 //av1
-#define I2C_SDA_1             12
-#define I2C_SCL_1             13
+#define I2C_SDA_1             13   //green
+#define I2C_SCL_1             12    //yellow
 #define AV_OUTPUT_AN_1        35
 
 
