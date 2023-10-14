@@ -41,11 +41,14 @@ void setup()
 //RELE WITH LOW TRIGGER, ON IF LOW AND OFF IF HIGH
      pinMode(NETGEER_PIN_0, OUTPUT);
      pinMode(AV_RX_DVR_PIN_2, OUTPUT);
-     pinMode(I2C_SCL_1, OUTPUT);
+     pinMode(I2C_TCA954BA_A0, OUTPUT);
+     pinMode(I2C_TCA954BA_A1, OUTPUT);
 
      digitalWrite(NETGEER_PIN_0, LOW);// NC ACTIVATE ON POWER ON BY DOING NOTHING
      digitalWrite(AV_RX_DVR_PIN_2, LOW);  // NC DISACTIVATE AV RECEIVER ON POWER ON
-     digitalWrite(I2C_SCL_1, LOW);  // NC IIC MAIN
+
+     digitalWrite(I2C_TCA954BA_A0, LOW);  // A0
+     digitalWrite(I2C_TCA954BA_A1, LOW);  // A1
 
      Serial.begin(115200);
      
@@ -226,15 +229,28 @@ void processBlynkQueu(void)
 
            case Q_EVENT_SELECTED_RECIEVER_V9:
                selected_Rx = queuData;
-               if (selected_Rx == 1)
-                  {
-                   digitalWrite(I2C_SCL_1, LOW);  // NC IIC MAIN
-                 }
+                switch (selected_Rx)
+                    {
+                      case 1:
+                            digitalWrite(I2C_TCA954BA_A0, LOW);  // A0
+                            digitalWrite(I2C_TCA954BA_A1, LOW);  // A1
+                      break;
 
-                else
-                  {
-                    digitalWrite(I2C_SCL_1, HIGH);  // NC IIC MAIN
-                 }
+                      case 2:
+                            digitalWrite(I2C_TCA954BA_A0, HIGH);  // A0
+                            digitalWrite(I2C_TCA954BA_A1, LOW);  // A1
+                      break;
+
+                      case 3:
+                            digitalWrite(I2C_TCA954BA_A0, LOW);  // A0
+                            digitalWrite(I2C_TCA954BA_A1, HIGH);  // A1
+                      break;
+
+                      case 4:
+                            digitalWrite(I2C_TCA954BA_A0, HIGH);  // A0
+                            digitalWrite(I2C_TCA954BA_A1, HIGH);  // A1
+                      break;
+                    }                                    
             break;
  
 

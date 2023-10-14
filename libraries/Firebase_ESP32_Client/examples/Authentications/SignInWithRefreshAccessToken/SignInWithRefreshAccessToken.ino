@@ -13,16 +13,8 @@
 /* This example shows how to re-authenticate using the refresh token generated from other app via OAuth2.0 authentication. */
 
 #include <Arduino.h>
-#if defined(ESP32)
 #include <WiFi.h>
 #include <FirebaseESP32.h>
-#elif defined(ESP8266)
-#include <ESP8266WiFi.h>
-#include <FirebaseESP8266.h>
-#elif defined(ARDUINO_RASPBERRY_PI_PICO_W)
-#include <WiFi.h>
-#include <FirebaseESP8266.h>
-#endif
 
 // Provide the token generation process info.
 #include <addons/TokenHelper.h>
@@ -71,7 +63,12 @@ void setup()
     /* Assign the RTDB URL */
     config.database_url = DATABASE_URL;
 
-    Firebase.reconnectWiFi(true);
+    // Comment or pass false value when WiFi reconnection will control by your code or third party library e.g. WiFiManager
+    Firebase.reconnectNetwork(true);
+
+    // Since v4.4.x, BearSSL engine was used, the SSL buffer need to be set.
+    // Large data transmission may require larger RX buffer, otherwise connection issue or data read time out can be occurred.
+    fbdo.setBSSLBufferSize(4096 /* Rx buffer size in bytes from 512 - 16384 */, 1024 /* Tx buffer size in bytes from 512 - 16384 */);
 
     /* Assign the callback function for the long running token generation task */
     config.token_status_callback = tokenStatusCallback; // see addons/TokenHelper.h
@@ -84,7 +81,7 @@ void setup()
     // The Client ID and Client  Secret can be taken from https://console.developers.google.com/apis/credentials
 
     Firebase.setAccessToken(&config, "" /* set access token to empty to refresh token immediately */, 3600 /* expiry time */, "<Refresh Token>" /* refresh token */, "<Client ID>" /* client id */, "<Client Secret>" /* client secret */);
-    
+
     // Or refresh token manually
     // Firebase.refreshToken(&config);
 

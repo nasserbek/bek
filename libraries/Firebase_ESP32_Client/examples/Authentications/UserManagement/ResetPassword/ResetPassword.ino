@@ -15,16 +15,8 @@
  */
 
 #include <Arduino.h>
-#if defined(ESP32)
 #include <WiFi.h>
 #include <FirebaseESP32.h>
-#elif defined(ESP8266)
-#include <ESP8266WiFi.h>
-#include <FirebaseESP8266.h>
-#elif defined(ARDUINO_RASPBERRY_PI_PICO_W)
-#include <WiFi.h>
-#include <FirebaseESP8266.h>
-#endif
 
 /* 1. Define the WiFi credentials */
 #define WIFI_SSID "WIFI_AP"
@@ -76,7 +68,8 @@ void setup()
     /* Assign the RTDB URL */
     config.database_url = DATABASE_URL;
 
-    Firebase.reconnectWiFi(true);
+    // Comment or pass false value when WiFi reconnection will control by your code or third party library e.g. WiFiManager
+    Firebase.reconnectNetwork(true);
 
     Serial.printf("Send Email reset password link... %s\n", Firebase.sendResetPassword(&config, USER_EMAIL) ? "ok" : config.signer.resetPswError.message.c_str());
 }

@@ -2,12 +2,12 @@
 #define CSR2
 //#define CSR3
 
-#define VERSION_ID " CSR.10 " 
+#define VERSION_ID " CSR.12 " 
                    
 #define BLYNK_SERVER "blynk.cloud" //BLYNK2 REMOTE SERVER 
 #define BLYNK1_SERVER "blynk-cloud.com" //BLYNK REMOTE SERVER
 
-
+#define WIFI_SSID_METEOR  "METEOR_BEK"
 #define WIFI_SSID_GIGA    "GIGACUBE_BEK"                                                
 #define WIFI_SSID_FREE    "Freebox-bek"                                              
 #define WIFI_SSID_XIAOMI    "XIAOMI_BEK" 
@@ -75,7 +75,7 @@
 #endif
 
 #define WIFI_PASSWORD "ali09042010"
-
+#define WIFI_PASSWORD_METEOR "Ali09042010_"
 #define DEBUG_SERIAL
 
 
@@ -378,10 +378,12 @@ const String FB_T433_STATUS_PATH[32] =
 #define I2C_SCL             22  //yellow
 #define AV_OUTPUT_AN        34
 
-//av1
-#define I2C_SDA_1             13   //green
-#define I2C_SCL_1             12    //yellow
-#define AV_OUTPUT_AN_1        35
+//I2C TCA954BA
+#define I2C_TCA954BA_A0     12   //A0
+#define I2C_TCA954BA_A1     13   //A1
+
+
+#define AV_OUTPUT_SSP       35
 
 
 //RC

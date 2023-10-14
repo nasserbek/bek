@@ -152,7 +152,7 @@ void blynk::init()
 {
   Serial.println();
 
-    
+    wifiMulti.addAP(WIFI_SSID_METEOR, WIFI_PASSWORD_METEOR);
     wifiMulti.addAP(WIFI_SSID_GIGA, WIFI_PASSWORD);
     wifiMulti.addAP(WIFI_SSID_FREE, WIFI_PASSWORD);
     wifiMulti.addAP(WIFI_SSID_XIAOMI , WIFI_PASSWORD);

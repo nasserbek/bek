@@ -5,25 +5,114 @@
 ![arduino-library-badge](https://www.ardu-badge.com/badge/Firebase%20ESP32%20Client.svg) ![PlatformIO](https://badges.registry.platformio.org/packages/mobizt/library/Firebase%20ESP32%20Client.svg) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6462672.svg)](https://doi.org/10.5281/zenodo.6462672)
 
 
-This library supports ESP32 MCU from Espressif. The following are platforms in which libraries are also available.
+This library provides Firebase Realtime database and Firebase Cloud Messaging functions and supports only ESP32 MCU from Espressif with or without External network module. The ESP8266 version is available [here](https://github.com/mobizt/Firebase-ESP8266).
 
-* [ESP8266 Firebase Arduino library]( https://github.com/mobizt/Firebase-ESP8266)
+The features can be configurable to add and exclude some unused features, see [Library Build Options](#library-build-options).
 
-* [Arduino MKR WiFi 1010, Arduino MKR VIDOR 4000 and Arduino UNO WiFi Rev.2](https://github.com/mobizt/Firebase-Arduino-WiFiNINA)
-
-* [Arduino WiFi Shield 101 and Arduino MKR1000 WIFI](https://github.com/mobizt/Firebase-Arduino-WiFi101)
+If you use other Arduino devices or you want to use more Firebase services included Cloud Firestore database, Firebase Storage, Google Cloud Storage and Cloud Functions for Firebase, please use [Firebase-ESP-Client](https://github.com/mobizt/Firebase-ESP-Client) library instead.
 
 
+The RTDB (Realtime database), FCM (Cloud Messaing) and core code used in `Firebase-ESP-Client`, `FirebaseESP8266` and `FirebaseESP32` libraries are the same unless the syntaxes are different. Please see the library examples for usage guidlines.
 
-## New library for ESP8266 and ESP32 is available
+The `FirebaseESP8266` and `FirebaseESP32` libraries are the old and limited features Firebase client library while `Firebase-ESP-Client` is the newver version of Firebase client library that developed to support more Firebase services.
 
-The Firebase Client for ESP8266 and ESP32 supports Cloud Firestore, Firebase Storage, Google Cloud Storage and new API Cloud Messaging and Cloud Functions for Firebase is now available.
+## Contents
 
-Please try it here https://github.com/mobizt/Firebase-ESP-Client
+[1. Features](#features)
+
+[2. Supported Devices](#supported-devices)
+
+[3. Dependencies](#dependencies)
+
+[4. Installation](#installation)
+
+- [Using Library Manager](#using-library-manager)
+
+- [Manual installation](#manual-installation)
+
+[5. Usages](#usages)
+
+- [Initialization](#initialization)
+
+[6. Memory Options](#memory-options)
+
+- [Memory Options for ESP32](#memory-options-for-esp32)
+
+- [Arduino IDE](#arduino-ide)
+
+- [PlatformIO IDE](#platformio-ide)
+
+[7. Authentication](#authentication)
+
+- [Access in Test Mode (No Auth)](#access-in-test-mode-no-auth)
+
+- [The authenication credentials and prerequisites](#the-authenication-credentials-and-prerequisites)
+
+[8. Library Build Options](#library-build-options)
+
+- [Predefined Options](#predefined-options)
+
+- [Optional Options](#optional-options)
+
+[9. TCP Keep Alive](#tcp-keep-alive)
+
+[10. Realtime Database](#realtime-database)
+
+- [Read Data](#read-data)
+
+- [Store Data](#store-data)
+
+- [Append Data](#append-data)
+
+- [Patch Data](#patch-data)
+
+- [Delete Data](#delete-data)
+
+- [Filtering Data](#filtering-data)
+
+- [Monitoring data](#monitoring-data)
+
+- [Enable TCP KeepAlive for reliable HTTP Streaming](#enable-tcp-keepalive-for-reliable-http-streaming)
+
+- [HTTP Streaming examples](#http-streaming-examples)
+
+- [Backup and Restore Data](#backup-and-restore-data)
+
+- [Database Error Handling](#database-error-handling)
+
+[11. Add On](#add-on)
+
+- [FireSense, The Programmable Data Logging and IO Control (Deprecated)](#firesense-the-programmable-data-logging-and-io-control-deprecated)
+
+[12. Firebase Cloud Messaging (FCM)](#firebase-cloud-messaging-fcm)
+
+[13. Create, Edit, Serializing and Deserializing the JSON Objects](#create-edit-serializing-and-deserializing-the-json-objects)
+
+[14. License](#license)
 
 
+## Features
 
-## Tested Devices
+* Supports ESP32 devices.
+
+* Supports external Heap via SRAM/PSRAM.
+
+* TinyGSMClient and Ethernet Client integration.
+
+* Faster server reconnection with SSL Session Resumption.
+
+* Supports external network module.
+
+* Supports Firebase Realtime database.
+
+* Supports Firebase Cloud Messaging.
+
+* Supports Test Mode (No Auth).
+
+* Supports Firmware OTA updates.
+
+
+## Supported Devices
 
  * NodeMCU-32
  * WEMOS LOLIN32
@@ -32,59 +121,14 @@ Please try it here https://github.com/mobizt/Firebase-ESP-Client
  Most ESP32 boards are supported unless Sparkfun ESP32 Thing ([old version](https://www.sparkfun.com/products/13907)) is not recommended due to it built with non-standard 26 MHz clock on board instead of 40 MHz which causes the bugs and unstable network connection.
 
 
-
-## Other Arduino Devices supported using external Clients.
-
-Since version 3.14.4, library allows you to use external Arduino Clients network interfaces e.g. WiFiClient, EthernetClient and GSMClient, the Arduino supported devices that have enough flash size (> 128k) and memory can now use this library.
-
-To use external Client, see the [ExternalClient examples](/examples/ExternalClient).
-
-The authentication with OAuth2.0 and custom auth tokens, RTDB error queue and downloadFileOTA features are not supported for other Arduino devices using external Clients.
-
-The flash and SD filesystems supports depend on the devices and third party filesystems libraries installed.
-
-
-
-## Features
-
-* **Complete and secure Firebase RTDB's REST APIs Client**
-
-* **Supports database read, store, update, delete and value changes listener**
-
-* **Supports Test Mode (No Auth)**
-
-* **Supports Firmware OTA updates**
-
-* **Supports Firebase Cloud Messaging.**
-
-* **Built-in JSON editor and deserializer.**
-
-* **Supports external Heap via PSRAM.**
-
-* **Supports ethernet using LAN8720, TLK110 and IP101 Ethernet modules.**
-
-
-
-## Basic Examples
-
-Don't be confused with other Firebase Arduino libraries, this library has different working functions, the following examples provide the basic usages.
-
-
-[ESP32 | FLUTTER | FIREBASE - Temperature & Humidity Check App](https://www.youtube.com/watch?v=nVrACWPXi8g&feature=youtu.be)
-
-[Serverless IoTs with Firebase Realtime Database and ESP32 - Part 1](https://medium.com/@vibrologic/serverless-iots-with-firebase-realtime-database-and-esp32-2d86eda06ff1)
-
-[Serverless IoTs with Firebase Realtime Database and ESP32 - Part 2](https://medium.com/@vibrologic/serverless-iots-with-firebase-realtime-database-and-esp32-def049181b57)
-
-
-
 ## Dependencies
 
-This library required **ESP32 Core SDK version 1.0.1 or above**.
+
+This library required **Platform's Core SDK** to be installed.
 
 For Arduino IDE, ESP32 Core SDK can be installed through **Boards Manager**. 
 
-For PlatfoemIO IDE, ESP32 Core SDK can be installed through **PIO Home** > **Platforms** > **Espressif 32**.
+For PlatfoemIO IDE, ESP32 Core SDK can be installed through **PIO Home** > **Platforms** > **Espressif 8266 or Espressif 32**.
 
 
 
@@ -95,8 +139,7 @@ For PlatfoemIO IDE, ESP32 Core SDK can be installed through **PIO Home** > **Pla
 
 At Arduino IDE, go to menu **Sketch** -> **Include Library** -> **Manage Libraries...**
 
-
-In Library Manager Window, search **"firebase"** in the search form then select **"Firebase ESP32 Client"** 
+In Library Manager Window, search **"firebase"** in the search form then select **"FirebaseESP32"**. 
 
 Click **"Install"** button.
 
@@ -104,14 +147,9 @@ Click **"Install"** button.
 
 For PlatformIO IDE, using the following command.
 
-**pio lib install "Firebase ESP32 Client"**
+**pio lib install "FirebaseESP32""**
 
-
-Or at **PIO Home** -> **Library** -> **Registry** then search **Firebase ESP32 Client**.
-
-
-If you ever installed this library in Global storage in PlatformIO version prior to v2.0.0 and you have updated the PlatformIO to v2.0.0 and later, the global library installation was not available, the sources files of old library version still be able to search by the library dependency finder (LDF), you needed to remove the library from folder **C:\Users\\<UserName\>\\.platformio\lib** to prevent unexpected behavior when compile and run.
-
+Or at **PIO Home** -> **Library** -> **Registry** then search **FirebaseESP32**.
 
 
 
@@ -121,25 +159,12 @@ For Arduino IDE, download zip file from the repository (Github page) by select *
 
 From Arduino IDE, select menu **Sketch** -> **Include Library** -> **Add .ZIP Library...**.
 
-Choose **Firebase-ESP32-master.zip** that previously downloaded.
+Choose **FirebaseESP32-master.zip** that previously downloaded.
 
-Rename **Firebase-ESP32-master** folder to **Firebase_ESP32_Client**.
+Rename **FirebaseESP32-master** folder to **FirebaseESP32**.
 
-Go to menu **Files** -> **Examples** -> **Firebase-ESP32-master** and choose one from examples.
+Go to menu **Files** -> **Examples** -> **FirebaseESP32-master** and choose one from examples.
 
-
-For PlatformIO, in folder **"lib"**, create new folder named **"Firebase-ESP32"** and add **[these files](https://github.com/mobizt/Firebase-ESP32/tree/master/src)** in that folder.
-
-
-### Important Note for Manual Installation in Arduino IDE
-
-Folder renaming to **Firebase_ESP32_Client** was required for making the library can be updated via Library Manager without problems.
-
-Without folder renaming, when you update the library via Library Manager, library will be updated to the another folder named  **Firebase_ESP32_Client** which leads to compilation error when there are two different versions of library found in the libraries folder and can cause the conflicts when file structures and functions changed in the newer version. 
-
-For example, the library version 3.12.10 and earlier were installed manually by downloading ZIP file and extracted to **Firebase-ESP32-master** folder. If the library was later updated to v3.14.2 and newer via Library Manager, the compilation error will take place because the newer version files structures and functions changed and compiler is trying to compile these two versions of source files together. 
-
-In this case, you need to delete **Firebase-ESP32-master** folder from libraries folder.
 
 
 
@@ -152,16 +177,14 @@ See [function description](/src/README.md) for all available functions.
 
 
 
-
 ### Initialization
 
 
 ```cpp
 
-// Include WiFi.h
+#include <Arduino.h>
 #include <WiFi.h>
 
-// Include Firebase ESP32 library (this library)
 #include <FirebaseESP32.h>
 
 // Define the Firebase Data object
@@ -173,14 +196,13 @@ FirebaseAuth auth;
 // Define the FirebaseConfig data for config data
 FirebaseConfig config;
 
-// Assign the project host and api key (required)
+// Assign the project host and api key 
 config.host = FIREBASE_HOST;
 
 config.api_key = API_KEY;
 
 // Assign the user sign in credentials
 auth.user.email = USER_EMAIL;
-
 auth.user.password = USER_PASSWORD;
 
 // Initialize the library with the Firebase authen and config.
@@ -195,29 +217,37 @@ Firebase.setMaxRetry(fbdo, 3);
 // Optional, set number of error resumable queues
 Firebase.setMaxErrorQueue(fbdo, 30);
 
-// Optional, use classic HTTP GET and POST requests. 
-// This option allows get and delete functions (PUT and DELETE HTTP requests) works for 
-// device connected behind the Firewall that allows only GET and POST requests.   
+// Optional, use classic HTTP GET and POST requests.
+// This option allows get and delete functions (PUT and DELETE HTTP requests) works for
+// device connected behind the Firewall that allows only GET and POST requests.
 Firebase.enableClassicRequest(fbdo, true);
 
-// Optional, set the size of HTTP response buffer
-// Prevent out of memory for large payload but data may be truncated and can't determine its type.
-fbdo.setResponseSize(8192); // minimum size is 4096 bytes
+// Since v4.4.x, BearSSL engine was used, the SSL buffer need to be set.
+// Large data transmission may require larger RX buffer, otherwise connection issue or data read time out can be occurred.
+fbdo.setBSSLBufferSize(4096 /* Rx buffer size in bytes from 512 - 16384 */, 1024 /* Tx buffer size in bytes from 512 - 16384 */);
+
+// Limit the size of response payload to be collected in FirebaseData
+fbdo.setResponseSize(2048);
+
 ```
+See [other authentication examples](/examples/Authentications) for more sign in methods.
 
 
-## Memory Options for ESP32
+## Memory Options
+
+
+### Memory Options for ESP32
 
 In ESP32 module that has PSRAM installed, you can enable it and set the library to use this external memory instead.
 
-### Arduino IDE
+#### Arduino IDE
 
 To enable PSRAM in ESP32 module.
 
 ![Enable PSRAM in ESP32](/media/images/ESP32-PSRAM.png)
 
 
-### PlatformIO IDE
+#### PlatformIO IDE
 
 
 In PlatformIO on VSCode or Atom IDE, add the following build_flags in your project's platformio.ini file.
@@ -255,56 +285,6 @@ You can set the system time using the RTC chip or manually by calling **`Firebas
 While authenticate using Email and password, the process will be perform faster because no token generation and time setup required. 
 
 The authenticate using the legacy token (database secret) does not have these delay time because the token is ready to use.
-
-
-
-### Speed of data transfer
-
-This library focuses on the user privacy and user data protection which follows Google authentication processes. Setting the security rules to allow public access read and write, is not recommended even the data transmision time in this case was significantly reduced as it does not require any auth token then the overall data size was reduced, but anyone can steal, modify, or delete data in your database.
-
-
-Once the auth token is important and when it was created and ready for authentication process, the data transmission time will depend on the time used in SSL/TLS handshake process (only for new session opening), the size of http header (included auth token size) and payload to be transmitted and the SSL client buffer reserved size especially in ESP8266.
-
-
-The legacy token size is relatively small, only 40 bytes, result in smallest header to send, while the size of id token generated using Email/Password is quite large, approx. 900 bytes. result in larger header to send.
-
-
-There is a compromise between the speed of data transfer and the Rx/Tx buffer which then reduced the free memory available especially in ESP8266.
-
-
-When the reserved SSL client Rx/Tx buffer is smaller than the size of data to be transmitted, the data need to be sent as multiple chunks which required more transmission time.
-
-This affected especially in ESP8266 which has the limited free memory.
-
-
-To speed up the data transmission in ESP8266, the larger reserved Rx/Tx buffer size is necessary.
-
-
-The reserved SSL Rx/Tx buffer size in ESP8266 can be set through the function \<Firebase Data object\>.setBSSLBufferSize, e.g. **fbdo.setBSSLBufferSize(2048, 2048);**
-
-
-The larger BearSSL buffer reserved for ESP8266, the lower free memory available as long as the session opened (server connection).
-
-
-Therefore the time for data transfer will be varied from approx. neary 200 ms to 500 ms based on the reserved SSL client Rx/Tx buffer size and the size of data to transmit.
-
-
-In ESP8266, when the free memory and speed are concerned, the legacy token should be used instead of other authentication to reduce the header size and the lower SSL Rx/Tx buffer i.e. 1024 for Rx and 512 for Tx are enough.
-
-
-When the session was reused (in this library), the SSL handshake process will be ignored in the subsequence requests.
-
-
-The session was close when the host or ip changes or server closed or the session timed out in 3 minutes. 
-
-
-When the new session need to be opened, the SSL handshake will be processed again and used the time approx 1 - 2 seconds to be done.
-
-
-For post (push) or put (set) request in RTDB, to speed up the data transfer, use pushAsync or setAsync instead.
-
-
-With pushAsync and setAsync, the payload response will be ignored and the next data will be processed immediately.
 
 
 
@@ -439,53 +419,102 @@ Below is how to assign the certificate data for server verification.
 
 
 
-## Excludes the unused classes to save memory
+## Library Build Options 
 
-You can gain up to 9% free flash space.
+The library build options are defined as preprocessor macros (`#define name`).
 
+Some options can be disabled to reduce program space.
 
-The internal classes, RTDB and FCM in this library can be excluded or disabled to save memory usage through [**FirebaseFS.h**](/src/FirebaseFS.h).
+### Predefined Options
 
-By comment the following macros.
+The predefined options that are already set in [**FirebaseFS.h**](src/FirebaseFS.h) are following.
 
-
-ENABLE_RTDB
-
-ENABLE_FCM
-
-ENABLE_ERROR_STRING
-
-To disable OTA update, comment this macro.
-
-```
-ENABLE_OTA_FIRMWARE_UPDATE
-```
-
-By excluding the filesystems e.g. SPIFFS and SD will gain more program space.
-
-
-And use only RTDB database secret, by define this will also gain free space.
-
-```
-#define USE_LEGACY_TOKEN_ONLY
+```cpp
+ENABLE_NTP_TIME // For enabling the device or library time setup from NTP server
+ENABLE_ERROR_STRING // For enabling the error string from error reason
+FIREBASE_ENABLE_RTDB // For RTDB class compilation
+FIREBASE_ENABLE_ERROR_QUEUE // For RTDB Error Queue compilation
+FIREBASE_ENABLE_FCM // For Firebase Cloud Messaging compilation
+FIREBASE_USE_PSRAM // For enabling PSRAM support
+ENABLE_OTA_FIRMWARE_UPDATE // For enabling OTA updates support via RTDB, Firebase Storage and Google Cloud Storage buckets
+USE_CONNECTION_KEEP_ALIVE_MODE // For enabling Keep Alive connection mode
+DEFAULT_FLASH_FS // For enabling Flash filesystem support
+DEFAULT_SD_FS // For enabling SD filesystem support 
+CARD_TYPE_SD or CARD_TYPE_SD_MMC // The SD card type for SD filesystem
 ```
 
+The Flash and SD filesystems are predefined.
 
-### About FirebaseData object
+SD is the default SD filesystem for all devices.
 
-`FirebaseData` class used as the application and user data container. It used widely in this library to handle everything related to data in the server/client data transmission.
+For ESP8266 and Arduino Pico, LittleFS is the default flash filesystem.
 
-The WiFiClientSecure instance was created in `FirebaseData` object when connecting to server. The response payload will store in this object that allows user to acquire and process leter.
+For ESP32 since v2.0.x, LittleFS is the default flash filesystem otherwise SPIFFS is the default flash filesystem.
 
-The memory consumed during server connection state is relatively large which depends on the SSL engine used in device Core SDK e.g., as much as 50k for ESP32 using mbedTLS SSL engine library.
+In otherr devices, SPIFFS is the default flash filesystem.
 
-This library will send HTTP Keep-Alive header for session reuse by default as the macro `USE_CONNECTION_KEEP_ALIVE_MODE` defined in FirebaseFS.h and memory will be reserved as long as server connected.
+User can change `DEFAULT_FLASH_FS` and `DEFAULT_SD_FS` with `CARD_TYPE_SD` or `CARD_TYPE_SD_MMC` defined values for other filesystems.
+
+### Optional Options
+
+The following options are not yet defined in [**FirebaseFS.h**](src/FirebaseFS.h) and can be assigned by user.
+
+```cpp
+FIREBASE_ETHERNET_MODULE_LIB `"EthernetLibrary.h"` // For the Ethernet library to work with external Ethernet module
+FIREBASE_ETHERNET_MODULE_CLASS EthernetClass // For the Ethernet class object of Ethernet library to work with external Ethernet module
+FIREBASE_ETHERNET_MODULE_TIMEOUT 2000 // For the time out in milliseconds to wait external Ethernet module to connect to network
+FIREBASE_DISABLE_ONBOARD_WIFI // For disabling on-board WiFI functionality in case external Client usage
+FIREBASE_DISABLE_NATIVE_ETHERNET // For disabling native (sdk) Ethernet functionality in case external Client usage
+FIREBASE_DEFAULT_DEBUG_PORT // For debug port assignment
+```
+
+You can assign the optional build options using one of the following methods.
+
+- By creating user config file `CustomFirebaseFS.h` in library installed folder and define these optional options.
+
+- By adding compiler build flags with `-D name`.
+
+In PlatformIO IDE, using `build_flags` in PlatformIO IDE's platformio.ini is more convenient 
+
+```ini
+build_flags = -D DISABLE_FCM
+              -D EFIREBASE_DISABLE_ONBOARD_WIFI
+```
+
+For external Ethernet module integation used with function `setEthernetClient`, both `FIREBASE_ETHERNET_MODULE_LIB` and `FIREBASE_ETHERNET_MODULE_CLASS` should be defined.
+
+`FIREBASE_ETHERNET_MODULE_LIB` is the Ethernet library name with extension (.h) and should be inside `""` or `<>` e.g. `"Ethernet.h"`.
+
+`FIREBASE_ETHERNET_MODULE_CLASS` is the name of static object defined from class e.g. `Ethernet`.
+
+`FIREBASE_ETHERNET_MODULE_TIMEOUT` is the time out in milliseconds to wait network connection.
+
+For disabling predefined options instead of editing the [**FirebaseFS.h**](src/FirebaseFS.h) or using `#undef` in `CustomFirebaseFS.h`, you can define these build flags with these names or macros in `CustomFirebaseFS.h`.
+
+```cpp
+DISABLE_NTP_TIME // For disabling the NTP time setting
+DISABLE_ERROR_STRING // For disabling the error string from error reason
+DISABLE_RTDB // For disabling RTDB support
+DISABLE_ERROR_QUEUE // For disabling RTDB Error Queue support
+DISABLE_FCM // For disabling Firebase Cloud Messaging support
+DISABLE_PSRAM // For disabling PSRAM support
+DISABLE_OTA // For disabling OTA updates support
+DISABLE_KEEP_ALIVE // For disabling TCP Keep Alive support (See TCP Keep Alive)
+DISABLE_SD // For disabling flash filesystem support
+DISABLE_FLASH // For disabling SD filesystem support
+DISABLE_DEBUG // For disable debug port
+
+FIREBASE_DISABLE_ALL_OPTIONS // For disabling all predefined build options above
+```
+
+Note that, `CustomFirebaseFS.h` for user config should be placed in the library install folder inside src folder.
+
+This `CustomFirebaseFS.h` will not change or overwrite when update the library.
 
 
-With HTTP Keep-Alive mode, you can take the benefit of TCP KeepAlive which will probe the server connection periodically.
 
+## TCP Keep Alive
 
-The disadvantage when using TCP KeepAlive is little or more data bandwidth consumed which depends on the TCP KeepAlive options set in `FirebaseData` object.
 
 The TCP KeepAlive can be enabled from executing `<FirebaseData>.keepAlive` with providing TCP options as arguments, i.e.,
 
@@ -506,10 +535,22 @@ For the TCP (KeepAlive) options, see [here](https://docs.espressif.com/projects/
 
 You can check the server connecting status, by executing `<FirebaseData>.httpConnected()` which will return true when connection to the server is still alive. 
 
+
+The TCP KeepAlive was currently available in ESP32 unless in ESP8266, [this ESP8266 PR #8940](https://github.com/esp8266/Arduino/pull/8940) should be merged in the [ESP8266 Arduino Core SDK](https://github.com/esp8266/Arduino/releases), i.e., it will be supported in the ESP8266 core version newer than v3.1.2.
+
+
+In ESP8266 core v3.1.2 and older, the error can be occurred when executing `<FirebaseData>.keepAlive` because of object slicing.
+
+
+The Arduino Pico is currently not support TCP KeepAlive until it's implemented in WiFiClientSecure library as in ESP8266.
+
  
 For External Client, this TCP KeepAlive option is not appliable and should be managed by external Client library.
 
 
+## Realtime Database
+
+See [RTDB examples](/examples) for complete usages.
 
 ### Read Data
 
@@ -534,7 +575,7 @@ The data type of returning payload can be determined by `fbdo.dataType()` which 
 
 The String of type returns from `fbdo.dataType()` can be string, boolean, int, float, double, json, array, blob, file and null.
 
-The enum value type, fb_esp_rtdb_data_type returns from `fbdo.dataTypeEnum()` can be fb_esp_rtdb_data_type_null (1), fb_esp_rtdb_data_type_integer, fb_esp_rtdb_data_type_float, fb_esp_rtdb_data_type_double, fb_esp_rtdb_data_type_boolean, fb_esp_rtdb_data_type_string, fb_esp_rtdb_data_type_json, fb_esp_rtdb_data_type_array, fb_esp_rtdb_data_type_blob, and fb_esp_rtdb_data_type_file (10)
+The enum value type, firebase_rtdb_data_type returns from `fbdo.dataTypeEnum()` can be firebase_rtdb_data_type_null (1), firebase_rtdb_data_type_integer, firebase_rtdb_data_type_float, firebase_rtdb_data_type_double, firebase_rtdb_data_type_boolean, firebase_rtdb_data_type_string, firebase_rtdb_data_type_json, firebase_rtdb_data_type_array, firebase_rtdb_data_type_blob, and firebase_rtdb_data_type_file (10)
 
 
 
@@ -611,7 +652,7 @@ The following example showed how to read integer value from node "/test/int".
 ```cpp
   if (Firebase.getInt(fbdo, "/test/int")) {
 
-      if (fbdo.dataTypeEnum() == fb_esp_rtdb_data_type_integer) {
+      if (fbdo.dataTypeEnum() == firebase_rtdb_data_type_integer) {
       Serial.println(fbdo.to<int>());
     }
 
@@ -863,7 +904,7 @@ query.clear();
 
 
 
-### Server Data Changes Listener with Server-Sent Events or HTTP Streaming
+### Monitoring Data
 
 
 This library uses HTTP GET request with `text/event-stream` header to make [**HTTP streaming**](https://en.wikipedia.org/wiki/Server-sent_events) connection.
@@ -968,22 +1009,22 @@ void streamCallback(StreamData data)
   // Print out the value
   // Stream data can be many types which can be determined from function dataType
 
-  if (data.dataTypeEnum() == fb_esp_rtdb_data_type_integer)
+  if (data.dataTypeEnum() == firebase_rtdb_data_type_integer)
       Serial.println(data.to<int>());
-  else if (data.dataTypeEnum() == fb_esp_rtdb_data_type_float)
+  else if (data.dataTypeEnum() == firebase_rtdb_data_type_float)
       Serial.println(data.to<float>(), 5);
-  else if (data.dataTypeEnum() == fb_esp_rtdb_data_type_double)
+  else if (data.dataTypeEnum() == firebase_rtdb_data_type_double)
       printf("%.9lf\n", data.to<double>());
-  else if (data.dataTypeEnum() == fb_esp_rtdb_data_type_boolean)
+  else if (data.dataTypeEnum() == firebase_rtdb_data_type_boolean)
       Serial.println(data.to<bool>()? "true" : "false");
-  else if (data.dataTypeEnum() == fb_esp_rtdb_data_type_string)
+  else if (data.dataTypeEnum() == firebase_rtdb_data_type_string)
       Serial.println(data.to<String>());
-  else if (data.dataTypeEnum() == fb_esp_rtdb_data_type_json)
+  else if (data.dataTypeEnum() == firebase_rtdb_data_type_json)
   {
       FirebaseJson *json = data.to<FirebaseJson *>();
       Serial.println(json->raw());
   }
-  else if (data.dataTypeEnum() == fb_esp_rtdb_data_type_array)
+  else if (data.dataTypeEnum() == firebase_rtdb_data_type_array)
   {
       FirebaseJsonArray *arr = data.to<FirebaseJsonArray *>();
       Serial.println(arr->raw());
@@ -1044,22 +1085,22 @@ if (fbdo.streamTimeout())
 if (fbdo.streamAvailable())
 {
 
-  if (fbdo.dataTypeEnum() == fb_esp_rtdb_data_type_integer)
+  if (fbdo.dataTypeEnum() == firebase_rtdb_data_type_integer)
     Serial.println(fbdo.to<int>());
-  else if (fbdo.dataTypeEnum() == fb_esp_rtdb_data_type_float)
+  else if (fbdo.dataTypeEnum() == firebase_rtdb_data_type_float)
     Serial.println(fbdo.to<float>(), 5);
-  else if (fbdo.dataTypeEnum() == fb_esp_rtdb_data_type_double)
+  else if (fbdo.dataTypeEnum() == firebase_rtdb_data_type_double)
     printf("%.9lf\n", fbdo.to<double>());
-  else if (fbdo.dataTypeEnum() == fb_esp_rtdb_data_type_boolean)
+  else if (fbdo.dataTypeEnum() == firebase_rtdb_data_type_boolean)
     Serial.println(fbdo.to<bool>() ? "true" : "false");
-  else if (fbdo.dataTypeEnum() == fb_esp_rtdb_data_type_string)
+  else if (fbdo.dataTypeEnum() == firebase_rtdb_data_type_string)
     Serial.println(fbdo.to<String>());
-  else if (fbdo.dataTypeEnum() == fb_esp_rtdb_data_type_json)
+  else if (fbdo.dataTypeEnum() == firebase_rtdb_data_type_json)
   {
       FirebaseJson *json = fbdo.to<FirebaseJson *>();
       Serial.println(json->raw());
   }
-  else if (fbdo.dataTypeEnum() == fb_esp_rtdb_data_type_array)
+  else if (fbdo.dataTypeEnum() == firebase_rtdb_data_type_array)
   {
       FirebaseJsonArray *arr = fbdo.to<FirebaseJsonArray *>();
       Serial.println(arr->raw());
@@ -1286,8 +1327,10 @@ Firebase.saveErrorQueue(fbdo, "/test.txt", StorageType::FLASH);
 
 ```
 
+## Add On
 
-## FireSense, The Programmable Data Logging and IO Control (Deprecated Add On)
+
+### FireSense, The Programmable Data Logging and IO Control (Deprecated)
 
 This add on library is for the advance usages and works with Firebase RTDB.
 
@@ -1301,74 +1344,72 @@ FireSense is now inactive development and deprecated.
 
 
 
+
 ## Firebase Cloud Messaging (FCM)
 
-Two types of FCM message data can be sent using this library e.g. **notification** and **custom data**.
+The library acts as a app server to sends the message to registeration devices by sending request to the Google's FCM backend via the legacy HTTP and HTTPv1 APIs.
 
-These two types of data can send all together or separately.
+The functions available are setServerKey, send, subscibeTopic, unsubscibeTopic, appInstanceInfo and regisAPNsTokens.
 
-Function `Firebase.sendMessage` will send a message to one recipient.
+Function `Firebase.FCM.setServerKey` to setup the Server Key which required by the legacy protocols.
 
-Function `Firebase.broadcastMessage` will broadcast or send a message to multiple recipients.  
+Function `Firebase.FCM.send` to send the message with the selectable legacy and HTTPv1 messages constructors.  
 
-Function `Firebase.sendTopic` will send a message to any recipient who subscribed to the topic.
+Function `Firebase.FCM.subscribeTopic` to add the subscription for instance ID (IID) tokens to the defined topic.
 
-The FCM message itself offers a broad range of messaging options and capabilities for various recipient device platforms. 
+Function `Firebase.FCM.unsubscribeTopic` to remove the subscription for instance ID (IID) tokens from the defined topic.
 
-For Android, iOS and web platforms, these basic options can be set and work for all platforms. 
+Function `Firebase.FCM.appInstanceInfo` to get the app instance info for a device. This also provides the subscribed topics info.
 
+Function `Firebase.FCM.regisAPNsTokens` to create the registration tokens for iOS APNs tokens.
 
-Function `fbdo.fcm.begin` used to assign the server key of your Firebase project.
+The library provides two message constructors that hold the data to construct the JSON object payload internally.
 
-Function `fbdo.fcm.addDeviceToken` used to add recipient registered device token which wants to send message to. 
+For legacy message, see https://firebase.google.com/docs/cloud-messaging/http-server-ref
 
-Functions `fbdo.fcm.removeDeviceToken` and `fbdo.fcm.clearDeviceToken` used to remove or clear recipient device.
+For HTTPv1 message, see ttps://firebase.google.com/docs/reference/fcm/rest/v1/projects.messages
 
-
-For the notification message, title, body, icon (optional), and click_action (optional) can be set through `fbdo.fcm.setNotifyMessage`. 
-
-And clear these notify message data with `fbdo.fcm.clearNotifyMessage`.
-
-For the data message, provide your custom data as JSON object (FirebaseJson object or string) to `fbdo.fcm.setDataMessage` which can be clear with `fbdo.fcm.clearDataMessage`.
-
-The other options are `priority`, `collapse key`, `Time to Live` of the message and `topic` to send messages to, can be set from the following functions.
-
-Call `fbdo.fcm.setPriority` for priority ("normal" or "high"), `fbdo.fcm.setCollapseKey` for collapse key setup, `fbdo.fcm.setTimeToLive` for life span of message setup between 0 sec. to 2,419,200 sec.  (or 4 weeks), and `fbdo.fcm.setTopic` for assigning the topic that message to send to.
+The HTTPv1 APIs requires OAUth2.0 authentication using the Service Account credential.
 
 
 
 The following example showed how to send FCM message.
 
 ```cpp
-// Provide your Firebase project's server key here
-fbdo.fcm.begin(FIREBASE_FCM_SERVER_KEY);
+// Provide your Firebase project's server key to send messsage using the legacy protocols
+Firebase.FCM.setServerKey(FIREBASE_FCM_SERVER_KEY);
 
-// Prvide one or more the recipient registered token or instant ID token
-fbdo.fcm.addDeviceToken(FIREBASE_FCM_DEVICE_TOKEN);
+// Construct the legacy message
+FCM_HTTPv1_JSON_Message msg;
 
-// Provide the priority (optional)
-fbdo.fcm.setPriority("normal");
+// Assign the device registration token
+msg.token = DEVICE_REGISTRATION_ID_TOKEN;
 
-// Provide the time to live (optional)
-fbdo.fcm.setTimeToLive(5000);
+// Assign the notification payload
+msg.notification.body = "Notification body";
+msg.notification.title = "Notification title";
 
-// Set the notification message data
-fbdo.fcm.setNotifyMessage("Notification", "Hello World!", "firebase-logo.png", "http://www.google.com");
+FirebaseJson json;
+String payload;
 
-// Set the custom message data
-fbdo.fcm.setDataMessage("{\"myData\":\"myValue\"}");
+// Assign the data payload
+// all data key-values should be in string
+json.add("humidity", "70");
+json.toString(payload);
+msg.data = payload.c_str();
 
-// Send message to one recipient with inddex 1 (index starts from 0)
-if (Firebase.sendMessage(fbdo, 1))
+// Send message
+if (Firebase.FCM.send(&fbdo, &msg))
 {
-  // Success, print the result returned from server
-  Serial.println(fbdo.fcm.getSendResult());
+   erial.println("Message sent to FCM backend.");
+   Serial.println(Firebase.FCM.payload(&fbdo));
 }
 else
 {
-  // Failed, print the error reason
-  Serial.println(fbdo.errorReason());
+   Serial.println("Something wrong, can't send request to FCM backend.");
+   Serial.println(fbdo.errorReason());
 }
+
 ```
 
 

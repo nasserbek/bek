@@ -21,22 +21,16 @@
  * OAuth2.0 acces tokens generation will fail
  * because of invalid expiration time in JWT token that used in the id/access
  * token request.
- * 
+ *
  * This library used RFC 7523, JWT Bearer Token Grant Type Profile for OAuth 2.0
  * which no refresh token is available for access token exchanging.
  */
 
 #include <Arduino.h>
-#if defined(ESP32)
 #include <WiFi.h>
 #include <FirebaseESP32.h>
-#elif defined(ESP8266)
-#include <ESP8266WiFi.h>
-#include <FirebaseESP8266.h>
-#elif defined(ARDUINO_RASPBERRY_PI_PICO_W)
-#include <WiFi.h>
-#include <FirebaseESP8266.h>
-#endif
+
+#include <FirebaseESP32.h>
 
 // Provide the token generation process info.
 #include <addons/TokenHelper.h>
@@ -110,10 +104,15 @@ void setup()
    */
   // config.signer.tokens.scope = "Google Scope 1 Url, Google Scope 2 Url,..";
 
-  Firebase.reconnectWiFi(true);
-
   /* Assign the callback function for the long running token generation task */
   config.token_status_callback = tokenStatusCallback; // see addons/TokenHelper.h
+
+  // Comment or pass false value when WiFi reconnection will control by your code or third party library e.g. WiFiManager
+  Firebase.reconnectNetwork(true);
+
+  // Since v4.4.x, BearSSL engine was used, the SSL buffer need to be set.
+  // Large data transmission may require larger RX buffer, otherwise connection issue or data read time out can be occurred.
+  fbdo.setBSSLBufferSize(4096 /* Rx buffer size in bytes from 512 - 16384 */, 1024 /* Tx buffer size in bytes from 512 - 16384 */);
 
   /** To set system time with the timestamp from RTC
    * The internal NTP server time acquisition

@@ -12,16 +12,8 @@
 // This example shows how to store and read binary data from memory to database.
 
 #include <Arduino.h>
-#if defined(ESP32)
 #include <WiFi.h>
 #include <FirebaseESP32.h>
-#elif defined(ESP8266)
-#include <ESP8266WiFi.h>
-#include <FirebaseESP8266.h>
-#elif defined(ARDUINO_RASPBERRY_PI_PICO_W)
-#include <WiFi.h>
-#include <FirebaseESP8266.h>
-#endif
 
 // Provide the token generation process info.
 #include <addons/TokenHelper.h>
@@ -89,10 +81,12 @@ void setup()
   /* Assign the callback function for the long running token generation task */
   config.token_status_callback = tokenStatusCallback; // see addons/TokenHelper.h
 
-#if defined(ESP8266)
-                                                      // required for large file data, increase Rx size as needed.
-  fbdo.setBSSLBufferSize(1024 /* Rx buffer size in bytes from 512 - 16384 */, 1024 /* Tx buffer size in bytes from 512 - 16384 */);
-#endif
+  // Comment or pass false value when WiFi reconnection will control by your code or third party library e.g. WiFiManager
+  Firebase.reconnectNetwork(true);
+
+  // Since v4.4.x, BearSSL engine was used, the SSL buffer need to be set.
+  // Large data transmission may require larger RX buffer, otherwise connection issue or data read time out can be occurred.
+  fbdo.setBSSLBufferSize(4096 /* Rx buffer size in bytes from 512 - 16384 */, 1024 /* Tx buffer size in bytes from 512 - 16384 */);
 
   // Or use legacy authenticate method
   // config.database_url = DATABASE_URL;
@@ -101,8 +95,6 @@ void setup()
   // To connect without auth in Test Mode, see Authentications/TestMode/TestMode.ino
 
   Firebase.begin(&config, &auth);
-
-  Firebase.reconnectWiFi(true);
 }
 
 void loop()
