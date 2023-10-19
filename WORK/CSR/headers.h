@@ -43,6 +43,31 @@
     #define BLYNK_AUTH_TOKEN            "dzOaaIcY4PnpKaggWqL7habBnf641hgJ" //CSR3
 #endif
 
+// TTGO T-Call pin definitions
+#define MODEM_TX            27
+#define MODEM_RX            26
+#define MODEM_PWKEY         4
+#define MODEM_POWER_ON      23
+#define MODEM_RST           5
+
+//av1
+#define I2C_SDA             21  //green
+#define I2C_SCL             22  //yellow
+#define AV_OUTPUT_AN        34
+
+//I2C TCA954BA
+#define I2C_TCA954BA_A0     12   //A0
+#define I2C_TCA954BA_A1     13   //A1
+#define AV_OUTPUT_SSP       35
+
+
+//RC
+#define RC_TX_PIN           15
+
+
+//RELAYS
+#define AV_RX_DVR_PIN_2     2
+#define NETGEER_PIN_0       0
 
 
 // FOR FIREBASE ONLY
@@ -366,33 +391,10 @@ const String FB_T433_STATUS_PATH[32] =
 #define RC_CODE_LENGTH      24
 
 
-// TTGO T-Call pin definitions
-#define MODEM_TX            27
-#define MODEM_RX            26
-#define MODEM_PWKEY         4
-#define MODEM_POWER_ON      23
-#define MODEM_RST           5
-
-//av1
-#define I2C_SDA             21  //green
-#define I2C_SCL             22  //yellow
-#define AV_OUTPUT_AN        34
-
-//I2C TCA954BA
-#define I2C_TCA954BA_A0     12   //A0
-#define I2C_TCA954BA_A1     13   //A1
 
 
-#define AV_OUTPUT_SSP       35
 
 
-//RC
-#define RC_TX_PIN           15
-
-
-//RELAYS
-#define AV_RX_DVR_PIN_2     2
-#define NETGEER_PIN_0       0
 
 
 enum {
