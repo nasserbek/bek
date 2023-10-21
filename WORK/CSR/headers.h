@@ -1,6 +1,6 @@
 //#define CSR
-#define CSR2
-//#define CSR3
+//#define CSR2
+#define CSR3
 
 #define VERSION_ID " CSR.12 " 
                    
@@ -40,7 +40,7 @@
 
     #define BLYNK_TEMPLATE_ID           "TMPL5Y2na6zpd"
     #define BLYNK_TEMPLATE_NAME         "CSR"
-    #define BLYNK_AUTH_TOKEN            "dzOaaIcY4PnpKaggWqL7habBnf641hgJ" //CSR3
+    #define BLYNK_AUTH_TOKEN            "6DH6QZgVXrGXU5VzOpJSJgHoyXWL7aWS" //CSR3
 #endif
 
 // TTGO T-Call pin definitions
