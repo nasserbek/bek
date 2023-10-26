@@ -53,22 +53,16 @@
 //av1
 #define I2C_SDA             21  //green
 #define I2C_SCL             22  //yellow
-#define AV_OUTPUT_AN        34
-
-//I2C TCA954BA
-#define I2C_TCA954BA_A0     12   //A0
-#define I2C_TCA954BA_A1     13   //A1
-#define AV_OUTPUT_SSP       35
-
 
 //RC
 #define RC_TX_PIN           15
-
 
 //RELAYS
 #define AV_RX_DVR_PIN_2     2
 #define NETGEER_PIN_0       0
 
+#define I2C_1_2_RELAY         25
+#define I2C_3_4_RELAY         26
 
 // FOR FIREBASE ONLY
 

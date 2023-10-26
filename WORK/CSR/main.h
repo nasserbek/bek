@@ -6,10 +6,10 @@
 #include "freertos/queue.h"
 #include "esp_system.h"
 
-#include "av.h"
+//#include "av.h"
 #include "blynk_app.h"
 #include "headers.h"
-
+#include <Wire.h>
 
 
 struct Roomdata
@@ -74,6 +74,8 @@ bool ch13_on = false;
 bool ch14_on = false;
 bool ch15_on = false;
 
+uint8_t bus = 1;
+  
 int selected_Rx = 1;
 int blynkStatus = 1;
 bool googleConnected=false;
