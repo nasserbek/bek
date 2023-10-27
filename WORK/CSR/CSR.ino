@@ -14,8 +14,8 @@ bool Tuner_PLL( int receiver, int _address, uint _pll)
   byte LSB = _pll & 0x00FF     ;        //mask MSB, no need to shift
                switch (receiver)
                     {
-                      case 1:
-                      case 2:
+                      case 3:
+                      case 4:
                               Wire.beginTransmission(_address);
                               Wire.write(MSB );
                               Wire.write(LSB );
@@ -23,8 +23,8 @@ bool Tuner_PLL( int receiver, int _address, uint _pll)
                               return (Wire.endTransmission() );    
                       break;
 
-                      case 3:
-                      case 4:
+                      case 1:
+                      case 2:
                               Wire1.beginTransmission(_address);
                               Wire1.write(MSB );
                               Wire1.write(LSB );
@@ -88,8 +88,8 @@ void setup()
      digitalWrite(NETGEER_PIN_0, LOW);// NC ACTIVATE ON POWER ON BY DOING NOTHING
      digitalWrite(AV_RX_DVR_PIN_2, LOW);  // NC DISACTIVATE AV RECEIVER ON POWER ON
 
-    digitalWrite(I2C_1_2_RELAY, LOW);  //  
-     digitalWrite(I2C_3_4_RELAY, LOW);  //  
+    digitalWrite(I2C_1_2_RELAY, HIGH);  //  ACTIVE LOW
+     digitalWrite(I2C_3_4_RELAY, HIGH);  //  
 
      Serial.begin(115200);
 
@@ -299,16 +299,16 @@ void processBlynkQueu(void)
                 switch (selected_Rx)
                     {
                       case 1:
-                                 digitalWrite(I2C_1_2_RELAY, LOW);  //  
-                      break;
-                      case 2:
                                  digitalWrite(I2C_1_2_RELAY, HIGH);  //  
                       break;
+                      case 2:
+                                 digitalWrite(I2C_1_2_RELAY, LOW);  //  
+                      break;
                       case 3:
-                         digitalWrite(I2C_3_4_RELAY, LOW);  // 
+                         digitalWrite(I2C_3_4_RELAY, HIGH);  // 
                       break;
                       case 4:
-                         digitalWrite(I2C_3_4_RELAY, HIGH);  // 
+                         digitalWrite(I2C_3_4_RELAY, LOW);  // 
                       break;
                     }                                    
             break;
