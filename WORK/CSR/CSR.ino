@@ -1,119 +1,47 @@
 #include "main.h"
-//TwoWire RX1 = TwoWire(0);
-
-bool TCA9548A(uint8_t bus)
-{
-  Wire.beginTransmission(0x70);  // TCA9548A address is 0x70
-  Wire.write(1 << bus);          // send byte to select bus
-  return(Wire.endTransmission());
-}
-
-bool Tuner_PLL( int receiver, int _address, uint _pll)
-{
-  byte MSB = (_pll & 0xFF00) >> 8   ;   //mask LSB, shift 8 bits to the right
-  byte LSB = _pll & 0x00FF     ;        //mask MSB, no need to shift
-               switch (receiver)
-                    {
-                      case 3:
-                      case 4:
-                              Wire.beginTransmission(_address);
-                              Wire.write(MSB );
-                              Wire.write(LSB );
-                              Wire.write(0xC2 );
-                              return (Wire.endTransmission() );    
-                      break;
-
-                      case 1:
-                      case 2:
-                              Wire1.beginTransmission(_address);
-                              Wire1.write(MSB );
-                              Wire1.write(LSB );
-                              Wire1.write(0xC2 );
-                              return (Wire1.endTransmission() );
-                      break;
-                    }                                    
-
-}
-
-
-       
-
-
-
  blynk myBlynk;
 
 #define USE_SERIAL Serial
-  
 
-QueueHandle_t g_event_queue_handle = NULL;
-EventGroupHandle_t g_event_group = NULL;
-
-int queuData;
-int queuDataID;
-bool queuValidData=false;
-bool streamWebDdns = DDNS;
-bool routerResetStart =false;
-
-
-void looadRoomData()
-{
-  int freq;
-       
- for(byte i=1;i<21;i++)
-          {
-            videoCh[i].frequency = freqTable[i];
-            freq=videoCh[i].frequency;
-            roomId[i].vCh  = roomId[i].rCh = videoCh[i].id = i;
-            _pll[i] = ( 512 * (freq + 479.5) ) / 64 ;
-          }
-}
-
-void createHandleGroup()
-{
-     //Create a program that allows the required message objects and group flags
-    g_event_queue_handle = xQueueCreate(50, sizeof(int)); // Creates a queue of 50 int elements
-    g_event_group = xEventGroupCreate();
-}
 
 void setup() 
 {
   bool ack = true;
 //RELE WITH LOW TRIGGER, ON IF LOW AND OFF IF HIGH
-     pinMode(NETGEER_PIN_0, OUTPUT);
+     //pinMode(NETGEER_PIN_0, OUTPUT);
      pinMode(AV_RX_DVR_PIN_2, OUTPUT);
      
      pinMode(I2C_1_2_RELAY , OUTPUT);
      pinMode(I2C_3_4_RELAY , OUTPUT);
 
-     digitalWrite(NETGEER_PIN_0, LOW);// NC ACTIVATE ON POWER ON BY DOING NOTHING
+     //digitalWrite(NETGEER_PIN_0, LOW);// NC ACTIVATE ON POWER ON BY DOING NOTHING
      digitalWrite(AV_RX_DVR_PIN_2, LOW);  // NC DISACTIVATE AV RECEIVER ON POWER ON
 
-    digitalWrite(I2C_1_2_RELAY, HIGH);  //  ACTIVE LOW
-     digitalWrite(I2C_3_4_RELAY, HIGH);  //  
+
 
      Serial.begin(115200);
 
+     //I2C_INIT();
+
      
-    
-    Wire.begin();
-    delay(1000);
 
-    Wire1.begin(33, 32, 100000);
-    delay(1000);
-
-
-   // ack = TCA9548A(1);
-   // DEBUG_PRINT("mult: ");DEBUG_PRINTLN(ack ? F("NotACK") : F("ACK"));
+     #ifdef CSR2
+        digitalWrite(I2C_1_2_RELAY, HIGH);  //  1
+        digitalWrite(I2C_3_4_RELAY, HIGH);  //  1
+      //  Wire1.begin(SDA_2, SCL_2);
+     #else
+        digitalWrite(I2C_1_2_RELAY, LOW);  //  1
+        digitalWrite(I2C_3_4_RELAY, LOW);  //  1
+       // Wire.begin();
+     #endif
     
-    delay (1000);
 
-    ack = Tuner_PLL(1, av_pll_addr, 512 * (1060 + 479.5));
-    DEBUG_PRINT("Wire: ");DEBUG_PRINTLN(ack ? F("NotACK") : F("ACK"));
-    
-    delay (1000);
-    
-    ack = Tuner_PLL(3, av_pll_addr, 512 * (1060 + 479.5));
-    DEBUG_PRINT("Wire1: ");DEBUG_PRINTLN(ack ? F("NotACK") : F("ACK"));
+     Wire.begin();
+     delay(500);
+     Wire1.begin(SDA_2, SCL_2);
+
+     ack = TCA9548A(0);
+     DEBUG_PRINT("ack: ");DEBUG_PRINTLN(ack ? F("NotACK") : F("ACK"));
 
      initWDG(MIN_5,EN);
      resetWdg();    //reset timer (feed watchdog) 
@@ -131,10 +59,6 @@ void setup()
                 myBlynk.streamSelect(streamWebDdns);
                 myBlynk.sendPulseRepetetion(pulseRC, repetionRC);
              }
-
-             
-
-
 
      internetSurvilanceTimer = millis();
     liveTimerOff            = millis();
@@ -207,7 +131,7 @@ void netgeerCtrl(void)
        if ( (  (millis() - routerResetTimer) >= routerTimer) && routerResetStart)
                 {
 
-              digitalWrite(NETGEER_PIN_0, LOW);
+             // digitalWrite(NETGEER_PIN_0, LOW);
      
                 routerResetStart=false;
                 routerResetTimer        = millis();
@@ -235,7 +159,7 @@ void netgeerCtrl(void)
 
 void ResetNetgeer(void)
           {
-              digitalWrite(NETGEER_PIN_0, HIGH);
+             // digitalWrite(NETGEER_PIN_0, HIGH);
               if(!routerResetStart){routerResetTimer        = millis();routerResetStart = true;DEBUG_PRINTLN("Netgeer Reset done: ");}
           }
 
@@ -294,9 +218,10 @@ void processBlynkQueu(void)
             break;
 
            case Q_EVENT_SELECTED_RECIEVER_V9:
-               selected_Rx = queuData;
-  
-                switch (selected_Rx)
+               selected_Rx = queuData-1;
+              TCA9548A(selected_Rx);
+      #ifdef CSR2
+                switch (queuData)
                     {
                       case 1:
                                  digitalWrite(I2C_1_2_RELAY, HIGH);  //  
@@ -304,13 +229,34 @@ void processBlynkQueu(void)
                       case 2:
                                  digitalWrite(I2C_1_2_RELAY, LOW);  //  
                       break;
-                      case 3:
-                         digitalWrite(I2C_3_4_RELAY, HIGH);  // 
+
+                       case 3:
+                                 digitalWrite(I2C_3_4_RELAY, HIGH);  //  
                       break;
                       case 4:
-                         digitalWrite(I2C_3_4_RELAY, LOW);  // 
+                                 digitalWrite(I2C_3_4_RELAY, LOW);  //  
+                      break;                     
+                    }   
+     #else
+                switch (queuData)
+                    {
+                      case 1:
+                                 digitalWrite(I2C_1_2_RELAY, LOW);  //  
                       break;
-                    }                                    
+                      case 2:
+                                 digitalWrite(I2C_1_2_RELAY, HIGH);  //  
+                      break;
+
+                       case 3:
+                                 digitalWrite(I2C_3_4_RELAY, LOW);  //  
+                      break;
+                      case 4:
+                                 digitalWrite(I2C_3_4_RELAY, HIGH);  //  
+                      break;                     
+                    }   
+     #endif
+
+                                 
             break;
  
 
@@ -1113,3 +1059,107 @@ void goToDeepSleep(int sleepTimer)
       esp_deep_sleep_start();
 }
 
+
+
+
+
+
+   void looadRoomData()
+{
+  int freq;
+       
+ for(byte i=1;i<21;i++)
+          {
+            videoCh[i].frequency = freqTable[i];
+            freq=videoCh[i].frequency;
+            roomId[i].vCh  = roomId[i].rCh = videoCh[i].id = i;
+            _pll[i] = ( 512 * (freq + 479.5) ) / 64 ;
+          }
+}
+
+void createHandleGroup()
+{
+     //Create a program that allows the required message objects and group flags
+    g_event_queue_handle = xQueueCreate(50, sizeof(int)); // Creates a queue of 50 int elements
+    g_event_group = xEventGroupCreate();
+}
+    
+
+
+bool  TCA9548A(uint8_t bus)
+{
+
+       #ifdef CSR2
+                          Wire1.beginTransmission(0x70);  // TCA9548A address is 0x70
+                          Wire1.write(1 << bus);          // send byte to select bus
+                          return(Wire1.endTransmission());  
+      #else
+                          Wire.beginTransmission(0x70);  // TCA9548A address is 0x70
+                          Wire.write(1 << bus);          // send byte to select bus
+                          return(Wire.endTransmission()); 
+      #endif
+     
+     /*
+     switch (bus)
+                    {
+                      case 0:
+                      case 1:
+                          Wire1.beginTransmission(0x70);  // TCA9548A address is 0x70
+                          Wire1.write(1 << bus);          // send byte to select bus
+                          return(Wire1.endTransmission());  
+                      break;
+
+                      case 2:
+                      case 3:
+                          Wire.beginTransmission(0x70);  // TCA9548A address is 0x70
+                          Wire.write(1 << bus);          // send byte to select bus
+                          return(Wire.endTransmission()); 
+                      break;                     
+                    }
+*/
+  
+}
+
+bool Tuner_PLL( int receiver, int _address, uint _pll)
+{
+  byte MSB = (_pll & 0xFF00) >> 8   ;   //mask LSB, shift 8 bits to the right
+  byte LSB = _pll & 0x00FF     ;        //mask MSB, no need to shift
+
+  /*
+  switch (receiver)
+                    {
+                      case 0:
+                      case 1:
+                            Wire1.beginTransmission(_address);
+                            Wire1.write(MSB );
+                            Wire1.write(LSB );
+                            Wire1.write(0xC2 );
+                            return (Wire1.endTransmission() );                        break;
+                      break;
+
+                      case 2:
+                      case 3:
+                            Wire.beginTransmission(_address);
+                            Wire.write(MSB );
+                            Wire.write(LSB );
+                            Wire.write(0xC2 );
+                            return (Wire.endTransmission() );                      
+                       break;                     
+                    }   
+*/
+
+     #ifdef CSR2
+        Wire1.beginTransmission(_address);
+        Wire1.write(MSB );
+        Wire1.write(LSB );
+        Wire1.write(0xC2 );
+        return (Wire1.endTransmission() );  
+     #else
+          Wire.beginTransmission(_address);
+          Wire.write(MSB );
+          Wire.write(LSB );
+          Wire.write(0xC2 );
+          return (Wire.endTransmission() );  
+     #endif
+ 
+}

@@ -1,8 +1,8 @@
-//#define CSR
+#define CSR
 //#define CSR2
-#define CSR3
+//#define CSR3
 
-#define VERSION_ID " CSR.12 " 
+#define VERSION_ID " CSR.14 " 
                    
 #define BLYNK_SERVER "blynk.cloud" //BLYNK2 REMOTE SERVER 
 #define BLYNK1_SERVER "blynk-cloud.com" //BLYNK REMOTE SERVER
@@ -54,15 +54,17 @@
 #define I2C_SDA             21  //green
 #define I2C_SCL             22  //yellow
 
+#define SDA_2              33  //green
+#define SCL_2              32  //yellow
+
 //RC
 #define RC_TX_PIN           15
 
 //RELAYS
 #define AV_RX_DVR_PIN_2     2
-#define NETGEER_PIN_0       0
+#define I2C_1_2_RELAY       0
+#define I2C_3_4_RELAY       4
 
-#define I2C_1_2_RELAY         25
-#define I2C_3_4_RELAY         26
 
 // FOR FIREBASE ONLY
 
