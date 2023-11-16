@@ -87,7 +87,8 @@ bool ch15_on = false;
 bool ch16_on = false;
 bool ch17_on = false;
 bool ch18_on = false;
-
+bool ch19_on = false;
+bool chx_on = false;
 uint8_t bus = 1;
   
 int selected_Rx = 0;

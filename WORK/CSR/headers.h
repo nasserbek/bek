@@ -1,5 +1,5 @@
 #define CSR  // R64 1CH TTGO
-// #define CSR2  //4CH ESP32S
+//#define CSR2  //4CH ESP32S
 //#define CSR3    //2CH ESP32S
 
 #define VERSION_ID " CSR.14 " 
