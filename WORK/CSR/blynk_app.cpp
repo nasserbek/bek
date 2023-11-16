@@ -74,9 +74,9 @@ extern EventGroupHandle_t g_event_group;
 extern QueueHandle_t g_event_queue_handle;
 
 
-WidgetLED T433_LED_V6(V6);   //T433 St
+//WidgetLED T433_LED_V6(V6);   //T433 St
 WidgetLED I2C_LED_V13(V13);  //I2C ACK
-WidgetLED I2C_SEC_LED_V12(V12);  //sms
+//WidgetLED I2C_SEC_LED_V12(V12);  //sms
 WidgetLED ZAP_LED_V80(V80);  //Zap Status
 WidgetTerminal terminal(V102);
 
@@ -100,9 +100,9 @@ int eventdata;
 
 void ledInit(void)
 {
-  T433_LED_V6.on(); //Enable colours for T433 St Led
+  //T433_LED_V6.on(); //Enable colours for T433 St Led
   I2C_LED_V13.on(); //Enable colours for T315 St Led
-  I2C_SEC_LED_V12.on(); //Enable colours for firebase
+  //I2C_SEC_LED_V12.on(); //Enable colours for firebase
   ZAP_LED_V80.on(); //Enable colours for Zapping
 }
 
@@ -235,11 +235,41 @@ BLYNK_WRITE(V3) // ROOM_1_TO_5
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
-BLYNK_WRITE(V7)   // ota
+BLYNK_WRITE(V4)  
+{
+
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_SWITCHING_25_V4;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+
+}
+
+BLYNK_WRITE(V5)  
+{
+
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_SWITCHING_48_V5;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+
+}
+
+BLYNK_WRITE(V6)  
+{
+
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_SWITCHING_26_V6;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+
+}
+
+BLYNK_WRITE(V7)   
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_OTA_GSM_V7;
+    eventdata = Q_EVENT_SWITCHING_65_V7;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -261,24 +291,43 @@ BLYNK_WRITE(V9) // Room Nr
 
 }
 
-BLYNK_WRITE(V10)  //All channels override button
+BLYNK_WRITE(V10)  
 {
- if( param.asInt() != 0)
-    {
+
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_ALL_CH_V10;
+    eventdata = Q_EVENT_SWITCHING_50_V10;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    }
+
 }
 
 
+BLYNK_WRITE(V11)  
+{
 
-BLYNK_WRITE(V14) //BLYNK1_V14
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_SWITCHING_28_V11;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+
+}
+
+BLYNK_WRITE(V12)  
+{
+
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_SWITCHING_52_V12;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+
+}
+
+
+BLYNK_WRITE(V14) 
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_BLYNK1_V14;
+    eventdata = Q_EVENT_SPARE_V14;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -368,7 +417,7 @@ BLYNK_WRITE(V30)   //03
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_03_SEL_V30;
+    eventdata = Q_EVENT_V30_SWITCHING_64;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -378,7 +427,7 @@ BLYNK_WRITE(V31)   //21
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_21_SEL_V31;    
+    eventdata = Q_EVENT_V31_SWITCHING_49;    
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -387,7 +436,7 @@ BLYNK_WRITE(V32)   //27
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_27_SEL_V32;
+    eventdata = Q_EVENT_V32_SWITCHING_62;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -396,7 +445,7 @@ BLYNK_WRITE(V33)   //50
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_50_SEL_V33;
+    eventdata = Q_EVENT_V33_SWITCHING_51;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -405,7 +454,7 @@ BLYNK_WRITE(V34)   //20
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_20_SEL_V34;
+    eventdata = Q_EVENT_V34_SWITCHING_66;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -414,7 +463,7 @@ BLYNK_WRITE(V35)   //52
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_52_SEL_V35;
+    eventdata = Q_EVENT_V35_SWITCHING_53;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -423,7 +472,7 @@ BLYNK_WRITE(V36)   //53
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_53_SEL_V36;
+    eventdata = Q_EVENT_V36_SWITCHING_29;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -432,7 +481,7 @@ BLYNK_WRITE(V37)   //22
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_22_SEL_V37;
+    eventdata = Q_EVENT_V37_SWITCHING_63;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -441,7 +490,7 @@ BLYNK_WRITE(V38)   //208
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_208_SEL_V38;
+    eventdata = Q_EVENT_V38_SWITCHING_68;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -450,7 +499,7 @@ BLYNK_WRITE(V39)   //215
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_215_SEL_V39;
+    eventdata = Q_EVENT_V39_SWITCHING_27;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -459,7 +508,7 @@ BLYNK_WRITE(V40)   //217
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_217_SEL_V40;
+    eventdata = Q_EVENT_V40_SWITCHING_SPARE;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -867,8 +916,7 @@ void blynk::resetT433Cmd(int cmd)
 
 void blynk::resetT315Cmd(int cmd)
 {
- t315ChNumber = cmd;
- Blynk.virtualWrite(V14, cmd);
+
 }
 
 void blynk::sevenSegValue(int vch )
@@ -920,7 +968,7 @@ void blynk::blynkRCLed(bool _data, int cmd)
 {
      if (_data==0)  
           {
-            T433_LED_V6.setColor(BLYNK_RED);
+           // T433_LED_V6.setColor(BLYNK_RED);
             if ( (cmd >= 1) && (cmd <= 5))  Blynk.setProperty(V3, "color", BLYNK_GREEN);
             if ( (cmd >= 6) && (cmd <= 10))  Blynk.setProperty(V16, "color", BLYNK_GREEN);
             if ( (cmd >= 11) && (cmd <= 15))  Blynk.setProperty(V17, "color", BLYNK_GREEN);
@@ -929,7 +977,7 @@ void blynk::blynkRCLed(bool _data, int cmd)
           }
       else           
       {
-            T433_LED_V6.setColor(BLYNK_GREEN);
+           // T433_LED_V6.setColor(BLYNK_GREEN);
             if ( (cmd >= 1) && (cmd <= 5))  Blynk.setProperty(V3, "color", BLYNK_RED);
             if ( (cmd >= 6) && (cmd <= 10))  Blynk.setProperty(V16, "color", BLYNK_RED);
             if ( (cmd >= 11) && (cmd <= 15))  Blynk.setProperty(V17, "color", BLYNK_RED);
@@ -1043,7 +1091,7 @@ void blynk::sendVersion(String ver)
 
 void blynk::SyncAll(void)
 {
- //Blynk.syncVirtual(V30, V31, V32, V33, V34,V35,V36,V37,V81,V82,V83,V84,V85,V86,V87,V88,V89,V94,V95,V96,V97,V106,V107,V108,V109,V110,V111,V112,V71);
+
 }
 
 void blynk::blynk1(void)
