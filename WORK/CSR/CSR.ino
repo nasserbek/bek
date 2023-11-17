@@ -56,8 +56,10 @@ void setup()
      if (blynkConnected) 
               {
                 myBlynk.sendAvRxIndex(Av_Rx);
-                myBlynk.streamSelect(streamWebDdns);
+                myBlynk.RelaySelect();
                 myBlynk.sendPulseRepetetion(pulseRC, repetionRC);
+ //               myBlynk.sendAvRxIndex(Av_Rx);
+                //myBlynk.SyncAll();
              }
 
      internetSurvilanceTimer = millis();
@@ -80,7 +82,7 @@ void setup()
     
     char buf[10]; //make this the size of the String
     ver.toCharArray(buf, 10);    
-
+    
 }
 
 
@@ -394,15 +396,16 @@ void processBlynkQueu(void)
             break;     
 
             case Q_EVENT_V38_SWITCHING_68:  // 68
-                  videoCh[18].mux=queuData; 
-                  if (!videoCh[18].mux) ch18_on == false ; 
+                  videoCh[19].mux=queuData; 
+                  if (!videoCh[19].mux) ch19_on == false ; 
             break;    
             case Q_EVENT_V39_SWITCHING_27:  //27
                   videoCh[4].mux=queuData;
                   if (!videoCh[4].mux) ch4_on == false ;
             break;    
-            case Q_EVENT_V40_SWITCHING_SPARE:  //ROOM 
-
+            case Q_EVENT_V40_SWITCHING_67:  //67 
+                  videoCh[18].mux=queuData;
+                  if (!videoCh[18].mux) ch18_on == false ;            
             break;                            
                                                                       
             case Q_EVENT_ZAP_V71:
@@ -599,14 +602,14 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                 else stateMachine =SM_CH2_A;
             break;
 
-            case SM_CH2_A:    //25 48    2 - 7
+            case SM_CH2_A:    //25 48 67    2 - 7 -18
             case SM_CH2_B:
                 if (videoCh[2].zap ) 
                   {
                     if (stateMachine == SM_CH2_A) {zaptime= millis();stateMachine =SM_CH2_B;}
                     if (millis() - zaptime > zapTimer) 
                       {
-                        Switching(2, 7,20, ch2_on, ch7_on, chx_on  );  
+                        Switching(2, 7, 18, ch2_on, ch7_on, ch18_on  );  
                         delay(1000);
                         recevierCh=videoCh[2].id;
                         receiverAvByCh ( recevierCh);
@@ -686,14 +689,14 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                 else stateMachine =SM_CH7_A;
             break;
                        
-            case SM_CH7_A:    //48 25  7-2
+            case SM_CH7_A:    //48-25-67  7 - 2 - 18
             case SM_CH7_B:
                 if (videoCh[7].zap ) 
                   {
                     if (stateMachine == SM_CH7_A) {zaptime= millis();stateMachine =SM_CH7_B;}
                     if (millis() - zaptime > zapTimer) 
                       {
-                        Switching(7, 2, 20, ch7_on, ch2_on, chx_on  ); 
+                        Switching(7, 2, 18, ch7_on, ch2_on, ch18_on  ); 
                         delay(1000); 
                         recevierCh=videoCh[7].id;
                         receiverAvByCh ( recevierCh);
@@ -808,14 +811,14 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                 else stateMachine =SM_CH14_A;
             break;  
 
-            case SM_CH14_A:   //63 68  14-18
+            case SM_CH14_A:   //63 68  14-19
             case SM_CH14_B:
                 if (videoCh[14].zap) 
                   {
                     if (stateMachine == SM_CH14_A) {zaptime= millis();stateMachine =SM_CH14_B;}
                     if (millis() - zaptime > zapTimer) 
                     {
-                      Switching(14, 18, 20, ch14_on, ch18_on, chx_on  );  
+                      Switching(14, 19, 20, ch14_on, ch19_on, chx_on  );  
                       delay(1000);
                       recevierCh=videoCh[14].id;
                       receiverAvByCh ( recevierCh);
@@ -879,14 +882,14 @@ void zappingAvCh (bool zapCmd, int zapTimer)
             break;                         
 
 
-            case SM_CH18_A:   //68  63  18-14
+            case SM_CH18_A:   //67-25-48  18 - 2 - 7
             case SM_CH18_B:
                 if (videoCh[18].zap) 
                   {
                     if (stateMachine == SM_CH18_A) {zaptime= millis();stateMachine =SM_CH18_B;}
                     if (millis() - zaptime > zapTimer) 
                     {
-                      Switching(18, 14, 20, ch18_on, ch14_on , chx_on  );  
+                      Switching(18, 7, 2, ch18_on, ch7_on , ch2_on  );  
                       delay(1000);                      
                       recevierCh=videoCh[18].id;
                       receiverAvByCh ( recevierCh);
@@ -896,13 +899,15 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                 else {zaptime= millis();stateMachine =SM_CH19_A;}
             break;                         
 
-            case SM_CH19_A: //19
+            case SM_CH19_A: //68  63  19-14
             case SM_CH19_B:
                 if (videoCh[19].zap) 
                   {
                     if (stateMachine == SM_CH19_A) {zaptime= millis();stateMachine =SM_CH19_B;}
                     if (millis() - zaptime > zapTimer) 
                     {
+                      Switching(19, 14, 20 , ch19_on, ch14_on, chx_on  );  
+                      delay(1000);                       
                       recevierCh=videoCh[19].id;
                       receiverAvByCh ( recevierCh);
                       stateMachine =SM_CH20_A;

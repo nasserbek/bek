@@ -56,7 +56,7 @@ class blynk {
     void sendToBlynkLed(bool _data);
     bool wifiConnect(void);
     void sendAvRxIndex(int _index);
-    void streamSelect(bool stream);
+    void RelaySelect();
     void sendVersion(String ver); 
     void sendPulseRepetetion(int pulse, int repetetion);
     void visualActiveRoom(int id, bool zap);

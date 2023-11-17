@@ -508,7 +508,7 @@ BLYNK_WRITE(V40)   //217
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_V40_SWITCHING_SPARE;
+    eventdata = Q_EVENT_V40_SWITCHING_67;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -989,7 +989,7 @@ void blynk::blynkRCLed(bool _data, int cmd)
 
 void blynk::visualActiveRoom(int id, bool zap)
 {
-  Blynk.virtualWrite(V5, id);
+ // Blynk.virtualWrite(V5, id);
   if ( (id >= 1) && (id <= 5)) 
     { 
       if (zap) Blynk.virtualWrite(V3, id);
@@ -1078,10 +1078,9 @@ bool blynk::wifiStatus(void)
  return  _wifiIsConnected;
 }
 
-void blynk::streamSelect(bool stream)
+void blynk::RelaySelect(void)
 {
-  if (stream == DDNS) Blynk.setProperty(V22,"url", "rtsp://LYN:basma28112018@bouy.ddns.net:5001/ch01/0");
-  else if (stream == WEB) Blynk.setProperty(V22, "url","rtsp://LYN:basma28112018@192.168.1.94:554/ch01/0");
+ Blynk.virtualWrite(V9, 1);
 }
 
 void blynk::sendVersion(String ver)
@@ -1091,6 +1090,27 @@ void blynk::sendVersion(String ver)
 
 void blynk::SyncAll(void)
 {
+  Blynk.syncVirtual(V9);  //rele sel
+  Blynk.syncVirtual(V27); //dvr on
+  Blynk.syncVirtual(V71); //zap cmd
+  Blynk.syncVirtual(V81);
+  Blynk.syncVirtual(V82);
+  Blynk.syncVirtual(V83);
+  Blynk.syncVirtual(V84);
+  Blynk.syncVirtual(V85);
+  Blynk.syncVirtual(V86);
+  Blynk.syncVirtual(V87);
+  Blynk.syncVirtual(V88);
+  Blynk.syncVirtual(V89);
+  Blynk.syncVirtual(V94);
+  Blynk.syncVirtual(V95);
+  Blynk.syncVirtual(V96);
+  Blynk.syncVirtual(V97);
+  Blynk.syncVirtual(V106);
+  Blynk.syncVirtual(V107);
+  Blynk.syncVirtual(V108);
+  Blynk.syncVirtual(V109);
+  Blynk.syncVirtual(V110);
 
 }
 
