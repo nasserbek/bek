@@ -86,7 +86,8 @@ bool ch18_on = false;
 bool ch19_on = false;
 bool chx_on = false;
 uint8_t bus = 1;
-  
+
+int selected_room = 1;  
 int selected_Rx = 0;
 int blynkStatus = 1;
 bool googleConnected=false;

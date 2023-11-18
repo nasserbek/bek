@@ -298,17 +298,6 @@ void processBlynkQueu(void)
                   if (!videoCh[11].mux) ch11_on == false ;
             break;                       
 
-            case Q_EVENT_SPARE_V14:
-
-            break;
-
-            case Q_EVENT_NETGEER_V15  :
-             myBlynk.notifierDebug(NOTIFIER_ID, "Netgeer Reset from Blynk");
-              ResetNetgeer();
-            break;
-
-
-
 
             
             case Q_EVENT_ROOM_ID_6_TO_10_V16:
@@ -334,10 +323,6 @@ void processBlynkQueu(void)
              myBlynk.sendAvRxIndex(Av_Rx);
             break;
             
-            case Q_EVENT_ROUTER_RESET_TIMER_V23:
-                  routerTimer = queuData;
-            break;
-
  
             case Q_EVENT_ROOM_ID_21_25_V25:
                   remoteControlRcCh = queuData;
@@ -465,32 +450,7 @@ void processBlynkQueu(void)
             break; 
 
                       
-            case Q_EVENT_AV_CH_PLUS_V90:
-                recevierCh += 1;
-                if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
-                else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
-                receiverAvByCh ( recevierCh);
-            break;
-                     
-            
-            case Q_EVENT_AV_CH_MINUS_V91:
-                recevierCh -= 1;
-                if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
-                else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
-                receiverAvByCh ( recevierCh);
-            break;
-            
-             case Q_EVENT_AV_FR_MINUS_V92:
-              recevierFreq -= 1;
-              receiverAvByFreq ( recevierFreq);
-            break;
-
-           case Q_EVENT_AV_FR_PLUS_V93:
-              recevierFreq += 1;
-              receiverAvByFreq ( recevierFreq);
-            break;
-
-
+ 
             case Q_EVENT_ZAP_CHANNEL10_V94 :
               videoCh[10].zap=queuData;
             break; 
@@ -526,14 +486,7 @@ void processBlynkQueu(void)
 
             break;
                           
-            case Q_EVENT_WIFI_WEB_V104:
-
-             break;
-
-             case Q_EVENT_OTA_GITHUB_V105:
-
-             break;
-
+ 
             case Q_EVENT_ZAP_CHANNEL14_V106 :
               videoCh[14].zap=queuData;
             break; 
@@ -562,9 +515,124 @@ void processBlynkQueu(void)
              case Q_EVENT_ZAP_CHANNEL20_V112 :
               videoCh[20].zap=queuData;
             break; 
-                       
-            
+
+             case Q_EVENT_RM_ID_01_V121:
+                  remoteControlRcCh = 1;
+                  recevierCh        = 1;
+                  room ( remoteControlRcCh, recevierCh , Av_Rx );
+                   Serial.println(queuData);
+             break;                       
+
+             case Q_EVENT_RM_ID_02_V122:
+                  remoteControlRcCh = 2;
+                  recevierCh        = 2;
+                  room ( remoteControlRcCh, recevierCh , Av_Rx );
+                   Serial.println(queuData);
+             break;  
+             case Q_EVENT_RM_ID_03_V123:
+                  remoteControlRcCh = 3;
+                  recevierCh        = 3;
+                  room ( remoteControlRcCh, recevierCh , Av_Rx );
+                   Serial.println(queuData);
+             break;  
+             case Q_EVENT_RM_ID_04_V124:
+                  remoteControlRcCh = 4;
+                  recevierCh        = 4;
+                  room ( remoteControlRcCh, recevierCh , Av_Rx );
+                   Serial.println(queuData);
+             break;  
+             case Q_EVENT_RM_ID_05_V125:
+                  remoteControlRcCh = 5;
+                  recevierCh        = 5;
+                  room ( remoteControlRcCh, recevierCh , Av_Rx );
+                   Serial.println(queuData);
+             break;  
+             case Q_EVENT_RM_ID_06_V126:
+                  remoteControlRcCh = 6;
+                  recevierCh        = 6;
+                  room ( remoteControlRcCh, recevierCh , Av_Rx );
+                   Serial.println(queuData);
+             break;  
+             case Q_EVENT_RM_ID_07_V127:
+                  remoteControlRcCh = 7;
+                  recevierCh        = 7;
+                  room ( remoteControlRcCh, recevierCh , Av_Rx );
+                   Serial.println(queuData);
+             break;  
+             case Q_EVENT_RM_ID_08_V93:
+                  remoteControlRcCh = 8;
+                  recevierCh        = 8;
+                  room ( remoteControlRcCh, recevierCh , Av_Rx );
+                   Serial.println(queuData);
+             break;  
+             case Q_EVENT_RM_ID_09_V129:
+                  remoteControlRcCh = 9;
+                  recevierCh        = 9;
+                  room ( remoteControlRcCh, recevierCh , Av_Rx );
+                   Serial.println(queuData);
+             break;  
+             case Q_EVENT_RM_ID_10_V130:
+                  remoteControlRcCh = 10;
+                  recevierCh        = 10;
+                  room ( remoteControlRcCh, recevierCh , Av_Rx );
+                   Serial.println(queuData);
+             break;  
+             case Q_EVENT_RM_ID_11_V14:
+                  remoteControlRcCh = 11;
+                  recevierCh        = 11;
+                  room ( remoteControlRcCh, recevierCh , Av_Rx );
+                   Serial.println(queuData);
+             break;  
+             case Q_EVENT_RM_ID_12_V15:
+                  remoteControlRcCh = 12;
+                  recevierCh        = 12;
+                  room ( remoteControlRcCh, recevierCh , Av_Rx );
+                   Serial.println(queuData);
+             break;  
+             case Q_EVENT_RM_ID_13_V23:
+                  remoteControlRcCh = 13;
+                  recevierCh        = 13;
+                  room ( remoteControlRcCh, recevierCh , Av_Rx );
+                   Serial.println(queuData);
+             break;  
+             case Q_EVENT_RM_ID_14_V103:
+                  remoteControlRcCh = 14;
+                  recevierCh        = 14;
+                  room ( remoteControlRcCh, recevierCh , Av_Rx );
+                   Serial.println(queuData);
+             break;  
+             case Q_EVENT_RM_ID_15_V104:
+                  remoteControlRcCh = 15;
+                  recevierCh        = 15;
+                  room ( remoteControlRcCh, recevierCh , Av_Rx );
+                   Serial.println(queuData);
+             break;  
+             case Q_EVENT_RM_ID_16_V105:
+                  remoteControlRcCh = 16;
+                  recevierCh        = 16;
+                  room ( remoteControlRcCh, recevierCh , Av_Rx );
+                   Serial.println(queuData);
+             break;  
+             case Q_EVENT_RM_ID_17_V90:
+                  remoteControlRcCh = 17;
+                  recevierCh        = 17;
+                  room ( remoteControlRcCh, recevierCh , Av_Rx );
+                   Serial.println(queuData);
+             break;  
+             case Q_EVENT_RM_ID_18_V91:
+                  remoteControlRcCh = 18;
+                  recevierCh        = 18;
+                  room ( remoteControlRcCh, recevierCh , Av_Rx );
+                   Serial.println(queuData);
+             break;  
+             case Q_EVENT_RM_ID_19_V92:
+                  remoteControlRcCh = 19;
+                  recevierCh        = 19;
+                  room ( remoteControlRcCh, recevierCh , Av_Rx );
+                   Serial.println(queuData);
+             break;  
     }  
+    selected_room = recevierCh;
 }
 
 /*

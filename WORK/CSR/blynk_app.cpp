@@ -7,6 +7,14 @@
 #include <WiFiClient.h>
 #include <BlynkSimpleEsp32.h>
 #include <WiFiMulti.h>
+
+
+
+
+
+
+
+
 WiFiMulti wifiMulti;
 BlynkTimer timer;
 
@@ -53,6 +61,7 @@ BLYNK_WRITE(InternalPinOTA) {
 reboot();
 }
 
+extern int selected_room ;
 extern int selected_Rx;
 long  blynkAtiveTimer;
 bool  blynkActive =false;
@@ -189,6 +198,13 @@ void blynk::init()
   ledInit();
   blynkAtiveTimer     = millis();
   
+
+
+
+  
+
+
+
   if(_blynkIsConnected)
   {
   terminal.clear();  
@@ -323,23 +339,6 @@ BLYNK_WRITE(V12)
 }
 
 
-BLYNK_WRITE(V14) 
-{
-    _blynkEvent = true;
-    _blynkData=param.asInt();
-    eventdata = Q_EVENT_SPARE_V14;
-    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-}
-
-
-
-BLYNK_WRITE(V15)   //NETGEER 
-{
-    _blynkEvent = true;
-    _blynkData=param.asInt();
-    eventdata = Q_EVENT_NETGEER_V15;
-    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-}
 
 BLYNK_WRITE(V16) // ROOM_6_TO_10
 {
@@ -374,15 +373,6 @@ BLYNK_WRITE(V19) // ROOM_AV RC
     eventdata = Q_EVENT_ROOM_AV_RC_V19;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
-
-BLYNK_WRITE(V23)   //router reset Timer
-{
-     _blynkEvent = true;
-    _blynkData=param.asInt();
-    eventdata = Q_EVENT_ROUTER_RESET_TIMER_V23;
-    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-}
-
 
 
 BLYNK_WRITE(V25) // ROOM_21_25
@@ -604,39 +594,8 @@ BLYNK_WRITE(V89)   //Zapping ch9
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
-BLYNK_WRITE(V90)   //CH +
-{
-    _blynkEvent = true;
-    _blynkData=param.asInt();
-    eventdata = Q_EVENT_AV_CH_PLUS_V90;
-    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-}
 
 
-BLYNK_WRITE(V91)   //CH -
-{
-    _blynkEvent = true;
-    _blynkData=param.asInt();
-    eventdata = Q_EVENT_AV_CH_MINUS_V91;
-    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-}
-
-
-BLYNK_WRITE(V92)   //FR -
-{
-     _blynkEvent = true;
-    _blynkData=param.asInt();
-    eventdata = Q_EVENT_AV_FR_MINUS_V92;
-    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-}
-
-BLYNK_WRITE(V93)   //FR +
-{
-    _blynkEvent = true;
-    _blynkData=param.asInt();
-    eventdata = Q_EVENT_AV_FR_PLUS_V93;
-    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-}
 
 
 BLYNK_WRITE(V94)   //Zapping ch10
@@ -727,22 +686,6 @@ BLYNK_WRITE(V102)  //TERMINAL
 //    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
-BLYNK_WRITE(V104)  //wifi WEB
-{
-    _blynkEvent = true;
-    _blynkData=param.asInt();
-    eventdata = Q_EVENT_WIFI_WEB_V104;
-    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-}
-
-
-BLYNK_WRITE(V105)  //wifi ota github
-{
-    _blynkEvent = true;
-    _blynkData=param.asInt();
-     eventdata = Q_EVENT_OTA_GITHUB_V105;
-    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-}
 
 
 BLYNK_WRITE(V106)   //Zapping ch14
@@ -806,6 +749,201 @@ BLYNK_WRITE(V112)   //Zapping ch20
 
 
 
+
+
+
+BLYNK_WRITE(V121)  
+{
+   if( param.asInt() != 0)
+    {
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_RM_ID_01_V121;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    }
+}
+
+BLYNK_WRITE(V122)  
+{
+   if( param.asInt() != 0)
+    {
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_RM_ID_02_V122;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    }
+}
+BLYNK_WRITE(V123)  
+{
+   if( param.asInt() != 0)
+    {
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_RM_ID_03_V123;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    }
+}
+BLYNK_WRITE(V124)  
+{
+   if( param.asInt() != 0)
+    {
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_RM_ID_04_V124;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    }
+}
+BLYNK_WRITE(V125)  
+{
+   if( param.asInt() != 0)
+    {
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_RM_ID_05_V125;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    }
+}
+BLYNK_WRITE(V126)  
+{
+   if( param.asInt() != 0)
+    {
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_RM_ID_06_V126;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    }
+}
+BLYNK_WRITE(V127)  
+{
+   if( param.asInt() != 0)
+    {
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_RM_ID_07_V127;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    }
+}
+
+BLYNK_WRITE(V129)  
+{
+   if( param.asInt() != 0)
+    {
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_RM_ID_09_V129;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    }
+}
+BLYNK_WRITE(V130)  
+{
+   if( param.asInt() != 0)
+    {
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_RM_ID_10_V130;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    }
+}
+BLYNK_WRITE(V14)  
+{
+   if( param.asInt() != 0)
+    {
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_RM_ID_11_V14;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    }
+}
+BLYNK_WRITE(V15)  
+{
+   if( param.asInt() != 0)
+    {
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_RM_ID_12_V15;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    }
+}
+BLYNK_WRITE(V23)  
+{
+   if( param.asInt() != 0)
+    {
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_RM_ID_13_V23;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    }
+}
+BLYNK_WRITE(V103)  
+{
+   if( param.asInt() != 0)
+    {
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_RM_ID_14_V103;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    }
+}
+BLYNK_WRITE(V104)  
+{
+   if( param.asInt() != 0)
+    {
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_RM_ID_15_V104;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    }
+}
+BLYNK_WRITE(V105)  
+{
+   if( param.asInt() != 0)
+    {
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_RM_ID_16_V105;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    }
+}
+BLYNK_WRITE(V90)  
+{
+   if( param.asInt() != 0)
+    {
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_RM_ID_17_V90;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    }
+}
+BLYNK_WRITE(V91)  
+{
+   if( param.asInt() != 0)
+    {
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_RM_ID_18_V91;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    }
+}
+BLYNK_WRITE(V92)  
+{
+   if( param.asInt() != 0)
+    {
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_RM_ID_19_V92;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    }
+}
+BLYNK_WRITE(V93)  
+{
+   if( param.asInt() != 0)
+    {
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_RM_ID_08_V93;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+    }
+}
 
 
 
@@ -966,35 +1104,167 @@ void blynk::blynkAckLed( bool _data)
 
 void blynk::blynkRCLed(bool _data, int cmd)
 {
-     if (_data==0)  
-          {
+/*
+if (_data==0)  
+    {
+    switch (cmd)
+        {
+          case 1:
+                     Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 2:
+                      Blynk.setProperty(V122, "color", BLYNK_GREEN);
+          break;
+
+            case 3:
+                      Blynk.setProperty(V123, "color", BLYNK_GREEN); 
+          break;
+          case 4:
+                      Blynk.setProperty(V124, "color", BLYNK_GREEN); 
+          break;                     
+
+          case 5:
+                     Blynk.setProperty(V125, "color", BLYNK_GREEN);
+          break;
+          case 6:
+                      Blynk.setProperty(V126, "color", BLYNK_GREEN);
+          break;
+
+          case 7:
+                      Blynk.setProperty(V127, "color", BLYNK_GREEN); 
+          break;
+          case 8:
+                      Blynk.setProperty(V93, "color", BLYNK_GREEN); 
+          break; 
+          case 9:
+ //                    Blynk.setProperty(V129, "color", BLYNK_GREEN);
+          break;
+          case 10:
+ //                     Blynk.setProperty(V130, "color", BLYNK_GREEN);
+          break;
+
+          case 11:
+                      Blynk.setProperty(V14, "color", BLYNK_GREEN); 
+          break;
+          case 12:
+                      Blynk.setProperty(V15, "color", BLYNK_GREEN); 
+          break; 
+          case 13:
+                     Blynk.setProperty(V23, "color", BLYNK_GREEN);
+          break;
+          case 14:
+                      Blynk.setProperty(V103, "color", BLYNK_GREEN);
+          break;
+
+          case 15:
+                      Blynk.setProperty(V104, "color", BLYNK_GREEN); 
+          break;
+          case 16:
+                      Blynk.setProperty(V105, "color", BLYNK_GREEN); 
+          break; 
+          case 17:
+                      Blynk.setProperty(V91, "color", BLYNK_GREEN);
+          break;
+
+          case 19:
+                      Blynk.setProperty(V92, "color", BLYNK_GREEN); 
+          break;
+        }   
+
+
            // T433_LED_V6.setColor(BLYNK_RED);
             if ( (cmd >= 1) && (cmd <= 5))  Blynk.setProperty(V3, "color", BLYNK_GREEN);
             if ( (cmd >= 6) && (cmd <= 10))  Blynk.setProperty(V16, "color", BLYNK_GREEN);
             if ( (cmd >= 11) && (cmd <= 15))  Blynk.setProperty(V17, "color", BLYNK_GREEN);
             if ( (cmd >= 16) && (cmd <= 20))  Blynk.setProperty(V18, "color", BLYNK_GREEN);
             if ( (cmd >= 20) && (cmd <= 25))  Blynk.setProperty(V25, "color", BLYNK_GREEN);
+
           }
       else           
       {
+    switch (cmd)
+        {
+          case 1:
+                     Blynk.setProperty(V121, "color", BLYNK_RED);
+          break;
+          case 2:
+                      Blynk.setProperty(V122, "color", BLYNK_RED);
+          break;
+
+            case 3:
+                      Blynk.setProperty(V123, "color", BLYNK_RED); 
+          break;
+          case 4:
+                      Blynk.setProperty(V124, "color", BLYNK_RED); 
+          break;                     
+
+          case 5:
+                     Blynk.setProperty(V125, "color", BLYNK_RED);
+          break;
+          case 6:
+                      Blynk.setProperty(V126, "color", BLYNK_RED);
+          break;
+
+          case 7:
+                      Blynk.setProperty(V127, "color", BLYNK_RED); 
+          break;
+          case 8:
+                      Blynk.setProperty(V93, "color", BLYNK_RED); 
+          break; 
+          case 9:
+ //                    Blynk.setProperty(V129, "color", BLYNK_RED);
+          break;
+          case 10:
+ //                     Blynk.setProperty(V130, "color", BLYNK_RED);
+          break;
+
+          case 11:
+                      Blynk.setProperty(V14, "color", BLYNK_RED); 
+          break;
+          case 12:
+                      Blynk.setProperty(V15, "color", BLYNK_RED); 
+          break; 
+          case 13:
+                     Blynk.setProperty(V23, "color", BLYNK_RED);
+          break;
+          case 14:
+                      Blynk.setProperty(V103, "color", BLYNK_RED);
+          break;
+
+          case 15:
+                      Blynk.setProperty(V104, "color", BLYNK_RED); 
+          break;
+          case 16:
+                      Blynk.setProperty(V105, "color", BLYNK_RED); 
+          break; 
+          case 17:
+                      Blynk.setProperty(V91, "color", BLYNK_RED);
+          break;
+
+          case 19:
+                      Blynk.setProperty(V92, "color", BLYNK_RED); 
+          break;
+        } 
+
+
            // T433_LED_V6.setColor(BLYNK_GREEN);
             if ( (cmd >= 1) && (cmd <= 5))  Blynk.setProperty(V3, "color", BLYNK_RED);
             if ( (cmd >= 6) && (cmd <= 10))  Blynk.setProperty(V16, "color", BLYNK_RED);
             if ( (cmd >= 11) && (cmd <= 15))  Blynk.setProperty(V17, "color", BLYNK_RED);
             if ( (cmd >= 16) && (cmd <= 20))  Blynk.setProperty(V18, "color", BLYNK_RED);
-            if ( (cmd >= 20) && (cmd <= 25))  Blynk.setProperty(V25, "color", BLYNK_RED);      
+            if ( (cmd >= 20) && (cmd <= 25))  Blynk.setProperty(V25, "color", BLYNK_RED);     
+            
       }  
-  
+  */ 
 }
 
 void blynk::visualActiveRoom(int id, bool zap)
 {
- // Blynk.virtualWrite(V5, id);
+/*
   if ( (id >= 1) && (id <= 5)) 
     { 
       if (zap) Blynk.virtualWrite(V3, id);
-      if (selected_Rx == 1) Blynk.setProperty(V3, "color", BLYNK_GREEN);
-      if (selected_Rx == 2) Blynk.setProperty(V3, "color", BLYNK_YELLOW);
+      Blynk.setProperty(V3, "color", BLYNK_GREEN);
       Blynk.setProperty(V16, "color", BLYNK_BLACK);
       Blynk.setProperty(V17, "color", BLYNK_BLACK);
       Blynk.setProperty(V18, "color", BLYNK_BLACK);
@@ -1008,8 +1278,7 @@ void blynk::visualActiveRoom(int id, bool zap)
   if ( (id >= 6) && (id <= 10)) 
     { 
       if (zap)Blynk.virtualWrite(V16, id);
-      if (selected_Rx == 1) Blynk.setProperty(V16, "color", BLYNK_GREEN);
-      if (selected_Rx == 2) Blynk.setProperty(V16, "color", BLYNK_YELLOW);
+      Blynk.setProperty(V16, "color", BLYNK_GREEN);
       Blynk.setProperty(V3, "color", BLYNK_BLACK);
       Blynk.setProperty(V17, "color", BLYNK_BLACK);
       Blynk.setProperty(V18, "color", BLYNK_BLACK);
@@ -1023,8 +1292,7 @@ void blynk::visualActiveRoom(int id, bool zap)
   if ( (id >= 11) && (id <= 15)) 
     { 
       if (zap)Blynk.virtualWrite(V17, id);
-      if (selected_Rx == 1) Blynk.setProperty(V17, "color", BLYNK_GREEN);
-      if (selected_Rx == 2) Blynk.setProperty(V17, "color", BLYNK_YELLOW);
+      Blynk.setProperty(V17, "color", BLYNK_GREEN);
       Blynk.setProperty(V3, "color", BLYNK_BLACK);
       Blynk.setProperty(V16, "color", BLYNK_BLACK);
       Blynk.setProperty(V18, "color", BLYNK_BLACK);
@@ -1038,8 +1306,7 @@ void blynk::visualActiveRoom(int id, bool zap)
   if ( (id >= 16) && (id <= 20)) 
     { 
       if (zap)Blynk.virtualWrite(V18, id);
-      if (selected_Rx == 1) Blynk.setProperty(V18, "color", BLYNK_GREEN);
-      if (selected_Rx == 2) Blynk.setProperty(V18, "color", BLYNK_YELLOW);
+      Blynk.setProperty(V18, "color", BLYNK_GREEN);
       Blynk.setProperty(V3, "color", BLYNK_BLACK);
       Blynk.setProperty(V16, "color", BLYNK_BLACK);
       Blynk.setProperty(V17, "color", BLYNK_BLACK);
@@ -1053,8 +1320,7 @@ void blynk::visualActiveRoom(int id, bool zap)
   if ( (id >= 21) && (id <= 25)) 
     { 
      if (zap) Blynk.virtualWrite(V25, id);
-      if (selected_Rx == 1) Blynk.setProperty(V25, "color", BLYNK_GREEN);
-      if (selected_Rx == 2) Blynk.setProperty(V25, "color", BLYNK_YELLOW);
+      Blynk.setProperty(V25, "color", BLYNK_GREEN);
       Blynk.setProperty(V3, "color",  BLYNK_BLACK);
       Blynk.setProperty(V16, "color", BLYNK_BLACK);
       Blynk.setProperty(V17, "color", BLYNK_BLACK);
@@ -1065,7 +1331,8 @@ void blynk::visualActiveRoom(int id, bool zap)
       Blynk.virtualWrite(V3, 26);
       Blynk.virtualWrite(V25, 26);
    }
-  
+*/
+
 }
 
 bool blynk::blynkStatus(void)
@@ -1090,31 +1357,15 @@ void blynk::sendVersion(String ver)
 
 void blynk::SyncAll(void)
 {
-  Blynk.syncVirtual(V9);  //rele sel
-  Blynk.syncVirtual(V27); //dvr on
-  Blynk.syncVirtual(V71); //zap cmd
-  Blynk.syncVirtual(V81);
-  Blynk.syncVirtual(V82);
-  Blynk.syncVirtual(V83);
-  Blynk.syncVirtual(V84);
-  Blynk.syncVirtual(V85);
-  Blynk.syncVirtual(V86);
-  Blynk.syncVirtual(V87);
-  Blynk.syncVirtual(V88);
-  Blynk.syncVirtual(V89);
-  Blynk.syncVirtual(V94);
-  Blynk.syncVirtual(V95);
-  Blynk.syncVirtual(V96);
-  Blynk.syncVirtual(V97);
-  Blynk.syncVirtual(V106);
-  Blynk.syncVirtual(V107);
-  Blynk.syncVirtual(V108);
-  Blynk.syncVirtual(V109);
-  Blynk.syncVirtual(V110);
-
 }
 
 void blynk::blynk1(void)
 {
 
 }    
+
+void blynk::TerminalPrint (String str)
+{
+  Blynk.virtualWrite(V102,str);
+  Blynk.virtualWrite(V102,".\n");
+}

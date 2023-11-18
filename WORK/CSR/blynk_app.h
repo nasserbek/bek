@@ -58,6 +58,7 @@ class blynk {
     void sendAvRxIndex(int _index);
     void RelaySelect();
     void sendVersion(String ver); 
+    void TerminalPrint (String str);
     void sendPulseRepetetion(int pulse, int repetetion);
     void visualActiveRoom(int id, bool zap);
 
