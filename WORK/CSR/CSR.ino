@@ -565,13 +565,13 @@ void processBlynkQueu(void)
                   room ( remoteControlRcCh, recevierCh , Av_Rx );
                    Serial.println(queuData);
              break;  
-             case Q_EVENT_RM_ID_09_V129:
+             case Q_EVENT_RM_ID_09_V80:
                   remoteControlRcCh = 9;
                   recevierCh        = 9;
                   room ( remoteControlRcCh, recevierCh , Av_Rx );
                    Serial.println(queuData);
              break;  
-             case Q_EVENT_RM_ID_10_V130:
+             case Q_EVENT_RM_ID_10_V21:
                   remoteControlRcCh = 10;
                   recevierCh        = 10;
                   room ( remoteControlRcCh, recevierCh , Av_Rx );

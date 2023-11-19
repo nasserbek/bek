@@ -86,7 +86,7 @@ extern QueueHandle_t g_event_queue_handle;
 //WidgetLED T433_LED_V6(V6);   //T433 St
 WidgetLED I2C_LED_V13(V13);  //I2C ACK
 //WidgetLED I2C_SEC_LED_V12(V12);  //sms
-WidgetLED ZAP_LED_V80(V80);  //Zap Status
+//WidgetLED ZAP_LED_V80(V80);  //Zap Status
 WidgetTerminal terminal(V102);
 
 unsigned int myServerTimeout  =  3500;  //  3.5s server connection timeout (SCT)
@@ -109,10 +109,7 @@ int eventdata;
 
 void ledInit(void)
 {
-  //T433_LED_V6.on(); //Enable colours for T433 St Led
-  I2C_LED_V13.on(); //Enable colours for T315 St Led
-  //I2C_SEC_LED_V12.on(); //Enable colours for firebase
-  ZAP_LED_V80.on(); //Enable colours for Zapping
+   I2C_LED_V13.on(); 
 }
 
 void sendTimeToBlynk_7500ms(){
@@ -671,7 +668,7 @@ BLYNK_WRITE(V102)  //TERMINAL
   else 
   {
     // Send it back
-    Blynk.virtualWrite(V1, "\nYou said:", param.asStr());
+    Blynk.virtualWrite(V102, "\nYou said:", param.asStr());
 
 /*  OLDER EXAMPLE VERSION HAD THESE LINES     
 *   terminal.print("You said:");
@@ -824,23 +821,23 @@ BLYNK_WRITE(V127)
     }
 }
 
-BLYNK_WRITE(V129)  
+BLYNK_WRITE(V80)  
 {
    if( param.asInt() != 0)
     {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_RM_ID_09_V129;
+    eventdata = Q_EVENT_RM_ID_09_V80;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
     }
 }
-BLYNK_WRITE(V130)  
+BLYNK_WRITE(V21)  
 {
    if( param.asInt() != 0)
     {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_RM_ID_10_V130;
+    eventdata = Q_EVENT_RM_ID_10_V21;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
     }
 }
@@ -1029,8 +1026,7 @@ void blynk::blynkSmsLed(bool _data)
 
 void blynk::zapLed(bool _data)
 {
- if (_data==0)  ZAP_LED_V80.setColor(BLYNK_RED);
- else           ZAP_LED_V80.setColor(BLYNK_GREEN);
+
 }
 
 void blynk::sendToBlynkLed(bool _data)
