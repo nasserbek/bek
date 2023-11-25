@@ -1,20 +1,130 @@
-/*
-SWitching
-2 - 7
-3 - 16
-4 -17 -9
-5 -11
-6 -12
-8 -15
-10 - 13
-14-18
-
- */
 
 #include "main.h"
- blynk myBlynk;
 
+blynk myBlynk;
 #define USE_SERIAL Serial
+
+#include <SPI.h>
+#include <LoRa.h>
+
+#include <WiFi.h>
+#include <SD.h>
+
+OLED_CLASS_OBJ display(OLED_ADDRESS, OLED_SDA, OLED_SCL);
+int count = 0;
+
+#define WIFI_SSID       "GIGACUBE_BEK"
+#define WIFI_PASSWORD   "ali09042010"
+
+
+void setupLora()
+{
+    int32_t rssi;
+    Serial.begin(115200);
+
+    if (OLED_RST > 0) {
+        pinMode(OLED_RST, OUTPUT);
+        digitalWrite(OLED_RST, HIGH);
+        delay(100);
+        digitalWrite(OLED_RST, LOW);
+        delay(100);
+        digitalWrite(OLED_RST, HIGH);
+    }
+
+    display.init();
+    display.flipScreenVertically();
+    display.clear();
+    display.setFont(ArialMT_Plain_16);
+    display.setTextAlignment(TEXT_ALIGN_CENTER);
+    display.drawString(display.getWidth() / 2, display.getHeight() / 2, LORA_SENDER ? "LoRa Sender" : "LoRa Receiver"); 
+    display.display();
+    delay(2000);
+    myBlynk.TerminalPrint(LORA_SENDER ? F("LoRa Sender") : F("LoRa Receiver"));
+
+    String info = ds3231_test();
+    if (info != "") {
+        display.clear();
+        display.setFont(ArialMT_Plain_16);
+        display.setTextAlignment(TEXT_ALIGN_CENTER);
+        display.drawString(display.getWidth() / 2, display.getHeight() / 2, info); myBlynk.TerminalPrint(info);
+        display.display();
+        delay(2000);
+    }
+/*
+    WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+    if (WiFi.waitForConnectResult() != WL_CONNECTED) {
+        display.clear();
+        Serial.println("WiFi Connect Fail");
+        display.drawString(display.getWidth() / 2, display.getHeight() / 2, "WiFi Connect Fail"); myBlynk.TerminalPrint("WiFi Connect Fail");
+        display.display();
+        delay(2000);
+        esp_restart();
+    }
+  */  
+    Serial.print("Connected : ");
+    Serial.println(WiFi.SSID());
+    Serial.print("IP:");
+    Serial.println(WiFi.localIP().toString());
+    display.clear();
+    display.drawString(display.getWidth() / 2, display.getHeight() / 2, "IP:" + WiFi.localIP().toString()); 
+    display.display();
+    delay(2000);
+    myBlynk.TerminalPrint(WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) );
+
+   /*
+    rssi = WiFi.RSSI();
+    myBlynk.TerminalPrint("WiFi RSSI: ");
+    myBlynk.TerminalPrint(String (rssi));
+   */
+
+
+    SPI.begin(CONFIG_CLK, CONFIG_MISO, CONFIG_MOSI, CONFIG_NSS);
+    LoRa.setPins(CONFIG_NSS, CONFIG_RST, CONFIG_DIO0);
+    if (!LoRa.begin(BAND)) {
+        Serial.println("Starting LoRa failed!"); myBlynk.TerminalPrint("Starting LoRa failed!");
+        while (1);
+    }
+    if (!LORA_SENDER) {
+        display.clear();
+        display.drawString(display.getWidth() / 2, display.getHeight() / 2, "LoraRecv Ready"); myBlynk.TerminalPrint("LoraRecv Ready");
+        display.display();
+    }
+}
+
+
+void loopLora()
+{
+#if LORA_SENDER
+    int32_t rssi;
+    if (WiFi.status() == WL_CONNECTED) {
+        rssi = WiFi.RSSI();
+        display.clear();
+        display.setTextAlignment(TEXT_ALIGN_CENTER);
+        display.drawString(display.getWidth() / 2, display.getHeight() / 2, "Send RSSI:" + String(rssi));
+        display.display();
+        LoRa.beginPacket();
+        LoRa.print("WiFi RSSI: ");
+        LoRa.print(rssi);
+        LoRa.endPacket();
+    } else {
+        Serial.println("WiFi Connect lost ...");
+    }
+    delay(2500);
+#else
+    if (LoRa.parsePacket()) {
+        String recv = "";
+        while (LoRa.available()) {
+            recv += (char)LoRa.read();
+        }
+        count++;
+        display.clear();
+        display.drawString(display.getWidth() / 2, display.getHeight() / 2, recv); myBlynk.TerminalPrint(recv);
+        String info = "[" + String(count) + "]" + "RSSI " + String(LoRa.packetRssi());
+        display.drawString(display.getWidth() / 2, display.getHeight() / 2 - 16, info);myBlynk.TerminalPrint(info);
+        display.display();
+    }
+#endif
+}
 
 
 void setup() 
@@ -36,13 +146,21 @@ void setup()
         digitalWrite(I2C_1_2_RELAY, LOW);   
         digitalWrite(I2C_3_4_RELAY, LOW);   
      #endif
-    
-     Serial.begin(115200);
-     Wire.begin();
-     delay(500);
-     Wire1.begin(SDA_2, SCL_2);
 
-
+     #ifdef CSR2   
+           Serial.begin(115200);
+           Wire.begin();
+           delay(500);
+           Wire1.begin(SDA_2, SCL_2); 
+     #endif
+     
+     #ifdef CSR3   
+           Serial.begin(115200);
+           Wire.begin();
+           delay(500);
+           Wire1.begin(SDA_2, SCL_2); 
+     #endif
+     
      initWDG(MIN_5,EN);
      resetWdg();    //reset timer (feed watchdog) 
      
@@ -58,11 +176,17 @@ void setup()
                 myBlynk.sendAvRxIndex(Av_Rx);
                 myBlynk.RelaySelect();
                 myBlynk.sendPulseRepetetion(pulseRC, repetionRC);
- //               myBlynk.sendAvRxIndex(Av_Rx);
-                //myBlynk.SyncAll();
+         //       myBlynk.TerminalPrint("Starting");
              }
-
-     internetSurvilanceTimer = millis();
+     #ifdef CSR 
+        setupLora();   
+     #endif         
+     
+     #ifdef CSR4 
+        setupLora();   
+     #endif       
+     
+    internetSurvilanceTimer = millis();
     liveTimerOff            = millis();
     liveTimerOn             = millis();
     wifiIDETimer            = millis();
@@ -124,6 +248,15 @@ void loop(void)
       if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer);  
 
        myBlynk.blynkRunTimer();
+       
+     #ifdef CSR 
+        loopLora();   
+     #endif   
+
+      #ifdef CSR4 
+        loopLora();   
+     #endif   
+       
 }
 
 void netgeerCtrl(void)

@@ -1,104 +1,76 @@
-//#define CSR  // R64 1CH TTGO
  //#define CSR2  //4CH ESP32S
-#define CSR3    //2CH ESP32S
+//#define CSR3    //2CH ESP32S
+#define CSR  // Lora Tx
+//#define CSR4  // Lora Rx
 
-#define RESTART_AFTER_NG_RESET_TIMER 300000   // 5 MIN
 
-#define VERSION_ID " CSR.21 " 
+#define INTERNET_LOSS_TO_RESET_NG_TIMER 120000   // 2 MIN
+#define RESTART_AFTER_NG_RESET_TIMER 180000   // 3 MIN
+
+#define VERSION_ID " CSR.27 " 
                    
 #define BLYNK_SERVER "blynk.cloud" //BLYNK2 REMOTE SERVER 
-#define BLYNK1_SERVER "blynk-cloud.com" //BLYNK REMOTE SERVER
-
 #define WIFI_SSID_METEOR  "METEOR_BEK"
 #define WIFI_SSID_GIGA    "GIGACUBE_BEK"                                                
 #define WIFI_SSID_FREE    "Freebox-bek"                                              
-#define WIFI_SSID_XIAOMI    "XIAOMI_BEK" 
+#define WIFI_SSID_XIAOMI  "XIAOMI_BEK" 
 #define WIFI_SSID_HUAWEI  "HUAWEI_BEK" 
 
+#define WIFI_PASSWORD         "ali09042010"
+#define WIFI_PASSWORD_METEOR  "Ali09042010_"
 
+#define BLYNK_TEMPLATE_ID           "TMPL5Y2na6zpd"
+#define BLYNK_TEMPLATE_NAME         "CSR"
+    
 #ifdef CSR
-    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/build/esp32.esp32.ttgo-t1/CSR.ino.bin"  // URL to download the firmware from
-    #define NOTIFIER_ID " CSR -"
-
-    #define BLYNK_TEMPLATE_ID           "TMPL5Y2na6zpd"
-    #define BLYNK_TEMPLATE_NAME         "CSR"
-    #define BLYNK_AUTH_TOKEN            "B1pZ48rPHfdQ8LxlqCoiPk8fxWBbv7B0" //CSR
-
+    #define BLYNK_AUTH_TOKEN            "B1pZ48rPHfdQ8LxlqCoiPk8fxWBbv7B0" //CSR Lora Tx
+    #define LORA_SENDER 1
+    #define VERSION_ID " TX.27 "
 #endif
 
 #ifdef CSR2
-    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/build/esp32.esp32.ttgo-t1/CSR.ino.bin"  // URL to download the firmware from
-    #define NOTIFIER_ID " CSR2-"
-    
-    #define BLYNK_TEMPLATE_ID           "TMPL5Y2na6zpd"
-    #define BLYNK_TEMPLATE_NAME         "CSR"
     #define BLYNK_AUTH_TOKEN            "_cqYD1seWElWB-S1IxutIEI7VWmDpb05" //CS2
 #endif
 
 
 #ifdef CSR3
-    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/build/esp32.esp32.ttgo-t1/CSR.ino.bin"  // URL to download the firmware from
-    #define NOTIFIER_ID " CSR3-"
-
-    #define BLYNK_TEMPLATE_ID           "TMPL5Y2na6zpd"
-    #define BLYNK_TEMPLATE_NAME         "CSR"
-    #define BLYNK_AUTH_TOKEN            "6DH6QZgVXrGXU5VzOpJSJgHoyXWL7aWS" //CSR3
+     #define BLYNK_AUTH_TOKEN            "6DH6QZgVXrGXU5VzOpJSJgHoyXWL7aWS" //CSR3
 #endif
 
-// TTGO T-Call pin definitions
-#define MODEM_TX            27
-#define MODEM_RX            26
-#define MODEM_PWKEY         4
-#define MODEM_POWER_ON      23
-#define MODEM_RST           5
+#ifdef CSR4
+    #define BLYNK_AUTH_TOKEN            "e7s2CnQbKiS-woW96RknIg00NGYw8Afb" //CSR4 Lora Rx
+    #define LORA_SENDER 0
+    #define VERSION_ID " RX.27 "
+#endif
 
-//av1
+
 #define I2C_SDA             21  //green
 #define I2C_SCL             22  //yellow
 
 #define SDA_2              33  //green
 #define SCL_2              32  //yellow
 
-//RC
-#define RC_TX_PIN           15
 
-//RELAYS
+#define RC_TX_PIN           15  //15 lora
+#define I2C_1_2_RELAY       4   //4 lora
+
+
 #define AV_RX_DVR_PIN_2     2
-#define I2C_1_2_RELAY       4
 #define I2C_3_4_RELAY       0
 
 
-// FOR FIREBASE ONLY
+#ifdef CSR 
+  #define RC_TX_PIN           12  //15 lora
+  #define I2C_1_2_RELAY       13   //4 lora   
+#endif   
 
-//#define FREE
-//#define BOUY
-//#define XIAOMI
-//#define HUAWEI
-#define GIGACUBE
-
-#ifdef FREE
-  #define WIFI_SSID_FB WIFI_SSID_FREE                                              
-#endif
+#ifdef CSR4 
+  #define RC_TX_PIN           12  //15 lora
+  #define I2C_1_2_RELAY       13   //4 lora   
+#endif   
 
 
-#ifdef XIAOMI
-  #define WIFI_SSID_FB WIFI_SSID_XIAOMI                                             
-#endif
 
-#ifdef GIGACUBE
-  #define WIFI_SSID_FB WIFI_SSID_GIGA                                                
-#endif
-
-#ifdef HUAWEI
-  #define WIFI_SSID_FB WIFI_SSID_HUAWEI                                                
-#endif
-
-#ifdef METEOR
-  #define WIFI_SSID_FB WIFI_SSID_METEOR                                                
-#endif
-
-#define WIFI_PASSWORD "ali09042010"
-#define WIFI_PASSWORD_METEOR "Ali09042010_"
 #define DEBUG_SERIAL
 
 
@@ -236,7 +208,7 @@ Q_EVENT_C6_SMS_319,
 #define BLYNK_ACTIVITY_STOP_TIMER 1800000  // 30 MIN
 
 #define PING_GOOGLE_BLYNK_TIMER 30000  // 30 sec
-#define INTERNET_LOSS_TO_RESET_NG_TIMER 120000   // 2 MIN
+
 
 #define SMS_24_HOURS 86400000  // 24 HOURS
 #define ROUTER_RESET_TIMER  2000  // 2 SEC

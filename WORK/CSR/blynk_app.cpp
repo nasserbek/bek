@@ -9,12 +9,6 @@
 #include <WiFiMulti.h>
 
 
-
-
-
-
-
-
 WiFiMulti wifiMulti;
 BlynkTimer timer;
 
@@ -113,9 +107,9 @@ void ledInit(void)
 }
 
 void sendTimeToBlynk_7500ms(){
-  Serial.println("\tLook, no Blynk  block.");
+  //Serial.println("\tLook, no Blynk  block.");
   if(wifiMulti.run()== 3){
-    Serial.println("\tWiFi still  connected.");
+   // Serial.println("\tWiFi still  connected.");
     _wifiIsConnected = true;
   }
 
@@ -123,7 +117,7 @@ void sendTimeToBlynk_7500ms(){
   {
     if(!blynkActive)
     {
-      Serial.println("\tTick update to blynk.");
+     // Serial.println("\tTick update to blynk.");
     }
     _blynkIsConnected = true;
   }
@@ -149,8 +143,8 @@ void checkBlynk() {
     _wifiIsConnected = false;
     _blynkIsConnected = false;
   } 
-  Serial.printf("\tChecking again in %is.\n", blynkInterval / 1000);
-  Serial.println(); 
+//  Serial.printf("\tChecking again in %is.\n", blynkInterval / 1000);
+//  Serial.println(); 
 }
 
 
@@ -207,8 +201,10 @@ void blynk::init()
   terminal.clear();  
   Blynk.virtualWrite(V102,"Blynk v ", VERSION_ID, ": Device started\n");
   Blynk.virtualWrite(V102,"-------------\n");
+ /* 
   Blynk.virtualWrite(V102,"Type 'Marco' and get a reply, or type\n");
   Blynk.virtualWrite(V102,"anything else and get it printed back.\n");
+*/  
   }
 }
 
@@ -946,30 +942,13 @@ BLYNK_WRITE(V93)
 
 void blynk::notifierDebug(String subject, String body)
 {
-      Blynk.logEvent(String(subject +"**"+ body) );
+
 }
 
 
 bool blynk::wifiConnect()
   {
-    WiFi.begin(WIFI_SSID_FB, WIFI_PASSWORD);
-    if (WiFi.status()  == WL_CONNECTED ){DEBUG_PRINTLN("Wifi connected");return true; }
-  
-    long timeout = millis();
-    long wifiReconnect = millis();
-    
-    while ( WiFi.status()  != WL_CONNECTED ) 
-      {
-        if (millis() - wifiReconnect > WIFI_RECONNECT_TIMER ) 
-          {
-            WiFi.begin(WIFI_SSID_FB, WIFI_PASSWORD);
-            wifiReconnect = millis();
-            DEBUG_PRINTLN("Wifi Reconnect");
-          }
-        if (millis() - timeout > WIFI_SURVILANCE_TIMER){DEBUG_PRINTLN("Wifi failed"); return false; }
-      }
-    return true; 
-}
+  }
 
 
 bool blynk::getData()
@@ -1100,16 +1079,17 @@ void blynk::blynkAckLed( bool _data)
 
 void blynk::blynkRCLed(bool _data, int cmd)
 {
+ 
 /*
 if (_data==0)  
     {
     switch (cmd)
         {
           case 1:
-                     Blynk.setProperty(V121, "color", BLYNK_GREEN);
+                     Blynk.setProperty(V121, "offColor", BLYNK_GREEN);
           break;
           case 2:
-                      Blynk.setProperty(V122, "color", BLYNK_GREEN);
+                      Blynk.setProperty(V122, "offBackColor", BLYNK_GREEN);
           break;
 
             case 3:
@@ -1133,10 +1113,10 @@ if (_data==0)
                       Blynk.setProperty(V93, "color", BLYNK_GREEN); 
           break; 
           case 9:
- //                    Blynk.setProperty(V129, "color", BLYNK_GREEN);
+                      Blynk.setProperty(V80, "color", BLYNK_GREEN);
           break;
           case 10:
- //                     Blynk.setProperty(V130, "color", BLYNK_GREEN);
+                      Blynk.setProperty(V21, "color", BLYNK_GREEN);
           break;
 
           case 11:
@@ -1362,6 +1342,5 @@ void blynk::blynk1(void)
 
 void blynk::TerminalPrint (String str)
 {
-  Blynk.virtualWrite(V102,str);
-  Blynk.virtualWrite(V102,".\n");
+  terminal.println(str);
 }
