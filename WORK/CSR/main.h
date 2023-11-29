@@ -9,9 +9,8 @@
 //#include "av.h"
 #include "blynk_app.h"
 #include "headers.h"
-#include "ds3231.h"
 #include <Wire.h>
-
+#include <WiFi.h>
  
 QueueHandle_t g_event_queue_handle = NULL;
 EventGroupHandle_t g_event_group = NULL;

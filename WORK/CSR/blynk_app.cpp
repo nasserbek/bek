@@ -9,6 +9,12 @@
 #include <WiFiMulti.h>
 
 
+
+
+
+
+
+
 WiFiMulti wifiMulti;
 BlynkTimer timer;
 
@@ -107,9 +113,9 @@ void ledInit(void)
 }
 
 void sendTimeToBlynk_7500ms(){
-  //Serial.println("\tLook, no Blynk  block.");
+ // Serial.println("\tLook, no Blynk  block.");
   if(wifiMulti.run()== 3){
-   // Serial.println("\tWiFi still  connected.");
+  //  Serial.println("\tWiFi still  connected.");
     _wifiIsConnected = true;
   }
 
@@ -117,7 +123,7 @@ void sendTimeToBlynk_7500ms(){
   {
     if(!blynkActive)
     {
-     // Serial.println("\tTick update to blynk.");
+   //   Serial.println("\tTick update to blynk.");
     }
     _blynkIsConnected = true;
   }
@@ -143,8 +149,8 @@ void checkBlynk() {
     _wifiIsConnected = false;
     _blynkIsConnected = false;
   } 
-//  Serial.printf("\tChecking again in %is.\n", blynkInterval / 1000);
-//  Serial.println(); 
+ // Serial.printf("\tChecking again in %is.\n", blynkInterval / 1000);
+  Serial.println(); 
 }
 
 
@@ -189,22 +195,16 @@ void blynk::init()
   ledInit();
   blynkAtiveTimer     = millis();
   
-
-
-
-  
-
-
-
   if(_blynkIsConnected)
   {
   terminal.clear();  
   Blynk.virtualWrite(V102,"Blynk v ", VERSION_ID, ": Device started\n");
   Blynk.virtualWrite(V102,"-------------\n");
- /* 
-  Blynk.virtualWrite(V102,"Type 'Marco' and get a reply, or type\n");
-  Blynk.virtualWrite(V102,"anything else and get it printed back.\n");
-*/  
+  
+  #ifdef CSR  //4 rele board active low
+        Blynk.virtualWrite(V9,3)  ; 
+        selected_Rx = 2; 
+  #endif
   }
 }
 
@@ -657,9 +657,9 @@ BLYNK_WRITE(V102)  //TERMINAL
 {
 
     // if you type "Marco" into Terminal Widget - it will respond: "Polo:"
-  if (String("Marco") == param.asStr()) 
+  if (String("wifi") == param.asStr()) 
   {
-    Blynk.virtualWrite(V102, "You said: 'Marco'\nI said: 'Paolo'\n");
+    Blynk.virtualWrite(V102, WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) + "\n");
   } 
   else 
   {
@@ -942,13 +942,30 @@ BLYNK_WRITE(V93)
 
 void blynk::notifierDebug(String subject, String body)
 {
-
+      Blynk.logEvent(String(subject +"**"+ body) );
 }
 
 
 bool blynk::wifiConnect()
   {
-  }
+    WiFi.begin(WIFI_SSID_FB, WIFI_PASSWORD);
+    if (WiFi.status()  == WL_CONNECTED ){DEBUG_PRINTLN("Wifi connected");return true; }
+  
+    long timeout = millis();
+    long wifiReconnect = millis();
+    
+    while ( WiFi.status()  != WL_CONNECTED ) 
+      {
+        if (millis() - wifiReconnect > WIFI_RECONNECT_TIMER ) 
+          {
+            WiFi.begin(WIFI_SSID_FB, WIFI_PASSWORD);
+            wifiReconnect = millis();
+            DEBUG_PRINTLN("Wifi Reconnect");
+          }
+        if (millis() - timeout > WIFI_SURVILANCE_TIMER){DEBUG_PRINTLN("Wifi failed"); return false; }
+      }
+    return true; 
+}
 
 
 bool blynk::getData()

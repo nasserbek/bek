@@ -1,130 +1,8 @@
 
 #include "main.h"
+ blynk myBlynk;
 
-blynk myBlynk;
 #define USE_SERIAL Serial
-
-#include <SPI.h>
-#include <LoRa.h>
-
-#include <WiFi.h>
-#include <SD.h>
-
-OLED_CLASS_OBJ display(OLED_ADDRESS, OLED_SDA, OLED_SCL);
-int count = 0;
-
-#define WIFI_SSID       "GIGACUBE_BEK"
-#define WIFI_PASSWORD   "ali09042010"
-
-
-void setupLora()
-{
-    int32_t rssi;
-    Serial.begin(115200);
-
-    if (OLED_RST > 0) {
-        pinMode(OLED_RST, OUTPUT);
-        digitalWrite(OLED_RST, HIGH);
-        delay(100);
-        digitalWrite(OLED_RST, LOW);
-        delay(100);
-        digitalWrite(OLED_RST, HIGH);
-    }
-
-    display.init();
-    display.flipScreenVertically();
-    display.clear();
-    display.setFont(ArialMT_Plain_16);
-    display.setTextAlignment(TEXT_ALIGN_CENTER);
-    display.drawString(display.getWidth() / 2, display.getHeight() / 2, LORA_SENDER ? "LoRa Sender" : "LoRa Receiver"); 
-    display.display();
-    delay(2000);
-    myBlynk.TerminalPrint(LORA_SENDER ? F("LoRa Sender") : F("LoRa Receiver"));
-
-    String info = ds3231_test();
-    if (info != "") {
-        display.clear();
-        display.setFont(ArialMT_Plain_16);
-        display.setTextAlignment(TEXT_ALIGN_CENTER);
-        display.drawString(display.getWidth() / 2, display.getHeight() / 2, info); myBlynk.TerminalPrint(info);
-        display.display();
-        delay(2000);
-    }
-/*
-    WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-    if (WiFi.waitForConnectResult() != WL_CONNECTED) {
-        display.clear();
-        Serial.println("WiFi Connect Fail");
-        display.drawString(display.getWidth() / 2, display.getHeight() / 2, "WiFi Connect Fail"); myBlynk.TerminalPrint("WiFi Connect Fail");
-        display.display();
-        delay(2000);
-        esp_restart();
-    }
-  */  
-    Serial.print("Connected : ");
-    Serial.println(WiFi.SSID());
-    Serial.print("IP:");
-    Serial.println(WiFi.localIP().toString());
-    display.clear();
-    display.drawString(display.getWidth() / 2, display.getHeight() / 2, "IP:" + WiFi.localIP().toString()); 
-    display.display();
-    delay(2000);
-    myBlynk.TerminalPrint(WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) );
-
-   /*
-    rssi = WiFi.RSSI();
-    myBlynk.TerminalPrint("WiFi RSSI: ");
-    myBlynk.TerminalPrint(String (rssi));
-   */
-
-
-    SPI.begin(CONFIG_CLK, CONFIG_MISO, CONFIG_MOSI, CONFIG_NSS);
-    LoRa.setPins(CONFIG_NSS, CONFIG_RST, CONFIG_DIO0);
-    if (!LoRa.begin(BAND)) {
-        Serial.println("Starting LoRa failed!"); myBlynk.TerminalPrint("Starting LoRa failed!");
-        while (1);
-    }
-    if (!LORA_SENDER) {
-        display.clear();
-        display.drawString(display.getWidth() / 2, display.getHeight() / 2, "LoraRecv Ready"); myBlynk.TerminalPrint("LoraRecv Ready");
-        display.display();
-    }
-}
-
-
-void loopLora()
-{
-#if LORA_SENDER
-    int32_t rssi;
-    if (WiFi.status() == WL_CONNECTED) {
-        rssi = WiFi.RSSI();
-        display.clear();
-        display.setTextAlignment(TEXT_ALIGN_CENTER);
-        display.drawString(display.getWidth() / 2, display.getHeight() / 2, "Send RSSI:" + String(rssi));
-        display.display();
-        LoRa.beginPacket();
-        LoRa.print("WiFi RSSI: ");
-        LoRa.print(rssi);
-        LoRa.endPacket();
-    } else {
-        Serial.println("WiFi Connect lost ...");
-    }
-    delay(2500);
-#else
-    if (LoRa.parsePacket()) {
-        String recv = "";
-        while (LoRa.available()) {
-            recv += (char)LoRa.read();
-        }
-        count++;
-        display.clear();
-        display.drawString(display.getWidth() / 2, display.getHeight() / 2, recv); myBlynk.TerminalPrint(recv);
-        String info = "[" + String(count) + "]" + "RSSI " + String(LoRa.packetRssi());
-        display.drawString(display.getWidth() / 2, display.getHeight() / 2 - 16, info);myBlynk.TerminalPrint(info);
-        display.display();
-    }
-#endif
-}
 
 
 void setup() 
@@ -134,33 +12,32 @@ void setup()
      pinMode(I2C_1_2_RELAY , OUTPUT);
      pinMode(I2C_3_4_RELAY , OUTPUT);
 
-     digitalWrite(AV_RX_DVR_PIN_2, LOW);  // NC ACTIVATE AV RECEIVER ON POWER ON
+     digitalWrite(AV_RX_DVR_PIN_2, HIGH);  // AV RECEIVER OFF ON POWER ON
 
 
      
+
+     #ifdef CSR  //4 rele board active low
+        digitalWrite(I2C_1_2_RELAY, HIGH);   
+        digitalWrite(I2C_3_4_RELAY, HIGH);  
+     #endif   
 
      #ifdef CSR2  //4 rele board active low
         digitalWrite(I2C_1_2_RELAY, HIGH);   
-        digitalWrite(I2C_3_4_RELAY, HIGH);   
-     #else       //Single rele active High
+        digitalWrite(I2C_3_4_RELAY, HIGH);  
+     #endif 
+          
+     #ifdef CSR3      //Single rele active High
         digitalWrite(I2C_1_2_RELAY, LOW);   
         digitalWrite(I2C_3_4_RELAY, LOW);   
      #endif
+    
+     Serial.begin(115200);
+     Wire.begin();
+     delay(500);
+     Wire1.begin(SDA_2, SCL_2);
 
-     #ifdef CSR2   
-           Serial.begin(115200);
-           Wire.begin();
-           delay(500);
-           Wire1.begin(SDA_2, SCL_2); 
-     #endif
-     
-     #ifdef CSR3   
-           Serial.begin(115200);
-           Wire.begin();
-           delay(500);
-           Wire1.begin(SDA_2, SCL_2); 
-     #endif
-     
+
      initWDG(MIN_5,EN);
      resetWdg();    //reset timer (feed watchdog) 
      
@@ -176,17 +53,10 @@ void setup()
                 myBlynk.sendAvRxIndex(Av_Rx);
                 myBlynk.RelaySelect();
                 myBlynk.sendPulseRepetetion(pulseRC, repetionRC);
-         //       myBlynk.TerminalPrint("Starting");
+                myBlynk.TerminalPrint(WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) );
              }
-     #ifdef CSR 
-        setupLora();   
-     #endif         
-     
-     #ifdef CSR4 
-        setupLora();   
-     #endif       
-     
-    internetSurvilanceTimer = millis();
+
+     internetSurvilanceTimer = millis();
     liveTimerOff            = millis();
     liveTimerOn             = millis();
     wifiIDETimer            = millis();
@@ -248,15 +118,6 @@ void loop(void)
       if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer);  
 
        myBlynk.blynkRunTimer();
-       
-     #ifdef CSR 
-        loopLora();   
-     #endif   
-
-      #ifdef CSR4 
-        loopLora();   
-     #endif   
-       
 }
 
 void netgeerCtrl(void)
@@ -377,7 +238,7 @@ void processBlynkQueu(void)
            case Q_EVENT_SELECTED_RECIEVER_V9:
                selected_Rx = queuData-1;
              // TCA9548A(selected_Rx);
-      #ifdef CSR2
+      #ifdef CSR
                 switch (queuData)
                     {
                       case 1:
@@ -393,8 +254,29 @@ void processBlynkQueu(void)
                       case 4:
                                  digitalWrite(I2C_3_4_RELAY, LOW);  //  
                       break;                     
-                    }   
-     #else
+                    }  
+     #endif
+
+     #ifdef CSR2
+                switch (queuData)
+                    {
+                      case 1:
+                                 digitalWrite(I2C_1_2_RELAY, HIGH);  //  
+                      break;
+                      case 2:
+                                 digitalWrite(I2C_1_2_RELAY, LOW);  //  
+                      break;
+
+                       case 3:
+                                 digitalWrite(I2C_3_4_RELAY, HIGH);  //  
+                      break;
+                      case 4:
+                                 digitalWrite(I2C_3_4_RELAY, LOW);  //  
+                      break;                     
+                    }  
+     #endif
+                     
+     #ifdef CSR3
                 switch (queuData)
                     {
                       case 1:
@@ -1414,7 +1296,7 @@ bool Tuner_PLL( int receiver, int _address, uint _pll)
   byte MSB = (_pll & 0xFF00) >> 8   ;   //mask LSB, shift 8 bits to the right
   byte LSB = _pll & 0x00FF     ;        //mask MSB, no need to shift
 
-#ifdef CSR2  //4 Relays Active LOW and 2 I2C Controllers
+#ifdef CSR2   //4CH 4 Relays Active LOW and 2 I2C Controllers
   switch (receiver)
         {
           case 2:
@@ -1435,9 +1317,33 @@ bool Tuner_PLL( int receiver, int _address, uint _pll)
                 return (Wire.endTransmission() );                      
             break;                     
         }   
+#endif
+
+#ifdef CSR   //4CH 4 Relays Active LOW and 2 I2C Controllers
+  switch (receiver)
+        {
+          case 2:
+          case 3:
+                Wire1.beginTransmission(_address);
+                Wire1.write(MSB );
+                Wire1.write(LSB );
+                Wire1.write(0xC2 );
+                return (Wire1.endTransmission() );                       
+          break;
+
+          case 0:
+          case 1:
+                Wire.beginTransmission(_address);
+                Wire.write(MSB );
+                Wire.write(LSB );
+                Wire.write(0xC2 );
+                return (Wire.endTransmission() );                      
+            break;                     
+        }   
+#endif
 
 
-#else
+#ifdef CSR3   //2CH 2 Relays Active HIGH and MAIN I2C Controllers
           Wire.beginTransmission(_address);
           Wire.write(MSB );
           Wire.write(LSB );
