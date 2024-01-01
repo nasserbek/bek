@@ -1,11 +1,42 @@
 //#define CSR  // TTGO R64 SCATOLA 1CH TTGO
-//#define CSR2  // R65 SCATOLA 4CH ESP32S
-#define CSR3    //R66 SWAN CASE 2CH ESP32S
+#define CSR2  // R65 SCATOLA 4CH ESP32S
+//#define CSR3    //R66 SWAN CASE 2CH ESP32S
+
+
+#define BLYNK_TEMPLATE_ID           "TMPL5Y2na6zpd"
+#define BLYNK_TEMPLATE_NAME         "CSR"
+
+#ifdef CSR
+    #define VERSION_ID " CSR.34 "
+    #define BLYNK_AUTH_TOKEN            "B1pZ48rPHfdQ8LxlqCoiPk8fxWBbv7B0" //CSR
+    #define THINGNAME "CSR1"   
+    #define AWS_IOT_PUBLISH_TOPIC   "csr1/pub"
+    #define AWS_IOT_SUBSCRIBE_TOPIC "csr1/sub"
+#endif
+
+#ifdef CSR2
+    #define VERSION_ID " CSR2.28 "
+    #define BLYNK_AUTH_TOKEN            "_cqYD1seWElWB-S1IxutIEI7VWmDpb05" //CS2
+    #define THINGNAME "CSR2"   
+    #define AWS_IOT_PUBLISH_TOPIC   "csr1/sub"
+    #define AWS_IOT_SUBSCRIBE_TOPIC "csr1/pub"
+
+#endif
+
+
+#ifdef CSR3
+    #define VERSION_ID " CSR3.28 "
+    #define BLYNK_AUTH_TOKEN            "6DH6QZgVXrGXU5VzOpJSJgHoyXWL7aWS" //CSR3
+    #define THINGNAME "CSR3"   
+    #define AWS_IOT_PUBLISH_TOPIC   "csr3/pub"
+    #define AWS_IOT_SUBSCRIBE_TOPIC "csr3/sub"
+  
+#endif
+
+
 
 #define INTERNET_LOSS_TO_RESET_NG_TIMER 60000   // 1 MIN
 #define RESTART_AFTER_NG_RESET_TIMER 60000   // 1 MIN
-
- 
                    
 #define BLYNK_SERVER "blynk.cloud" //BLYNK2 REMOTE SERVER 
 #define BLYNK1_SERVER "blynk-cloud.com" //BLYNK REMOTE SERVER
@@ -15,29 +46,6 @@
 #define WIFI_SSID_FREE    "Freebox-bek"                                              
 #define WIFI_SSID_XIAOMI    "XIAOMI_BEK" 
 #define WIFI_SSID_HUAWEI  "HUAWEI_BEK" 
-
-
-#define BLYNK_TEMPLATE_ID           "TMPL5Y2na6zpd"
-#define BLYNK_TEMPLATE_NAME         "CSR"
-
-#ifdef CSR
-    #define VERSION_ID " CSR.28 "
-    #define BLYNK_AUTH_TOKEN            "B1pZ48rPHfdQ8LxlqCoiPk8fxWBbv7B0" //CSR
-#endif
-
-#ifdef CSR2
-    #define VERSION_ID " CSR2.28 "
-    #define BLYNK_AUTH_TOKEN            "_cqYD1seWElWB-S1IxutIEI7VWmDpb05" //CS2
-#endif
-
-
-#ifdef CSR3
-    #define VERSION_ID " CSR3.28 "
-    #define BLYNK_AUTH_TOKEN            "6DH6QZgVXrGXU5VzOpJSJgHoyXWL7aWS" //CSR3
-#endif
-
-
-
 //av1
 #define I2C_SDA             21  //green
 #define I2C_SCL             22  //yellow
@@ -117,7 +125,7 @@ Q_EVENT_ROOM_ID_11_TO_15_V17,
 Q_EVENT_ROOM_ID_16_TO_20_V18,
 
 Q_EVENT_ROOM_AV_RC_V19,
-Q_EVENT_ROOM_AV_RC_V20,
+// V20 Bridge Widget,
 Q_EVENT_ROOM_AV_RC_V21,
 
 

@@ -1,8 +1,113 @@
 
 #include "main.h"
- blynk myBlynk;
+
+blynk myBlynk;
 
 #define USE_SERIAL Serial
+
+WiFiClientSecure net = WiFiClientSecure();
+PubSubClient client(net);
+
+ 
+void messageHandler(char* topic, byte* payload, unsigned int length)
+{
+  Serial.print("incoming: ");myBlynk.TerminalPrint("incoming: ");
+  Serial.println(topic);myBlynk.TerminalPrint(topic);
+  
+  StaticJsonDocument<200> doc;
+  deserializeJson(doc, payload);
+  const char* message = doc["message"];
+  Serial.println(message);myBlynk.TerminalPrint(message);
+}
+
+
+void callback(char* topic, byte* payload, unsigned int length)
+{
+  Serial.print("Message arrived ["); myBlynk.TerminalPrint("Message arrived [");
+  Serial.print(topic); myBlynk.TerminalPrint(topic);
+  Serial.print("] "); myBlynk.TerminalPrint("] ");
+  
+  if (strstr(topic, AWS_IOT_SUBSCRIBE_TOPIC))
+  {
+  
+    for (int i = 0; i < length; i++)
+    {
+      Serial.print((char)payload[i]); 
+    }
+    Serial.println();
+    // Switch on the LED if an 1 was received as first character
+    if ((char)payload[0] == '1')
+    {
+    } 
+    else 
+    {
+    }
+  }
+
+  else
+  {
+    Serial.println("unsubscribed topic");myBlynk.TerminalPrint("unsubscribed topic");
+  }
+}
+
+
+
+void publishMessage()
+{
+
+  StaticJsonDocument<200> doc;
+//  doc["humidity"] = 54;
+//  doc["temperature"] = 35;
+  doc["version"] = VERSION_ID;
+  char jsonBuffer[512];
+  serializeJson(doc, jsonBuffer); // print to client
+  client.publish(AWS_IOT_PUBLISH_TOPIC, jsonBuffer);
+}
+
+
+
+void connectAWS()
+{
+  // Configure WiFiClientSecure to use the AWS IoT device credentials
+  net.setCACert(AWS_CERT_CA);
+  net.setCertificate(AWS_CERT_CRT);
+  net.setPrivateKey(AWS_CERT_PRIVATE);
+ 
+  // Connect to the MQTT broker on the AWS endpoint we defined earlier
+  client.setServer(AWS_IOT_ENDPOINT, 8883);
+ 
+  // Create a message handler
+  //client.setCallback(messageHandler); 
+  client.setCallback(callback);
+  Serial.println("Connecting to AWS IOT");
+  myBlynk.TerminalPrint("Connecting Client to AWS IOT");
+ 
+  while (!client.connect(THINGNAME))
+  {
+    Serial.print(".");
+    delay(3000);
+    return;
+  }
+ 
+  if (!client.connected())
+  {
+    Serial.println("AWS IoT Timeout!");
+    myBlynk.TerminalPrint("AWS IoT Timeout!");
+    return;
+  }
+
+  // Subscribe to a topic
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC);
+//  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC2);
+//  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC3);
+//  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC4);
+ 
+  Serial.println("AWS IoT Connected!");
+  myBlynk.TerminalPrint("AWS IoT Connected!");
+  publishMessage();
+}
+
+
 
 
 void setup() 
@@ -13,9 +118,7 @@ void setup()
      pinMode(I2C_3_4_RELAY , OUTPUT);
 
      digitalWrite(AV_RX_DVR_PIN_2, HIGH);  // AV RECEIVER OFF ON POWER ON
-
-
-     
+    
 
      #ifdef CSR  //4 rele board active low
         digitalWrite(I2C_1_2_RELAY, HIGH);   
@@ -42,7 +145,8 @@ void setup()
      resetWdg();    //reset timer (feed watchdog) 
      
      mySwitch.enableTransmit(RC_TX_PIN);
-     
+
+ 
      myBlynk.init();    
      blynkConnected=myBlynk.blynkStatus();
      wifiAvailable = myBlynk.wifiStatus();
@@ -54,9 +158,9 @@ void setup()
                 myBlynk.RelaySelect();
                 myBlynk.sendPulseRepetetion(pulseRC, repetionRC);
                 myBlynk.TerminalPrint(WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) );
+                connectAWS();
              }
-
-     internetSurvilanceTimer = millis();
+    internetSurvilanceTimer = millis();
     liveTimerOff            = millis();
     liveTimerOn             = millis();
     wifiIDETimer            = millis();
@@ -88,6 +192,8 @@ void loop(void)
        
        netgeerCtrl();
        
+       client.loop();   //AWS MQTT  
+       
        if ( blynkConnected )
           {
             myBlynk.blynkRun();
@@ -102,7 +208,8 @@ void loop(void)
 
             InternetLoss = false;   resetNetgeerAfterInternetLossTimer = millis();
             netGeerReset = false;   restartAfterResetNG = millis();
-          }
+          
+           }
 
        if( !InternetLoss && !blynkConnected)  
           {
