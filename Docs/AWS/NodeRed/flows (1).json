@@ -1,0 +1,1985 @@
+[
+    {
+        "id": "5aaaa13.ece6d6",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "742aec671996b3a9",
+        "type": "mqtt out",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "topic": "csr1/pub/rc",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "60a1691f9152b906",
+        "x": 1190,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "3976c058f42e322e",
+        "type": "mqtt out",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "topic": "csr1/pub/video",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "60a1691f9152b906",
+        "x": 320,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "4d17c7b7f2b15f7d",
+        "type": "mqtt out",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "topic": "csr1/pub/rx",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "60a1691f9152b906",
+        "x": 230,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "dd1b8a028216d98b",
+        "type": "mqtt out",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "topic": "csr1/pub/zap",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "60a1691f9152b906",
+        "x": 1190,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "56b01a28cd5505a7",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "24",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#23C48E",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"1\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 90,
+        "y": 80,
+        "wires": [
+            [
+                "3976c058f42e322e"
+            ]
+        ]
+    },
+    {
+        "id": "52d642d0b39d6180",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "25",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#23C48E",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"2\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 90,
+        "y": 120,
+        "wires": [
+            [
+                "3976c058f42e322e"
+            ]
+        ]
+    },
+    {
+        "id": "50090571baafdaa9",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "26",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#23C48E",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"3\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 90,
+        "y": 160,
+        "wires": [
+            [
+                "3976c058f42e322e"
+            ]
+        ]
+    },
+    {
+        "id": "40351469738a286a",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "27",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#23C48E",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"4\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 90,
+        "y": 200,
+        "wires": [
+            [
+                "3976c058f42e322e"
+            ]
+        ]
+    },
+    {
+        "id": "8ac4f274f9637410",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "28",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#23C48E",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"5\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 90,
+        "y": 240,
+        "wires": [
+            [
+                "3976c058f42e322e"
+            ]
+        ]
+    },
+    {
+        "id": "f0a18547cde36456",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "29",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#23C48E",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"6\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 90,
+        "y": 280,
+        "wires": [
+            [
+                "3976c058f42e322e"
+            ]
+        ]
+    },
+    {
+        "id": "29e106039a1e7c5a",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "48",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#23C48E",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"7\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 90,
+        "y": 320,
+        "wires": [
+            [
+                "3976c058f42e322e"
+            ]
+        ]
+    },
+    {
+        "id": "edca830ad6a776f8",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "49",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#23C48E",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"8\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 90,
+        "y": 360,
+        "wires": [
+            [
+                "3976c058f42e322e"
+            ]
+        ]
+    },
+    {
+        "id": "367016244bd8d55c",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "50",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#23C48E",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"9\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 90,
+        "y": 400,
+        "wires": [
+            [
+                "3976c058f42e322e"
+            ]
+        ]
+    },
+    {
+        "id": "5df5f13de8537afb",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "51",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#23C48E",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"10\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 90,
+        "y": 440,
+        "wires": [
+            [
+                "3976c058f42e322e"
+            ]
+        ]
+    },
+    {
+        "id": "64fd652d24c7991d",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "52",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#23C48E",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"11\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 90,
+        "y": 480,
+        "wires": [
+            [
+                "3976c058f42e322e"
+            ]
+        ]
+    },
+    {
+        "id": "c65cdd77353861c4",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "53",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#23C48E",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"12\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 90,
+        "y": 520,
+        "wires": [
+            [
+                "3976c058f42e322e"
+            ]
+        ]
+    },
+    {
+        "id": "e81eeaea3fb8a3ea",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "62",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#23C48E",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"13\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 90,
+        "y": 560,
+        "wires": [
+            [
+                "3976c058f42e322e"
+            ]
+        ]
+    },
+    {
+        "id": "fec97145544c918d",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "63",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#23C48E",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"14\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 90,
+        "y": 600,
+        "wires": [
+            [
+                "3976c058f42e322e"
+            ]
+        ]
+    },
+    {
+        "id": "214045ad0ee5dd3e",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "64",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#23C48E",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"15\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 90,
+        "y": 640,
+        "wires": [
+            [
+                "3976c058f42e322e"
+            ]
+        ]
+    },
+    {
+        "id": "41d01b58effc943e",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "65",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#23C48E",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"16\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 90,
+        "y": 680,
+        "wires": [
+            [
+                "3976c058f42e322e"
+            ]
+        ]
+    },
+    {
+        "id": "a7a7cf48dc3b6b53",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "66",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#23C48E",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"17\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 90,
+        "y": 720,
+        "wires": [
+            [
+                "3976c058f42e322e"
+            ]
+        ]
+    },
+    {
+        "id": "45fe83306440a92c",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "68",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#23C48E",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"19\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 90,
+        "y": 760,
+        "wires": [
+            [
+                "3976c058f42e322e"
+            ]
+        ]
+    },
+    {
+        "id": "09cf916840e85710",
+        "type": "mqtt out",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "topic": "csr2/pub/video",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "ae4b8351.dfe6f8",
+        "x": 700,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "38e25f8ffaa1a49f",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a93d55040cd99200",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "24",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#04C0F8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"1\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 470,
+        "y": 80,
+        "wires": [
+            [
+                "09cf916840e85710"
+            ]
+        ]
+    },
+    {
+        "id": "4c76140354e68511",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a93d55040cd99200",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "25",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#04C0F8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"2\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 470,
+        "y": 120,
+        "wires": [
+            [
+                "09cf916840e85710"
+            ]
+        ]
+    },
+    {
+        "id": "ab6c2d03d9b57881",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a93d55040cd99200",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "26",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#04C0F8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"3\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 470,
+        "y": 160,
+        "wires": [
+            [
+                "09cf916840e85710"
+            ]
+        ]
+    },
+    {
+        "id": "d0b3585176cf47f6",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a93d55040cd99200",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "27",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#04C0F8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"4\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 470,
+        "y": 200,
+        "wires": [
+            [
+                "09cf916840e85710"
+            ]
+        ]
+    },
+    {
+        "id": "fc4cc9b6c77e8668",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a93d55040cd99200",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "28",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#04C0F8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"5\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 470,
+        "y": 240,
+        "wires": [
+            [
+                "09cf916840e85710"
+            ]
+        ]
+    },
+    {
+        "id": "f9381da0c05edccd",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a93d55040cd99200",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "29",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#04C0F8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"6\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 470,
+        "y": 280,
+        "wires": [
+            [
+                "09cf916840e85710"
+            ]
+        ]
+    },
+    {
+        "id": "5c0b1352ec1688c9",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a93d55040cd99200",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "48",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#04C0F8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"7\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 470,
+        "y": 320,
+        "wires": [
+            [
+                "09cf916840e85710"
+            ]
+        ]
+    },
+    {
+        "id": "60955235d17666ed",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a93d55040cd99200",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "49",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#04C0F8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"8\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 470,
+        "y": 360,
+        "wires": [
+            [
+                "09cf916840e85710"
+            ]
+        ]
+    },
+    {
+        "id": "142155f98087d797",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a93d55040cd99200",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "50",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#04C0F8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"9\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 470,
+        "y": 400,
+        "wires": [
+            [
+                "09cf916840e85710"
+            ]
+        ]
+    },
+    {
+        "id": "807e6925d04ffd29",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a93d55040cd99200",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "51",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#04C0F8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"10\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 470,
+        "y": 440,
+        "wires": [
+            [
+                "09cf916840e85710"
+            ]
+        ]
+    },
+    {
+        "id": "e1a6adc514224e30",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a93d55040cd99200",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "52",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#04C0F8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"11\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 470,
+        "y": 480,
+        "wires": [
+            [
+                "09cf916840e85710"
+            ]
+        ]
+    },
+    {
+        "id": "5edc78fc05b027ef",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a93d55040cd99200",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "53",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#04C0F8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"12\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 470,
+        "y": 520,
+        "wires": [
+            [
+                "09cf916840e85710"
+            ]
+        ]
+    },
+    {
+        "id": "d22fda595320214d",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a93d55040cd99200",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "62",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#04C0F8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"13\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 470,
+        "y": 560,
+        "wires": [
+            [
+                "09cf916840e85710"
+            ]
+        ]
+    },
+    {
+        "id": "df05935b1fdc7de8",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a93d55040cd99200",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "63",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#04C0F8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"14\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 470,
+        "y": 600,
+        "wires": [
+            [
+                "09cf916840e85710"
+            ]
+        ]
+    },
+    {
+        "id": "381d55e2e4a0b983",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a93d55040cd99200",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "64",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#04C0F8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"15\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 470,
+        "y": 640,
+        "wires": [
+            [
+                "09cf916840e85710"
+            ]
+        ]
+    },
+    {
+        "id": "e1e448c15788a8ac",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a93d55040cd99200",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "65",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#04C0F8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"16\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 470,
+        "y": 680,
+        "wires": [
+            [
+                "09cf916840e85710"
+            ]
+        ]
+    },
+    {
+        "id": "abc79286ab64cf68",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a93d55040cd99200",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "66",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#04C0F8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"17\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 470,
+        "y": 720,
+        "wires": [
+            [
+                "09cf916840e85710"
+            ]
+        ]
+    },
+    {
+        "id": "8a975419b6e8529b",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a93d55040cd99200",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "68",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#04C0F8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"19\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 470,
+        "y": 760,
+        "wires": [
+            [
+                "09cf916840e85710"
+            ]
+        ]
+    },
+    {
+        "id": "ec6ae3a46f108501",
+        "type": "mqtt out",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "topic": "csr3/pub/video",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "ec54fd88f640c1b2",
+        "x": 1080,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "818832a112e4a8fc",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a3a26c8d34efc2f2",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "24",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#5F7CD8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"1\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 850,
+        "y": 80,
+        "wires": [
+            [
+                "ec6ae3a46f108501"
+            ]
+        ]
+    },
+    {
+        "id": "b90597b670e69441",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a3a26c8d34efc2f2",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "25",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#5F7CD8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"2\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 850,
+        "y": 120,
+        "wires": [
+            [
+                "ec6ae3a46f108501"
+            ]
+        ]
+    },
+    {
+        "id": "0c3152943fb4328a",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a3a26c8d34efc2f2",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "26",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#5F7CD8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"3\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 850,
+        "y": 160,
+        "wires": [
+            [
+                "ec6ae3a46f108501"
+            ]
+        ]
+    },
+    {
+        "id": "f15539601bb6f796",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a3a26c8d34efc2f2",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "27",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#5F7CD8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"4\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 850,
+        "y": 200,
+        "wires": [
+            [
+                "ec6ae3a46f108501"
+            ]
+        ]
+    },
+    {
+        "id": "9bdee20baccdd0af",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a3a26c8d34efc2f2",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "28",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#5F7CD8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"5\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 850,
+        "y": 240,
+        "wires": [
+            [
+                "ec6ae3a46f108501"
+            ]
+        ]
+    },
+    {
+        "id": "bf1023664a76e27a",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a3a26c8d34efc2f2",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "29",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#5F7CD8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"6\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 850,
+        "y": 280,
+        "wires": [
+            [
+                "ec6ae3a46f108501"
+            ]
+        ]
+    },
+    {
+        "id": "943192d59807b427",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a3a26c8d34efc2f2",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "48",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#5F7CD8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"7\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 850,
+        "y": 320,
+        "wires": [
+            [
+                "ec6ae3a46f108501"
+            ]
+        ]
+    },
+    {
+        "id": "2118ca0ea7b619fd",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a3a26c8d34efc2f2",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "49",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#5F7CD8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"8\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 850,
+        "y": 360,
+        "wires": [
+            [
+                "ec6ae3a46f108501"
+            ]
+        ]
+    },
+    {
+        "id": "6630531e826789f7",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a3a26c8d34efc2f2",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "50",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#5F7CD8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"9\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 850,
+        "y": 400,
+        "wires": [
+            [
+                "ec6ae3a46f108501"
+            ]
+        ]
+    },
+    {
+        "id": "fa7150780be19969",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a3a26c8d34efc2f2",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "51",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#5F7CD8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"10\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 850,
+        "y": 440,
+        "wires": [
+            [
+                "ec6ae3a46f108501"
+            ]
+        ]
+    },
+    {
+        "id": "a682ba72cec7c5f6",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a3a26c8d34efc2f2",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "52",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#5F7CD8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"11\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 850,
+        "y": 480,
+        "wires": [
+            [
+                "ec6ae3a46f108501"
+            ]
+        ]
+    },
+    {
+        "id": "f1d43b47de086982",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a3a26c8d34efc2f2",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "53",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#5F7CD8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"12\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 850,
+        "y": 520,
+        "wires": [
+            [
+                "ec6ae3a46f108501"
+            ]
+        ]
+    },
+    {
+        "id": "ec9b155c6ff11e43",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a3a26c8d34efc2f2",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "62",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#5F7CD8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"13\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 850,
+        "y": 560,
+        "wires": [
+            [
+                "ec6ae3a46f108501"
+            ]
+        ]
+    },
+    {
+        "id": "26ba2001146be9a8",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a3a26c8d34efc2f2",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "63",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#5F7CD8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"14\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 850,
+        "y": 600,
+        "wires": [
+            [
+                "ec6ae3a46f108501"
+            ]
+        ]
+    },
+    {
+        "id": "f9748c84c8d262d1",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a3a26c8d34efc2f2",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "64",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#5F7CD8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"15\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 850,
+        "y": 640,
+        "wires": [
+            [
+                "ec6ae3a46f108501"
+            ]
+        ]
+    },
+    {
+        "id": "fc8ec6ffad6c3d02",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a3a26c8d34efc2f2",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "65",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#5F7CD8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"16\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 850,
+        "y": 680,
+        "wires": [
+            [
+                "ec6ae3a46f108501"
+            ]
+        ]
+    },
+    {
+        "id": "161b709ca567ca75",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a3a26c8d34efc2f2",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "66",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#5F7CD8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"17\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 850,
+        "y": 720,
+        "wires": [
+            [
+                "ec6ae3a46f108501"
+            ]
+        ]
+    },
+    {
+        "id": "a52bad3886a654c4",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a3a26c8d34efc2f2",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "68",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#5F7CD8",
+        "className": "",
+        "icon": "",
+        "payload": "{\"VIDEO\":\"19\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 850,
+        "y": 760,
+        "wires": [
+            [
+                "ec6ae3a46f108501"
+            ]
+        ]
+    },
+    {
+        "id": "10a9afe5562cae60",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a93d55040cd99200",
+        "order": 1,
+        "width": "1",
+        "height": "1",
+        "passthru": false,
+        "label": "RX1",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#D3435C",
+        "className": "",
+        "icon": "",
+        "payload": "{\"RX\":\"1\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 470,
+        "y": 820,
+        "wires": [
+            [
+                "276ed9269dc76abc"
+            ]
+        ]
+    },
+    {
+        "id": "dfb4f271ad2c6a5b",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a93d55040cd99200",
+        "order": 1,
+        "width": "1",
+        "height": "1",
+        "passthru": false,
+        "label": "RX2",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#D3435C",
+        "className": "",
+        "icon": "",
+        "payload": "{\"RX\":\"2\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 470,
+        "y": 860,
+        "wires": [
+            [
+                "276ed9269dc76abc"
+            ]
+        ]
+    },
+    {
+        "id": "f47726df5c358569",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a93d55040cd99200",
+        "order": 1,
+        "width": "1",
+        "height": "1",
+        "passthru": false,
+        "label": "RX3",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#D3435C",
+        "className": "",
+        "icon": "",
+        "payload": "{\"RX\":\"3\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 470,
+        "y": 900,
+        "wires": [
+            [
+                "276ed9269dc76abc"
+            ]
+        ]
+    },
+    {
+        "id": "649da08c2b809293",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a93d55040cd99200",
+        "order": 1,
+        "width": "1",
+        "height": "1",
+        "passthru": false,
+        "label": "RX4",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#D3435C",
+        "className": "",
+        "icon": "",
+        "payload": "{\"RX\":\"4\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 470,
+        "y": 940,
+        "wires": [
+            [
+                "276ed9269dc76abc"
+            ]
+        ]
+    },
+    {
+        "id": "b3a719ef808e47f8",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 1,
+        "width": "1",
+        "height": "1",
+        "passthru": false,
+        "label": "RX3",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#D3435C",
+        "className": "",
+        "icon": "",
+        "payload": "{\"RX\":\"3\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 90,
+        "y": 900,
+        "wires": [
+            [
+                "4d17c7b7f2b15f7d"
+            ]
+        ]
+    },
+    {
+        "id": "ac5bb6e623a623ec",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "group": "a3a26c8d34efc2f2",
+        "order": 1,
+        "width": "1",
+        "height": "1",
+        "passthru": false,
+        "label": "RX3",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#D3435C",
+        "className": "",
+        "icon": "",
+        "payload": "{\"RX\":\"3\"}",
+        "payloadType": "json",
+        "topic": "",
+        "topicType": "str",
+        "x": 850,
+        "y": 820,
+        "wires": [
+            [
+                "e35ece698505b941"
+            ]
+        ]
+    },
+    {
+        "id": "276ed9269dc76abc",
+        "type": "mqtt out",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "topic": "csr2/pub/rx",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "ae4b8351.dfe6f8",
+        "x": 630,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "e35ece698505b941",
+        "type": "mqtt out",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "topic": "csr3/pub/rx",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "ec54fd88f640c1b2",
+        "x": 990,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "60a1691f9152b906",
+        "type": "mqtt-broker",
+        "name": "CSR1",
+        "broker": "aw3hbcyl07a4j-ats.iot.eu-north-1.amazonaws.com",
+        "port": "8883",
+        "tls": "609e2695bc1a8b97",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": true,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "dbe5b7cbe859b3fe",
+        "type": "ui_group",
+        "name": "CSR1 TTGO 1CH",
+        "tab": "b943462c6d2f7eed",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "ae4b8351.dfe6f8",
+        "type": "mqtt-broker",
+        "name": "CSR2",
+        "broker": "aw3hbcyl07a4j-ats.iot.eu-north-1.amazonaws.com",
+        "port": "8883",
+        "tls": "609e2695bc1a8b97",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": true,
+        "compatmode": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "a93d55040cd99200",
+        "type": "ui_group",
+        "name": "CSR2 4CH R66",
+        "tab": "b943462c6d2f7eed",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "ec54fd88f640c1b2",
+        "type": "mqtt-broker",
+        "name": "CSR3",
+        "broker": "aw3hbcyl07a4j-ats.iot.eu-north-1.amazonaws.com",
+        "port": "8883",
+        "tls": "609e2695bc1a8b97",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": true,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "a3a26c8d34efc2f2",
+        "type": "ui_group",
+        "name": "CSR3 2CH R65",
+        "tab": "b943462c6d2f7eed",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "609e2695bc1a8b97",
+        "type": "tls-config",
+        "name": "",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "Device certificate.crt",
+        "keyname": "private key.key",
+        "caname": "AmazonRootCA1.pem",
+        "servername": "",
+        "verifyservercert": true,
+        "alpnprotocol": ""
+    },
+    {
+        "id": "b943462c6d2f7eed",
+        "type": "ui_tab",
+        "name": "CSR_MAIN",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]

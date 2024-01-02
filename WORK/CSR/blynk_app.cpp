@@ -334,20 +334,20 @@ BLYNK_WRITE(V12)
 
 
 
-BLYNK_WRITE(V16) // ROOM_6_TO_10
+BLYNK_WRITE(V16) // // RC LOCAL REMOTE TO CSR1
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_ROOM_ID_6_TO_10_V16;
+    eventdata = Q_EVENT_RC_L_R_1_V16;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
 
-BLYNK_WRITE(V17) // ROOM_11_TO_15
+BLYNK_WRITE(V17) // RC LOCAL REMOTE TO CSR3
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_ROOM_ID_11_TO_15_V17;
+    eventdata = Q_EVENT_RC_L_R_3_V17;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -365,6 +365,15 @@ BLYNK_WRITE(V19) // ROOM_AV RC
     _blynkEvent = true;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ROOM_AV_RC_V19;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+}
+
+
+BLYNK_WRITE(V20) // RC LOCAL REMOTE TO CSR2
+{
+    _blynkEvent = true;
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_RC_L_R_2_V20;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -828,6 +837,8 @@ BLYNK_WRITE(V80)
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
     }
 }
+
+
 BLYNK_WRITE(V21)  
 {
    if( param.asInt() != 0)
@@ -1098,234 +1109,11 @@ void blynk::blynkAckLed( bool _data)
 void blynk::blynkRCLed(bool _data, int cmd)
 {
  
-/*
-if (_data==0)  
-    {
-    switch (cmd)
-        {
-          case 1:
-                     Blynk.setProperty(V121, "offColor", BLYNK_GREEN);
-          break;
-          case 2:
-                      Blynk.setProperty(V122, "offBackColor", BLYNK_GREEN);
-          break;
 
-            case 3:
-                      Blynk.setProperty(V123, "color", BLYNK_GREEN); 
-          break;
-          case 4:
-                      Blynk.setProperty(V124, "color", BLYNK_GREEN); 
-          break;                     
-
-          case 5:
-                     Blynk.setProperty(V125, "color", BLYNK_GREEN);
-          break;
-          case 6:
-                      Blynk.setProperty(V126, "color", BLYNK_GREEN);
-          break;
-
-          case 7:
-                      Blynk.setProperty(V127, "color", BLYNK_GREEN); 
-          break;
-          case 8:
-                      Blynk.setProperty(V93, "color", BLYNK_GREEN); 
-          break; 
-          case 9:
-                      Blynk.setProperty(V80, "color", BLYNK_GREEN);
-          break;
-          case 10:
-                      Blynk.setProperty(V21, "color", BLYNK_GREEN);
-          break;
-
-          case 11:
-                      Blynk.setProperty(V14, "color", BLYNK_GREEN); 
-          break;
-          case 12:
-                      Blynk.setProperty(V15, "color", BLYNK_GREEN); 
-          break; 
-          case 13:
-                     Blynk.setProperty(V23, "color", BLYNK_GREEN);
-          break;
-          case 14:
-                      Blynk.setProperty(V103, "color", BLYNK_GREEN);
-          break;
-
-          case 15:
-                      Blynk.setProperty(V104, "color", BLYNK_GREEN); 
-          break;
-          case 16:
-                      Blynk.setProperty(V105, "color", BLYNK_GREEN); 
-          break; 
-          case 17:
-                      Blynk.setProperty(V91, "color", BLYNK_GREEN);
-          break;
-
-          case 19:
-                      Blynk.setProperty(V92, "color", BLYNK_GREEN); 
-          break;
-        }   
-
-
-           // T433_LED_V6.setColor(BLYNK_RED);
-            if ( (cmd >= 1) && (cmd <= 5))  Blynk.setProperty(V3, "color", BLYNK_GREEN);
-            if ( (cmd >= 6) && (cmd <= 10))  Blynk.setProperty(V16, "color", BLYNK_GREEN);
-            if ( (cmd >= 11) && (cmd <= 15))  Blynk.setProperty(V17, "color", BLYNK_GREEN);
-            if ( (cmd >= 16) && (cmd <= 20))  Blynk.setProperty(V18, "color", BLYNK_GREEN);
-            if ( (cmd >= 20) && (cmd <= 25))  Blynk.setProperty(V25, "color", BLYNK_GREEN);
-
-          }
-      else           
-      {
-    switch (cmd)
-        {
-          case 1:
-                     Blynk.setProperty(V121, "color", BLYNK_RED);
-          break;
-          case 2:
-                      Blynk.setProperty(V122, "color", BLYNK_RED);
-          break;
-
-            case 3:
-                      Blynk.setProperty(V123, "color", BLYNK_RED); 
-          break;
-          case 4:
-                      Blynk.setProperty(V124, "color", BLYNK_RED); 
-          break;                     
-
-          case 5:
-                     Blynk.setProperty(V125, "color", BLYNK_RED);
-          break;
-          case 6:
-                      Blynk.setProperty(V126, "color", BLYNK_RED);
-          break;
-
-          case 7:
-                      Blynk.setProperty(V127, "color", BLYNK_RED); 
-          break;
-          case 8:
-                      Blynk.setProperty(V93, "color", BLYNK_RED); 
-          break; 
-          case 9:
- //                    Blynk.setProperty(V129, "color", BLYNK_RED);
-          break;
-          case 10:
- //                     Blynk.setProperty(V130, "color", BLYNK_RED);
-          break;
-
-          case 11:
-                      Blynk.setProperty(V14, "color", BLYNK_RED); 
-          break;
-          case 12:
-                      Blynk.setProperty(V15, "color", BLYNK_RED); 
-          break; 
-          case 13:
-                     Blynk.setProperty(V23, "color", BLYNK_RED);
-          break;
-          case 14:
-                      Blynk.setProperty(V103, "color", BLYNK_RED);
-          break;
-
-          case 15:
-                      Blynk.setProperty(V104, "color", BLYNK_RED); 
-          break;
-          case 16:
-                      Blynk.setProperty(V105, "color", BLYNK_RED); 
-          break; 
-          case 17:
-                      Blynk.setProperty(V91, "color", BLYNK_RED);
-          break;
-
-          case 19:
-                      Blynk.setProperty(V92, "color", BLYNK_RED); 
-          break;
-        } 
-
-
-           // T433_LED_V6.setColor(BLYNK_GREEN);
-            if ( (cmd >= 1) && (cmd <= 5))  Blynk.setProperty(V3, "color", BLYNK_RED);
-            if ( (cmd >= 6) && (cmd <= 10))  Blynk.setProperty(V16, "color", BLYNK_RED);
-            if ( (cmd >= 11) && (cmd <= 15))  Blynk.setProperty(V17, "color", BLYNK_RED);
-            if ( (cmd >= 16) && (cmd <= 20))  Blynk.setProperty(V18, "color", BLYNK_RED);
-            if ( (cmd >= 20) && (cmd <= 25))  Blynk.setProperty(V25, "color", BLYNK_RED);     
-            
-      }  
-  */ 
 }
 
 void blynk::visualActiveRoom(int id, bool zap)
 {
-/*
-  if ( (id >= 1) && (id <= 5)) 
-    { 
-      if (zap) Blynk.virtualWrite(V3, id);
-      Blynk.setProperty(V3, "color", BLYNK_GREEN);
-      Blynk.setProperty(V16, "color", BLYNK_BLACK);
-      Blynk.setProperty(V17, "color", BLYNK_BLACK);
-      Blynk.setProperty(V18, "color", BLYNK_BLACK);
-      Blynk.setProperty(V25, "color", BLYNK_BLACK);
-      Blynk.virtualWrite(V3, 6);
-      Blynk.virtualWrite(V16, 11);
-      Blynk.virtualWrite(V17, 16);
-      Blynk.virtualWrite(V18, 21);
-      Blynk.virtualWrite(V25, 26);
-    }
-  if ( (id >= 6) && (id <= 10)) 
-    { 
-      if (zap)Blynk.virtualWrite(V16, id);
-      Blynk.setProperty(V16, "color", BLYNK_GREEN);
-      Blynk.setProperty(V3, "color", BLYNK_BLACK);
-      Blynk.setProperty(V17, "color", BLYNK_BLACK);
-      Blynk.setProperty(V18, "color", BLYNK_BLACK);
-      Blynk.setProperty(V25, "color", BLYNK_BLACK);
-      Blynk.virtualWrite(V3, 6);
-      Blynk.virtualWrite(V16, 11);
-      Blynk.virtualWrite(V17, 16);
-      Blynk.virtualWrite(V18, 21);
-      Blynk.virtualWrite(V25, 26);
-   }
-  if ( (id >= 11) && (id <= 15)) 
-    { 
-      if (zap)Blynk.virtualWrite(V17, id);
-      Blynk.setProperty(V17, "color", BLYNK_GREEN);
-      Blynk.setProperty(V3, "color", BLYNK_BLACK);
-      Blynk.setProperty(V16, "color", BLYNK_BLACK);
-      Blynk.setProperty(V18, "color", BLYNK_BLACK);
-      Blynk.setProperty(V25, "color", BLYNK_BLACK);
-      Blynk.virtualWrite(V16, 11);
-      Blynk.virtualWrite(V3, 6);
-      Blynk.virtualWrite(V17, 16);
-      Blynk.virtualWrite(V18, 21);
-      Blynk.virtualWrite(V25, 26);
-   }
-  if ( (id >= 16) && (id <= 20)) 
-    { 
-      if (zap)Blynk.virtualWrite(V18, id);
-      Blynk.setProperty(V18, "color", BLYNK_GREEN);
-      Blynk.setProperty(V3, "color", BLYNK_BLACK);
-      Blynk.setProperty(V16, "color", BLYNK_BLACK);
-      Blynk.setProperty(V17, "color", BLYNK_BLACK);
-      Blynk.setProperty(V25, "color", BLYNK_BLACK);
-      Blynk.virtualWrite(V16, 11);
-      Blynk.virtualWrite(V17, 16);
-      Blynk.virtualWrite(V3, 6);
-      Blynk.virtualWrite(V18, 21);
-      Blynk.virtualWrite(V25, 26);
-   }
-  if ( (id >= 21) && (id <= 25)) 
-    { 
-     if (zap) Blynk.virtualWrite(V25, id);
-      Blynk.setProperty(V25, "color", BLYNK_GREEN);
-      Blynk.setProperty(V3, "color",  BLYNK_BLACK);
-      Blynk.setProperty(V16, "color", BLYNK_BLACK);
-      Blynk.setProperty(V17, "color", BLYNK_BLACK);
-      Blynk.setProperty(V18, "color", BLYNK_BLACK);
-      Blynk.virtualWrite(V16, 11);
-      Blynk.virtualWrite(V17, 16);
-      Blynk.virtualWrite(V18, 21);
-      Blynk.virtualWrite(V3, 26);
-      Blynk.virtualWrite(V25, 26);
-   }
-*/
 
 }
 
@@ -1339,9 +1127,9 @@ bool blynk::wifiStatus(void)
  return  _wifiIsConnected;
 }
 
-void blynk::RelaySelect(void)
+void blynk::RelaySelect(int rele)
 {
- Blynk.virtualWrite(V9, 1);
+ Blynk.virtualWrite(V9, rele);
 }
 
 void blynk::sendVersion(String ver)

@@ -5,63 +5,110 @@ blynk myBlynk;
 
 #define USE_SERIAL Serial
 
+/********************* AWS MQTT BROKER *******************************************************/
 WiFiClientSecure net = WiFiClientSecure();
 PubSubClient client(net);
+String resultS = "";  //Variable to store the MQTT input message
+char Json[40];        //Variable to store the serialized Json
+StaticJsonDocument<54> doc1; //Json to receive in
+StaticJsonDocument<54> doc2; //Json to send from
 
+
+void callback(char* topic, byte* payload, unsigned int length) {
+
+  resultS = "";   //Empty variable from serialized Json
+  myBlynk.TerminalPrint(" Received topic is: ");myBlynk.TerminalPrint(topic);
+  
+  if(String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_RC)
+    {
+        for (int i=0;i<length;i++) //Converts the received message to String
+        {      
+          resultS= resultS + (char)payload[i];
+        }
+
+          DeserializationError error = deserializeJson(doc1, resultS); //Command to derealize the received Json
+          if (error) 
+          {
+            myBlynk.TerminalPrint(F("deserializeJson() failed with code "));
+            myBlynk.TerminalPrint(error.f_str());
+          }
+        rcValue    = doc1["RC"];              //RC Command
+        myBlynk.TerminalPrint(" Received Value is: "); //Print the Json value to the serial monitor
+        myBlynk.TerminalPrint(String(rcValue));
+        
+        remoteControl(rcValue );
+        zapOnOff   = doc1["ZAP"];             // if (zapOnOff) zappingAvCh (zapOnOff, zapTimer); //Zapping
+        recevierCh = doc1["VIDEO"];           //receiverAvByCh(recevierCh); /Video channel
+        int rx = doc1["RX"];                  //AvReceiverSel(rx); //Rele Rx AV
+        selected_Rx = rx -1;
+    }
+
+else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_VIDEO)
+    {
+        for (int i=0;i<length;i++) //Converts the received message to String
+        {      
+          resultS= resultS + (char)payload[i];
+        }
+
+          DeserializationError error = deserializeJson(doc1, resultS); //Command to derealize the received Json
+          if (error) 
+          {
+            myBlynk.TerminalPrint(F("deserializeJson() failed with code "));
+            myBlynk.TerminalPrint(error.f_str());
+          }
+        recevierCh = doc1["VIDEO"];
+        myBlynk.TerminalPrint(String(recevierCh));
+        receiverAvByCh(recevierCh); //Video channel
+    }
+
+else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_ZAP)
+    {
+        for (int i=0;i<length;i++) //Converts the received message to String
+        {      
+          resultS= resultS + (char)payload[i];
+        }
+
+          DeserializationError error = deserializeJson(doc1, resultS); //Command to derealize the received Json
+          if (error) 
+          {
+            myBlynk.TerminalPrint(F("deserializeJson() failed with code "));
+            myBlynk.TerminalPrint(error.f_str());
+          }
+        zapOnOff   = doc1["ZAP"];
+        myBlynk.TerminalPrint(String(zapOnOff));
+        if (zapOnOff) zappingAvCh (zapOnOff, zapTimer); //Zapping
+    }
+
+else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_RX)
+    {
+        for (int i=0;i<length;i++) //Converts the received message to String
+        {      
+          resultS= resultS + (char)payload[i];
+        }
+
+          DeserializationError error = deserializeJson(doc1, resultS); //Command to derealize the received Json
+          if (error) 
+          {
+            myBlynk.TerminalPrint(F("deserializeJson() failed with code "));
+            myBlynk.TerminalPrint(error.f_str());
+          }
+        int rx = doc1["RX"];
+        myBlynk.TerminalPrint(String(rx));
+        AvReceiverSel(rx); //Rele Rx AV
+        selected_Rx = rx -1;
+        myBlynk.RelaySelect(rx);
+    }   
+
+ else {   myBlynk.TerminalPrint("Unrecognized Topic"); }
  
-void messageHandler(char* topic, byte* payload, unsigned int length)
-{
-  Serial.print("incoming: ");myBlynk.TerminalPrint("incoming: ");
-  Serial.println(topic);myBlynk.TerminalPrint(topic);
-  
-  StaticJsonDocument<200> doc;
-  deserializeJson(doc, payload);
-  const char* message = doc["message"];
-  Serial.println(message);myBlynk.TerminalPrint(message);
 }
-
-
-void callback(char* topic, byte* payload, unsigned int length)
-{
-  Serial.print("Message arrived ["); myBlynk.TerminalPrint("Message arrived [");
-  Serial.print(topic); myBlynk.TerminalPrint(topic);
-  Serial.print("] "); myBlynk.TerminalPrint("] ");
-  
-  if (strstr(topic, AWS_IOT_SUBSCRIBE_TOPIC))
-  {
-  
-    for (int i = 0; i < length; i++)
-    {
-      Serial.print((char)payload[i]); 
-    }
-    Serial.println();
-    // Switch on the LED if an 1 was received as first character
-    if ((char)payload[0] == '1')
-    {
-    } 
-    else 
-    {
-    }
-  }
-
-  else
-  {
-    Serial.println("unsubscribed topic");myBlynk.TerminalPrint("unsubscribed topic");
-  }
-}
-
 
 
 void publishMessage()
 {
-
-  StaticJsonDocument<200> doc;
-//  doc["humidity"] = 54;
-//  doc["temperature"] = 35;
-  doc["version"] = VERSION_ID;
-  char jsonBuffer[512];
-  serializeJson(doc, jsonBuffer); // print to client
-  client.publish(AWS_IOT_PUBLISH_TOPIC, jsonBuffer);
+  doc2["version"] = VERSION_ID;
+  serializeJson(doc2, Json); // print to client
+  client.publish(AWS_IOT_PUBLISH_TOPIC_RC, Json);
 }
 
 
@@ -97,17 +144,16 @@ void connectAWS()
   }
 
   // Subscribe to a topic
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC);
-//  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC2);
-//  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC3);
-//  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC4);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_RC);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_VIDEO);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAP);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_RX);
  
   Serial.println("AWS IoT Connected!");
   myBlynk.TerminalPrint("AWS IoT Connected!");
-  publishMessage();
+//  publishMessage();
 }
-
-
+/****************************************************************************************************/ 
 
 
 void setup() 
@@ -155,11 +201,22 @@ void setup()
      if (blynkConnected) 
               {
                 myBlynk.sendAvRxIndex(Av_Rx);
-                myBlynk.RelaySelect();
+                     #ifdef CSR    
+                        myBlynk.RelaySelect(3);
+                     #endif 
+                       #ifdef CSR2    
+                        myBlynk.RelaySelect(1);
+                     #endif 
+                      #ifdef CSR3    
+                        myBlynk.RelaySelect(3);
+                     #endif                                   
                 myBlynk.sendPulseRepetetion(pulseRC, repetionRC);
                 myBlynk.TerminalPrint(WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) );
-                connectAWS();
              }
+    /********************* AWS MQTT BROKER ****************/
+    connectAWS();
+    /*****************************************************/   
+     
     internetSurvilanceTimer = millis();
     liveTimerOff            = millis();
     liveTimerOn             = millis();
@@ -192,8 +249,11 @@ void loop(void)
        
        netgeerCtrl();
        
-       client.loop();   //AWS MQTT  
-       
+      /********************* AWS MQTT BROKER ****************/
+       client.loop();   //AWS MQTT
+      /*****************************************************/        
+         
+     
        if ( blynkConnected )
           {
             myBlynk.blynkRun();
@@ -345,63 +405,7 @@ void processBlynkQueu(void)
            case Q_EVENT_SELECTED_RECIEVER_V9:
                selected_Rx = queuData-1;
              // TCA9548A(selected_Rx);
-      #ifdef CSR
-                switch (queuData)
-                    {
-                      case 1:
-                                 digitalWrite(I2C_1_2_RELAY, HIGH);  //  
-                      break;
-                      case 2:
-                                 digitalWrite(I2C_1_2_RELAY, LOW);  //  
-                      break;
-
-                       case 3:
-                                 digitalWrite(I2C_3_4_RELAY, HIGH);  //  
-                      break;
-                      case 4:
-                                 digitalWrite(I2C_3_4_RELAY, LOW);  //  
-                      break;                     
-                    }  
-     #endif
-
-     #ifdef CSR2
-                switch (queuData)
-                    {
-                      case 1:
-                                 digitalWrite(I2C_1_2_RELAY, HIGH);  //  
-                      break;
-                      case 2:
-                                 digitalWrite(I2C_1_2_RELAY, LOW);  //  
-                      break;
-
-                       case 3:
-                                 digitalWrite(I2C_3_4_RELAY, HIGH);  //  
-                      break;
-                      case 4:
-                                 digitalWrite(I2C_3_4_RELAY, LOW);  //  
-                      break;                     
-                    }  
-     #endif
-                     
-     #ifdef CSR3
-                switch (queuData)
-                    {
-                      case 1:
-                                 digitalWrite(I2C_1_2_RELAY, LOW);  //  
-                      break;
-                      case 2:
-                                 digitalWrite(I2C_1_2_RELAY, HIGH);  //  
-                      break;
-
-                       case 3:
-                                 digitalWrite(I2C_3_4_RELAY, LOW);  //  
-                      break;
-                      case 4:
-                                 digitalWrite(I2C_3_4_RELAY, HIGH);  //  
-                      break;                     
-                    }   
-     #endif
-
+             AvReceiverSel(queuData);
                                  
             break;
  
@@ -422,16 +426,12 @@ void processBlynkQueu(void)
 
 
             
-            case Q_EVENT_ROOM_ID_6_TO_10_V16:
-                  remoteControlRcCh = queuData;
-                  recevierCh        = queuData;
-                  room ( remoteControlRcCh, recevierCh , Av_Rx );            
+            case Q_EVENT_RC_L_R_1_V16:
+                  RC_Remote_CSR1=queuData;           
             break;
             
-            case Q_EVENT_ROOM_ID_11_TO_15_V17:
-                  remoteControlRcCh = queuData;
-                  recevierCh        = queuData;
-                  room ( remoteControlRcCh, recevierCh , Av_Rx );             
+            case Q_EVENT_RC_L_R_3_V17:
+                  RC_Remote_CSR3=queuData;             
             break;
             
             case Q_EVENT_ROOM_ID_16_TO_20_V18:
@@ -441,11 +441,14 @@ void processBlynkQueu(void)
             break;                                    
 
             case Q_EVENT_ROOM_AV_RC_V19:
-             Av_Rx=queuData;
-             myBlynk.sendAvRxIndex(Av_Rx);
+                  Av_Rx=queuData;
+                  myBlynk.sendAvRxIndex(Av_Rx);
             break;
             
- 
+            case Q_EVENT_RC_L_R_2_V20:
+                  RC_Remote_CSR2=queuData;
+            break; 
+            
             case Q_EVENT_ROOM_ID_21_25_V25:
                   remoteControlRcCh = queuData;
                   recevierCh        = queuData;
@@ -756,6 +759,71 @@ void processBlynkQueu(void)
     }  
     selected_room = recevierCh;
 }
+
+
+
+
+void AvReceiverSel(int queuData)
+ {            
+      #ifdef CSR
+                switch (queuData)
+                    {
+                      case 1:
+                                 digitalWrite(I2C_1_2_RELAY, HIGH);  //  
+                      break;
+                      case 2:
+                                 digitalWrite(I2C_1_2_RELAY, LOW);  //  
+                      break;
+
+                       case 3:
+                                 digitalWrite(I2C_3_4_RELAY, HIGH);  //  
+                      break;
+                      case 4:
+                                 digitalWrite(I2C_3_4_RELAY, LOW);  //  
+                      break;                     
+                    }  
+     #endif
+
+     #ifdef CSR2
+                switch (queuData)
+                    {
+                      case 1:
+                                 digitalWrite(I2C_1_2_RELAY, HIGH);  //  
+                      break;
+                      case 2:
+                                 digitalWrite(I2C_1_2_RELAY, LOW);  //  
+                      break;
+
+                       case 3:
+                                 digitalWrite(I2C_3_4_RELAY, HIGH);  //  
+                      break;
+                      case 4:
+                                 digitalWrite(I2C_3_4_RELAY, LOW);  //  
+                      break;                     
+                    }  
+     #endif
+                     
+     #ifdef CSR3
+                switch (queuData)
+                    {
+                      case 1:
+                                 digitalWrite(I2C_1_2_RELAY, LOW);  //  
+                      break;
+                      case 2:
+                                 digitalWrite(I2C_1_2_RELAY, HIGH);  //  
+                      break;
+
+                       case 3:
+                                 digitalWrite(I2C_3_4_RELAY, LOW);  //  
+                      break;
+                      case 4:
+                                 digitalWrite(I2C_3_4_RELAY, HIGH);  //  
+                      break;                     
+                    }   
+     #endif
+
+}
+
 
 /*
 SWitching
@@ -1206,8 +1274,32 @@ void Switching(int id1, int id2, int id3, bool chOnA, bool chOnB , bool chOnC)
 void remoteControl(int cmd )
 {
      if (blynkConnected)  myBlynk.blynkRCLed(1, cmd); 
-     
-     mySwitch.send(CH_433[cmd], RC_CODE_LENGTH);
+    
+      if( (!RC_Remote_CSR1) && (!RC_Remote_CSR2)  && (!RC_Remote_CSR3))
+        {
+         mySwitch.send(CH_433[cmd], RC_CODE_LENGTH);
+        }
+      else if( RC_Remote_CSR1)
+       {
+        doc2["RC"] = cmd;
+        serializeJson(doc2, Json); // print to client
+        client.publish(AWS_IOT_PUBLISH_TOPIC_RC, Json); 
+      }
+
+       else if( RC_Remote_CSR2)
+      {
+        doc2["RC"] = cmd;
+        serializeJson(doc2, Json); // print to client
+        client.publish(AWS_IOT_PUBLISH_TOPIC_RC_2, Json); 
+      } 
+
+       else if( RC_Remote_CSR3)
+      {
+        doc2["RC"] = cmd;
+        serializeJson(doc2, Json); // print to client
+        client.publish(AWS_IOT_PUBLISH_TOPIC_RC_3, Json); 
+      } 
+            
      DEBUG_PRINT("ch433:");DEBUG_PRINTLN(cmd);
      delay(500);
      

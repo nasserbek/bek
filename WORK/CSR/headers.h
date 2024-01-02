@@ -1,35 +1,45 @@
 //#define CSR  // TTGO R64 SCATOLA 1CH TTGO
-#define CSR2  // R65 SCATOLA 4CH ESP32S
-//#define CSR3    //R66 SWAN CASE 2CH ESP32S
+//#define CSR2  // R65 SCATOLA 4CH ESP32S
+#define CSR3    //R66 SWAN CASE 2CH ESP32S
 
 
 #define BLYNK_TEMPLATE_ID           "TMPL5Y2na6zpd"
 #define BLYNK_TEMPLATE_NAME         "CSR"
 
-#ifdef CSR
-    #define VERSION_ID " CSR.34 "
-    #define BLYNK_AUTH_TOKEN            "B1pZ48rPHfdQ8LxlqCoiPk8fxWBbv7B0" //CSR
+    #define AWS_IOT_PUBLISH_TOPIC_RC     "csr1/pub/rc"
+    #define AWS_IOT_PUBLISH_TOPIC_RC_2   "csr2/pub/rc"
+    #define AWS_IOT_PUBLISH_TOPIC_RC_3   "csr3/pub/rc"
+    
+#ifdef CSR      //TTGO R64 SCATOLA 1CH TTGO
+    #define VERSION_ID " CSR.37 "
+    #define BLYNK_AUTH_TOKEN                "B1pZ48rPHfdQ8LxlqCoiPk8fxWBbv7B0" //CSR
     #define THINGNAME "CSR1"   
-    #define AWS_IOT_PUBLISH_TOPIC   "csr1/pub"
-    #define AWS_IOT_SUBSCRIBE_TOPIC "csr1/sub"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr1/pub/rc"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "csr1/pub/video"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAP     "csr1/pub/zap"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_RX      "csr1/pub/rx"
 #endif
 
-#ifdef CSR2
-    #define VERSION_ID " CSR2.28 "
-    #define BLYNK_AUTH_TOKEN            "_cqYD1seWElWB-S1IxutIEI7VWmDpb05" //CS2
+#ifdef CSR2     // R65 SCATOLA 4CH ESP32S
+    #define VERSION_ID " CSR2.37 "
+    #define BLYNK_AUTH_TOKEN                "_cqYD1seWElWB-S1IxutIEI7VWmDpb05" //CS2
     #define THINGNAME "CSR2"   
-    #define AWS_IOT_PUBLISH_TOPIC   "csr1/sub"
-    #define AWS_IOT_SUBSCRIBE_TOPIC "csr1/pub"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr2/pub/rc"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "csr2/pub/video"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAP     "csr2/pub/zap"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_RX      "csr2/pub/rx"
 
 #endif
 
 
-#ifdef CSR3
-    #define VERSION_ID " CSR3.28 "
-    #define BLYNK_AUTH_TOKEN            "6DH6QZgVXrGXU5VzOpJSJgHoyXWL7aWS" //CSR3
+#ifdef CSR3     //R66 SWAN CASE 2CH ESP32S
+    #define VERSION_ID " CSR3.37 "
+    #define BLYNK_AUTH_TOKEN                "6DH6QZgVXrGXU5VzOpJSJgHoyXWL7aWS" //CSR3
     #define THINGNAME "CSR3"   
-    #define AWS_IOT_PUBLISH_TOPIC   "csr3/pub"
-    #define AWS_IOT_SUBSCRIBE_TOPIC "csr3/sub"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr3/pub/rc"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "csr3/pub/video"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAP     "csr3/pub/zap"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_RX      "csr3/pub/rx"
   
 #endif
 
@@ -120,12 +130,12 @@ Q_EVENT_SWITCHING_52_V12,
 
 
 
-Q_EVENT_ROOM_ID_6_TO_10_V16,
-Q_EVENT_ROOM_ID_11_TO_15_V17,
+Q_EVENT_RC_L_R_1_V16,
+Q_EVENT_RC_L_R_3_V17,
 Q_EVENT_ROOM_ID_16_TO_20_V18,
 
 Q_EVENT_ROOM_AV_RC_V19,
-// V20 Bridge Widget,
+Q_EVENT_RC_L_R_2_V20,
 Q_EVENT_ROOM_AV_RC_V21,
 
 
