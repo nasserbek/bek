@@ -37,10 +37,6 @@ void callback(char* topic, byte* payload, unsigned int length) {
         myBlynk.TerminalPrint(String(rcValue));
         
         remoteControl(rcValue );
-        zapOnOff   = doc1["ZAP"];             // if (zapOnOff) zappingAvCh (zapOnOff, zapTimer); //Zapping
-        recevierCh = doc1["VIDEO"];           //receiverAvByCh(recevierCh); /Video channel
-        int rx = doc1["RX"];                  //AvReceiverSel(rx); //Rele Rx AV
-        selected_Rx = rx -1;
     }
 
 else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_VIDEO)
@@ -177,8 +173,8 @@ void setup()
      #endif 
           
      #ifdef CSR3      //Single rele active High
-        digitalWrite(I2C_1_2_RELAY, LOW);   
-        digitalWrite(I2C_3_4_RELAY, LOW);   
+        digitalWrite(I2C_1_2_RELAY, HIGH);    //DEFAULT RX3
+        digitalWrite(I2C_3_4_RELAY, HIGH);   
      #endif
     
      Serial.begin(115200);
@@ -434,10 +430,8 @@ void processBlynkQueu(void)
                   RC_Remote_CSR3=queuData;             
             break;
             
-            case Q_EVENT_ROOM_ID_16_TO_20_V18:
-                  remoteControlRcCh = queuData;
-                  recevierCh        = queuData;
-                  room ( remoteControlRcCh, recevierCh , Av_Rx );                
+            case Q_EVENT_AWS_RECONNECT_V18:
+               connectAWS();
             break;                                    
 
             case Q_EVENT_ROOM_AV_RC_V19:
@@ -868,7 +862,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (millis() - zaptime > zapTimer) 
                       {
                         Switching(2, 7, 18, ch2_on, ch7_on, ch18_on  );  
-                        delay(1000);
+                        delay(10);
                         recevierCh=videoCh[2].id;
                         receiverAvByCh ( recevierCh);
                         stateMachine =SM_CH3_A;
@@ -886,7 +880,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (millis() - zaptime > zapTimer) 
                       {
                         Switching(3, 16, 20, ch3_on, ch16_on, chx_on  );  
-                        delay(1000);
+                        delay(10);
                         recevierCh=videoCh[3].id;
                         receiverAvByCh ( recevierCh);
                         stateMachine =SM_CH4_A;
@@ -903,7 +897,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (millis() - zaptime > zapTimer) 
                          {
                           Switching(4, 9, 17, ch4_on, ch9_on, ch17_on  );  
-                          delay(1000);
+                          delay(10);
                           recevierCh=videoCh[4].id;
                           receiverAvByCh ( recevierCh);
                           stateMachine =SM_CH5_A;
@@ -921,7 +915,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (millis() - zaptime > zapTimer) 
                     {
                       Switching(5, 11, 20, ch5_on, ch11_on, chx_on  );  
-                      delay(1000);
+                      delay(10);
                       recevierCh=videoCh[5].id;
                       receiverAvByCh ( recevierCh);
                       stateMachine =SM_CH6_A;
@@ -938,7 +932,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (millis() - zaptime > zapTimer) 
                      {
                       Switching(6, 12, 20, ch6_on, ch12_on, chx_on  );  
-                      delay(1000);                      
+                      delay(10);                      
                       recevierCh=videoCh[6].id;
                       receiverAvByCh ( recevierCh);
                       stateMachine =SM_CH7_A;
@@ -955,7 +949,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (millis() - zaptime > zapTimer) 
                       {
                         Switching(7, 2, 18, ch7_on, ch2_on, ch18_on  ); 
-                        delay(1000); 
+                        delay(10); 
                         recevierCh=videoCh[7].id;
                         receiverAvByCh ( recevierCh);
                         stateMachine =SM_CH8_A;
@@ -973,7 +967,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (millis() - zaptime > zapTimer) 
                       {
                         Switching(8, 15,20, ch8_on, ch15_on, chx_on  );  
-                        delay(1000);                        
+                        delay(10);                        
                         recevierCh=videoCh[8].id;
                         receiverAvByCh ( recevierCh);
                         stateMachine =SM_CH9_A;
@@ -989,7 +983,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (stateMachine == SM_CH9_A) {zaptime= millis();stateMachine =SM_CH9_B;}
                     if (millis() - zaptime > zapTimer) 
                       Switching(9, 4, 17, ch9_on, ch4_on, ch17_on  );  
-                      delay(1000);                    {
+                      delay(10);                    {
                       recevierCh=videoCh[9].id;
                       receiverAvByCh ( recevierCh);
                       stateMachine =SM_CH10_A;
@@ -1006,7 +1000,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (millis() - zaptime > zapTimer) 
                     {
                       Switching(10, 13, 20, ch10_on, ch13_on, chx_on  );
-                      delay(1000);
+                      delay(10);
                       recevierCh=videoCh[10].id;
                       receiverAvByCh ( recevierCh);
                       stateMachine =SM_CH11_A;
@@ -1024,7 +1018,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (millis() - zaptime > zapTimer) 
                     {
                       Switching(11, 5, 20, ch11_on, ch5_on , chx_on );  
-                      delay(1000);
+                      delay(10);
                       recevierCh=videoCh[11].id;
                       receiverAvByCh ( recevierCh);
                       stateMachine =SM_CH12_A;
@@ -1042,7 +1036,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (millis() - zaptime > zapTimer) 
                     {
                       Switching(12, 6, 20, ch12_on, ch6_on , chx_on );  
-                      delay(1000);
+                      delay(10);
                       recevierCh=videoCh[12].id;
                       receiverAvByCh ( recevierCh);
                       stateMachine =SM_CH13_A;
@@ -1060,7 +1054,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (millis() - zaptime > zapTimer) 
                     {
                       Switching(13, 10, 20, ch13_on, ch10_on, chx_on  );  
-                      delay(1000);                      
+                      delay(10);                      
                       recevierCh=videoCh[13].id;
                       receiverAvByCh ( recevierCh);
                       stateMachine =SM_CH14_A;
@@ -1077,7 +1071,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (millis() - zaptime > zapTimer) 
                     {
                       Switching(14, 19, 20, ch14_on, ch19_on, chx_on  );  
-                      delay(1000);
+                      delay(10);
                       recevierCh=videoCh[14].id;
                       receiverAvByCh ( recevierCh);
                       stateMachine =SM_CH15_A;
@@ -1094,7 +1088,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (millis() - zaptime > zapTimer) 
                     {
                       Switching(15, 8, 20, ch15_on, ch8_on , chx_on );  
-                      delay(1000);
+                      delay(10);
                       recevierCh=videoCh[15].id;
                       receiverAvByCh ( recevierCh);
                       stateMachine =SM_CH16_A;
@@ -1112,7 +1106,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (millis() - zaptime > zapTimer) 
                     {
                       Switching(16, 3, 20, ch16_on, ch3_on , chx_on );  
-                      delay(1000);                      
+                      delay(10);                      
                       recevierCh=videoCh[16].id;
                       receiverAvByCh ( recevierCh);
                       stateMachine =SM_CH17_A;
@@ -1130,7 +1124,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (millis() - zaptime > zapTimer) 
                     {
                       Switching(17, 9, 4 , ch17_on, ch9_on, ch4_on  );  
-                      delay(1000);                     
+                      delay(10);                     
                       recevierCh=videoCh[17].id;
                       receiverAvByCh ( recevierCh);
                       stateMachine =SM_CH18_A;
@@ -1148,7 +1142,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (millis() - zaptime > zapTimer) 
                     {
                       Switching(18, 7, 2, ch18_on, ch7_on , ch2_on  );  
-                      delay(1000);                      
+                      delay(10);                      
                       recevierCh=videoCh[18].id;
                       receiverAvByCh ( recevierCh);
                       stateMachine =SM_CH19_A;
@@ -1165,7 +1159,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                     if (millis() - zaptime > zapTimer) 
                     {
                       Switching(19, 14, 20 , ch19_on, ch14_on, chx_on  );  
-                      delay(1000);                       
+                      delay(10);                       
                       recevierCh=videoCh[19].id;
                       receiverAvByCh ( recevierCh);
                       stateMachine =SM_CH20_A;
@@ -1210,7 +1204,7 @@ void Switching(int id1, int id2, int id3, bool chOnA, bool chOnB , bool chOnC)
     if ( chOnA == true && chOnB  == false)
       {
         remoteControl(id2); //switch 10 62  10 ON
-        delay(1000);
+        delay(10);
         remoteControl(id1); //switch 10 62   62 OFF
         chOnA = false;
         chOnB  = true;
@@ -1218,7 +1212,7 @@ void Switching(int id1, int id2, int id3, bool chOnA, bool chOnB , bool chOnC)
     else if ( chOnB  == true && chOnA == false)
       {
         remoteControl(id1); //switch 10 62
-        delay(1000);
+        delay(10);
         remoteControl(id2); //switch 10 62
         chOnA = true;
         chOnB  = false;
@@ -1245,7 +1239,7 @@ void Switching(int id1, int id2, int id3, bool chOnA, bool chOnB , bool chOnC)
     if ( chOnA == true && chOnC  == false)
       {
         remoteControl(id3); //switch 10 62  10 ON
-        delay(1000);
+        delay(10);
         remoteControl(id1); //switch 10 62   62 OFF
         chOnA = false;
         chOnC  = true;
@@ -1253,7 +1247,7 @@ void Switching(int id1, int id2, int id3, bool chOnA, bool chOnB , bool chOnC)
     else if ( chOnC  == true && chOnA == false)
       {
         remoteControl(id1); //switch 10 62
-        delay(1000);
+        delay(10);
         remoteControl(id3); //switch 10 62
         chOnA = true;
         chOnC  = false;

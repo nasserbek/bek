@@ -355,7 +355,7 @@ BLYNK_WRITE(V18) // ROOM_16_TO_20
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_ROOM_ID_16_TO_20_V18;
+    eventdata = Q_EVENT_AWS_RECONNECT_V18;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
