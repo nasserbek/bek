@@ -1072,6 +1072,7 @@ void blynk::sendPulseRepetetion(int pulse, int repetetion)
 {
   Blynk.virtualWrite(V98, pulse);
   Blynk.virtualWrite(V101, repetetion);
+  Blynk.virtualWrite(V27, 0);  //Send video is Off
 }
 
 

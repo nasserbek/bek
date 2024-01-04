@@ -246,7 +246,12 @@ void loop(void)
        netgeerCtrl();
        
       /********************* AWS MQTT BROKER ****************/
-       client.loop();   //AWS MQTT
+         client.loop();   //AWS MQTT
+         if (!client.connected())
+            {
+              myBlynk.TerminalPrint("AWS IoT Disonnected, trying to reconnect");
+              client.connect(THINGNAME);
+           }
       /*****************************************************/        
          
      
