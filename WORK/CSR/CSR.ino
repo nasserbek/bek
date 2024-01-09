@@ -128,7 +128,7 @@ void connectAWS()
   while (!client.connect(THINGNAME))
   {
     Serial.print(".");
-    delay(3000);
+    delay(1000);
     return;
   }
  
@@ -250,7 +250,7 @@ void loop(void)
          if (!client.connected())
             {
               myBlynk.TerminalPrint("AWS IoT Disonnected, trying to reconnect");
-              client.connect(THINGNAME);
+     //         connectAWS();
            }
       /*****************************************************/        
          
