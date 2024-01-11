@@ -449,9 +449,7 @@ void processBlynkQueu(void)
             break; 
             
             case Q_EVENT_ROOM_ID_21_25_V25:
-                  remoteControlRcCh = queuData;
-                  recevierCh        = queuData;
-                  room ( remoteControlRcCh, recevierCh , Av_Rx );               
+                  zapTimerOff=queuData;               
             break;     
             
                     
@@ -837,6 +835,43 @@ SWitching
 
  */
 
+void turnOn (int ch)
+    {
+      recevierCh=videoCh[ch].id;
+      receiverAvByCh (recevierCh);
+      remoteControl(ch);
+    }
+
+
+void zapping (int ch, int sma, int smb, int smc, int nextSm)
+{
+                    if (videoCh[ch].zap ) 
+                  {
+                    if (stateMachine == sma) 
+                      {
+                        zaptime= millis();
+                        zaptimeOff= millis();
+                        stateMachine =smb;
+                        turnOn(ch); 
+                      }
+                    if (millis() - zaptime > zapTimer )
+                      {
+                        
+                        if (stateMachine == smb)
+                          {  
+                          zaptimeOff= millis();  
+                          stateMachine =smc;
+                          remoteControl(ch);
+                          }
+                       if ( (stateMachine == smc) && (millis() - zaptimeOff > zapTimerOff ) )
+                          {
+                            stateMachine =nextSm;
+                          }                      
+                      }
+                  }  
+                else stateMachine =nextSm;                      
+}
+
 void zappingAvCh (bool zapCmd, int zapTimer)
 {
  if( zapCmd )
@@ -845,348 +880,123 @@ void zappingAvCh (bool zapCmd, int zapTimer)
           {
             case SM_CH1_A:    //24
             case SM_CH1_B:
-                  if (videoCh[1].zap ) 
-                  {
-                    if (stateMachine == SM_CH1_A) {zaptime= millis();stateMachine =SM_CH1_B;}
-                    if (millis() - zaptime > zapTimer) 
-                      {
-                        recevierCh=videoCh[1].id;
-                        receiverAvByCh (recevierCh);
-                        stateMachine =SM_CH2_A;
-                                                   
-                      }
-                  }
-                else stateMachine =SM_CH2_A;
+            case SM_CH1_C:
+                        zapping (1, SM_CH1_A, SM_CH1_B, SM_CH1_C, SM_CH2_A);
             break;
 
             case SM_CH2_A:    //25 48 67    2 - 7 -18
             case SM_CH2_B:
-                if (videoCh[2].zap ) 
-                  {
-                    if (stateMachine == SM_CH2_A) {zaptime= millis();stateMachine =SM_CH2_B;}
-                    if (millis() - zaptime > zapTimer) 
-                      {
-                        Switching(2, 7, 18, ch2_on, ch7_on, ch18_on  );  
-                        delay(10);
-                        recevierCh=videoCh[2].id;
-                        receiverAvByCh ( recevierCh);
-                        stateMachine =SM_CH3_A;
-                        
-                     }
-                  }
-                else stateMachine =SM_CH3_A;
+            case SM_CH2_C:
+                        zapping (2, SM_CH2_A, SM_CH2_B, SM_CH2_C, SM_CH3_A);
             break;
             
             case SM_CH3_A:    //26  65   3-16
             case SM_CH3_B:
-                if (videoCh[3].zap ) 
-                  {
-                    if (stateMachine == SM_CH3_A) {zaptime= millis();stateMachine =SM_CH3_B;}
-                    if (millis() - zaptime > zapTimer) 
-                      {
-                        Switching(3, 16, 20, ch3_on, ch16_on, chx_on  );  
-                        delay(10);
-                        recevierCh=videoCh[3].id;
-                        receiverAvByCh ( recevierCh);
-                        stateMachine =SM_CH4_A;
-                      }
-                  }
-                else stateMachine =SM_CH4_A;
+            case SM_CH3_C:
+                        zapping (3, SM_CH3_A, SM_CH3_B, SM_CH3_C, SM_CH4_A);
             break;
 
             case SM_CH4_A:    //27  50  66  4-9-17  
             case SM_CH4_B:
-                if (videoCh[4].zap ) 
-                  {
-                    if (stateMachine == SM_CH4_A) {zaptime= millis();stateMachine =SM_CH4_B;}
-                    if (millis() - zaptime > zapTimer) 
-                         {
-                          Switching(4, 9, 17, ch4_on, ch9_on, ch17_on  );  
-                          delay(10);
-                          recevierCh=videoCh[4].id;
-                          receiverAvByCh ( recevierCh);
-                          stateMachine =SM_CH5_A;
-                          
-                         }
-                   }
-                else stateMachine =SM_CH5_A;
+            case SM_CH4_C:
+                        zapping (4, SM_CH4_A, SM_CH4_B, SM_CH4_C, SM_CH5_A);
             break;
                        
             case SM_CH5_A:    //28  52  5-11
             case SM_CH5_B:
-                if (videoCh[5].zap ) 
-                  {
-                    if (stateMachine == SM_CH5_A) {zaptime= millis();stateMachine =SM_CH5_B;}
-                    if (millis() - zaptime > zapTimer) 
-                    {
-                      Switching(5, 11, 20, ch5_on, ch11_on, chx_on  );  
-                      delay(10);
-                      recevierCh=videoCh[5].id;
-                      receiverAvByCh ( recevierCh);
-                      stateMachine =SM_CH6_A;
-                     }
-                  }
-                else stateMachine =SM_CH6_A;
+            case SM_CH5_C:
+                        zapping (5, SM_CH5_A, SM_CH5_B, SM_CH5_C, SM_CH6_A);
             break;
                        
             case SM_CH6_A:    //29 53   6-12
             case SM_CH6_B:
-                if (videoCh[6].zap ) 
-                  {
-                    if (stateMachine == SM_CH6_A) {zaptime= millis();stateMachine =SM_CH6_B;}
-                    if (millis() - zaptime > zapTimer) 
-                     {
-                      Switching(6, 12, 20, ch6_on, ch12_on, chx_on  );  
-                      delay(10);                      
-                      recevierCh=videoCh[6].id;
-                      receiverAvByCh ( recevierCh);
-                      stateMachine =SM_CH7_A;
-                     }
-                  }
-                else stateMachine =SM_CH7_A;
+            case SM_CH6_C:
+                        zapping (6, SM_CH6_A, SM_CH6_B, SM_CH6_C, SM_CH7_A);
             break;
                        
             case SM_CH7_A:    //48-25-67  7 - 2 - 18
             case SM_CH7_B:
-                if (videoCh[7].zap ) 
-                  {
-                    if (stateMachine == SM_CH7_A) {zaptime= millis();stateMachine =SM_CH7_B;}
-                    if (millis() - zaptime > zapTimer) 
-                      {
-                        Switching(7, 2, 18, ch7_on, ch2_on, ch18_on  ); 
-                        delay(10); 
-                        recevierCh=videoCh[7].id;
-                        receiverAvByCh ( recevierCh);
-                        stateMachine =SM_CH8_A;
-                        
-                       }
-                  }
-                else stateMachine =SM_CH8_A;
+            case SM_CH7_C:
+                        zapping (7, SM_CH7_A, SM_CH7_B, SM_CH7_C, SM_CH8_A);
             break;
                        
             case SM_CH8_A:    //49 64  8-15
             case SM_CH8_B:
-                if (videoCh[8].zap) 
-                  {
-                    if (stateMachine == SM_CH8_A) {zaptime= millis();stateMachine =SM_CH8_B;}
-                    if (millis() - zaptime > zapTimer) 
-                      {
-                        Switching(8, 15,20, ch8_on, ch15_on, chx_on  );  
-                        delay(10);                        
-                        recevierCh=videoCh[8].id;
-                        receiverAvByCh ( recevierCh);
-                        stateMachine =SM_CH9_A;
-                      }
-                  }
-                else stateMachine =SM_CH9_A;
+            case SM_CH8_C:
+                        zapping (8, SM_CH8_A, SM_CH8_B, SM_CH8_C, SM_CH9_A);
             break;
 
             case SM_CH9_A:    //50 27 66  9-4-17
             case SM_CH9_B:
-                if (videoCh[9].zap) 
-                  {
-                    if (stateMachine == SM_CH9_A) {zaptime= millis();stateMachine =SM_CH9_B;}
-                    if (millis() - zaptime > zapTimer) 
-                      Switching(9, 4, 17, ch9_on, ch4_on, ch17_on  );  
-                      delay(10);                    {
-                      recevierCh=videoCh[9].id;
-                      receiverAvByCh ( recevierCh);
-                      stateMachine =SM_CH10_A;
-                    }
-                  }
-                else stateMachine =SM_CH10_A;
+            case SM_CH9_C:
+                        zapping (9, SM_CH9_A, SM_CH9_B, SM_CH9_C, SM_CH10_A);
             break;
             
             case SM_CH10_A:   //51 62  10-13
             case SM_CH10_B:
-                if (videoCh[10].zap) 
-                  {
-                    if (stateMachine == SM_CH10_A) {zaptime= millis();stateMachine =SM_CH10_B;}
-                    if (millis() - zaptime > zapTimer) 
-                    {
-                      Switching(10, 13, 20, ch10_on, ch13_on, chx_on  );
-                      delay(10);
-                      recevierCh=videoCh[10].id;
-                      receiverAvByCh ( recevierCh);
-                      stateMachine =SM_CH11_A;
-                      
-                      }
-                  }
-                else stateMachine =SM_CH11_A;
+            case SM_CH10_C:
+                        zapping (10, SM_CH10_A, SM_CH10_B, SM_CH10_C, SM_CH11_A);
             break; 
              
             case SM_CH11_A:   //52 28  11-5
             case SM_CH11_B:
-                if (videoCh[11].zap) 
-                  {
-                    if (stateMachine == SM_CH11_A) {zaptime= millis();stateMachine =SM_CH11_B;}
-                    if (millis() - zaptime > zapTimer) 
-                    {
-                      Switching(11, 5, 20, ch11_on, ch5_on , chx_on );  
-                      delay(10);
-                      recevierCh=videoCh[11].id;
-                      receiverAvByCh ( recevierCh);
-                      stateMachine =SM_CH12_A;
-                      
-                    }
-                  }
-                else stateMachine =SM_CH12_A;
+            case SM_CH11_C:
+                        zapping (11, SM_CH11_A, SM_CH11_B, SM_CH11_C, SM_CH12_A);
             break;     
 
             case SM_CH12_A:   //53 29   12-6
             case SM_CH12_B:
-                if (videoCh[12].zap) 
-                  {
-                    if (stateMachine == SM_CH12_A) {zaptime= millis();stateMachine =SM_CH12_B;}
-                    if (millis() - zaptime > zapTimer) 
-                    {
-                      Switching(12, 6, 20, ch12_on, ch6_on , chx_on );  
-                      delay(10);
-                      recevierCh=videoCh[12].id;
-                      receiverAvByCh ( recevierCh);
-                      stateMachine =SM_CH13_A;
-                      
-                    }
-                  }
-                else stateMachine =SM_CH13_A;
+            case SM_CH12_C:
+                        zapping (12, SM_CH12_A, SM_CH12_B, SM_CH12_C, SM_CH13_A);
             break;  
             
             case SM_CH13_A:   // 62 51  13-10
             case SM_CH13_B:
-                if (videoCh[13].zap) 
-                  {
-                    if (stateMachine == SM_CH13_A) {zaptime= millis();stateMachine =SM_CH13_B;}
-                    if (millis() - zaptime > zapTimer) 
-                    {
-                      Switching(13, 10, 20, ch13_on, ch10_on, chx_on  );  
-                      delay(10);                      
-                      recevierCh=videoCh[13].id;
-                      receiverAvByCh ( recevierCh);
-                      stateMachine =SM_CH14_A;
-                    }
-                  }
-                else stateMachine =SM_CH14_A;
+            case SM_CH13_C:
+                        zapping (13, SM_CH13_A, SM_CH13_B, SM_CH13_C, SM_CH14_A);
             break;  
 
             case SM_CH14_A:   //63 68  14-19
             case SM_CH14_B:
-                if (videoCh[14].zap) 
-                  {
-                    if (stateMachine == SM_CH14_A) {zaptime= millis();stateMachine =SM_CH14_B;}
-                    if (millis() - zaptime > zapTimer) 
-                    {
-                      Switching(14, 19, 20, ch14_on, ch19_on, chx_on  );  
-                      delay(10);
-                      recevierCh=videoCh[14].id;
-                      receiverAvByCh ( recevierCh);
-                      stateMachine =SM_CH15_A;
-                    }
-                  }
-                else stateMachine =SM_CH15_A;
+            case SM_CH14_C:
+                        zapping (14, SM_CH14_A, SM_CH14_B, SM_CH14_C, SM_CH15_A);
             break;  
             
             case SM_CH15_A:   //64 49  15-8
             case SM_CH15_B:
-                if (videoCh[15].zap) 
-                  {
-                    if (stateMachine == SM_CH15_A) {zaptime= millis();stateMachine =SM_CH15_B;}
-                    if (millis() - zaptime > zapTimer) 
-                    {
-                      Switching(15, 8, 20, ch15_on, ch8_on , chx_on );  
-                      delay(10);
-                      recevierCh=videoCh[15].id;
-                      receiverAvByCh ( recevierCh);
-                      stateMachine =SM_CH16_A;
-                      
-                     }
-                  }
-                else {zaptime= millis();stateMachine =SM_CH16_A;}
+            case SM_CH15_C:
+                        zapping (15, SM_CH15_A, SM_CH15_B, SM_CH15_C, SM_CH16_A);
             break;                         
 
             case SM_CH16_A:   //65 26  16-3
             case SM_CH16_B:
-                if (videoCh[16].zap) 
-                  {
-                    if (stateMachine == SM_CH16_A) {zaptime= millis();stateMachine =SM_CH16_B;}
-                    if (millis() - zaptime > zapTimer) 
-                    {
-                      Switching(16, 3, 20, ch16_on, ch3_on , chx_on );  
-                      delay(10);                      
-                      recevierCh=videoCh[16].id;
-                      receiverAvByCh ( recevierCh);
-                      stateMachine =SM_CH17_A;
-                      if (videoCh[16].mux && videoCh[5].zap)remoteControl(16); //48 and 22 off 22
-                     }
-                  }
-                else {zaptime= millis();stateMachine =SM_CH17_A;}
+            case SM_CH16_C:
+                        zapping (16, SM_CH16_A, SM_CH16_B, SM_CH16_C, SM_CH17_A);
             break;                         
 
             case SM_CH17_A:   //66 27 50  17-4-9
             case SM_CH17_B:
-                if (videoCh[17].zap) 
-                  {
-                    if (stateMachine == SM_CH17_A) {zaptime= millis();stateMachine =SM_CH17_B;}
-                    if (millis() - zaptime > zapTimer) 
-                    {
-                      Switching(17, 9, 4 , ch17_on, ch9_on, ch4_on  );  
-                      delay(10);                     
-                      recevierCh=videoCh[17].id;
-                      receiverAvByCh ( recevierCh);
-                      stateMachine =SM_CH18_A;
-                     }
-                  }
-                else {zaptime= millis();stateMachine =SM_CH18_A;}
+            case SM_CH17_C:
+                        zapping (17, SM_CH17_A, SM_CH17_B, SM_CH17_C, SM_CH18_A);
             break;                         
 
 
             case SM_CH18_A:   //67-25-48  18 - 2 - 7
             case SM_CH18_B:
-                if (videoCh[18].zap) 
-                  {
-                    if (stateMachine == SM_CH18_A) {zaptime= millis();stateMachine =SM_CH18_B;}
-                    if (millis() - zaptime > zapTimer) 
-                    {
-                      Switching(18, 7, 2, ch18_on, ch7_on , ch2_on  );  
-                      delay(10);                      
-                      recevierCh=videoCh[18].id;
-                      receiverAvByCh ( recevierCh);
-                      stateMachine =SM_CH19_A;
-                     }
-                  }
-                else {zaptime= millis();stateMachine =SM_CH19_A;}
+            case SM_CH18_C:
+                        zapping (18, SM_CH18_A, SM_CH18_B, SM_CH18_C, SM_CH19_A);
             break;                         
 
             case SM_CH19_A: //68  63  19-14
             case SM_CH19_B:
-                if (videoCh[19].zap) 
-                  {
-                    if (stateMachine == SM_CH19_A) {zaptime= millis();stateMachine =SM_CH19_B;}
-                    if (millis() - zaptime > zapTimer) 
-                    {
-                      Switching(19, 14, 20 , ch19_on, ch14_on, chx_on  );  
-                      delay(10);                       
-                      recevierCh=videoCh[19].id;
-                      receiverAvByCh ( recevierCh);
-                      stateMachine =SM_CH20_A;
-                     }
-                  }
-                else {zaptime= millis();stateMachine =SM_CH20_A;}
+            case SM_CH19_C:
+                        zapping (19, SM_CH19_A, SM_CH19_B, SM_CH19_C, SM_CH20_A);
             break;                         
 
             case SM_CH20_A:  //20
             case SM_CH20_B:
-                if (videoCh[20].zap) 
-                  {
-                    if (stateMachine == SM_CH20_A) {zaptime= millis();stateMachine =SM_CH20_B;}
-                    if (millis() - zaptime > zapTimer) 
-                    {
-                      recevierCh=videoCh[20].id;
-                      receiverAvByCh ( recevierCh);
-                      stateMachine =SM_CH1_A;
-                      if (videoCh[20].mux)remoteControl(20);
-                     }
-                  }
-                else {zaptime= millis();stateMachine =SM_CH1_A;}
+            case SM_CH20_C:
+                        zapping (20, SM_CH20_A, SM_CH20_B, SM_CH20_C, SM_CH1_A);
             break;                         
 
                                                            

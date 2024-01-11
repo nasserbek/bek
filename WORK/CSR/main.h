@@ -116,8 +116,9 @@ bool wifiOn     =true;
 bool smsOn      =true;
 
 int zapTimer = 5000;
+int zapTimerOff = 3000;
 int routerTimer = 5000;
-long  routerResetTimer, resetNetgeerAfterInternetLossTimer,zaptime, Sms_24_hoursTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff,wifiIDETimer,restartAfterResetNG,NetgeerResetGooglLostTimer,blynkNotActiveTimer;
+long  routerResetTimer, resetNetgeerAfterInternetLossTimer,zaptime, zaptimeOff, Sms_24_hoursTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff,wifiIDETimer,restartAfterResetNG,NetgeerResetGooglLostTimer,blynkNotActiveTimer;
 bool pingGoogle= false;
 bool googlePingOk= true;
 bool netGeerReset = false;

@@ -1,7 +1,7 @@
-//#define CSR  // TTGO R64 SCATOLA 1CH TTGO
+#define CSR  // TTGO R64 SCATOLA 1CH TTGO
 //#define CSR2  // R65 SCATOLA 4CH ESP32S
 //#define CSR3    //R66 SWAN CASE 2CH ESP32S
-#define CSR4     //USB C ESP32S
+//#define CSR4     //USB C ESP32S
 
 #define BLYNK_TEMPLATE_ID           "TMPL5Y2na6zpd"
 #define BLYNK_TEMPLATE_NAME         "CSR"
@@ -11,7 +11,7 @@
     #define AWS_IOT_PUBLISH_TOPIC_RC_3   "csr3/pub/rc"
     
 #ifdef CSR      //TTGO R64 SCATOLA 1CH TTGO
-    #define VERSION_ID " CSR.37 "
+    #define VERSION_ID " CSR.38 "
     #define BLYNK_AUTH_TOKEN                "B1pZ48rPHfdQ8LxlqCoiPk8fxWBbv7B0" //CSR
     #define THINGNAME "CSR1"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr1/pub/rc"
@@ -21,7 +21,7 @@
 #endif
 
 #ifdef CSR2     // R65 SCATOLA 4CH ESP32S
-    #define VERSION_ID " CSR2.37 "
+    #define VERSION_ID " CSR2.38 "
     #define BLYNK_AUTH_TOKEN                "_cqYD1seWElWB-S1IxutIEI7VWmDpb05" //CS2
     #define THINGNAME "CSR2"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr2/pub/rc"
@@ -33,7 +33,7 @@
 
 
 #ifdef CSR3     //R66 SWAN CASE 2CH ESP32S
-    #define VERSION_ID " CSR3.37 "
+    #define VERSION_ID " CSR3.38 "
     #define BLYNK_AUTH_TOKEN                "6DH6QZgVXrGXU5VzOpJSJgHoyXWL7aWS" //CSR3
     #define THINGNAME "CSR3"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr3/pub/rc"
@@ -543,43 +543,62 @@ const String FB_T433_STATUS_PATH[32] =
 enum {
   SM_CH1_A,
   SM_CH1_B,
+  SM_CH1_C,
   SM_CH2_A,
   SM_CH2_B,
+  SM_CH2_C,
   SM_CH3_A,
   SM_CH3_B,
+  SM_CH3_C,
   SM_CH4_A,
   SM_CH4_B,
+  SM_CH4_C,
   SM_CH5_A,
   SM_CH5_B,
+  SM_CH5_C,
   SM_CH6_A,
   SM_CH6_B,
+  SM_CH6_C,
   SM_CH7_A,
   SM_CH7_B,
+  SM_CH7_C,
   SM_CH8_A,
   SM_CH8_B,
+  SM_CH8_C,
   SM_CH9_A,
   SM_CH9_B,
+  SM_CH9_C,
   SM_CH10_A,
   SM_CH10_B,
+  SM_CH10_C,
   SM_CH11_A,
   SM_CH11_B,
+  SM_CH11_C,
   SM_CH12_A,
   SM_CH12_B,
+  SM_CH12_C,
   SM_CH13_A,
   SM_CH13_B,
+  SM_CH13_C,
   SM_CH14_A,
   SM_CH14_B,
+  SM_CH14_C,
   SM_CH15_A,
   SM_CH15_B,
-
+  SM_CH15_C,
   SM_CH16_A,
   SM_CH16_B,
+  SM_CH16_C,
   SM_CH17_A,
   SM_CH17_B,
+  SM_CH17_C,
   SM_CH18_A,
   SM_CH18_B,
+  SM_CH18_C,
   SM_CH19_A,
   SM_CH19_B,
+  SM_CH19_C,
   SM_CH20_A,
   SM_CH20_B,
+  SM_CH20_C,
 };
