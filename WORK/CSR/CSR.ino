@@ -838,9 +838,17 @@ SWitching
 void turnOn (int ch)
     {
       #ifdef CSR3      //Single rele active High
-        if ( ch >= 1 &&  ch <=7 ) RC_Remote_CSR1 =true; 
+        if ( ch >= 1 &&  ch <=8 ) RC_Remote_CSR1 =true; 
       #endif
       
+      #ifdef CSR2      //Single rele active High
+        if ( ch >= 1 &&  ch <=8 ) RC_Remote_CSR1 =true; 
+        if ( ch >= 9 &&  ch <=20 ) RC_Remote_CSR3 =true; 
+      #endif   
+ 
+      #ifdef CSR     //Single rele active High
+        if ( ch >= 9 &&  ch <=20 ) RC_Remote_CSR3 =true; 
+      #endif         
       recevierCh=videoCh[ch].id;
       receiverAvByCh (recevierCh);
       remoteControl(ch);
