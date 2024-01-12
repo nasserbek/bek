@@ -519,7 +519,7 @@ void processBlynkQueu(void)
               zapOnOff=queuData;
               DEBUG_PRINT("ZAP IS : ");
               DEBUG_PRINTLN(zapOnOff ? F("On") : F("Off"));
-              if (zapOnOff) {zaptime= millis();stateMachine =SM_CH1_A;}
+              if (zapOnOff) {zaptime= millis(); zaptimeOff= millis();stateMachine =SM_CH1_A; RC_Remote_CSR1 =false;}
               myBlynk.zapLed(zapOnOff);
             break;
 
@@ -831,12 +831,16 @@ SWitching
 6 -12
 8 -15
 10 - 13
-14-18
+14-18 <WiFi.h> 
 
- */
+*/
 
 void turnOn (int ch)
     {
+      #ifdef CSR3      //Single rele active High
+        if ( ch >= 1 &&  ch <=7 ) RC_Remote_CSR1 =true; 
+      #endif
+      
       recevierCh=videoCh[ch].id;
       receiverAvByCh (recevierCh);
       remoteControl(ch);
@@ -869,7 +873,7 @@ void zapping (int ch, int sma, int smb, int smc, int nextSm)
                           }                      
                       }
                   }  
-                else stateMachine =nextSm;                      
+                else {stateMachine =nextSm; RC_Remote_CSR1 =false;}                     
 }
 
 void zappingAvCh (bool zapCmd, int zapTimer)
@@ -882,6 +886,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
             case SM_CH1_B:
             case SM_CH1_C:
                         zapping (1, SM_CH1_A, SM_CH1_B, SM_CH1_C, SM_CH2_A);
+                        
             break;
 
             case SM_CH2_A:    //25 48 67    2 - 7 -18

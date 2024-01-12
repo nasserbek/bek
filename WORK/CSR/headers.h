@@ -1,6 +1,6 @@
-#define CSR  // TTGO R64 SCATOLA 1CH TTGO
+//#define CSR  // TTGO R64 SCATOLA 1CH TTGO
 //#define CSR2  // R65 SCATOLA 4CH ESP32S
-//#define CSR3    //R66 SWAN CASE 2CH ESP32S
+#define CSR3    //R66 SWAN CASE 2CH ESP32S
 //#define CSR4     //USB C ESP32S
 
 #define BLYNK_TEMPLATE_ID           "TMPL5Y2na6zpd"
@@ -33,7 +33,7 @@
 
 
 #ifdef CSR3     //R66 SWAN CASE 2CH ESP32S
-    #define VERSION_ID " CSR3.38 "
+    #define VERSION_ID " CSR3.39 "
     #define BLYNK_AUTH_TOKEN                "6DH6QZgVXrGXU5VzOpJSJgHoyXWL7aWS" //CSR3
     #define THINGNAME "CSR3"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr3/pub/rc"
