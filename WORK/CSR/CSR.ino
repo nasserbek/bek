@@ -250,7 +250,7 @@ void loop(void)
          if (!client.connected())
             {
               myBlynk.TerminalPrint("AWS IoT Disonnected, trying to reconnect");
-     //         connectAWS();
+              connectAWS();
            }
       /*****************************************************/        
          
@@ -519,7 +519,7 @@ void processBlynkQueu(void)
               zapOnOff=queuData;
               DEBUG_PRINT("ZAP IS : ");
               DEBUG_PRINTLN(zapOnOff ? F("On") : F("Off"));
-              if (zapOnOff) {zaptime= millis(); zaptimeOff= millis();stateMachine =SM_CH1_A; RC_Remote_CSR1 =false;}
+              if (zapOnOff) {zaptime= millis(); zaptimeOff= millis();stateMachine =SM_CH1_A; RC_Remote_CSR1 =false; RC_Remote_CSR2 =false; RC_Remote_CSR3 =false;}
               myBlynk.zapLed(zapOnOff);
             break;
 
@@ -838,17 +838,18 @@ SWitching
 void turnOn (int ch)
     {
       #ifdef CSR3      //Single rele active High
-        if ( ch >= 1 &&  ch <=8 ) RC_Remote_CSR1 =true; 
+        if ( ch >= 1 &&  ch <=7 ) RC_Remote_CSR2 =true; 
+        else RC_Remote_CSR1 =true; 
       #endif
       
       #ifdef CSR2      //Single rele active High
-        if ( ch >= 1 &&  ch <=8 ) RC_Remote_CSR1 =true; 
-        if ( ch >= 9 &&  ch <=20 ) RC_Remote_CSR3 =true; 
+        if ( ch >= 8 &&  ch <=20 ) RC_Remote_CSR1 =true; 
       #endif   
  
       #ifdef CSR     //Single rele active High
-        if ( ch >= 9 &&  ch <=20 ) RC_Remote_CSR3 =true; 
-      #endif         
+        if ( ch >= 1 &&  ch <=7 ) RC_Remote_CSR2 =true;  
+      #endif    
+           
       recevierCh=videoCh[ch].id;
       receiverAvByCh (recevierCh);
       remoteControl(ch);
@@ -881,7 +882,7 @@ void zapping (int ch, int sma, int smb, int smc, int nextSm)
                           }                      
                       }
                   }  
-                else {stateMachine =nextSm; RC_Remote_CSR1 =false;}                     
+                else {stateMachine =nextSm; RC_Remote_CSR1 =false;RC_Remote_CSR2 =false; RC_Remote_CSR3 =false;}                     
 }
 
 void zappingAvCh (bool zapCmd, int zapTimer)
