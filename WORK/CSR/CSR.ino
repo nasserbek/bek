@@ -833,21 +833,28 @@ SWitching
 10 - 13
 14-18 <WiFi.h> 
 
+28 ch5 csr2 on off
+25,25 cs3 on csr2 off
+24
 */
 
 void turnOn (int ch)
     {
       #ifdef CSR3      //Single rele active High
-        if ( ch >= 1 &&  ch <=7 ) RC_Remote_CSR2 =true; 
-        else RC_Remote_CSR1 =true; 
+        if ( ch == 1 ||  ch ==5 ) RC_Remote_CSR2 =true; 
+        if ( ch >= 7 &&  ch <=20 && ch != 11 ) RC_Remote_CSR1 =true; 
       #endif
       
       #ifdef CSR2      //Single rele active High
+        if ( ch == 2 ||  ch ==3 )  RC_Remote_CSR3 =true; 
         if ( ch >= 8 &&  ch <=20 ) RC_Remote_CSR1 =true; 
+        if ( ch == 11 )            RC_Remote_CSR3 =true; 
       #endif   
  
       #ifdef CSR     //Single rele active High
-        if ( ch >= 1 &&  ch <=7 ) RC_Remote_CSR2 =true;  
+        if ( ch == 2 ||  ch ==3 ) RC_Remote_CSR3 =true; 
+        if ( ch == 1 ||  ch ==5 ) RC_Remote_CSR2 =true;
+        if ( ch == 11 )            RC_Remote_CSR3 =true;         
       #endif    
            
       recevierCh=videoCh[ch].id;
@@ -874,11 +881,21 @@ void zapping (int ch, int sma, int smb, int smc, int nextSm)
                           {  
                           zaptimeOff= millis();  
                           stateMachine =smc;
+                          
+                          #ifdef CSR3      //Single rele active High
+                            if ( ch >= 1 ||  ch <=5 ) RC_Remote_CSR2 =true; 
+                          #endif        
+                          #ifdef CSR1      //Single rele active High
+                            if ( ch >= 1 ||  ch <=5 ) RC_Remote_CSR2 =true; 
+                            if ( ch == 11 )            RC_Remote_CSR3 =true; 
+                          #endif    
+                                                                           
                           remoteControl(ch);
+                          
                           }
                        if ( (stateMachine == smc) && (millis() - zaptimeOff > zapTimerOff ) )
                           {
-                            stateMachine =nextSm;
+                            stateMachine =nextSm;RC_Remote_CSR1 =false;RC_Remote_CSR2 =false; RC_Remote_CSR3 =false;
                           }                      
                       }
                   }  

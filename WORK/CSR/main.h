@@ -115,7 +115,7 @@ bool blynkOn    =true;
 bool wifiOn     =true;
 bool smsOn      =true;
 
-int zapTimer = 5000;
+int zapTimer = 10000;
 int zapTimerOff = 3000;
 int routerTimer = 5000;
 long  routerResetTimer, resetNetgeerAfterInternetLossTimer,zaptime, zaptimeOff, Sms_24_hoursTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff,wifiIDETimer,restartAfterResetNG,NetgeerResetGooglLostTimer,blynkNotActiveTimer;
