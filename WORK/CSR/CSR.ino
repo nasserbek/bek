@@ -517,9 +517,10 @@ void processBlynkQueu(void)
                                                                       
             case Q_EVENT_ZAP_V71:
               zapOnOff=queuData;
+              resetZapper ();
               DEBUG_PRINT("ZAP IS : ");
               DEBUG_PRINTLN(zapOnOff ? F("On") : F("Off"));
-              if (zapOnOff) {zaptime= millis(); zaptimeOff= millis();stateMachine =SM_CH1_A; RC_Remote_CSR1 =false; RC_Remote_CSR2 =false; RC_Remote_CSR3 =false;}
+         //     if (zapOnOff) {zaptime= millis(); zaptimeOff= millis();stateMachine =SM_CH1_A; RC_Remote_CSR1 =false; RC_Remote_CSR2 =false; RC_Remote_CSR3 =false;previousCh =0;}
               myBlynk.zapLed(zapOnOff);
             break;
 
@@ -760,66 +761,6 @@ void processBlynkQueu(void)
 
 
 
-void AvReceiverSel(int queuData)
- {            
-      #ifdef CSR
-                switch (queuData)
-                    {
-                      case 1:
-                                 digitalWrite(I2C_1_2_RELAY, HIGH);  //  
-                      break;
-                      case 2:
-                                 digitalWrite(I2C_1_2_RELAY, LOW);  //  
-                      break;
-
-                       case 3:
-                                 digitalWrite(I2C_3_4_RELAY, HIGH);  //  
-                      break;
-                      case 4:
-                                 digitalWrite(I2C_3_4_RELAY, LOW);  //  
-                      break;                     
-                    }  
-     #endif
-
-     #ifdef CSR2
-                switch (queuData)
-                    {
-                      case 1:
-                                 digitalWrite(I2C_1_2_RELAY, HIGH);  //  
-                      break;
-                      case 2:
-                                 digitalWrite(I2C_1_2_RELAY, LOW);  //  
-                      break;
-
-                       case 3:
-                                 digitalWrite(I2C_3_4_RELAY, HIGH);  //  
-                      break;
-                      case 4:
-                                 digitalWrite(I2C_3_4_RELAY, LOW);  //  
-                      break;                     
-                    }  
-     #endif
-                     
-     #ifdef CSR3
-                switch (queuData)
-                    {
-                      case 1:
-                                 digitalWrite(I2C_1_2_RELAY, LOW);  //  
-                      break;
-                      case 2:
-                                 digitalWrite(I2C_1_2_RELAY, HIGH);  //  
-                      break;
-
-                       case 3:
-                                 digitalWrite(I2C_3_4_RELAY, LOW);  //  
-                      break;
-                      case 4:
-                                 digitalWrite(I2C_3_4_RELAY, HIGH);  //  
-                      break;                     
-                    }   
-     #endif
-
-}
 
 
 /*
@@ -838,8 +779,43 @@ SWitching
 24
 */
 
-void turnOn (int ch)
+void resetZapper (void)
+{
+  zaptime= millis(); 
+  zaptimeOff= millis();
+  stateMachine =SM_CH1_A; 
+  RC_Remote_CSR1 =false; 
+  RC_Remote_CSR2 =false; 
+  RC_Remote_CSR3 =false;
+  previousCh =0;
+}
+
+
+void turnOff(int ch, int prevCh, int smc )
+ {  
+        #ifdef CSR3      //Single rele active High
+          if ( prevCh >= 1 ||  prevCh <=5 ) RC_Remote_CSR2 =true; 
+        #endif        
+        #ifdef CSR1      //Single rele active High
+          if ( prevCh >= 1 ||  prevCh <=5 ) RC_Remote_CSR2 =true; 
+          if ( prevCh == 11 )            RC_Remote_CSR3 =true; 
+        #endif    
+        
+        if (prevCh != 0)
+        {
+        recevierCh=videoCh[ch].id;
+        receiverAvByCh (recevierCh);
+        remoteControl(prevCh);
+        }
+        stateMachine =smc;
+ }
+
+
+void turnOn (int ch, int prevCh,  int smb)
     {
+      zaptime= millis();
+      zaptimeOff= millis(); 
+      
       #ifdef CSR3      //Single rele active High
         if ( ch == 1 ||  ch ==5 ) RC_Remote_CSR2 =true; 
         if ( ch >= 7 &&  ch <=20 && ch != 11 ) RC_Remote_CSR1 =true; 
@@ -856,50 +832,34 @@ void turnOn (int ch)
         if ( ch == 1 ||  ch ==5 ) RC_Remote_CSR2 =true;
         if ( ch == 11 )            RC_Remote_CSR3 =true;         
       #endif    
-           
-      recevierCh=videoCh[ch].id;
-      receiverAvByCh (recevierCh);
+      if (prevCh == 0){recevierCh=videoCh[ch].id;     receiverAvByCh (recevierCh);}
       remoteControl(ch);
+      RC_Remote_CSR1 =false;
+      RC_Remote_CSR2 =false; 
+      RC_Remote_CSR3 =false;
+      stateMachine =smb;
+      
     }
 
 
+void nextState( int nextSm)
+    {
+      stateMachine =nextSm;
+      RC_Remote_CSR1 =false;
+      RC_Remote_CSR2 =false; 
+      RC_Remote_CSR3 =false;      
+    } 
+
+     
 void zapping (int ch, int sma, int smb, int smc, int nextSm)
 {
-                    if (videoCh[ch].zap ) 
-                  {
-                    if (stateMachine == sma) 
-                      {
-                        zaptime= millis();
-                        zaptimeOff= millis();
-                        stateMachine =smb;
-                        turnOn(ch); 
-                      }
-                    if (millis() - zaptime > zapTimer )
-                      {
-                        
-                        if (stateMachine == smb)
-                          {  
-                          zaptimeOff= millis();  
-                          stateMachine =smc;
-                          
-                          #ifdef CSR3      //Single rele active High
-                            if ( ch >= 1 ||  ch <=5 ) RC_Remote_CSR2 =true; 
-                          #endif        
-                          #ifdef CSR1      //Single rele active High
-                            if ( ch >= 1 ||  ch <=5 ) RC_Remote_CSR2 =true; 
-                            if ( ch == 11 )            RC_Remote_CSR3 =true; 
-                          #endif    
-                                                                           
-                          remoteControl(ch);
-                          
-                          }
-                       if ( (stateMachine == smc) && (millis() - zaptimeOff > zapTimerOff ) )
-                          {
-                            stateMachine =nextSm;RC_Remote_CSR1 =false;RC_Remote_CSR2 =false; RC_Remote_CSR3 =false;
-                          }                      
-                      }
-                  }  
-                else {stateMachine =nextSm; RC_Remote_CSR1 =false;RC_Remote_CSR2 =false; RC_Remote_CSR3 =false;}                     
+  if (videoCh[ch].zap ) 
+      {
+        if (stateMachine == sma) turnOn(ch,previousCh, smb); 
+        if ( (stateMachine == smb) &&  (millis() - zaptimeOff > zapTimerOff )  ) turnOff(ch, previousCh, smc);
+        if ( (stateMachine == smc) && (millis() - zaptime > zapTimer ) ) { nextState( nextSm); previousCh = ch;}
+      }  
+  else nextState(nextSm);                     
 }
 
 void zappingAvCh (bool zapCmd, int zapTimer)
@@ -912,7 +872,6 @@ void zappingAvCh (bool zapCmd, int zapTimer)
             case SM_CH1_B:
             case SM_CH1_C:
                         zapping (1, SM_CH1_A, SM_CH1_B, SM_CH1_C, SM_CH2_A);
-                        
             break;
 
             case SM_CH2_A:    //25 48 67    2 - 7 -18
@@ -1208,6 +1167,69 @@ void room ( int RC, int AV, int sel)
             break;
           }
 }                            
+
+
+
+void AvReceiverSel(int queuData)
+ {            
+      #ifdef CSR
+                switch (queuData)
+                    {
+                      case 1:
+                                 digitalWrite(I2C_1_2_RELAY, HIGH);  //  
+                      break;
+                      case 2:
+                                 digitalWrite(I2C_1_2_RELAY, LOW);  //  
+                      break;
+
+                       case 3:
+                                 digitalWrite(I2C_3_4_RELAY, HIGH);  //  
+                      break;
+                      case 4:
+                                 digitalWrite(I2C_3_4_RELAY, LOW);  //  
+                      break;                     
+                    }  
+     #endif
+
+     #ifdef CSR2
+                switch (queuData)
+                    {
+                      case 1:
+                                 digitalWrite(I2C_1_2_RELAY, HIGH);  //  
+                      break;
+                      case 2:
+                                 digitalWrite(I2C_1_2_RELAY, LOW);  //  
+                      break;
+
+                       case 3:
+                                 digitalWrite(I2C_3_4_RELAY, HIGH);  //  
+                      break;
+                      case 4:
+                                 digitalWrite(I2C_3_4_RELAY, LOW);  //  
+                      break;                     
+                    }  
+     #endif
+                     
+     #ifdef CSR3
+                switch (queuData)
+                    {
+                      case 1:
+                                 digitalWrite(I2C_1_2_RELAY, LOW);  //  
+                      break;
+                      case 2:
+                                 digitalWrite(I2C_1_2_RELAY, HIGH);  //  
+                      break;
+
+                       case 3:
+                                 digitalWrite(I2C_3_4_RELAY, LOW);  //  
+                      break;
+                      case 4:
+                                 digitalWrite(I2C_3_4_RELAY, HIGH);  //  
+                      break;                     
+                    }   
+     #endif
+
+}
 
 
 void IRAM_ATTR resetModule() 

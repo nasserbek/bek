@@ -21,6 +21,7 @@
 QueueHandle_t g_event_queue_handle = NULL;
 EventGroupHandle_t g_event_group = NULL;
 
+int previousCh =0;
 int queuData;
 int queuDataID;
 bool queuValidData=false;
