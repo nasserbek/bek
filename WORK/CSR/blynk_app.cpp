@@ -247,10 +247,9 @@ BLYNK_WRITE(V3) // ROOM_1_TO_5
 
 BLYNK_WRITE(V4)  
 {
-
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_SWITCHING_25_V4;
+    eventdata = Q_SCAN_ACTIVE_CH_V4;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 
 }

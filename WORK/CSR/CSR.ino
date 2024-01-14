@@ -54,7 +54,8 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_VIDEO)
           }
         recevierCh = doc1["VIDEO"];
         myBlynk.TerminalPrint(String(recevierCh));
-        receiverAvByCh(recevierCh); //Video channel
+        remoteControlRcCh = recevierCh ;
+        room ( remoteControlRcCh, recevierCh , Av_Rx );        
     }
 
 else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_ZAP)
@@ -72,6 +73,7 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_ZAP)
           }
         zapOnOff   = doc1["ZAP"];
         myBlynk.TerminalPrint(String(zapOnOff));
+        resetZapper ();
         if (zapOnOff) zappingAvCh (zapOnOff, zapTimer); //Zapping
     }
 
@@ -94,8 +96,79 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_RX)
         selected_Rx = rx -1;
         myBlynk.RelaySelect(rx);
     }   
+    
+else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_AV_RC)
+    {
+        for (int i=0;i<length;i++) //Converts the received message to String
+        {      
+          resultS= resultS + (char)payload[i];
+        }
 
- else {   myBlynk.TerminalPrint("Unrecognized Topic"); }
+          DeserializationError error = deserializeJson(doc1, resultS); //Command to derealize the received Json
+          if (error) 
+          {
+            myBlynk.TerminalPrint(F("deserializeJson() failed with code "));
+            myBlynk.TerminalPrint(error.f_str());
+          }
+        Av_Rx = doc1["AVRC"];
+        myBlynk.TerminalPrint(String(Av_Rx));
+        myBlynk.sendAvRxIndex(Av_Rx);
+    }   
+
+else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_DVR)
+    {
+        for (int i=0;i<length;i++) //Converts the received message to String
+        {      
+          resultS= resultS + (char)payload[i];
+        }
+
+          DeserializationError error = deserializeJson(doc1, resultS); //Command to derealize the received Json
+          if (error) 
+          {
+            myBlynk.TerminalPrint(F("deserializeJson() failed with code "));
+            myBlynk.TerminalPrint(error.f_str());
+          }
+        bool dvr = doc1["DVR"];
+        myBlynk.TerminalPrint(String(dvr));
+        dvrOnOff (dvr);
+    }   
+
+else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_REBOOT)
+    {
+        for (int i=0;i<length;i++) //Converts the received message to String
+        {      
+          resultS= resultS + (char)payload[i];
+        }
+
+          DeserializationError error = deserializeJson(doc1, resultS); //Command to derealize the received Json
+          if (error) 
+          {
+            myBlynk.TerminalPrint(F("deserializeJson() failed with code "));
+            myBlynk.TerminalPrint(error.f_str());
+          }
+        myBlynk.TerminalPrint("Rebooting ESP");
+        ESP.restart();
+    }  
+
+else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH)
+    {
+        for (int i=0;i<length;i++) //Converts the received message to String
+        {      
+          resultS= resultS + (char)payload[i];
+        }
+
+          DeserializationError error = deserializeJson(doc1, resultS); //Command to derealize the received Json
+          if (error) 
+          {
+            myBlynk.TerminalPrint(F("deserializeJson() failed with code "));
+            myBlynk.TerminalPrint(error.f_str());
+          }
+        int  zapCh    = doc1["ZAPCH"];
+        bool zapChCmd = doc1["ZAPCHCMD"];
+        myBlynk.TerminalPrint(String(zapCh));
+        videoCh[zapCh].zap = zapChCmd;
+    }
+else {   myBlynk.TerminalPrint("Unrecognized Topic"); }
  
 }
 
@@ -359,7 +432,7 @@ void processBlynkQueu(void)
             case Q_EVENT_RC_CH_NR_V1:
               remoteControlRcCh=queuData;
               DEBUG_PRINT("FB_T433_CH_NR: ");DEBUG_PRINTLN(queuData);
-              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 15) {remoteControl(remoteControlRcCh );}
+              if (remoteControlRcCh >= 1 && remoteControlRcCh <= 20) {remoteControl(remoteControlRcCh );}
             break;      
                   
             case Q_EVENT_VIDEO_CH_V2:
@@ -377,9 +450,9 @@ void processBlynkQueu(void)
              break;
 
 
-            case Q_EVENT_SWITCHING_25_V4:
-                  videoCh[1].mux=queuData; 
-                  if (!videoCh[1].mux) ch1_on == false ;
+            case Q_SCAN_ACTIVE_CH_V4:
+                  scanForActiveCh =queuData; 
+                  resetZapper ();
             break;
 
             case Q_EVENT_SWITCHING_48_V5:
@@ -783,6 +856,7 @@ void resetZapper (void)
 {
   zaptime= millis(); 
   zaptimeOff= millis();
+  scantime= millis();
   stateMachine =SM_CH1_A; 
   RC_Remote_CSR1 =false; 
   RC_Remote_CSR2 =false; 
@@ -795,9 +869,14 @@ void turnOff(int ch, int prevCh, int smc )
  {  
         #ifdef CSR3      //Single rele active High
           if ( prevCh >= 1 ||  prevCh <=5 ) RC_Remote_CSR2 =true; 
-        #endif        
+        #endif       
+         
         #ifdef CSR1      //Single rele active High
           if ( prevCh >= 1 ||  prevCh <=5 ) RC_Remote_CSR2 =true; 
+          if ( prevCh == 11 )            RC_Remote_CSR3 =true; 
+        #endif    
+
+         #ifdef CSR2      //Single rele active High
           if ( prevCh == 11 )            RC_Remote_CSR3 =true; 
         #endif    
         
@@ -815,23 +894,22 @@ void turnOn (int ch, int prevCh,  int smb)
     {
       zaptime= millis();
       zaptimeOff= millis(); 
-      
+      scantime= millis();
       #ifdef CSR3      //Single rele active High
         if ( ch == 1 ||  ch ==5 ) RC_Remote_CSR2 =true; 
         if ( ch >= 7 &&  ch <=20 && ch != 11 ) RC_Remote_CSR1 =true; 
       #endif
       
       #ifdef CSR2      //Single rele active High
-        if ( ch == 2 ||  ch ==3 )  RC_Remote_CSR3 =true; 
+        if ( ch == 2 ||  ch ==3 ||  ch ==11)  RC_Remote_CSR3 =true; 
         if ( ch >= 8 &&  ch <=20 ) RC_Remote_CSR1 =true; 
-        if ( ch == 11 )            RC_Remote_CSR3 =true; 
       #endif   
  
       #ifdef CSR     //Single rele active High
-        if ( ch == 2 ||  ch ==3 ) RC_Remote_CSR3 =true; 
-        if ( ch == 1 ||  ch ==5 ) RC_Remote_CSR2 =true;
-        if ( ch == 11 )            RC_Remote_CSR3 =true;         
+        if ( ch == 2 ||  ch ==3 ||  ch ==11) RC_Remote_CSR3 =true; 
+        if ( ch == 1 ||  ch ==5 )     RC_Remote_CSR2 =true;
       #endif    
+      
       if (prevCh == 0){recevierCh=videoCh[ch].id;     receiverAvByCh (recevierCh);}
       remoteControl(ch);
       RC_Remote_CSR1 =false;
@@ -853,11 +931,18 @@ void nextState( int nextSm)
      
 void zapping (int ch, int sma, int smb, int smc, int nextSm)
 {
-  if (videoCh[ch].zap ) 
+  if (videoCh[ch].zap || scanForActiveCh  ) 
       {
         if (stateMachine == sma) turnOn(ch,previousCh, smb); 
-        if ( (stateMachine == smb) &&  (millis() - zaptimeOff > zapTimerOff )  ) turnOff(ch, previousCh, smc);
-        if ( (stateMachine == smc) && (millis() - zaptime > zapTimer ) ) { nextState( nextSm); previousCh = ch;}
+          if (scanForActiveCh  )
+            {
+              if ( (stateMachine == smb) &&  (millis() - scantime > scanTimer )  )  { turnOff(ch, previousCh, smc); nextState( nextSm); previousCh = ch; }
+            }
+          else
+          {  
+            if ( (stateMachine == smb) &&  (millis() - zaptimeOff > zapTimerOff )  ) turnOff(ch, previousCh, smc);
+            if ( (stateMachine == smc) && (millis() - zaptime > zapTimer ) ) { nextState( nextSm); previousCh = ch;}
+          }  
       }  
   else nextState(nextSm);                     
 }
@@ -996,83 +1081,13 @@ void zappingAvCh (bool zapCmd, int zapTimer)
 }
 
 
-void Switching(int id1, int id2, int id3, bool chOnA, bool chOnB , bool chOnC)
-{
 
-  if (videoCh[id2].zap && (!videoCh[id3].zap ))
-  {
-    if (videoCh[id1].mux && (!(videoCh[id2].mux) ))remoteControl(id1); //switch 1 10
-    else if (videoCh[id2].mux && (!(videoCh[id1].mux) ))remoteControl(id2); //switch 10 62
-    else if (videoCh[id2].mux && videoCh[id1].mux )
-    {
-
-    if ( chOnA == true && chOnB  == false)
-      {
-        remoteControl(id2); //switch 10 62  10 ON
-        delay(10);
-        remoteControl(id1); //switch 10 62   62 OFF
-        chOnA = false;
-        chOnB  = true;
-      }
-    else if ( chOnB  == true && chOnA == false)
-      {
-        remoteControl(id1); //switch 10 62
-        delay(10);
-        remoteControl(id2); //switch 10 62
-        chOnA = true;
-        chOnB  = false;
-      }
-    else
-      {
-        remoteControl(id1); //switch 10 62
-        delay(500);
-        remoteControl(id2); //switch 10 62
-        chOnA = true;
-        chOnB  = false;
-      }
-    }
-                              
-  }
-
-  if (videoCh[id3].zap && (!videoCh[id2].zap ))
-  {
-    if (videoCh[id1].mux && (!(videoCh[id3].mux) ))remoteControl(id1); //switch 1 10
-    else if (videoCh[id3].mux && (!(videoCh[id1].mux) ))remoteControl(id3); //switch 10 62
-    else if (videoCh[id3].mux && videoCh[id1].mux )
-    {
-
-    if ( chOnA == true && chOnC  == false)
-      {
-        remoteControl(id3); //switch 10 62  10 ON
-        delay(10);
-        remoteControl(id1); //switch 10 62   62 OFF
-        chOnA = false;
-        chOnC  = true;
-      }
-    else if ( chOnC  == true && chOnA == false)
-      {
-        remoteControl(id1); //switch 10 62
-        delay(10);
-        remoteControl(id3); //switch 10 62
-        chOnA = true;
-        chOnC  = false;
-      }
-    else
-      {
-        remoteControl(id1); //switch 10 62
-        delay(500);
-        remoteControl(id3); //switch 10 62
-        chOnA = true;
-        chOnC  = false;
-      }
-    }
-                              
-  }
-}
 
 void remoteControl(int cmd )
 {
-     if (blynkConnected)  myBlynk.blynkRCLed(1, cmd); 
+  if (!scanForActiveCh)
+   {
+    // if (blynkConnected)  myBlynk.blynkRCLed(1, cmd); 
     
       if( (!RC_Remote_CSR1) && (!RC_Remote_CSR2)  && (!RC_Remote_CSR3))
         {
@@ -1098,15 +1113,18 @@ void remoteControl(int cmd )
         serializeJson(doc2, Json); // print to client
         client.publish(AWS_IOT_PUBLISH_TOPIC_RC_3, Json); 
       } 
-            
+
+ /*           
      DEBUG_PRINT("ch433:");DEBUG_PRINTLN(cmd);
      delay(500);
      
      if (blynkConnected) 
       {
-        myBlynk.blynkRCLed(0, cmd);
+ //       myBlynk.blynkRCLed(0, cmd);
         myBlynk.resetT433Cmd(cmd);
       }
+ */     
+   }   
 }
 
 

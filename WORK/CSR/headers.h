@@ -1,6 +1,7 @@
-//#define CSR  // TTGO R64 SCATOLA 1CH TTGO
+//efine CSR  // TTGO R64 SCATOLA 1CH TTGO
 //#define CSR2  // R65 SCATOLA 4CH ESP32S
 #define CSR3    //R66 SWAN CASE 2CH ESP32S
+
 //#define CSR4     //USB C ESP32S
 
 #define BLYNK_TEMPLATE_ID           "TMPL5Y2na6zpd"
@@ -18,6 +19,10 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "csr1/pub/video"
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAP     "csr1/pub/zap"
     #define AWS_IOT_SUBSCRIBE_TOPIC_RX      "csr1/pub/rx"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_AV_RC   "csr1/pub/avrc"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_DVR     "csr1/pub/dvr"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_REBOOT  "csr1/pub/reboot"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH   "csr1/pub/zapchanel"
 #endif
 
 #ifdef CSR2     // R65 SCATOLA 4CH ESP32S
@@ -28,18 +33,26 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "csr2/pub/video"
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAP     "csr2/pub/zap"
     #define AWS_IOT_SUBSCRIBE_TOPIC_RX      "csr2/pub/rx"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_AV_RC   "csr2/pub/avrc"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_DVR     "csr2/pub/dvr"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_REBOOT  "csr2/pub/reboot"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH   "csr2/pub/zapchanel"
 
 #endif
 
 
 #ifdef CSR3     //R66 SWAN CASE 2CH ESP32S
-    #define VERSION_ID " CSR3.41 "
+    #define VERSION_ID " CSR3.40 "
     #define BLYNK_AUTH_TOKEN                "6DH6QZgVXrGXU5VzOpJSJgHoyXWL7aWS" //CSR3
     #define THINGNAME "CSR3"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr3/pub/rc"
     #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "csr3/pub/video"
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAP     "csr3/pub/zap"
     #define AWS_IOT_SUBSCRIBE_TOPIC_RX      "csr3/pub/rx"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_AV_RC   "csr3/pub/avrc"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_DVR     "csr3/pub/dvr"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_REBOOT  "csr3/pub/reboot"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH   "csr3/pub/zapchanel"
   
 #endif
 
@@ -51,6 +64,10 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "csr4/pub/video"
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAP     "csr4/pub/zap"
     #define AWS_IOT_SUBSCRIBE_TOPIC_RX      "csr4/pub/rx"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_AV_RC   "csr4/pub/avrc"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_DVR     "csr4/pub/dvr"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_REBOOT  "csr4/pub/reboot"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH   "csr4/pub/zapchanel"
   
 #endif
 
@@ -123,7 +140,7 @@ Q_EVENT_RC_CH_NR_V1,
 Q_EVENT_VIDEO_CH_V2,
 Q_EVENT_ROOM_ID_1_TO_5_V3,
 
-Q_EVENT_SWITCHING_25_V4,
+Q_SCAN_ACTIVE_CH_V4,
 Q_EVENT_SWITCHING_48_V5,
 Q_EVENT_SWITCHING_26_V6,
 Q_EVENT_SWITCHING_65_V7,
