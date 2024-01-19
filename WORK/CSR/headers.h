@@ -1,4 +1,4 @@
-//efine CSR  // TTGO R64 SCATOLA 1CH TTGO
+//#define CSR  // TTGO R64 SCATOLA 1CH TTGO
 //#define CSR2  // R65 SCATOLA 4CH ESP32S
 #define CSR3    //R66 SWAN CASE 2CH ESP32S
 
@@ -12,7 +12,7 @@
     #define AWS_IOT_PUBLISH_TOPIC_RC_3   "csr3/pub/rc"
     
 #ifdef CSR      //TTGO R64 SCATOLA 1CH TTGO
-    #define VERSION_ID " CSR.40 "
+    #define VERSION_ID " CSR.43 "
     #define BLYNK_AUTH_TOKEN                "B1pZ48rPHfdQ8LxlqCoiPk8fxWBbv7B0" //CSR
     #define THINGNAME "CSR1"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr1/pub/rc"
@@ -26,7 +26,7 @@
 #endif
 
 #ifdef CSR2     // R65 SCATOLA 4CH ESP32S
-    #define VERSION_ID " CSR2.40 "
+    #define VERSION_ID " CSR2.43 "
     #define BLYNK_AUTH_TOKEN                "_cqYD1seWElWB-S1IxutIEI7VWmDpb05" //CS2
     #define THINGNAME "CSR2"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr2/pub/rc"
@@ -42,7 +42,7 @@
 
 
 #ifdef CSR3     //R66 SWAN CASE 2CH ESP32S
-    #define VERSION_ID " CSR3.40 "
+    #define VERSION_ID " CSR3.47 "
     #define BLYNK_AUTH_TOKEN                "6DH6QZgVXrGXU5VzOpJSJgHoyXWL7aWS" //CSR3
     #define THINGNAME "CSR3"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr3/pub/rc"
@@ -134,11 +134,32 @@
 
 
 enum {
+NA,
+R_24,
+R_25,
+R_26,
+R_27,
+R_28,
+R_29,
+R_48,
+R_49,
+R_50,
+R_51,
+R_52,
+R_53,
+R_62,
+R_63,
+R_64,
+R_65,
+R_66,
+R_68,
+} ;
+enum {
 NONE,
 Q_EVENT_FREQ_V0,
 Q_EVENT_RC_CH_NR_V1,
 Q_EVENT_VIDEO_CH_V2,
-Q_EVENT_ROOM_ID_1_TO_5_V3,
+Q_EVENT_REPEAT_V3,
 
 Q_SCAN_ACTIVE_CH_V4,
 Q_EVENT_SWITCHING_48_V5,

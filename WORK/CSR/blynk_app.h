@@ -61,6 +61,7 @@ class blynk {
     void TerminalPrint (String str);
     void sendPulseRepetetion(int pulse, int repetetion);
     void visualActiveRoom(int id, bool zap);
+    void repeatSync(bool repeat);
 
 };
 #endif

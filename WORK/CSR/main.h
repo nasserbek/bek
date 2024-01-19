@@ -21,6 +21,7 @@
 QueueHandle_t g_event_queue_handle = NULL;
 EventGroupHandle_t g_event_group = NULL;
 
+bool repeatCh = false;
 bool scanForActiveCh = false;
 int previousCh =0;
 int queuData;
@@ -119,7 +120,8 @@ bool smsOn      =true;
 
 int scanTimer = 3000;
 int zapTimer = 10000;
-int zapTimerOff = 3000;
+int zapTimerOff = 5000;
+
 int routerTimer = 5000;
 long  routerResetTimer, resetNetgeerAfterInternetLossTimer,zaptime, zaptimeOff,scantime, Sms_24_hoursTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff,wifiIDETimer,restartAfterResetNG,NetgeerResetGooglLostTimer,blynkNotActiveTimer;
 bool pingGoogle= false;

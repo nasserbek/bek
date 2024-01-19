@@ -236,11 +236,11 @@ BLYNK_WRITE(V2) // receiver ch
     
 }
 
-BLYNK_WRITE(V3) // ROOM_1_TO_5
+BLYNK_WRITE(V3) // repeatCh 
 {
     _blynkEvent = true;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_ROOM_ID_1_TO_5_V3;
+    eventdata = Q_EVENT_REPEAT_V3;
     Serial.println(_blynkData);
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
@@ -1031,9 +1031,9 @@ void blynk::blynkSmsLed(bool _data)
 {
 }
 
-void blynk::zapLed(bool _data)
+void blynk::zapLed(bool _data ) //scan on off
 {
-
+Blynk.virtualWrite(V4, _data);
 }
 
 void blynk::sendToBlynkLed(bool _data)
@@ -1145,6 +1145,11 @@ void blynk::blynk1(void)
 {
 
 }    
+
+void blynk::repeatSync(bool repeat)
+{
+  Blynk.virtualWrite(V3, repeat);
+}
 
 void blynk::TerminalPrint (String str)
 {

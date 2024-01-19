@@ -5,6 +5,56 @@ blynk myBlynk;
 
 #define USE_SERIAL Serial
 
+void turnOn (int ch, int prevCh,  int smb,  int sma)
+    {
+      zaptime= millis();
+      zaptimeOff= millis(); 
+      scantime= millis();
+      repeatCh = false; 
+      myBlynk.repeatSync(repeatCh);
+      
+      stateMachine =smb;
+        #ifdef CSR3      //Single rele active High
+          if  ( prevCh == R_24 ||  prevCh == R_50 || prevCh == R_51 ) RC_Remote_CSR2 =true;
+          if  ( prevCh == R_25 ||  prevCh == R_26 || prevCh == R_28 || prevCh == R_48 || prevCh == R_49 || prevCh == R_52) RC_Remote_CSR1 =true;
+        #endif       
+  
+      if (prevCh == 0){recevierCh=videoCh[ch].id;     receiverAvByCh (recevierCh);}
+      
+       myBlynk.TerminalPrint(" Turning On Ch: ");myBlynk.TerminalPrint(String(ch));
+       remoteControl(ch);   RC_Remote_CSR1 =false;   RC_Remote_CSR2 =false;  RC_Remote_CSR3 =false;    
+     }
+     
+void turnOff(int ch, int prevCh, int smc )
+ {  
+        #ifdef CSR3      //Single rele active High
+          if  ( prevCh == R_24 ||  prevCh == R_50 || prevCh == R_51 ) RC_Remote_CSR2 =true;
+          if  ( prevCh == R_25 ||  prevCh == R_26 || prevCh == R_28 || prevCh == R_48 || prevCh == R_49 || prevCh == R_52) RC_Remote_CSR1 =true;
+        #endif      
+            
+          myBlynk.TerminalPrint(" Turning Off Ch: ");myBlynk.TerminalPrint(String(prevCh));
+          if (prevCh != 0){recevierCh=videoCh[ch].id; receiverAvByCh (recevierCh); remoteControl(prevCh);}
+          stateMachine =smc;
+ }
+ 
+ void zapping (int ch, int sma, int smb, int smc, int nextSm)
+{
+  if (videoCh[ch].zap || scanForActiveCh  ) 
+      {
+        if (stateMachine == sma || repeatCh == true) turnOn(ch,previousCh, smb, sma); 
+        if (scanForActiveCh  )
+            {
+              if ( (stateMachine == smb) &&  (millis() - scantime > scanTimer )  )  { turnOff(ch, previousCh, smc); nextState( nextSm); previousCh = ch; }
+            }
+        else
+          {  
+            if ( (stateMachine == smb) &&  (millis() - zaptimeOff > zapTimerOff )  ) turnOff(ch, previousCh, smc);
+            if ( (stateMachine == smc) && (millis() - zaptime > zapTimer ) ) { nextState( nextSm); previousCh = ch;}
+          }  
+      }  
+  else nextState(nextSm);                     
+}
+    
 /********************* AWS MQTT BROKER *******************************************************/
 WiFiClientSecure net = WiFiClientSecure();
 PubSubClient client(net);
@@ -442,11 +492,8 @@ void processBlynkQueu(void)
                 else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
                 receiverAvByCh ( recevierCh);
 
-             case Q_EVENT_ROOM_ID_1_TO_5_V3:
-                  remoteControlRcCh = queuData;
-                  recevierCh        = queuData;
-                  room ( remoteControlRcCh, recevierCh , Av_Rx );
-                   Serial.println(queuData);
+             case Q_EVENT_REPEAT_V3:
+                  repeatCh =queuData;
              break;
 
 
@@ -591,10 +638,11 @@ void processBlynkQueu(void)
             case Q_EVENT_ZAP_V71:
               zapOnOff=queuData;
               resetZapper ();
+              if(!zapOnOff)scanForActiveCh =false;
               DEBUG_PRINT("ZAP IS : ");
               DEBUG_PRINTLN(zapOnOff ? F("On") : F("Off"));
          //     if (zapOnOff) {zaptime= millis(); zaptimeOff= millis();stateMachine =SM_CH1_A; RC_Remote_CSR1 =false; RC_Remote_CSR2 =false; RC_Remote_CSR3 =false;previousCh =0;}
-              myBlynk.zapLed(zapOnOff);
+              myBlynk.zapLed(scanForActiveCh);
             break;
 
             case Q_EVENT_ZAP_TIMER_V72:
@@ -862,62 +910,9 @@ void resetZapper (void)
   RC_Remote_CSR2 =false; 
   RC_Remote_CSR3 =false;
   previousCh =0;
+  repeatCh = false;
+  
 }
-
-
-void turnOff(int ch, int prevCh, int smc )
- {  
-        #ifdef CSR3      //Single rele active High
-          if ( prevCh >= 1 ||  prevCh <=5 ) RC_Remote_CSR2 =true; 
-        #endif       
-         
-        #ifdef CSR1      //Single rele active High
-          if ( prevCh >= 1 ||  prevCh <=5 ) RC_Remote_CSR2 =true; 
-          if ( prevCh == 11 )            RC_Remote_CSR3 =true; 
-        #endif    
-
-         #ifdef CSR2      //Single rele active High
-          if ( prevCh == 11 )            RC_Remote_CSR3 =true; 
-        #endif    
-        
-        if (prevCh != 0)
-        {
-        recevierCh=videoCh[ch].id;
-        receiverAvByCh (recevierCh);
-        remoteControl(prevCh);
-        }
-        stateMachine =smc;
- }
-
-
-void turnOn (int ch, int prevCh,  int smb)
-    {
-      zaptime= millis();
-      zaptimeOff= millis(); 
-      scantime= millis();
-      #ifdef CSR3      //Single rele active High
-        if ( ch == 1 ||  ch ==5 ) RC_Remote_CSR2 =true; 
-        if ( ch >= 7 &&  ch <=20 && ch != 11 ) RC_Remote_CSR1 =true; 
-      #endif
-      
-      #ifdef CSR2      //Single rele active High
-        if ( ch == 2 ||  ch ==3 ||  ch ==11)  RC_Remote_CSR3 =true; 
-        if ( ch >= 8 &&  ch <=20 ) RC_Remote_CSR1 =true; 
-      #endif   
- 
-      #ifdef CSR     //Single rele active High
-        if ( ch == 2 ||  ch ==3 ||  ch ==11) RC_Remote_CSR3 =true; 
-        if ( ch == 1 ||  ch ==5 )     RC_Remote_CSR2 =true;
-      #endif    
-      
-      if (prevCh == 0){recevierCh=videoCh[ch].id;     receiverAvByCh (recevierCh);}
-      remoteControl(ch);
-      RC_Remote_CSR1 =false;
-      RC_Remote_CSR2 =false; 
-      RC_Remote_CSR3 =false;
-      stateMachine =smb;
-      
-    }
 
 
 void nextState( int nextSm)
@@ -929,23 +924,7 @@ void nextState( int nextSm)
     } 
 
      
-void zapping (int ch, int sma, int smb, int smc, int nextSm)
-{
-  if (videoCh[ch].zap || scanForActiveCh  ) 
-      {
-        if (stateMachine == sma) turnOn(ch,previousCh, smb); 
-          if (scanForActiveCh  )
-            {
-              if ( (stateMachine == smb) &&  (millis() - scantime > scanTimer )  )  { turnOff(ch, previousCh, smc); nextState( nextSm); previousCh = ch; }
-            }
-          else
-          {  
-            if ( (stateMachine == smb) &&  (millis() - zaptimeOff > zapTimerOff )  ) turnOff(ch, previousCh, smc);
-            if ( (stateMachine == smc) && (millis() - zaptime > zapTimer ) ) { nextState( nextSm); previousCh = ch;}
-          }  
-      }  
-  else nextState(nextSm);                     
-}
+
 
 void zappingAvCh (bool zapCmd, int zapTimer)
 {
