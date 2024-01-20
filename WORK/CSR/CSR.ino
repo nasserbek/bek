@@ -1589,7 +1589,7 @@ int CSRFirmwareVersionCheck(void) {
 }
 
 void OtaGithub(void) {
-  DEBUG_PRINTLN("Starting Ota Web Update from Github");
+  myBlynk.TerminalPrint("Starting Ota Web Update from Github");
   while (!OtaGithubGithub) 
        {
         enableWDG(false);

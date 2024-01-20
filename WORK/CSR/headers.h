@@ -33,7 +33,7 @@
 #endif
 
 #ifdef CSR2     // R65 SCATOLA 4CH ESP32S
-    #define VERSION_ID "1.0"
+    #define VERSION_ID "2.0"
     #define BLYNK_AUTH_TOKEN                "_cqYD1seWElWB-S1IxutIEI7VWmDpb05" //CS2
     #define THINGNAME "CSR2"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr2/pub/rc"
