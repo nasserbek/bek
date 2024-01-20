@@ -1,8 +1,12 @@
 //#define CSR  // TTGO R64 SCATOLA 1CH TTGO
-//#define CSR2  // R65 SCATOLA 4CH ESP32S
-#define CSR3    //R66 SWAN CASE 2CH ESP32S
-
+#define CSR2  // R65 SCATOLA 4CH ESP32S
+//#define CSR3    //R66 SWAN CASE 2CH ESP32S
 //#define CSR4     //USB C ESP32S
+
+//String CSRFirmwareVer = {    "2.0"};
+#define URL_fw_Version "https://raw.githubusercontent.com/nasserbek/bek/tree/master/WORK/CSR/bin-version.txt"
+#define URL_fw_Bin "https://raw.githubusercontent.com/nasserbek/bek/tree/master/WORK/CSR/CSR.ino.esp32.bin"
+
 
 #define BLYNK_TEMPLATE_ID           "TMPL5Y2na6zpd"
 #define BLYNK_TEMPLATE_NAME         "CSR"
@@ -12,7 +16,7 @@
     #define AWS_IOT_PUBLISH_TOPIC_RC_3   "csr3/pub/rc"
     
 #ifdef CSR      //TTGO R64 SCATOLA 1CH TTGO
-    #define VERSION_ID " CSR.43 "
+    #define VERSION_ID "1.0"
     #define BLYNK_AUTH_TOKEN                "B1pZ48rPHfdQ8LxlqCoiPk8fxWBbv7B0" //CSR
     #define THINGNAME "CSR1"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr1/pub/rc"
@@ -23,10 +27,13 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_DVR     "csr1/pub/dvr"
     #define AWS_IOT_SUBSCRIBE_TOPIC_REBOOT  "csr1/pub/reboot"
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH   "csr1/pub/zapchanel"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA   "csr1/pub/localWebOta"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA   "csr1/pub/GitHubWebOta"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_VERSION   "csr1/pub/version"
 #endif
 
 #ifdef CSR2     // R65 SCATOLA 4CH ESP32S
-    #define VERSION_ID " CSR2.43 "
+    #define VERSION_ID "1.0"
     #define BLYNK_AUTH_TOKEN                "_cqYD1seWElWB-S1IxutIEI7VWmDpb05" //CS2
     #define THINGNAME "CSR2"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr2/pub/rc"
@@ -37,12 +44,15 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_DVR     "csr2/pub/dvr"
     #define AWS_IOT_SUBSCRIBE_TOPIC_REBOOT  "csr2/pub/reboot"
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH   "csr2/pub/zapchanel"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA   "csr2/pub/localWebOta"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA   "csr2/pub/GitHubWebOta"    
+    #define AWS_IOT_SUBSCRIBE_TOPIC_VERSION   "csr2/pub/version"
 
 #endif
 
 
 #ifdef CSR3     //R66 SWAN CASE 2CH ESP32S
-    #define VERSION_ID " CSR3.47 "
+    #define VERSION_ID " CSR3.50 "
     #define BLYNK_AUTH_TOKEN                "6DH6QZgVXrGXU5VzOpJSJgHoyXWL7aWS" //CSR3
     #define THINGNAME "CSR3"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr3/pub/rc"
@@ -53,12 +63,14 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_DVR     "csr3/pub/dvr"
     #define AWS_IOT_SUBSCRIBE_TOPIC_REBOOT  "csr3/pub/reboot"
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH   "csr3/pub/zapchanel"
-  
+    #define AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA   "csr3/pub/localWebOta"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA   "csr3/pub/GitHubWebOta"    
+    #define AWS_IOT_SUBSCRIBE_TOPIC_VERSION   "csr3/pub/version" 
 #endif
 
 #ifdef CSR4     //R66 SWAN CASE 2CH ESP32S
-    #define VERSION_ID " CSR4.37 "
-    #define BLYNK_AUTH_TOKEN                "OCvAOr6jIq5TZgN8-YJy1psihKxOviCt" //CSR4
+    #define VERSION_ID " CSR4.50 "
+    #define BLYNK_AUTH_TOKEN                "T7SZ5q0jqjeA_avnEW_GHJvBvwI6j32f" //CSR4
     #define THINGNAME "CSR4"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr4/pub/rc"
     #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "csr4/pub/video"
@@ -68,6 +80,9 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_DVR     "csr4/pub/dvr"
     #define AWS_IOT_SUBSCRIBE_TOPIC_REBOOT  "csr4/pub/reboot"
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH   "csr4/pub/zapchanel"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA   "csr4/pub/localWebOta"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA   "csr4/pub/GitHubWebOta"    
+    #define AWS_IOT_SUBSCRIBE_TOPIC_VERSION   "csr4/pub/version"
   
 #endif
 
@@ -162,20 +177,18 @@ Q_EVENT_VIDEO_CH_V2,
 Q_EVENT_REPEAT_V3,
 
 Q_SCAN_ACTIVE_CH_V4,
-Q_EVENT_SWITCHING_48_V5,
-Q_EVENT_SWITCHING_26_V6,
-Q_EVENT_SWITCHING_65_V7,
+Q_EVENT_AUTOMATIC_RC_L_R_V5,
+Q_EVENT_OTA_LOCAL_WEB_WIFI_V6,
+Q_EVENT_OTA_GITHUB_V7,
 
 Q_EVENT_REBOOT_V8,
 Q_EVENT_SELECTED_RECIEVER_V9,
 
-Q_EVENT_SWITCHING_50_V10, 
-Q_EVENT_SWITCHING_28_V11,
-Q_EVENT_SWITCHING_52_V12,
+Q_EVENT_SPARE_V10, 
+Q_EVENT_SPARE_V11,
+Q_EVENT_SPARE_V12,
 
 //I2C_LED_V13(V13);  // USED
-
-
 
 Q_EVENT_RC_L_R_1_V16,
 Q_EVENT_RC_L_R_3_V17,
@@ -183,26 +196,26 @@ Q_EVENT_AWS_RECONNECT_V18,
 
 Q_EVENT_ROOM_AV_RC_V19,
 Q_EVENT_RC_L_R_2_V20,
-Q_EVENT_ROOM_AV_RC_V21,
+Q_EVENT_SPARE_V21,
 
 
 
 //V24 Version,
-Q_EVENT_ROOM_ID_21_25_V25,
+Q_EVENT_ZAP_TIMER_OFF_V25,
 Q_EVENT_RESET_FREQ_V26,
 Q_EVENT_DVR_ON_OFF_V27,
 
-Q_EVENT_V30_SWITCHING_64,
-Q_EVENT_V31_SWITCHING_49,
-Q_EVENT_V32_SWITCHING_62,
-Q_EVENT_V33_SWITCHING_51,
-Q_EVENT_V34_SWITCHING_66,
-Q_EVENT_V35_SWITCHING_53,
-Q_EVENT_V36_SWITCHING_29,
-Q_EVENT_V37_SWITCHING_63,
-Q_EVENT_V38_SWITCHING_68,
-Q_EVENT_V39_SWITCHING_27,
-Q_EVENT_V40_SWITCHING_67,
+Q_EVENT_SAPRE_V30,
+Q_EVENT_SAPRE_V31,
+Q_EVENT_SAPRE_V32,
+Q_EVENT_SAPRE_V33,
+Q_EVENT_SAPRE_V34,
+Q_EVENT_SAPRE_V35,
+Q_EVENT_SAPRE_V36,
+Q_EVENT_SAPRE_V37,
+Q_EVENT_SAPRE_V38,
+Q_EVENT_SAPRE_V39,
+Q_EVENT_SAPRE_V40,
 
 Q_EVENT_ZAP_V71,
 Q_EVENT_ZAP_TIMER_V72,
@@ -216,9 +229,6 @@ Q_EVENT_ZAP_CHANNEL6_V86,
 Q_EVENT_ZAP_CHANNEL7_V87,
 Q_EVENT_ZAP_CHANNEL8_V88,
 Q_EVENT_ZAP_CHANNEL9_V89,
-
-
-
 Q_EVENT_ZAP_CHANNEL10_V94,
 Q_EVENT_ZAP_CHANNEL11_V95,
 Q_EVENT_ZAP_CHANNEL12_V96,
@@ -262,18 +272,6 @@ Q_EVENT_RM_ID_17_V90,  //66
 Q_EVENT_RM_ID_18_V91,  //67
 Q_EVENT_RM_ID_19_V92,  //68
 
-
-
-
-Q_EVENT_VERSION_SMS_307,
-Q_EVENT_BLYNK_ON_OFF_SMS_309,
-Q_EVENT_WIFI_OFF_SMS_310,
-Q_EVENT_SETTINGS_SMS_311,
-Q_EVENT_IDLE_PATH_SMS_312,
-Q_EVENT_ZAP_CHANNEL_SMS_316,
-Q_EVENT_DVR_ON_SMS_317,
-Q_EVENT_DVR_OFF_SMS_318,
-Q_EVENT_C6_SMS_319,
 } ;
 
 

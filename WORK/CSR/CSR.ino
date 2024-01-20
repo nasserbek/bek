@@ -5,6 +5,48 @@ blynk myBlynk;
 
 #define USE_SERIAL Serial
 
+void automaticOn(int chanel)
+    {
+        #ifdef CSR3      //
+          if  ( chanel == R_24 || chanel >= R_48 ||  chanel <= R_68) RC_Remote_CSR1 =true;
+        #endif       
+
+
+        #ifdef CSR4      //
+          if  ( chanel == R_24 || chanel >= R_48 ||  chanel <= R_68) RC_Remote_CSR1 =true;
+        #endif    
+        
+        #ifdef CSR2      //24 25 26 27 28
+          if  ( chanel >= R_48 ||  chanel <= R_68) RC_Remote_CSR1 =true;
+        #endif      
+
+        #ifdef CSR      //48 - 68
+          if  ( chanel == R_24 ||  chanel == R_25 || chanel == R_26 || chanel == R_27 || chanel == R_28 || chanel == R_29 ) RC_Remote_CSR2 =true;
+         #endif  
+    }    
+
+
+void automaticOff(int chanel)
+    {
+        #ifdef CSR3      //
+          if  (  chanel == R_25 || chanel == R_26 || chanel == R_27 || chanel == R_28 || chanel == R_29) RC_Remote_CSR2 =true;
+          if  (  chanel == R_24 || chanel >= R_48 ||  chanel <= R_68) RC_Remote_CSR1 =true;
+        #endif       
+
+        #ifdef CSR4      //
+          if  (  chanel == R_25 || chanel == R_26 || chanel == R_27 || chanel == R_28 || chanel == R_29) RC_Remote_CSR2 =true;
+          if  (  chanel == R_24 || chanel >= R_48 ||  chanel <= R_68) RC_Remote_CSR1 =true;
+        #endif 
+        
+        #ifdef CSR2      //24 25 26 27 28
+          if  ( chanel >= R_48 ||  chanel <= R_68) RC_Remote_CSR1 =true;
+        #endif      
+
+        #ifdef CSR      //48 - 68
+          if  ( chanel == R_24 ||  chanel == R_25 || chanel == R_26 || chanel == R_27 || chanel == R_28 || chanel == R_29 ) RC_Remote_CSR2 =true;
+         #endif  
+    } 
+        
 void turnOn (int ch, int prevCh,  int smb,  int sma)
     {
       zaptime= millis();
@@ -14,32 +56,30 @@ void turnOn (int ch, int prevCh,  int smb,  int sma)
       myBlynk.repeatSync(repeatCh);
       
       stateMachine =smb;
-        #ifdef CSR3      //Single rele active High
-          if  ( prevCh == R_24 ||  prevCh == R_50 || prevCh == R_51 ) RC_Remote_CSR2 =true;
-          if  ( prevCh == R_25 ||  prevCh == R_26 || prevCh == R_28 || prevCh == R_48 || prevCh == R_49 || prevCh == R_52) RC_Remote_CSR1 =true;
-        #endif       
-  
+      
+      if (autoRemoteLocalRc) automaticOn(ch);
       if (prevCh == 0){recevierCh=videoCh[ch].id;     receiverAvByCh (recevierCh);}
       
-       myBlynk.TerminalPrint(" Turning On Ch: ");myBlynk.TerminalPrint(String(ch));
-       remoteControl(ch);   RC_Remote_CSR1 =false;   RC_Remote_CSR2 =false;  RC_Remote_CSR3 =false;    
+       myBlynk.TerminalPrint(" Turning On Ch : "+String(ch));
+       remoteControl(ch);   
      }
      
 void turnOff(int ch, int prevCh, int smc )
  {  
-        #ifdef CSR3      //Single rele active High
-          if  ( prevCh == R_24 ||  prevCh == R_50 || prevCh == R_51 ) RC_Remote_CSR2 =true;
-          if  ( prevCh == R_25 ||  prevCh == R_26 || prevCh == R_28 || prevCh == R_48 || prevCh == R_49 || prevCh == R_52) RC_Remote_CSR1 =true;
-        #endif      
-            
-          myBlynk.TerminalPrint(" Turning Off Ch: ");myBlynk.TerminalPrint(String(prevCh));
-          if (prevCh != 0){recevierCh=videoCh[ch].id; receiverAvByCh (recevierCh); remoteControl(prevCh);}
+          if (autoRemoteLocalRc) automaticOff(prevCh);
+          myBlynk.TerminalPrint(" Turning Off Ch: "+String(prevCh));
+          if (prevCh != 0)
+            {
+              recevierCh=videoCh[ch].id; 
+              receiverAvByCh (recevierCh); 
+              remoteControl(prevCh);
+            }
           stateMachine =smc;
  }
  
  void zapping (int ch, int sma, int smb, int smc, int nextSm)
 {
-  if (videoCh[ch].zap || scanForActiveCh  ) 
+  if (videoCh[ch].zap) 
       {
         if (stateMachine == sma || repeatCh == true) turnOn(ch,previousCh, smb, sma); 
         if (scanForActiveCh  )
@@ -83,9 +123,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
             myBlynk.TerminalPrint(error.f_str());
           }
         rcValue    = doc1["RC"];              //RC Command
-        myBlynk.TerminalPrint(" Received Value is: "); //Print the Json value to the serial monitor
-        myBlynk.TerminalPrint(String(rcValue));
-        
+        myBlynk.TerminalPrint(" Received RC command: "+ String(rcValue)); 
         remoteControl(rcValue );
     }
 
@@ -103,7 +141,7 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_VIDEO)
             myBlynk.TerminalPrint(error.f_str());
           }
         recevierCh = doc1["VIDEO"];
-        myBlynk.TerminalPrint(String(recevierCh));
+        myBlynk.TerminalPrint(" Received Video Chanel: "+ String(recevierCh)); 
         remoteControlRcCh = recevierCh ;
         room ( remoteControlRcCh, recevierCh , Av_Rx );        
     }
@@ -122,7 +160,7 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_ZAP)
             myBlynk.TerminalPrint(error.f_str());
           }
         zapOnOff   = doc1["ZAP"];
-        myBlynk.TerminalPrint(String(zapOnOff));
+        myBlynk.TerminalPrint(" Received Zap Command: "+ String(zapOnOff)); 
         resetZapper ();
         if (zapOnOff) zappingAvCh (zapOnOff, zapTimer); //Zapping
     }
@@ -141,7 +179,7 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_RX)
             myBlynk.TerminalPrint(error.f_str());
           }
         int rx = doc1["RX"];
-        myBlynk.TerminalPrint(String(rx));
+        myBlynk.TerminalPrint(" Received Receiver Rele nr.: "+ String(rx));
         AvReceiverSel(rx); //Rele Rx AV
         selected_Rx = rx -1;
         myBlynk.RelaySelect(rx);
@@ -161,7 +199,7 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_AV_RC)
             myBlynk.TerminalPrint(error.f_str());
           }
         Av_Rx = doc1["AVRC"];
-        myBlynk.TerminalPrint(String(Av_Rx));
+        myBlynk.TerminalPrint(" Received Video-Rc-Both: "+ String(Av_Rx));
         myBlynk.sendAvRxIndex(Av_Rx);
     }   
 
@@ -179,7 +217,7 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_DVR)
             myBlynk.TerminalPrint(error.f_str());
           }
         bool dvr = doc1["DVR"];
-        myBlynk.TerminalPrint(String(dvr));
+        myBlynk.TerminalPrint(" Received DVR Command: "+ String(dvr));
         dvrOnOff (dvr);
     }   
 
@@ -215,9 +253,49 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH)
           }
         int  zapCh    = doc1["ZAPCH"];
         bool zapChCmd = doc1["ZAPCHCMD"];
-        myBlynk.TerminalPrint(String(zapCh));
+        myBlynk.TerminalPrint(" Received Zap Command : "+ String(zapCh) + " Chanel  " + String(zapCh));
         videoCh[zapCh].zap = zapChCmd;
     }
+
+
+else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA)
+    {
+        for (int i=0;i<length;i++) //Converts the received message to String
+        {      
+          resultS= resultS + (char)payload[i];
+        }
+
+          DeserializationError error = deserializeJson(doc1, resultS); //Command to derealize the received Json
+          if (error) 
+          {
+            myBlynk.TerminalPrint(F("deserializeJson() failed with code "));
+            myBlynk.TerminalPrint(error.f_str());
+          }
+          
+          wifiWebUpdater = false;
+          OtaTimeoutTimer = millis();
+          localWebWifiOta ();
+     }
+
+else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA)
+    {
+        for (int i=0;i<length;i++) //Converts the received message to String
+        {      
+          resultS= resultS + (char)payload[i];
+        }
+
+          DeserializationError error = deserializeJson(doc1, resultS); //Command to derealize the received Json
+          if (error) 
+          {
+            myBlynk.TerminalPrint(F("deserializeJson() failed with code "));
+            myBlynk.TerminalPrint(error.f_str());
+          }
+           myBlynk.TerminalPrint("GitHub Ota Activation");
+           OtaGithubGithub = false;         
+           OtaTimeoutTimer = millis();
+           OtaGithub();
+     }
+       
 else {   myBlynk.TerminalPrint("Unrecognized Topic"); }
  
 }
@@ -227,7 +305,7 @@ void publishMessage()
 {
   doc2["version"] = VERSION_ID;
   serializeJson(doc2, Json); // print to client
-  client.publish(AWS_IOT_PUBLISH_TOPIC_RC, Json);
+  client.publish(AWS_IOT_SUBSCRIBE_TOPIC_VERSION , Json);
 }
 
 
@@ -267,10 +345,16 @@ void connectAWS()
   client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_VIDEO);
   client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAP);
   client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_RX);
- 
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_AV_RC);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_DVR);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_REBOOT);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA);
+
   Serial.println("AWS IoT Connected!");
   myBlynk.TerminalPrint("AWS IoT Connected!");
-//  publishMessage();
+  publishMessage();
 }
 /****************************************************************************************************/ 
 
@@ -282,7 +366,7 @@ void setup()
      pinMode(I2C_1_2_RELAY , OUTPUT);
      pinMode(I2C_3_4_RELAY , OUTPUT);
 
-     digitalWrite(AV_RX_DVR_PIN_2, HIGH);  // AV RECEIVER OFF ON POWER ON
+     digitalWrite(AV_RX_DVR_PIN_2, LOW);  // AV RECEIVER OFF ON POWER ON
     
 
      #ifdef CSR  //4 rele board active low
@@ -299,7 +383,12 @@ void setup()
         digitalWrite(I2C_1_2_RELAY, HIGH);    //DEFAULT RX3
         digitalWrite(I2C_3_4_RELAY, HIGH);   
      #endif
-    
+     
+     #ifdef CSR4      //Single rele active High
+        digitalWrite(I2C_1_2_RELAY, HIGH);    //DEFAULT RX3
+        digitalWrite(I2C_3_4_RELAY, HIGH);   
+     #endif   
+      
      Serial.begin(115200);
      Wire.begin();
      delay(500);
@@ -328,7 +417,11 @@ void setup()
                      #endif 
                       #ifdef CSR3    
                         myBlynk.RelaySelect(3);
-                     #endif                                   
+                     #endif   
+                      #ifdef CSR4   
+                        myBlynk.RelaySelect(3);
+                     #endif 
+                                                     
                 myBlynk.sendPulseRepetetion(pulseRC, repetionRC);
                 myBlynk.TerminalPrint(WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) );
              }
@@ -339,7 +432,7 @@ void setup()
     internetSurvilanceTimer = millis();
     liveTimerOff            = millis();
     liveTimerOn             = millis();
-    wifiIDETimer            = millis();
+    OtaTimeoutTimer            = millis();
     restartAfterResetNG     = millis();
     NetgeerResetGooglLostTimer = millis();
     blynkNotActiveTimer     = millis();
@@ -367,16 +460,6 @@ void loop(void)
        blynkConnected=myBlynk.blynkStatus(); 
        
        netgeerCtrl();
-       
-      /********************* AWS MQTT BROKER ****************/
-         client.loop();   //AWS MQTT
-         if (!client.connected())
-            {
-              myBlynk.TerminalPrint("AWS IoT Disonnected, trying to reconnect");
-              connectAWS();
-           }
-      /*****************************************************/        
-         
      
        if ( blynkConnected )
           {
@@ -409,6 +492,16 @@ void loop(void)
       if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer);  
 
        myBlynk.blynkRunTimer();
+       
+      /********************* AWS MQTT BROKER ****************/
+         client.loop();   //AWS MQTT
+         if (!client.connected())
+            {
+              myBlynk.TerminalPrint("AWS IoT Disonnected, trying to reconnect");
+              connectAWS();
+           }
+      /*****************************************************/   
+       
 }
 
 void netgeerCtrl(void)
@@ -502,19 +595,20 @@ void processBlynkQueu(void)
                   resetZapper ();
             break;
 
-            case Q_EVENT_SWITCHING_48_V5:
-                  videoCh[7].mux=queuData; 
-                  if (!videoCh[7].mux) ch7_on == false ;
+            case Q_EVENT_AUTOMATIC_RC_L_R_V5:
+                  autoRemoteLocalRc  =queuData; 
             break;         
 
-            case Q_EVENT_SWITCHING_26_V6:
-                  videoCh[2].mux=queuData; 
-                  if (!videoCh[2].mux) ch2_on == false ;
+            case Q_EVENT_OTA_LOCAL_WEB_WIFI_V6:
+                     wifiWebUpdater = false;
+                     OtaTimeoutTimer = millis();
+                     localWebWifiOta ();
             break;
 
-            case Q_EVENT_SWITCHING_65_V7:
-                  videoCh[16].mux=queuData; 
-                  if (!videoCh[16].mux) ch16_on == false ;
+            case Q_EVENT_OTA_GITHUB_V7:
+                   OtaGithubGithub= false;         
+                   OtaTimeoutTimer = millis();
+                   OtaGithub();
             break;
  
             case Q_EVENT_REBOOT_V8:
@@ -530,19 +624,16 @@ void processBlynkQueu(void)
                                  
             break;
  
-            case Q_EVENT_SWITCHING_50_V10:
-                  videoCh[9].mux=queuData; 
-                  if (!videoCh[9].mux) ch9_on == false ;
+            case Q_EVENT_SPARE_V10:
+
             break;
 
-            case Q_EVENT_SWITCHING_28_V11:
-                  videoCh[5].mux=queuData; 
-                  if (!videoCh[5].mux) ch5_on == false ;
+            case Q_EVENT_SPARE_V11:
+
             break;
 
-            case Q_EVENT_SWITCHING_52_V12:
-                  videoCh[11].mux=queuData; 
-                  if (!videoCh[11].mux) ch11_on == false ;
+            case Q_EVENT_SPARE_V12:
+
             break;                       
 
 
@@ -568,7 +659,7 @@ void processBlynkQueu(void)
                   RC_Remote_CSR2=queuData;
             break; 
             
-            case Q_EVENT_ROOM_ID_21_25_V25:
+            case Q_EVENT_ZAP_TIMER_OFF_V25:
                   zapTimerOff=queuData;               
             break;     
             
@@ -582,57 +673,46 @@ void processBlynkQueu(void)
                   dvrOnOff (queuData);  
             break;   
 
-            case Q_EVENT_V30_SWITCHING_64:  //64
-                  videoCh[15].mux=queuData; 
-                  if (!videoCh[15].mux) ch15_on == false ;
+            case Q_EVENT_SAPRE_V30:  //64
+
             break;   
 
-            case Q_EVENT_V31_SWITCHING_49:   // 49
-                  videoCh[8].mux=queuData;  
-                  if (!videoCh[8].mux) ch8_on == false ;
+            case Q_EVENT_SAPRE_V31:   // 49
+
             break;  
 
-            case Q_EVENT_V32_SWITCHING_62: // 62
-                  videoCh[13].mux=queuData;  
-                  if (!videoCh[13].mux) ch13_on == false ;
+            case Q_EVENT_SAPRE_V32: // 62
+
             break;   
 
-            case Q_EVENT_V33_SWITCHING_51:  //51
-                  videoCh[10].mux=queuData;  
-                  if (!videoCh[10].mux) ch10_on == false ;
+            case Q_EVENT_SAPRE_V33:  //51
+
             break;  
 
-            case Q_EVENT_V34_SWITCHING_66:  // 66
-                  videoCh[17].mux=queuData;  
-                  if (!videoCh[17].mux) ch17_on == false ;
+            case Q_EVENT_SAPRE_V34:  // 66
+
             break;   
 
-            case Q_EVENT_V35_SWITCHING_53: // 53
-                  videoCh[12].mux=queuData;  
-                  if (!videoCh[12].mux) ch12_on == false ;
+            case Q_EVENT_SAPRE_V35: // 53
+
             break;                  
  
-             case Q_EVENT_V36_SWITCHING_29:  //  29
-                  videoCh[6].mux=queuData;  
-                  if (!videoCh[6].mux) ch6_on == false ;
+             case Q_EVENT_SAPRE_V36:  //  29
+
             break;   
 
-            case Q_EVENT_V37_SWITCHING_63:  //63
-                  videoCh[14].mux=queuData;  
-                  if (!videoCh[14].mux) ch14_on == false ;
+            case Q_EVENT_SAPRE_V37:  //63
+
             break;     
 
-            case Q_EVENT_V38_SWITCHING_68:  // 68
-                  videoCh[19].mux=queuData; 
-                  if (!videoCh[19].mux) ch19_on == false ; 
+            case Q_EVENT_SAPRE_V38:  // 68
+
             break;    
-            case Q_EVENT_V39_SWITCHING_27:  //27
-                  videoCh[4].mux=queuData;
-                  if (!videoCh[4].mux) ch4_on == false ;
+            case Q_EVENT_SAPRE_V39:  //27
+
             break;    
-            case Q_EVENT_V40_SWITCHING_67:  //67 
-                  videoCh[18].mux=queuData;
-                  if (!videoCh[18].mux) ch18_on == false ;            
+            case Q_EVENT_SAPRE_V40:  //67 
+           
             break;                            
                                                                       
             case Q_EVENT_ZAP_V71:
@@ -893,7 +973,7 @@ SWitching
 6 -12
 8 -15
 10 - 13
-14-18 <WiFi.h> 
+14-18 
 
 28 ch5 csr2 on off
 25,25 cs3 on csr2 off
@@ -1225,7 +1305,24 @@ void AvReceiverSel(int queuData)
                       break;                     
                     }   
      #endif
+     #ifdef CSR4
+                switch (queuData)
+                    {
+                      case 1:
+                                 digitalWrite(I2C_1_2_RELAY, LOW);  //  
+                      break;
+                      case 2:
+                                 digitalWrite(I2C_1_2_RELAY, HIGH);  //  
+                      break;
 
+                       case 3:
+                                 digitalWrite(I2C_3_4_RELAY, LOW);  //  
+                      break;
+                      case 4:
+                                 digitalWrite(I2C_3_4_RELAY, HIGH);  //  
+                      break;                     
+                    }   
+     #endif
 }
 
 
@@ -1354,28 +1451,7 @@ bool Tuner_PLL( int receiver, int _address, uint _pll)
   byte MSB = (_pll & 0xFF00) >> 8   ;   //mask LSB, shift 8 bits to the right
   byte LSB = _pll & 0x00FF     ;        //mask MSB, no need to shift
 
-#ifdef CSR2   //4CH 4 Relays Active LOW and 2 I2C Controllers
-  switch (receiver)
-        {
-          case 2:
-          case 3:
-                Wire1.beginTransmission(_address);
-                Wire1.write(MSB );
-                Wire1.write(LSB );
-                Wire1.write(0xC2 );
-                return (Wire1.endTransmission() );                       
-          break;
 
-          case 0:
-          case 1:
-                Wire.beginTransmission(_address);
-                Wire.write(MSB );
-                Wire.write(LSB );
-                Wire.write(0xC2 );
-                return (Wire.endTransmission() );                      
-            break;                     
-        }   
-#endif
 
 #ifdef CSR   //4CH 4 Relays Active LOW and 2 I2C Controllers
   switch (receiver)
@@ -1400,6 +1476,28 @@ bool Tuner_PLL( int receiver, int _address, uint _pll)
         }   
 #endif
 
+#ifdef CSR2   //4CH 4 Relays Active LOW and 2 I2C Controllers
+  switch (receiver)
+        {
+          case 2:
+          case 3:
+                Wire1.beginTransmission(_address);
+                Wire1.write(MSB );
+                Wire1.write(LSB );
+                Wire1.write(0xC2 );
+                return (Wire1.endTransmission() );                       
+          break;
+
+          case 0:
+          case 1:
+                Wire.beginTransmission(_address);
+                Wire.write(MSB );
+                Wire.write(LSB );
+                Wire.write(0xC2 );
+                return (Wire.endTransmission() );                      
+            break;                     
+        }   
+#endif
 
 #ifdef CSR3   //2CH 2 Relays Active HIGH and MAIN I2C Controllers
           Wire.beginTransmission(_address);
@@ -1408,5 +1506,181 @@ bool Tuner_PLL( int receiver, int _address, uint _pll)
           Wire.write(0xC2 );
           return (Wire.endTransmission() );  
 #endif
-
+#ifdef CSR4   //2CH 2 Relays Active HIGH and MAIN I2C Controllers
+          Wire.beginTransmission(_address);
+          Wire.write(MSB );
+          Wire.write(LSB );
+          Wire.write(0xC2 );
+          return (Wire.endTransmission() );  
+#endif
 }
+
+
+
+
+
+ void firmwareUpdate(void) {
+    WiFiClientSecure client;
+    client.setCACert(rootCACertificate);
+    t_httpUpdate_return ret = httpUpdate.update(client, URL_fw_Bin);
+
+    switch (ret) {
+    case HTTP_UPDATE_FAILED:
+        myBlynk.TerminalPrint("HTTP_UPDATE_FAILD Error (%d): %s\n"); //, httpUpdate.getLastError(), httpUpdate.getLastErrorString().c_str());
+        break;
+
+    case HTTP_UPDATE_NO_UPDATES:
+        myBlynk.TerminalPrint("HTTP_UPDATE_NO_UPDATES");
+        break;
+
+    case HTTP_UPDATE_OK:
+        myBlynk.TerminalPrint("HTTP_UPDATE_OK");
+        break;
+    }
+}
+
+
+int CSRFirmwareVersionCheck(void) {
+    String payload;
+    int httpCode;
+    String FirmwareURL = "";
+    FirmwareURL += URL_fw_Version;
+    FirmwareURL += "?";
+    FirmwareURL += String(rand());
+    myBlynk.TerminalPrint("Local Web connecto to http://esp32.local with admin admin " );
+    myBlynk.TerminalPrint(FirmwareURL);
+    WiFiClientSecure * client = new WiFiClientSecure;
+
+    if (client) {
+        client -> setCACert(rootCACertificate);
+        HTTPClient https;
+
+        if (https.begin( * client, FirmwareURL)) {
+            myBlynk.TerminalPrint("[HTTPS] GET...\n");
+            // start connection and send HTTP header
+            delay(100);
+            httpCode = https.GET();
+            delay(100);
+            if (httpCode == HTTP_CODE_OK) // if version received
+            {
+                payload = https.getString(); // save received version
+            } else {
+                myBlynk.TerminalPrint("Error Occured During Version Check: ");
+                myBlynk.TerminalPrint(String(httpCode));
+            }
+            https.end();
+        }
+        delete client;
+    }
+
+    if (httpCode == HTTP_CODE_OK) // if version received
+    {
+        payload.trim();
+        if (payload.equals(VERSION_ID)) {
+            myBlynk.TerminalPrint("Device  IS Already on Latest Firmware Version: " + String(payload) );
+            return 0;
+        } else {
+            myBlynk.TerminalPrint(payload);
+            myBlynk.TerminalPrint("New Firmware Detected");
+            return 1;
+        }
+    }
+    return 0;
+}
+
+void OtaGithub(void) {
+  DEBUG_PRINTLN("Starting Ota Web Update from Github");
+  while (!OtaGithubGithub) 
+       {
+        enableWDG(false);
+        if (  millis() - OtaTimeoutTimer > WIFI_IDE_TIMER )
+        {
+           OtaGithubGithub = true;
+           resetWdg();
+           enableWDG(true);
+           OtaTimeoutTimer = millis();
+           ESP.restart();
+        }
+        
+     if ( CSRFirmwareVersionCheck() )    firmwareUpdate();
+  }
+}
+
+
+
+void wifiUploadCtrl(void)
+{}
+
+void localWebWifiOtaSetup(void)
+{
+  myBlynk.TerminalPrint("Local Web connecto to http://esp32.local with admin admin " );
+  //use mdns for host name resolution
+  if (!MDNS.begin(host)) { //http://esp32.local
+     myBlynk.TerminalPrint("Error setting up MDNS responder!");
+    while (1) {
+      delay(1000);
+    }
+  }
+  
+   myBlynk.TerminalPrint("mDNS responder started");
+  //return index page which is stored in serverIndex 
+  server.on("/", HTTP_GET, []() {
+    server.sendHeader("Connection", "close");
+    server.send(200, "text/html", loginIndex);
+  });
+
+    server.on("/serverIndex", HTTP_GET, []() {
+    server.sendHeader("Connection", "close");
+    server.send(200, "text/html", serverIndex);
+  });
+
+ //handling uploading firmware file 
+  server.on("/update", HTTP_POST, []() {
+    server.sendHeader("Connection", "close");
+    server.send(200, "text/plain", (Update.hasError()) ? "FAIL" : "OK");
+    ESP.restart();
+  }, []() {
+    HTTPUpload& upload = server.upload();
+    if (upload.status == UPLOAD_FILE_START) {
+      Serial.printf("Update: %s\n", upload.filename.c_str());
+      if (!Update.begin(UPDATE_SIZE_UNKNOWN)) { //start with max available size
+        Update.printError(Serial);
+      }
+    } else if (upload.status == UPLOAD_FILE_WRITE) {
+      // flashing firmware to ESP
+      if (Update.write(upload.buf, upload.currentSize) != upload.currentSize) {
+        Update.printError(Serial);
+      }
+    } else if (upload.status == UPLOAD_FILE_END) {
+      if (Update.end(true)) { //true to set the size to the current progress
+        Serial.printf("Update Success: %u\nRebooting...\n", upload.totalSize);
+      } else {
+        Update.printError(Serial);
+      }
+    }
+  });
+  server.begin();
+ }
+
+ void localWebWifiOta (void)
+ {
+   localWebWifiOtaSetup();
+   while (!wifiWebUpdater) 
+       {
+        enableWDG(false);
+        if (  millis() - OtaTimeoutTimer > WIFI_IDE_TIMER )
+        {
+           wifiWebUpdater = true;
+           resetWdg();
+           enableWDG(true);
+           OtaTimeoutTimer = millis();
+           ESP.restart();
+        }
+        server.handleClient();
+        delay(1);
+       }
+ }
+
+
+void otaIdeSetup (void)
+     {}
