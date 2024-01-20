@@ -62,6 +62,7 @@ class blynk {
     void sendPulseRepetetion(int pulse, int repetetion);
     void visualActiveRoom(int id, bool zap);
     void repeatSync(bool repeat);
+    void TurnOffLastCh(int lastSelectedCh, int zapOnOff);
 
 };
 #endif

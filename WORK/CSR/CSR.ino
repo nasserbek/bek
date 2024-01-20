@@ -49,6 +49,9 @@ void automaticOff(int chanel)
         
 void turnOn (int ch, int prevCh,  int smb,  int sma)
     {
+      myBlynk.TurnOffLastCh(ch,1);
+      myBlynk.TurnOffLastCh(prevCh,2);
+      
       zaptime= millis();
       zaptimeOff= millis(); 
       scantime= millis();
@@ -841,127 +844,84 @@ void processBlynkQueu(void)
             break; 
 
              case Q_EVENT_RM_ID_01_V121:
-                  remoteControlRcCh = 1;
-                  recevierCh        = 1;
-                  room ( remoteControlRcCh, recevierCh , Av_Rx );
-                   Serial.println(queuData);
+                  videoChanel(1, queuData);
              break;                       
 
              case Q_EVENT_RM_ID_02_V122:
-                  remoteControlRcCh = 2;
-                  recevierCh        = 2;
-                  room ( remoteControlRcCh, recevierCh , Av_Rx );
-                   Serial.println(queuData);
+                  videoChanel(2, queuData);
              break;  
              case Q_EVENT_RM_ID_03_V123:
-                  remoteControlRcCh = 3;
-                  recevierCh        = 3;
-                  room ( remoteControlRcCh, recevierCh , Av_Rx );
-                   Serial.println(queuData);
+                  videoChanel(3, queuData);
              break;  
              case Q_EVENT_RM_ID_04_V124:
-                  remoteControlRcCh = 4;
-                  recevierCh        = 4;
-                  room ( remoteControlRcCh, recevierCh , Av_Rx );
-                   Serial.println(queuData);
+                  videoChanel(4, queuData);
              break;  
              case Q_EVENT_RM_ID_05_V125:
-                  remoteControlRcCh = 5;
-                  recevierCh        = 5;
-                  room ( remoteControlRcCh, recevierCh , Av_Rx );
-                   Serial.println(queuData);
+                  videoChanel(5, queuData);
              break;  
+             
              case Q_EVENT_RM_ID_06_V126:
-                  remoteControlRcCh = 6;
-                  recevierCh        = 6;
-                  room ( remoteControlRcCh, recevierCh , Av_Rx );
-                   Serial.println(queuData);
+                  videoChanel(6, queuData);
              break;  
+             
              case Q_EVENT_RM_ID_07_V127:
-                  remoteControlRcCh = 7;
-                  recevierCh        = 7;
-                  room ( remoteControlRcCh, recevierCh , Av_Rx );
-                   Serial.println(queuData);
+                  videoChanel(7, queuData);
              break;  
              case Q_EVENT_RM_ID_08_V93:
-                  remoteControlRcCh = 8;
-                  recevierCh        = 8;
-                  room ( remoteControlRcCh, recevierCh , Av_Rx );
-                   Serial.println(queuData);
+                  videoChanel(8, queuData);
              break;  
              case Q_EVENT_RM_ID_09_V80:
-                  remoteControlRcCh = 9;
-                  recevierCh        = 9;
-                  room ( remoteControlRcCh, recevierCh , Av_Rx );
-                   Serial.println(queuData);
+                  videoChanel(9, queuData);
              break;  
              case Q_EVENT_RM_ID_10_V21:
-                  remoteControlRcCh = 10;
-                  recevierCh        = 10;
-                  room ( remoteControlRcCh, recevierCh , Av_Rx );
-                   Serial.println(queuData);
+                  videoChanel(10, queuData);
              break;  
              case Q_EVENT_RM_ID_11_V14:
-                  remoteControlRcCh = 11;
-                  recevierCh        = 11;
-                  room ( remoteControlRcCh, recevierCh , Av_Rx );
-                   Serial.println(queuData);
+                  videoChanel(11, queuData);
              break;  
              case Q_EVENT_RM_ID_12_V15:
-                  remoteControlRcCh = 12;
-                  recevierCh        = 12;
-                  room ( remoteControlRcCh, recevierCh , Av_Rx );
-                   Serial.println(queuData);
+                  videoChanel(12, queuData);
              break;  
              case Q_EVENT_RM_ID_13_V23:
-                  remoteControlRcCh = 13;
-                  recevierCh        = 13;
-                  room ( remoteControlRcCh, recevierCh , Av_Rx );
-                   Serial.println(queuData);
+                  videoChanel(13, queuData);
              break;  
              case Q_EVENT_RM_ID_14_V103:
-                  remoteControlRcCh = 14;
-                  recevierCh        = 14;
-                  room ( remoteControlRcCh, recevierCh , Av_Rx );
-                   Serial.println(queuData);
+                  videoChanel(14, queuData);
              break;  
              case Q_EVENT_RM_ID_15_V104:
-                  remoteControlRcCh = 15;
-                  recevierCh        = 15;
-                  room ( remoteControlRcCh, recevierCh , Av_Rx );
-                   Serial.println(queuData);
+                  videoChanel(15, queuData);
              break;  
              case Q_EVENT_RM_ID_16_V105:
-                  remoteControlRcCh = 16;
-                  recevierCh        = 16;
-                  room ( remoteControlRcCh, recevierCh , Av_Rx );
-                   Serial.println(queuData);
+                  videoChanel(16, queuData);
              break;  
              case Q_EVENT_RM_ID_17_V90:
-                  remoteControlRcCh = 17;
-                  recevierCh        = 17;
-                  room ( remoteControlRcCh, recevierCh , Av_Rx );
-                   Serial.println(queuData);
+                  videoChanel(17, queuData);
              break;  
              case Q_EVENT_RM_ID_18_V91:
-                  remoteControlRcCh = 18;
-                  recevierCh        = 18;
-                  room ( remoteControlRcCh, recevierCh , Av_Rx );
-                   Serial.println(queuData);
+                  videoChanel(18, queuData);
              break;  
              case Q_EVENT_RM_ID_19_V92:
-                  remoteControlRcCh = 19;
-                  recevierCh        = 19;
-                  room ( remoteControlRcCh, recevierCh , Av_Rx );
-                   Serial.println(queuData);
+                  videoChanel(19, queuData);
              break;  
     }  
     selected_room = recevierCh;
 }
 
 
+void videoChanel(int ch, bool cmd)
+{
+    if (lastSelectedCh !=0 && !zapOnOff && lastSelectedCh!=ch) myBlynk.TurnOffLastCh(lastSelectedCh,0);
 
-
+    videoCh[ch].zap=cmd;
+    if(cmd)
+    {
+      remoteControlRcCh = ch;
+      recevierCh        = ch;
+      room ( remoteControlRcCh, recevierCh , Av_Rx );
+    }
+    lastSelectedCh = ch;
+    // if (!zapOnOff)myBlynk.TurnOffLastCh(ch,0);
+}
 
 
 /*
@@ -1602,7 +1562,8 @@ void OtaGithub(void) {
            ESP.restart();
         }
         
-     if ( CSRFirmwareVersionCheck() )    firmwareUpdate();
+    // if ( CSRFirmwareVersionCheck() )    
+    firmwareUpdate();
   }
 }
 

@@ -756,197 +756,147 @@ BLYNK_WRITE(V112)   //Zapping ch20
 
 BLYNK_WRITE(V121)  
 {
-   if( param.asInt() != 0)
-    {
+
     _blynkEvent = true;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_01_V121;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    }
 }
 
 BLYNK_WRITE(V122)  
 {
-   if( param.asInt() != 0)
-    {
     _blynkEvent = true;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_02_V122;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    }
 }
 BLYNK_WRITE(V123)  
 {
-   if( param.asInt() != 0)
-    {
     _blynkEvent = true;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_03_V123;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    }
 }
 BLYNK_WRITE(V124)  
 {
-   if( param.asInt() != 0)
-    {
     _blynkEvent = true;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_04_V124;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    }
 }
 BLYNK_WRITE(V125)  
 {
-   if( param.asInt() != 0)
-    {
     _blynkEvent = true;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_05_V125;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    }
 }
 BLYNK_WRITE(V126)  
 {
-   if( param.asInt() != 0)
-    {
     _blynkEvent = true;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_06_V126;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    }
 }
 BLYNK_WRITE(V127)  
 {
-   if( param.asInt() != 0)
-    {
     _blynkEvent = true;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_07_V127;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    }
 }
 
 BLYNK_WRITE(V80)  
 {
-   if( param.asInt() != 0)
-    {
     _blynkEvent = true;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_09_V80;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    }
 }
 
 
 BLYNK_WRITE(V21)  
 {
-   if( param.asInt() != 0)
-    {
     _blynkEvent = true;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_10_V21;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    }
 }
 BLYNK_WRITE(V14)  
 {
-   if( param.asInt() != 0)
-    {
     _blynkEvent = true;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_11_V14;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    }
 }
 BLYNK_WRITE(V15)  
 {
-   if( param.asInt() != 0)
-    {
     _blynkEvent = true;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_12_V15;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    }
 }
 BLYNK_WRITE(V23)  
 {
-   if( param.asInt() != 0)
-    {
     _blynkEvent = true;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_13_V23;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    }
 }
 BLYNK_WRITE(V103)  
 {
-   if( param.asInt() != 0)
-    {
     _blynkEvent = true;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_14_V103;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    }
 }
 BLYNK_WRITE(V104)  
 {
-   if( param.asInt() != 0)
-    {
     _blynkEvent = true;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_15_V104;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    }
 }
 BLYNK_WRITE(V105)  
 {
-   if( param.asInt() != 0)
-    {
+
     _blynkEvent = true;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_16_V105;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    }
 }
 BLYNK_WRITE(V90)  
 {
-   if( param.asInt() != 0)
-    {
     _blynkEvent = true;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_17_V90;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    }
 }
 BLYNK_WRITE(V91)  
 {
-   if( param.asInt() != 0)
-    {
+
     _blynkEvent = true;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_18_V91;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    }
 }
 BLYNK_WRITE(V92)  
 {
-   if( param.asInt() != 0)
-    {
+
     _blynkEvent = true;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_19_V92;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    }
+
 }
 BLYNK_WRITE(V93)  
 {
-   if( param.asInt() != 0)
-    {
+
     _blynkEvent = true;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_08_V93;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-    }
+
 }
 
 
@@ -1154,4 +1104,259 @@ void blynk::repeatSync(bool repeat)
 void blynk::TerminalPrint (String str)
 {
   terminal.println(str);
+}
+
+void blynk::TurnOffLastCh(int lastSelectedCh, int zapOnOff)
+{
+  if(zapOnOff == 0)
+  {
+    switch (lastSelectedCh)
+        {
+          case 1:
+                   Blynk.virtualWrite(V121, 0); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+
+          case 2:
+                   Blynk.virtualWrite(V122, 0); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 3:
+                   Blynk.virtualWrite(V123, 0); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 4:
+                   Blynk.virtualWrite(V124, 0); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 5:
+                   Blynk.virtualWrite(V125, 0); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 6:
+                   Blynk.virtualWrite(V126, 0); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 7:
+                   Blynk.virtualWrite(V127, 0); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 8:
+                   Blynk.virtualWrite(V93, 0); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 9:
+                   Blynk.virtualWrite(V80, 0); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 10:
+                   Blynk.virtualWrite(V21, 0); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 11:
+                   Blynk.virtualWrite(V14, 0); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 12:
+                   Blynk.virtualWrite(V15, 0); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 13:
+                   Blynk.virtualWrite(V23, 0); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 14:
+                   Blynk.virtualWrite(V103, 0); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 15:
+                   Blynk.virtualWrite(V104, 0); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 16:
+                   Blynk.virtualWrite(V105, 0); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 17:
+                   Blynk.virtualWrite(V90, 0); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 18:
+                   Blynk.virtualWrite(V91, 0); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 19:
+                   Blynk.virtualWrite(V92, 0); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;                   
+        }  
+  }    
+
+  if (zapOnOff == 1)
+  {
+        switch (lastSelectedCh)
+        {
+          case 1:
+
+                 Blynk.setProperty(V121, "onBackColor", BLYNK_BLUE );
+          break;
+
+          case 2:
+                    Blynk.setProperty(V122, "onBackColor", BLYNK_BLUE ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 3:
+                    Blynk.setProperty(V123, "onBackColor", BLYNK_BLUE ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 4:
+                    Blynk.setProperty(V124, "onBackColor", BLYNK_BLUE ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 5:
+                    Blynk.setProperty(V125, "onBackColor", BLYNK_BLUE ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 6:
+                    Blynk.setProperty(V126, "onBackColor", BLYNK_BLUE ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 7:
+                    Blynk.setProperty(V127, "onBackColor", BLYNK_BLUE ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 8:
+                    Blynk.setProperty(V93, "onBackColor", BLYNK_BLUE ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 9:
+                    Blynk.setProperty(V80, "onBackColor", BLYNK_BLUE ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 10:
+                    Blynk.setProperty(V21, "onBackColor", BLYNK_BLUE ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 11:
+                    Blynk.setProperty(V14, "onBackColor", BLYNK_BLUE ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 12:
+                    Blynk.setProperty(V15, "onBackColor", BLYNK_BLUE ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 13:
+                    Blynk.setProperty(V23, "onBackColor", BLYNK_BLUE ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 14:
+                    Blynk.setProperty(V103, "onBackColor", BLYNK_BLUE ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 15:
+                    Blynk.setProperty(V104, "onBackColor", BLYNK_BLUE ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 16:
+                    Blynk.setProperty(V105, "onBackColor", BLYNK_BLUE ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 17:
+                    Blynk.setProperty(V90, "onBackColor", BLYNK_BLUE ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 18:
+                    Blynk.setProperty(V91, "onBackColor", BLYNK_BLUE ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 19:
+                    Blynk.setProperty(V92, "onBackColor", BLYNK_BLUE ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;                   
+        }  
+  }
+
+   if (zapOnOff == 2)
+  {
+        switch (lastSelectedCh)
+        {
+          case 1:
+
+                 Blynk.setProperty(V121, "onBackColor", BLYNK_GREEN );
+          break;
+
+          case 2:
+                    Blynk.setProperty(V122, "onBackColor", BLYNK_GREEN ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 3:
+                    Blynk.setProperty(V123, "onBackColor", BLYNK_GREEN ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 4:
+                    Blynk.setProperty(V124, "onBackColor", BLYNK_GREEN ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 5:
+                    Blynk.setProperty(V125, "onBackColor", BLYNK_GREEN ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 6:
+                    Blynk.setProperty(V126, "onBackColor", BLYNK_GREEN ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 7:
+                    Blynk.setProperty(V127, "onBackColor", BLYNK_GREEN ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 8:
+                    Blynk.setProperty(V93, "onBackColor", BLYNK_GREEN ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 9:
+                    Blynk.setProperty(V80, "onBackColor", BLYNK_GREEN ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 10:
+                    Blynk.setProperty(V21, "onBackColor", BLYNK_GREEN ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 11:
+                    Blynk.setProperty(V14, "onBackColor", BLYNK_GREEN ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 12:
+                    Blynk.setProperty(V15, "onBackColor", BLYNK_GREEN ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 13:
+                    Blynk.setProperty(V23, "onBackColor", BLYNK_GREEN ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 14:
+                    Blynk.setProperty(V103, "onBackColor", BLYNK_GREEN ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 15:
+                    Blynk.setProperty(V104, "onBackColor", BLYNK_GREEN ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 16:
+                    Blynk.setProperty(V105, "onBackColor", BLYNK_GREEN ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 17:
+                    Blynk.setProperty(V90, "onBackColor", BLYNK_GREEN ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 18:
+                    Blynk.setProperty(V91, "onBackColor", BLYNK_GREEN ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;
+          case 19:
+                    Blynk.setProperty(V92, "onBackColor", BLYNK_GREEN ); 
+           //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
+          break;                   
+        }  
+  }
 }

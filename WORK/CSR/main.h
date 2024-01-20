@@ -29,6 +29,7 @@
 QueueHandle_t g_event_queue_handle = NULL;
 EventGroupHandle_t g_event_group = NULL;
 
+int lastSelectedCh = 1;
 bool autoRemoteLocalRc = false;
 bool repeatCh = false;
 bool scanForActiveCh = false;
