@@ -7,8 +7,7 @@ blynk myBlynk;
 /********************* AWS MQTT BROKER *******************************************************/
 void callback(char* topic, byte* payload, unsigned int length) {
   resultS = "";   //Empty variable from serialized Json
-  myBlynk.TerminalPrint(" Received topic is: " + String(topic));
-
+ 
   if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_VIDEO)
     {
         retriveDataFromTopic(topic, payload,length);
@@ -16,9 +15,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
         int ch        = doc1["VIDEO"] ;
         nodeRedeventdata =getChID (ch) ;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
-        myBlynk.TerminalPrint(" Received topic is: " + String(topic) +" Received Video Chanel: "+ String(ch));
-     
-    }
+     }
 
   else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_ZAP)
     {
@@ -26,7 +23,6 @@ void callback(char* topic, byte* payload, unsigned int length) {
         _nodeRedData  = doc1["ZAP"];
         nodeRedeventdata = Q_EVENT_ZAP_V71;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
-        myBlynk.TerminalPrint(" Received Zap Command: "+ String(zapOnOff)); 
         myBlynk.zapLed(_nodeRedData);
     }
 
@@ -36,7 +32,6 @@ void callback(char* topic, byte* payload, unsigned int length) {
         _nodeRedData  = doc1["RX"];
         nodeRedeventdata = Q_EVENT_SELECTED_RECIEVER_V9;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
-        myBlynk.TerminalPrint(" Received Receiver Rele nr.: "+ String(_nodeRedData));
         myBlynk.RelaySelect(_nodeRedData);
         
     }   
@@ -47,7 +42,6 @@ void callback(char* topic, byte* payload, unsigned int length) {
         _nodeRedData  = doc1["AVRC"];
         nodeRedeventdata = Q_EVENT_ROOM_AV_RC_V19;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
-        myBlynk.TerminalPrint(" Received Video-Rc-Both: "+ String(_nodeRedData ));
         myBlynk.sendAvRxIndex(_nodeRedData);
       }   
 
@@ -57,14 +51,13 @@ void callback(char* topic, byte* payload, unsigned int length) {
         _nodeRedData  = doc1["DVR"];
         nodeRedeventdata = Q_EVENT_DVR_ON_OFF_V27;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
-        myBlynk.TerminalPrint(" Received DVR Command: "+ String(_nodeRedData));
         myBlynk.dvrSwitch(_nodeRedData); 
 
     }   
 
 else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_REBOOT)
     {
-        myBlynk.TerminalPrint("Rebooting ESP");
+        myBlynk.TerminalPrint(" Received topic is: " + String(topic) +"Rebooting ESP");
         ESP.restart();
     }  
 
@@ -75,7 +68,6 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_SCAN)
         _nodeRedData  = doc1["SCAN"];
         nodeRedeventdata = Q_SCAN_ACTIVE_CH_V4;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
-        myBlynk.TerminalPrint(" Received scan Command: "+ String(_nodeRedData));
         myBlynk.scanActiveCh(_nodeRedData); 
      }
 
@@ -85,7 +77,6 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_REPEAT)
         _nodeRedData  = doc1["REPEAT"];
         nodeRedeventdata = Q_EVENT_REPEAT_V3;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
-        myBlynk.TerminalPrint(" Received REPEAT Command: "+ String(_nodeRedData));
         myBlynk.scanActiveCh(_nodeRedData); 
      }
      
@@ -95,7 +86,7 @@ else if(String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_PRESET)
         _nodeRedData  = doc1["PRESET"];
         nodeRedeventdata = Q_EVENT_RESET_FREQ_V26;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
-        myBlynk.TerminalPrint(" Received PRESET Command: "+ String(_nodeRedData));
+        
     }
     
 else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO)
@@ -104,7 +95,6 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO)
         _nodeRedData  = doc1["ZAPAUTO"];
         nodeRedeventdata = Q_EVENT_AUTOMATIC_RC_L_R_V5;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
-        myBlynk.TerminalPrint(" Received AUTO ZAP  Command: "+ String(_nodeRedData));
         myBlynk.zapAutoLocalRC(_nodeRedData); 
     }
 
@@ -114,11 +104,10 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_RC)
         _nodeRedData  = doc1["RC"];
         nodeRedeventdata = Q_EVENT_RC_CH_NR_V1;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
-        myBlynk.TerminalPrint(" Received RC  Command: "+ String(_nodeRedData));
+        
     }
     
-else {   myBlynk.TerminalPrint("Unrecognized Topic"); }
- 
+ myBlynk.TerminalPrint(" Topic " + String(topic) +" Payload: "+ String(_nodeRedData));
 }
 /****************************************************************************************************/ 
 
@@ -709,16 +698,16 @@ void nextState( int nextSm)
  void automaticOn(int chanel)
     {
         #ifdef CSR3      //
-          if  ( chanel == R_24 || chanel >= R_48 ||  chanel <= R_68) RC_Remote_CSR1 =true;
+          if  ( chanel == R_24 || ( chanel >= R_48 &&  chanel <= R_68 ) ) RC_Remote_CSR1 =true;
         #endif       
 
 
         #ifdef CSR4      //
-          if  ( chanel == R_24 || chanel >= R_48 ||  chanel <= R_68) RC_Remote_CSR1 =true;
+          if  ( chanel == R_24 || (chanel >= R_48 &&  chanel <= R_68)) RC_Remote_CSR1 =true;
         #endif    
         
         #ifdef CSR2      //24 25 26 27 28
-          if  ( chanel >= R_48 ||  chanel <= R_68) RC_Remote_CSR1 =true;
+          if  ( chanel >= R_48 &&  chanel <= R_68) RC_Remote_CSR1 =true;
         #endif      
 
         #ifdef CSR      //48 - 68
@@ -731,16 +720,16 @@ void automaticOff(int chanel)
     {
         #ifdef CSR3      //
           if  (  chanel == R_25 || chanel == R_26 || chanel == R_27 || chanel == R_28 || chanel == R_29) RC_Remote_CSR2 =true;
-          if  (  chanel == R_24 || chanel >= R_48 ||  chanel <= R_68) RC_Remote_CSR1 =true;
+          if  (  chanel == R_24 || (chanel >= R_48 &&   chanel <= R_68)) RC_Remote_CSR1 =true;
         #endif       
 
         #ifdef CSR4      //
           if  (  chanel == R_25 || chanel == R_26 || chanel == R_27 || chanel == R_28 || chanel == R_29) RC_Remote_CSR2 =true;
-          if  (  chanel == R_24 || chanel >= R_48 ||  chanel <= R_68) RC_Remote_CSR1 =true;
+          if  (  chanel == R_24 || (chanel >= R_48 &&   chanel <= R_68) ) RC_Remote_CSR1 =true;
         #endif 
         
         #ifdef CSR2      //24 25 26 27 28
-          if  ( chanel >= R_48 ||  chanel <= R_68) RC_Remote_CSR1 =true;
+          if  ( chanel >= R_48 &&   chanel <= R_68) RC_Remote_CSR1 =true;
         #endif      
 
         #ifdef CSR      //48 - 68
