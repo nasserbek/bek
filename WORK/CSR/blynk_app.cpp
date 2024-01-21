@@ -8,7 +8,7 @@
 #include <BlynkSimpleEsp32.h>
 #include <WiFiMulti.h>
 
-
+extern int hmi;
 
 
 
@@ -212,7 +212,7 @@ void blynk::init()
 
 BLYNK_WRITE(V0)  //freq
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_FREQ_V0;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -221,7 +221,7 @@ BLYNK_WRITE(V0)  //freq
 
 BLYNK_WRITE(V1) //rc433
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RC_CH_NR_V1;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -229,7 +229,7 @@ BLYNK_WRITE(V1) //rc433
 
 BLYNK_WRITE(V2) // receiver ch
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_VIDEO_CH_V2;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -238,7 +238,7 @@ BLYNK_WRITE(V2) // receiver ch
 
 BLYNK_WRITE(V3) // repeatCh 
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_REPEAT_V3;
     Serial.println(_blynkData);
@@ -247,7 +247,7 @@ BLYNK_WRITE(V3) // repeatCh
 
 BLYNK_WRITE(V4)  
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_SCAN_ACTIVE_CH_V4;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -257,7 +257,7 @@ BLYNK_WRITE(V4)
 BLYNK_WRITE(V5)  
 {
 
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_AUTOMATIC_RC_L_R_V5;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -267,7 +267,7 @@ BLYNK_WRITE(V5)
 BLYNK_WRITE(V6)  
 {
 
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_OTA_LOCAL_WEB_WIFI_V6;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -276,7 +276,7 @@ BLYNK_WRITE(V6)
 
 BLYNK_WRITE(V7)   
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_OTA_GITHUB_V7;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -284,7 +284,7 @@ BLYNK_WRITE(V7)
 
 BLYNK_WRITE(V8)   //boot
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_REBOOT_V8;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -293,7 +293,7 @@ BLYNK_WRITE(V8)   //boot
 BLYNK_WRITE(V9) // Room Nr
 {
 
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_SELECTED_RECIEVER_V9;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -303,7 +303,7 @@ BLYNK_WRITE(V9) // Room Nr
 BLYNK_WRITE(V10)  
 {
 
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_SPARE_V10;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -314,7 +314,7 @@ BLYNK_WRITE(V10)
 BLYNK_WRITE(V11)  
 {
 
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_SPARE_V11;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -324,7 +324,7 @@ BLYNK_WRITE(V11)
 BLYNK_WRITE(V12)  
 {
 
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_SPARE_V12;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -335,7 +335,7 @@ BLYNK_WRITE(V12)
 
 BLYNK_WRITE(V16) // // RC LOCAL REMOTE TO CSR1
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RC_L_R_1_V16;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -344,7 +344,7 @@ BLYNK_WRITE(V16) // // RC LOCAL REMOTE TO CSR1
 
 BLYNK_WRITE(V17) // RC LOCAL REMOTE TO CSR3
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RC_L_R_3_V17;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -352,7 +352,7 @@ BLYNK_WRITE(V17) // RC LOCAL REMOTE TO CSR3
 
 BLYNK_WRITE(V18) // ROOM_16_TO_20
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_AWS_RECONNECT_V18;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -361,7 +361,7 @@ BLYNK_WRITE(V18) // ROOM_16_TO_20
 
 BLYNK_WRITE(V19) // ROOM_AV RC
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ROOM_AV_RC_V19;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -370,7 +370,7 @@ BLYNK_WRITE(V19) // ROOM_AV RC
 
 BLYNK_WRITE(V20) // RC LOCAL REMOTE TO CSR2
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RC_L_R_2_V20;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -379,7 +379,7 @@ BLYNK_WRITE(V20) // RC LOCAL REMOTE TO CSR2
 
 BLYNK_WRITE(V25) // ROOM_21_25
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_TIMER_OFF_V25;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -388,7 +388,7 @@ BLYNK_WRITE(V25) // ROOM_21_25
 
 BLYNK_WRITE(V26)   //RESET FREQ
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RESET_FREQ_V26;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -398,7 +398,7 @@ BLYNK_WRITE(V26)   //RESET FREQ
 
 BLYNK_WRITE(V27)   //DVR ON OFF
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_DVR_ON_OFF_V27;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -407,7 +407,7 @@ BLYNK_WRITE(V27)   //DVR ON OFF
 
 BLYNK_WRITE(V30)   //03 
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_SAPRE_V30;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -417,7 +417,7 @@ BLYNK_WRITE(V30)   //03
 
 BLYNK_WRITE(V31)   //21
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_SAPRE_V31;    
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -426,7 +426,7 @@ BLYNK_WRITE(V31)   //21
 
 BLYNK_WRITE(V32)   //27
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_SAPRE_V32;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -435,7 +435,7 @@ BLYNK_WRITE(V32)   //27
 
 BLYNK_WRITE(V33)   //50
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_SAPRE_V33;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -444,7 +444,7 @@ BLYNK_WRITE(V33)   //50
 
 BLYNK_WRITE(V34)   //20
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_SAPRE_V34;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -453,7 +453,7 @@ BLYNK_WRITE(V34)   //20
 
 BLYNK_WRITE(V35)   //52
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_SAPRE_V35;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -462,7 +462,7 @@ BLYNK_WRITE(V35)   //52
 
 BLYNK_WRITE(V36)   //53 
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_SAPRE_V36;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -471,7 +471,7 @@ BLYNK_WRITE(V36)   //53
 
 BLYNK_WRITE(V37)   //22 
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_SAPRE_V37;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -480,7 +480,7 @@ BLYNK_WRITE(V37)   //22
 
 BLYNK_WRITE(V38)   //208 
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_SAPRE_V38;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -489,7 +489,7 @@ BLYNK_WRITE(V38)   //208
 
 BLYNK_WRITE(V39)   //215
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_SAPRE_V39;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -498,7 +498,7 @@ BLYNK_WRITE(V39)   //215
 
 BLYNK_WRITE(V40)   //217 
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_SAPRE_V40;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -507,7 +507,7 @@ BLYNK_WRITE(V40)   //217
 
 BLYNK_WRITE(V71)   //Zapping On Off Switch
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_V71;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -516,7 +516,7 @@ BLYNK_WRITE(V71)   //Zapping On Off Switch
 
 BLYNK_WRITE(V72)   //Zapping Timer
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_TIMER_V72;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -524,7 +524,7 @@ BLYNK_WRITE(V72)   //Zapping Timer
 
 BLYNK_WRITE(V81)   //Zapping ch1
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL1_V81;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -532,7 +532,7 @@ BLYNK_WRITE(V81)   //Zapping ch1
 
 BLYNK_WRITE(V82)   //Zapping ch2
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL2_V82;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -540,7 +540,7 @@ BLYNK_WRITE(V82)   //Zapping ch2
 
 BLYNK_WRITE(V83)   //Zapping ch3
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL3_V83;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -549,7 +549,7 @@ BLYNK_WRITE(V83)   //Zapping ch3
 
 BLYNK_WRITE(V84)   //Zapping ch4
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL4_V84;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -557,7 +557,7 @@ BLYNK_WRITE(V84)   //Zapping ch4
 
 BLYNK_WRITE(V85)   //Zapping ch5
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL5_V85;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -565,7 +565,7 @@ BLYNK_WRITE(V85)   //Zapping ch5
 
 BLYNK_WRITE(V86)   //Zapping ch6
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL6_V86;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -573,7 +573,7 @@ BLYNK_WRITE(V86)   //Zapping ch6
 
 BLYNK_WRITE(V87)   //Zapping ch7
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL7_V87;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -581,7 +581,7 @@ BLYNK_WRITE(V87)   //Zapping ch7
 
 BLYNK_WRITE(V88)   //Zapping ch8
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL8_V88;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -590,7 +590,7 @@ BLYNK_WRITE(V88)   //Zapping ch8
 
 BLYNK_WRITE(V89)   //Zapping ch9
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL9_V89;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -602,7 +602,7 @@ BLYNK_WRITE(V89)   //Zapping ch9
 
 BLYNK_WRITE(V94)   //Zapping ch10
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL10_V94;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -610,7 +610,7 @@ BLYNK_WRITE(V94)   //Zapping ch10
 
 BLYNK_WRITE(V95)   //Zapping ch11
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL11_V95;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -619,7 +619,7 @@ BLYNK_WRITE(V95)   //Zapping ch11
 
 BLYNK_WRITE(V96)   //Zapping ch12
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL12_V96;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -627,7 +627,7 @@ BLYNK_WRITE(V96)   //Zapping ch12
 
 BLYNK_WRITE(V97)   //Zapping ch14
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL13_V97;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -636,7 +636,7 @@ BLYNK_WRITE(V97)   //Zapping ch14
 
 BLYNK_WRITE(V98)  //pulse
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RC_PULSE_V98;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -645,7 +645,7 @@ BLYNK_WRITE(V98)  //pulse
 
 BLYNK_WRITE(V100)  //wifi ide
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_WIFI_IDE_V100;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -654,7 +654,7 @@ BLYNK_WRITE(V100)  //wifi ide
 
 BLYNK_WRITE(V101)  //repetion
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RC_REPETION_V101;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -682,7 +682,7 @@ BLYNK_WRITE(V102)  //TERMINAL
 */
   }   
    
-//    _blynkEvent = true;
+//    _blynkEvent = true; hmi =BLYNK;
 //    _blynkData=param.asInt();
 //    eventdata = Q_EVENT_TERMINAL_V102;
 //    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -692,7 +692,7 @@ BLYNK_WRITE(V102)  //TERMINAL
 
 BLYNK_WRITE(V106)   //Zapping ch14
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL14_V106;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -700,7 +700,7 @@ BLYNK_WRITE(V106)   //Zapping ch14
 
 BLYNK_WRITE(V107)   //Zapping ch15
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL15_V107;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -709,7 +709,7 @@ BLYNK_WRITE(V107)   //Zapping ch15
 
 BLYNK_WRITE(V108)   //Zapping ch16
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL16_V108;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -718,7 +718,7 @@ BLYNK_WRITE(V108)   //Zapping ch16
 
 BLYNK_WRITE(V109)   //Zapping ch17
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL17_V109;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -727,7 +727,7 @@ BLYNK_WRITE(V109)   //Zapping ch17
 
 BLYNK_WRITE(V110)   //Zapping ch18
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL18_V110;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -735,7 +735,7 @@ BLYNK_WRITE(V110)   //Zapping ch18
 
 BLYNK_WRITE(V111)   //Zapping ch19
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL19_V111;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -743,7 +743,7 @@ BLYNK_WRITE(V111)   //Zapping ch19
 
 BLYNK_WRITE(V112)   //Zapping ch20
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_ZAP_CHANNEL20_V112;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -757,7 +757,7 @@ BLYNK_WRITE(V112)   //Zapping ch20
 BLYNK_WRITE(V121)  
 {
 
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_01_V121;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -765,42 +765,42 @@ BLYNK_WRITE(V121)
 
 BLYNK_WRITE(V122)  
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_02_V122;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 BLYNK_WRITE(V123)  
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_03_V123;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 BLYNK_WRITE(V124)  
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_04_V124;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 BLYNK_WRITE(V125)  
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_05_V125;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 BLYNK_WRITE(V126)  
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_06_V126;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 BLYNK_WRITE(V127)  
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_07_V127;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -808,7 +808,7 @@ BLYNK_WRITE(V127)
 
 BLYNK_WRITE(V80)  
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_09_V80;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -817,42 +817,42 @@ BLYNK_WRITE(V80)
 
 BLYNK_WRITE(V21)  
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_10_V21;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 BLYNK_WRITE(V14)  
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_11_V14;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 BLYNK_WRITE(V15)  
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_12_V15;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 BLYNK_WRITE(V23)  
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_13_V23;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 BLYNK_WRITE(V103)  
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_14_V103;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 BLYNK_WRITE(V104)  
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_15_V104;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -860,14 +860,14 @@ BLYNK_WRITE(V104)
 BLYNK_WRITE(V105)  
 {
 
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_16_V105;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 BLYNK_WRITE(V90)  
 {
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_17_V90;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -875,7 +875,7 @@ BLYNK_WRITE(V90)
 BLYNK_WRITE(V91)  
 {
 
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_18_V91;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -883,7 +883,7 @@ BLYNK_WRITE(V91)
 BLYNK_WRITE(V92)  
 {
 
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_19_V92;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -892,7 +892,7 @@ BLYNK_WRITE(V92)
 BLYNK_WRITE(V93)  
 {
 
-    _blynkEvent = true;
+    _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
     eventdata = Q_EVENT_RM_ID_08_V93;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
@@ -941,7 +941,6 @@ bool blynk::getData()
       return true;
     }  
     else return false;
- 
 }
 
 void blynk::blynkRunTimer()
@@ -972,18 +971,19 @@ void blynk::blynkConnect()
 
 
 
-void blynk::blynkRCLed315(bool _data)
-{
-
-}
-
-void blynk::blynkSmsLed(bool _data)
-{
-}
-
-void blynk::zapLed(bool _data ) //scan on off
+void blynk::scanActiveCh(bool _data)
 {
 Blynk.virtualWrite(V4, _data);
+}
+
+void blynk::zapAutoLocalRC(bool _data)
+{
+  Blynk.virtualWrite(V5, _data);
+}
+
+void blynk::zapLed(bool _data ) 
+{
+Blynk.virtualWrite(V71, _data);
 }
 
 void blynk::sendToBlynkLed(bool _data)
@@ -1031,8 +1031,9 @@ void blynk::frequencyValue(int freq )
   Blynk.virtualWrite(V0, freq);
 }
 
-void blynk::sendRsss(int _rsss)
+void blynk::dvrSwitch(bool cmd)
 {
+  Blynk.virtualWrite(V27, cmd);  
 }
 
 void blynk::sendAvRxIndex(int _index)
@@ -1106,9 +1107,9 @@ void blynk::TerminalPrint (String str)
   terminal.println(str);
 }
 
-void blynk::TurnOffLastCh(int lastSelectedCh, int zapOnOff)
+void blynk::TurnOffLastCh(int lastSelectedCh, int chMode)
 {
-  if(zapOnOff == 0)
+  if(chMode == CH_MODE_0)
   {
     switch (lastSelectedCh)
         {
@@ -1192,91 +1193,91 @@ void blynk::TurnOffLastCh(int lastSelectedCh, int zapOnOff)
         }  
   }    
 
-  if (zapOnOff == 1)
+  if (chMode == CH_MODE_1)
   {
         switch (lastSelectedCh)
         {
           case 1:
 
-                 Blynk.setProperty(V121, "onBackColor", BLYNK_BLUE );
+                 Blynk.setProperty(V121, "onBackColor", BLYNK_YELLOW );
           break;
 
           case 2:
-                    Blynk.setProperty(V122, "onBackColor", BLYNK_BLUE ); 
+                    Blynk.setProperty(V122, "onBackColor", BLYNK_YELLOW ); 
            //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
           break;
           case 3:
-                    Blynk.setProperty(V123, "onBackColor", BLYNK_BLUE ); 
+                    Blynk.setProperty(V123, "onBackColor", BLYNK_YELLOW ); 
            //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
           break;
           case 4:
-                    Blynk.setProperty(V124, "onBackColor", BLYNK_BLUE ); 
+                    Blynk.setProperty(V124, "onBackColor", BLYNK_YELLOW ); 
            //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
           break;
           case 5:
-                    Blynk.setProperty(V125, "onBackColor", BLYNK_BLUE ); 
+                    Blynk.setProperty(V125, "onBackColor", BLYNK_YELLOW ); 
            //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
           break;
           case 6:
-                    Blynk.setProperty(V126, "onBackColor", BLYNK_BLUE ); 
+                    Blynk.setProperty(V126, "onBackColor", BLYNK_YELLOW ); 
            //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
           break;
           case 7:
-                    Blynk.setProperty(V127, "onBackColor", BLYNK_BLUE ); 
+                    Blynk.setProperty(V127, "onBackColor", BLYNK_YELLOW ); 
            //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
           break;
           case 8:
-                    Blynk.setProperty(V93, "onBackColor", BLYNK_BLUE ); 
+                    Blynk.setProperty(V93, "onBackColor", BLYNK_YELLOW ); 
            //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
           break;
           case 9:
-                    Blynk.setProperty(V80, "onBackColor", BLYNK_BLUE ); 
+                    Blynk.setProperty(V80, "onBackColor", BLYNK_YELLOW ); 
            //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
           break;
           case 10:
-                    Blynk.setProperty(V21, "onBackColor", BLYNK_BLUE ); 
+                    Blynk.setProperty(V21, "onBackColor", BLYNK_YELLOW ); 
            //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
           break;
           case 11:
-                    Blynk.setProperty(V14, "onBackColor", BLYNK_BLUE ); 
+                    Blynk.setProperty(V14, "onBackColor", BLYNK_YELLOW ); 
            //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
           break;
           case 12:
-                    Blynk.setProperty(V15, "onBackColor", BLYNK_BLUE ); 
+                    Blynk.setProperty(V15, "onBackColor", BLYNK_YELLOW ); 
            //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
           break;
           case 13:
-                    Blynk.setProperty(V23, "onBackColor", BLYNK_BLUE ); 
+                    Blynk.setProperty(V23, "onBackColor", BLYNK_YELLOW ); 
            //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
           break;
           case 14:
-                    Blynk.setProperty(V103, "onBackColor", BLYNK_BLUE ); 
+                    Blynk.setProperty(V103, "onBackColor", BLYNK_YELLOW ); 
            //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
           break;
           case 15:
-                    Blynk.setProperty(V104, "onBackColor", BLYNK_BLUE ); 
+                    Blynk.setProperty(V104, "onBackColor", BLYNK_YELLOW ); 
            //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
           break;
           case 16:
-                    Blynk.setProperty(V105, "onBackColor", BLYNK_BLUE ); 
+                    Blynk.setProperty(V105, "onBackColor", BLYNK_YELLOW ); 
            //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
           break;
           case 17:
-                    Blynk.setProperty(V90, "onBackColor", BLYNK_BLUE ); 
+                    Blynk.setProperty(V90, "onBackColor", BLYNK_YELLOW ); 
            //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
           break;
           case 18:
-                    Blynk.setProperty(V91, "onBackColor", BLYNK_BLUE ); 
+                    Blynk.setProperty(V91, "onBackColor", BLYNK_YELLOW ); 
            //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
           break;
           case 19:
-                    Blynk.setProperty(V92, "onBackColor", BLYNK_BLUE ); 
+                    Blynk.setProperty(V92, "onBackColor", BLYNK_YELLOW ); 
            //        Blynk.setProperty(V121, "color", BLYNK_GREEN);
           break;                   
         }  
   }
 
-   if (zapOnOff == 2)
+   if (chMode == CH_MODE_2)
   {
         switch (lastSelectedCh)
         {

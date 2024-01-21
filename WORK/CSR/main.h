@@ -29,10 +29,30 @@
 QueueHandle_t g_event_queue_handle = NULL;
 EventGroupHandle_t g_event_group = NULL;
 
+#define USE_SERIAL Serial
+
+/********************* AWS MQTT BROKER *******************************************************/
+WiFiClientSecure net = WiFiClientSecure();
+PubSubClient client(net);
+
+String resultS = "";  //Variable to store the MQTT input message
+char Json[40];        //Variable to store the serialized Json
+StaticJsonDocument<54> doc1; //Json to receive in
+StaticJsonDocument<54> doc2; //Json to send from
+bool _nodeRedEvent  = false;
+bool  nodeRedActive = false;
+int  nodeRedData    = 0;
+int  _nodeRedData    = 0;
+int  nodeRedEventID =0;
+int  _nodeRedEventID =0;
+int   nodeRedeventdata;
+int hmi = 0; //0 Blynk 1 Node red 
+/********************* AWS MQTT BROKER *******************************************************/
+
 int lastSelectedCh = 1;
 bool autoRemoteLocalRc = false;
 bool repeatCh = false;
-bool scanForActiveCh = false;
+bool scanZapSetup = false;
 int previousCh =0;
 int queuData;
 int queuDataID;
@@ -129,7 +149,7 @@ bool wifiOn     =true;
 bool smsOn      =true;
 
 int scanTimer = 3000;
-int zapTimer = 10000;
+int zapTimer = 15000;
 int zapTimerOff = 5000;
 
 int routerTimer = 5000;

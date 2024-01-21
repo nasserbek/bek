@@ -42,15 +42,15 @@ class blynk {
     bool Tuner_PLL(int x, int _address, uint _pll);
     void blynkAckLed(bool _data);
     void blynkRCLed(bool _data, int cmd);
-    void blynkRCLed315(bool _data);
+    void scanActiveCh(bool _data);
     void resetT433Cmd(int cmd );
     void resetT315Cmd(int cmd );
     void blynkFirebaseLed(bool _data);
-    void blynkSmsLed(bool _data);
+    void zapAutoLocalRC(bool _data);
     void sevenSegValue(int vch);
     void frequencyValue(int freq );
     bool getData();
-    void sendRsss(int _rsss);
+    void dvrSwitch(bool cmd);
     void notifierDebug(String subject, String body);
     void zapLed(bool _data);
     void sendToBlynkLed(bool _data);

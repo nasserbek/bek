@@ -3,361 +3,122 @@
 
 blynk myBlynk;
 
-#define USE_SERIAL Serial
 
-void automaticOn(int chanel)
-    {
-        #ifdef CSR3      //
-          if  ( chanel == R_24 || chanel >= R_48 ||  chanel <= R_68) RC_Remote_CSR1 =true;
-        #endif       
-
-
-        #ifdef CSR4      //
-          if  ( chanel == R_24 || chanel >= R_48 ||  chanel <= R_68) RC_Remote_CSR1 =true;
-        #endif    
-        
-        #ifdef CSR2      //24 25 26 27 28
-          if  ( chanel >= R_48 ||  chanel <= R_68) RC_Remote_CSR1 =true;
-        #endif      
-
-        #ifdef CSR      //48 - 68
-          if  ( chanel == R_24 ||  chanel == R_25 || chanel == R_26 || chanel == R_27 || chanel == R_28 || chanel == R_29 ) RC_Remote_CSR2 =true;
-         #endif  
-    }    
-
-
-void automaticOff(int chanel)
-    {
-        #ifdef CSR3      //
-          if  (  chanel == R_25 || chanel == R_26 || chanel == R_27 || chanel == R_28 || chanel == R_29) RC_Remote_CSR2 =true;
-          if  (  chanel == R_24 || chanel >= R_48 ||  chanel <= R_68) RC_Remote_CSR1 =true;
-        #endif       
-
-        #ifdef CSR4      //
-          if  (  chanel == R_25 || chanel == R_26 || chanel == R_27 || chanel == R_28 || chanel == R_29) RC_Remote_CSR2 =true;
-          if  (  chanel == R_24 || chanel >= R_48 ||  chanel <= R_68) RC_Remote_CSR1 =true;
-        #endif 
-        
-        #ifdef CSR2      //24 25 26 27 28
-          if  ( chanel >= R_48 ||  chanel <= R_68) RC_Remote_CSR1 =true;
-        #endif      
-
-        #ifdef CSR      //48 - 68
-          if  ( chanel == R_24 ||  chanel == R_25 || chanel == R_26 || chanel == R_27 || chanel == R_28 || chanel == R_29 ) RC_Remote_CSR2 =true;
-         #endif  
-    } 
-        
-void turnOn (int ch, int prevCh,  int smb,  int sma)
-    {
-      myBlynk.TurnOffLastCh(ch,1);
-      myBlynk.TurnOffLastCh(prevCh,2);
-      
-      zaptime= millis();
-      zaptimeOff= millis(); 
-      scantime= millis();
-      repeatCh = false; 
-      myBlynk.repeatSync(repeatCh);
-      
-      stateMachine =smb;
-      
-      if (autoRemoteLocalRc) automaticOn(ch);
-      if (prevCh == 0){recevierCh=videoCh[ch].id;     receiverAvByCh (recevierCh);}
-      
-       myBlynk.TerminalPrint(" Turning On Ch : "+String(ch));
-       remoteControl(ch);   
-     }
-     
-void turnOff(int ch, int prevCh, int smc )
- {  
-          if (autoRemoteLocalRc) automaticOff(prevCh);
-          myBlynk.TerminalPrint(" Turning Off Ch: "+String(prevCh));
-          if (prevCh != 0)
-            {
-              recevierCh=videoCh[ch].id; 
-              receiverAvByCh (recevierCh); 
-              remoteControl(prevCh);
-            }
-          stateMachine =smc;
- }
- 
- void zapping (int ch, int sma, int smb, int smc, int nextSm)
-{
-  if (videoCh[ch].zap) 
-      {
-        if (stateMachine == sma || repeatCh == true) turnOn(ch,previousCh, smb, sma); 
-        if (scanForActiveCh  )
-            {
-              if ( (stateMachine == smb) &&  (millis() - scantime > scanTimer )  )  { turnOff(ch, previousCh, smc); nextState( nextSm); previousCh = ch; }
-            }
-        else
-          {  
-            if ( (stateMachine == smb) &&  (millis() - zaptimeOff > zapTimerOff )  ) turnOff(ch, previousCh, smc);
-            if ( (stateMachine == smc) && (millis() - zaptime > zapTimer ) ) { nextState( nextSm); previousCh = ch;}
-          }  
-      }  
-  else nextState(nextSm);                     
-}
-    
 /********************* AWS MQTT BROKER *******************************************************/
-WiFiClientSecure net = WiFiClientSecure();
-PubSubClient client(net);
-String resultS = "";  //Variable to store the MQTT input message
-char Json[40];        //Variable to store the serialized Json
-StaticJsonDocument<54> doc1; //Json to receive in
-StaticJsonDocument<54> doc2; //Json to send from
-
-
 void callback(char* topic, byte* payload, unsigned int length) {
-
   resultS = "";   //Empty variable from serialized Json
-  myBlynk.TerminalPrint(" Received topic is: ");myBlynk.TerminalPrint(topic);
-  
-  if(String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_RC)
-    {
-        for (int i=0;i<length;i++) //Converts the received message to String
-        {      
-          resultS= resultS + (char)payload[i];
-        }
+  myBlynk.TerminalPrint(" Received topic is: " + String(topic));
 
-          DeserializationError error = deserializeJson(doc1, resultS); //Command to derealize the received Json
-          if (error) 
-          {
-            myBlynk.TerminalPrint(F("deserializeJson() failed with code "));
-            myBlynk.TerminalPrint(error.f_str());
-          }
-        rcValue    = doc1["RC"];              //RC Command
-        myBlynk.TerminalPrint(" Received RC command: "+ String(rcValue)); 
-        remoteControl(rcValue );
+  if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_VIDEO)
+    {
+        retriveDataFromTopic(topic, payload,length);
+        _nodeRedData  = doc1["CMD"]; 
+        int ch        = doc1["VIDEO"] ;
+        nodeRedeventdata =getChID (ch) ;
+        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
+        myBlynk.TerminalPrint(" Received topic is: " + String(topic) +" Received Video Chanel: "+ String(ch));
+     
     }
 
-else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_VIDEO)
+  else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_ZAP)
     {
-        for (int i=0;i<length;i++) //Converts the received message to String
-        {      
-          resultS= resultS + (char)payload[i];
-        }
-
-          DeserializationError error = deserializeJson(doc1, resultS); //Command to derealize the received Json
-          if (error) 
-          {
-            myBlynk.TerminalPrint(F("deserializeJson() failed with code "));
-            myBlynk.TerminalPrint(error.f_str());
-          }
-        recevierCh = doc1["VIDEO"];
-        myBlynk.TerminalPrint(" Received Video Chanel: "+ String(recevierCh)); 
-        remoteControlRcCh = recevierCh ;
-        room ( remoteControlRcCh, recevierCh , Av_Rx );        
-    }
-
-else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_ZAP)
-    {
-        for (int i=0;i<length;i++) //Converts the received message to String
-        {      
-          resultS= resultS + (char)payload[i];
-        }
-
-          DeserializationError error = deserializeJson(doc1, resultS); //Command to derealize the received Json
-          if (error) 
-          {
-            myBlynk.TerminalPrint(F("deserializeJson() failed with code "));
-            myBlynk.TerminalPrint(error.f_str());
-          }
-        zapOnOff   = doc1["ZAP"];
+        retriveDataFromTopic(topic, payload,length);
+        _nodeRedData  = doc1["ZAP"];
+        nodeRedeventdata = Q_EVENT_ZAP_V71;
+        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
         myBlynk.TerminalPrint(" Received Zap Command: "+ String(zapOnOff)); 
-        resetZapper ();
-        if (zapOnOff) zappingAvCh (zapOnOff, zapTimer); //Zapping
+        myBlynk.zapLed(_nodeRedData);
     }
 
-else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_RX)
+  else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_RX)
     {
-        for (int i=0;i<length;i++) //Converts the received message to String
-        {      
-          resultS= resultS + (char)payload[i];
-        }
-
-          DeserializationError error = deserializeJson(doc1, resultS); //Command to derealize the received Json
-          if (error) 
-          {
-            myBlynk.TerminalPrint(F("deserializeJson() failed with code "));
-            myBlynk.TerminalPrint(error.f_str());
-          }
-        int rx = doc1["RX"];
-        myBlynk.TerminalPrint(" Received Receiver Rele nr.: "+ String(rx));
-        AvReceiverSel(rx); //Rele Rx AV
-        selected_Rx = rx -1;
-        myBlynk.RelaySelect(rx);
+        retriveDataFromTopic(topic, payload,length);
+        _nodeRedData  = doc1["RX"];
+        nodeRedeventdata = Q_EVENT_SELECTED_RECIEVER_V9;
+        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
+        myBlynk.TerminalPrint(" Received Receiver Rele nr.: "+ String(_nodeRedData));
+        myBlynk.RelaySelect(_nodeRedData);
+        
     }   
     
-else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_AV_RC)
+  else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_AV_RC)
     {
-        for (int i=0;i<length;i++) //Converts the received message to String
-        {      
-          resultS= resultS + (char)payload[i];
-        }
+        retriveDataFromTopic(topic, payload,length);
+        _nodeRedData  = doc1["AVRC"];
+        nodeRedeventdata = Q_EVENT_ROOM_AV_RC_V19;
+        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
+        myBlynk.TerminalPrint(" Received Video-Rc-Both: "+ String(_nodeRedData ));
+        myBlynk.sendAvRxIndex(_nodeRedData);
+      }   
 
-          DeserializationError error = deserializeJson(doc1, resultS); //Command to derealize the received Json
-          if (error) 
-          {
-            myBlynk.TerminalPrint(F("deserializeJson() failed with code "));
-            myBlynk.TerminalPrint(error.f_str());
-          }
-        Av_Rx = doc1["AVRC"];
-        myBlynk.TerminalPrint(" Received Video-Rc-Both: "+ String(Av_Rx));
-        myBlynk.sendAvRxIndex(Av_Rx);
-    }   
-
-else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_DVR)
+  else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_DVR)
     {
-        for (int i=0;i<length;i++) //Converts the received message to String
-        {      
-          resultS= resultS + (char)payload[i];
-        }
+        retriveDataFromTopic(topic, payload,length);
+        _nodeRedData  = doc1["DVR"];
+        nodeRedeventdata = Q_EVENT_DVR_ON_OFF_V27;
+        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
+        myBlynk.TerminalPrint(" Received DVR Command: "+ String(_nodeRedData));
+        myBlynk.dvrSwitch(_nodeRedData); 
 
-          DeserializationError error = deserializeJson(doc1, resultS); //Command to derealize the received Json
-          if (error) 
-          {
-            myBlynk.TerminalPrint(F("deserializeJson() failed with code "));
-            myBlynk.TerminalPrint(error.f_str());
-          }
-        bool dvr = doc1["DVR"];
-        myBlynk.TerminalPrint(" Received DVR Command: "+ String(dvr));
-        dvrOnOff (dvr);
     }   
 
 else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_REBOOT)
     {
-        for (int i=0;i<length;i++) //Converts the received message to String
-        {      
-          resultS= resultS + (char)payload[i];
-        }
-
-          DeserializationError error = deserializeJson(doc1, resultS); //Command to derealize the received Json
-          if (error) 
-          {
-            myBlynk.TerminalPrint(F("deserializeJson() failed with code "));
-            myBlynk.TerminalPrint(error.f_str());
-          }
         myBlynk.TerminalPrint("Rebooting ESP");
         ESP.restart();
     }  
 
-else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH)
-    {
-        for (int i=0;i<length;i++) //Converts the received message to String
-        {      
-          resultS= resultS + (char)payload[i];
-        }
 
-          DeserializationError error = deserializeJson(doc1, resultS); //Command to derealize the received Json
-          if (error) 
-          {
-            myBlynk.TerminalPrint(F("deserializeJson() failed with code "));
-            myBlynk.TerminalPrint(error.f_str());
-          }
-        int  zapCh    = doc1["ZAPCH"];
-        bool zapChCmd = doc1["ZAPCHCMD"];
-        myBlynk.TerminalPrint(" Received Zap Command : "+ String(zapCh) + " Chanel  " + String(zapCh));
-        videoCh[zapCh].zap = zapChCmd;
+else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_SCAN)
+    {
+        retriveDataFromTopic(topic, payload,length);
+        _nodeRedData  = doc1["SCAN"];
+        nodeRedeventdata = Q_SCAN_ACTIVE_CH_V4;
+        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
+        myBlynk.TerminalPrint(" Received scan Command: "+ String(_nodeRedData));
+        myBlynk.scanActiveCh(_nodeRedData); 
+     }
+
+else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_REPEAT)
+    {
+        retriveDataFromTopic(topic, payload,length);
+        _nodeRedData  = doc1["REPEAT"];
+        nodeRedeventdata = Q_EVENT_REPEAT_V3;
+        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
+        myBlynk.TerminalPrint(" Received REPEAT Command: "+ String(_nodeRedData));
+        myBlynk.scanActiveCh(_nodeRedData); 
+     }
+     
+else if(String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_PRESET)
+    {
+        retriveDataFromTopic(topic, payload,length);
+        _nodeRedData  = doc1["PRESET"];
+        nodeRedeventdata = Q_EVENT_RESET_FREQ_V26;
+        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
+        myBlynk.TerminalPrint(" Received PRESET Command: "+ String(_nodeRedData));
+    }
+    
+else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO)
+    {
+        retriveDataFromTopic(topic, payload,length);
+        _nodeRedData  = doc1["ZAPAUTO"];
+        nodeRedeventdata = Q_EVENT_AUTOMATIC_RC_L_R_V5;
+        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
+        myBlynk.TerminalPrint(" Received AUTO ZAP  Command: "+ String(_nodeRedData));
+        myBlynk.zapAutoLocalRC(_nodeRedData); 
     }
 
-
-else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA)
+else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_RC)
     {
-        for (int i=0;i<length;i++) //Converts the received message to String
-        {      
-          resultS= resultS + (char)payload[i];
-        }
-
-          DeserializationError error = deserializeJson(doc1, resultS); //Command to derealize the received Json
-          if (error) 
-          {
-            myBlynk.TerminalPrint(F("deserializeJson() failed with code "));
-            myBlynk.TerminalPrint(error.f_str());
-          }
-          
-          wifiWebUpdater = false;
-          OtaTimeoutTimer = millis();
-          localWebWifiOta ();
-     }
-
-else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA)
-    {
-        for (int i=0;i<length;i++) //Converts the received message to String
-        {      
-          resultS= resultS + (char)payload[i];
-        }
-
-          DeserializationError error = deserializeJson(doc1, resultS); //Command to derealize the received Json
-          if (error) 
-          {
-            myBlynk.TerminalPrint(F("deserializeJson() failed with code "));
-            myBlynk.TerminalPrint(error.f_str());
-          }
-           myBlynk.TerminalPrint("GitHub Ota Activation");
-           OtaGithubGithub = false;         
-           OtaTimeoutTimer = millis();
-           OtaGithub();
-     }
-       
+        retriveDataFromTopic(topic, payload,length);
+        _nodeRedData  = doc1["RC"];
+        nodeRedeventdata = Q_EVENT_RC_CH_NR_V1;
+        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
+        myBlynk.TerminalPrint(" Received RC  Command: "+ String(_nodeRedData));
+    }
+    
 else {   myBlynk.TerminalPrint("Unrecognized Topic"); }
  
-}
-
-
-void publishMessage()
-{
-  doc2["version"] = VERSION_ID;
-  serializeJson(doc2, Json); // print to client
-  client.publish(AWS_IOT_SUBSCRIBE_TOPIC_VERSION , Json);
-}
-
-
-
-void connectAWS()
-{
-  // Configure WiFiClientSecure to use the AWS IoT device credentials
-  net.setCACert(AWS_CERT_CA);
-  net.setCertificate(AWS_CERT_CRT);
-  net.setPrivateKey(AWS_CERT_PRIVATE);
- 
-  // Connect to the MQTT broker on the AWS endpoint we defined earlier
-  client.setServer(AWS_IOT_ENDPOINT, 8883);
- 
-  // Create a message handler
-  //client.setCallback(messageHandler); 
-  client.setCallback(callback);
-  Serial.println("Connecting to AWS IOT");
-  myBlynk.TerminalPrint("Connecting Client to AWS IOT");
- 
-  while (!client.connect(THINGNAME))
-  {
-    Serial.print(".");
-    delay(1000);
-    return;
-  }
- 
-  if (!client.connected())
-  {
-    Serial.println("AWS IoT Timeout!");
-    myBlynk.TerminalPrint("AWS IoT Timeout!");
-    return;
-  }
-
-  // Subscribe to a topic
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_RC);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_VIDEO);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAP);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_RX);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_AV_RC);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_DVR);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_REBOOT);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA);
-
-  Serial.println("AWS IoT Connected!");
-  myBlynk.TerminalPrint("AWS IoT Connected!");
-  publishMessage();
 }
 /****************************************************************************************************/ 
 
@@ -471,8 +232,8 @@ void loop(void)
             queuValidData = (xQueueReceive(g_event_queue_handle, &queuDataID, 5 / portTICK_RATE_MS) == pdPASS);
             if(queuValidData) 
                   {
-                    myBlynk.getData ();
-                    queuData = myBlynk.blynkData;
+                    if (hmi == BLYNK)    {myBlynk.getData (); queuData = myBlynk.blynkData; }
+                    if (hmi == NODE_RED) { getDataNodeRed (); queuData = nodeRedData; }
                     processBlynkQueu();
                   }
 
@@ -594,7 +355,7 @@ void processBlynkQueu(void)
 
 
             case Q_SCAN_ACTIVE_CH_V4:
-                  scanForActiveCh =queuData; 
+                  scanZapSetup =queuData; 
                   resetZapper ();
             break;
 
@@ -721,11 +482,9 @@ void processBlynkQueu(void)
             case Q_EVENT_ZAP_V71:
               zapOnOff=queuData;
               resetZapper ();
-              if(!zapOnOff)scanForActiveCh =false;
-              DEBUG_PRINT("ZAP IS : ");
-              DEBUG_PRINTLN(zapOnOff ? F("On") : F("Off"));
-         //     if (zapOnOff) {zaptime= millis(); zaptimeOff= millis();stateMachine =SM_CH1_A; RC_Remote_CSR1 =false; RC_Remote_CSR2 =false; RC_Remote_CSR3 =false;previousCh =0;}
-              myBlynk.zapLed(scanForActiveCh);
+              //if(!zapOnOff)
+              scanZapSetup =false;
+              myBlynk.scanActiveCh(scanZapSetup);
             break;
 
             case Q_EVENT_ZAP_TIMER_V72:
@@ -910,35 +669,19 @@ void processBlynkQueu(void)
 
 void videoChanel(int ch, bool cmd)
 {
-    if (lastSelectedCh !=0 && !zapOnOff && lastSelectedCh!=ch) myBlynk.TurnOffLastCh(lastSelectedCh,0);
-
-    videoCh[ch].zap=cmd;
-    if(cmd)
+    if (lastSelectedCh !=0 && !zapOnOff && !scanZapSetup && lastSelectedCh != ch) myBlynk.TurnOffLastCh(lastSelectedCh,CH_MODE_0);
+    if (scanZapSetup)videoCh[ch].zap=cmd;
+    if(!scanZapSetup)
     {
       remoteControlRcCh = ch;
       recevierCh        = ch;
       room ( remoteControlRcCh, recevierCh , Av_Rx );
     }
+    if (hmi == NODE_RED && cmd==0) myBlynk.TurnOffLastCh(ch,CH_MODE_0);
+    if (hmi == NODE_RED && cmd==1) myBlynk.TurnOffLastCh(ch,CH_MODE_2);
     lastSelectedCh = ch;
-    // if (!zapOnOff)myBlynk.TurnOffLastCh(ch,0);
 }
 
-
-/*
-SWitching
-2 - 7
-3 - 16
-4 -17 -9
-5 -11
-6 -12
-8 -15
-10 - 13
-14-18 
-
-28 ch5 csr2 on off
-25,25 cs3 on csr2 off
-24
-*/
 
 void resetZapper (void)
 {
@@ -963,7 +706,99 @@ void nextState( int nextSm)
       RC_Remote_CSR3 =false;      
     } 
 
+ void automaticOn(int chanel)
+    {
+        #ifdef CSR3      //
+          if  ( chanel == R_24 || chanel >= R_48 ||  chanel <= R_68) RC_Remote_CSR1 =true;
+        #endif       
+
+
+        #ifdef CSR4      //
+          if  ( chanel == R_24 || chanel >= R_48 ||  chanel <= R_68) RC_Remote_CSR1 =true;
+        #endif    
+        
+        #ifdef CSR2      //24 25 26 27 28
+          if  ( chanel >= R_48 ||  chanel <= R_68) RC_Remote_CSR1 =true;
+        #endif      
+
+        #ifdef CSR      //48 - 68
+          if  ( chanel == R_24 ||  chanel == R_25 || chanel == R_26 || chanel == R_27 || chanel == R_28 || chanel == R_29 ) RC_Remote_CSR2 =true;
+         #endif  
+    }    
+
+
+void automaticOff(int chanel)
+    {
+        #ifdef CSR3      //
+          if  (  chanel == R_25 || chanel == R_26 || chanel == R_27 || chanel == R_28 || chanel == R_29) RC_Remote_CSR2 =true;
+          if  (  chanel == R_24 || chanel >= R_48 ||  chanel <= R_68) RC_Remote_CSR1 =true;
+        #endif       
+
+        #ifdef CSR4      //
+          if  (  chanel == R_25 || chanel == R_26 || chanel == R_27 || chanel == R_28 || chanel == R_29) RC_Remote_CSR2 =true;
+          if  (  chanel == R_24 || chanel >= R_48 ||  chanel <= R_68) RC_Remote_CSR1 =true;
+        #endif 
+        
+        #ifdef CSR2      //24 25 26 27 28
+          if  ( chanel >= R_48 ||  chanel <= R_68) RC_Remote_CSR1 =true;
+        #endif      
+
+        #ifdef CSR      //48 - 68
+          if  ( chanel == R_24 ||  chanel == R_25 || chanel == R_26 || chanel == R_27 || chanel == R_28 || chanel == R_29 ) RC_Remote_CSR2 =true;
+         #endif  
+    } 
+        
+void turnOn (int ch, int prevCh,  int smb,  int sma)
+    {
+      myBlynk.TurnOffLastCh(ch,CH_MODE_1);
+      myBlynk.TurnOffLastCh(prevCh,CH_MODE_2);
+      
+      zaptime= millis();
+      zaptimeOff= millis(); 
+      scantime= millis();
+      repeatCh = false; 
+      myBlynk.repeatSync(repeatCh);
+      
+      stateMachine =smb;
+      
+      if (autoRemoteLocalRc) automaticOn(ch);
+      if (prevCh == 0){recevierCh=videoCh[ch].id;     receiverAvByCh (recevierCh);}
+      
+  //     myBlynk.TerminalPrint(" Turning On Ch : "+String(ch));
+       remoteControl(ch);   
+     }
      
+void turnOff(int ch, int prevCh, int smc )
+ {  
+          if (autoRemoteLocalRc) automaticOff(prevCh);
+ //         myBlynk.TerminalPrint(" Turning Off Ch: "+String(prevCh));
+          if (prevCh != 0)
+            {
+              recevierCh=videoCh[ch].id; 
+              receiverAvByCh (recevierCh); 
+              remoteControl(prevCh);
+            }
+          stateMachine =smc;
+ }
+ 
+ void zapping (int ch, int sma, int smb, int smc, int nextSm)
+{
+  if (videoCh[ch].zap) 
+      {
+        if (stateMachine == sma || repeatCh == true) turnOn(ch,previousCh, smb, sma); 
+        if (scanZapSetup  )
+            {
+              if ( (stateMachine == smb) &&  (millis() - scantime > scanTimer )  )  { turnOff(ch, previousCh, smc); nextState( nextSm); previousCh = ch; }
+            }
+        else
+          {  
+            if ( (stateMachine == smb) &&  (millis() - zaptimeOff > zapTimerOff )  ) turnOff(ch, previousCh, smc);
+            if ( (stateMachine == smc) && (millis() - zaptime > zapTimer ) ) { nextState( nextSm); previousCh = ch;}
+          }  
+      }  
+  else nextState(nextSm);                     
+}
+        
 
 
 void zappingAvCh (bool zapCmd, int zapTimer)
@@ -1104,7 +939,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
 
 void remoteControl(int cmd )
 {
-  if (!scanForActiveCh)
+  if (!scanZapSetup)
    {
     // if (blynkConnected)  myBlynk.blynkRCLed(1, cmd); 
     
@@ -1645,3 +1480,149 @@ void localWebWifiOtaSetup(void)
 
 void otaIdeSetup (void)
      {}
+
+bool getDataNodeRed(void)
+{
+    if (_nodeRedEvent)
+    {
+      nodeRedData=_nodeRedData;
+      nodeRedEventID =_nodeRedEventID;
+      _nodeRedEvent = false;
+      nodeRedActive = true; 
+      return true;
+    }  
+    else return false;
+}
+
+int getChID(int ch)
+{
+        switch (ch)
+        {
+          case 1:
+                return (Q_EVENT_RM_ID_01_V121);
+          break;
+
+          case 2:
+                    return (Q_EVENT_RM_ID_02_V122);
+          break;
+          case 3:
+                    return (Q_EVENT_RM_ID_03_V123);
+          break;
+          case 4:
+                    return (Q_EVENT_RM_ID_04_V124);
+          break;
+          case 5:
+                    return (Q_EVENT_RM_ID_05_V125);
+          break;
+          case 6:
+                    return (Q_EVENT_RM_ID_06_V126);
+          break;
+          case 7:
+                   return (Q_EVENT_RM_ID_07_V127);
+          break;
+          case 8:
+                    return (Q_EVENT_RM_ID_08_V93);
+          break;
+          case 9:
+                    return (Q_EVENT_RM_ID_09_V80);
+          break;
+          case 10:
+                    return (Q_EVENT_RM_ID_10_V21);
+          break;
+          case 11:
+                   return (Q_EVENT_RM_ID_11_V14);
+          break;
+          case 12:
+                    return (Q_EVENT_RM_ID_12_V15);
+          break;
+          case 13:
+                    return (Q_EVENT_RM_ID_13_V23);
+          break;
+          case 14:
+                    return (Q_EVENT_RM_ID_14_V103);
+          break;
+          case 15:
+                    return (Q_EVENT_RM_ID_15_V104);
+          break;
+          case 16:
+                    return (Q_EVENT_RM_ID_16_V105);
+          break;
+          case 17:
+                    return (Q_EVENT_RM_ID_17_V90);
+          break;
+          case 18:
+                   return (Q_EVENT_RM_ID_18_V91);
+          break;
+          case 19:
+                    return (Q_EVENT_RM_ID_19_V92);
+          break;                   
+        }  
+}     
+
+void retriveDataFromTopic (char* topic, byte* payload, unsigned int length )
+{
+        for (int i=0;i<length;i++) //Converts the received message to String
+        {      
+          resultS= resultS + (char)payload[i];
+        }
+
+        DeserializationError error = deserializeJson(doc1, resultS); //Command to derealize the received Json
+        if (error) 
+        {
+          myBlynk.TerminalPrint(F("deserializeJson() failed with code "));
+          myBlynk.TerminalPrint(error.f_str());
+        } 
+        _nodeRedEvent = true; 
+        hmi = NODE_RED; 
+}
+
+void connectAWS()
+{
+  // Configure WiFiClientSecure to use the AWS IoT device credentials
+  net.setCACert(AWS_CERT_CA);
+  net.setCertificate(AWS_CERT_CRT);
+  net.setPrivateKey(AWS_CERT_PRIVATE);
+ 
+  // Connect to the MQTT broker on the AWS endpoint we defined earlier
+  client.setServer(AWS_IOT_ENDPOINT, 8883);
+ 
+  // Create a message handler
+  //client.setCallback(messageHandler); 
+  client.setCallback(callback);
+  myBlynk.TerminalPrint("Connecting Client to AWS IOT");
+ 
+  while (!client.connect(THINGNAME))
+  {
+    Serial.print(".");
+    delay(1000);
+    return;
+  }
+   if (!client.connected())
+  {
+    myBlynk.TerminalPrint("AWS IoT Timeout!");
+    return;
+  }
+
+  // Subscribe to a topic
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_VIDEO);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAP);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_RX);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_AV_RC);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_DVR);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_REBOOT);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_SCAN);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_REPEAT);  
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_PRESET); 
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO);  
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON); 
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_RC);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA);    
+  
+  doc2["version"] = VERSION_ID;
+  serializeJson(doc2, Json); // print to client
+  client.publish(AWS_IOT_SUBSCRIBE_TOPIC_VERSION , Json);
+  myBlynk.TerminalPrint("AWS IoT Connected!");
+}

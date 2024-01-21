@@ -1,6 +1,6 @@
-#define CSR  // TTGO R64 SCATOLA 1CH TTGO
+//#define CSR  // TTGO R64 SCATOLA 1CH TTGO
 //#define CSR2  // R65 SCATOLA 4CH ESP32S
-//#define CSR3    //R66 SWAN CASE 2CH ESP32S
+#define CSR3    //R66 SWAN CASE 2CH ESP32S
 //#define CSR4     //USB C ESP32S
 
 //String CSRFirmwareVer = {    "2.0"};
@@ -11,79 +11,101 @@
 #define BLYNK_TEMPLATE_ID           "TMPL5Y2na6zpd"
 #define BLYNK_TEMPLATE_NAME         "CSR"
 
-    #define AWS_IOT_PUBLISH_TOPIC_RC     "csr1/pub/rc"
-    #define AWS_IOT_PUBLISH_TOPIC_RC_2   "csr2/pub/rc"
-    #define AWS_IOT_PUBLISH_TOPIC_RC_3   "csr3/pub/rc"
+    #define AWS_IOT_PUBLISH_TOPIC_RC     "csr1/sub/rc"
+    #define AWS_IOT_PUBLISH_TOPIC_RC_2   "csr2/sub/rc"
+    #define AWS_IOT_PUBLISH_TOPIC_RC_3   "csr3/sub/rc"
     
 #ifdef CSR      //TTGO R64 SCATOLA 1CH TTGO
-    #define VERSION_ID "1.0"
+    #define VERSION_ID "1.1"
     #define BLYNK_AUTH_TOKEN                "B1pZ48rPHfdQ8LxlqCoiPk8fxWBbv7B0" //CSR
     #define THINGNAME "CSR1"   
-    #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr1/pub/rc"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "csr1/pub/video"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAP     "csr1/pub/zap"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_RX      "csr1/pub/rx"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_AV_RC   "csr1/pub/avrc"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_DVR     "csr1/pub/dvr"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_REBOOT  "csr1/pub/reboot"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH   "csr1/pub/zapchanel"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA   "csr1/pub/localWebOta"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA   "csr1/pub/GitHubWebOta"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_VERSION   "csr1/pub/version"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr1/sub/rc"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "csr1/sub/video"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAP     "csr1/sub/zap"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_RX      "csr1/sub/rx"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_AV_RC   "csr1/sub/avrc"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_DVR     "csr1/sub/dvr"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_REBOOT  "csr1/sub/reboot"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH   "csr1/sub/zapchanel"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA   "csr1/sub/localWebOta"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA   "csr1/sub/GitHubWebOta"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_VERSION   "csr1/sub/version"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_SCAN   "csr1/sub/scan"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_REPEAT   "csr1/sub/repeat"   
+    #define AWS_IOT_SUBSCRIBE_TOPIC_PRESET  "csr1/sub/preset"  
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO   "csr1/sub/zapauto"  
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON   "csr1/sub/zton"  
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "csr1/sub/ztoff" 
 #endif
 
 #ifdef CSR2     // R65 SCATOLA 4CH ESP32S
-    #define VERSION_ID "2.0"
+    #define VERSION_ID "1.1"
     #define BLYNK_AUTH_TOKEN                "_cqYD1seWElWB-S1IxutIEI7VWmDpb05" //CS2
     #define THINGNAME "CSR2"   
-    #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr2/pub/rc"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "csr2/pub/video"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAP     "csr2/pub/zap"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_RX      "csr2/pub/rx"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_AV_RC   "csr2/pub/avrc"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_DVR     "csr2/pub/dvr"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_REBOOT  "csr2/pub/reboot"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH   "csr2/pub/zapchanel"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA   "csr2/pub/localWebOta"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA   "csr2/pub/GitHubWebOta"    
-    #define AWS_IOT_SUBSCRIBE_TOPIC_VERSION   "csr2/pub/version"
-
+    #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr2/sub/rc"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "csr2/sub/video"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAP     "csr2/sub/zap"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_RX      "csr2/sub/rx"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_AV_RC   "csr2/sub/avrc"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_DVR     "csr2/sub/dvr"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_REBOOT  "csr2/sub/reboot"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH   "csr2/sub/zapchanel"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA   "csr2/sub/localWebOta"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA   "csr2/sub/GitHubWebOta"    
+    #define AWS_IOT_SUBSCRIBE_TOPIC_VERSION   "csr2/sub/version"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_SCAN   "csr2/sub/scan"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_REPEAT   "csr2/sub/repeat"   
+    #define AWS_IOT_SUBSCRIBE_TOPIC_PRESET  "csr2/sub/preset"  
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO   "csr2/sub/zapauto"  
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON   "csr2/sub/zton"  
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "csr2/sub/ztoff" 
 #endif
 
 
 #ifdef CSR3     //R66 SWAN CASE 2CH ESP32S
-    #define VERSION_ID " CSR3.50 "
+    #define VERSION_ID " 1.1 "
     #define BLYNK_AUTH_TOKEN                "6DH6QZgVXrGXU5VzOpJSJgHoyXWL7aWS" //CSR3
     #define THINGNAME "CSR3"   
-    #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr3/pub/rc"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "csr3/pub/video"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAP     "csr3/pub/zap"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_RX      "csr3/pub/rx"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_AV_RC   "csr3/pub/avrc"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_DVR     "csr3/pub/dvr"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_REBOOT  "csr3/pub/reboot"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH   "csr3/pub/zapchanel"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA   "csr3/pub/localWebOta"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA   "csr3/pub/GitHubWebOta"    
-    #define AWS_IOT_SUBSCRIBE_TOPIC_VERSION   "csr3/pub/version" 
+    #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr3/sub/rc"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "csr3/sub/video"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAP     "csr3/sub/zap"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_RX      "csr3/sub/rx"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_AV_RC   "csr3/sub/avrc"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_DVR     "csr3/sub/dvr"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_REBOOT  "csr3/sub/reboot"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH   "csr3/sub/zapchanel"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA   "csr3/sub/localWebOta"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA   "csr3/sub/GitHubWebOta"    
+    #define AWS_IOT_SUBSCRIBE_TOPIC_VERSION   "csr3/sub/version" 
+    #define AWS_IOT_SUBSCRIBE_TOPIC_SCAN   "csr3/sub/scan"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_REPEAT   "csr3/sub/repeat"   
+    #define AWS_IOT_SUBSCRIBE_TOPIC_PRESET  "csr3/sub/preset"  
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO   "csr3/sub/zapauto"  
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON   "csr3/sub/zton"  
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "csr3/sub/ztoff" 
 #endif
 
 #ifdef CSR4     //R66 SWAN CASE 2CH ESP32S
     #define VERSION_ID " CSR4.50 "
     #define BLYNK_AUTH_TOKEN                "T7SZ5q0jqjeA_avnEW_GHJvBvwI6j32f" //CSR4
     #define THINGNAME "CSR4"   
-    #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr4/pub/rc"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "csr4/pub/video"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAP     "csr4/pub/zap"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_RX      "csr4/pub/rx"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_AV_RC   "csr4/pub/avrc"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_DVR     "csr4/pub/dvr"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_REBOOT  "csr4/pub/reboot"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH   "csr4/pub/zapchanel"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA   "csr4/pub/localWebOta"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA   "csr4/pub/GitHubWebOta"    
-    #define AWS_IOT_SUBSCRIBE_TOPIC_VERSION   "csr4/pub/version"
-  
+    #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr4/sub/rc"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "csr4/sub/video"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAP     "csr4/sub/zap"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_RX      "csr4/sub/rx"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_AV_RC   "csr4/sub/avrc"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_DVR     "csr4/sub/dvr"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_REBOOT  "csr4/sub/reboot"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH   "csr4/sub/zapchanel"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA   "csr4/sub/localWebOta"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA   "csr4/sub/GitHubWebOta"    
+    #define AWS_IOT_SUBSCRIBE_TOPIC_VERSION   "csr4/sub/version"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_SCAN   "csr4/sub/scan"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_REPEAT   "csr4/sub/repeat"   
+    #define AWS_IOT_SUBSCRIBE_TOPIC_PRESET  "csr4/sub/preset"  
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO   "csr4/sub/zapauto"  
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON   "csr4/sub/zton"  
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "csr4/sub/ztoff"   
 #endif
 
 #define INTERNET_LOSS_TO_RESET_NG_TIMER 60000   // 1 MIN
@@ -146,7 +168,18 @@
 #define WIFI_PASSWORD_METEOR "Ali09042010_"
 #define DEBUG_SERIAL
 
+enum {
+CH_MODE_0,
+CH_MODE_1,
+CH_MODE_2,
+CH_MODE_3,
+CH_MODE_4,
+} ;
 
+enum {
+BLYNK,
+NODE_RED,
+} ;
 
 enum {
 NA,
