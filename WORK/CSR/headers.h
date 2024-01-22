@@ -1,6 +1,6 @@
-//#define CSR  // TTGO R64 SCATOLA 1CH TTGO
+#define CSR  // TTGO R64 SCATOLA 1CH TTGO
 //#define CSR2  // R65 SCATOLA 4CH ESP32S
-#define CSR3    //R66 SWAN CASE 2CH ESP32S
+//#define CSR3    //R66 SWAN CASE 2CH ESP32S
 //#define CSR4     //USB C ESP32S
 
 //String CSRFirmwareVer = {    "2.0"};
@@ -16,7 +16,7 @@
     #define AWS_IOT_PUBLISH_TOPIC_RC_3   "csr3/sub/rc"
     
 #ifdef CSR      //TTGO R64 SCATOLA 1CH TTGO
-    #define VERSION_ID "1.2"
+    #define VERSION_ID "1.3"
     #define BLYNK_AUTH_TOKEN                "B1pZ48rPHfdQ8LxlqCoiPk8fxWBbv7B0" //CSR
     #define THINGNAME "CSR1"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr1/sub/rc"
@@ -39,7 +39,7 @@
 #endif
 
 #ifdef CSR2     // R65 SCATOLA 4CH ESP32S
-    #define VERSION_ID "1.2"
+    #define VERSION_ID "1.3"
     #define BLYNK_AUTH_TOKEN                "_cqYD1seWElWB-S1IxutIEI7VWmDpb05" //CS2
     #define THINGNAME "CSR2"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr2/sub/rc"
@@ -63,7 +63,7 @@
 
 
 #ifdef CSR3     //R66 SWAN CASE 2CH ESP32S
-    #define VERSION_ID " 1.2 "
+    #define VERSION_ID " 1.3 "
     #define BLYNK_AUTH_TOKEN                "6DH6QZgVXrGXU5VzOpJSJgHoyXWL7aWS" //CSR3
     #define THINGNAME "CSR3"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr3/sub/rc"
@@ -279,11 +279,11 @@ Q_EVENT_ZAP_CHANNEL16_V108,
 Q_EVENT_ZAP_CHANNEL17_V109,
 Q_EVENT_ZAP_CHANNEL18_V110,
 Q_EVENT_ZAP_CHANNEL19_V111,
-Q_EVENT_ZAP_CHANNEL20_V112,
+Q_EVENT_RM_ID_10_V112,
 
 
 
-Q_EVENT_RM_ID_01_V121, //24
+Q_EVENT_SPARE_V121, //24
 Q_EVENT_RM_ID_02_V122, //25
 Q_EVENT_RM_ID_03_V123, //26
 Q_EVENT_RM_ID_04_V124,//27

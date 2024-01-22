@@ -1,159 +1,24 @@
-
 #include "main.h"
-
 blynk myBlynk;
-
-
-/********************* AWS MQTT BROKER *******************************************************/
-void callback(char* topic, byte* payload, unsigned int length) {
-  resultS = "";   //Empty variable from serialized Json
- 
-  if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_VIDEO)
-    {
-        retriveDataFromTopic(topic, payload,length);
-        _nodeRedData  = doc1["CMD"]; 
-        int ch        = doc1["VIDEO"] ;
-        nodeRedeventdata =getChID (ch) ;
-        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
-     }
-
-  else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_ZAP)
-    {
-        retriveDataFromTopic(topic, payload,length);
-        _nodeRedData  = doc1["ZAP"];
-        nodeRedeventdata = Q_EVENT_ZAP_V71;
-        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
-        myBlynk.zapLed(_nodeRedData);
-    }
-
-  else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_RX)
-    {
-        retriveDataFromTopic(topic, payload,length);
-        _nodeRedData  = doc1["RX"];
-        nodeRedeventdata = Q_EVENT_SELECTED_RECIEVER_V9;
-        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
-        myBlynk.RelaySelect(_nodeRedData);
-        
-    }   
-    
-  else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_AV_RC)
-    {
-        retriveDataFromTopic(topic, payload,length);
-        _nodeRedData  = doc1["AVRC"];
-        nodeRedeventdata = Q_EVENT_ROOM_AV_RC_V19;
-        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
-        myBlynk.sendAvRxIndex(_nodeRedData);
-      }   
-
-  else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_DVR)
-    {
-        retriveDataFromTopic(topic, payload,length);
-        _nodeRedData  = doc1["DVR"];
-        nodeRedeventdata = Q_EVENT_DVR_ON_OFF_V27;
-        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
-        myBlynk.dvrSwitch(_nodeRedData); 
-
-    }   
-
-else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_REBOOT)
-    {
-        myBlynk.TerminalPrint(" Received topic is: " + String(topic) +"Rebooting ESP");
-        ESP.restart();
-    }  
-
-
-else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_SCAN)
-    {
-        retriveDataFromTopic(topic, payload,length);
-        _nodeRedData  = doc1["SCAN"];
-        nodeRedeventdata = Q_SCAN_ACTIVE_CH_V4;
-        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
-        myBlynk.scanActiveCh(_nodeRedData); 
-     }
-
-else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_REPEAT)
-    {
-        retriveDataFromTopic(topic, payload,length);
-        _nodeRedData  = doc1["REPEAT"];
-        nodeRedeventdata = Q_EVENT_REPEAT_V3;
-        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
-        myBlynk.scanActiveCh(_nodeRedData); 
-     }
-     
-else if(String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_PRESET)
-    {
-        retriveDataFromTopic(topic, payload,length);
-        _nodeRedData  = doc1["PRESET"];
-        nodeRedeventdata = Q_EVENT_RESET_FREQ_V26;
-        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
-        
-    }
-    
-else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO)
-    {
-        retriveDataFromTopic(topic, payload,length);
-        _nodeRedData  = doc1["ZAPAUTO"];
-        nodeRedeventdata = Q_EVENT_AUTOMATIC_RC_L_R_V5;
-        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
-        myBlynk.zapAutoLocalRC(_nodeRedData); 
-    }
-
-else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_RC)
-    {
-        retriveDataFromTopic(topic, payload,length);
-        _nodeRedData  = doc1["RC"];
-        nodeRedeventdata = Q_EVENT_RC_CH_NR_V1;
-        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
-        
-    }
-    
- myBlynk.TerminalPrint(" Topic " + String(topic) +" Payload: "+ String(_nodeRedData));
-}
-/****************************************************************************************************/ 
-
 
 void setup() 
 {
-
      pinMode(AV_RX_DVR_PIN_2, OUTPUT);
      pinMode(I2C_1_2_RELAY , OUTPUT);
      pinMode(I2C_3_4_RELAY , OUTPUT);
 
-     digitalWrite(AV_RX_DVR_PIN_2, LOW);  // AV RECEIVER OFF ON POWER ON
-    
-
-     #ifdef CSR  //4 rele board active low
-        digitalWrite(I2C_1_2_RELAY, HIGH);   
-        digitalWrite(I2C_3_4_RELAY, HIGH);  
-     #endif   
-
-     #ifdef CSR2  //4 rele board active low
-        digitalWrite(I2C_1_2_RELAY, HIGH);   
-        digitalWrite(I2C_3_4_RELAY, HIGH);  
-     #endif 
-          
-     #ifdef CSR3      //Single rele active High
-        digitalWrite(I2C_1_2_RELAY, HIGH);    //DEFAULT RX3
-        digitalWrite(I2C_3_4_RELAY, HIGH);   
-     #endif
-     
-     #ifdef CSR4      //Single rele active High
-        digitalWrite(I2C_1_2_RELAY, HIGH);    //DEFAULT RX3
-        digitalWrite(I2C_3_4_RELAY, HIGH);   
-     #endif   
-      
+     digitalWrite(AV_RX_DVR_PIN_2, LOW);  // AV RECEIVER ON POWER UP NC CONTACT
+     digitalWrite(I2C_1_2_RELAY, HIGH);   
+     digitalWrite(I2C_3_4_RELAY, HIGH);  
+       
      Serial.begin(115200);
      Wire.begin();
      delay(500);
      Wire1.begin(SDA_2, SCL_2);
 
-
      initWDG(MIN_5,EN);
      resetWdg();    //reset timer (feed watchdog) 
-     
      mySwitch.enableTransmit(RC_TX_PIN);
-
- 
      myBlynk.init();    
      blynkConnected=myBlynk.blynkStatus();
      wifiAvailable = myBlynk.wifiStatus();
@@ -171,11 +36,8 @@ void setup()
                       #ifdef CSR3    
                         myBlynk.RelaySelect(3);
                      #endif   
-                      #ifdef CSR4   
-                        myBlynk.RelaySelect(3);
-                     #endif 
-                                                     
-                myBlynk.sendPulseRepetetion(pulseRC, repetionRC);
+                myBlynk.dvrSwitch(1);
+                myBlynk.sendVersion(VERSION_ID);
                 myBlynk.TerminalPrint(WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) );
              }
     /********************* AWS MQTT BROKER ****************/
@@ -196,13 +58,6 @@ void setup()
     looadRoomData();
     enableWDG(DIS);
     initWDG(SEC_60,EN);
-    
-    String ver = VERSION_ID;
-    if (blynkConnected) myBlynk.sendVersion(ver);
-    
-    char buf[10]; //make this the size of the String
-    ver.toCharArray(buf, 10);    
-    
 }
 
 
@@ -217,21 +72,17 @@ void loop(void)
        if ( blynkConnected )
           {
             myBlynk.blynkRun();
-      
             queuValidData = (xQueueReceive(g_event_queue_handle, &queuDataID, 5 / portTICK_RATE_MS) == pdPASS);
             if(queuValidData) 
                   {
                     if (hmi == BLYNK)    {myBlynk.getData (); queuData = myBlynk.blynkData; }
-                    if (hmi == NODE_RED) { getDataNodeRed (); queuData = nodeRedData; }
                     processBlynkQueu();
                   }
-
             InternetLoss = false;   resetNetgeerAfterInternetLossTimer = millis();
             netGeerReset = false;   restartAfterResetNG = millis();
-          
-           }
+         }
 
-       if( !InternetLoss && !blynkConnected)  
+       else if( !InternetLoss && !blynkConnected)  
           {
             DEBUG_PRINTLN("Blynk Disconnected , Internet Loss!!!");
             InternetLoss = true; 
@@ -240,71 +91,30 @@ void loop(void)
             myBlynk.sendToBlynk = false;
             myBlynk.sendToBlynkLeds = false;
           }
-
-   
-      if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer);  
-
        myBlynk.blynkRunTimer();
        
       /********************* AWS MQTT BROKER ****************/
-         client.loop();   //AWS MQTT
-         if (!client.connected())
+         
+         awsConnected = client.connected();
+         if (!awsConnected )
             {
               myBlynk.TerminalPrint("AWS IoT Disonnected, trying to reconnect");
               connectAWS();
            }
-      /*****************************************************/   
-       
-}
-
-void netgeerCtrl(void)
-{
-
-                 
-       if ( (  (millis() - routerResetTimer) >= routerTimer) && routerResetStart)
-                {
-
-             // digitalWrite(NETGEER_PIN_0, LOW);
-     
-                routerResetStart=false;
-                routerResetTimer        = millis();
-                restartAfterResetNG     = millis();
-                netGeerReset = true;
-                blynkInitDone = false;
-                pingGoogle =false;
-            }
-
-       if ( ( (millis() - resetNetgeerAfterInternetLossTimer) >= INTERNET_LOSS_TO_RESET_NG_TIMER) && InternetLoss && !blynkConnected && !netGeerReset)
+        else 
         {
-              DEBUG_PRINTLN("Blynk Disconnected for 2 min, Reset Netgeer");
-                if(!routerResetStart){routerResetTimer        = millis();routerResetStart = true;DEBUG_PRINTLN("Netgeer Reset done: ");}
-        }
-
-       if (  ( (millis() - restartAfterResetNG) >=  RESTART_AFTER_NG_RESET_TIMER) && netGeerReset )
-          {
-            DEBUG_PRINTLN("Resetaring 30 min after Netgeer Rreset");
-            ESP.restart(); 
-          }
-          
-}     
-
-
-
-void ResetNetgeer(void)
-          {
-             // digitalWrite(NETGEER_PIN_0, HIGH);
-              if(!routerResetStart){routerResetTimer        = millis();routerResetStart = true;DEBUG_PRINTLN("Netgeer Reset done: ");}
-          }
-
-/*
-bool pingGoogleConnection(void)
-{
-       bool pingInternet= Ping.ping("www.google.com");
-       DEBUG_PRINT("Ping Google: ");DEBUG_PRINTLN(pingInternet ? F("succesiful") : F("failed"));
-       return (pingInternet);
+            client.loop();   //AWS MQTT
+            queuValidData = (xQueueReceive(g_event_queue_handle, &queuDataID, 5 / portTICK_RATE_MS) == pdPASS);
+            if(queuValidData) 
+                  {
+                    if (hmi == NODE_RED) { getDataNodeRed (); queuData = nodeRedData; }
+                    processBlynkQueu();
+                  }
+         }
+      /*****************************************************/   
+    
+    if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer); 
 }
-*/
-
 
 
 
@@ -345,7 +155,7 @@ void processBlynkQueu(void)
 
             case Q_SCAN_ACTIVE_CH_V4:
                   scanZapSetup =queuData; 
-                  resetZapper ();
+               //   resetZapper ();
             break;
 
             case Q_EVENT_AUTOMATIC_RC_L_R_V5:
@@ -587,12 +397,12 @@ void processBlynkQueu(void)
               videoCh[19].zap=queuData;
             break; 
  
-             case Q_EVENT_ZAP_CHANNEL20_V112 :
-              videoCh[20].zap=queuData;
+             case Q_EVENT_RM_ID_10_V112 :
+                  videoChanel(1, queuData);
             break; 
 
-             case Q_EVENT_RM_ID_01_V121:
-                  videoChanel(1, queuData);
+             case Q_EVENT_SPARE_V121:
+
              break;                       
 
              case Q_EVENT_RM_ID_02_V122:
@@ -671,6 +481,7 @@ void videoChanel(int ch, bool cmd)
     lastSelectedCh = ch;
 }
 
+/**************************************************ZAPPING ZONE***************************************************************/
 
 void resetZapper (void)
 {
@@ -702,11 +513,7 @@ void nextState( int nextSm)
         #endif       
 
 
-        #ifdef CSR4      //
-          if  ( chanel == R_24 || (chanel >= R_48 &&  chanel <= R_68)) RC_Remote_CSR1 =true;
-        #endif    
-        
-        #ifdef CSR2      //24 25 26 27 28
+         #ifdef CSR2      //24 25 26 27 28
           if  ( chanel >= R_48 &&  chanel <= R_68) RC_Remote_CSR1 =true;
         #endif      
 
@@ -723,11 +530,7 @@ void automaticOff(int chanel)
           if  (  chanel == R_24 || (chanel >= R_48 &&   chanel <= R_68)) RC_Remote_CSR1 =true;
         #endif       
 
-        #ifdef CSR4      //
-          if  (  chanel == R_25 || chanel == R_26 || chanel == R_27 || chanel == R_28 || chanel == R_29) RC_Remote_CSR2 =true;
-          if  (  chanel == R_24 || (chanel >= R_48 &&   chanel <= R_68) ) RC_Remote_CSR1 =true;
-        #endif 
-        
+         
         #ifdef CSR2      //24 25 26 27 28
           if  ( chanel >= R_48 &&   chanel <= R_68) RC_Remote_CSR1 =true;
         #endif      
@@ -750,17 +553,14 @@ void turnOn (int ch, int prevCh,  int smb,  int sma)
       
       stateMachine =smb;
       
-      if (autoRemoteLocalRc) automaticOn(ch);
+      if (!autoRemoteLocalRc) automaticOn(ch);
       if (prevCh == 0){recevierCh=videoCh[ch].id;     receiverAvByCh (recevierCh);}
-      
-  //     myBlynk.TerminalPrint(" Turning On Ch : "+String(ch));
-       remoteControl(ch);   
+      remoteControl(ch);   
      }
      
 void turnOff(int ch, int prevCh, int smc )
  {  
           if (autoRemoteLocalRc) automaticOff(prevCh);
- //         myBlynk.TerminalPrint(" Turning Off Ch: "+String(prevCh));
           if (prevCh != 0)
             {
               recevierCh=videoCh[ch].id; 
@@ -787,8 +587,6 @@ void turnOff(int ch, int prevCh, int smc )
       }  
   else nextState(nextSm);                     
 }
-        
-
 
 void zappingAvCh (bool zapCmd, int zapTimer)
 {
@@ -923,9 +721,10 @@ void zappingAvCh (bool zapCmd, int zapTimer)
   else {zaptime= millis();stateMachine =SM_CH1_A;}
 }
 
+/**************************************************END OF ZAPPING ZONE***************************************************************/
 
 
-
+/**************************************************VIDEO RC CONTROL ZONE***************************************************************/
 void remoteControl(int cmd )
 {
   if (!scanZapSetup)
@@ -956,22 +755,8 @@ void remoteControl(int cmd )
         serializeJson(doc2, Json); // print to client
         client.publish(AWS_IOT_PUBLISH_TOPIC_RC_3, Json); 
       } 
-
- /*           
-     DEBUG_PRINT("ch433:");DEBUG_PRINTLN(cmd);
-     delay(500);
-     
-     if (blynkConnected) 
-      {
- //       myBlynk.blynkRCLed(0, cmd);
-        myBlynk.resetT433Cmd(cmd);
-      }
- */     
    }   
 }
-
-
-
 
         
 void receiverAvByCh (int Ch)
@@ -992,7 +777,6 @@ void receiverAvByCh (int Ch)
 }
 
 
-
 void receiverAvByFreq ( int Freq)
 {
   bool ack=0;
@@ -1005,9 +789,6 @@ void receiverAvByFreq ( int Freq)
        DEBUG_PRINT("Received manual_freq:");DEBUG_PRINTLN(manual_freq);
        DEBUG_PRINT("ack: ");DEBUG_PRINTLN(ack ? F("NotACK") : F("ACK"));
 }
-
-
-
 
 void room ( int RC, int AV, int sel)
 {
@@ -1028,8 +809,6 @@ void room ( int RC, int AV, int sel)
             break;
           }
 }                            
-
-
 
 void AvReceiverSel(int queuData)
  {            
@@ -1089,112 +868,7 @@ void AvReceiverSel(int queuData)
                       break;                     
                     }   
      #endif
-     #ifdef CSR4
-                switch (queuData)
-                    {
-                      case 1:
-                                 digitalWrite(I2C_1_2_RELAY, LOW);  //  
-                      break;
-                      case 2:
-                                 digitalWrite(I2C_1_2_RELAY, HIGH);  //  
-                      break;
-
-                       case 3:
-                                 digitalWrite(I2C_3_4_RELAY, LOW);  //  
-                      break;
-                      case 4:
-                                 digitalWrite(I2C_3_4_RELAY, HIGH);  //  
-                      break;                     
-                    }   
-     #endif
 }
-
-
-void IRAM_ATTR resetModule() 
-{
-DEBUG_PRINTLN("Watch Dog Timer Timout, rebooting....");
-ESP.restart();
-}
-
-void initWDG(int wdtTimeout,bool _enable) 
-{
-   _timer = timerBegin(0, 80, true);                                    //timer 0, div 80
-   timerAttachInterrupt(_timer, &resetModule, true);                  //attach callback
-   timerAlarmWrite(_timer, wdtTimeout * 1000, false);              //set time in us
-   enableWDG(_enable);                                            //enable interrupt
-}
-
-void enableWDG(bool _enable)
-  {
-   if (_enable) timerAlarmEnable(_timer);                          //enable interrupt
-   else timerAlarmDisable(_timer);                                //Disable interrupt
-   resetWdg();                                        //reset timer (feed watchdog)  
-  }
-  
-void resetWdg(void)
-  {
-   timerWrite(_timer, 0);                                        //reset timer (feed watchdog)  
-  }
-
-
-void rebootSw(void)
-{
- ESP.restart();
-}
-
-void  dvrOnOff (bool onOff)
-{
-
-   if (onOff) digitalWrite(AV_RX_DVR_PIN_2, LOW); 
-   else digitalWrite(AV_RX_DVR_PIN_2, HIGH); 
-
-}
-
-/**********************************************************************************************************************************************/
-
-int stringToInteger(String str)
-{
-char carray[5]; 
-      str.toCharArray(carray, sizeof(carray));
-      return ( atoi(carray));  
-}
-
-void goToDeepSleep(int sleepTimer)
-{
-    //  sendToHMI("Going to Deep Sleep", "Going to Deep Sleep", "Going to Deep Sleep",FB_NOTIFIER, "Going to Deep Sleep" );
-    //  sms.sim800PowerOn(false)  ;
-      DEBUG_PRINT("Sleep for: ");  DEBUG_PRINT(sleepTimer * 60* 1000000);DEBUG_PRINTLN(" uSec");
-      esp_sleep_enable_timer_wakeup(sleepTimer * 60 * 1000000); // in microseconds
-      Serial.flush(); 
-      esp_deep_sleep_start();
-}
-
-
-
-
-
-
-   void looadRoomData()
-{
-  int freq;
-       
- for(byte i=1;i<21;i++)
-          {
-            videoCh[i].frequency = freqTable[i];
-            freq=videoCh[i].frequency;
-            roomId[i].vCh  = roomId[i].rCh = videoCh[i].id = i;
-            _pll[i] = ( 512 * (freq + 479.5) ) / 64 ;
-          }
-}
-
-void createHandleGroup()
-{
-     //Create a program that allows the required message objects and group flags
-    g_event_queue_handle = xQueueCreate(50, sizeof(int)); // Creates a queue of 50 int elements
-    g_event_group = xEventGroupCreate();
-}
-    
-
 
 bool  TCA9548A(uint8_t bus)
 {
@@ -1208,34 +882,12 @@ bool  TCA9548A(uint8_t bus)
                           Wire.write(1 << bus);          // send byte to select bus
                           return(Wire.endTransmission()); 
       #endif
-     
-     /*
-     switch (bus)
-                    {
-                      case 0:
-                      case 1:
-                          Wire1.beginTransmission(0x70);  // TCA9548A address is 0x70
-                          Wire1.write(1 << bus);          // send byte to select bus
-                          return(Wire1.endTransmission());  
-                      break;
-
-                      case 2:
-                      case 3:
-                          Wire.beginTransmission(0x70);  // TCA9548A address is 0x70
-                          Wire.write(1 << bus);          // send byte to select bus
-                          return(Wire.endTransmission()); 
-                      break;                     
-                    }
-*/
-  
 }
 
 bool Tuner_PLL( int receiver, int _address, uint _pll)
 {
   byte MSB = (_pll & 0xFF00) >> 8   ;   //mask LSB, shift 8 bits to the right
   byte LSB = _pll & 0x00FF     ;        //mask MSB, no need to shift
-
-
 
 #ifdef CSR   //4CH 4 Relays Active LOW and 2 I2C Controllers
   switch (receiver)
@@ -1290,19 +942,134 @@ bool Tuner_PLL( int receiver, int _address, uint _pll)
           Wire.write(0xC2 );
           return (Wire.endTransmission() );  
 #endif
-#ifdef CSR4   //2CH 2 Relays Active HIGH and MAIN I2C Controllers
-          Wire.beginTransmission(_address);
-          Wire.write(MSB );
-          Wire.write(LSB );
-          Wire.write(0xC2 );
-          return (Wire.endTransmission() );  
-#endif
+}
+/**************************************************END OF VIDEO RC CONTROL ZONE***************************************************************/
+
+/****************************************************DON'T TOUCH********************************************************************/
+void IRAM_ATTR resetModule() 
+{
+DEBUG_PRINTLN("Watch Dog Timer Timout, rebooting....");
+ESP.restart();
 }
 
+void initWDG(int wdtTimeout,bool _enable) 
+{
+   _timer = timerBegin(0, 80, true);                                    //timer 0, div 80
+   timerAttachInterrupt(_timer, &resetModule, true);                  //attach callback
+   timerAlarmWrite(_timer, wdtTimeout * 1000, false);              //set time in us
+   enableWDG(_enable);                                            //enable interrupt
+}
+
+void enableWDG(bool _enable)
+  {
+   if (_enable) timerAlarmEnable(_timer);                          //enable interrupt
+   else timerAlarmDisable(_timer);                                //Disable interrupt
+   resetWdg();                                        //reset timer (feed watchdog)  
+  }
+  
+void resetWdg(void)
+  {
+   timerWrite(_timer, 0);                                        //reset timer (feed watchdog)  
+  }
 
 
+void rebootSw(void)
+{
+ ESP.restart();
+}
+
+void  dvrOnOff (bool onOff)
+{
+   if (onOff) digitalWrite(AV_RX_DVR_PIN_2, LOW); 
+   else digitalWrite(AV_RX_DVR_PIN_2, HIGH); 
+}
+
+void netgeerCtrl(void)
+{
+       if ( (  (millis() - routerResetTimer) >= routerTimer) && routerResetStart)
+                {
+    
+                routerResetStart=false;
+                routerResetTimer        = millis();
+                restartAfterResetNG     = millis();
+                netGeerReset = true;
+                blynkInitDone = false;
+                pingGoogle =false;
+               }
+
+       if ( ( (millis() - resetNetgeerAfterInternetLossTimer) >= INTERNET_LOSS_TO_RESET_NG_TIMER) && InternetLoss && !blynkConnected && !netGeerReset)
+        {
+              DEBUG_PRINTLN("Blynk Disconnected for 2 min, Reset Netgeer");
+                if(!routerResetStart){routerResetTimer        = millis();routerResetStart = true;DEBUG_PRINTLN("Netgeer Reset done: ");}
+        }
+
+       if (  ( (millis() - restartAfterResetNG) >=  RESTART_AFTER_NG_RESET_TIMER) && netGeerReset )
+          {
+            DEBUG_PRINTLN("Resetaring 30 min after Netgeer Rreset");
+            ESP.restart(); 
+          }
+}     
+
+void ResetNetgeer(void)
+          {
+              if(!routerResetStart)
+              {
+                routerResetTimer        = millis();
+                routerResetStart = true;
+                DEBUG_PRINTLN("Netgeer Reset done: ");
+              }
+          }
+
+/*
+bool pingGoogleConnection(void)
+{
+       bool pingInternet= Ping.ping("www.google.com");
+       DEBUG_PRINT("Ping Google: ");DEBUG_PRINTLN(pingInternet ? F("succesiful") : F("failed"));
+       return (pingInternet);
+}
+*/
+
+int stringToInteger(String str)
+{
+char carray[5]; 
+      str.toCharArray(carray, sizeof(carray));
+      return ( atoi(carray));  
+}
+
+void goToDeepSleep(int sleepTimer)
+{
+    //  sendToHMI("Going to Deep Sleep", "Going to Deep Sleep", "Going to Deep Sleep",FB_NOTIFIER, "Going to Deep Sleep" );
+    //  sms.sim800PowerOn(false)  ;
+      DEBUG_PRINT("Sleep for: ");  DEBUG_PRINT(sleepTimer * 60* 1000000);DEBUG_PRINTLN(" uSec");
+      esp_sleep_enable_timer_wakeup(sleepTimer * 60 * 1000000); // in microseconds
+      Serial.flush(); 
+      esp_deep_sleep_start();
+}
+
+void looadRoomData()
+{
+  int freq;
+       
+ for(byte i=1;i<21;i++)
+          {
+            videoCh[i].frequency = freqTable[i];
+            freq=videoCh[i].frequency;
+            roomId[i].vCh  = roomId[i].rCh = videoCh[i].id = i;
+            _pll[i] = ( 512 * (freq + 479.5) ) / 64 ;
+          }
+}
+
+void createHandleGroup()
+{
+     //Create a program that allows the required message objects and group flags
+    g_event_queue_handle = xQueueCreate(50, sizeof(int)); // Creates a queue of 50 int elements
+    g_event_group = xEventGroupCreate();
+}
+/*************************************************END OF DON'T TOUCH*********************************************************************************************/
+    
 
 
+/*************************************************OTA ZONE********************************************************************************************/
  void firmwareUpdate(void) {
     WiFiClientSecure client;
     client.setCACert(rootCACertificate);
@@ -1322,7 +1089,6 @@ bool Tuner_PLL( int receiver, int _address, uint _pll)
         break;
     }
 }
-
 
 int CSRFirmwareVersionCheck(void) {
     String payload;
@@ -1390,8 +1156,6 @@ void OtaGithub(void) {
     firmwareUpdate();
   }
 }
-
-
 
 void wifiUploadCtrl(void)
 {}
@@ -1469,6 +1233,77 @@ void localWebWifiOtaSetup(void)
 
 void otaIdeSetup (void)
      {}
+/*************************************************END OF OTA ZONE********************************************************************************************/
+
+
+/*************************************************NODE RED AWS IOT ZONE********************************************************************************************/
+void connectAWS()
+{
+  // Configure WiFiClientSecure to use the AWS IoT device credentials
+  net.setCACert(AWS_CERT_CA);
+  net.setCertificate(AWS_CERT_CRT);
+  net.setPrivateKey(AWS_CERT_PRIVATE);
+ 
+  // Connect to the MQTT broker on the AWS endpoint we defined earlier
+  client.setServer(AWS_IOT_ENDPOINT, 8883);
+ 
+  // Create a message handler
+  //client.setCallback(messageHandler); 
+  client.setCallback(callback);
+  myBlynk.TerminalPrint("Connecting Client to AWS IOT");
+ 
+  while (!client.connect(THINGNAME))
+  {
+    Serial.print(".");
+    delay(1000);
+    return;
+  }
+   if (!client.connected())
+  {
+    myBlynk.TerminalPrint("AWS IoT Timeout!");
+    return;
+  }
+
+  // Subscribe to a topic
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_VIDEO);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAP);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_RX);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_AV_RC);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_DVR);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_REBOOT);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_SCAN);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_REPEAT);  
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_PRESET); 
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO);  
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON); 
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_RC);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA);    
+  
+  doc2["version"] = VERSION_ID;
+  serializeJson(doc2, Json); // print to client
+  client.publish(AWS_IOT_SUBSCRIBE_TOPIC_VERSION , Json);
+  myBlynk.TerminalPrint("AWS IoT Connected!");
+}
+
+void retriveDataFromTopic (char* topic, byte* payload, unsigned int length )
+{
+        for (int i=0;i<length;i++) //Converts the received message to String
+        {      
+          resultS= resultS + (char)payload[i];
+        }
+
+        DeserializationError error = deserializeJson(doc1, resultS); //Command to derealize the received Json
+        if (error) 
+        {
+          myBlynk.TerminalPrint(F("deserializeJson() failed with code "));
+          myBlynk.TerminalPrint(error.f_str());
+        } 
+        _nodeRedEvent = true; 
+        hmi = NODE_RED; 
+}
 
 bool getDataNodeRed(void)
 {
@@ -1488,7 +1323,7 @@ int getChID(int ch)
         switch (ch)
         {
           case 1:
-                return (Q_EVENT_RM_ID_01_V121);
+                return (Q_EVENT_RM_ID_10_V112);
           break;
 
           case 2:
@@ -1548,70 +1383,109 @@ int getChID(int ch)
         }  
 }     
 
-void retriveDataFromTopic (char* topic, byte* payload, unsigned int length )
-{
-        for (int i=0;i<length;i++) //Converts the received message to String
-        {      
-          resultS= resultS + (char)payload[i];
-        }
+/********************* AWS MQTT BROKER CALLBACK *******************************************************/
+void callback(char* topic, byte* payload, unsigned int length) {
+  resultS = "";   //Empty variable from serialized Json
+ 
+  if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_VIDEO)
+    {
+        retriveDataFromTopic(topic, payload,length);
+        _nodeRedData  = doc1["CMD"]; 
+        int ch        = doc1["VIDEO"] ;
+        nodeRedeventdata =getChID (ch) ;
+        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
+     }
 
-        DeserializationError error = deserializeJson(doc1, resultS); //Command to derealize the received Json
-        if (error) 
-        {
-          myBlynk.TerminalPrint(F("deserializeJson() failed with code "));
-          myBlynk.TerminalPrint(error.f_str());
-        } 
-        _nodeRedEvent = true; 
-        hmi = NODE_RED; 
+  else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_ZAP)
+    {
+        retriveDataFromTopic(topic, payload,length);
+        _nodeRedData  = doc1["ZAP"];
+        nodeRedeventdata = Q_EVENT_ZAP_V71;
+        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
+        myBlynk.zapLed(_nodeRedData);
+    }
+
+  else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_RX)
+    {
+        retriveDataFromTopic(topic, payload,length);
+        _nodeRedData  = doc1["RX"];
+        nodeRedeventdata = Q_EVENT_SELECTED_RECIEVER_V9;
+        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
+        myBlynk.RelaySelect(_nodeRedData);
+        
+    }   
+    
+  else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_AV_RC)
+    {
+        retriveDataFromTopic(topic, payload,length);
+        _nodeRedData  = doc1["AVRC"];
+        nodeRedeventdata = Q_EVENT_ROOM_AV_RC_V19;
+        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
+        myBlynk.sendAvRxIndex(_nodeRedData);
+      }   
+
+  else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_DVR)
+    {
+        retriveDataFromTopic(topic, payload,length);
+        _nodeRedData  = doc1["DVR"];
+        nodeRedeventdata = Q_EVENT_DVR_ON_OFF_V27;
+        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
+        myBlynk.dvrSwitch(_nodeRedData); 
+
+    }   
+
+else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_REBOOT)
+    {
+        myBlynk.TerminalPrint(" Received topic is: " + String(topic) +"Rebooting ESP");
+        ESP.restart();
+    }  
+
+
+else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_SCAN)
+    {
+        retriveDataFromTopic(topic, payload,length);
+        _nodeRedData  = doc1["SCAN"];
+        nodeRedeventdata = Q_SCAN_ACTIVE_CH_V4;
+        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
+        myBlynk.scanActiveCh(_nodeRedData); 
+     }
+
+else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_REPEAT)
+    {
+        retriveDataFromTopic(topic, payload,length);
+        _nodeRedData  = doc1["REPEAT"];
+        nodeRedeventdata = Q_EVENT_REPEAT_V3;
+        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
+        myBlynk.scanActiveCh(_nodeRedData); 
+     }
+     
+else if(String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_PRESET)
+    {
+        retriveDataFromTopic(topic, payload,length);
+        _nodeRedData  = doc1["PRESET"];
+        nodeRedeventdata = Q_EVENT_RESET_FREQ_V26;
+        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
+        
+    }
+    
+else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO)
+    {
+        retriveDataFromTopic(topic, payload,length);
+        _nodeRedData  = doc1["ZAPAUTO"];
+        nodeRedeventdata = Q_EVENT_AUTOMATIC_RC_L_R_V5;
+        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
+        myBlynk.zapAutoLocalRC(_nodeRedData); 
+    }
+
+else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_RC)
+    {
+        retriveDataFromTopic(topic, payload,length);
+        _nodeRedData  = doc1["RC"];
+        nodeRedeventdata = Q_EVENT_RC_CH_NR_V1;
+        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
+        
+    }
+    
+ myBlynk.TerminalPrint(" Topic " + String(topic) +" Payload: "+ String(_nodeRedData));
 }
-
-void connectAWS()
-{
-  // Configure WiFiClientSecure to use the AWS IoT device credentials
-  net.setCACert(AWS_CERT_CA);
-  net.setCertificate(AWS_CERT_CRT);
-  net.setPrivateKey(AWS_CERT_PRIVATE);
- 
-  // Connect to the MQTT broker on the AWS endpoint we defined earlier
-  client.setServer(AWS_IOT_ENDPOINT, 8883);
- 
-  // Create a message handler
-  //client.setCallback(messageHandler); 
-  client.setCallback(callback);
-  myBlynk.TerminalPrint("Connecting Client to AWS IOT");
- 
-  while (!client.connect(THINGNAME))
-  {
-    Serial.print(".");
-    delay(1000);
-    return;
-  }
-   if (!client.connected())
-  {
-    myBlynk.TerminalPrint("AWS IoT Timeout!");
-    return;
-  }
-
-  // Subscribe to a topic
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_VIDEO);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAP);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_RX);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_AV_RC);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_DVR);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_REBOOT);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_SCAN);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_REPEAT);  
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_PRESET); 
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO);  
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON); 
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_RC);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA);    
-  
-  doc2["version"] = VERSION_ID;
-  serializeJson(doc2, Json); // print to client
-  client.publish(AWS_IOT_SUBSCRIBE_TOPIC_VERSION , Json);
-  myBlynk.TerminalPrint("AWS IoT Connected!");
-}
+/*************************************************END OF NODE RED AWS IOT ZONE********************************************************************************************/

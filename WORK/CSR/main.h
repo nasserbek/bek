@@ -35,6 +35,7 @@ EventGroupHandle_t g_event_group = NULL;
 WiFiClientSecure net = WiFiClientSecure();
 PubSubClient client(net);
 
+bool awsConnected = false;
 String resultS = "";  //Variable to store the MQTT input message
 char Json[40];        //Variable to store the serialized Json
 StaticJsonDocument<54> doc1; //Json to receive in

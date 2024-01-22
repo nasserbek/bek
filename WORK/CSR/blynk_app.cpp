@@ -741,11 +741,11 @@ BLYNK_WRITE(V111)   //Zapping ch19
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
-BLYNK_WRITE(V112)   //Zapping ch20
+BLYNK_WRITE(V112)   
 {
     _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_ZAP_CHANNEL20_V112;
+    eventdata = Q_EVENT_RM_ID_10_V112;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -759,7 +759,7 @@ BLYNK_WRITE(V121)
 
     _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_RM_ID_01_V121;
+    eventdata = Q_EVENT_SPARE_V121;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -1021,7 +1021,6 @@ void blynk::sendPulseRepetetion(int pulse, int repetetion)
 {
   Blynk.virtualWrite(V98, pulse);
   Blynk.virtualWrite(V101, repetetion);
-  Blynk.virtualWrite(V27, 1);  //Send video is Off
 }
 
 
