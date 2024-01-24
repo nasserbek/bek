@@ -50,6 +50,7 @@ int   nodeRedeventdata;
 int hmi = 0; //0 Blynk 1 Node red 
 /********************* AWS MQTT BROKER *******************************************************/
 
+bool zapScanOnly = false;
 int lastSelectedCh = 1;
 bool autoRemoteLocalRc = false;
 bool repeatCh = false;

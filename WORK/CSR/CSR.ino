@@ -112,8 +112,8 @@ void loop(void)
                   }
          }
       /*****************************************************/   
-    
-    if (zapOnOff ) zappingAvCh (zapOnOff, zapTimer); 
+    bool zapScan = zapOnOff || zapScanOnly;
+    if (zapScan) zappingAvCh ( zapScan, zapTimer); 
 }
 
 
@@ -187,8 +187,8 @@ void processBlynkQueu(void)
                                  
             break;
  
-            case Q_EVENT_SPARE_V10:
-
+            case Q_EVENT_ZAP_SCAN_ONLY_V10:
+                  zapScanOnly = queuData;
             break;
 
             case Q_EVENT_SPARE_V11:
@@ -283,7 +283,8 @@ void processBlynkQueu(void)
               resetZapper ();
               //if(!zapOnOff)
               scanZapSetup =false;
-              myBlynk.scanActiveCh(scanZapSetup);
+              zapScanOnly = false;
+              myBlynk.zapSetupOrScanOnly(false);
             break;
 
             case Q_EVENT_ZAP_TIMER_V72:
@@ -559,7 +560,7 @@ void turnOn (int ch, int prevCh,  int smb,  int sma)
       
       if (!autoRemoteLocalRc) automaticOn(ch);
       if (prevCh == 0){recevierCh=videoCh[ch].id;     receiverAvByCh (recevierCh);}
-      remoteControl(ch);   
+      if (!zapScanOnly) remoteControl(ch);   
      }
      
 void turnOff(int ch, int prevCh, int smc )
@@ -569,7 +570,7 @@ void turnOff(int ch, int prevCh, int smc )
             {
               recevierCh=videoCh[ch].id; 
               receiverAvByCh (recevierCh); 
-              remoteControl(prevCh);
+              if (!zapScanOnly) remoteControl(prevCh);
             }
           stateMachine =smc;
  }
@@ -579,15 +580,9 @@ void turnOff(int ch, int prevCh, int smc )
   if (videoCh[ch].zap) 
       {
         if (stateMachine == sma || repeatCh == true) turnOn(ch,previousCh, smb, sma); 
-  //      if (scanZapSetup  )
-   //         {
-   //           if ( (stateMachine == smb) &&  (millis() - scantime > scanTimer )  )  { turnOff(ch, previousCh, smc); nextState( nextSm); previousCh = ch; }
-   //         }
-   //     else
-   //       {  
+  
             if ( (stateMachine == smb) &&  (millis() - zaptimeOff > zapTimerOff )  ) turnOff(ch, previousCh, smc);
             if ( (stateMachine == smc) && (millis() - zaptime > zapTimer ) ) { nextState( nextSm); previousCh = ch;}
-   //       }  
       }  
   else nextState(nextSm);                     
 }
@@ -737,8 +732,6 @@ void zappingAvCh (bool zapCmd, int zapTimer)
 /**************************************************VIDEO RC CONTROL ZONE***************************************************************/
 void remoteControl(int cmd )
 {
-//  if (!scanZapSetup)
- //  {
        if( (!RC_Remote_CSR1) && (!RC_Remote_CSR2)  && (!RC_Remote_CSR3))
         {
          mySwitch.send(CH_433[cmd], RC_CODE_LENGTH);
@@ -763,7 +756,6 @@ void remoteControl(int cmd )
         serializeJson(doc2, Json); // print to client
         client.publish(AWS_IOT_PUBLISH_TOPIC_RC_3, Json); 
       } 
- //  }   
 }
 
         
@@ -1455,7 +1447,7 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_SCAN)
         _nodeRedData  = doc1["SCAN"];
         nodeRedeventdata = Q_SCAN_ACTIVE_CH_V4;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
-        myBlynk.scanActiveCh(_nodeRedData); 
+        myBlynk.zapSetupOrScanOnly(_nodeRedData); 
      }
 
 else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_REPEAT)
@@ -1464,7 +1456,7 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_REPEAT)
         _nodeRedData  = doc1["REPEAT"];
         nodeRedeventdata = Q_EVENT_REPEAT_V3;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
-        myBlynk.scanActiveCh(_nodeRedData); 
+        myBlynk.zapSetupOrScanOnly(_nodeRedData); 
      }
      
 else if(String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_PRESET)

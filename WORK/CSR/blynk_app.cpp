@@ -305,7 +305,7 @@ BLYNK_WRITE(V10)
 
     _blynkEvent = true; hmi =BLYNK;
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_SPARE_V10;
+    eventdata = Q_EVENT_ZAP_SCAN_ONLY_V10;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 
 }
@@ -971,9 +971,10 @@ void blynk::blynkConnect()
 
 
 
-void blynk::scanActiveCh(bool _data)
+void blynk::zapSetupOrScanOnly(bool _data)
 {
 Blynk.virtualWrite(V4, _data);
+Blynk.virtualWrite(V10, _data);
 }
 
 void blynk::zapAutoLocalRC(bool _data)
