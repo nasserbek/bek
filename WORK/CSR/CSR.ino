@@ -468,6 +468,8 @@ void processBlynkQueu(void)
 
 void videoChanel(int ch, bool cmd)
 {
+    zaptime= millis(); zaptimeOff= millis();  //Stop Zap timers to show another room not in Zap list on the fly
+    
     if (lastSelectedCh !=0 && !zapOnOff && !scanZapSetup && lastSelectedCh != ch) myBlynk.TurnOffLastCh(lastSelectedCh,CH_MODE_0);
     if (scanZapSetup)videoCh[ch].zap=cmd;
     if(!scanZapSetup)
@@ -483,17 +485,21 @@ void videoChanel(int ch, bool cmd)
 
 /**************************************************ZAPPING ZONE***************************************************************/
 
+void resetRemoteRC(void)
+{
+      RC_Remote_CSR1 =false; myBlynk.resetRemoteRC(1);
+      RC_Remote_CSR2 =false; myBlynk.resetRemoteRC(2);
+      RC_Remote_CSR3 =false;  myBlynk.resetRemoteRC(3);  
+}
 void resetZapper (void)
 {
   zaptime= millis(); 
   zaptimeOff= millis();
   scantime= millis();
-  stateMachine =SM_CH1_A; 
-  RC_Remote_CSR1 =false; 
-  RC_Remote_CSR2 =false; 
-  RC_Remote_CSR3 =false;
+  resetRemoteRC();
   previousCh =0;
   repeatCh = false;
+  stateMachine =SM_CH1_A;
   
 }
 
@@ -501,9 +507,7 @@ void resetZapper (void)
 void nextState( int nextSm)
     {
       stateMachine =nextSm;
-      RC_Remote_CSR1 =false;
-      RC_Remote_CSR2 =false; 
-      RC_Remote_CSR3 =false;      
+      resetRemoteRC();      
     } 
 
  void automaticOn(int chanel)
@@ -575,22 +579,28 @@ void turnOff(int ch, int prevCh, int smc )
   if (videoCh[ch].zap) 
       {
         if (stateMachine == sma || repeatCh == true) turnOn(ch,previousCh, smb, sma); 
-        if (scanZapSetup  )
-            {
-              if ( (stateMachine == smb) &&  (millis() - scantime > scanTimer )  )  { turnOff(ch, previousCh, smc); nextState( nextSm); previousCh = ch; }
-            }
-        else
-          {  
+  //      if (scanZapSetup  )
+   //         {
+   //           if ( (stateMachine == smb) &&  (millis() - scantime > scanTimer )  )  { turnOff(ch, previousCh, smc); nextState( nextSm); previousCh = ch; }
+   //         }
+   //     else
+   //       {  
             if ( (stateMachine == smb) &&  (millis() - zaptimeOff > zapTimerOff )  ) turnOff(ch, previousCh, smc);
             if ( (stateMachine == smc) && (millis() - zaptime > zapTimer ) ) { nextState( nextSm); previousCh = ch;}
-          }  
+   //       }  
       }  
   else nextState(nextSm);                     
 }
 
 void zappingAvCh (bool zapCmd, int zapTimer)
 {
- if( zapCmd )
+ if( (Av_Rx !=1) || scanZapSetup )  //Stop Zapping if RC or Both is selected or Zsetup
+  {
+      zaptime= millis();
+      zaptimeOff= millis(); 
+  }
+  
+ if( zapCmd && (Av_Rx==1) && (!scanZapSetup) )
   { 
          switch (stateMachine)
           {
@@ -718,7 +728,7 @@ void zappingAvCh (bool zapCmd, int zapTimer)
                                                            
           }
   }
-  else {zaptime= millis();stateMachine =SM_CH1_A;}
+  else if (!zapCmd) {zaptime= millis();stateMachine =SM_CH1_A;}
 }
 
 /**************************************************END OF ZAPPING ZONE***************************************************************/
@@ -727,11 +737,9 @@ void zappingAvCh (bool zapCmd, int zapTimer)
 /**************************************************VIDEO RC CONTROL ZONE***************************************************************/
 void remoteControl(int cmd )
 {
-  if (!scanZapSetup)
-   {
-    // if (blynkConnected)  myBlynk.blynkRCLed(1, cmd); 
-    
-      if( (!RC_Remote_CSR1) && (!RC_Remote_CSR2)  && (!RC_Remote_CSR3))
+//  if (!scanZapSetup)
+ //  {
+       if( (!RC_Remote_CSR1) && (!RC_Remote_CSR2)  && (!RC_Remote_CSR3))
         {
          mySwitch.send(CH_433[cmd], RC_CODE_LENGTH);
         }
@@ -755,7 +763,7 @@ void remoteControl(int cmd )
         serializeJson(doc2, Json); // print to client
         client.publish(AWS_IOT_PUBLISH_TOPIC_RC_3, Json); 
       } 
-   }   
+ //  }   
 }
 
         

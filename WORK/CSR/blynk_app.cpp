@@ -994,8 +994,21 @@ void blynk::blynkFirebaseLed(bool _data)
 {
 }
 
-void blynk::sendAlive(int _data)
+void blynk::resetRemoteRC(int _data)
 {
+  switch (_data)
+        {
+          case 1:
+                   Blynk.virtualWrite(V16, 0); 
+          break;
+
+          case 2:
+                   Blynk.virtualWrite(V20, 0); 
+          break;
+          case 3:
+                   Blynk.virtualWrite(V17, 0); 
+          break;
+        }   
 }
 
 /***************************************************/
