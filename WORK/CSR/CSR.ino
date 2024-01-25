@@ -46,8 +46,9 @@ void setup()
      
     internetSurvilanceTimer = millis();
     liveTimerOff            = millis();
-    liveTimerOn             = millis();
     OtaTimeoutTimer            = millis();
+
+    ackTimer                = millis();
     restartAfterResetNG     = millis();
     NetgeerResetGooglLostTimer = millis();
     blynkNotActiveTimer     = millis();
@@ -147,14 +148,15 @@ void processBlynkQueu(void)
                 if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
                 else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
                 receiverAvByCh ( recevierCh);
-
+             break;
+             
              case Q_EVENT_REPEAT_V3:
                   repeatCh =queuData;
              break;
 
 
             case Q_SCAN_ACTIVE_CH_V4:
-                  scanZapSetup =queuData; 
+                  zapSetup =queuData; 
                //   resetZapper ();
             break;
 
@@ -282,7 +284,7 @@ void processBlynkQueu(void)
               zapOnOff=queuData;
               resetZapper ();
               //if(!zapOnOff)
-              scanZapSetup =false;
+              zapSetup =false;
               zapScanOnly = false;
               myBlynk.zapSetupOrScanOnly(false);
             break;
@@ -470,17 +472,15 @@ void processBlynkQueu(void)
 void videoChanel(int ch, bool cmd)
 {
     zaptime= millis(); zaptimeOff= millis();  //Stop Zap timers to show another room not in Zap list on the fly
-    
-    if (lastSelectedCh !=0 && !zapOnOff && !scanZapSetup && lastSelectedCh != ch) myBlynk.TurnOffLastCh(lastSelectedCh,CH_MODE_0);
-    if (scanZapSetup)videoCh[ch].zap=cmd;
-    if(!scanZapSetup)
+ 
+    if (zapSetup)videoCh[ch].zap=cmd;
+    if(!zapSetup)
     {
       remoteControlRcCh = ch;
       recevierCh        = ch;
       room ( remoteControlRcCh, recevierCh , Av_Rx );
-    }
-    if (hmi == NODE_RED && cmd==0) myBlynk.TurnOffLastCh(ch,CH_MODE_0);
-    if (hmi == NODE_RED && cmd==1) myBlynk.TurnOffLastCh(ch,CH_MODE_2);
+     }
+    if (lastSelectedCh !=0 && !zapOnOff && !zapSetup && lastSelectedCh != ch ) myBlynk.TurnOffLastCh( ACK_BAD ,lastSelectedCh,CH_MODE_0);
     lastSelectedCh = ch;
 }
 
@@ -547,8 +547,6 @@ void automaticOff(int chanel)
         
 void turnOn (int ch, int prevCh,  int smb,  int sma)
     {
-      myBlynk.TurnOffLastCh(ch,CH_MODE_1);
-      myBlynk.TurnOffLastCh(prevCh,CH_MODE_2);
       
       zaptime= millis();
       zaptimeOff= millis(); 
@@ -559,7 +557,12 @@ void turnOn (int ch, int prevCh,  int smb,  int sma)
       stateMachine =smb;
       
       if (!autoRemoteLocalRc) automaticOn(ch);
-      if (prevCh == 0){recevierCh=videoCh[ch].id;     receiverAvByCh (recevierCh);}
+      if (prevCh == 0)
+        {
+          recevierCh=videoCh[ch].id;     
+          receiverAvByCh (recevierCh);
+          myBlynk.TurnOffLastCh( lastAck,recevierCh,CH_MODE_1);
+        }
       if (!zapScanOnly) remoteControl(ch);   
      }
      
@@ -570,6 +573,8 @@ void turnOff(int ch, int prevCh, int smc )
             {
               recevierCh=videoCh[ch].id; 
               receiverAvByCh (recevierCh); 
+              myBlynk.TurnOffLastCh( lastAck,recevierCh,CH_MODE_1);
+              myBlynk.TurnOffLastCh( lastAck,prevCh,CH_MODE_2);
               if (!zapScanOnly) remoteControl(prevCh);
             }
           stateMachine =smc;
@@ -579,23 +584,23 @@ void turnOff(int ch, int prevCh, int smc )
 {
   if (videoCh[ch].zap) 
       {
-        if (stateMachine == sma || repeatCh == true) turnOn(ch,previousCh, smb, sma); 
-  
-            if ( (stateMachine == smb) &&  (millis() - zaptimeOff > zapTimerOff )  ) turnOff(ch, previousCh, smc);
-            if ( (stateMachine == smc) && (millis() - zaptime > zapTimer ) ) { nextState( nextSm); previousCh = ch;}
+            if (stateMachine == sma || repeatCh == true) turnOn(ch,previousCh, smb, sma); 
+            if ( ( !zapScanOnly && (stateMachine == smb) &&  (millis() - zaptimeOff > zapTimerOff ) ) || (zapScanOnly && (stateMachine == smb)  )  ) turnOff(ch, previousCh, smc);
+            if ( ( !zapScanOnly && (stateMachine == smc) && (millis() - zaptime > zapTimer) ) || ( zapScanOnly && (stateMachine == smc) && (millis() - scantime > scanTimer) ) ) { nextState( nextSm); previousCh = ch;}
       }  
   else nextState(nextSm);                     
 }
 
+
 void zappingAvCh (bool zapCmd, int zapTimer)
 {
- if( (Av_Rx !=1) || scanZapSetup )  //Stop Zapping if RC or Both is selected or Zsetup
+ if( (Av_Rx !=1) || zapSetup )  //Stop Zapping if RC or Both is selected or Zsetup
   {
       zaptime= millis();
       zaptimeOff= millis(); 
   }
   
- if( zapCmd && (Av_Rx==1) && (!scanZapSetup) )
+ if( zapCmd && (Av_Rx==1) && (!zapSetup) )
   { 
          switch (stateMachine)
           {
@@ -759,21 +764,21 @@ void remoteControl(int cmd )
 }
 
         
-void receiverAvByCh (int Ch)
+bool receiverAvByCh (int Ch)
 {
   bool ack;
   int PLL_value;
   
-       if (blynkConnected) myBlynk.blynkAckLed(true);
+       if (blynkConnected) myBlynk.blynkAckLed(ACK_BAD);
        ack = Tuner_PLL(selected_Rx, av_pll_addr, _pll[Ch]); 
-       delay(500);
        
+   //    if (ack == ACK_BAD) myBlynk.TurnOffLastCh( lastAck,Ch,CH_MODE_3);
        if (blynkConnected) {myBlynk.blynkAckLed( ack); myBlynk.sevenSegValue(Ch);}
-       recevierFreq =videoCh[Ch].frequency;   
        
-       if (blynkConnected) {myBlynk.frequencyValue(recevierFreq );myBlynk.visualActiveRoom(Ch,zapOnOff );}
-       DEBUG_PRINT("Received freq channel:");DEBUG_PRINTLN(Ch);
-       DEBUG_PRINT("ack: ");DEBUG_PRINTLN(ack ? F("NotACK") : F("ACK"));
+       recevierFreq =videoCh[Ch].frequency;       
+       if (blynkConnected) myBlynk.frequencyValue(recevierFreq );
+       
+       lastAck = ack;   return(lastAck);
 }
 
 
@@ -786,8 +791,6 @@ void receiverAvByFreq ( int Freq)
        _pll[recevierCh] =( 512 * (Freq + 479.5) ) / 64 ;
        ack = Tuner_PLL(selected_Rx, av_pll_addr, _pll[recevierCh]);
        if (blynkConnected)  { myBlynk.blynkAckLed(ack);myBlynk.frequencyValue(Freq );}
-       DEBUG_PRINT("Received manual_freq:");DEBUG_PRINTLN(manual_freq);
-       DEBUG_PRINT("ack: ");DEBUG_PRINTLN(ack ? F("NotACK") : F("ACK"));
 }
 
 void room ( int RC, int AV, int sel)

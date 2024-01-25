@@ -35,6 +35,7 @@ EventGroupHandle_t g_event_group = NULL;
 WiFiClientSecure net = WiFiClientSecure();
 PubSubClient client(net);
 
+bool lastAck = false;
 bool awsConnected = false;
 String resultS = "";  //Variable to store the MQTT input message
 char Json[40];        //Variable to store the serialized Json
@@ -54,7 +55,7 @@ bool zapScanOnly = false;
 int lastSelectedCh = 1;
 bool autoRemoteLocalRc = false;
 bool repeatCh = false;
-bool scanZapSetup = false;
+bool zapSetup = false;
 int previousCh =0;
 int queuData;
 int queuDataID;
@@ -150,12 +151,13 @@ bool blynkOn    =true;
 bool wifiOn     =true;
 bool smsOn      =true;
 
-int scanTimer = 3000;
+int ackTimer =  500;
+int scanTimer = 5000;
 int zapTimer = 15000;
 int zapTimerOff = 5000;
 
 int routerTimer = 5000;
-long  routerResetTimer, resetNetgeerAfterInternetLossTimer,zaptime, zaptimeOff,scantime, Sms_24_hoursTimer, internetSurvilanceTimer, liveTimerOn,liveTimerOff,OtaTimeoutTimer,restartAfterResetNG,NetgeerResetGooglLostTimer,blynkNotActiveTimer;
+long  routerResetTimer, resetNetgeerAfterInternetLossTimer,zaptime, zaptimeOff,scantime, AckTime, internetSurvilanceTimer, liveTimerOn,liveTimerOff,OtaTimeoutTimer,restartAfterResetNG,NetgeerResetGooglLostTimer,blynkNotActiveTimer;
 bool pingGoogle= false;
 bool googlePingOk= true;
 bool netGeerReset = false;

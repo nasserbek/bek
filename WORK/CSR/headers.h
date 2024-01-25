@@ -178,6 +178,13 @@ CH_MODE_3,
 CH_MODE_4,
 } ;
 
+
+enum {
+ACK_GOOD,
+ACK_BAD,
+} ;
+
+
 enum {
 BLYNK,
 NODE_RED,
