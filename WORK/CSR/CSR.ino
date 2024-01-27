@@ -568,7 +568,7 @@ void turnOn (int ch, int prevCh,  int smb,  int sma)
      
 void turnOff(int ch, int prevCh, int smc )
  {  
-          if (autoRemoteLocalRc) automaticOff(prevCh);
+          if (!autoRemoteLocalRc) automaticOff(prevCh);
           if (prevCh != 0)
             {
               recevierCh=videoCh[ch].id; 
