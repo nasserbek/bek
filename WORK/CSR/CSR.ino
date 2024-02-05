@@ -33,7 +33,7 @@ void setup()
                        #ifdef CSR2    
                         myBlynk.RelaySelect(1);
                      #endif 
-                      #ifdef CSR3    
+                      #if defined CSR3 || defined TEST    
                         myBlynk.RelaySelect(3);
                      #endif   
                 myBlynk.dvrSwitch(1);
@@ -65,7 +65,6 @@ void setup()
 void loop(void) 
 {
        resetWdg();    //reset timer (feed watchdog) 
-     
        blynkConnected=myBlynk.blynkStatus(); 
        
        netgeerCtrl();
@@ -76,8 +75,13 @@ void loop(void)
             queuValidData = (xQueueReceive(g_event_queue_handle, &queuDataID, 5 / portTICK_RATE_MS) == pdPASS);
             if(queuValidData) 
                   {
-                    if (hmi == BLYNK)    {myBlynk.getData (); queuData = myBlynk.blynkData; }
-                    processBlynkQueu();
+                    myBlynk.getData ();
+                  if (hmi == BLYNK)    
+                    {
+                     myBlynk.TerminalPrint("queuValidData received from Blynk:");
+                     queuData = myBlynk.blynkData; 
+                     processBlynkQueu(); 
+                    }
                   }
             InternetLoss = false;   resetNetgeerAfterInternetLossTimer = millis();
             netGeerReset = false;   restartAfterResetNG = millis();
@@ -108,11 +112,16 @@ void loop(void)
             queuValidData = (xQueueReceive(g_event_queue_handle, &queuDataID, 5 / portTICK_RATE_MS) == pdPASS);
             if(queuValidData) 
                   {
-                    if (hmi == NODE_RED) { getDataNodeRed (); queuData = nodeRedData; }
-                    processBlynkQueu();
+                      getDataNodeRed ();
+                      if (hmi == NODE_RED) { 
+                      myBlynk.TerminalPrint("queuValidData received from AWS:");
+                      queuData = nodeRedData; 
+                      processBlynkQueu();
+                      }
                   }
          }
       /*****************************************************/   
+      
     bool zapScan = zapOnOff || zapScanOnly;
     if (zapScan) zappingAvCh ( zapScan, zapTimer); 
 }
@@ -171,7 +180,7 @@ void processBlynkQueu(void)
             break;
 
             case Q_EVENT_OTA_GITHUB_V7:
-                   OtaGithubGithub= false;         
+                   otaWifiGithub= false;         
                    OtaTimeoutTimer = millis();
                    OtaGithub();
             break;
@@ -184,8 +193,7 @@ void processBlynkQueu(void)
 
            case Q_EVENT_SELECTED_RECIEVER_V9:
                selected_Rx = queuData-1;
-             // TCA9548A(selected_Rx);
-             AvReceiverSel(queuData);
+               AvReceiverSel(queuData);
                                  
             break;
  
@@ -193,7 +201,11 @@ void processBlynkQueu(void)
                   zapScanOnly = queuData;
             break;
 
-            case Q_EVENT_SPARE_V11:
+            case Q_EVENT_WIFI_IDE_V11:
+               wifiIde = false;         
+               OtaTimeoutTimer = millis();
+               ArduinoIdeWifi();
+             break;            
 
             break;
 
@@ -480,8 +492,14 @@ void videoChanel(int ch, bool cmd)
       recevierCh        = ch;
       room ( remoteControlRcCh, recevierCh , Av_Rx );
      }
-    if (lastSelectedCh !=0 && !zapOnOff && !zapSetup && lastSelectedCh != ch ) myBlynk.TurnOffLastCh( ACK_BAD ,lastSelectedCh,CH_MODE_0);
+    if (lastSelectedCh !=0 && !zapOnOff && !zapSetup && lastSelectedCh != ch && (hmi == BLYNK)) myBlynk.TurnOffLastCh( ACK_BAD ,lastSelectedCh,CH_MODE_0);
     lastSelectedCh = ch;
+    
+    if (hmi == NODE_RED) 
+    {
+      if(cmd) myBlynk.TurnOffLastCh( lastAck,ch,CH_MODE_4);
+      else myBlynk.TurnOffLastCh( lastAck,ch,CH_MODE_0);
+    }  
 }
 
 /**************************************************ZAPPING ZONE***************************************************************/
@@ -513,7 +531,7 @@ void nextState( int nextSm)
 
  void automaticOn(int chanel)
     {
-        #ifdef CSR3      //
+        #if defined CSR3 || defined TEST      //
           if  ( chanel == R_24 || ( chanel >= R_48 &&  chanel <= R_68 ) ) RC_Remote_CSR1 =true;
         #endif       
 
@@ -530,7 +548,7 @@ void nextState( int nextSm)
 
 void automaticOff(int chanel)
     {
-        #ifdef CSR3      //
+        #if defined CSR3 || defined TEST      //
           if  (  chanel == R_25 || chanel == R_26 || chanel == R_27 || chanel == R_28 || chanel == R_29) RC_Remote_CSR2 =true;
           if  (  chanel == R_24 || (chanel >= R_48 &&   chanel <= R_68)) RC_Remote_CSR1 =true;
         #endif       
@@ -853,7 +871,7 @@ void AvReceiverSel(int queuData)
                     }  
      #endif
                      
-     #ifdef CSR3
+     #if defined CSR3 || defined TEST
                 switch (queuData)
                     {
                       case 1:
@@ -938,7 +956,7 @@ bool Tuner_PLL( int receiver, int _address, uint _pll)
         }   
 #endif
 
-#ifdef CSR3   //2CH 2 Relays Active HIGH and MAIN I2C Controllers
+#if defined CSR3 || defined TEST   //2CH 2 Relays Active HIGH and MAIN I2C Controllers
           Wire.beginTransmission(_address);
           Wire.write(MSB );
           Wire.write(LSB );
@@ -951,7 +969,7 @@ bool Tuner_PLL( int receiver, int _address, uint _pll)
 /****************************************************DON'T TOUCH********************************************************************/
 void IRAM_ATTR resetModule() 
 {
-DEBUG_PRINTLN("Watch Dog Timer Timout, rebooting....");
+Serial.println("Watch Dog Timer Timout, rebooting....");
 ESP.restart();
 }
 
@@ -1073,99 +1091,125 @@ void createHandleGroup()
 
 
 /*************************************************OTA ZONE********************************************************************************************/
- void firmwareUpdate(void) {
-    WiFiClientSecure client;
-    client.setCACert(rootCACertificate);
-    t_httpUpdate_return ret = httpUpdate.update(client, URL_fw_Bin);
 
-    switch (ret) {
-    case HTTP_UPDATE_FAILED:
-        myBlynk.TerminalPrint("HTTP_UPDATE_FAILD Error (%d): %s\n"); //, httpUpdate.getLastError(), httpUpdate.getLastErrorString().c_str());
-        break;
-
-    case HTTP_UPDATE_NO_UPDATES:
-        myBlynk.TerminalPrint("HTTP_UPDATE_NO_UPDATES");
-        break;
-
-    case HTTP_UPDATE_OK:
-        myBlynk.TerminalPrint("HTTP_UPDATE_OK");
-        break;
-    }
-}
-
-int CSRFirmwareVersionCheck(void) {
-    String payload;
-    int httpCode;
-    String FirmwareURL = "";
-    FirmwareURL += URL_fw_Version;
-    FirmwareURL += "?";
-    FirmwareURL += String(rand());
-    myBlynk.TerminalPrint("Local Web connecto to http://esp32.local with admin admin " );
-    myBlynk.TerminalPrint(FirmwareURL);
-    WiFiClientSecure * client = new WiFiClientSecure;
-
-    if (client) {
-        client -> setCACert(rootCACertificate);
-        HTTPClient https;
-
-        if (https.begin( * client, FirmwareURL)) {
-            myBlynk.TerminalPrint("[HTTPS] GET...\n");
-            // start connection and send HTTP header
-            delay(100);
-            httpCode = https.GET();
-            delay(100);
-            if (httpCode == HTTP_CODE_OK) // if version received
-            {
-                payload = https.getString(); // save received version
-            } else {
-                myBlynk.TerminalPrint("Error Occured During Version Check: ");
-                myBlynk.TerminalPrint(String(httpCode));
-            }
-            https.end();
-        }
-        delete client;
-    }
-
-    if (httpCode == HTTP_CODE_OK) // if version received
-    {
-        payload.trim();
-        if (payload.equals(VERSION_ID)) {
-            myBlynk.TerminalPrint("Device  IS Already on Latest Firmware Version: " + String(payload) );
-            return 0;
-        } else {
-            myBlynk.TerminalPrint(payload);
-            myBlynk.TerminalPrint("New Firmware Detected");
-            return 1;
-        }
-    }
-    return 0;
-}
-
-void OtaGithub(void) {
+/************************ OTA GITHUB***************************/
+void OtaGithub(void) 
+{
   myBlynk.TerminalPrint("Starting Ota Web Update from Github");
-  while (!OtaGithubGithub) 
+while (!otaWifiGithub) 
        {
         enableWDG(false);
         if (  millis() - OtaTimeoutTimer > WIFI_IDE_TIMER )
         {
-           OtaGithubGithub = true;
+           otaWifiGithub = true;
            resetWdg();
            enableWDG(true);
            OtaTimeoutTimer = millis();
            ESP.restart();
         }
-        
-    // if ( CSRFirmwareVersionCheck() )    
-    firmwareUpdate();
-  }
+
+      t_httpUpdate_return ret = ESPhttpUpdate.update(gitHubURL);
+
+        switch(ret) {
+            case HTTP_UPDATE_FAILED:
+                USE_SERIAL.printf("HTTP_UPDATE_FAILD Error (%d): %s", ESPhttpUpdate.getLastError(), ESPhttpUpdate.getLastErrorString().c_str());
+                break;
+
+            case HTTP_UPDATE_NO_UPDATES:
+                USE_SERIAL.println("HTTP_UPDATE_NO_UPDATES");
+                break;
+
+            case HTTP_UPDATE_OK:
+                USE_SERIAL.println("HTTP_UPDATE_OK");
+                break;
+                }
+      }
 }
+/************************ END OTA GITHUB***************************/
 
-void wifiUploadCtrl(void)
-{}
-
-void localWebWifiOtaSetup(void)
+/************************ ARDUINO IDE WIFI***************************/
+void ArduinoIdeWifi(void)
 {
-  myBlynk.TerminalPrint("Local Web connecto to http://esp32.local with admin admin " );
+   myBlynk.TerminalPrint("Starting Arduino IDE on Wifi");
+    ArduinoIdeWifiSetup () ;   
+       while (!wifiIde) 
+       {
+        enableWDG(false);
+        if (  millis() - OtaTimeoutTimer > WIFI_IDE_TIMER )
+        {
+           wifiIde = true;
+           resetWdg();
+           enableWDG(true);
+           OtaTimeoutTimer = millis();
+           ESP.restart();
+        }
+        else ArduinoOTA.handle();
+       }
+}
+  
+void ArduinoIdeWifiSetup (void)
+     {
+        ArduinoOTA
+    .onStart([]() {
+      String type;
+      if (ArduinoOTA.getCommand() == U_FLASH)
+        type = "sketch";
+      else // U_SPIFFS
+        type = "filesystem";
+
+      // NOTE: if updating SPIFFS this would be the place to unmount SPIFFS using SPIFFS.end()
+      Serial.println("Start updating " + type);
+      myBlynk.TerminalPrint("Start updating " + type);
+    })
+    .onEnd([]() {
+      Serial.println("\nEnd");
+    })
+    .onProgress([](unsigned int progress, unsigned int total) {
+      Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
+    })
+    .onError([](ota_error_t error) {
+      Serial.printf("Error[%u]: ", error);
+      if (error == OTA_AUTH_ERROR) Serial.println("Auth Failed");
+      else if (error == OTA_BEGIN_ERROR) Serial.println("Begin Failed");
+      else if (error == OTA_CONNECT_ERROR) Serial.println("Connect Failed");
+      else if (error == OTA_RECEIVE_ERROR) Serial.println("Receive Failed");
+      else if (error == OTA_END_ERROR) Serial.println("End Failed");
+    });
+  ArduinoOTA.begin();
+
+  Serial.println("Ready");
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
+ }
+
+/************************END ARDUINO IDE WIFI***************************/ 
+
+
+/************************ LOCAL WIFI SERVER UPLOAD***************************/
+
+void localWebWifiOta (void)
+ {
+  myBlynk.TerminalPrint("Starting Local Web Server");
+   localWebWifiOtaSetup();
+   while (!wifiWebUpdater) 
+       {
+        enableWDG(false);
+        if (  millis() - OtaTimeoutTimer > WIFI_IDE_TIMER )
+        {
+           wifiWebUpdater = true;
+           resetWdg();
+           enableWDG(true);
+           OtaTimeoutTimer = millis();
+           ESP.restart();
+        }
+        server.handleClient();
+        delay(1);
+       }
+ }
+
+ void localWebWifiOtaSetup(void)
+{
+  myBlynk.TerminalPrint("Local Web connected to http://esp32.local with admin admin " );
   //use mdns for host name resolution
   if (!MDNS.begin(host)) { //http://esp32.local
      myBlynk.TerminalPrint("Error setting up MDNS responder!");
@@ -1214,28 +1258,8 @@ void localWebWifiOtaSetup(void)
   server.begin();
  }
 
- void localWebWifiOta (void)
- {
-   localWebWifiOtaSetup();
-   while (!wifiWebUpdater) 
-       {
-        enableWDG(false);
-        if (  millis() - OtaTimeoutTimer > WIFI_IDE_TIMER )
-        {
-           wifiWebUpdater = true;
-           resetWdg();
-           enableWDG(true);
-           OtaTimeoutTimer = millis();
-           ESP.restart();
-        }
-        server.handleClient();
-        delay(1);
-       }
- }
+/************************ END LOCAL WIFI SERVER UPLOAD***************************/
 
-
-void otaIdeSetup (void)
-     {}
 /*************************************************END OF OTA ZONE********************************************************************************************/
 
 
@@ -1284,6 +1308,7 @@ void connectAWS()
   client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH);
   client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA);
   client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA);    
+  client.subscribe(  AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA); 
   
   doc2["version"] = VERSION_ID;
   serializeJson(doc2, Json); // print to client
@@ -1302,7 +1327,7 @@ void retriveDataFromTopic (char* topic, byte* payload, unsigned int length )
         if (error) 
         {
           myBlynk.TerminalPrint(F("deserializeJson() failed with code "));
-          myBlynk.TerminalPrint(error.f_str());
+          myBlynk.TerminalPrint(F("deserializeJson() failed with code "));
         } 
         _nodeRedEvent = true; 
         hmi = NODE_RED; 
@@ -1382,20 +1407,22 @@ int getChID(int ch)
           break;
           case 19:
                     return (Q_EVENT_RM_ID_19_V92);
-          break;                   
+          break;       
+          default:
+           return (Q_EVENT_RM_ID_10_V112);            
         }  
+ return 1;      
 }     
 
 /********************* AWS MQTT BROKER CALLBACK *******************************************************/
 void callback(char* topic, byte* payload, unsigned int length) {
   resultS = "";   //Empty variable from serialized Json
- 
+
   if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_VIDEO)
     {
         retriveDataFromTopic(topic, payload,length);
         _nodeRedData  = doc1["CMD"]; 
-        int ch        = doc1["VIDEO"] ;
-        nodeRedeventdata =getChID (ch) ;
+        nodeRedeventdata =getChID (doc1["VIDEO"]) ;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
      }
 
@@ -1486,9 +1513,32 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_RC)
         _nodeRedData  = doc1["RC"];
         nodeRedeventdata = Q_EVENT_RC_CH_NR_V1;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
-        
     }
-    
+
+else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA)
+    {
+        retriveDataFromTopic(topic, payload,length);
+        _nodeRedData  = doc1["OTAWEB"];
+        nodeRedeventdata = Q_EVENT_OTA_LOCAL_WEB_WIFI_V6;
+        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
+    }    
+
+else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA)
+    {
+        retriveDataFromTopic(topic, payload,length);
+        _nodeRedData  = doc1["OTAGITHUB"];
+        nodeRedeventdata = Q_EVENT_OTA_GITHUB_V7;
+        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
+    }       
+
+else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA)
+    {
+        retriveDataFromTopic(topic, payload,length);
+        _nodeRedData  = doc1["OTAIDE"];
+        nodeRedeventdata = Q_EVENT_WIFI_IDE_V11;
+        xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
+    } 
+         
  myBlynk.TerminalPrint(" Topic " + String(topic) +" Payload: "+ String(_nodeRedData));
 }
 /*************************************************END OF NODE RED AWS IOT ZONE********************************************************************************************/

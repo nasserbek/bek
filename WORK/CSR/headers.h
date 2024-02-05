@@ -1,13 +1,11 @@
 //#define CSR  // TTGO R64 SCATOLA 1CH TTGO
 //#define CSR2  // R65 SCATOLA 4CH ESP32S
-#define CSR3    //R66 SWAN CASE 2CH ESP32S
+//#define CSR3    //R66 SWAN CASE 2CH ESP32S
+#define TEST
 
+#define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/CSR.ino.esp32.bin"  // URL to download the firmware from
 
 //#define CSR4     //USB C ESP32S
-
-//String CSRFirmwareVer = {    "2.0"};
-#define URL_fw_Version "https://raw.githubusercontent.com/nasserbek/bek/tree/master/WORK/CSR/bin-version.txt"
-#define URL_fw_Bin "https://raw.githubusercontent.com/nasserbek/bek/tree/master/WORK/CSR/CSR.ino.esp32.bin"
 
 
 #define BLYNK_TEMPLATE_ID           "TMPL5Y2na6zpd"
@@ -31,6 +29,7 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH   "csr1/sub/zapchanel"
     #define AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA   "csr1/sub/localWebOta"
     #define AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA   "csr1/sub/GitHubWebOta"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA   "csr1/sub/ideOta"
     #define AWS_IOT_SUBSCRIBE_TOPIC_VERSION   "csr1/sub/version"
     #define AWS_IOT_SUBSCRIBE_TOPIC_SCAN   "csr1/sub/scan"
     #define AWS_IOT_SUBSCRIBE_TOPIC_REPEAT   "csr1/sub/repeat"   
@@ -53,7 +52,8 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_REBOOT  "csr2/sub/reboot"
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH   "csr2/sub/zapchanel"
     #define AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA   "csr2/sub/localWebOta"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA   "csr2/sub/GitHubWebOta"    
+    #define AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA   "csr2/sub/GitHubWebOta"   
+    #define AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA   "csr2/sub/ideOta" 
     #define AWS_IOT_SUBSCRIBE_TOPIC_VERSION   "csr2/sub/version"
     #define AWS_IOT_SUBSCRIBE_TOPIC_SCAN   "csr2/sub/scan"
     #define AWS_IOT_SUBSCRIBE_TOPIC_REPEAT   "csr2/sub/repeat"   
@@ -65,7 +65,7 @@
 
 
 #ifdef CSR3     //R66 SWAN CASE 2CH ESP32S
-    #define VERSION_ID " 1.7 "
+    #define VERSION_ID " 2.0 "
     #define BLYNK_AUTH_TOKEN                "6DH6QZgVXrGXU5VzOpJSJgHoyXWL7aWS" //CSR3
     #define THINGNAME "CSR3"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr3/sub/rc"
@@ -77,7 +77,8 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_REBOOT  "csr3/sub/reboot"
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH   "csr3/sub/zapchanel"
     #define AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA   "csr3/sub/localWebOta"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA   "csr3/sub/GitHubWebOta"    
+    #define AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA   "csr3/sub/GitHubWebOta" 
+    #define AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA   "csr3/sub/ideOta"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_VERSION   "csr3/sub/version" 
     #define AWS_IOT_SUBSCRIBE_TOPIC_SCAN   "csr3/sub/scan"
     #define AWS_IOT_SUBSCRIBE_TOPIC_REPEAT   "csr3/sub/repeat"   
@@ -87,27 +88,28 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "csr3/sub/ztoff" 
 #endif
 
-#ifdef CSR4     //R66 SWAN CASE 2CH ESP32S
-    #define VERSION_ID " CSR4.50 "
-    #define BLYNK_AUTH_TOKEN                "T7SZ5q0jqjeA_avnEW_GHJvBvwI6j32f" //CSR4
+#ifdef TEST     //R66 SWAN CASE 2CH ESP32S
+    #define VERSION_ID " 6.4 "
+    #define BLYNK_AUTH_TOKEN                "lzXq8VnMflNkRrToeTSjv4b01kvkG9zl" //CSR4
     #define THINGNAME "CSR4"   
-    #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr4/sub/rc"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "csr4/sub/video"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAP     "csr4/sub/zap"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_RX      "csr4/sub/rx"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_AV_RC   "csr4/sub/avrc"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_DVR     "csr4/sub/dvr"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_REBOOT  "csr4/sub/reboot"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH   "csr4/sub/zapchanel"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA   "csr4/sub/localWebOta"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA   "csr4/sub/GitHubWebOta"    
-    #define AWS_IOT_SUBSCRIBE_TOPIC_VERSION   "csr4/sub/version"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_SCAN   "csr4/sub/scan"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_REPEAT   "csr4/sub/repeat"   
-    #define AWS_IOT_SUBSCRIBE_TOPIC_PRESET  "csr4/sub/preset"  
-    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO   "csr4/sub/zapauto"  
-    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON   "csr4/sub/zton"  
-    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "csr4/sub/ztoff"   
+    #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "test/sub/rc"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "test/sub/video"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAP     "test/sub/zap"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_RX      "test/sub/rx"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_AV_RC   "test/sub/avrc"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_DVR     "test/sub/dvr"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_REBOOT  "test/sub/reboot"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH   "test/sub/zapchanel"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA   "test/sub/localWebOta"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA   "test/sub/GitHubWebOta"   
+    #define AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA   "test/sub/ideOta" 
+    #define AWS_IOT_SUBSCRIBE_TOPIC_VERSION   "test/sub/version"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_SCAN   "test/sub/scan"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_REPEAT   "test/sub/repeat"   
+    #define AWS_IOT_SUBSCRIBE_TOPIC_PRESET  "test/sub/preset"  
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO   "test/sub/zapauto"  
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON   "test/sub/zton"  
+    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "test/sub/ztoff"   
 #endif
 
 #define INTERNET_LOSS_TO_RESET_NG_TIMER 60000   // 1 MIN
@@ -227,7 +229,7 @@ Q_EVENT_REBOOT_V8,
 Q_EVENT_SELECTED_RECIEVER_V9,
 
 Q_EVENT_ZAP_SCAN_ONLY_V10, 
-Q_EVENT_SPARE_V11,
+Q_EVENT_WIFI_IDE_V11,
 Q_EVENT_SPARE_V12,
 
 //I2C_LED_V13(V13);  // USED
@@ -320,7 +322,7 @@ Q_EVENT_RM_ID_19_V92,  //68
 
 #define BLYNK_ACTIVE_TIMEOUT   60000 // 1 MIN
 #define LIVE_TIMER_OFF  3000
-#define WIFI_IDE_TIMER 600000  //10 MIN
+#define WIFI_IDE_TIMER 300000  //10 MIN
 #define WIFI_SURVILANCE_TIMER 120000  // 2 MIN
 #define WIFI_RECONNECT_TIMER 10000  // 10 sec
 #define DEEP_SLEEP_TIME_60_MIN 3600000000   // 1 HOUR in micro 

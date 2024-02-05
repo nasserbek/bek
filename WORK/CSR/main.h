@@ -1,5 +1,7 @@
 #include <Wire.h>
 #include <RCSwitch.h>
+#include <ESP32httpUpdate.h>
+
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/timers.h"
@@ -8,6 +10,7 @@
 
 //#include "av.h"
 #include "blynk_app.h"
+
 #include "headers.h"
 #include <Wire.h>
 #include <WiFi.h>
@@ -23,8 +26,8 @@
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 
-#include <HTTPClient.h>
-#include <HTTPUpdate.h>
+//#include <HTTPClient.h>
+//#include <HTTPUpdate.h>
 
 QueueHandle_t g_event_queue_handle = NULL;
 EventGroupHandle_t g_event_group = NULL;
@@ -167,7 +170,7 @@ bool aliveTimout = false;
 int stateMachine =0;
 bool wifiIde = true;
 bool wifiWebUpdater = true;
-bool OtaGithubGithub = true;
+bool otaWifiGithub = true;
 int repetionRC = 4;
 int pulseRC = 300; //Default protocol 1
 
@@ -304,12 +307,14 @@ RCSwitch mySwitch = RCSwitch();
 #include <Update.h>
 
 const char* host = "esp32";
+
 WebServer server(80);
+
 /*
  * Login page
- */
+*/
 
-const char* loginIndex = 
+const char* loginIndex =
  "<form name='loginForm'>"
     "<table width='20%' bgcolor='A09F9F' align='center'>"
         "<tr>"
@@ -320,14 +325,15 @@ const char* loginIndex =
             "<br>"
             "<br>"
         "</tr>"
-        "<td>Username:</td>"
-        "<td><input type='text' size=25 name='admin><br></td>"
+        "<tr>"
+             "<td>Username:</td>"
+             "<td><input type='text' size=25 name='userid'><br></td>"
         "</tr>"
         "<br>"
         "<br>"
         "<tr>"
             "<td>Password:</td>"
-            "<td><input type='Password' size=25 name='admin'><br></td>"
+            "<td><input type='Password' size=25 name='pwd'><br></td>"
             "<br>"
             "<br>"
         "</tr>"
@@ -350,12 +356,11 @@ const char* loginIndex =
     "}"
 "</script>";
 
-
- /*
+/*
  * Server Index Page
  */
- 
-const char* serverIndex = 
+
+const char* serverIndex =
 "<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>"
 "<form method='POST' action='#' enctype='multipart/form-data' id='upload_form'>"
    "<input type='file' name='update'>"
@@ -384,11 +389,11 @@ const char* serverIndex =
   "return xhr;"
   "},"
   "success:function(d, s) {"
-  "console.log('success!')" 
+  "console.log('success!')"
  "},"
  "error: function (a, b, c) {"
  "}"
  "});"
  "});"
  "</script>";
-/*********************************************** *********************************************/
+/********************************************************************************************/
