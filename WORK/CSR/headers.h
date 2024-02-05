@@ -89,7 +89,7 @@
 #endif
 
 #ifdef TEST     //R66 SWAN CASE 2CH ESP32S
-    #define VERSION_ID " 7.0 "
+    #define VERSION_ID " 8.1 "
     #define BLYNK_AUTH_TOKEN                "lzXq8VnMflNkRrToeTSjv4b01kvkG9zl" //CSR4
     #define THINGNAME "CSR4"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "test/sub/rc"
