@@ -117,7 +117,6 @@ while (!otaWifiGithub)
         {
            otaWifiGithub = true;
            resetWdg();
-           enableWDG(true);
            OtaTimeoutTimer = millis();
            ESP.restart();
         }
@@ -189,7 +188,6 @@ void ArduinoIdeWifi(void)
         {
            wifiIde = true;
            resetWdg();
-           enableWDG(true);
            OtaTimeoutTimer = millis();
            ESP.restart();
         }
@@ -265,7 +263,6 @@ void localWebWifiOta (void)
         {
            wifiWebUpdater = true;
            resetWdg();
-           enableWDG(true);
            OtaTimeoutTimer = millis();
            ESP.restart();
         }

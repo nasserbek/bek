@@ -6,8 +6,6 @@
 extern blynk myBlynk;
 
 /*************************************************NODE RED AWS IOT ZONE********************************************************************************************/
-/********************* AWS MQTT BROKER CALLBACK *******************************************************/
-
 void retriveDataFromTopic (char* topic, byte* payload, unsigned int length )
 {
         for (int i=0;i<length;i++) //Converts the received message to String

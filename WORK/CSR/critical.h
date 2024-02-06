@@ -3,32 +3,47 @@
 #ifndef CRITICAL_H
 #define CRITICAL_H
 
+#define _TIMERINTERRUPT_LOGLEVEL_     4
+#include "TimerInterrupt_Generic.h"
+ESP32Timer ITimer0(0);
 
-/****************************************************DON'T TOUCH********************************************************************/
-void IRAM_ATTR resetModule() 
+bool IRAM_ATTR TimerHandler0(void * timerNo)
 {
-Serial.println("Watch Dog Timer Timout, rebooting....");
-ESP.restart();
+  ESP.restart();
+  return true;
 }
 
 void enableWDG(bool _enable)
   {
-   if (_enable) timerAlarmEnable(_timer);                          //enable interrupt
-   else timerAlarmDisable(_timer);                                //Disable interrupt
-   resetWdg();                                        //reset timer (feed watchdog)  
+   if (_enable) ITimer0.restartTimer();                       //enable interrupt
+   else ITimer0.stopTimer();                                //Disable interrupt
   }
   
 void resetWdg(void)
   {
-   timerWrite(_timer, 0);                                        //reset timer (feed watchdog)  
+   ITimer0.stopTimer();   
+   delay(100); 
+   ITimer0.restartTimer();                                  
   }
   
 void initWDG(int wdtTimeout,bool _enable) 
 {
-   _timer = timerBegin(0, 80, true);                                    //timer 0, div 80
-   timerAttachInterrupt(_timer, &resetModule, true);                  //attach callback
-   timerAlarmWrite(_timer, wdtTimeout * 1000, false);              //set time in us
-   enableWDG(_enable);                                            //enable interrupt
+  Serial.print(F("\nStarting TimerInterruptTest on "));
+  Serial.println(ARDUINO_BOARD);
+  Serial.println(ESP32_TIMER_INTERRUPT_VERSION);
+  Serial.println(TIMER_INTERRUPT_GENERIC_VERSION);
+  Serial.print(F("CPU Frequency = "));
+  Serial.print(F_CPU / 1000000);
+  Serial.println(F(" MHz"));
+
+  if (ITimer0.attachInterruptInterval(wdtTimeout * 1000, TimerHandler0))
+  {
+    Serial.print(F("Starting  ITimer0 OK, millis() = "));
+    Serial.println(millis());
+    ITimer0.restartTimer();  
+  }
+  else
+    Serial.println(F("Can't set ITimer0. Select another freq. or timer"));
 }
 
 
