@@ -83,10 +83,7 @@ extern EventGroupHandle_t g_event_group;
 extern QueueHandle_t g_event_queue_handle;
 
 
-//WidgetLED T433_LED_V6(V6);   //T433 St
 WidgetLED I2C_LED_V13(V13);  //I2C ACK
-//WidgetLED I2C_SEC_LED_V12(V12);  //sms
-//WidgetLED ZAP_LED_V80(V80);  //Zap Status
 WidgetTerminal terminal(V102);
 
 unsigned int myServerTimeout  =  3500;  //  3.5s server connection timeout (SCT)
@@ -647,7 +644,7 @@ BLYNK_WRITE(V100)  //wifi ide
 {
     _blynkEvent = true; 
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_WIFI_IDE_V100;
+    eventdata = Q_EVENT_SPARE_V100;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -909,24 +906,8 @@ void blynk::notifierDebug(String subject, String body)
 
 bool blynk::wifiConnect()
   {
-    WiFi.begin(WIFI_SSID_FB, WIFI_PASSWORD);
-    if (WiFi.status()  == WL_CONNECTED ){DEBUG_PRINTLN("Wifi connected");return true; }
-  
-    long timeout = millis();
-    long wifiReconnect = millis();
-    
-    while ( WiFi.status()  != WL_CONNECTED ) 
-      {
-        if (millis() - wifiReconnect > WIFI_RECONNECT_TIMER ) 
-          {
-            WiFi.begin(WIFI_SSID_FB, WIFI_PASSWORD);
-            wifiReconnect = millis();
-            DEBUG_PRINTLN("Wifi Reconnect");
-          }
-        if (millis() - timeout > WIFI_SURVILANCE_TIMER){DEBUG_PRINTLN("Wifi failed"); return false; }
-      }
-    return true; 
-}
+     return true; 
+  }
 
 
 bool blynk::getData()

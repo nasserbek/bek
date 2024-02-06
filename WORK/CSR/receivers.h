@@ -3,11 +3,6 @@
 #ifndef RECEIVERS_H
 #define RECEIVERS_H
 
-void room ( int RC, int AV, int sel);
-bool receiverAvByCh (int Ch);
-void remoteControl(int cmd );
-bool Tuner_PLL( int receiver, int _address, uint _pll);
-
 /**************************************************VIDEO RC CONTROL ZONE***************************************************************/
 void remoteControl(int cmd )
 {
@@ -37,6 +32,65 @@ void remoteControl(int cmd )
       } 
 }
 
+bool Tuner_PLL( int receiver, int _address, uint _pll)
+{
+  byte MSB = (_pll & 0xFF00) >> 8   ;   //mask LSB, shift 8 bits to the right
+  byte LSB = _pll & 0x00FF     ;        //mask MSB, no need to shift
+
+#ifdef CSR   //4CH 4 Relays Active LOW and 2 I2C Controllers
+  switch (receiver)
+        {
+          case 2:
+          case 3:
+                Wire1.beginTransmission(_address);
+                Wire1.write(MSB );
+                Wire1.write(LSB );
+                Wire1.write(0xC2 );
+                return (Wire1.endTransmission() );                       
+          break;
+
+          case 0:
+          case 1:
+                Wire.beginTransmission(_address);
+                Wire.write(MSB );
+                Wire.write(LSB );
+                Wire.write(0xC2 );
+                return (Wire.endTransmission() );                      
+            break;                     
+        }   
+#endif
+
+#ifdef CSR2   //4CH 4 Relays Active LOW and 2 I2C Controllers
+  switch (receiver)
+        {
+          case 2:
+          case 3:
+                Wire1.beginTransmission(_address);
+                Wire1.write(MSB );
+                Wire1.write(LSB );
+                Wire1.write(0xC2 );
+                return (Wire1.endTransmission() );                       
+          break;
+
+          case 0:
+          case 1:
+                Wire.beginTransmission(_address);
+                Wire.write(MSB );
+                Wire.write(LSB );
+                Wire.write(0xC2 );
+                return (Wire.endTransmission() );                      
+            break;                     
+        }   
+#endif
+
+#if defined CSR3 || defined TEST   //2CH 2 Relays Active HIGH and MAIN I2C Controllers
+          Wire.beginTransmission(_address);
+          Wire.write(MSB );
+          Wire.write(LSB );
+          Wire.write(0xC2 );
+          return (Wire.endTransmission() );  
+#endif
+}
         
 bool receiverAvByCh (int Ch)
 {
@@ -161,65 +215,7 @@ bool  TCA9548A(uint8_t bus)
       #endif
 }
 
-bool Tuner_PLL( int receiver, int _address, uint _pll)
-{
-  byte MSB = (_pll & 0xFF00) >> 8   ;   //mask LSB, shift 8 bits to the right
-  byte LSB = _pll & 0x00FF     ;        //mask MSB, no need to shift
 
-#ifdef CSR   //4CH 4 Relays Active LOW and 2 I2C Controllers
-  switch (receiver)
-        {
-          case 2:
-          case 3:
-                Wire1.beginTransmission(_address);
-                Wire1.write(MSB );
-                Wire1.write(LSB );
-                Wire1.write(0xC2 );
-                return (Wire1.endTransmission() );                       
-          break;
-
-          case 0:
-          case 1:
-                Wire.beginTransmission(_address);
-                Wire.write(MSB );
-                Wire.write(LSB );
-                Wire.write(0xC2 );
-                return (Wire.endTransmission() );                      
-            break;                     
-        }   
-#endif
-
-#ifdef CSR2   //4CH 4 Relays Active LOW and 2 I2C Controllers
-  switch (receiver)
-        {
-          case 2:
-          case 3:
-                Wire1.beginTransmission(_address);
-                Wire1.write(MSB );
-                Wire1.write(LSB );
-                Wire1.write(0xC2 );
-                return (Wire1.endTransmission() );                       
-          break;
-
-          case 0:
-          case 1:
-                Wire.beginTransmission(_address);
-                Wire.write(MSB );
-                Wire.write(LSB );
-                Wire.write(0xC2 );
-                return (Wire.endTransmission() );                      
-            break;                     
-        }   
-#endif
-
-#if defined CSR3 || defined TEST   //2CH 2 Relays Active HIGH and MAIN I2C Controllers
-          Wire.beginTransmission(_address);
-          Wire.write(MSB );
-          Wire.write(LSB );
-          Wire.write(0xC2 );
-          return (Wire.endTransmission() );  
-#endif
-}
 /**************************************************END OF VIDEO RC CONTROL ZONE***************************************************************/
 
 
