@@ -97,20 +97,16 @@ bool receiverAvByCh (int Ch)
   bool ack;
   int PLL_value;
   
- // if (activeBoard == selectedBoard)
- //   {
        if (blynkConnected) myBlynk.blynkAckLed(ACK_BAD);
        ack = Tuner_PLL(selected_Rx, av_pll_addr, _pll[Ch]); 
        
+   //    if (ack == ACK_BAD) myBlynk.TurnOffLastCh( lastAck,Ch,CH_MODE_3);
        if (blynkConnected) {myBlynk.blynkAckLed( ack); myBlynk.sevenSegValue(Ch);}
        
        recevierFreq =videoCh[Ch].frequency;       
        if (blynkConnected) myBlynk.frequencyValue(recevierFreq );
-       lastAck = ack; 
-//    }
-//   else apiSend(selectedBoard, "V2", Ch);
-   
-   return(lastAck);
+       
+       lastAck = ack;   return(lastAck);
 }
 
 

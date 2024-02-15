@@ -1,8 +1,7 @@
 //#define CSR  // TTGO R64 SCATOLA 1CH TTGO
 //#define CSR2  // R65 SCATOLA 4CH ESP32S
-#define CSR3    //R66 SWAN CASE 2CH ESP32S
-//#define TEST
-
+//#define CSR3    //R66 SWAN CASE 2CH ESP32S
+#define TEST
 
 #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/CSR.ino.esp32.bin"  // URL to download the firmware from
 #define BLYNK_TEMPLATE_ID           "TMPL5Y2na6zpd"
@@ -13,7 +12,7 @@
     #define AWS_IOT_PUBLISH_TOPIC_RC_3   "csr3/sub/rc"
     
 #ifdef CSR      //TTGO R64 SCATOLA 1CH TTGO
-    #define VERSION_ID "9.2"
+    #define VERSION_ID "1.7"
     #define BLYNK_AUTH_TOKEN                "B1pZ48rPHfdQ8LxlqCoiPk8fxWBbv7B0" //CSR
     #define THINGNAME "CSR1"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr1/sub/rc"
@@ -37,7 +36,7 @@
 #endif
 
 #ifdef CSR2     // R65 SCATOLA 4CH ESP32S
-    #define VERSION_ID "9.2"
+    #define VERSION_ID "1.7"
     #define BLYNK_AUTH_TOKEN                "_cqYD1seWElWB-S1IxutIEI7VWmDpb05" //CS2
     #define THINGNAME "CSR2"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr2/sub/rc"
@@ -62,7 +61,7 @@
 
 
 #ifdef CSR3     //R66 SWAN CASE 2CH ESP32S
-    #define VERSION_ID " 9.2 "
+    #define VERSION_ID " 2.0 "
     #define BLYNK_AUTH_TOKEN                "6DH6QZgVXrGXU5VzOpJSJgHoyXWL7aWS" //CSR3
     #define THINGNAME "CSR3"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr3/sub/rc"
@@ -86,7 +85,7 @@
 #endif
 
 #ifdef TEST     //R66 SWAN CASE 2CH ESP32S
-    #define VERSION_ID " 8.3 "
+    #define VERSION_ID " 8.2 "
     #define BLYNK_AUTH_TOKEN                "lzXq8VnMflNkRrToeTSjv4b01kvkG9zl" //CSR4
     #define THINGNAME "CSR4"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "test/sub/rc"
@@ -118,12 +117,10 @@
 #define WIFI_SSID_GIGA        "GIGACUBE_BEK"                                                
 #define WIFI_SSID_FREE        "Freebox-bek"                                              
 #define WIFI_SSID_XIAOMI      "XIAOMI_BEK" 
-
+#define WIFI_SSID_HUAWEI      "HUAWEI_BEK" 
 #define WIFI_PASSWORD         "ali09042010"
 #define WIFI_PASSWORD_METEOR  "Ali09042010_"
 
-#define WIFI_SSID_TEMP      "TP-Link_97D8" 
-#define WIFI_PASSWORD_TEMP  "67942015"
 //av1
 #define I2C_SDA             21  //green
 #define I2C_SCL             22  //yellow
@@ -151,10 +148,9 @@ CH_MODE_4,
 } ;
 
 enum {
-ESP1,
-ESP2,
-ESP3,
-TEST4,
+CSR1,
+CSR2,
+CSR3,
 } ;
 
 
@@ -209,18 +205,13 @@ Q_EVENT_ZAP_SCAN_ONLY_V10,
 Q_EVENT_WIFI_IDE_V11,
 Q_EVENT_BOARD_V12,
 //I2C_LED_V13(V13);  // USED
-Q_EVENT_RM_ID_11_V14,  //52
-Q_EVENT_RM_ID_12_V15,  //53
-
 
 Q_EVENT_RC_L_R_1_V16,
 Q_EVENT_RC_L_R_3_V17,
 Q_EVENT_AWS_RECONNECT_V18,
 Q_EVENT_ROOM_AV_RC_V19,
 Q_EVENT_RC_L_R_2_V20,
-Q_EVENT_RM_ID_10_V21,//51,
-// NOT DECLARED IN CONSOLE V22,
-Q_EVENT_RM_ID_13_V23,  //62
+Q_EVENT_SPARE_V21,
 //V24 Version,
 Q_EVENT_ZAP_TIMER_OFF_V25,
 Q_EVENT_RESET_FREQ_V26,
@@ -230,7 +221,7 @@ Q_EVENT_REL1_CH_V30,
 Q_EVENT_REL2_CH_V31,
 Q_EVENT_REL3_CH_V32,
 Q_EVENT_REL4_CH_V33,
-Q_EVENT_ZAP_ALL_ON_OFF_V34,
+Q_EVENT_SAPRE_V34,
 Q_EVENT_SAPRE_V35,
 Q_EVENT_SAPRE_V36,
 Q_EVENT_SAPRE_V37,
@@ -280,9 +271,12 @@ Q_EVENT_RM_ID_06_V126,//29
 Q_EVENT_RM_ID_07_V127,//48
 Q_EVENT_RM_ID_08_V93,//49
 Q_EVENT_RM_ID_09_V80,//50
+Q_EVENT_RM_ID_10_V21,//51
 
+Q_EVENT_RM_ID_11_V14,  //52
+Q_EVENT_RM_ID_12_V15,  //53
 
-
+Q_EVENT_RM_ID_13_V23,  //62
 Q_EVENT_RM_ID_14_V103,  //63
 Q_EVENT_RM_ID_15_V104,  //64
 Q_EVENT_RM_ID_16_V105,  //65

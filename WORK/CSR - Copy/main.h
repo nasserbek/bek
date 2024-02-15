@@ -8,6 +8,7 @@
 #include "freertos/queue.h"
 #include "esp_system.h"
 
+//#include "av.h"
 #include "blynk_app.h"
 
 #include "headers.h"
@@ -26,6 +27,7 @@
 #include <ArduinoOTA.h>
 
 
+
 QueueHandle_t g_event_queue_handle = NULL;
 EventGroupHandle_t g_event_group = NULL;
 
@@ -35,9 +37,7 @@ EventGroupHandle_t g_event_group = NULL;
 WiFiClientSecure net = WiFiClientSecure();
 PubSubClient client(net);
 
-int activeBoard   = ESP1;
-int selectedBoard = ESP1;
-
+int activeBoard = CSR3;
 bool lastAck = false;
 bool awsConnected = false;
 String resultS = "";  //Variable to store the MQTT input message

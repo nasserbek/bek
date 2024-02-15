@@ -5,7 +5,7 @@ blynk myBlynk;
 void setup() 
 {
      Serial.begin(115200);
-     initWDG(MIN_5,EN);
+     initWDG(SEC_60,EN);
      relaySetup();
      i2cSetup();
      mySwitch.enableTransmit(RC_TX_PIN);

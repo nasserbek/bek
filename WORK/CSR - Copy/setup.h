@@ -23,7 +23,6 @@ void blynkInit(void)
      if (blynkConnected) 
               {
                 myBlynk.sendAvRxIndex(Av_Rx);
-                myBlynk.sendBoardIndex(activeBoard);
                      #ifdef CSR    
                         myBlynk.RelaySelect(3);
                      #endif 
@@ -37,23 +36,6 @@ void blynkInit(void)
                 myBlynk.sendVersion(VERSION_ID);
                 myBlynk.TerminalPrint(WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) );
              }
-
-#ifdef CSR      
-    activeBoard = selectedBoard = ESP1;
-#endif
-
-#ifdef CSR2     
-    activeBoard = selectedBoard =  ESP2;
-#endif
-
-#ifdef CSR3    
-    activeBoard = selectedBoard =  ESP3;
-#endif
-
-#ifdef TEST  
-    activeBoard = selectedBoard =  TEST4;
-#endif
-             
 }     
 
 void timersMillis(void)

@@ -63,8 +63,6 @@ class blynk {
     void visualActiveRoom(int id, bool zap);
     void repeatSync(bool repeat);
     void TurnOffLastCh(bool lastAck,int lastSelectedCh, int zapOnOff);
-    void sendBoardIndex(int _index);
-    void releActiveCh(int rele, int ch);
 
 };
 #endif

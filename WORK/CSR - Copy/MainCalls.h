@@ -4,7 +4,6 @@
 #define MAINCALLS_H
 
 #include "main.h"
-#include "api.h"
 #include "aws.h"
 #include "OTA.h"
 #include "critical.h"

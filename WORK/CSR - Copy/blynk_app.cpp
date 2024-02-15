@@ -9,9 +9,10 @@
 #include <WiFiMulti.h>
 
 extern int hmi;
-extern int activeBoard ;
-extern int selectedBoard;
-extern void apiSend(int board, String virtualPin, int value);
+
+
+
+
 
 
 WiFiMulti wifiMulti;
@@ -158,7 +159,7 @@ void blynk::init()
     wifiMulti.addAP(WIFI_SSID_GIGA, WIFI_PASSWORD);
     wifiMulti.addAP(WIFI_SSID_FREE, WIFI_PASSWORD);
     wifiMulti.addAP(WIFI_SSID_XIAOMI , WIFI_PASSWORD);
-    wifiMulti.addAP(WIFI_SSID_TEMP , WIFI_PASSWORD_TEMP);
+    wifiMulti.addAP(WIFI_SSID_HUAWEI , WIFI_PASSWORD);
     
     
     if(wifiMulti.run() == 6){
@@ -213,6 +214,7 @@ BLYNK_WRITE(V0)  //freq
     eventdata = Q_EVENT_FREQ_V0;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
+
 
 BLYNK_WRITE(V1) //rc433
 {
@@ -371,15 +373,6 @@ BLYNK_WRITE(V20) // RC LOCAL REMOTE TO CSR2
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
-/*
-BLYNK_WRITE(V22)  
-{
-    _blynkEvent = true; 
-    _blynkData=param.asInt();
-    eventdata = Q_EVENT_ZAPP_ALL_ON_V22;
-    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-}
-*/
 
 BLYNK_WRITE(V25) // ROOM_21_25
 {
@@ -450,7 +443,7 @@ BLYNK_WRITE(V34)   //20
 {
     _blynkEvent = true; 
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_ZAP_ALL_ON_OFF_V34;
+    eventdata = Q_EVENT_SAPRE_V34;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -1041,21 +1034,14 @@ void blynk::dvrSwitch(bool cmd)
 void blynk::sendAvRxIndex(int _index)
 {
  Blynk.virtualWrite(V19, _index);
-  if (_index ==1) {Blynk.setProperty(V19, "color", BLYNK_GREEN);}
-  if (_index ==2) {Blynk.setProperty(V19, "color", BLYNK_YELLOW);}
-  if (_index ==3) {Blynk.setProperty(V19, "color", BLYNK_RED);}
+ Blynk.virtualWrite(V99, _index);
+  if (_index ==1) {Blynk.setProperty(V19, "color", BLYNK_GREEN);Blynk.setProperty(V99, "color", BLYNK_GREEN);}
+  if (_index ==2) {Blynk.setProperty(V19, "color", BLYNK_YELLOW);Blynk.setProperty(V99, "color", BLYNK_YELLOW);}
+  if (_index ==3) {Blynk.setProperty(V19, "color", BLYNK_RED);Blynk.setProperty(V99, "color", BLYNK_RED);}
    
 }
 
-void blynk::sendBoardIndex(int _index)
-{
- Blynk.virtualWrite(V12, _index);
-  if (_index ==1) {Blynk.setProperty(V12, "color", BLYNK_GREEN);}
-  if (_index ==2) {Blynk.setProperty(V12, "color", BLYNK_YELLOW);}
-  if (_index ==3) {Blynk.setProperty(V12, "color", BLYNK_RED);}
-  if (_index ==4) {Blynk.setProperty(V12, "color", BLYNK_BLUE);}
-   
-}
+
 
 void blynk::blynkAckLed( bool _data)
 {
@@ -1575,52 +1561,3 @@ if(chMode == CH_MODE_4)
   }    
 
 }
-
-
-void blynk::releActiveCh(int rele, int ch)
-{
-//  if (activeBoard == selectedBoard) 
- //  {
-    switch (rele)
-        {
-          case 0:
-                   Blynk.virtualWrite(V30, ch); 
-          break;
-
-          case 1:
-                   Blynk.virtualWrite(V31, ch); 
-          break;
-          
-          case 2:
-                   Blynk.virtualWrite(V32, ch); 
-          break;
-          
-          case 3:
-                   Blynk.virtualWrite(V33, ch); 
-          break;
-        }
-//   }
-   /*
-   else 
-    {
-    switch (rele)
-        {
-          case 0:
-                   apiSend(selectedBoard, "V30", ch);   
-          break;
-
-          case 1:
-                   apiSend(selectedBoard, "V31", ch); 
-          break;
-          
-          case 2:
-                   apiSend(selectedBoard, "V32", ch); 
-          break;
-          
-          case 3:
-                   apiSend(selectedBoard, "V33", ch);
-          break;
-        }
-   }
- */     
-}        

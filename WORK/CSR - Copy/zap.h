@@ -3,32 +3,6 @@
 #ifndef ZAP_H
 #define ZAP_H
 
-void zapAllOnOff(bool cmd)
-{
-  if (cmd)
-        {
-          for (int ch=1;ch<20;ch++) 
-            {      
-              if(ch != 1 && ch != 6  && ch != 14  && ch != 15  && ch != 16 && ch != 18)
-                {
-                  videoCh[ch].zap=1;
-                  myBlynk.TurnOffLastCh( ACK_BAD ,ch,CH_MODE_4);                                  
-                }
-            }
-        }
-  else
-        {
-          for (int ch=1;ch<20;ch++) 
-            {      
-              if(ch != 1 && ch != 6  && ch != 14  && ch != 15  && ch != 16 && ch != 18)
-                {
-                  videoCh[ch].zap=0;
-                  myBlynk.TurnOffLastCh( ACK_BAD ,ch,CH_MODE_0);                                  
-                }
-            }
-        }
-}
-
 void videoChanel(int ch, bool cmd)
 {
     zaptime= millis(); zaptimeOff= millis();  //Stop Zap timers to show another room not in Zap list on the fly
@@ -48,7 +22,6 @@ void videoChanel(int ch, bool cmd)
       if(cmd) myBlynk.TurnOffLastCh( lastAck,ch,CH_MODE_4);
       else myBlynk.TurnOffLastCh( lastAck,ch,CH_MODE_0);
     }  
-    myBlynk.releActiveCh(selected_Rx, ch);
 }
 
 /**************************************************ZAPPING ZONE***************************************************************/

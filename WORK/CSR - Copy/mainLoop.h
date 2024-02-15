@@ -62,8 +62,7 @@ void processBlynkQueu(void)
 
            case Q_EVENT_SELECTED_RECIEVER_V9:
                   selected_Rx = queuData-1;
-                 /* if (activeBoard == selectedBoard)*/ AvReceiverSel(queuData);
-                //  else apiSend(selectedBoard, "V9", queuData);                  
+                  AvReceiverSel(queuData);
            break;
  
             case Q_EVENT_ZAP_SCAN_ONLY_V10:
@@ -79,8 +78,7 @@ void processBlynkQueu(void)
             break;
 
             case Q_EVENT_BOARD_V12:
-                  selectedBoard=queuData;
-                  myBlynk.sendBoardIndex(selectedBoard);                      
+                      activeBoard=queuData;
             break;                       
             
             case Q_EVENT_RC_L_R_1_V16:
@@ -129,8 +127,7 @@ void processBlynkQueu(void)
             case Q_EVENT_REL4_CH_V33: 
             break;  
 
-            case Q_EVENT_ZAP_ALL_ON_OFF_V34:  
-                  zapAllOnOff(queuData);
+            case Q_EVENT_SAPRE_V34:  
             break;   
 
             case Q_EVENT_SAPRE_V35: 
@@ -353,7 +350,7 @@ void blynkLoop(void)
                   myBlynk.getData ();
                   if (hmi == BLYNK)    
                     {
-      //               myBlynk.TerminalPrint("queuValidData received from Blynk:");
+                     myBlynk.TerminalPrint("queuValidData received from Blynk:");
                      queuData = myBlynk.blynkData; 
                      processBlynkQueu(); 
                     }
@@ -392,7 +389,7 @@ void awsLoop(void)
                   {
                       getDataNodeRed ();
                       if (hmi == NODE_RED) { 
-                 //     myBlynk.TerminalPrint("queuValidData received from AWS:");
+                      myBlynk.TerminalPrint("queuValidData received from AWS:");
                       queuData = nodeRedData; 
                       processBlynkQueu();
                       }
