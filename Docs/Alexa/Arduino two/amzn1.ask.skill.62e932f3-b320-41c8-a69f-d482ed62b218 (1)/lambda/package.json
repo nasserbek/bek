@@ -1,0 +1,16 @@
+{
+  "name": "hello-world",
+  "version": "1.2.0",
+  "description": "alexa utility for quickly building skills",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Amazon Alexa",
+  "license": "Apache License",
+  "dependencies": {
+    "ask-sdk": "^2.0.7",
+    "axios": "^0.18.0",
+    "firebase": "^8.2.6"
+  }
+}

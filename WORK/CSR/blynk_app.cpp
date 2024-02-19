@@ -231,7 +231,7 @@ BLYNK_WRITE(V2) // receiver ch
     
 }
 
-BLYNK_WRITE(V3) // repeatCh 
+BLYNK_WRITE(V3) // catchCh 
 {
     _blynkEvent = true; 
     _blynkData=param.asInt();

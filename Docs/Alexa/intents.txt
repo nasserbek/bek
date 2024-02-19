@@ -1,0 +1,56 @@
+zap on
+turno on zap
+on zap
+
+room nimber x
+x
+chamber x
+I want to see x
+watch x
+
+
+turn on dvr
+switch on dvr
+turn on video
+video on
+
+solo video
+radio
+both
+
+Setup chanel on
+chanel setup 
+setup
+
+Repeat
+Catch
+Repeat chanel
+Catch chanel
+
+scan
+
+Select all chanel
+All chanel
+All
+
+Rele
+Receiver number
+rele number
+receiver
+
+Radio one on
+
+Radio 2 on
+
+Radio 3 On
+
+Remote/Local Radio
+
+Radio Local/Remote
+
+Board
+controller
+scada
+controller number
+scada number
+sketch number

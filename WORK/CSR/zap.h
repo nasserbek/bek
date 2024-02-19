@@ -3,31 +3,7 @@
 #ifndef ZAP_H
 #define ZAP_H
 
-void zapAllOnOff(bool cmd)
-{
-  if (cmd)
-        {
-          for (int ch=1;ch<20;ch++) 
-            {      
-              if(ch != 1 && ch != 6  && ch != 14  && ch != 15  && ch != 16 && ch != 18)
-                {
-                  videoCh[ch].zap=1;
-                  myBlynk.TurnOffLastCh( ACK_BAD ,ch,CH_MODE_4);                                  
-                }
-            }
-        }
-  else
-        {
-          for (int ch=1;ch<20;ch++) 
-            {      
-              if(ch != 1 && ch != 6  && ch != 14  && ch != 15  && ch != 16 && ch != 18)
-                {
-                  videoCh[ch].zap=0;
-                  myBlynk.TurnOffLastCh( ACK_BAD ,ch,CH_MODE_0);                                  
-                }
-            }
-        }
-}
+
 
 void videoChanel(int ch, bool cmd)
 {
@@ -66,7 +42,7 @@ void resetZapper (void)
   scantime= millis();
   resetRemoteRC();
   previousCh =0;
-  repeatCh = false;
+  catchCh = false;
   stateMachine =SM_CH1_A;
   
 }
@@ -118,8 +94,8 @@ void turnOn (int ch, int prevCh,  int smb,  int sma)
       zaptime= millis();
       zaptimeOff= millis(); 
       scantime= millis();
-      repeatCh = false; 
-      myBlynk.repeatSync(repeatCh);
+      catchCh = false; 
+      myBlynk.repeatSync(catchCh);
       
       stateMachine =smb;
       
@@ -151,7 +127,7 @@ void turnOff(int ch, int prevCh, int smc )
 {
   if (videoCh[ch].zap) 
       {
-            if (stateMachine == sma || repeatCh == true) turnOn(ch,previousCh, smb, sma); 
+            if (stateMachine == sma || catchCh == true) turnOn(ch,previousCh, smb, sma); 
             if ( ( !zapScanOnly && (stateMachine == smb) &&  (millis() - zaptimeOff > zapTimerOff ) ) || (zapScanOnly && (stateMachine == smb)  )  ) turnOff(ch, previousCh, smc);
             if ( ( !zapScanOnly && (stateMachine == smc) && (millis() - zaptime > zapTimer) ) || ( zapScanOnly && (stateMachine == smc) && (millis() - scantime > scanTimer) ) ) { nextState( nextSm); previousCh = ch;}
       }  
@@ -298,6 +274,32 @@ void zappingAvCh (bool zapCmd, int zapTimer)
   else if (!zapCmd) {zaptime= millis();stateMachine =SM_CH1_A;}
 }
 
+
+void zapAllOnOff(bool cmd)
+{
+  if (cmd)
+        {
+          for (int ch=1;ch<20;ch++) 
+            {      
+              if(ch != 1 && ch != 6  && ch != 14  && ch != 15  && ch != 16 && ch != 18)
+                {
+                  videoCh[ch].zap=1;
+                  myBlynk.TurnOffLastCh( ACK_BAD ,ch,CH_MODE_4);                                  
+                }
+            }
+        }
+  else
+        {
+          for (int ch=1;ch<20;ch++) 
+            {      
+              if(ch != 1 && ch != 6  && ch != 14  && ch != 15  && ch != 16 && ch != 18)
+                {
+                  videoCh[ch].zap=0;
+                  myBlynk.TurnOffLastCh( ACK_BAD ,ch,CH_MODE_0);                                  
+                }
+            }
+        }
+}
 /**************************************************END OF ZAPPING ZONE***************************************************************/
 
 #endif

@@ -147,26 +147,7 @@ void room ( int RC, int AV, int sel)
 
 void AvReceiverSel(int queuData)
  {            
-      #ifdef CSR
-                switch (queuData)
-                    {
-                      case 1:
-                                 digitalWrite(I2C_1_2_RELAY, HIGH);  //  
-                      break;
-                      case 2:
-                                 digitalWrite(I2C_1_2_RELAY, LOW);  //  
-                      break;
-
-                       case 3:
-                                 digitalWrite(I2C_3_4_RELAY, HIGH);  //  
-                      break;
-                      case 4:
-                                 digitalWrite(I2C_3_4_RELAY, LOW);  //  
-                      break;                     
-                    }  
-     #endif
-
-     #ifdef CSR2
+      #if defined CSR  || CSR2
                 switch (queuData)
                     {
                       case 1:

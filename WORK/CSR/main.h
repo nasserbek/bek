@@ -57,7 +57,7 @@ int hmi = 0; //0 Blynk 1 Node red
 bool zapScanOnly = false;
 int lastSelectedCh = 1;
 bool autoRemoteLocalRc = false;
-bool repeatCh = false;
+bool catchCh = false;
 bool zapSetup = false;
 int previousCh =0;
 int queuData;

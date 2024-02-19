@@ -31,7 +31,7 @@ void processBlynkQueu(void)
              break;
              
              case Q_EVENT_REPEAT_V3:
-                  repeatCh =queuData;
+                  catchCh =queuData;
              break;
 
 
