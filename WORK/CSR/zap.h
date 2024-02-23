@@ -56,7 +56,7 @@ void nextState( int nextSm)
 
  void automaticOn(int chanel)
     {
-        #if defined CSR3 || defined TEST      //
+        #ifdef CSR3     //
           if  ( chanel == R_24 || ( chanel >= R_48 &&  chanel <= R_68 ) ) RC_Remote_CSR1 =true;
         #endif       
 
@@ -73,7 +73,7 @@ void nextState( int nextSm)
 
 void automaticOff(int chanel)
     {
-        #if defined CSR3 || defined TEST      //
+        #ifdef CSR3      //
           if  (  chanel == R_25 || chanel == R_26 || chanel == R_27 || chanel == R_28 || chanel == R_29) RC_Remote_CSR2 =true;
           if  (  chanel == R_24 || (chanel >= R_48 &&   chanel <= R_68)) RC_Remote_CSR1 =true;
         #endif       
@@ -281,7 +281,7 @@ void zapAllOnOff(bool cmd)
         {
           for (int ch=1;ch<20;ch++) 
             {      
-              if(ch != 1 && ch != 6  && ch != 14  && ch != 15  && ch != 16 && ch != 18)
+              if(ch != 1 && ch != 6  && ch != 14  && ch != 15  && ch != 16 && ch != 18 && ch != 19)
                 {
                   videoCh[ch].zap=1;
                   myBlynk.TurnOffLastCh( ACK_BAD ,ch,CH_MODE_4);                                  
@@ -292,7 +292,7 @@ void zapAllOnOff(bool cmd)
         {
           for (int ch=1;ch<20;ch++) 
             {      
-              if(ch != 1 && ch != 6  && ch != 14  && ch != 15  && ch != 16 && ch != 18)
+              if(ch != 1 && ch != 6  && ch != 14  && ch != 15  && ch != 16 && ch != 18 && ch != 19)
                 {
                   videoCh[ch].zap=0;
                   myBlynk.TurnOffLastCh( ACK_BAD ,ch,CH_MODE_0);                                  

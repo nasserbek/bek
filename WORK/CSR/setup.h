@@ -12,6 +12,22 @@ void relaySetup(void)
      digitalWrite(AV_RX_DVR_PIN_2, LOW);  // AV RECEIVER ON POWER UP NC CONTACT
      digitalWrite(I2C_1_2_RELAY, HIGH);   
      digitalWrite(I2C_3_4_RELAY, HIGH);  
+/*     
+     #ifdef CSR  //4 rele board active low
+        digitalWrite(I2C_1_2_RELAY, HIGH);   
+        digitalWrite(I2C_3_4_RELAY, HIGH);  
+     #endif   
+
+     #ifdef CSR2  //4 rele board active low
+        digitalWrite(I2C_1_2_RELAY, HIGH);   
+        digitalWrite(I2C_3_4_RELAY, HIGH);  
+     #endif 
+          
+     #ifdef CSR3      //Single rele active High
+        digitalWrite(I2C_1_2_RELAY, LOW);   
+        digitalWrite(I2C_3_4_RELAY, LOW);   
+     #endif
+ */    
 }
 
 void blynkInit(void)
@@ -30,7 +46,7 @@ void blynkInit(void)
                        #ifdef CSR2    
                         myBlynk.RelaySelect(1);
                      #endif 
-                      #if defined CSR3 || defined TEST    
+                     #ifdef CSR3  
                         myBlynk.RelaySelect(3);
                      #endif   
                 myBlynk.dvrSwitch(1);

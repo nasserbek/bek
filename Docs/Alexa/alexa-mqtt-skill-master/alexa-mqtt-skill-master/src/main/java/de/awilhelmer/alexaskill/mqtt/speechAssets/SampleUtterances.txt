@@ -1,0 +1,4 @@
+MqttIntent {Device} {Command} {Value}
+MqttIntent {Device} {Command} {Color}
+MqttIntent {Device} {Command}
+MqttIntent {Device}

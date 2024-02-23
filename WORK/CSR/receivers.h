@@ -37,29 +37,6 @@ bool Tuner_PLL( int receiver, int _address, uint _pll)
   byte MSB = (_pll & 0xFF00) >> 8   ;   //mask LSB, shift 8 bits to the right
   byte LSB = _pll & 0x00FF     ;        //mask MSB, no need to shift
 
-#ifdef CSR   //4CH 4 Relays Active LOW and 2 I2C Controllers
-  switch (receiver)
-        {
-          case 2:
-          case 3:
-                Wire1.beginTransmission(_address);
-                Wire1.write(MSB );
-                Wire1.write(LSB );
-                Wire1.write(0xC2 );
-                return (Wire1.endTransmission() );                       
-          break;
-
-          case 0:
-          case 1:
-                Wire.beginTransmission(_address);
-                Wire.write(MSB );
-                Wire.write(LSB );
-                Wire.write(0xC2 );
-                return (Wire.endTransmission() );                      
-            break;                     
-        }   
-#endif
-
 #ifdef CSR2   //4CH 4 Relays Active LOW and 2 I2C Controllers
   switch (receiver)
         {
@@ -83,7 +60,31 @@ bool Tuner_PLL( int receiver, int _address, uint _pll)
         }   
 #endif
 
-#if defined CSR3 || defined TEST   //2CH 2 Relays Active HIGH and MAIN I2C Controllers
+#ifdef CSR   //4CH 4 Relays Active LOW and 2 I2C Controllers
+  switch (receiver)
+        {
+          case 2:
+          case 3:
+                Wire1.beginTransmission(_address);
+                Wire1.write(MSB );
+                Wire1.write(LSB );
+                Wire1.write(0xC2 );
+                return (Wire1.endTransmission() );                       
+          break;
+/*
+          case 0:
+          case 1:
+                Wire.beginTransmission(_address);
+                Wire.write(MSB );
+                Wire.write(LSB );
+                Wire.write(0xC2 );
+                return (Wire.endTransmission() );                      
+            break;   
+*/                  
+        }   
+#endif
+
+#ifdef CSR3   //2CH 2 Relays Active HIGH and MAIN I2C Controllers
           Wire.beginTransmission(_address);
           Wire.write(MSB );
           Wire.write(LSB );
@@ -147,7 +148,28 @@ void room ( int RC, int AV, int sel)
 
 void AvReceiverSel(int queuData)
  {            
-      #if defined CSR  || CSR2
+ /*      #ifdef CSR  
+                switch (queuData)
+                    {
+                   case 1:
+                                 digitalWrite(I2C_1_2_RELAY, HIGH);  //  
+                      break;
+                      case 2:
+                                 digitalWrite(I2C_1_2_RELAY, LOW);  //  
+                      break;
+
+                      case 3:
+                                 digitalWrite(I2C_3_4_RELAY, HIGH);  //  
+                      break;
+                   case 4:
+                                 digitalWrite(I2C_3_4_RELAY, LOW);  //  
+                      break;                     
+                    }  
+     #endif
+*/
+
+
+      #ifdef CSR2  
                 switch (queuData)
                     {
                       case 1:
@@ -165,25 +187,25 @@ void AvReceiverSel(int queuData)
                       break;                     
                     }  
      #endif
-                     
-     #if defined CSR3 || defined TEST
+     
+ /*    #ifdef CSR3 
                 switch (queuData)
                     {
-                      case 1:
+                   case 1:
                                  digitalWrite(I2C_1_2_RELAY, LOW);  //  
                       break;
                       case 2:
                                  digitalWrite(I2C_1_2_RELAY, HIGH);  //  
                       break;
 
-                       case 3:
+                      case 3:
                                  digitalWrite(I2C_3_4_RELAY, LOW);  //  
                       break;
-                      case 4:
+                   case 4:
                                  digitalWrite(I2C_3_4_RELAY, HIGH);  //  
                       break;                     
                     }   
-     #endif
+     #endif */
 }
 
 bool  TCA9548A(uint8_t bus)

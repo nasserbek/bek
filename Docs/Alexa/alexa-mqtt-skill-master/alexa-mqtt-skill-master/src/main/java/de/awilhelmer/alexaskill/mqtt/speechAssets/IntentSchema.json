@@ -1,0 +1,28 @@
+{
+  "intents": [
+    {
+      "intent": "MqttIntent",
+      "slots": [
+        {
+          "name": "Device",
+          "type": "LIST_OF_DEVICES"
+        },
+        {
+          "name": "Command",
+          "type": "LIST_OF_COMMANDS"
+        },
+        {
+          "name": "Value",
+          "type": "AMAZON.NUMBER"
+        },
+        {
+          "name": "Color",
+          "type": "LIST_OF_COLORS"
+        }
+      ]
+    },
+    {
+      "intent": "AMAZON.HelpIntent"
+    }
+  ]
+}
