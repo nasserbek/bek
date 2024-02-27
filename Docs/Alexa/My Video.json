@@ -1,0 +1,526 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "my video",
+            "modelConfiguration": {
+                "fallbackIntentSensitivity": {
+                    "level": "LOW"
+                }
+            },
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": [
+                        "commands",
+                        "help",
+                        "help me"
+                    ]
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": [
+                        "bye bye",
+                        "basta cosi",
+                        "Ciao",
+                        "stop"
+                    ]
+                },
+                {
+                    "name": "HelloNasIntent",
+                    "slots": [],
+                    "samples": [
+                        "hello",
+                        "how are you",
+                        "say hi world",
+                        "say hi",
+                        "hi",
+                        "say hello world",
+                        "say hello"
+                    ]
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.FallbackIntent",
+                    "samples": []
+                },
+                {
+                    "name": "ZapCmdIntent",
+                    "slots": [
+                        {
+                            "name": "ZapCmd",
+                            "type": "OnOff"
+                        }
+                    ],
+                    "samples": [
+                        "zap {ZapCmd}",
+                        "turn {ZapCmd} zap",
+                        "{ZapCmd} zap"
+                    ]
+                },
+                {
+                    "name": "RouterRestartIntent",
+                    "slots": [],
+                    "samples": [
+                        "reset netgeer",
+                        "reset router",
+                        "restart router"
+                    ]
+                },
+                {
+                    "name": "RestartEspIntent",
+                    "slots": [],
+                    "samples": [
+                        "reboot",
+                        "reboot all",
+                        "reboot esp"
+                    ]
+                },
+                {
+                    "name": "ZapRoomSelIntent",
+                    "slots": [
+                        {
+                            "name": "RoomZapCmdOnOff",
+                            "type": "OnOff"
+                        },
+                        {
+                            "name": "RoomZapChNr",
+                            "type": "AMAZON.NUMBER"
+                        }
+                    ],
+                    "samples": [
+                        "zap {RoomZapChNr} {RoomZapCmdOnOff}",
+                        "room {RoomZapChNr} zap {RoomZapCmdOnOff}",
+                        "{RoomZapCmdOnOff} {RoomZapChNr}",
+                        "{RoomZapChNr}   {RoomZapCmdOnOff}",
+                        "{RoomZapChNr} zap {RoomZapCmdOnOff}",
+                        "video {RoomZapChNr} zap {RoomZapCmdOnOff}",
+                        "channel {RoomZapChNr} zap {RoomZapCmdOnOff}"
+                    ]
+                },
+                {
+                    "name": "AvRcBothIntent",
+                    "slots": [
+                        {
+                            "name": "AvRcBothTabValue",
+                            "type": "AvRcBothSlotType"
+                        }
+                    ],
+                    "samples": [
+                        "{AvRcBothTabValue}",
+                        "room control {AvRcBothTabValue}",
+                        "remote control {AvRcBothTabValue}"
+                    ]
+                },
+                {
+                    "name": "RoomSelectionSelIntent",
+                    "slots": [
+                        {
+                            "name": "RoomOneToFiveTab",
+                            "type": "AMAZON.NUMBER"
+                        }
+                    ],
+                    "samples": [
+                        "room number {RoomOneToFiveTab}",
+                        "{RoomOneToFiveTab}",
+                        "chamber {RoomOneToFiveTab}",
+                        "I want to see {RoomOneToFiveTab}",
+                        "watch {RoomOneToFiveTab}",
+                        "goto {RoomOneToFiveTab}",
+                        "room {RoomOneToFiveTab}"
+                    ]
+                },
+                {
+                    "name": "VideoOnOffIntent",
+                    "slots": [
+                        {
+                            "name": "VideoOnOffCmd",
+                            "type": "OnOff"
+                        }
+                    ],
+                    "samples": [
+                        "turn {VideoOnOffCmd} dvr",
+                        "switch {VideoOnOffCmd} dvr",
+                        "turn {VideoOnOffCmd} video",
+                        "video {VideoOnOffCmd}"
+                    ]
+                },
+                {
+                    "name": "VideoSurfingIntent",
+                    "slots": [
+                        {
+                            "name": "ChannelSurfValue",
+                            "type": "AMAZON.NUMBER"
+                        }
+                    ],
+                    "samples": [
+                        "video {ChannelSurfValue}",
+                        "channel {ChannelSurfValue}",
+                        "goto channel {ChannelSurfValue}"
+                    ]
+                },
+                {
+                    "name": "VideoUpDownIntent",
+                    "slots": [
+                        {
+                            "name": "UpDwonValue",
+                            "type": "UpDwon"
+                        }
+                    ],
+                    "samples": [
+                        "channel {UpDwonValue}",
+                        "{UpDwonValue}",
+                        "{UpDwonValue} video",
+                        "video {UpDwonValue}"
+                    ]
+                },
+                {
+                    "name": "PulseWidthIntent",
+                    "slots": [
+                        {
+                            "name": "PulseValue",
+                            "type": "AMAZON.NUMBER"
+                        }
+                    ],
+                    "samples": [
+                        "rc pulse width {PulseValue}",
+                        "pulse width {PulseValue}",
+                        "pulse {PulseValue}"
+                    ]
+                },
+                {
+                    "name": "RepetitionIntent",
+                    "slots": [
+                        {
+                            "name": "RepetitionValue",
+                            "type": "AMAZON.NUMBER"
+                        }
+                    ],
+                    "samples": [
+                        "repetition {RepetitionValue}",
+                        "repeat {RepetitionValue}"
+                    ]
+                },
+                {
+                    "name": "WaitIntent",
+                    "slots": [],
+                    "samples": [
+                        "moment",
+                        "one moment",
+                        "aspetta",
+                        "wait please",
+                        "wait"
+                    ]
+                },
+                {
+                    "name": "GetBlynkDataIntent",
+                    "slots": [
+                        {
+                            "name": "BlunkDataString",
+                            "type": "BlynkData"
+                        }
+                    ],
+                    "samples": [
+                        "give me {BlunkDataString}",
+                        "tell me {BlunkDataString}",
+                        "get {BlunkDataString}"
+                    ]
+                },
+                {
+                    "name": "ProgressiveIntent",
+                    "slots": [],
+                    "samples": [
+                        "response",
+                        "Progressive"
+                    ]
+                },
+                {
+                    "name": "InputIntent",
+                    "slots": [
+                        {
+                            "name": "mood",
+                            "type": "mood"
+                        }
+                    ],
+                    "samples": [
+                        "My mood right now is {mood}",
+                        "add {mood}"
+                    ]
+                },
+                {
+                    "name": "ZapSetupIntent",
+                    "slots": [
+                        {
+                            "name": "ZapSetup",
+                            "type": "OnOff"
+                        }
+                    ],
+                    "samples": [
+                        "Setup {ZapSetup}",
+                        "Setup channel {ZapSetup}",
+                        "hannelc setup {ZapSetup}"
+                    ]
+                },
+                {
+                    "name": "CatchIntent",
+                    "slots": [
+                        {
+                            "name": "Catch",
+                            "type": "OnOff"
+                        }
+                    ],
+                    "samples": [
+                        "Repeat repeat {Catch}",
+                        "Catch again {Catch}"
+                    ]
+                },
+                {
+                    "name": "ScanIntent",
+                    "slots": [
+                        {
+                            "name": "Scan",
+                            "type": "OnOff"
+                        }
+                    ],
+                    "samples": [
+                        "Scan {Scan}"
+                    ]
+                },
+                {
+                    "name": "AllIntent",
+                    "slots": [
+                        {
+                            "name": "All",
+                            "type": "OnOff"
+                        }
+                    ],
+                    "samples": [
+                        "All channels {All}",
+                        "All {All}"
+                    ]
+                },
+                {
+                    "name": "ReleIntent",
+                    "slots": [
+                        {
+                            "name": "Rele",
+                            "type": "AMAZON.NUMBER"
+                        }
+                    ],
+                    "samples": [
+                        "Riceiver  {Rele}",
+                        "Riceiver number {Rele}",
+                        "Relay {Rele}",
+                        "Rele  {Rele}",
+                        "Relay number {Rele}",
+                        "Rele number {Rele}"
+                    ]
+                },
+                {
+                    "name": "RemoteControlOneIntent",
+                    "slots": [
+                        {
+                            "name": "RemoteCmdOne",
+                            "type": "OnOff"
+                        }
+                    ],
+                    "samples": [
+                        "remote one {RemoteCmdOne}",
+                        "turn {RemoteCmdOne} remote one",
+                        "Remote Control one {RemoteCmdOne}"
+                    ]
+                },
+                {
+                    "name": "RemoteControlTwoIntent",
+                    "slots": [
+                        {
+                            "name": "RemoteCmdTwo",
+                            "type": "OnOff"
+                        }
+                    ],
+                    "samples": [
+                        "remote two {RemoteCmdTwo}",
+                        "turn {RemoteCmdTwo} remote two",
+                        "Remote Control two {RemoteCmdTwo}"
+                    ]
+                },
+                {
+                    "name": "RemoteControlThreeIntent",
+                    "slots": [
+                        {
+                            "name": "RemoteControlThreeCmd",
+                            "type": "OnOff"
+                        }
+                    ],
+                    "samples": [
+                        "remote three {RemoteControlThreeCmd}",
+                        "turn {RemoteControlThreeCmd} remote three",
+                        "Remote Control three {RemoteControlThreeCmd}"
+                    ]
+                },
+                {
+                    "name": "AutomaticLocalZapIntent",
+                    "slots": [
+                        {
+                            "name": "AutomaticLocalZap",
+                            "type": "LocalRemote"
+                        }
+                    ],
+                    "samples": [
+                        " {AutomaticLocalZap} zapping"
+                    ]
+                },
+                {
+                    "name": "EspIntent",
+                    "slots": [
+                        {
+                            "name": "Esp",
+                            "type": "AMAZON.NUMBER"
+                        }
+                    ],
+                    "samples": [
+                        "board {Esp}",
+                        "card  {Esp}",
+                        "controller  {Esp}",
+                        "card number {Esp}",
+                        "board number {Esp}",
+                        "controller number {Esp}"
+                    ]
+                }
+            ],
+            "types": [
+                {
+                    "name": "OnOff",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "off"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "on"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "AvRcBothSlotType",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "solo video"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "both"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "solo radio"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "UpDwon",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "down"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "up"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "BlynkData",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "sms"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "send status"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "zap status"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "frequency"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "channel"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "pulse width"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "mood",
+                    "values": [
+                        {
+                            "id": "2",
+                            "name": {
+                                "value": "2",
+                                "synonyms": [
+                                    "anxious",
+                                    "tense"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "1",
+                            "name": {
+                                "value": "1",
+                                "synonyms": [
+                                    "alone",
+                                    "lonely"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "LocalRemote",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "Remote"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Local"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
