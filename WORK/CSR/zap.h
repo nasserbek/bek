@@ -14,7 +14,7 @@ void videoChanel(int ch, bool cmd)
     {
       remoteControlRcCh = ch;
       recevierCh        = ch;
-      room ( remoteControlRcCh, recevierCh , Av_Rx );
+      room ( remoteControlRcCh, recevierCh , Av_Rx , cmd );
      }
     if (lastSelectedCh !=0 && !zapOnOff && !zapSetup && lastSelectedCh != ch && (hmi == BLYNK)) myBlynk.TurnOffLastCh( ACK_BAD ,lastSelectedCh,CH_MODE_0);
     lastSelectedCh = ch;
@@ -56,36 +56,40 @@ void nextState( int nextSm)
 
  void automaticOn(int chanel)
     {
-        #ifdef CSR3     //
-          if  ( chanel == R_24 || ( chanel >= R_48 &&  chanel <= R_68 ) ) RC_Remote_CSR1 =true;
+        #ifdef CSR3    
+          if  (  chanel == R_24 || chanel == R_28) RC_Remote_CSR2 =true; 
+          if  (  chanel == R_51 || chanel == R_52) RC_Remote_CSR1 =true; 
         #endif       
 
-
-         #ifdef CSR2      //24 25 26 27 28
-          if  ( chanel >= R_48 &&  chanel <= R_68) RC_Remote_CSR1 =true;
+        #ifdef CSR2      
+          if  ( chanel != R_24 && chanel != R_28 ) RC_Remote_CSR3 =true;
+          if  ( chanel == R_51 || chanel == R_52) RC_Remote_CSR1 =true; 
         #endif      
 
-        #ifdef CSR      //48 - 68
-          if  ( chanel == R_24 ||  chanel == R_25 || chanel == R_26 || chanel == R_27 || chanel == R_28 || chanel == R_29 ) RC_Remote_CSR2 =true;
+        #ifdef CSR      
+        if        ( chanel == R_24 ||  chanel == R_28 ) RC_Remote_CSR2 =true; 
+        else  if  ( chanel != R_51 && chanel != R_52) RC_Remote_CSR3 =true;
          #endif  
     }    
 
 
 void automaticOff(int chanel)
     {
-        #ifdef CSR3      //
-          if  (  chanel == R_25 || chanel == R_26 || chanel == R_27 || chanel == R_28 || chanel == R_29) RC_Remote_CSR2 =true;
-          if  (  chanel == R_24 || (chanel >= R_48 &&   chanel <= R_68)) RC_Remote_CSR1 =true;
+        #ifdef CSR3      
+          if  ( chanel == R_49 || chanel == R_50 || chanel == R_51  ) RC_Remote_CSR1 =true;
+          if  ( chanel == R_24 || chanel == R_25 || chanel == R_26 || chanel == R_28 ) RC_Remote_CSR2 =true;
         #endif       
 
          
-        #ifdef CSR2      //24 25 26 27 28
-          if  ( chanel >= R_48 &&   chanel <= R_68) RC_Remote_CSR1 =true;
+        #ifdef CSR2     
+          if  ( chanel == R_49 || chanel == R_50 || chanel == R_51  ) RC_Remote_CSR1 =true;
+          else if ( chanel != R_24 && chanel != R_25 && chanel != R_26 && chanel != R_28 ) RC_Remote_CSR3 =true;
         #endif      
 
-        #ifdef CSR      //48 - 68
-          if  ( chanel == R_24 ||  chanel == R_25 || chanel == R_26 || chanel == R_27 || chanel == R_28 || chanel == R_29 ) RC_Remote_CSR2 =true;
-         #endif  
+        #ifdef CSR      
+          if       ( chanel == R_24 || chanel == R_25 || chanel == R_26 || chanel == R_28 ) RC_Remote_CSR2 =true;
+          else if  ( chanel != R_49 && chanel != R_50 && chanel != R_51  )                  RC_Remote_CSR3 =true;
+        #endif  
     } 
         
 void turnOn (int ch, int prevCh,  int smb,  int sma)
@@ -103,7 +107,7 @@ void turnOn (int ch, int prevCh,  int smb,  int sma)
       if (prevCh == 0)
         {
           recevierCh=videoCh[ch].id;     
-          receiverAvByCh (recevierCh);
+          receiverAvByCh (recevierCh,1);
           myBlynk.TurnOffLastCh( lastAck,recevierCh,CH_MODE_1);
         }
       if (!zapScanOnly) remoteControl(ch);   
@@ -115,7 +119,7 @@ void turnOff(int ch, int prevCh, int smc )
           if (prevCh != 0)
             {
               recevierCh=videoCh[ch].id; 
-              receiverAvByCh (recevierCh); 
+              receiverAvByCh (recevierCh,0); 
               myBlynk.TurnOffLastCh( lastAck,recevierCh,CH_MODE_1);
               myBlynk.TurnOffLastCh( lastAck,prevCh,CH_MODE_2);
               if (!zapScanOnly) remoteControl(prevCh);

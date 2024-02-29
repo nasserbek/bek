@@ -27,7 +27,7 @@ void processBlynkQueu(void)
                 recevierCh=queuData;
                 if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
                 else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
-                receiverAvByCh ( recevierCh);
+                receiverAvByCh ( recevierCh,1);
              break;
              
              case Q_EVENT_REPEAT_V3:
@@ -84,11 +84,13 @@ void processBlynkQueu(void)
             break;                       
             
             case Q_EVENT_RC_L_R_1_V16:
-                  RC_Remote_CSR1=queuData;           
+                  RC_Remote_CSR1=queuData;    
+                  if (RC_Remote_CSR1) {RC_Remote_CSR2 = false; RC_Remote_CSR3=false;}       
             break;
             
             case Q_EVENT_RC_L_R_3_V17:
-                  RC_Remote_CSR3=queuData;             
+                  RC_Remote_CSR3=queuData;      
+                  if (RC_Remote_CSR3) {RC_Remote_CSR2 = false; RC_Remote_CSR1=false;}        
             break;
             
             case Q_EVENT_AWS_RECONNECT_V18:
@@ -102,6 +104,7 @@ void processBlynkQueu(void)
             
             case Q_EVENT_RC_L_R_2_V20:
                   RC_Remote_CSR2=queuData;
+                  if (RC_Remote_CSR2) {RC_Remote_CSR1 = false; RC_Remote_CSR3=false;} 
             break; 
             
             case Q_EVENT_ZAP_TIMER_OFF_V25:
@@ -133,13 +136,16 @@ void processBlynkQueu(void)
                   zapAllOnOff(queuData);
             break;   
 
-            case Q_EVENT_SAPRE_V35: 
+            case Q_EVENT_SHARE_VIDEO_WITH_CSR1_V35: 
+                    V_Remote_CSR1=queuData;
             break;                  
  
-            case Q_EVENT_SAPRE_V36: 
+            case Q_EVENT_SHARE_VIDEO_WITH_CSR2_V36: 
+                     V_Remote_CSR2=queuData;
             break;   
 
-            case Q_EVENT_SAPRE_V37:  
+            case Q_EVENT_SHARE_VIDEO_WITH_CSR3_V37:  
+                    V_Remote_CSR3=queuData;
             break;     
 
             case Q_EVENT_SAPRE_V38:  

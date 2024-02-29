@@ -43,7 +43,7 @@ bool awsConnected = false;
 String resultS = "";  //Variable to store the MQTT input message
 char Json[40];        //Variable to store the serialized Json
 StaticJsonDocument<54> doc1; //Json to receive in
-StaticJsonDocument<54> doc2; //Json to send from
+
 bool _nodeRedEvent  = false;
 bool  nodeRedActive = false;
 int  nodeRedData    = 0;
@@ -68,6 +68,11 @@ bool routerResetStart =false;
 bool RC_Remote_CSR1 = false;
 bool RC_Remote_CSR2 = false;
 bool RC_Remote_CSR3 = false;
+
+bool V_Remote_CSR1 = false;
+bool V_Remote_CSR2 = false;
+bool V_Remote_CSR3 = false;
+
 int  rcValue = 0;
 int  selected_room = 1;  
 int  selected_Rx = 0;

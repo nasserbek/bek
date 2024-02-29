@@ -235,6 +235,8 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA)
 
 void connectAWS()
 {
+  StaticJsonDocument<54> doc2; //Json to send from
+  
   // Configure WiFiClientSecure to use the AWS IoT device credentials
   net.setCACert(AWS_CERT_CA);
   net.setCertificate(AWS_CERT_CRT);

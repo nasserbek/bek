@@ -459,7 +459,7 @@ BLYNK_WRITE(V35)   //52
 {
     _blynkEvent = true; 
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_SAPRE_V35;
+    eventdata = Q_EVENT_SHARE_VIDEO_WITH_CSR1_V35;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -468,7 +468,7 @@ BLYNK_WRITE(V36)   //53
 {
     _blynkEvent = true; 
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_SAPRE_V36;
+    eventdata = Q_EVENT_SHARE_VIDEO_WITH_CSR2_V36;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -477,7 +477,7 @@ BLYNK_WRITE(V37)   //22
 {
     _blynkEvent = true; 
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_SAPRE_V37;
+    eventdata = Q_EVENT_SHARE_VIDEO_WITH_CSR3_V37;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
