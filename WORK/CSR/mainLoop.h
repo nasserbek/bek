@@ -83,12 +83,12 @@ void processBlynkQueu(void)
                   myBlynk.sendBoardIndex(selectedBoard);                      
             break;                       
             
-            case Q_EVENT_RC_L_R_1_V16:
+            case Q_EVENT_RC_REMOTE_CSR1_V16:
                   RC_Remote_CSR1=queuData;    
                   if (RC_Remote_CSR1) {RC_Remote_CSR2 = false; RC_Remote_CSR3=false;}       
             break;
             
-            case Q_EVENT_RC_L_R_3_V17:
+            case Q_EVENT_RC_REMOTE_CSR3_V17:
                   RC_Remote_CSR3=queuData;      
                   if (RC_Remote_CSR3) {RC_Remote_CSR2 = false; RC_Remote_CSR1=false;}        
             break;
@@ -102,7 +102,7 @@ void processBlynkQueu(void)
                   myBlynk.sendAvRxIndex(Av_Rx);
             break;
             
-            case Q_EVENT_RC_L_R_2_V20:
+            case Q_EVENT_RC_REMOTE_CSR2_V20:
                   RC_Remote_CSR2=queuData;
                   if (RC_Remote_CSR2) {RC_Remote_CSR1 = false; RC_Remote_CSR3=false;} 
             break; 
@@ -148,7 +148,7 @@ void processBlynkQueu(void)
                     V_Remote_CSR3=queuData;
             break;     
 
-            case Q_EVENT_SAPRE_V38:  
+            case Q_EVENT_WIFI_RSSI_V38:  
 
             break;    
             case Q_EVENT_SAPRE_V39:  
@@ -163,7 +163,7 @@ void processBlynkQueu(void)
                 resetZapper ();
                 zapSetup =false;
                 zapScanOnly = false;
-                myBlynk.zapSetupOrScanOnly(false);
+                myBlynk.resetSetupAndScan(false);
             break;
 
             case Q_EVENT_ZAP_TIMER_V72:

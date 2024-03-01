@@ -327,7 +327,7 @@ BLYNK_WRITE(V16) // // RC LOCAL REMOTE TO CSR1
 {
     _blynkEvent = true; 
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_RC_L_R_1_V16;
+    eventdata = Q_EVENT_RC_REMOTE_CSR1_V16;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -336,7 +336,7 @@ BLYNK_WRITE(V17) // RC LOCAL REMOTE TO CSR3
 {
     _blynkEvent = true; 
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_RC_L_R_3_V17;
+    eventdata = Q_EVENT_RC_REMOTE_CSR3_V17;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -362,7 +362,7 @@ BLYNK_WRITE(V20) // RC LOCAL REMOTE TO CSR2
 {
     _blynkEvent = true; 
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_RC_L_R_2_V20;
+    eventdata = Q_EVENT_RC_REMOTE_CSR2_V20;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -481,7 +481,7 @@ BLYNK_WRITE(V38)   //208
 {
     _blynkEvent = true; 
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_SAPRE_V38;
+    eventdata = Q_EVENT_WIFI_RSSI_V38;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -899,17 +899,20 @@ BLYNK_WRITE(V93)
 }
 
 
-
-void blynk::notifierDebug(String subject, String body)
+void blynk::blynkRun()
 {
-      Blynk.logEvent(String(subject +"**"+ body) );
+  Blynk.run(); 
 }
 
+bool blynk::blynkConnected()
+{
+  return( Blynk.connected() ); 
+}
 
-bool blynk::wifiConnect()
-  {
-     return true; 
-  }
+void blynk::blynkConnect()
+{
+  Blynk.connect();
+}
 
 
 bool blynk::getData()
@@ -927,6 +930,7 @@ bool blynk::getData()
     else return false;
 }
 
+
 void blynk::blynkRunTimer()
 {
   timer.run();
@@ -936,26 +940,13 @@ void blynk::blynkRunTimer()
    }
 }
 
-void blynk::blynkRun()
-{
-  Blynk.run(); 
-}
-
-bool blynk::blynkConnected()
-{
-  return( Blynk.connected() ); 
-}
-
-void blynk::blynkConnect()
-{
-  Blynk.connect();
-}
 
 
 
 
 
-void blynk::zapSetupOrScanOnly(bool _data)
+
+void blynk::resetSetupAndScan(bool _data)
 {
 Blynk.virtualWrite(V4, _data);
 Blynk.virtualWrite(V10, _data);
@@ -966,7 +957,7 @@ void blynk::zapAutoLocalRC(bool _data)
   Blynk.virtualWrite(V5, _data);
 }
 
-void blynk::zapLed(bool _data ) 
+void blynk::zapStatus(bool _data ) 
 {
 Blynk.virtualWrite(V71, _data);
 }
@@ -975,8 +966,9 @@ void blynk::sendToBlynkLed(bool _data)
 {
 }
 
-void blynk::blynkFirebaseLed(bool _data)
+void blynk::wifiRSSI(int _data)
 {
+   Blynk.virtualWrite(V38, _data); 
 }
 
 void blynk::resetRemoteRC(int _data)
@@ -992,6 +984,23 @@ void blynk::resetRemoteRC(int _data)
           break;
           case 3:
                    Blynk.virtualWrite(V17, 0); 
+          break;
+        }   
+}
+
+void blynk::resetRemoteVideo(int _data)
+{
+  switch (_data)
+        {
+          case 1:
+                   Blynk.virtualWrite(V35, 0); 
+          break;
+
+          case 2:
+                   Blynk.virtualWrite(V36, 0); 
+          break;
+          case 3:
+                   Blynk.virtualWrite(V37, 0); 
           break;
         }   
 }

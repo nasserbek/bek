@@ -114,9 +114,9 @@ void callback(char* topic, byte* payload, unsigned int length) {
         _nodeRedData  = doc1["CMD"]; 
         nodeRedeventdata =getChID (doc1["VIDEO"]) ;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
-         V_Remote_CSR1=false;
-         V_Remote_CSR2=false;
-         V_Remote_CSR2=false;
+         V_Remote_CSR1=false; myBlynk.resetRemoteVideo(1);
+         V_Remote_CSR2=false; myBlynk.resetRemoteVideo(2);
+         V_Remote_CSR2=false; myBlynk.resetRemoteVideo(3);
      }
 
   else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_ZAP)
@@ -125,7 +125,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
         _nodeRedData  = doc1["ZAP"];
         nodeRedeventdata = Q_EVENT_ZAP_V71;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
-        myBlynk.zapLed(_nodeRedData);
+        myBlynk.zapStatus(_nodeRedData);
     }
 
   else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_RX)
@@ -170,7 +170,7 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_SCAN)
         _nodeRedData  = doc1["SCAN"];
         nodeRedeventdata = Q_SCAN_ACTIVE_CH_V4;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
-        myBlynk.zapSetupOrScanOnly(_nodeRedData); 
+        myBlynk.resetSetupAndScan(_nodeRedData); 
      }
 
 else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_REPEAT)
@@ -179,7 +179,7 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_REPEAT)
         _nodeRedData  = doc1["REPEAT"];
         nodeRedeventdata = Q_EVENT_REPEAT_V3;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
-        myBlynk.zapSetupOrScanOnly(_nodeRedData); 
+        myBlynk.resetSetupAndScan(_nodeRedData); 
      }
      
 else if(String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_PRESET)
@@ -206,9 +206,9 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_RC)
         _nodeRedData  = doc1["RC"];
         nodeRedeventdata = Q_EVENT_RC_CH_NR_V1;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
-         RC_Remote_CSR1=false;
-         RC_Remote_CSR2=false;
-         RC_Remote_CSR2=false;
+         RC_Remote_CSR1=false; myBlynk.resetRemoteRC(1);
+         RC_Remote_CSR2=false; myBlynk.resetRemoteRC(2);
+         RC_Remote_CSR2=false; myBlynk.resetRemoteRC(3);
     }
 
 else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA)

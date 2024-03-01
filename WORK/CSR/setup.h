@@ -47,6 +47,9 @@ void blynkInit(void)
                 myBlynk.dvrSwitch(1);
                 myBlynk.sendVersion(VERSION_ID);
                 myBlynk.TerminalPrint(WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) );
+                int rssi = WiFi.RSSI();
+                myBlynk.wifiRSSI(rssi);
+                
              }
 
 #ifdef CSR      
