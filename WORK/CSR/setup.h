@@ -10,8 +10,6 @@ void relaySetup(void)
      pinMode(I2C_3_4_RELAY , OUTPUT);
 
      digitalWrite(AV_RX_DVR_PIN_2, LOW);  // AV RECEIVER ON POWER UP NC CONTACT
-     digitalWrite(I2C_1_2_RELAY, HIGH);   //1,2
-     digitalWrite(I2C_3_4_RELAY, LOW);   //3,4
 }
 
 void blynkInit(void)
@@ -24,17 +22,26 @@ void blynkInit(void)
               {
                 myBlynk.sendAvRxIndex(Av_Rx);
                 myBlynk.sendBoardIndex(activeBoard);
+                
                      #ifdef CSR      //DEFAULT RX3
                         myBlynk.RelaySelect(3);
                         selected_Rx = 2; 
+                        digitalWrite(I2C_1_2_RELAY, HIGH);   //1,2
+                        digitalWrite(I2C_3_4_RELAY, HIGH);   //3,4
                      #endif 
-                       #ifdef CSR2    //DEFAULT RX4
+                     
+                     #ifdef CSR2    //DEFAULT RX4
                         myBlynk.RelaySelect(4);
                         selected_Rx = 3; 
+                        digitalWrite(I2C_1_2_RELAY, HIGH);   //1,2
+                        digitalWrite(I2C_3_4_RELAY, LOW);   //3,4                        
                      #endif 
+                     
                      #ifdef CSR3     //DEFAULT RX3
                         myBlynk.RelaySelect(3);
                         selected_Rx = 2; 
+                        digitalWrite(I2C_1_2_RELAY, HIGH);   //1,2
+                        digitalWrite(I2C_3_4_RELAY, HIGH);   //3,4                        
                      #endif   
 
                 myBlynk.dvrSwitch(1);
