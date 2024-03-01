@@ -1,7 +1,7 @@
-//#define CSR  // TTGO R64 SCATOLA 1CH TTGO
+#define CSR  // TTGO R64 SCATOLA 1CH TTGO
 //#define CSR2  // R65 SCATOLA 4CH ESP32S
 //#define CSR3    //R66 SWAN CASE 2CH ESP32S
-#define TEST
+//#define TEST
 
 
 #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/CSR.ino.esp32.bin"  // URL to download the firmware from
