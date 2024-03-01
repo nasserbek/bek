@@ -3,6 +3,7 @@
 //#define CSR3    //R66 SWAN CASE 2CH ESP32S
 //#define TEST
 
+#define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/CSR.ino.esp32.bin"  // URL to download the firmware from
 
 
 #define BLYNK_TEMPLATE_ID           "TMPL5Y2na6zpd"
@@ -17,9 +18,6 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO_3   "csr3/sub/video"
     
 #ifdef CSR      //TTGO R64 SCATOLA 1CH TTGO
-
-    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/CSR1.bin"  // URL to download the firmware from
-    
     #define VERSION_ID "9.6"
     #define BLYNK_AUTH_TOKEN                "B1pZ48rPHfdQ8LxlqCoiPk8fxWBbv7B0" //CSR
     #define THINGNAME "CSR1"   
@@ -44,9 +42,7 @@
 #endif
 
 #ifdef CSR2     // R65 SCATOLA 4CH ESP32S
-
-    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/CSR2.bin"  // URL to download the firmware from
-    
+ 
     #define VERSION_ID "9.6"
     #define BLYNK_AUTH_TOKEN                "_cqYD1seWElWB-S1IxutIEI7VWmDpb05" //CS2
     #define THINGNAME "CSR2"   
@@ -72,9 +68,7 @@
 
 
 #ifdef CSR3     //R66 SWAN CASE 2CH ESP32S
-
-    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/CSR3.bin"  // URL to download the firmware from
-    
+   
     #define VERSION_ID " 9.6 "
     #define BLYNK_AUTH_TOKEN                "6DH6QZgVXrGXU5VzOpJSJgHoyXWL7aWS" //CSR3
     #define THINGNAME "CSR3"   
@@ -99,8 +93,6 @@
 #endif
 
 #ifdef TEST     //R66 SWAN CASE 2CH ESP32S
-
-    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/TEST.bin"  // URL to download the firmware from
     
     #define VERSION_ID " 9.6 "
     #define BLYNK_AUTH_TOKEN                "lzXq8VnMflNkRrToeTSjv4b01kvkG9zl" //CSR4
