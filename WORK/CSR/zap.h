@@ -58,17 +58,17 @@ void nextState( int nextSm)
     {
         #ifdef CSR3    
           if  (  chanel == R_24 || chanel == R_28) RC_Remote_CSR2 =true; 
-          if  (  chanel == R_51 || chanel == R_52) RC_Remote_CSR1 =true; 
+          if  (  chanel == R_49 || chanel == R_50 || chanel == R_51 || chanel == R_52) RC_Remote_CSR1 =true; 
         #endif       
 
         #ifdef CSR2      
           if  ( chanel != R_24 && chanel != R_28 ) RC_Remote_CSR3 =true;
-          if  ( chanel == R_51 || chanel == R_52) RC_Remote_CSR1 =true; 
+          if  (  chanel == R_49 || chanel == R_50 || chanel == R_51 || chanel == R_52) RC_Remote_CSR1 =true; 
         #endif      
 
         #ifdef CSR      
         if        ( chanel == R_24 ||  chanel == R_28 ) RC_Remote_CSR2 =true; 
-        else  if  ( chanel != R_51 && chanel != R_52) RC_Remote_CSR3 =true;
+        else  if  ( chanel != R_49 && chanel != R_50 && chanel != R_51 && chanel != R_52) RC_Remote_CSR3 =true;
          #endif  
     }    
 

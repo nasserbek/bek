@@ -21,6 +21,22 @@ void loop(void)
 {
        resetWdg();
        internetCheck();
+       
+       #ifdef CSR    
+          V_Remote_CSR1=false;
+          RC_Remote_CSR1=false;
+       #endif 
+       
+       #ifdef CSR2    
+          V_Remote_CSR2=false;
+          RC_Remote_CSR2=false;
+       #endif 
+       
+       #ifdef CSR3  
+          V_Remote_CSR3=false;
+          RC_Remote_CSR3=false;
+       #endif   
+       
        blynkLoop();
        awsLoop();
        bool zapScan = zapOnOff || zapScanOnly;

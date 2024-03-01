@@ -196,11 +196,6 @@ void blynk::init()
   terminal.clear();  
   Blynk.virtualWrite(V102,"Blynk v ", VERSION_ID, ": Device started\n");
   Blynk.virtualWrite(V102,"-------------\n");
-  
-  #ifdef CSR  //4 rele board active low
-        Blynk.virtualWrite(V9,3)  ; 
-        selected_Rx = 2; 
-  #endif
 
   }
 }

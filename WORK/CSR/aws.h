@@ -114,6 +114,9 @@ void callback(char* topic, byte* payload, unsigned int length) {
         _nodeRedData  = doc1["CMD"]; 
         nodeRedeventdata =getChID (doc1["VIDEO"]) ;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
+         V_Remote_CSR1=false;
+         V_Remote_CSR2=false;
+         V_Remote_CSR2=false;
      }
 
   else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_ZAP)
@@ -203,6 +206,9 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_RC)
         _nodeRedData  = doc1["RC"];
         nodeRedeventdata = Q_EVENT_RC_CH_NR_V1;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
+         RC_Remote_CSR1=false;
+         RC_Remote_CSR2=false;
+         RC_Remote_CSR2=false;
     }
 
 else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA)

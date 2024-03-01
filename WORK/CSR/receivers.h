@@ -110,11 +110,13 @@ bool receiverAvByCh (int Ch, int cmd)
        if (blynkConnected) myBlynk.frequencyValue(recevierFreq );
        lastAck = ack; 
        
+    if(V_Remote_CSR1 || V_Remote_CSR2 || V_Remote_CSR2)
+        {
         doc3["CMD"] = cmd;
         serializeJson(doc3, Json); // print to client
         doc3["VIDEO"] = Ch;
         serializeJson(doc3, Json); // print to client
-        
+            
     if( V_Remote_CSR1)
        {
         client.publish(AWS_IOT_SUBSCRIBE_TOPIC_VIDEO_1, Json); 
@@ -129,7 +131,7 @@ bool receiverAvByCh (int Ch, int cmd)
       {
         client.publish(AWS_IOT_SUBSCRIBE_TOPIC_VIDEO_3, Json); 
       } 
-
+    }
    
    return(lastAck);
 }

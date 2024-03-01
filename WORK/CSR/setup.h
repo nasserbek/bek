@@ -10,24 +10,8 @@ void relaySetup(void)
      pinMode(I2C_3_4_RELAY , OUTPUT);
 
      digitalWrite(AV_RX_DVR_PIN_2, LOW);  // AV RECEIVER ON POWER UP NC CONTACT
-     digitalWrite(I2C_1_2_RELAY, HIGH);   
-     digitalWrite(I2C_3_4_RELAY, HIGH);  
-/*     
-     #ifdef CSR  //4 rele board active low
-        digitalWrite(I2C_1_2_RELAY, HIGH);   
-        digitalWrite(I2C_3_4_RELAY, HIGH);  
-     #endif   
-
-     #ifdef CSR2  //4 rele board active low
-        digitalWrite(I2C_1_2_RELAY, HIGH);   
-        digitalWrite(I2C_3_4_RELAY, HIGH);  
-     #endif 
-          
-     #ifdef CSR3      //Single rele active High
-        digitalWrite(I2C_1_2_RELAY, LOW);   
-        digitalWrite(I2C_3_4_RELAY, LOW);   
-     #endif
- */    
+     digitalWrite(I2C_1_2_RELAY, HIGH);   //1,2
+     digitalWrite(I2C_3_4_RELAY, LOW);   //3,4
 }
 
 void blynkInit(void)
@@ -40,15 +24,19 @@ void blynkInit(void)
               {
                 myBlynk.sendAvRxIndex(Av_Rx);
                 myBlynk.sendBoardIndex(activeBoard);
-                     #ifdef CSR    
+                     #ifdef CSR      //DEFAULT RX3
                         myBlynk.RelaySelect(3);
+                        selected_Rx = 2; 
                      #endif 
-                       #ifdef CSR2    
-                        myBlynk.RelaySelect(1);
+                       #ifdef CSR2    //DEFAULT RX4
+                        myBlynk.RelaySelect(4);
+                        selected_Rx = 3; 
                      #endif 
-                     #ifdef CSR3  
+                     #ifdef CSR3     //DEFAULT RX3
                         myBlynk.RelaySelect(3);
+                        selected_Rx = 2; 
                      #endif   
+
                 myBlynk.dvrSwitch(1);
                 myBlynk.sendVersion(VERSION_ID);
                 myBlynk.TerminalPrint(WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) );
