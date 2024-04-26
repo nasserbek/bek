@@ -35,6 +35,7 @@ EventGroupHandle_t g_event_group = NULL;
 WiFiClientSecure net = WiFiClientSecure();
 PubSubClient client(net);
 
+bool autoResetRouter = 0;
 int activeBoard   = ESP1;
 int selectedBoard = ESP1;
 
@@ -107,18 +108,16 @@ uint _pll[21];
 
 
 //FREQ CSR IN ORDER ROOM NR
-const uint freqTable[21] =       {0, 1180,    1360    ,  1240,     1280,       1320,      1200,        1360,       1080,     1280,             1120,        1320,       1200,          1120 ,      1160,        1080   ,    1240,         1280,        1360 ,     1160,     1180}; 
-//                                  24        25-48-67   26-65     27-66-50    28-52      29-53        48-25-67     49-64    50-27-66          51-62        52-28       53-29          62-51       63-68        64-49       65-26         66-27-50     67-25-48   68-63                          Xxx
+const uint freqTable[21] =       {0, 1180,    1360    ,  1240,     1280,       1320,      1200,        1360,       1080,     1280,             1120,        1320,       1200,          1120 ,      1160,        1080   ,    1240,         1280,        1360 ,     1160,     1220}; 
+//                                  24        25-48-67   26-65     27-66-50    28-52      29-53        48-25-67     49-64    50-27-66          51-62        52-28       53-29          62-51       63-68        64-49       65-26         66-27-50     67-25-48   68-63       12                   Xxx
 
 //RC CSR IN ORDER ROOM NR
-const unsigned long CH_433[35] ={0, 349649,   349811,  349491,    349500,   349635,  349644,      349680,  349443,   349211,    349452  , 349463,   349652 ,        349695,   349488,    349632,   349511,  349455,  349111, 349311 }; 
+//20042024 const unsigned long CH_433[35] ={0, 349649,   349811,  349491,    349500,   349635,  349644,      349680,  349443,   349211,    349452  , 349463,   349652 ,        349695,   349488,    349632,   349511,  349455,  349111, 349311 }; 
  //                                 24        25        26        27        28       29           48        49        50        51        52        53              62        63         64        65        66       67     68
 
-
-//RC 
-//const unsigned long CH_433[35] ={0, 349452,   349443,  349652,    349649,   349500,  349635, 349644,  349680,   349463,    349695  , 349488,   349632 ,  349511,   349455,    349311,   349811,  349491,  349211}; 
- //                                   51        49        53        24        27       28      29        48        52        62        63        64        65        66         68         25        26       50  
- 
+//RC CSR IN ORDER ROOM NR
+const unsigned long CH_433[35] ={0, 349649,   349811,  349491,    349500,   349635,  349644,      349680,   349111 ,   349211,    349452  , 349463,   349652 ,        349695,   349488,    349632,   349511,  349455, 349443 , 349311 , 349423 }; 
+ //                                 24        25        26        27        28       29           48        49         50        51         52        53              62        63         64        65        66     ROUTER   68       12
 
 
 
@@ -165,7 +164,7 @@ int zapTimer = 15000;
 int zapTimerOff = 5000;
 
 int routerTimer = 5000;
-long  routerResetTimer, resetNetgeerAfterInternetLossTimer,zaptime, zaptimeOff,scantime, AckTime, internetSurvilanceTimer, liveTimerOn,liveTimerOff,OtaTimeoutTimer,restartAfterResetNG,NetgeerResetGooglLostTimer,blynkNotActiveTimer;
+long  routerResetTimer, resetNetgeerAfterInternetLossTimer,zaptime, zaptimeOff,scantime, AckTime, internetSurvilanceTimer, liveTimerOn,liveTimerOff,OtaTimeoutTimer,restartAfterResetNG,NetgeerResetGooglLostTimer,Router_24_hoursTimer,blynkNotActiveTimer;
 bool pingGoogle= false;
 bool googlePingOk= true;
 bool netGeerReset = false;

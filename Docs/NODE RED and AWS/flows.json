@@ -7,103 +7,29 @@
         "info": ""
     },
     {
-        "id": "742aec671996b3a9",
-        "type": "mqtt out",
-        "z": "5aaaa13.ece6d6",
-        "name": "",
-        "topic": "csr1/pub/rc",
-        "qos": "",
-        "retain": "",
-        "respTopic": "",
-        "contentType": "",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "60a1691f9152b906",
-        "x": 1190,
-        "y": 940,
-        "wires": []
-    },
-    {
-        "id": "3976c058f42e322e",
-        "type": "mqtt out",
-        "z": "5aaaa13.ece6d6",
-        "name": "",
-        "topic": "csr1/pub/video",
-        "qos": "",
-        "retain": "",
-        "respTopic": "",
-        "contentType": "",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "60a1691f9152b906",
-        "x": 320,
-        "y": 420,
-        "wires": []
-    },
-    {
-        "id": "4d17c7b7f2b15f7d",
-        "type": "mqtt out",
-        "z": "5aaaa13.ece6d6",
-        "name": "",
-        "topic": "csr1/pub/rx",
-        "qos": "",
-        "retain": "",
-        "respTopic": "",
-        "contentType": "",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "60a1691f9152b906",
-        "x": 230,
-        "y": 900,
-        "wires": []
-    },
-    {
-        "id": "dd1b8a028216d98b",
-        "type": "mqtt out",
-        "z": "5aaaa13.ece6d6",
-        "name": "",
-        "topic": "csr1/pub/zap",
-        "qos": "",
-        "retain": "",
-        "respTopic": "",
-        "contentType": "",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "60a1691f9152b906",
-        "x": 1190,
-        "y": 1000,
-        "wires": []
-    },
-    {
         "id": "56b01a28cd5505a7",
         "type": "ui_button",
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "dbe5b7cbe859b3fe",
         "order": 1,
-        "width": "2",
-        "height": "1",
+        "width": 3,
+        "height": 3,
         "passthru": false,
-        "label": "24",
+        "label": "{{topic}}",
         "tooltip": "",
         "color": "",
-        "bgcolor": "#23C48E",
+        "bgcolor": "{{background}}",
         "className": "",
-        "icon": "",
-        "payload": "{\"VIDEO\":\"1\"}",
-        "payloadType": "json",
-        "topic": "",
+        "icon": "{{myicon}}",
+        "payload": "{\"VIDEO\":\"2\"}",
+        "payloadType": "str",
+        "topic": "control",
         "topicType": "str",
         "x": 90,
         "y": 80,
         "wires": [
-            [
-                "3976c058f42e322e"
-            ]
+            []
         ]
     },
     {
@@ -111,27 +37,25 @@
         "type": "ui_button",
         "z": "5aaaa13.ece6d6",
         "name": "",
-        "group": "dbe5b7cbe859b3fe",
-        "order": 1,
+        "group": "396240c9.2d409",
+        "order": 35,
         "width": "2",
-        "height": "1",
+        "height": "2",
         "passthru": false,
         "label": "25",
         "tooltip": "",
         "color": "",
-        "bgcolor": "#23C48E",
+        "bgcolor": "{{msg.background}}",
         "className": "",
-        "icon": "",
-        "payload": "{\"VIDEO\":\"2\"}",
-        "payloadType": "json",
+        "icon": "videocam",
+        "payload": "on",
+        "payloadType": "str",
         "topic": "",
         "topicType": "str",
-        "x": 90,
-        "y": 120,
+        "x": 1750,
+        "y": 240,
         "wires": [
-            [
-                "3976c058f42e322e"
-            ]
+            []
         ]
     },
     {
@@ -140,9 +64,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "dbe5b7cbe859b3fe",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 17,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "26",
         "tooltip": "",
@@ -157,9 +81,7 @@
         "x": 90,
         "y": 160,
         "wires": [
-            [
-                "3976c058f42e322e"
-            ]
+            []
         ]
     },
     {
@@ -168,9 +90,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "dbe5b7cbe859b3fe",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 4,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "27",
         "tooltip": "",
@@ -185,9 +107,7 @@
         "x": 90,
         "y": 200,
         "wires": [
-            [
-                "3976c058f42e322e"
-            ]
+            []
         ]
     },
     {
@@ -196,9 +116,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "dbe5b7cbe859b3fe",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 16,
+        "width": 4,
+        "height": 6,
         "passthru": false,
         "label": "28",
         "tooltip": "",
@@ -213,9 +133,7 @@
         "x": 90,
         "y": 240,
         "wires": [
-            [
-                "3976c058f42e322e"
-            ]
+            []
         ]
     },
     {
@@ -224,9 +142,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "dbe5b7cbe859b3fe",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 24,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "29",
         "tooltip": "",
@@ -241,9 +159,7 @@
         "x": 90,
         "y": 280,
         "wires": [
-            [
-                "3976c058f42e322e"
-            ]
+            []
         ]
     },
     {
@@ -252,9 +168,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "dbe5b7cbe859b3fe",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 6,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "48",
         "tooltip": "",
@@ -269,9 +185,7 @@
         "x": 90,
         "y": 320,
         "wires": [
-            [
-                "3976c058f42e322e"
-            ]
+            []
         ]
     },
     {
@@ -280,14 +194,14 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "dbe5b7cbe859b3fe",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 23,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "49",
         "tooltip": "",
         "color": "",
-        "bgcolor": "#23C48E",
+        "bgcolor": "#ED9D00",
         "className": "",
         "icon": "",
         "payload": "{\"VIDEO\":\"8\"}",
@@ -297,9 +211,7 @@
         "x": 90,
         "y": 360,
         "wires": [
-            [
-                "3976c058f42e322e"
-            ]
+            []
         ]
     },
     {
@@ -308,14 +220,14 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "dbe5b7cbe859b3fe",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 27,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "50",
         "tooltip": "",
         "color": "",
-        "bgcolor": "#23C48E",
+        "bgcolor": "#ED9D00",
         "className": "",
         "icon": "",
         "payload": "{\"VIDEO\":\"9\"}",
@@ -325,9 +237,7 @@
         "x": 90,
         "y": 400,
         "wires": [
-            [
-                "3976c058f42e322e"
-            ]
+            []
         ]
     },
     {
@@ -336,14 +246,14 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "dbe5b7cbe859b3fe",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 8,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "51",
         "tooltip": "",
         "color": "",
-        "bgcolor": "#23C48E",
+        "bgcolor": "#ED9D00",
         "className": "",
         "icon": "",
         "payload": "{\"VIDEO\":\"10\"}",
@@ -353,9 +263,7 @@
         "x": 90,
         "y": 440,
         "wires": [
-            [
-                "3976c058f42e322e"
-            ]
+            []
         ]
     },
     {
@@ -364,14 +272,14 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "dbe5b7cbe859b3fe",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 26,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "52",
         "tooltip": "",
         "color": "",
-        "bgcolor": "#23C48E",
+        "bgcolor": "#ED9D00",
         "className": "",
         "icon": "",
         "payload": "{\"VIDEO\":\"11\"}",
@@ -381,9 +289,7 @@
         "x": 90,
         "y": 480,
         "wires": [
-            [
-                "3976c058f42e322e"
-            ]
+            []
         ]
     },
     {
@@ -392,9 +298,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "dbe5b7cbe859b3fe",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 30,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "53",
         "tooltip": "",
@@ -409,9 +315,7 @@
         "x": 90,
         "y": 520,
         "wires": [
-            [
-                "3976c058f42e322e"
-            ]
+            []
         ]
     },
     {
@@ -420,14 +324,14 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "dbe5b7cbe859b3fe",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 10,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "62",
         "tooltip": "",
         "color": "",
-        "bgcolor": "#23C48E",
+        "bgcolor": "#ED9D00",
         "className": "",
         "icon": "",
         "payload": "{\"VIDEO\":\"13\"}",
@@ -437,9 +341,7 @@
         "x": 90,
         "y": 560,
         "wires": [
-            [
-                "3976c058f42e322e"
-            ]
+            []
         ]
     },
     {
@@ -448,9 +350,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "dbe5b7cbe859b3fe",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 29,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "63",
         "tooltip": "",
@@ -465,9 +367,7 @@
         "x": 90,
         "y": 600,
         "wires": [
-            [
-                "3976c058f42e322e"
-            ]
+            []
         ]
     },
     {
@@ -476,9 +376,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "dbe5b7cbe859b3fe",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 33,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "64",
         "tooltip": "",
@@ -493,9 +393,7 @@
         "x": 90,
         "y": 640,
         "wires": [
-            [
-                "3976c058f42e322e"
-            ]
+            []
         ]
     },
     {
@@ -504,14 +402,14 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "dbe5b7cbe859b3fe",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 12,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "65",
         "tooltip": "",
         "color": "",
-        "bgcolor": "#23C48E",
+        "bgcolor": "#ED9D00",
         "className": "",
         "icon": "",
         "payload": "{\"VIDEO\":\"16\"}",
@@ -521,9 +419,7 @@
         "x": 90,
         "y": 680,
         "wires": [
-            [
-                "3976c058f42e322e"
-            ]
+            []
         ]
     },
     {
@@ -532,14 +428,14 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "dbe5b7cbe859b3fe",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 32,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "66",
         "tooltip": "",
         "color": "",
-        "bgcolor": "#23C48E",
+        "bgcolor": "#ED9D00",
         "className": "",
         "icon": "",
         "payload": "{\"VIDEO\":\"17\"}",
@@ -549,9 +445,7 @@
         "x": 90,
         "y": 720,
         "wires": [
-            [
-                "3976c058f42e322e"
-            ]
+            []
         ]
     },
     {
@@ -560,9 +454,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "dbe5b7cbe859b3fe",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 36,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "68",
         "tooltip": "",
@@ -577,28 +471,8 @@
         "x": 90,
         "y": 760,
         "wires": [
-            [
-                "3976c058f42e322e"
-            ]
+            []
         ]
-    },
-    {
-        "id": "09cf916840e85710",
-        "type": "mqtt out",
-        "z": "5aaaa13.ece6d6",
-        "name": "",
-        "topic": "csr2/pub/video",
-        "qos": "",
-        "retain": "",
-        "respTopic": "",
-        "contentType": "",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "ae4b8351.dfe6f8",
-        "x": 700,
-        "y": 420,
-        "wires": []
     },
     {
         "id": "38e25f8ffaa1a49f",
@@ -607,13 +481,13 @@
         "name": "",
         "group": "a93d55040cd99200",
         "order": 1,
-        "width": "2",
-        "height": "1",
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "24",
         "tooltip": "",
         "color": "",
-        "bgcolor": "#04C0F8",
+        "bgcolor": "#ED9D00",
         "className": "",
         "icon": "",
         "payload": "{\"VIDEO\":\"1\"}",
@@ -623,9 +497,7 @@
         "x": 470,
         "y": 80,
         "wires": [
-            [
-                "09cf916840e85710"
-            ]
+            []
         ]
     },
     {
@@ -634,9 +506,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a93d55040cd99200",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 2,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "25",
         "tooltip": "",
@@ -651,9 +523,7 @@
         "x": 470,
         "y": 120,
         "wires": [
-            [
-                "09cf916840e85710"
-            ]
+            []
         ]
     },
     {
@@ -662,9 +532,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a93d55040cd99200",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 3,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "26",
         "tooltip": "",
@@ -679,9 +549,7 @@
         "x": 470,
         "y": 160,
         "wires": [
-            [
-                "09cf916840e85710"
-            ]
+            []
         ]
     },
     {
@@ -690,9 +558,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a93d55040cd99200",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 4,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "27",
         "tooltip": "",
@@ -707,9 +575,7 @@
         "x": 470,
         "y": 200,
         "wires": [
-            [
-                "09cf916840e85710"
-            ]
+            []
         ]
     },
     {
@@ -718,9 +584,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a93d55040cd99200",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 5,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "28",
         "tooltip": "",
@@ -735,9 +601,7 @@
         "x": 470,
         "y": 240,
         "wires": [
-            [
-                "09cf916840e85710"
-            ]
+            []
         ]
     },
     {
@@ -746,9 +610,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a93d55040cd99200",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 6,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "29",
         "tooltip": "",
@@ -763,9 +627,7 @@
         "x": 470,
         "y": 280,
         "wires": [
-            [
-                "09cf916840e85710"
-            ]
+            []
         ]
     },
     {
@@ -774,9 +636,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a93d55040cd99200",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 7,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "48",
         "tooltip": "",
@@ -791,9 +653,7 @@
         "x": 470,
         "y": 320,
         "wires": [
-            [
-                "09cf916840e85710"
-            ]
+            []
         ]
     },
     {
@@ -802,14 +662,14 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a93d55040cd99200",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 8,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "49",
         "tooltip": "",
         "color": "",
-        "bgcolor": "#04C0F8",
+        "bgcolor": "#ED9D00",
         "className": "",
         "icon": "",
         "payload": "{\"VIDEO\":\"8\"}",
@@ -819,9 +679,7 @@
         "x": 470,
         "y": 360,
         "wires": [
-            [
-                "09cf916840e85710"
-            ]
+            []
         ]
     },
     {
@@ -830,14 +688,14 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a93d55040cd99200",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 9,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "50",
         "tooltip": "",
         "color": "",
-        "bgcolor": "#04C0F8",
+        "bgcolor": "#ED9D00",
         "className": "",
         "icon": "",
         "payload": "{\"VIDEO\":\"9\"}",
@@ -847,9 +705,7 @@
         "x": 470,
         "y": 400,
         "wires": [
-            [
-                "09cf916840e85710"
-            ]
+            []
         ]
     },
     {
@@ -858,14 +714,14 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a93d55040cd99200",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 10,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "51",
         "tooltip": "",
         "color": "",
-        "bgcolor": "#04C0F8",
+        "bgcolor": "#ED9D00",
         "className": "",
         "icon": "",
         "payload": "{\"VIDEO\":\"10\"}",
@@ -875,9 +731,7 @@
         "x": 470,
         "y": 440,
         "wires": [
-            [
-                "09cf916840e85710"
-            ]
+            []
         ]
     },
     {
@@ -886,14 +740,14 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a93d55040cd99200",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 11,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "52",
         "tooltip": "",
         "color": "",
-        "bgcolor": "#04C0F8",
+        "bgcolor": "#ED9D00",
         "className": "",
         "icon": "",
         "payload": "{\"VIDEO\":\"11\"}",
@@ -903,9 +757,7 @@
         "x": 470,
         "y": 480,
         "wires": [
-            [
-                "09cf916840e85710"
-            ]
+            []
         ]
     },
     {
@@ -914,9 +766,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a93d55040cd99200",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 12,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "53",
         "tooltip": "",
@@ -931,9 +783,7 @@
         "x": 470,
         "y": 520,
         "wires": [
-            [
-                "09cf916840e85710"
-            ]
+            []
         ]
     },
     {
@@ -942,14 +792,14 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a93d55040cd99200",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 13,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "62",
         "tooltip": "",
         "color": "",
-        "bgcolor": "#04C0F8",
+        "bgcolor": "#ED9D00",
         "className": "",
         "icon": "",
         "payload": "{\"VIDEO\":\"13\"}",
@@ -959,9 +809,7 @@
         "x": 470,
         "y": 560,
         "wires": [
-            [
-                "09cf916840e85710"
-            ]
+            []
         ]
     },
     {
@@ -970,9 +818,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a93d55040cd99200",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 14,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "63",
         "tooltip": "",
@@ -987,9 +835,7 @@
         "x": 470,
         "y": 600,
         "wires": [
-            [
-                "09cf916840e85710"
-            ]
+            []
         ]
     },
     {
@@ -998,9 +844,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a93d55040cd99200",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 15,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "64",
         "tooltip": "",
@@ -1015,9 +861,7 @@
         "x": 470,
         "y": 640,
         "wires": [
-            [
-                "09cf916840e85710"
-            ]
+            []
         ]
     },
     {
@@ -1026,14 +870,14 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a93d55040cd99200",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 16,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "65",
         "tooltip": "",
         "color": "",
-        "bgcolor": "#04C0F8",
+        "bgcolor": "#ED9D00",
         "className": "",
         "icon": "",
         "payload": "{\"VIDEO\":\"16\"}",
@@ -1043,9 +887,7 @@
         "x": 470,
         "y": 680,
         "wires": [
-            [
-                "09cf916840e85710"
-            ]
+            []
         ]
     },
     {
@@ -1054,14 +896,14 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a93d55040cd99200",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 17,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "66",
         "tooltip": "",
         "color": "",
-        "bgcolor": "#04C0F8",
+        "bgcolor": "#ED9D00",
         "className": "",
         "icon": "",
         "payload": "{\"VIDEO\":\"17\"}",
@@ -1071,9 +913,7 @@
         "x": 470,
         "y": 720,
         "wires": [
-            [
-                "09cf916840e85710"
-            ]
+            []
         ]
     },
     {
@@ -1082,9 +922,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a93d55040cd99200",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 18,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "68",
         "tooltip": "",
@@ -1099,28 +939,8 @@
         "x": 470,
         "y": 760,
         "wires": [
-            [
-                "09cf916840e85710"
-            ]
+            []
         ]
-    },
-    {
-        "id": "ec6ae3a46f108501",
-        "type": "mqtt out",
-        "z": "5aaaa13.ece6d6",
-        "name": "",
-        "topic": "csr3/pub/video",
-        "qos": "",
-        "retain": "",
-        "respTopic": "",
-        "contentType": "",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "ec54fd88f640c1b2",
-        "x": 1080,
-        "y": 420,
-        "wires": []
     },
     {
         "id": "818832a112e4a8fc",
@@ -1129,13 +949,13 @@
         "name": "",
         "group": "a3a26c8d34efc2f2",
         "order": 1,
-        "width": "2",
-        "height": "1",
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "24",
         "tooltip": "",
         "color": "",
-        "bgcolor": "#5F7CD8",
+        "bgcolor": "#ED9D00",
         "className": "",
         "icon": "",
         "payload": "{\"VIDEO\":\"1\"}",
@@ -1145,9 +965,7 @@
         "x": 850,
         "y": 80,
         "wires": [
-            [
-                "ec6ae3a46f108501"
-            ]
+            []
         ]
     },
     {
@@ -1156,9 +974,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a3a26c8d34efc2f2",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 2,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "25",
         "tooltip": "",
@@ -1173,9 +991,7 @@
         "x": 850,
         "y": 120,
         "wires": [
-            [
-                "ec6ae3a46f108501"
-            ]
+            []
         ]
     },
     {
@@ -1184,9 +1000,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a3a26c8d34efc2f2",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 3,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "26",
         "tooltip": "",
@@ -1201,9 +1017,7 @@
         "x": 850,
         "y": 160,
         "wires": [
-            [
-                "ec6ae3a46f108501"
-            ]
+            []
         ]
     },
     {
@@ -1212,9 +1026,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a3a26c8d34efc2f2",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 4,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "27",
         "tooltip": "",
@@ -1229,9 +1043,7 @@
         "x": 850,
         "y": 200,
         "wires": [
-            [
-                "ec6ae3a46f108501"
-            ]
+            []
         ]
     },
     {
@@ -1240,9 +1052,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a3a26c8d34efc2f2",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 5,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "28",
         "tooltip": "",
@@ -1257,9 +1069,7 @@
         "x": 850,
         "y": 240,
         "wires": [
-            [
-                "ec6ae3a46f108501"
-            ]
+            []
         ]
     },
     {
@@ -1268,9 +1078,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a3a26c8d34efc2f2",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 6,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "29",
         "tooltip": "",
@@ -1285,9 +1095,7 @@
         "x": 850,
         "y": 280,
         "wires": [
-            [
-                "ec6ae3a46f108501"
-            ]
+            []
         ]
     },
     {
@@ -1296,9 +1104,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a3a26c8d34efc2f2",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 7,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "48",
         "tooltip": "",
@@ -1313,9 +1121,7 @@
         "x": 850,
         "y": 320,
         "wires": [
-            [
-                "ec6ae3a46f108501"
-            ]
+            []
         ]
     },
     {
@@ -1324,14 +1130,14 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a3a26c8d34efc2f2",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 8,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "49",
         "tooltip": "",
         "color": "",
-        "bgcolor": "#5F7CD8",
+        "bgcolor": "#ED9D00",
         "className": "",
         "icon": "",
         "payload": "{\"VIDEO\":\"8\"}",
@@ -1341,9 +1147,7 @@
         "x": 850,
         "y": 360,
         "wires": [
-            [
-                "ec6ae3a46f108501"
-            ]
+            []
         ]
     },
     {
@@ -1352,14 +1156,14 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a3a26c8d34efc2f2",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 9,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "50",
         "tooltip": "",
         "color": "",
-        "bgcolor": "#5F7CD8",
+        "bgcolor": "#ED9D00",
         "className": "",
         "icon": "",
         "payload": "{\"VIDEO\":\"9\"}",
@@ -1369,9 +1173,7 @@
         "x": 850,
         "y": 400,
         "wires": [
-            [
-                "ec6ae3a46f108501"
-            ]
+            []
         ]
     },
     {
@@ -1380,14 +1182,14 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a3a26c8d34efc2f2",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 10,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "51",
         "tooltip": "",
         "color": "",
-        "bgcolor": "#5F7CD8",
+        "bgcolor": "#ED9D00",
         "className": "",
         "icon": "",
         "payload": "{\"VIDEO\":\"10\"}",
@@ -1397,9 +1199,7 @@
         "x": 850,
         "y": 440,
         "wires": [
-            [
-                "ec6ae3a46f108501"
-            ]
+            []
         ]
     },
     {
@@ -1408,14 +1208,14 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a3a26c8d34efc2f2",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 11,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "52",
         "tooltip": "",
         "color": "",
-        "bgcolor": "#5F7CD8",
+        "bgcolor": "#ED9D00",
         "className": "",
         "icon": "",
         "payload": "{\"VIDEO\":\"11\"}",
@@ -1425,9 +1225,7 @@
         "x": 850,
         "y": 480,
         "wires": [
-            [
-                "ec6ae3a46f108501"
-            ]
+            []
         ]
     },
     {
@@ -1436,9 +1234,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a3a26c8d34efc2f2",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 12,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "53",
         "tooltip": "",
@@ -1453,9 +1251,7 @@
         "x": 850,
         "y": 520,
         "wires": [
-            [
-                "ec6ae3a46f108501"
-            ]
+            []
         ]
     },
     {
@@ -1464,14 +1260,14 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a3a26c8d34efc2f2",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 13,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "62",
         "tooltip": "",
         "color": "",
-        "bgcolor": "#5F7CD8",
+        "bgcolor": "#ED9D00",
         "className": "",
         "icon": "",
         "payload": "{\"VIDEO\":\"13\"}",
@@ -1481,9 +1277,7 @@
         "x": 850,
         "y": 560,
         "wires": [
-            [
-                "ec6ae3a46f108501"
-            ]
+            []
         ]
     },
     {
@@ -1492,9 +1286,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a3a26c8d34efc2f2",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 14,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "63",
         "tooltip": "",
@@ -1509,9 +1303,7 @@
         "x": 850,
         "y": 600,
         "wires": [
-            [
-                "ec6ae3a46f108501"
-            ]
+            []
         ]
     },
     {
@@ -1520,9 +1312,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a3a26c8d34efc2f2",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 15,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "64",
         "tooltip": "",
@@ -1537,9 +1329,7 @@
         "x": 850,
         "y": 640,
         "wires": [
-            [
-                "ec6ae3a46f108501"
-            ]
+            []
         ]
     },
     {
@@ -1548,14 +1338,14 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a3a26c8d34efc2f2",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 16,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "65",
         "tooltip": "",
         "color": "",
-        "bgcolor": "#5F7CD8",
+        "bgcolor": "#ED9D00",
         "className": "",
         "icon": "",
         "payload": "{\"VIDEO\":\"16\"}",
@@ -1565,9 +1355,7 @@
         "x": 850,
         "y": 680,
         "wires": [
-            [
-                "ec6ae3a46f108501"
-            ]
+            []
         ]
     },
     {
@@ -1576,14 +1364,14 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a3a26c8d34efc2f2",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 17,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "66",
         "tooltip": "",
         "color": "",
-        "bgcolor": "#5F7CD8",
+        "bgcolor": "#ED9D00",
         "className": "",
         "icon": "",
         "payload": "{\"VIDEO\":\"17\"}",
@@ -1593,9 +1381,7 @@
         "x": 850,
         "y": 720,
         "wires": [
-            [
-                "ec6ae3a46f108501"
-            ]
+            []
         ]
     },
     {
@@ -1604,9 +1390,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a3a26c8d34efc2f2",
-        "order": 1,
-        "width": "2",
-        "height": "1",
+        "order": 18,
+        "width": 2,
+        "height": 1,
         "passthru": false,
         "label": "68",
         "tooltip": "",
@@ -1621,9 +1407,7 @@
         "x": 850,
         "y": 760,
         "wires": [
-            [
-                "ec6ae3a46f108501"
-            ]
+            []
         ]
     },
     {
@@ -1632,9 +1416,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a93d55040cd99200",
-        "order": 1,
-        "width": "1",
-        "height": "1",
+        "order": 19,
+        "width": 1,
+        "height": 1,
         "passthru": false,
         "label": "RX1",
         "tooltip": "",
@@ -1649,9 +1433,7 @@
         "x": 470,
         "y": 820,
         "wires": [
-            [
-                "276ed9269dc76abc"
-            ]
+            []
         ]
     },
     {
@@ -1660,9 +1442,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a93d55040cd99200",
-        "order": 1,
-        "width": "1",
-        "height": "1",
+        "order": 20,
+        "width": 1,
+        "height": 1,
         "passthru": false,
         "label": "RX2",
         "tooltip": "",
@@ -1677,9 +1459,7 @@
         "x": 470,
         "y": 860,
         "wires": [
-            [
-                "276ed9269dc76abc"
-            ]
+            []
         ]
     },
     {
@@ -1688,9 +1468,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a93d55040cd99200",
-        "order": 1,
-        "width": "1",
-        "height": "1",
+        "order": 21,
+        "width": 1,
+        "height": 1,
         "passthru": false,
         "label": "RX3",
         "tooltip": "",
@@ -1705,9 +1485,7 @@
         "x": 470,
         "y": 900,
         "wires": [
-            [
-                "276ed9269dc76abc"
-            ]
+            []
         ]
     },
     {
@@ -1716,9 +1494,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a93d55040cd99200",
-        "order": 1,
-        "width": "1",
-        "height": "1",
+        "order": 22,
+        "width": 1,
+        "height": 1,
         "passthru": false,
         "label": "RX4",
         "tooltip": "",
@@ -1733,9 +1511,7 @@
         "x": 470,
         "y": 940,
         "wires": [
-            [
-                "276ed9269dc76abc"
-            ]
+            []
         ]
     },
     {
@@ -1744,9 +1520,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "dbe5b7cbe859b3fe",
-        "order": 1,
-        "width": "1",
-        "height": "1",
+        "order": 14,
+        "width": 1,
+        "height": 1,
         "passthru": false,
         "label": "RX3",
         "tooltip": "",
@@ -1761,9 +1537,7 @@
         "x": 90,
         "y": 900,
         "wires": [
-            [
-                "4d17c7b7f2b15f7d"
-            ]
+            []
         ]
     },
     {
@@ -1772,9 +1546,9 @@
         "z": "5aaaa13.ece6d6",
         "name": "",
         "group": "a3a26c8d34efc2f2",
-        "order": 1,
-        "width": "1",
-        "height": "1",
+        "order": 20,
+        "width": 1,
+        "height": 1,
         "passthru": false,
         "label": "RX3",
         "tooltip": "",
@@ -1789,17 +1563,178 @@
         "x": 850,
         "y": 820,
         "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3c7dba654b40cd55",
+        "type": "change",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "label",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 350,
+        "y": 20,
+        "wires": [
             [
-                "e35ece698505b941"
+                "56b01a28cd5505a7"
             ]
         ]
     },
     {
-        "id": "276ed9269dc76abc",
+        "id": "f81eb77f0c5187a1",
+        "type": "inject",
+        "z": "5aaaa13.ece6d6",
+        "name": "init",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "2",
+        "topic": "init",
+        "payload": "on",
+        "payloadType": "str",
+        "x": 1290,
+        "y": 180,
+        "wires": [
+            [
+                "61c47437aba04c27"
+            ]
+        ]
+    },
+    {
+        "id": "11b5c675.c3f1ba",
+        "type": "function",
+        "z": "5aaaa13.ece6d6",
+        "name": "Push Button",
+        "func": "var state = context.get(\"STATE\")||0;\n\n//  Look for a !X message to get values.\nif (msg.payload != \"X\")     //Do this if the message is NOT \"X\"\n{\n    //\n    //  Background colours first.\n    //\n    context.set(\"ABGC\", msg.colourA);\n    context.set(\"BBGC\", msg.colourB);\n    //\n    //  Now do text.\n    //\n    context.set(\"Atxt\", msg.txtA);\n    context.set(\"Btxt\", msg.txtB);\n    //\n    //  Font colours.\n    //\n    context.set(\"AFC\",msg.txtclrA);\n    context.set(\"BFC\",msg.txtclrB);\n    //\n    //  Payloads.\n    //\n    context.set(\"PayloadA\", msg.payloadA);\n    context.set(\"PayloadB\", msg.payloadB);\n    //\n    //  Topic.\n    //\n    if (msg.topicSET !== null)\n    {\n        context.set(\"Topic\",msg.topicSET);\n    } else\n    {\n        context.set(\"Topic\",\"~\");\n    }\n    return;\n}\n//      Now on to the real stuff.\nif (msg.payload == \"X\")\n{\n    state = (state + 1)% 2;\n    //node.warn(state);\n    context.set(\"STATE\",state);\n}\nif (state === 0)\n{\n    //  Condition A\n    msg.payload = context.get(\"PayloadA\");\n    msg.colour = context.get(\"ABGC\");\n    msg.txt = context.get(\"Atxt\");\n    msg.fontclr = context.get(\"AFC\");\n} else\n{\n    //  Condition B\n    msg.payload = context.get(\"PayloadB\");\n    msg.colour = context.get(\"BBGC\");\n    msg.txt = context.get(\"Btxt\");\n    msg.fontclr = context.get(\"BFC\");\n}\nif (context.get(\"Topic\") == \"~\")\n{\n    msg.topic = \"\";\n} else\n{\n    msg.topic = context.get(\"Topic\");\n}\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1170,
+        "y": 940,
+        "wires": [
+            [
+                "3c7dc256.8e3e46"
+            ]
+        ]
+    },
+    {
+        "id": "3c7dc256.8e3e46",
+        "type": "ui_button",
+        "z": "5aaaa13.ece6d6",
+        "name": "RBE Button",
+        "group": "396240c9.2d409",
+        "order": 5,
+        "width": "3",
+        "height": "3",
+        "passthru": false,
+        "label": "{{msg.txt}}",
+        "tooltip": "",
+        "color": "{{msg.fontclr}}",
+        "bgcolor": "{{msg.colour}}",
+        "className": "",
+        "icon": "",
+        "payload": "X",
+        "payloadType": "str",
+        "topic": "",
+        "topicType": "str",
+        "x": 1170,
+        "y": 830,
+        "wires": [
+            [
+                "11b5c675.c3f1ba"
+            ]
+        ]
+    },
+    {
+        "id": "839b0fab.0972e8",
+        "type": "inject",
+        "z": "5aaaa13.ece6d6",
+        "name": "Setup",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "3",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 1090,
+        "y": 680,
+        "wires": [
+            [
+                "c3514fad.809d8"
+            ]
+        ]
+    },
+    {
+        "id": "80d7b072.b72b88",
+        "type": "comment",
+        "z": "5aaaa13.ece6d6",
+        "name": "Push Button Flow",
+        "info": "This has two states:\nA and B.\nAll future refrence is to these two state names.\n\nREQUIRED:\nInputs:\nButton background colour for state A.  msg.colurA\nButton background colour for state B.  msg.colourB\nButton text for state A.               msg.txtA\nButton text for state B.               msg.txtB\nFont colour for state A.               msg.txtclrA\nFont colour for state B.               msg.txtclrB\nPayload for state A.                   msg.payloadA\nPayload for state B.                   msg.payloadB\nTopic.                                 msg.topicSET\n\nOutputs:\nmsg.payload - this is used to control what ever you need.\nmsg.topic - this is if it is needed for control of the next node.\nmsg.colour - this sets the colour of the button.\nmsg.txt - this is the text to be displayed in the button.\nmsg.fontclr - this is the colour of the text on the button.\n",
+        "x": 1200,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "c3514fad.809d8",
+        "type": "function",
+        "z": "5aaaa13.ece6d6",
+        "name": "Setup",
+        "func": "msg = {\n    \"colourA\": \"yellow\",\n    \"colourB\": \"blue\",\n    \"txtA\": \"SOM\",\n    \"txtB\": \"SOM-EOM\",\n    \"txtclrA\": \"black\",\n    \"txtclrB\": \"white\",\n    \"payloadA\": \"GO\",\n    \"payloadB\": \"STOP\",\n    \"topicSET\": \"CONTROL\"\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 940,
+        "wires": [
+            [
+                "11b5c675.c3f1ba"
+            ]
+        ]
+    },
+    {
+        "id": "dc1a7cdc5aba2441",
         "type": "mqtt out",
         "z": "5aaaa13.ece6d6",
         "name": "",
-        "topic": "csr2/pub/rx",
+        "topic": "csr2/sub/video",
         "qos": "",
         "retain": "",
         "respTopic": "",
@@ -1807,17 +1742,104 @@
         "userProps": "",
         "correl": "",
         "expiry": "",
-        "broker": "ae4b8351.dfe6f8",
-        "x": 630,
-        "y": 880,
+        "broker": "9b3c9ae334419b14",
+        "x": 300,
+        "y": 580,
         "wires": []
     },
     {
-        "id": "e35ece698505b941",
+        "id": "0b8c7f5c33621cb8",
+        "type": "debug",
+        "z": "5aaaa13.ece6d6",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1240,
+        "y": 1080,
+        "wires": []
+    },
+    {
+        "id": "ed768b2ed692a193",
+        "type": "debug",
+        "z": "5aaaa13.ece6d6",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1240,
+        "y": 1140,
+        "wires": []
+    },
+    {
+        "id": "52c832077c618d25",
+        "type": "debug",
+        "z": "5aaaa13.ece6d6",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1240,
+        "y": 1200,
+        "wires": []
+    },
+    {
+        "id": "67e6ab453d45b9d5",
+        "type": "function",
+        "z": "5aaaa13.ece6d6",
+        "name": "25",
+        "func": "\nlet payload=msg.payload;\nlet state=context.get(\"state\");\nif(msg.topic==\"init\")\n{\n    state = \"on\";\n  //  msg.payload = { \"VIDEO\": 1, \"CMD\": 0 };\n    msg.background = \"gray\";\n    msg.label = \"25 OFF\";\n    msg.myicon = \"fa-toggle-off\";\n    msg.topic=\"25\";\n    context.set(\"state\", \"off\");\n    return msg;\n}\n//toggle\nif (typeof state == \"undefined\" || state==\"on\")\n{\n//state=\"open\";\nmsg.payload = { \"VIDEO\": 2, \"CMD\": 0 };\nmsg.background = \"red\";\nmsg.label = \"25 OFF\";\nmsg.myicon = \"fa-toggle-off\";\nstate=\"off\";\n\n}\nelse if (typeof state == \"undefined\" || state == \"off\") {\n//state = \"close\";\nmsg.payload = { \"VIDEO\": 2, \"CMD\": 1 };\nmsg.background = \"green\";\nmsg.label = \"25 ON\";\nmsg.myicon=\"fa-toggle-on\";\nstate=\"on\";\n}\ncontext.set(\"state\",state);\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\ncontext.set(\"state\", \"off\");",
+        "finalize": "",
+        "libs": [],
+        "x": 250,
+        "y": 660,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9f464f1d3412f893",
+        "type": "mqtt in",
+        "z": "5aaaa13.ece6d6",
+        "name": "Subscribe Video csr1",
+        "topic": "csr1/sub/video",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "35605f8d31e386d6",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 1040,
+        "y": 420,
+        "wires": [
+            [
+                "c9a7effa9357dc30"
+            ]
+        ]
+    },
+    {
+        "id": "b16206f10881e8f3",
         "type": "mqtt out",
         "z": "5aaaa13.ece6d6",
-        "name": "",
-        "topic": "csr3/pub/rx",
+        "name": "Publish video csr1",
+        "topic": "csr1/sub/video",
         "qos": "",
         "retain": "",
         "respTopic": "",
@@ -1825,13 +1847,560 @@
         "userProps": "",
         "correl": "",
         "expiry": "",
-        "broker": "ec54fd88f640c1b2",
-        "x": 990,
-        "y": 820,
+        "broker": "35605f8d31e386d6",
+        "x": 1070,
+        "y": 580,
         "wires": []
     },
     {
-        "id": "60a1691f9152b906",
+        "id": "26645d4a7d72ccb3",
+        "type": "inject",
+        "z": "5aaaa13.ece6d6",
+        "name": "connect",
+        "props": [
+            {
+                "p": "action",
+                "v": "subscribe",
+                "vt": "str"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 1010,
+        "y": 1020,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bbfcd05d795d6b60",
+        "type": "inject",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1440,
+        "y": 860,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "14c5d5f3169596f4",
+        "type": "mqtt in",
+        "z": "5aaaa13.ece6d6",
+        "name": "Subscribe Video csr2",
+        "topic": "csr2/sub/video",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "0f9348da4d34943e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 1040,
+        "y": 320,
+        "wires": [
+            [
+                "45501e7453d5de56"
+            ]
+        ]
+    },
+    {
+        "id": "2c5c24ba53543a5c",
+        "type": "debug",
+        "z": "5aaaa13.ece6d6",
+        "name": "CMD",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1610,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "61c47437aba04c27",
+        "type": "function",
+        "z": "5aaaa13.ece6d6",
+        "name": "25",
+        "func": "\nlet payload=msg.payload;\nlet state=context.get(\"state\");\nif(msg.topic==\"init\")\n{\n    state = \"on\";\n    msg.background = \"gray\";\n    msg.label = \"25 OFF\";\n    msg.myicon = \"fa-toggle-off\";\n    msg.topic=\"25\";\n    context.set(\"state\", \"off\");\n    return msg;\n}\n//toggle\n//if (typeof state == \"undefined\" || state==\"on\")\n\nif (typeof state == \"undefined\" || payload == 10)\n{\n//msg.payload = { \"VIDEO\": 3, \"CMD\": 0 };\nmsg.background = \"red\";\nmsg.label = \"25 OFF\";\nmsg.myicon = \"videocam\";\nstate=\"off\";\n}\n\nelse// if (typeof state == \"undefined\" || state == \"off\") \n{\n //   msg.payload = { \"VIDEO\": 3, \"CMD\": 1 };\nmsg.background = \"green\";\nmsg.label = \"25 ON\";\n    msg.myicon =\"videocam\";\nstate=\"on\";\n}\ncontext.set(\"state\",state);\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\ncontext.set(\"state\", \"off\");",
+        "finalize": "",
+        "libs": [],
+        "x": 1630,
+        "y": 240,
+        "wires": [
+            [
+                "52d642d0b39d6180"
+            ]
+        ]
+    },
+    {
+        "id": "db617b4c51dc00fd",
+        "type": "debug",
+        "z": "5aaaa13.ece6d6",
+        "name": "CH",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1610,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "288557c14b1059a1",
+        "type": "function",
+        "z": "5aaaa13.ece6d6",
+        "name": "Parse Json",
+        "func": "var p = JSON.parse(msg.payload);\nvar cmd = {payload: p.CMD};\nvar ch = { payload: p.VIDEO};\nreturn [ch,cmd];\n",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1350,
+        "y": 320,
+        "wires": [
+            [
+                "db617b4c51dc00fd",
+                "61c47437aba04c27"
+            ],
+            [
+                "2c5c24ba53543a5c"
+            ]
+        ]
+    },
+    {
+        "id": "45501e7453d5de56",
+        "type": "json",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 1210,
+        "y": 320,
+        "wires": [
+            [
+                "288557c14b1059a1"
+            ]
+        ]
+    },
+    {
+        "id": "c4030a0916d71f0a",
+        "type": "debug",
+        "z": "5aaaa13.ece6d6",
+        "name": "CMD",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1610,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "07b2fb05b535f234",
+        "type": "debug",
+        "z": "5aaaa13.ece6d6",
+        "name": "CH",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1610,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "d4051fefca07e928",
+        "type": "function",
+        "z": "5aaaa13.ece6d6",
+        "name": "Parse Json",
+        "func": "var p = JSON.parse(msg.payload);\nvar cmd = {payload: p.CMD};\nvar ch = { payload: p.VIDEO};\nreturn [ch,cmd];\n",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1350,
+        "y": 420,
+        "wires": [
+            [
+                "07b2fb05b535f234"
+            ],
+            [
+                "c4030a0916d71f0a"
+            ]
+        ]
+    },
+    {
+        "id": "c9a7effa9357dc30",
+        "type": "json",
+        "z": "5aaaa13.ece6d6",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 1210,
+        "y": 420,
+        "wires": [
+            [
+                "d4051fefca07e928"
+            ]
+        ]
+    },
+    {
+        "id": "19ebf92933ed254b",
+        "type": "ui_spacer",
+        "z": "5aaaa13.ece6d6",
+        "name": "spacer",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 2,
+        "width": 3,
+        "height": 1
+    },
+    {
+        "id": "18989317bbdc0acf",
+        "type": "ui_spacer",
+        "z": "5aaaa13.ece6d6",
+        "name": "spacer",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 3,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "22b277e8bb02b270",
+        "type": "ui_spacer",
+        "z": "5aaaa13.ece6d6",
+        "name": "spacer",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 5,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "98335b2753e350d5",
+        "type": "ui_spacer",
+        "z": "5aaaa13.ece6d6",
+        "name": "spacer",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 7,
+        "width": 4,
+        "height": 1
+    },
+    {
+        "id": "fbb22e146376c9e2",
+        "type": "ui_spacer",
+        "z": "5aaaa13.ece6d6",
+        "name": "spacer",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 9,
+        "width": 4,
+        "height": 1
+    },
+    {
+        "id": "6bf65f3855840f84",
+        "type": "ui_spacer",
+        "z": "5aaaa13.ece6d6",
+        "name": "spacer",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 11,
+        "width": 4,
+        "height": 1
+    },
+    {
+        "id": "7f9aa75d66717969",
+        "type": "ui_spacer",
+        "z": "5aaaa13.ece6d6",
+        "name": "spacer",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 13,
+        "width": 4,
+        "height": 1
+    },
+    {
+        "id": "e407d11eefa96bbe",
+        "type": "ui_spacer",
+        "z": "5aaaa13.ece6d6",
+        "name": "spacer",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 15,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "472e2e8031d2858d",
+        "type": "ui_spacer",
+        "z": "5aaaa13.ece6d6",
+        "name": "spacer",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 18,
+        "width": 2,
+        "height": 1
+    },
+    {
+        "id": "7fd3ca2c48a27de3",
+        "type": "ui_spacer",
+        "z": "5aaaa13.ece6d6",
+        "name": "spacer",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 19,
+        "width": 2,
+        "height": 1
+    },
+    {
+        "id": "1108fc3d57cc498f",
+        "type": "ui_spacer",
+        "z": "5aaaa13.ece6d6",
+        "name": "spacer",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 20,
+        "width": 2,
+        "height": 1
+    },
+    {
+        "id": "eee615f371cb4bf6",
+        "type": "ui_spacer",
+        "z": "5aaaa13.ece6d6",
+        "name": "spacer",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 21,
+        "width": 2,
+        "height": 1
+    },
+    {
+        "id": "b8655b0c8cabe6e7",
+        "type": "ui_spacer",
+        "z": "5aaaa13.ece6d6",
+        "name": "spacer",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 22,
+        "width": 2,
+        "height": 1
+    },
+    {
+        "id": "276a0d2b86741f86",
+        "type": "ui_spacer",
+        "z": "5aaaa13.ece6d6",
+        "name": "spacer",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 25,
+        "width": 2,
+        "height": 1
+    },
+    {
+        "id": "cb463080ed955478",
+        "type": "ui_spacer",
+        "z": "5aaaa13.ece6d6",
+        "name": "spacer",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 28,
+        "width": 2,
+        "height": 1
+    },
+    {
+        "id": "f5b07fe832980690",
+        "type": "ui_spacer",
+        "z": "5aaaa13.ece6d6",
+        "name": "spacer",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 31,
+        "width": 2,
+        "height": 1
+    },
+    {
+        "id": "c891ca7a5bd16a42",
+        "type": "ui_spacer",
+        "z": "5aaaa13.ece6d6",
+        "name": "spacer",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 34,
+        "width": 2,
+        "height": 1
+    },
+    {
+        "id": "c7abbfd8f187205e",
+        "type": "ui_spacer",
+        "z": "5aaaa13.ece6d6",
+        "name": "spacer",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 37,
+        "width": 2,
+        "height": 1
+    },
+    {
+        "id": "1ffabc7313d9d211",
+        "type": "ui_spacer",
+        "z": "5aaaa13.ece6d6",
+        "name": "spacer",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 40,
+        "width": 3,
+        "height": 1
+    },
+    {
+        "id": "7edb0c3ce2f1e85d",
+        "type": "ui_spacer",
+        "z": "5aaaa13.ece6d6",
+        "name": "spacer",
+        "group": "dbe5b7cbe859b3fe",
+        "order": 41,
+        "width": 3,
+        "height": 1
+    },
+    {
+        "id": "e628d5b59358e9ac",
+        "type": "ui_spacer",
+        "z": "5aaaa13.ece6d6",
+        "name": "spacer",
+        "group": "a93d55040cd99200",
+        "order": 23,
+        "width": 2,
+        "height": 1
+    },
+    {
+        "id": "8f089a9830222bbb",
+        "type": "ui_spacer",
+        "z": "5aaaa13.ece6d6",
+        "name": "spacer",
+        "group": "a3a26c8d34efc2f2",
+        "order": 19,
+        "width": 2,
+        "height": 1
+    },
+    {
+        "id": "e03c24d91fcd04ae",
+        "type": "ui_spacer",
+        "z": "5aaaa13.ece6d6",
+        "name": "spacer",
+        "group": "a3a26c8d34efc2f2",
+        "order": 21,
+        "width": 3,
+        "height": 1
+    },
+    {
+        "id": "dbe5b7cbe859b3fe",
+        "type": "ui_group",
+        "name": "CSR1 TTGO 1CH",
+        "tab": "b943462c6d2f7eed",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "396240c9.2d409",
+        "type": "ui_group",
+        "name": "WAP",
+        "tab": "d54cd82e.537658",
+        "order": 3,
+        "disp": true,
+        "width": "4",
+        "collapse": false
+    },
+    {
+        "id": "a93d55040cd99200",
+        "type": "ui_group",
+        "name": "CSR2 4CH R6**********",
+        "tab": "b943462c6d2f7eed",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "a3a26c8d34efc2f2",
+        "type": "ui_group",
+        "name": "CSR3 2CH R65",
+        "tab": "b943462c6d2f7eed",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "9b3c9ae334419b14",
+        "type": "mqtt-broker",
+        "name": "CSR3",
+        "broker": "aw3hbcyl07a4j-ats.iot.eu-north-1.amazonaws.com",
+        "port": "8883",
+        "tls": "609e2695bc1a8b97",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": true,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "35605f8d31e386d6",
         "type": "mqtt-broker",
         "name": "CSR1",
         "broker": "aw3hbcyl07a4j-ats.iot.eu-north-1.amazonaws.com",
@@ -1863,18 +2432,7 @@
         "sessionExpiry": ""
     },
     {
-        "id": "dbe5b7cbe859b3fe",
-        "type": "ui_group",
-        "name": "CSR1 TTGO 1CH",
-        "tab": "b943462c6d2f7eed",
-        "order": 1,
-        "disp": true,
-        "width": "6",
-        "collapse": false,
-        "className": ""
-    },
-    {
-        "id": "ae4b8351.dfe6f8",
+        "id": "0f9348da4d34943e",
         "type": "mqtt-broker",
         "name": "CSR2",
         "broker": "aw3hbcyl07a4j-ats.iot.eu-north-1.amazonaws.com",
@@ -1907,58 +2465,21 @@
         "sessionExpiry": ""
     },
     {
-        "id": "a93d55040cd99200",
-        "type": "ui_group",
-        "name": "CSR2 4CH R66",
-        "tab": "b943462c6d2f7eed",
-        "order": 2,
-        "disp": true,
-        "width": "6",
-        "collapse": false,
-        "className": ""
+        "id": "b943462c6d2f7eed",
+        "type": "ui_tab",
+        "name": "CSR_MAIN",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
     },
     {
-        "id": "ec54fd88f640c1b2",
-        "type": "mqtt-broker",
-        "name": "CSR3",
-        "broker": "aw3hbcyl07a4j-ats.iot.eu-north-1.amazonaws.com",
-        "port": "8883",
-        "tls": "609e2695bc1a8b97",
-        "clientid": "",
-        "autoConnect": true,
-        "usetls": true,
-        "protocolVersion": "4",
-        "keepalive": "60",
-        "cleansession": true,
-        "autoUnsubscribe": true,
-        "birthTopic": "",
-        "birthQos": "0",
-        "birthRetain": "false",
-        "birthPayload": "",
-        "birthMsg": {},
-        "closeTopic": "",
-        "closeQos": "0",
-        "closeRetain": "false",
-        "closePayload": "",
-        "closeMsg": {},
-        "willTopic": "",
-        "willQos": "0",
-        "willRetain": "false",
-        "willPayload": "",
-        "willMsg": {},
-        "userProps": "",
-        "sessionExpiry": ""
-    },
-    {
-        "id": "a3a26c8d34efc2f2",
-        "type": "ui_group",
-        "name": "CSR3 2CH R65",
-        "tab": "b943462c6d2f7eed",
+        "id": "d54cd82e.537658",
+        "type": "ui_tab",
+        "name": "Logging",
+        "icon": "dashboard",
         "order": 3,
-        "disp": true,
-        "width": "6",
-        "collapse": false,
-        "className": ""
+        "disabled": false,
+        "hidden": false
     },
     {
         "id": "609e2695bc1a8b97",
@@ -1971,15 +2492,7 @@
         "keyname": "private key.key",
         "caname": "AmazonRootCA1.pem",
         "servername": "",
-        "verifyservercert": true,
+        "verifyservercert": false,
         "alpnprotocol": ""
-    },
-    {
-        "id": "b943462c6d2f7eed",
-        "type": "ui_tab",
-        "name": "CSR_MAIN",
-        "icon": "dashboard",
-        "disabled": false,
-        "hidden": false
     }
 ]

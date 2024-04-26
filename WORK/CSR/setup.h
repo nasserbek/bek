@@ -38,8 +38,8 @@ void blynkInit(void)
                      #endif 
                      
                      #ifdef CSR3     //DEFAULT RX3
-                        myBlynk.RelaySelect(3);
-                        selected_Rx = 2; 
+                        myBlynk.RelaySelect(2);
+                        selected_Rx = 1; 
                         digitalWrite(I2C_1_2_RELAY, HIGH);   //1,2
                         digitalWrite(I2C_3_4_RELAY, HIGH);   //3,4                        
                      #endif   
@@ -81,6 +81,7 @@ void timersMillis(void)
     blynkNotActiveTimer     = millis();
     routerResetTimer        = millis();
     resetNetgeerAfterInternetLossTimer = millis();
+    Router_24_hoursTimer       = millis();
 }
 
 void i2cSetup(void)

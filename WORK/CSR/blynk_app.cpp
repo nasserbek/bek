@@ -155,11 +155,10 @@ void blynk::init()
   Serial.println();
 
     wifiMulti.addAP(WIFI_SSID_METEOR, WIFI_PASSWORD_METEOR);
-    wifiMulti.addAP(WIFI_SSID_GIGA, WIFI_PASSWORD);
-    wifiMulti.addAP(WIFI_SSID_FREE, WIFI_PASSWORD);
+    wifiMulti.addAP(WIFI_SSID_METEOR_BU, WIFI_PASSWORD_METEOR);
+    wifiMulti.addAP(WIFI_SSID_METEOR_BOX, WIFI_PASSWORD_METEOR);
     wifiMulti.addAP(WIFI_SSID_XIAOMI , WIFI_PASSWORD);
-    wifiMulti.addAP(WIFI_SSID_TEMP , WIFI_PASSWORD_TEMP);
-    
+    wifiMulti.addAP(WIFI_SSID_FREE, WIFI_PASSWORD);
     
     if(wifiMulti.run() == 6){
     Serial.println("\tWiFi not connected yet.");
@@ -490,7 +489,7 @@ BLYNK_WRITE(V39)   //215
 {
     _blynkEvent = true; 
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_SAPRE_V39;
+    eventdata = Q_EVENT_RESET_ROUTER_V39;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -499,7 +498,7 @@ BLYNK_WRITE(V40)   //217
 {
     _blynkEvent = true; 
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_SAPRE_V40;
+    eventdata = Q_EVENT_AUTOMATIC_RESET_ROUTER_V40;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -646,7 +645,7 @@ BLYNK_WRITE(V100)  //wifi ide
 {
     _blynkEvent = true; 
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_SPARE_V100;
+    eventdata = Q_EVENT_RM_ID_20_V100;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -1127,7 +1126,7 @@ void blynk::TurnOffLastCh(bool lastAck, int lastSelectedCh, int chMode)
     switch (lastSelectedCh)
         {
           case 1:
-                   Blynk.virtualWrite(V121, 0); 
+                   Blynk.virtualWrite(V112, 0); 
                    // Blynk.setProperty(V121, "offBackColor", BLYNK_BLACK );
           break;
 
@@ -1229,7 +1228,7 @@ void blynk::TurnOffLastCh(bool lastAck, int lastSelectedCh, int chMode)
         switch (lastSelectedCh)
         {
           case 1:
-                 Blynk.setProperty(V121, "onBackColor", BLYNK_YELLOW );
+                 Blynk.setProperty(V112, "onBackColor", BLYNK_YELLOW );
           break;
 
           case 2:
@@ -1311,7 +1310,7 @@ void blynk::TurnOffLastCh(bool lastAck, int lastSelectedCh, int chMode)
         {
           case 1:
 
-                 Blynk.setProperty(V121, "onBackColor", BLYNK_GREEN );
+                 Blynk.setProperty(V112, "onBackColor", BLYNK_GREEN );
           break;
 
           case 2:
@@ -1395,7 +1394,7 @@ void blynk::TurnOffLastCh(bool lastAck, int lastSelectedCh, int chMode)
         {
           case 1:
 
-                 Blynk.setProperty(V121, "onBackColor", BLYNK_RED );
+                 Blynk.setProperty(V112, "onBackColor", BLYNK_RED );
           break;
 
           case 2:
@@ -1481,7 +1480,7 @@ if(chMode == CH_MODE_4)
     switch (lastSelectedCh)
         {
           case 1:
-                   Blynk.virtualWrite(V121, 1); 
+                   Blynk.virtualWrite(V112, 1); 
                   // Blynk.setProperty(V121, "offBackColor", BLYNK_BLACK );
           break;
 
@@ -1627,4 +1626,9 @@ void blynk::releActiveCh(int rele, int ch)
         }
    }
  */     
-}        
+}       
+
+ void blynk::Event24(void)
+ {
+  Blynk.logEvent("meteor_restart");
+ }

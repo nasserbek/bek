@@ -6,6 +6,12 @@
 extern void connectAWS(void);
 extern blynk myBlynk;
 
+void resetRouter(void)
+{
+ remoteControl(ROUTER_CH);
+ delay(3000);
+ remoteControl(ROUTER_CH);
+}
 
 void processBlynkQueu(void)
 {
@@ -151,11 +157,13 @@ void processBlynkQueu(void)
             case Q_EVENT_WIFI_RSSI_V38:  
 
             break;    
-            case Q_EVENT_SAPRE_V39:  
-
+            case Q_EVENT_RESET_ROUTER_V39:  
+                  resetRouter();
             break;   
              
-            case Q_EVENT_SAPRE_V40:   
+            case Q_EVENT_AUTOMATIC_RESET_ROUTER_V40:   
+                  autoResetRouter = queuData;
+                  myBlynk.TerminalPrint("Auto Reboot Router is: ");myBlynk.TerminalPrint( autoResetRouter ? F("Enabled") : F("Disabled"));
             break;                            
                                                                       
             case Q_EVENT_ZAP_V71:
@@ -227,7 +235,8 @@ void processBlynkQueu(void)
                mySwitch.setPulseLength(pulseRC);
             break;
 
-            case Q_EVENT_SPARE_V100:
+            case Q_EVENT_RM_ID_20_V100:
+                    videoChanel(20, queuData); //12
             break;
              
             case Q_EVENT_RC_REPETION_V101:

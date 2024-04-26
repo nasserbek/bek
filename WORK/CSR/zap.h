@@ -285,7 +285,7 @@ void zapAllOnOff(bool cmd)
         {
           for (int ch=1;ch<20;ch++) 
             {      
-              if(ch != 1 && ch != 6  && ch != 14  && ch != 15  && ch != 16 && ch != 18 && ch != 19)
+              if(ch != ROUTER  )
                 {
                   videoCh[ch].zap=1;
                   myBlynk.TurnOffLastCh( ACK_BAD ,ch,CH_MODE_4);                                  
@@ -296,7 +296,7 @@ void zapAllOnOff(bool cmd)
         {
           for (int ch=1;ch<20;ch++) 
             {      
-              if(ch != 1 && ch != 6  && ch != 14  && ch != 15  && ch != 16 && ch != 18 && ch != 19)
+              if(ch != ROUTER)
                 {
                   videoCh[ch].zap=0;
                   myBlynk.TurnOffLastCh( ACK_BAD ,ch,CH_MODE_0);                                  

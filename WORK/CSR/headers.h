@@ -1,11 +1,13 @@
-//#define CSR  // TTGO R64 SCATOLA 1CH TTGO
-//#define CSR2  // R65 SCATOLA 4CH ESP32S
-#define CSR3    //R66 SWAN CASE 2CH ESP32S
+//#define CSR     // R64 SCATOLA 1CH TTGO
+//#define CSR2      // R65 SCATOLA 4CH ESP32S
+#define CSR3   //R66 SWAN CASE 2CH ESP32S
+
+
 //#define TEST
 
 #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/CSR.ino.esp32.bin"  // URL to download the firmware from
 
-
+#define ROUTER_CH 18  //PHYSICAL CH ON REMOTE CONTROL IS 1
 #define BLYNK_TEMPLATE_ID           "TMPL5Y2na6zpd"
 #define BLYNK_TEMPLATE_NAME         "CSR"
 
@@ -18,7 +20,7 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO_3   "csr3/sub/video"
     
 #ifdef CSR      //TTGO R64 SCATOLA 1CH TTGO
-    #define VERSION_ID "9.6"
+    #define VERSION_ID "11.3"
     #define BLYNK_AUTH_TOKEN                "B1pZ48rPHfdQ8LxlqCoiPk8fxWBbv7B0" //CSR
     #define THINGNAME "CSR1"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr1/sub/rc"
@@ -43,7 +45,7 @@
 
 #ifdef CSR2     // R65 SCATOLA 4CH ESP32S
  
-    #define VERSION_ID "9.6"
+    #define VERSION_ID "11.3"
     #define BLYNK_AUTH_TOKEN                "_cqYD1seWElWB-S1IxutIEI7VWmDpb05" //CS2
     #define THINGNAME "CSR2"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr2/sub/rc"
@@ -69,7 +71,7 @@
 
 #ifdef CSR3     //R66 SWAN CASE 2CH ESP32S
    
-    #define VERSION_ID " 9.6 "
+    #define VERSION_ID " 11.3"
     #define BLYNK_AUTH_TOKEN                "6DH6QZgVXrGXU5VzOpJSJgHoyXWL7aWS" //CSR3
     #define THINGNAME "CSR3"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr3/sub/rc"
@@ -117,12 +119,15 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "test/sub/ztoff"   
 #endif
 
-#define INTERNET_LOSS_TO_RESET_NG_TIMER 60000   // 1 MIN
-#define RESTART_AFTER_NG_RESET_TIMER 60000   // 1 MIN
+#define INTERNET_LOSS_TO_RESET_NG_TIMER 120000   // 2 MIN
+#define RESTART_AFTER_NG_RESET_TIMER 300000   // 5 MIN
+#define ROUTER_24_HOURS 86400000  // 24 HOURS
                    
 #define BLYNK_SERVER "blynk.cloud" //BLYNK2 REMOTE SERVER 
 
 #define WIFI_SSID_METEOR      "METEOR_BEK"
+#define WIFI_SSID_METEOR_BU      "METEOR_BEK_BU"
+#define WIFI_SSID_METEOR_BOX    "METEOR_BEK_BOX"
 #define WIFI_SSID_GIGA        "GIGACUBE_BEK"                                                
 #define WIFI_SSID_FREE        "Freebox-bek"                                              
 #define WIFI_SSID_XIAOMI      "XIAOMI_BEK" 
@@ -196,6 +201,7 @@ R_63,
 R_64,
 R_65,
 R_66,
+ROUTER,
 R_68,
 } ;
 
@@ -243,8 +249,8 @@ Q_EVENT_SHARE_VIDEO_WITH_CSR1_V35,
 Q_EVENT_SHARE_VIDEO_WITH_CSR2_V36,
 Q_EVENT_SHARE_VIDEO_WITH_CSR3_V37,
 Q_EVENT_WIFI_RSSI_V38,
-Q_EVENT_SAPRE_V39,
-Q_EVENT_SAPRE_V40,
+Q_EVENT_RESET_ROUTER_V39,
+Q_EVENT_AUTOMATIC_RESET_ROUTER_V40,
 
 Q_EVENT_ZAP_V71,
 Q_EVENT_ZAP_TIMER_V72,
@@ -264,7 +270,7 @@ Q_EVENT_ZAP_CHANNEL12_V96,
 Q_EVENT_ZAP_CHANNEL13_V97,
 
 Q_EVENT_RC_PULSE_V98,
-Q_EVENT_SPARE_V100,
+Q_EVENT_RM_ID_20_V100, //12
 Q_EVENT_RC_REPETION_V101,
 Q_EVENT_TERMINAL_V102,
 
@@ -279,7 +285,7 @@ Q_EVENT_RM_ID_10_V112,
 
 
 
-Q_EVENT_SPARE_V121, //24
+Q_EVENT_SPARE_V121, //
 Q_EVENT_RM_ID_02_V122, //25
 Q_EVENT_RM_ID_03_V123, //26
 Q_EVENT_RM_ID_04_V124,//27
@@ -313,7 +319,7 @@ Q_EVENT_RM_ID_19_V92,  //68
 #define PING_GOOGLE_BLYNK_TIMER 30000  // 30 sec
 
 
-#define SMS_24_HOURS 86400000  // 24 HOURS
+#define ROUTER_24_HOURS 86400000  // 24 HOURS
 #define ROUTER_RESET_TIMER  2000  // 2 SEC
 #define MUX_ROOM_ZAP        30000  // 2 SEC
 

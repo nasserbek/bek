@@ -67,13 +67,13 @@ bool Tuner_PLL( int receiver, int _address, uint _pll)
         {
           case 2:
           case 3:
-                Wire1.beginTransmission(_address);
-                Wire1.write(MSB );
-                Wire1.write(LSB );
-                Wire1.write(0xC2 );
-                return (Wire1.endTransmission() );                       
+                Wire.beginTransmission(_address);
+                Wire.write(MSB );
+                Wire.write(LSB );
+                Wire.write(0xC2 );
+                return (Wire.endTransmission() );                       
           break;
-/*
+
           case 0:
           case 1:
                 Wire.beginTransmission(_address);
@@ -82,7 +82,7 @@ bool Tuner_PLL( int receiver, int _address, uint _pll)
                 Wire.write(0xC2 );
                 return (Wire.endTransmission() );                      
             break;   
-*/                  
+                 
         }   
 #endif
 
@@ -170,7 +170,7 @@ void room ( int RC, int AV, int sel , int cmd)
 
 void AvReceiverSel(int queuData)
  {            
- /*      #ifdef CSR  
+       #ifdef CSR  
                 switch (queuData)
                     {
                    case 1:
@@ -188,7 +188,7 @@ void AvReceiverSel(int queuData)
                       break;                     
                     }  
      #endif
-*/
+
 
 
       #ifdef CSR2  
@@ -210,7 +210,7 @@ void AvReceiverSel(int queuData)
                     }  
      #endif
      
- /*    #ifdef CSR3 
+     #ifdef CSR3 
                 switch (queuData)
                     {
                    case 1:
@@ -227,7 +227,7 @@ void AvReceiverSel(int queuData)
                                  digitalWrite(I2C_3_4_RELAY, HIGH);  //  
                       break;                     
                     }   
-     #endif */
+     #endif 
 }
 
 bool  TCA9548A(uint8_t bus)

@@ -7,6 +7,8 @@
 #include "TimerInterrupt_Generic.h"
 ESP32Timer ITimer0(0);
 
+extern void resetRouter(void);
+
 bool IRAM_ATTR TimerHandler0(void * timerNo)
 {
   ESP.restart();
@@ -58,6 +60,27 @@ void  dvrOnOff (bool onOff)
    else digitalWrite(AV_RX_DVR_PIN_2, HIGH); 
 }
 
+void ResetNetgeer(void)
+          {
+              if(!routerResetStart)
+              {
+                routerResetTimer        = millis();
+                routerResetStart = true;
+                DEBUG_PRINTLN("Netgeer Reset done: ");
+                myBlynk.TerminalPrint("RESTARTING ROUTER...");
+              }
+              if(autoResetRouter) resetRouter();
+          }
+
+/*
+bool pingGoogleConnection(void)
+{
+       bool pingInternet= Ping.ping("www.google.com");
+       DEBUG_PRINT("Ping Google: ");DEBUG_PRINTLN(pingInternet ? F("succesiful") : F("failed"));
+       return (pingInternet);
+}
+*/
+
 void internetCheck(void)
 {
        if ( (  (millis() - routerResetTimer) >= routerTimer) && routerResetStart)
@@ -74,7 +97,8 @@ void internetCheck(void)
        if ( ( (millis() - resetNetgeerAfterInternetLossTimer) >= INTERNET_LOSS_TO_RESET_NG_TIMER) && InternetLoss && !blynkConnected && !netGeerReset)
         {
               DEBUG_PRINTLN("Blynk Disconnected for 2 min, Reset Netgeer");
-                if(!routerResetStart){routerResetTimer        = millis();routerResetStart = true;DEBUG_PRINTLN("Netgeer Reset done: ");}
+ //             ResetNetgeer();
+              if(!routerResetStart){routerResetTimer        = millis();routerResetStart = true;DEBUG_PRINTLN("Netgeer Reset done: ");}
         }
 
        if (  ( (millis() - restartAfterResetNG) >=  RESTART_AFTER_NG_RESET_TIMER) && netGeerReset )
@@ -84,24 +108,7 @@ void internetCheck(void)
           }
 }     
 
-void ResetNetgeer(void)
-          {
-              if(!routerResetStart)
-              {
-                routerResetTimer        = millis();
-                routerResetStart = true;
-                DEBUG_PRINTLN("Netgeer Reset done: ");
-              }
-          }
 
-/*
-bool pingGoogleConnection(void)
-{
-       bool pingInternet= Ping.ping("www.google.com");
-       DEBUG_PRINT("Ping Google: ");DEBUG_PRINTLN(pingInternet ? F("succesiful") : F("failed"));
-       return (pingInternet);
-}
-*/
 
 int stringToInteger(String str)
 {
