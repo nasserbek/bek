@@ -1,5 +1,5 @@
-//#define CSR     // R64 SCATOLA 1CH TTGO
-#define CSR2      // R65 SCATOLA 4CH ESP32S
+#define CSR     // R64 SCATOLA 1CH TTGO
+//#define CSR2      // R65 SCATOLA 4CH ESP32S
 //#define CSR3   //R66 SWAN CASE 2CH ESP32S
 
 
@@ -22,7 +22,7 @@
 
     
 #ifdef CSR      //TTGO R64 SCATOLA 1CH TTGO
-    #define VERSION_ID "16.0"
+    #define VERSION_ID "17.0"
     #define BLYNK_AUTH_TOKEN                "B1pZ48rPHfdQ8LxlqCoiPk8fxWBbv7B0" //CSR
     #define THINGNAME "CSR1"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr1/sub/rc"
