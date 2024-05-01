@@ -3,6 +3,14 @@
 #ifndef RECEIVERS_H
 #define RECEIVERS_H
 
+bool  TCA9548A(uint8_t bus)
+{
+
+    Wire.beginTransmission(0x70);  // TCA9548A address is 0x70
+    Wire.write(1 << bus);          // send byte to select bus
+    return(Wire.endTransmission()); 
+}
+
 /**************************************************VIDEO RC CONTROL ZONE***************************************************************/
 void remoteControl(int cmd )
 {
@@ -62,31 +70,15 @@ bool Tuner_PLL( int receiver, int _address, uint _pll)
         }   
 #endif
 
-#ifdef CSR   //4CH 4 Relays Active LOW and 2 I2C Controllers
-  switch (receiver)
-        {
-          case 2:
-          case 3:
-                Wire.beginTransmission(_address);
-                Wire.write(MSB );
-                Wire.write(LSB );
-                Wire.write(0xC2 );
-                return (Wire.endTransmission() );                       
-          break;
-
-          case 0:
-          case 1:
-                Wire.beginTransmission(_address);
-                Wire.write(MSB );
-                Wire.write(LSB );
-                Wire.write(0xC2 );
-                return (Wire.endTransmission() );                      
-            break;   
-                 
-        }   
+#ifdef CSR   
+   Wire.beginTransmission(_address);
+   Wire.write(MSB );
+   Wire.write(LSB );
+   Wire.write(0xC2 );
+   return (Wire.endTransmission() ); 
 #endif
 
-#ifdef CSR3   //2CH 2 Relays Active HIGH and MAIN I2C Controllers
+#ifdef CSR3    
           Wire.beginTransmission(_address);
           Wire.write(MSB );
           Wire.write(LSB );
@@ -171,6 +163,9 @@ void room ( int RC, int AV, int sel , int cmd)
 void AvReceiverSel(int queuData)
  {            
        #ifdef CSR  
+       TCA9548A(queuData-1);
+       
+        /*
                 switch (queuData)
                     {
                    case 1:
@@ -187,6 +182,7 @@ void AvReceiverSel(int queuData)
                                  digitalWrite(I2C_3_4_RELAY, LOW);  //  
                       break;                     
                     }  
+          */          
      #endif
 
 
@@ -230,19 +226,7 @@ void AvReceiverSel(int queuData)
      #endif 
 }
 
-bool  TCA9548A(uint8_t bus)
-{
 
-       #ifdef CSR2
-                          Wire1.beginTransmission(0x70);  // TCA9548A address is 0x70
-                          Wire1.write(1 << bus);          // send byte to select bus
-                          return(Wire1.endTransmission());  
-      #else
-                          Wire.beginTransmission(0x70);  // TCA9548A address is 0x70
-                          Wire.write(1 << bus);          // send byte to select bus
-                          return(Wire.endTransmission()); 
-      #endif
-}
 
 
 /**************************************************END OF VIDEO RC CONTROL ZONE***************************************************************/

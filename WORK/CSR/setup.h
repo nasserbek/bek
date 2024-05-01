@@ -9,7 +9,7 @@ void relaySetup(void)
      pinMode(I2C_1_2_RELAY , OUTPUT);
      pinMode(I2C_3_4_RELAY , OUTPUT);
 
-     digitalWrite(AV_RX_DVR_PIN_2, LOW);  // AV RECEIVER ON POWER UP NC CONTACT
+     digitalWrite(AV_RX_DVR_PIN_2, HIGH);  // AV RECEIVER OFF POWER UP NC CONTACT
 }
 
 void blynkInit(void)
@@ -34,7 +34,7 @@ void blynkInit(void)
                         myBlynk.RelaySelect(4);
                         selected_Rx = 3; 
                         digitalWrite(I2C_1_2_RELAY, HIGH);   //1,2
-                        digitalWrite(I2C_3_4_RELAY, LOW);   //3,4                        
+                        digitalWrite(I2C_3_4_RELAY, HIGH);   //3,4                        
                      #endif 
                      
                      #ifdef CSR3     //DEFAULT RX3
@@ -86,9 +86,14 @@ void timersMillis(void)
 
 void i2cSetup(void)
 {
+   bool ta9548a = false;
      Wire.begin();
      delay(500);
      Wire1.begin(SDA_2, SCL_2);
+     
+     ta9548a = !TCA9548A(0);
+     DEBUG_PRINTLN ( ta9548a ? F("TCA9548A Connected") : F("TCA9548A Not Connected"));
+     myBlynk.TerminalPrint ( ta9548a ? F("TCA9548A Connected") : F("TCA9548A Not Connected"));
 }
 
 

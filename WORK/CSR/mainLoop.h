@@ -68,8 +68,8 @@ void processBlynkQueu(void)
 
            case Q_EVENT_SELECTED_RECIEVER_V9:
                   selected_Rx = queuData-1;
-                 /* if (activeBoard == selectedBoard)*/ AvReceiverSel(queuData);
-                //  else apiSend(selectedBoard, "V9", queuData);                  
+                  AvReceiverSel(queuData);
+                                 
            break;
  
             case Q_EVENT_ZAP_SCAN_ONLY_V10:

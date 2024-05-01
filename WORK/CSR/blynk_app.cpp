@@ -17,6 +17,20 @@ extern void apiSend(int board, String virtualPin, int value);
 WiFiMulti wifiMulti;
 BlynkTimer timer;
 
+#ifdef CSR      
+       IPAddress local_IP(192, 168, 1, 164);
+#endif
+
+#ifdef CSR2      
+       IPAddress local_IP(192, 168, 1, 166);
+#endif
+
+#ifdef CSR3      
+       IPAddress local_IP(192, 168, 1, 165);
+#endif
+
+IPAddress gateway(192, 168, 1, 1);
+IPAddress subnet(255, 255, 255, 0);
 
 blynk::blynk(void) 
 {
@@ -153,12 +167,16 @@ void checkBlynk() {
 void blynk::init() 
 {
   Serial.println();
-
-    wifiMulti.addAP(WIFI_SSID_METEOR, WIFI_PASSWORD_METEOR);
-    wifiMulti.addAP(WIFI_SSID_METEOR_BU, WIFI_PASSWORD_METEOR);
+    
+   
     wifiMulti.addAP(WIFI_SSID_METEOR_BOX, WIFI_PASSWORD_METEOR);
+    wifiMulti.addAP(WIFI_SSID_METEOR_BU, WIFI_PASSWORD_METEOR);
+
+    wifiMulti.addAP(WIFI_SSID_METEOR_FREE, WIFI_PASSWORD_METEOR);
     wifiMulti.addAP(WIFI_SSID_XIAOMI , WIFI_PASSWORD);
     wifiMulti.addAP(WIFI_SSID_FREE, WIFI_PASSWORD);
+    
+
     
     if(wifiMulti.run() == 6){
     Serial.println("\tWiFi not connected yet.");

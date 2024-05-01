@@ -1,11 +1,11 @@
-//#define CSR     // R64 SCATOLA 1CH TTGO
+#define CSR     // R64 SCATOLA 1CH TTGO
 //#define CSR2      // R65 SCATOLA 4CH ESP32S
-#define CSR3   //R66 SWAN CASE 2CH ESP32S
+//#define CSR3   //R66 SWAN CASE 2CH ESP32S
 
 
-//#define TEST
+#define TEST
 
-#define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/CSR.ino.esp32.bin"  // URL to download the firmware from
+
 
 #define ROUTER_CH 18  //PHYSICAL CH ON REMOTE CONTROL IS 1
 #define BLYNK_TEMPLATE_ID           "TMPL5Y2na6zpd"
@@ -18,9 +18,11 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO_1   "csr1/sub/video"
     #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO_2   "csr2/sub/video"
     #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO_3   "csr3/sub/video"
+
+
     
 #ifdef CSR      //TTGO R64 SCATOLA 1CH TTGO
-    #define VERSION_ID "11.3"
+    #define VERSION_ID "16.0"
     #define BLYNK_AUTH_TOKEN                "B1pZ48rPHfdQ8LxlqCoiPk8fxWBbv7B0" //CSR
     #define THINGNAME "CSR1"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr1/sub/rc"
@@ -41,11 +43,12 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO   "csr1/sub/zapauto"  
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON   "csr1/sub/zton"  
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "csr1/sub/ztoff" 
+    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/BIN/CSR1.bin"  // URL to download the firmware from
 #endif
 
 #ifdef CSR2     // R65 SCATOLA 4CH ESP32S
  
-    #define VERSION_ID "11.3"
+    #define VERSION_ID "17.0"
     #define BLYNK_AUTH_TOKEN                "_cqYD1seWElWB-S1IxutIEI7VWmDpb05" //CS2
     #define THINGNAME "CSR2"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr2/sub/rc"
@@ -66,12 +69,13 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO   "csr2/sub/zapauto"  
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON   "csr2/sub/zton"  
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "csr2/sub/ztoff" 
+    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/BIN/CSR2.bin"  // URL to download the firmware from
 #endif
 
 
 #ifdef CSR3     //R66 SWAN CASE 2CH ESP32S
    
-    #define VERSION_ID " 11.3"
+    #define VERSION_ID " 17.0"
     #define BLYNK_AUTH_TOKEN                "6DH6QZgVXrGXU5VzOpJSJgHoyXWL7aWS" //CSR3
     #define THINGNAME "CSR3"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr3/sub/rc"
@@ -92,12 +96,13 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO   "csr3/sub/zapauto"  
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON   "csr3/sub/zton"  
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "csr3/sub/ztoff" 
+    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/BIN/CSR3.bin"  // URL to download the firmware from
 #endif
 
 #ifdef TEST     //R66 SWAN CASE 2CH ESP32S
     
     #define VERSION_ID " 9.6 "
-    #define BLYNK_AUTH_TOKEN                "lzXq8VnMflNkRrToeTSjv4b01kvkG9zl" //CSR4
+    #define BLYNK_AUTH_TOKEN                "uEErAruPatqx_98Qy03KSaEbUPORv0cU" //CSR4
     #define THINGNAME "CSR4"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "test/sub/rc"
     #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "test/sub/video"
@@ -125,7 +130,7 @@
                    
 #define BLYNK_SERVER "blynk.cloud" //BLYNK2 REMOTE SERVER 
 
-#define WIFI_SSID_METEOR      "METEOR_BEK"
+#define WIFI_SSID_METEOR_FREE      "METEOR_BEK_FREE"
 #define WIFI_SSID_METEOR_BU      "METEOR_BEK_BU"
 #define WIFI_SSID_METEOR_BOX    "METEOR_BEK_BOX"
 #define WIFI_SSID_GIGA        "GIGACUBE_BEK"                                                

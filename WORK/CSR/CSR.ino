@@ -7,10 +7,11 @@ void setup()
      Serial.begin(115200);
      initWDG(MIN_5,EN);
      relaySetup();
-     i2cSetup();
+     
      mySwitch.enableTransmit(RC_TX_PIN);
      blynkInit();
      connectAWS();
+     i2cSetup();
      timersMillis();
      createHandleGroup();
      looadRoomData();
