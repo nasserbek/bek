@@ -29,6 +29,9 @@ BlynkTimer timer;
        IPAddress local_IP(192, 168, 1, 165);
 #endif
 
+#ifdef TEST      
+       IPAddress local_IP(192, 168, 1, 167);
+#endif
 IPAddress gateway(192, 168, 1, 1);
 IPAddress subnet(255, 255, 255, 0);
 
@@ -101,7 +104,7 @@ WidgetTerminal terminal(V102);
 
 unsigned int myServerTimeout  =  3500;  //  3.5s server connection timeout (SCT)
 unsigned int myWiFiTimeout    =  3200;  //  3.2s WiFi connection timeout   (WCT)
-unsigned int functionInterval =  7500;  //  7.5s function call frequency   (FCF)
+unsigned int functionInterval =  7500;  //  10s function call frequency   (FCF)
 unsigned int blynkInterval    = 25000;  // 25.0s check server frequency    (CSF)
 
 
@@ -123,9 +126,9 @@ void ledInit(void)
 }
 
 void sendTimeToBlynk_7500ms(){
- // Serial.println("\tLook, no Blynk  block.");
-  if(wifiMulti.run()== 3){
-  //  Serial.println("\tWiFi still  connected.");
+  Serial.println("\tWifi check every 7.5 s.....");
+  if(wifiMulti.run()== WL_CONNECTED){
+    Serial.println("\tWiFi still  connected.");
     _wifiIsConnected = true;
   }
 
@@ -133,10 +136,11 @@ void sendTimeToBlynk_7500ms(){
   {
     if(!blynkActive)
     {
-   //   Serial.println("\tTick update to blynk.");
+      Serial.println("\tBlynk is Active.");
     }
     _blynkIsConnected = true;
   }
+  Serial.printf("\tChecking again wifi in %is.\n", functionInterval / 1000);
 }
 
 void checkBlynk() {
@@ -154,12 +158,12 @@ void checkBlynk() {
       }
     }
   }
-  if (wifiMulti.run() != 3) {
+  if (wifiMulti.run() != WL_CONNECTED) {
     Serial.print("\tNo WiFi. ");
     _wifiIsConnected = false;
     _blynkIsConnected = false;
   } 
- // Serial.printf("\tChecking again in %is.\n", blynkInterval / 1000);
+  Serial.printf("\tChecking again Blynk connected in %is.\n", blynkInterval / 1000);
   Serial.println(); 
 }
 
@@ -167,40 +171,42 @@ void checkBlynk() {
 void blynk::init() 
 {
   Serial.println();
-    
-   
+
     wifiMulti.addAP(WIFI_SSID_METEOR_BOX, WIFI_PASSWORD_METEOR);
     wifiMulti.addAP(WIFI_SSID_METEOR_BU, WIFI_PASSWORD_METEOR);
-
     wifiMulti.addAP(WIFI_SSID_METEOR_FREE, WIFI_PASSWORD_METEOR);
+    wifiMulti.addAP(WIFI_SSID_METEOR_BUF, WIFI_PASSWORD_METEOR);
     wifiMulti.addAP(WIFI_SSID_XIAOMI , WIFI_PASSWORD);
     wifiMulti.addAP(WIFI_SSID_FREE, WIFI_PASSWORD);
     
+    Serial.println("Connecting Wifi...");
+    //Connecting to the strongest WiFi connection
+    if (wifiMulti.run(WiFi_TIMEOUT) == WL_CONNECTED)
+    {
+      Serial.println("");
+      Serial.println("WiFi connected");
+      Serial.println("IP address: ");
+      Serial.println(WiFi.localIP());  //print IP of the connected WiFi network
+      _wifiIsConnected = true;
+    }
+    else  // if not WiFi not connected
+    {
+      Serial.println("WiFi not Connected");
+    }
 
-    
-    if(wifiMulti.run() == 6){
-    Serial.println("\tWiFi not connected yet.");
-  }
   
   timer.setInterval(functionInterval, sendTimeToBlynk_7500ms);// run some function at intervals per functionInterval
   timer.setInterval(blynkInterval, checkBlynk);   // check connection to server per blynkInterval
   unsigned long startWiFi = millis();
 
-  while (wifiMulti.run() != WL_CONNECTED){
-    delay(500);
-    if(millis() > startWiFi + myWiFiTimeout){
-      Serial.println("\tCheck the WiFi router. ");
-      break;
-    }       
-  }
   
-  if(wifiMulti.run()== 3){
-    Serial.println("");
-    Serial.println("\tWiFi connected.");
-    Serial.println("IP address: ");
-    Serial.println(WiFi.localIP());
-    _wifiIsConnected = true;
-  }
+//  if(wifiMulti.run()== WL_CONNECTED){
+//    Serial.println("");
+//    Serial.println("\tWiFi connected.");
+//    Serial.println("IP address: ");
+//    Serial.println(WiFi.localIP());
+//    _wifiIsConnected = true;
+//  }
   
   Blynk.config(BLYNK_AUTH_TOKEN, BLYNK_SERVER);
   Blynk.connect(); 

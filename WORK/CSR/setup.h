@@ -9,10 +9,11 @@ void relaySetup(void)
      pinMode(I2C_1_2_RELAY , OUTPUT);
      pinMode(I2C_3_4_RELAY , OUTPUT);
 
-     digitalWrite(AV_RX_DVR_PIN_2, HIGH);  // AV RECEIVER OFF POWER UP NC CONTACT
+     digitalWrite(AV_RX_DVR_PIN_2, LOW);  // AV RECEIVER OFF POWER UP NC CONTACT
 }
 
 void blynkInit(void)
+
 {
      myBlynk.init();    
      blynkConnected=myBlynk.blynkStatus();
