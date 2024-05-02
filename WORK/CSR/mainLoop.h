@@ -275,8 +275,6 @@ void processBlynkQueu(void)
                   videoChanel(1, queuData);
             break; 
 
-            case Q_EVENT_SPARE_V121:
-            break;                       
 
              case Q_EVENT_RM_ID_02_V122:
                   videoChanel(2, queuData);
@@ -361,6 +359,9 @@ void blynkLoop(void)
        
        if ( blynkConnected )
           {
+            if(!liveLedUpdate) {liveLedUpdate = true;myBlynk.liveLedCall(liveLed);}
+                      
+                       
             myBlynk.blynkRun();
             queuValidData = (xQueueReceive(g_event_queue_handle, &queuDataID, 5 / portTICK_RATE_MS) == pdPASS);
             if(queuValidData) 

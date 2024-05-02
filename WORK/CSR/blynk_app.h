@@ -42,7 +42,7 @@ class blynk {
     void resetRemoteVideo( int _data);
     bool Tuner_PLL(int x, int _address, uint _pll);
     void blynkAckLed(bool _data);
-    void blynkRCLed(bool _data, int cmd);
+    void liveLedCall(bool _data);
     void resetSetupAndScan(bool _data);
     void resetT433Cmd(int cmd );
     void resetT315Cmd(int cmd );

@@ -18,7 +18,6 @@ void blynkInit(void)
      myBlynk.init();    
      blynkConnected=myBlynk.blynkStatus();
      wifiAvailable = myBlynk.wifiStatus();
-     DEBUG_PRINT("Blynk: ");DEBUG_PRINTLN( blynkConnected ? F("Connected") : F("Not Connected"));
      if (blynkConnected) 
               {
                 myBlynk.sendAvRxIndex(Av_Rx);
@@ -92,10 +91,13 @@ void i2cSetup(void)
      Wire.begin();
      delay(500);
      Wire1.begin(SDA_2, SCL_2);
-     
+
+ #ifdef CSR      
      ta9548a = !TCA9548A(0);
      DEBUG_PRINTLN ( ta9548a ? F("TCA9548A Connected") : F("TCA9548A Not Connected"));
      myBlynk.TerminalPrint ( ta9548a ? F("TCA9548A Connected") : F("TCA9548A Not Connected"));
+#endif    
+
 }
 
 

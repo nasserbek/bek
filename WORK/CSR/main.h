@@ -38,6 +38,8 @@ PubSubClient client(net);
 bool autoResetRouter = 0;
 int activeBoard   = ESP1;
 int selectedBoard = ESP1;
+bool liveLed = false;
+bool liveLedUpdate = false;
 
 bool lastAck = false;
 bool awsConnected = false;

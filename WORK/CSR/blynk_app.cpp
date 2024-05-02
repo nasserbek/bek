@@ -12,6 +12,9 @@ extern int hmi;
 extern int activeBoard ;
 extern int selectedBoard;
 extern void apiSend(int board, String virtualPin, int value);
+unsigned long startConnecting = millis();
+extern bool liveLed ;
+extern bool liveLedUpdate;
 
 
 WiFiMulti wifiMulti;
@@ -100,12 +103,14 @@ extern QueueHandle_t g_event_queue_handle;
 
 
 WidgetLED I2C_LED_V13(V13);  //I2C ACK
+WidgetLED LIVE_LED_V121(V121);  //LIVE
+
 WidgetTerminal terminal(V102);
 
-unsigned int myServerTimeout  =  3500;  //  3.5s server connection timeout (SCT)
+unsigned int myServerTimeout  =  30000;  //  3.5s server connection timeout (SCT)
 unsigned int myWiFiTimeout    =  3200;  //  3.2s WiFi connection timeout   (WCT)
-unsigned int functionInterval =  7500;  //  10s function call frequency   (FCF)
-unsigned int blynkInterval    = 25000;  // 25.0s check server frequency    (CSF)
+unsigned int LiveUpdateInterval =  5000;  //  10s function call frequency   (FCF)
+unsigned int blynkIntervalInterval    = 10000;  // 25.0s check server frequency    (CSF)
 
 
 bool blynk2 = true;
@@ -121,60 +126,66 @@ int eventdata;
 
 
 void ledInit(void)
-{
-   I2C_LED_V13.on(); 
+{  
+  I2C_LED_V13.on(); 
+  LIVE_LED_V121.on();
 }
 
-void sendTimeToBlynk_7500ms(){
-  Serial.println("\tWifi check every 7.5 s.....");
-  if(wifiMulti.run()== WL_CONNECTED){
-    Serial.println("\tWiFi still  connected.");
-    _wifiIsConnected = true;
-  }
-
-  if(Blynk.connected())
+void SendLiveLed()
   {
-    if(!blynkActive)
-    {
-      Serial.println("\tBlynk is Active.");
-    }
-    _blynkIsConnected = true;
+  if (liveLed)  liveLed = false; 
+  else liveLed = true;
+  liveLedUpdate =false;
   }
-  Serial.printf("\tChecking again wifi in %is.\n", functionInterval / 1000);
-}
 
 void checkBlynk() {
-  if (wifiMulti.run() == WL_CONNECTED)  
+  if (wifiMulti.run(WiFi_TIMEOUT) == WL_CONNECTED)  
   {
-    unsigned long startConnecting = millis(); 
     _blynkIsConnected = true;   
     _wifiIsConnected = true;
-    while(!Blynk.connected()){
-      _blynkIsConnected = false;
-      Blynk.connect();  
-      if(millis() > startConnecting + myServerTimeout){
-        Serial.print("Unable to connect to server. ");
-        break;
-      }
-    }
+    if(!Blynk.connected())
+      {
+        _blynkIsConnected = false;
+        Blynk.disconnect();
+        delay (1000);
+        Blynk.config(BLYNK_AUTH_TOKEN, BLYNK_SERVER);
+        Blynk.connect();  
+//        if(millis() > startConnecting + myServerTimeout)
+//          {
+//            DEBUG_PRINT("Unable to connect to server. ");
+//            _blynkIsConnected = false; 
+//            break; 
+//          }
+       }
+       else _blynkIsConnected = true;
   }
-  if (wifiMulti.run() != WL_CONNECTED) {
-    Serial.print("\tNo WiFi. ");
-    _wifiIsConnected = false;
-    _blynkIsConnected = false;
-  } 
-  Serial.printf("\tChecking again Blynk connected in %is.\n", blynkInterval / 1000);
-  Serial.println(); 
+  
+  else 
+    {
+      _wifiIsConnected = false;
+      _blynkIsConnected = false; 
+    } 
+    
+  DEBUG_PRINT("WIFI: ");DEBUG_PRINTLN( _wifiIsConnected ? F("Connected") : F("Not Connected"));
+  DEBUG_PRINT("BLYNK: ");DEBUG_PRINTLN( _blynkIsConnected ? F("Connected") : F("Not Connected"));  
+  Serial.printf("\tChecking again Blynk connected in %is.\n", blynkIntervalInterval / 1000);
+  Serial.println(".");
+
 }
 
 
 void blynk::init() 
 {
-  Serial.println();
+  
+    _blynkIsConnected = false;   
+    _wifiIsConnected = false;
 
     wifiMulti.addAP(WIFI_SSID_METEOR_BOX, WIFI_PASSWORD_METEOR);
-    wifiMulti.addAP(WIFI_SSID_METEOR_BU, WIFI_PASSWORD_METEOR);
+    
     wifiMulti.addAP(WIFI_SSID_METEOR_FREE, WIFI_PASSWORD_METEOR);
+    
+    wifiMulti.addAP(WIFI_SSID_METEOR_BU, WIFI_PASSWORD_METEOR);
+    
     wifiMulti.addAP(WIFI_SSID_METEOR_BUF, WIFI_PASSWORD_METEOR);
     wifiMulti.addAP(WIFI_SSID_XIAOMI , WIFI_PASSWORD);
     wifiMulti.addAP(WIFI_SSID_FREE, WIFI_PASSWORD);
@@ -191,35 +202,41 @@ void blynk::init()
     }
     else  // if not WiFi not connected
     {
-      Serial.println("WiFi not Connected");
+      _wifiIsConnected = false;
     }
-
+    DEBUG_PRINT("WIFI: ");DEBUG_PRINTLN( _wifiIsConnected ? F("Connected") : F("Not Connected"));
   
-  timer.setInterval(functionInterval, sendTimeToBlynk_7500ms);// run some function at intervals per functionInterval
-  timer.setInterval(blynkInterval, checkBlynk);   // check connection to server per blynkInterval
-  unsigned long startWiFi = millis();
-
+  timer.setInterval(LiveUpdateInterval, SendLiveLed);// run some function at intervals per LiveUpdateInterval
+  timer.setInterval(blynkIntervalInterval, checkBlynk);   // check connection to server per blynkIntervalInterval
   
-//  if(wifiMulti.run()== WL_CONNECTED){
-//    Serial.println("");
-//    Serial.println("\tWiFi connected.");
-//    Serial.println("IP address: ");
-//    Serial.println(WiFi.localIP());
-//    _wifiIsConnected = true;
-//  }
-  
-  Blynk.config(BLYNK_AUTH_TOKEN, BLYNK_SERVER);
-  Blynk.connect(); 
-  checkBlynk();
-  ledInit();
-  blynkAtiveTimer     = millis();
-  
-  if(_blynkIsConnected)
-  {
-  terminal.clear();  
-  Blynk.virtualWrite(V102,"Blynk v ", VERSION_ID, ": Device started\n");
-  Blynk.virtualWrite(V102,"-------------\n");
-
+  if(_wifiIsConnected)
+    {
+     Blynk.config(BLYNK_AUTH_TOKEN, BLYNK_SERVER);
+     Blynk.connect();
+//    if(!Blynk.connected()) 
+     _blynkIsConnected= true;
+     
+//      while(!_blynkIsConnected)
+//      {
+//        Blynk.connect();  
+//        if(millis() > startConnecting + myServerTimeout)
+//          {
+//            Serial.print("Unable to connect to server. "); 
+//            _blynkIsConnected = false;
+//            break; 
+//          }
+//          if(!Blynk.connected()) _blynkIsConnected= true;
+//      }
+//    DEBUG_PRINT("BLYNK: ");DEBUG_PRINTLN( _blynkIsConnected ? F("Connected") : F("Not Connected"));
+    
+    if(_blynkIsConnected)
+      {
+        blynkAtiveTimer     = millis();
+        ledInit();
+        terminal.clear();  
+        Blynk.virtualWrite(V102,"Blynk v ", VERSION_ID, ": Device started\n");
+        Blynk.virtualWrite(V102,"-------------\n");
+     }
   }
 }
 
@@ -775,7 +792,7 @@ BLYNK_WRITE(V112)
 
 
 
-
+/*
 BLYNK_WRITE(V121)  
 {
 
@@ -785,6 +802,7 @@ BLYNK_WRITE(V121)
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
+*/
 BLYNK_WRITE(V122)  
 {
     _blynkEvent = true; 
@@ -1086,17 +1104,16 @@ void blynk::sendBoardIndex(int _index)
 
 void blynk::blynkAckLed( bool _data)
 {
-
-                  if (_data==1)  I2C_LED_V13.setColor(BLYNK_RED);
-                  else           I2C_LED_V13.setColor(BLYNK_GREEN);
- 
+  if (_data==1)  I2C_LED_V13.setColor(BLYNK_RED);
+  else           I2C_LED_V13.setColor(BLYNK_GREEN);
 }
 
 
-void blynk::blynkRCLed(bool _data, int cmd)
+void blynk::liveLedCall(bool _data)
 {
- 
-
+  if (_data==1)  LIVE_LED_V121.setColor(BLYNK_RED); 
+  else           LIVE_LED_V121.setColor(BLYNK_GREEN);
+  Blynk.virtualWrite(V121, _data);
 }
 
 void blynk::visualActiveRoom(int id, bool zap)

@@ -1,6 +1,6 @@
 //#define CSR     // R64 SCATOLA 1CH TTGO
-//#define CSR2      // R65 SCATOLA 4CH ESP32S
-#define CSR3   //R66 SWAN CASE 2CH ESP32S
+#define CSR2      // R65 SCATOLA 4CH ESP32S
+//#define CSR3   //R66 SWAN CASE 2CH ESP32S
 
 
 
@@ -23,7 +23,7 @@
 
     
 #ifdef CSR      //TTGO R64 SCATOLA 1CH TTGO
-    #define VERSION_ID "V22.0"
+    #define VERSION_ID "V28.0"
     #define BLYNK_AUTH_TOKEN                "B1pZ48rPHfdQ8LxlqCoiPk8fxWBbv7B0" //CSR
     #define THINGNAME "CSR1"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr1/sub/rc"
@@ -49,7 +49,7 @@
 
 #ifdef CSR2     // R65 SCATOLA 4CH ESP32S
  
-    #define VERSION_ID "V22.0"
+    #define VERSION_ID "V28.0"
     #define BLYNK_AUTH_TOKEN                "_cqYD1seWElWB-S1IxutIEI7VWmDpb05" //CS2
     #define THINGNAME "CSR2"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr2/sub/rc"
@@ -76,7 +76,7 @@
 
 #ifdef CSR3     //R66 SWAN CASE 2CH ESP32S
    
-    #define VERSION_ID " V22.0"
+    #define VERSION_ID " V28.0"
     #define BLYNK_AUTH_TOKEN                "6DH6QZgVXrGXU5VzOpJSJgHoyXWL7aWS" //CSR3
     #define THINGNAME "CSR3"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr3/sub/rc"
@@ -102,7 +102,7 @@
 
 #ifdef TEST     //R66 SWAN CASE 2CH ESP32S
     
-    #define VERSION_ID " V22.0 "
+    #define VERSION_ID " V26.0 "
     #define BLYNK_AUTH_TOKEN                "C7dsGNwfPTFwBRlhuQk5k9g81kPeiM2B" 
     #define THINGNAME "CSR4"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "test/sub/rc"
@@ -133,10 +133,10 @@
                    
 #define BLYNK_SERVER "blynk.cloud" //BLYNK2 REMOTE SERVER 
 
-#define WIFI_SSID_METEOR_FREE      "METEOR_BEK_FREE"
-#define WIFI_SSID_METEOR_BU      "METEOR_BEK_BU"
-#define WIFI_SSID_METEOR_BUF      "METEOR_BEK_BUF"
-#define WIFI_SSID_METEOR_BOX    "METEOR_BEK_BOX"
+#define WIFI_SSID_METEOR_FREE      "BEK_FREE"
+#define WIFI_SSID_METEOR_BU      "BEK_BU"
+#define WIFI_SSID_METEOR_BUF      "BEK_BUF"
+#define WIFI_SSID_METEOR_BOX    "BEK_BOX"
 #define WIFI_SSID_GIGA        "GIGACUBE_BEK"                                                
 #define WIFI_SSID_FREE        "Freebox-bek"                                              
 #define WIFI_SSID_XIAOMI      "XIAOMI_BEK" 
@@ -263,7 +263,6 @@ Q_EVENT_AUTOMATIC_RESET_ROUTER_V40,
 
 Q_EVENT_ZAP_V71,
 Q_EVENT_ZAP_TIMER_V72,
-Q_EVENT_SAPRE_V80,
 Q_EVENT_ZAP_CHANNEL1_V81,
 Q_EVENT_ZAP_CHANNEL2_V82,
 Q_EVENT_ZAP_CHANNEL3_V83,
@@ -294,7 +293,7 @@ Q_EVENT_RM_ID_10_V112,
 
 
 
-Q_EVENT_SPARE_V121, //
+//LIVE_LED_V121, //
 Q_EVENT_RM_ID_02_V122, //25
 Q_EVENT_RM_ID_03_V123, //26
 Q_EVENT_RM_ID_04_V124,//27
