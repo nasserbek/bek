@@ -127,7 +127,7 @@
 #endif
 
 #define INTERNET_LOSS_TO_RESET_NG_TIMER 120000   // 2 MIN
-#define RESTART_AFTER_NG_RESET_TIMER 60000   // 2 MIN
+#define RESTART_AFTER_NG_RESET_TIMER 60000   // 1 MIN
 #define ROUTER_24_HOURS 86400000  // 24 HOURS
 #define WiFi_TIMEOUT 30000  // 15sec Wifi connection timeout
                    
