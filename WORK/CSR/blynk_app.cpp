@@ -15,7 +15,9 @@ extern void apiSend(int board, String virtualPin, int value);
 unsigned long startConnecting = millis();
 extern bool liveLed ;
 extern bool liveLedUpdate;
-
+extern bool internetLossUpdate;
+extern bool InternetLoss;
+extern bool sendVerWifi;
 
 WiFiMulti wifiMulti;
 BlynkTimer timer;
@@ -133,9 +135,15 @@ void ledInit(void)
 
 void SendLiveLed()
   {
+    if (!InternetLoss && internetLossUpdate) sendVerWifi = true;
+    else sendVerWifi = true;
+    
   if (liveLed)  liveLed = false; 
   else liveLed = true;
   liveLedUpdate =false;
+  if (!InternetLoss) internetLossUpdate = false;
+  else internetLossUpdate = true;
+  
   }
 
 void checkBlynk() {
@@ -204,7 +212,9 @@ void blynk::init()
     {
      Blynk.config(BLYNK_AUTH_TOKEN, BLYNK_SERVER);
      Blynk.connect();
-    
+     delay(500);
+     _blynkIsConnected =Blynk.connected();
+     
     if(_blynkIsConnected)
       {
         blynkAtiveTimer     = millis();

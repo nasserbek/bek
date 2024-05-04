@@ -362,7 +362,7 @@ void blynkLoop(void)
        if ( blynkConnected )
           {
             if(!liveLedUpdate) {liveLedUpdate = true;myBlynk.liveLedCall(liveLed);}
-                      
+    //        if(sendVerWifi) myBlynk.sendVersion(VERSION_ID + WiFi.SSID()  );          
                        
             myBlynk.blynkRun();
             queuValidData = (xQueueReceive(g_event_queue_handle, &queuDataID, 5 / portTICK_RATE_MS) == pdPASS);

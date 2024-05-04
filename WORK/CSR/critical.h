@@ -67,48 +67,56 @@ void  dvrOnOff (bool onOff)
            
            selected_Rx = 3;
            AvReceiverSel(4);  
-           delay (1000);
+           delay (2000);
            videoChanel(2, 1);  //ch 2 ON 
+           myBlynk.RelaySelect(4);
                
            selected_Rx = 2;
            AvReceiverSel(3);  
-           delay (1000);
+           delay (2000);
            videoChanel(1, 1);  //ch 1 ON
+           myBlynk.RelaySelect(3);
 
     #endif
   
     #ifdef CSR2      
            selected_Rx = 0;
            AvReceiverSel(1);  
-           delay (1000);
+           delay (2000);
            videoChanel(1, 1);  //ch 1 ON
+           myBlynk.RelaySelect(1);
            
            selected_Rx = 1;
            AvReceiverSel(2);  
-           delay (1000);
+           delay (2000);
            videoChanel(2, 1);  //ch 2 ON 
+           myBlynk.RelaySelect(2);
 
            selected_Rx = 2;
            AvReceiverSel(3);  
-           delay (1000);
+           delay (2000);
            videoChanel(3, 1);  //ch 3 ON
+           myBlynk.RelaySelect(3);
            
            selected_Rx = 3;
            AvReceiverSel(4);  
-           delay (1000);
+           delay (2000);
            videoChanel(4, 1);  //ch 4 ON 
+           myBlynk.RelaySelect(4);
     #endif
     
     #ifdef CSR3      
            selected_Rx = 0;
            AvReceiverSel(1);  
-           delay (1000);
+           delay (2000);
            videoChanel(1, 1);  //ch 1 ON
+           myBlynk.RelaySelect(1);
            
            selected_Rx = 1;
            AvReceiverSel(2);  
-           delay (1000);
+           delay (2000);
            videoChanel(2, 1);  //ch 2 ON 
+           myBlynk.RelaySelect(2);
     #endif
       
    }

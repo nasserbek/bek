@@ -9,9 +9,10 @@ void setup()
      relaySetup();
      
      mySwitch.enableTransmit(RC_TX_PIN);
+     i2cSetup();
      blynkInit();
      connectAWS();
-     i2cSetup();
+     
      timersMillis();
      createHandleGroup();
      looadRoomData();
