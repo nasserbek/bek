@@ -151,7 +151,8 @@ void callback(char* topic, byte* payload, unsigned int length) {
     {
         retriveDataFromTopic(topic, payload,length);
         _nodeRedData  = doc1["DVR"];
-        nodeRedeventdata = Q_EVENT_DVR_ON_OFF_V27;
+  //      nodeRedeventdata = Q_EVENT_DVR_ON_OFF_V27;
+        nodeRedeventdata = Q_EVENT_VIDEO_ON_OFF_V81;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
         myBlynk.dvrSwitch(_nodeRedData); 
 

@@ -45,6 +45,7 @@ void blynkInit(void)
                      #endif   
 
                 myBlynk.dvrSwitch(1);
+                dvrOnOff (1);
                 
                 myBlynk.TerminalPrint(WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) );
                 int rssi = WiFi.RSSI();

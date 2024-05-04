@@ -13,6 +13,7 @@ void resetRouter(void)
  remoteControl(ROUTER_CH);
 }
 
+
 void processBlynkQueu(void)
 {
   String ver = VERSION_ID;
@@ -123,7 +124,7 @@ void processBlynkQueu(void)
             break;         
                  
             case Q_EVENT_DVR_ON_OFF_V27:
-                  dvrOnOff (queuData);  
+     //             dvrOnOff (queuData);  
             break;   
 
             case Q_EVENT_REL1_CH_V30: 
@@ -165,7 +166,8 @@ void processBlynkQueu(void)
                   autoResetRouter = queuData;
                   myBlynk.TerminalPrint("Auto Reboot Router is: ");myBlynk.TerminalPrint( autoResetRouter ? F("Enabled") : F("Disabled"));
             break;                            
-                                                                      
+
+           
             case Q_EVENT_ZAP_V71:
                 zapOnOff=queuData;
                 resetZapper ();
@@ -178,8 +180,8 @@ void processBlynkQueu(void)
                  zapTimer=queuData;
             break;
 
-            case Q_EVENT_ZAP_CHANNEL1_V81 :
-                 videoCh[1].zap=queuData;
+            case Q_EVENT_VIDEO_ON_OFF_V81 :
+                 dvrOnOff (queuData);
             break;
 
             case Q_EVENT_ZAP_CHANNEL2_V82 :

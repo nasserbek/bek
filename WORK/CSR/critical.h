@@ -8,6 +8,9 @@
 ESP32Timer ITimer0(0);
 
 extern void resetRouter(void);
+extern void AvReceiverSel(int queuData);
+extern void videoChanel(int ch, bool cmd);
+
 
 bool IRAM_ATTR TimerHandler0(void * timerNo)
 {
@@ -56,7 +59,60 @@ void rebootSw(void)
 
 void  dvrOnOff (bool onOff)
 {
-   if (onOff) digitalWrite(AV_RX_DVR_PIN_2, LOW); 
+   if (onOff) 
+   {
+    digitalWrite(AV_RX_DVR_PIN_2, LOW); 
+    
+    #ifdef CSR      
+           
+           selected_Rx = 3;
+           AvReceiverSel(4);  
+           delay (1000);
+           videoChanel(2, 1);  //ch 2 ON 
+               
+           selected_Rx = 2;
+           AvReceiverSel(3);  
+           delay (1000);
+           videoChanel(1, 1);  //ch 1 ON
+
+    #endif
+  
+    #ifdef CSR2      
+           selected_Rx = 0;
+           AvReceiverSel(1);  
+           delay (1000);
+           videoChanel(1, 1);  //ch 1 ON
+           
+           selected_Rx = 1;
+           AvReceiverSel(2);  
+           delay (1000);
+           videoChanel(2, 1);  //ch 2 ON 
+
+           selected_Rx = 2;
+           AvReceiverSel(3);  
+           delay (1000);
+           videoChanel(3, 1);  //ch 3 ON
+           
+           selected_Rx = 3;
+           AvReceiverSel(4);  
+           delay (1000);
+           videoChanel(4, 1);  //ch 4 ON 
+    #endif
+    
+    #ifdef CSR3      
+           selected_Rx = 0;
+           AvReceiverSel(1);  
+           delay (1000);
+           videoChanel(1, 1);  //ch 1 ON
+           
+           selected_Rx = 1;
+           AvReceiverSel(2);  
+           delay (1000);
+           videoChanel(2, 1);  //ch 2 ON 
+    #endif
+      
+   }
+   
    else digitalWrite(AV_RX_DVR_PIN_2, HIGH); 
 }
 
