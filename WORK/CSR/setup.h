@@ -6,12 +6,39 @@
 void relaySetup(void)
 {
      pinMode(AV_RX_DVR_PIN_2, OUTPUT);
+     pinMode(AV_RX_DVR_PIN_12, OUTPUT);
+     pinMode(AV_RX_DVR_PIN_13, OUTPUT);
+     pinMode(AV_RX_DVR_PIN_14, OUTPUT);
+     
      pinMode(I2C_1_2_RELAY , OUTPUT);
      pinMode(I2C_3_4_RELAY , OUTPUT);
 
      digitalWrite(AV_RX_DVR_PIN_2, LOW);  // AV RECEIVER OFF POWER UP NC CONTACT
+     digitalWrite(AV_RX_DVR_PIN_12, LOW);  // AV RECEIVER OFF POWER UP NC CONTACT
+     digitalWrite(AV_RX_DVR_PIN_13, LOW);
+     digitalWrite(AV_RX_DVR_PIN_14, LOW);
 }
 
+void resetBoardID(void)
+  {       
+       #ifdef CSR    
+          V_Remote_CSR1=false;
+          RC_Remote_CSR1=false;
+       #endif 
+       
+       #ifdef CSR2    
+          V_Remote_CSR2=false;
+          RC_Remote_CSR2=false;
+       #endif 
+       
+       #ifdef CSR3  
+          V_Remote_CSR3=false;
+          RC_Remote_CSR3=false;
+       #endif   
+  }
+       
+
+       
 void blynkInit(void)
 
 {

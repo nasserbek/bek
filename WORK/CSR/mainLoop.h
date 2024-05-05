@@ -357,13 +357,24 @@ void processBlynkQueu(void)
       
 void blynkLoop(void)
 {
+ StaticJsonDocument<54> doc; //Json to send from
+ 
        blynkConnected=myBlynk.blynkStatus(); 
+
+            if(!liveLedUpdate) 
+                {
+                  liveLedUpdate = true; 
+                  if ( blynkConnected ) myBlynk.liveLedCall(liveLed);
+                  if(awsConnected)
+                    {
+                      doc["LIVE"] = liveLed;
+                      serializeJson(doc, Json); // print to client
+                      client.publish(AWS_IOT_SUBSCRIBE_TOPIC_LIVE, Json);
+                   }
+                }  
        
        if ( blynkConnected )
           {
-            if(!liveLedUpdate) {liveLedUpdate = true;myBlynk.liveLedCall(liveLed);}
-    //        if(sendVerWifi) myBlynk.sendVersion(VERSION_ID + WiFi.SSID()  );          
-                       
             myBlynk.blynkRun();
             queuValidData = (xQueueReceive(g_event_queue_handle, &queuDataID, 5 / portTICK_RATE_MS) == pdPASS);
             if(queuValidData) 
@@ -371,14 +382,13 @@ void blynkLoop(void)
                   myBlynk.getData ();
                   if (hmi == BLYNK)    
                     {
-      //               myBlynk.TerminalPrint("queuValidData received from Blynk:");
                      queuData = myBlynk.blynkData; 
                      processBlynkQueu(); 
                     }
                   }
             InternetLoss = false;   resetNetgeerAfterInternetLossTimer = millis();
             netGeerReset = false;   restartAfterResetNG = millis();
-         }
+                 }
 
        else if( !InternetLoss && !blynkConnected)  
           {
@@ -396,6 +406,7 @@ void blynkLoop(void)
 
 void awsLoop(void)
 {
+         
          awsConnected = client.connected();
          if (!awsConnected )
             {
@@ -410,7 +421,6 @@ void awsLoop(void)
                   {
                       getDataNodeRed ();
                       if (hmi == NODE_RED) { 
-                 //     myBlynk.TerminalPrint("queuValidData received from AWS:");
                       queuData = nodeRedData; 
                       processBlynkQueu();
                       }

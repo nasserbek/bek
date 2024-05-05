@@ -22,23 +22,6 @@ extern bool sendVerWifi;
 WiFiMulti wifiMulti;
 BlynkTimer timer;
 
-#ifdef CSR      
-       IPAddress local_IP(192, 168, 1, 164);
-#endif
-
-#ifdef CSR2      
-       IPAddress local_IP(192, 168, 1, 166);
-#endif
-
-#ifdef CSR3      
-       IPAddress local_IP(192, 168, 1, 165);
-#endif
-
-#ifdef TEST      
-       IPAddress local_IP(192, 168, 1, 167);
-#endif
-IPAddress gateway(192, 168, 1, 1);
-IPAddress subnet(255, 255, 255, 0);
 
 blynk::blynk(void) 
 {
@@ -183,11 +166,9 @@ void blynk::init()
     _wifiIsConnected = false;
 
     wifiMulti.addAP(WIFI_SSID_METEOR_BOX, WIFI_PASSWORD_METEOR);
-    wifiMulti.addAP(WIFI_SSID_METEOR_FREE, WIFI_PASSWORD_METEOR);
     wifiMulti.addAP(WIFI_SSID_METEOR_BU, WIFI_PASSWORD_METEOR);
-    wifiMulti.addAP(WIFI_SSID_METEOR_BUF, WIFI_PASSWORD_METEOR);
     wifiMulti.addAP(WIFI_SSID_XIAOMI , WIFI_PASSWORD);
-    wifiMulti.addAP(WIFI_SSID_FREE, WIFI_PASSWORD);
+
     
     Serial.println("Connecting Wifi...");
     //Connecting to the strongest WiFi connection

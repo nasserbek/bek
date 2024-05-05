@@ -235,7 +235,14 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA)
         nodeRedeventdata = Q_EVENT_WIFI_IDE_V11;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
     } 
-         
+
+    else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_LIVE)
+    {
+        retriveDataFromTopic(topic, payload,length);
+        _nodeRedData  = doc1["LIVE"];
+ //       nodeRedeventdata = Q_EVENT_WIFI_IDE_V11;
+ //       xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
+    } 
  myBlynk.TerminalPrint(" Topic " + String(topic) +" Payload: "+ String(_nodeRedData));
 }
 
@@ -286,7 +293,8 @@ void connectAWS()
   client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH);
   client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA);
   client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA);    
-  client.subscribe(  AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA); 
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA); 
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_LIVE);
   
   doc2["version"] = VERSION_ID;
   serializeJson(doc2, Json); // print to client

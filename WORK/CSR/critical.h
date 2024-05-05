@@ -7,8 +7,11 @@
 #include "TimerInterrupt_Generic.h"
 ESP32Timer ITimer0(0);
 
+extern int  Av_Rx;
 extern void resetRouter(void);
 extern void AvReceiverSel(int queuData);
+extern void videoChanel(int ch, bool cmd);
+extern void room ( int RC, int AV, int sel , int cmd);
 extern void videoChanel(int ch, bool cmd);
 
 
@@ -59,22 +62,29 @@ void rebootSw(void)
 
 void  dvrOnOff (bool onOff)
 {
+ 
    if (onOff) 
    {
     digitalWrite(AV_RX_DVR_PIN_2, LOW); 
+    digitalWrite(AV_RX_DVR_PIN_12, LOW); 
+    digitalWrite(AV_RX_DVR_PIN_13, LOW);
+    digitalWrite(AV_RX_DVR_PIN_14, LOW);
     
     #ifdef CSR      
            
            selected_Rx = 3;
            AvReceiverSel(4);  
            delay (2000);
-           videoChanel(2, 1);  //ch 2 ON 
+           if(PowerOn) {Av_Rx = BOTH; videoChanel(R_49, ON);}
+           else {Av_Rx = SOLO_VIDEO; videoChanel(R_49, ON);}
            myBlynk.RelaySelect(4);
-               
+           delay (1000);   
+            
            selected_Rx = 2;
            AvReceiverSel(3);  
            delay (2000);
-           videoChanel(1, 1);  //ch 1 ON
+           if(PowerOn) {Av_Rx = BOTH; videoChanel(R_28, ON);}
+           else {Av_Rx = SOLO_VIDEO; videoChanel(R_28, ON);}
            myBlynk.RelaySelect(3);
 
     #endif
@@ -83,25 +93,32 @@ void  dvrOnOff (bool onOff)
            selected_Rx = 0;
            AvReceiverSel(1);  
            delay (2000);
-           videoChanel(1, 1);  //ch 1 ON
+           if(PowerOn) room ( R_24, R_24 , BOTH , ON );
+           else room ( R_24, R_24 , SOLO_VIDEO , ON );
            myBlynk.RelaySelect(1);
+           delay (1000); 
            
            selected_Rx = 1;
            AvReceiverSel(2);  
            delay (2000);
-           videoChanel(2, 1);  //ch 2 ON 
+           if(PowerOn) room ( R_25, R_25 , BOTH , ON );
+           else room ( R_25, R_25 , SOLO_VIDEO , ON ); 
            myBlynk.RelaySelect(2);
+           delay (1000); 
 
            selected_Rx = 2;
            AvReceiverSel(3);  
            delay (2000);
-           videoChanel(3, 1);  //ch 3 ON
+           if(PowerOn) room ( R_26, R_26 , BOTH , ON );
+           else room ( R_26, R_26 , SOLO_VIDEO , ON );
            myBlynk.RelaySelect(3);
+           delay (1000); 
            
            selected_Rx = 3;
            AvReceiverSel(4);  
            delay (2000);
-           videoChanel(4, 1);  //ch 4 ON 
+           if(PowerOn) room ( R_27, R_27 , BOTH , ON );
+           else room ( R_27, R_27 , SOLO_VIDEO , ON );
            myBlynk.RelaySelect(4);
     #endif
     
@@ -109,19 +126,26 @@ void  dvrOnOff (bool onOff)
            selected_Rx = 0;
            AvReceiverSel(1);  
            delay (2000);
-           videoChanel(1, 1);  //ch 1 ON
+           room ( R_28, R_28 , SOLO_VIDEO , ON );
            myBlynk.RelaySelect(1);
+           delay (1000); 
            
            selected_Rx = 1;
            AvReceiverSel(2);  
            delay (2000);
-           videoChanel(2, 1);  //ch 2 ON 
+           room ( R_49, R_49 ,SOLO_VIDEO  , ON );
            myBlynk.RelaySelect(2);
     #endif
       
    }
    
-   else digitalWrite(AV_RX_DVR_PIN_2, HIGH); 
+   else 
+   {
+      digitalWrite(AV_RX_DVR_PIN_2, HIGH); 
+      digitalWrite(AV_RX_DVR_PIN_12, HIGH);  // AV RECEIVER OFF POWER UP NC CONTACT
+      digitalWrite(AV_RX_DVR_PIN_13, HIGH);
+      digitalWrite(AV_RX_DVR_PIN_14, HIGH);
+   }
 }
 
 void ResetNetgeer(void)

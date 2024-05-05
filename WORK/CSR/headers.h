@@ -1,13 +1,13 @@
-//#define CSR     // R64 SCATOLA 1CH TTGO
+#define CSR     // R64 SCATOLA 1CH TTGO
 //#define CSR2      // R65 SCATOLA 4CH ESP32S
-#define CSR3   //R66 SWAN CASE 2CH ESP32S
+//#define CSR3   //R66 SWAN CASE 2CH ESP32S
 
 
 
 
 
 
-//#define TEST
+#define TEST
 #define ROUTER_CH 18  //PHYSICAL CH ON REMOTE CONTROL IS 1
 #define BLYNK_TEMPLATE_ID           "TMPL5Y2na6zpd"
 #define BLYNK_TEMPLATE_NAME         "CSR"
@@ -19,11 +19,13 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO_1   "csr1/sub/video"
     #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO_2   "csr2/sub/video"
     #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO_3   "csr3/sub/video"
-
+    #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE_1   "csr1/sub/live"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE_2   "csr2/sub/live"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE_3   "csr3/sub/live"
 
     
 #ifdef CSR      //TTGO R64 SCATOLA 1CH TTGO
-    #define VERSION_ID "V33.0 - "
+    #define VERSION_ID "V46.0 - "
     #define BLYNK_AUTH_TOKEN                "B1pZ48rPHfdQ8LxlqCoiPk8fxWBbv7B0" //CSR
     #define THINGNAME "CSR1"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr1/sub/rc"
@@ -44,12 +46,13 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO   "csr1/sub/zapauto"  
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON   "csr1/sub/zton"  
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "csr1/sub/ztoff" 
+    #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "csr1/sub/live"
     #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/CSR1.bin"  // URL to download the firmware from
 #endif
 
 #ifdef CSR2     // R65 SCATOLA 4CH ESP32S
  
-    #define VERSION_ID "V33.0 - "
+    #define VERSION_ID "V46.0 - "
     #define BLYNK_AUTH_TOKEN                "_cqYD1seWElWB-S1IxutIEI7VWmDpb05" //CS2
     #define THINGNAME "CSR2"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr2/sub/rc"
@@ -70,13 +73,14 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO   "csr2/sub/zapauto"  
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON   "csr2/sub/zton"  
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "csr2/sub/ztoff" 
+    #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "csr2/sub/live"
     #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/CSR2.bin"  // URL to download the firmware from
 #endif
 
 
 #ifdef CSR3     //R66 SWAN CASE 2CH ESP32S
    
-    #define VERSION_ID " V33.0 - "
+    #define VERSION_ID " V46.0 - "
     #define BLYNK_AUTH_TOKEN                "6DH6QZgVXrGXU5VzOpJSJgHoyXWL7aWS" //CSR3
     #define THINGNAME "CSR3"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr3/sub/rc"
@@ -97,13 +101,14 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO   "csr3/sub/zapauto"  
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON   "csr3/sub/zton"  
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "csr3/sub/ztoff" 
+    #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "csr3/sub/live"
     #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/CSR3.bin"  // URL to download the firmware from
 #endif
 
 #ifdef TEST     //R66 SWAN CASE 2CH ESP32S
     
     #define VERSION_ID " V26.0 "
-    #define BLYNK_AUTH_TOKEN                "C7dsGNwfPTFwBRlhuQk5k9g81kPeiM2B" 
+    #define BLYNK_AUTH_TOKEN                "1Wq6Re2q9eTOK8D5vfHhynNN2B_XoZ83" 
     #define THINGNAME "CSR4"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "test/sub/rc"
     #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "test/sub/video"
@@ -123,6 +128,7 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO   "test/sub/zapauto"  
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON   "test/sub/zton"  
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "test/sub/ztoff"   
+    #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "test/sub/live"
     #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/BIN/TEST.bin"  // URL to download the firmware from
 #endif
 
@@ -159,10 +165,21 @@
 
 //RELAYS
 #define AV_RX_DVR_PIN_2     2
+#define AV_RX_DVR_PIN_12    2//12
+#define AV_RX_DVR_PIN_13    2//13
+#define AV_RX_DVR_PIN_14    2//14
+
 #define I2C_1_2_RELAY       4
 #define I2C_3_4_RELAY       0
 
 #define DEBUG_SERIAL
+
+
+#define ON  1
+#define OFF 0
+#define SOLO_VIDEO 1
+#define SOLO_RC    2
+#define BOTH  3
 
 enum {
 CH_MODE_0,
