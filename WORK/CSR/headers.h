@@ -1,4 +1,4 @@
-//#define CSR     // R64 SCATOLA 1CH TTGO
+#define CSR     // R64 SCATOLA 1CH TTGO
 //#define CSR2      // R65 SCATOLA 4CH ESP32S
 //#define CSR3   //R66 SWAN CASE 2CH ESP32S
 
@@ -7,7 +7,7 @@
 
 
 
-#define TEST
+//#define TEST
 #define ROUTER_CH 18  //PHYSICAL CH ON REMOTE CONTROL IS 1
 #define BLYNK_TEMPLATE_ID           "TMPL5Y2na6zpd"
 #define BLYNK_TEMPLATE_NAME         "CSR"
@@ -108,7 +108,7 @@
 #ifdef TEST     //R66 SWAN CASE 2CH ESP32S
     
     #define VERSION_ID " V26.0 "
-    #define BLYNK_AUTH_TOKEN                "1Xq6Re2q9eTOK8D5vfHhynNN2B_XoZ83" 
+    #define BLYNK_AUTH_TOKEN                "1Wq6Re2q9eTOK8D5vfHhynNN2B_XoZ83" 
     #define THINGNAME "CSR4"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "test/sub/rc"
     #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "test/sub/video"
