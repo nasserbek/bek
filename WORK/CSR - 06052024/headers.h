@@ -1,6 +1,6 @@
-//#define CSR     // R64 SCATOLA 1CH TTGO
+#define CSR     // R64 SCATOLA 1CH TTGO
 //#define CSR2      // R65 SCATOLA 4CH ESP32S
-#define CSR3   //R66 SWAN CASE 2CH ESP32S
+//#define CSR3   //R66 SWAN CASE 2CH ESP32S
 
 
 
@@ -25,7 +25,7 @@
 
     
 #ifdef CSR      //TTGO R64 SCATOLA 1CH TTGO
-    #define VERSION_ID "V50.0 - "
+    #define VERSION_ID "V46.0 - "
     #define BLYNK_AUTH_TOKEN                "B1pZ48rPHfdQ8LxlqCoiPk8fxWBbv7B0" //CSR
     #define THINGNAME "CSR1"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr1/sub/rc"
@@ -52,7 +52,7 @@
 
 #ifdef CSR2     // R65 SCATOLA 4CH ESP32S
  
-    #define VERSION_ID "V50.0 - "
+    #define VERSION_ID "V46.0 - "
     #define BLYNK_AUTH_TOKEN                "_cqYD1seWElWB-S1IxutIEI7VWmDpb05" //CS2
     #define THINGNAME "CSR2"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr2/sub/rc"
@@ -80,7 +80,7 @@
 
 #ifdef CSR3     //R66 SWAN CASE 2CH ESP32S
    
-    #define VERSION_ID " V50.0 - "
+    #define VERSION_ID " V46.0 - "
     #define BLYNK_AUTH_TOKEN                "6DH6QZgVXrGXU5VzOpJSJgHoyXWL7aWS" //CSR3
     #define THINGNAME "CSR3"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr3/sub/rc"
@@ -165,6 +165,9 @@
 
 //RELAYS
 #define AV_RX_DVR_PIN_2     2
+#define AV_RX_DVR_PIN_12    2//12
+#define AV_RX_DVR_PIN_13    2//13
+#define AV_RX_DVR_PIN_14    2//14
 
 #define I2C_1_2_RELAY       4
 #define I2C_3_4_RELAY       0
@@ -244,7 +247,7 @@ Q_EVENT_REBOOT_V8,
 Q_EVENT_SELECTED_RECIEVER_V9,
 Q_EVENT_ZAP_SCAN_ONLY_V10, 
 Q_EVENT_WIFI_IDE_V11,
-Q_EVENT_SPARE_V12,
+Q_EVENT_BOARD_V12,
 //I2C_LED_V13(V13);  // USED
 Q_EVENT_RM_ID_11_V14,  //52
 Q_EVENT_RM_ID_12_V15,  //53
@@ -261,7 +264,7 @@ Q_EVENT_RM_ID_13_V23,  //62
 //V24 Version,
 Q_EVENT_ZAP_TIMER_OFF_V25,
 Q_EVENT_RESET_FREQ_V26,
-Q_EVENT_SPARE_V27,
+Q_EVENT_DVR_ON_OFF_V27,
 
 Q_EVENT_REL1_CH_V30,
 Q_EVENT_REL2_CH_V31,

@@ -30,15 +30,15 @@ void loop(void)
        bool zapScan = zapOnOff || zapScanOnly;
       if (zapScan) zappingAvCh ( zapScan, zapTimer); 
       
-//      if ( (millis() - Router_24_hoursTimer) >=  ROUTER_24_HOURS  )
-//          {
-//            Router_24_hoursTimer       = millis();
-//            myBlynk.TerminalPrint("RESTARTING ROUTER...");
-//            #ifdef CSR      //Use only CSR1 to restart Router
-//               myBlynk.Event24();
-//                resetRouter();
-//             #endif 
-//            
-//           }
+      if ( (millis() - Router_24_hoursTimer) >=  ROUTER_24_HOURS  )
+          {
+            Router_24_hoursTimer       = millis();
+            myBlynk.TerminalPrint("RESTARTING ROUTER...");
+            #ifdef CSR      //Use only CSR1 to restart Router
+               myBlynk.Event24();
+                resetRouter();
+             #endif 
+            
+           }
        
 }

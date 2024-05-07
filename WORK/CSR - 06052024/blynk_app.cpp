@@ -132,25 +132,25 @@ void SendLiveLed()
 void checkBlynk() {
   if (wifiMulti.run(WiFi_TIMEOUT) == WL_CONNECTED)  
   {
-    unsigned long startConnecting = millis(); 
     _blynkIsConnected = true;   
     _wifiIsConnected = true;
-
-    while(!Blynk.connected()){
-      _blynkIsConnected = false;
-       Blynk.connect();  
-       if(millis() > startConnecting + myServerTimeout){
-        Serial.print("Unable to connect to server. ");
-        break;
-      }
-    }
+    if(!Blynk.connected())
+      {
+        _blynkIsConnected = false;
+        Blynk.disconnect();
+        delay (1000);
+        Blynk.config(BLYNK_AUTH_TOKEN, BLYNK_SERVER);
+        Blynk.connect();  
+       }
+       else _blynkIsConnected = true;
   }
+  
   else 
     {
       _wifiIsConnected = false;
       _blynkIsConnected = false; 
     } 
-  terminal.clear(); 
+    
   DEBUG_PRINT("WIFI: ");DEBUG_PRINTLN( _wifiIsConnected ? F("Connected") : F("Not Connected"));
   DEBUG_PRINT("BLYNK: ");DEBUG_PRINTLN( _blynkIsConnected ? F("Connected") : F("Not Connected"));  
   Serial.printf("\tChecking again Blynk connected in %is.\n", blynkIntervalInterval / 1000);
@@ -161,6 +161,7 @@ void checkBlynk() {
 
 void blynk::init() 
 {
+  
     _blynkIsConnected = false;   
     _wifiIsConnected = false;
 
@@ -192,11 +193,17 @@ void blynk::init()
     {
      Blynk.config(BLYNK_AUTH_TOKEN, BLYNK_SERVER);
      Blynk.connect();
-     delay(1000);
+     delay(500);
      _blynkIsConnected =Blynk.connected();
-     blynkAtiveTimer     = millis();
-     ledInit();     
-     terminal.clear();
+     
+    if(_blynkIsConnected)
+      {
+        blynkAtiveTimer     = millis();
+        ledInit();
+        terminal.clear();  
+        Blynk.virtualWrite(V102,"Blynk v ", VERSION_ID, ": Device started\n");
+        Blynk.virtualWrite(V102,"-------------\n");
+     }
   }
 }
 
@@ -316,7 +323,7 @@ BLYNK_WRITE(V12)
 
     _blynkEvent = true; 
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_SPARE_V12;
+    eventdata = Q_EVENT_BOARD_V12;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 
 }
@@ -399,7 +406,7 @@ BLYNK_WRITE(V27)   //DVR ON OFF
 {
     _blynkEvent = true; 
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_SPARE_V27;
+    eventdata = Q_EVENT_DVR_ON_OFF_V27;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -1040,6 +1047,7 @@ void blynk::frequencyValue(int freq )
 
 void blynk::dvrSwitch(bool cmd)
 {
+//  Blynk.virtualWrite(V27, cmd);  
   Blynk.virtualWrite(V81, cmd);
 }
 
@@ -1579,7 +1587,8 @@ if(chMode == CH_MODE_4)
 
 void blynk::releActiveCh(int rele, int ch)
 {
-
+//  if (activeBoard == selectedBoard) 
+ //  {
     switch (rele)
         {
           case 0:
@@ -1598,6 +1607,30 @@ void blynk::releActiveCh(int rele, int ch)
                    Blynk.virtualWrite(V33, ch); 
           break;
         }
+//   }
+   /*
+   else 
+    {
+    switch (rele)
+        {
+          case 0:
+                   apiSend(selectedBoard, "V30", ch);   
+          break;
+
+          case 1:
+                   apiSend(selectedBoard, "V31", ch); 
+          break;
+          
+          case 2:
+                   apiSend(selectedBoard, "V32", ch); 
+          break;
+          
+          case 3:
+                   apiSend(selectedBoard, "V33", ch);
+          break;
+        }
+   }
+ */     
 }       
 
  void blynk::Event24(void)

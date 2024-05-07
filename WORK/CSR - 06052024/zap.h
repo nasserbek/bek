@@ -288,8 +288,7 @@ void zapAllOnOff(bool cmd)
               if(ch != ROUTER  )
                 {
                   videoCh[ch].zap=1;
-                  myBlynk.TurnOffLastCh( ACK_BAD ,ch,CH_MODE_4); 
-                  delay(200);                                 
+                  myBlynk.TurnOffLastCh( ACK_BAD ,ch,CH_MODE_4);                                  
                 }
             }
         }
@@ -300,8 +299,7 @@ void zapAllOnOff(bool cmd)
               if(ch != ROUTER)
                 {
                   videoCh[ch].zap=0;
-                  myBlynk.TurnOffLastCh( ACK_BAD ,ch,CH_MODE_0);      
-                  delay(200);                            
+                  myBlynk.TurnOffLastCh( ACK_BAD ,ch,CH_MODE_0);                                  
                 }
             }
         }

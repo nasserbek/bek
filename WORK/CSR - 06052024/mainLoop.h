@@ -85,8 +85,9 @@ void processBlynkQueu(void)
 
             break;
 
-            case Q_EVENT_SPARE_V12:
-                    
+            case Q_EVENT_BOARD_V12:
+                  selectedBoard=queuData;
+                  myBlynk.sendBoardIndex(selectedBoard);                      
             break;                       
             
             case Q_EVENT_RC_REMOTE_CSR1_V16:
@@ -122,8 +123,8 @@ void processBlynkQueu(void)
                   receiverAvByFreq ( recevierFreq);        
             break;         
                  
-            case Q_EVENT_SPARE_V27:
-
+            case Q_EVENT_DVR_ON_OFF_V27:
+     //             dvrOnOff (queuData);  
             break;   
 
             case Q_EVENT_REL1_CH_V30: 

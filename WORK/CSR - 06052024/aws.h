@@ -4,7 +4,6 @@
 #define AWS_H
 
 extern blynk myBlynk;
-extern void dvrOnOff (bool cmd);
 
 /*************************************************NODE RED AWS IOT ZONE********************************************************************************************/
 void retriveDataFromTopic (char* topic, byte* payload, unsigned int length )
@@ -152,9 +151,10 @@ void callback(char* topic, byte* payload, unsigned int length) {
     {
         retriveDataFromTopic(topic, payload,length);
         _nodeRedData  = doc1["DVR"];
+  //      nodeRedeventdata = Q_EVENT_DVR_ON_OFF_V27;
         nodeRedeventdata = Q_EVENT_VIDEO_ON_OFF_V81;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
-        dvrOnOff(_nodeRedData); 
+        myBlynk.dvrSwitch(_nodeRedData); 
 
     }   
 
