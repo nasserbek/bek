@@ -3,7 +3,7 @@
 #ifndef MAINLOOP_H
 #define MAINLOOP_H
 
-extern bool connectAWS(void);
+extern void connectAWS(void);
 extern blynk myBlynk;
 
 void resetRouter(void)
@@ -100,7 +100,7 @@ void processBlynkQueu(void)
             break;
             
             case Q_EVENT_AWS_RECONNECT_V18:
-                  awsConnected = connectAWS();
+                  connectAWS();
             break;                                    
 
             case Q_EVENT_ROOM_AV_RC_V19:
@@ -364,8 +364,6 @@ void blynkLoop(void)
                 {
                   liveLedUpdate = true; 
                   if ( blynkConnected ) myBlynk.liveLedCall(liveLed);
-                  else{ Serial.println("liveLedUpdate");  Serial.println(liveLedUpdate);}
-                  
                   if(awsConnected)
                     {
                       doc["LIVE"] = liveLed;
@@ -412,7 +410,7 @@ void awsLoop(void)
          if (!awsConnected )
             {
               myBlynk.TerminalPrint("AWS IoT Disonnected, trying to reconnect");
-              awsConnected = connectAWS();
+              connectAWS();
            }
         else 
         {

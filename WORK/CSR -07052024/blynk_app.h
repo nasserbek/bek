@@ -31,8 +31,7 @@ class blynk {
     blynk(void) ;
     void blynk1(void);
     void SyncAll(void);
-    bool init();
-    bool wifi_init();
+    void init();
     void blynkRun();
     void blynkRunTimer();
     bool blynkConnected();

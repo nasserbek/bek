@@ -12,9 +12,11 @@ void relaySetup(void)
 }
 
        
-bool blynkInit(void)
+void blynkInit(void)
 {
-     blynkConnected = myBlynk.init();    
+     myBlynk.init();    
+     blynkConnected=myBlynk.blynkStatus();
+     wifiAvailable = myBlynk.wifiStatus();
      if (blynkConnected) 
               {
                 myBlynk.sendAvRxIndex(Av_Rx);
@@ -24,8 +26,7 @@ bool blynkInit(void)
                 myBlynk.wifiRSSI(WiFi.RSSI());
                 myBlynk.sendVersion(VERSION_ID + WiFi.SSID()  );
              }
-             
-return  blynkConnected;
+            
 }     
 
 void timersMillis(void)

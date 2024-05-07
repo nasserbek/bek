@@ -10,12 +10,8 @@ void setup()
      
      mySwitch.enableTransmit(RC_TX_PIN);
      i2cSetup();
-     wifiAvailable = myBlynk.wifi_init();
-     if(wifiAvailable)
-        {
-            awsConnected = connectAWS();
-            blynkConnected = blynkInit();
-        }
+     blynkInit();
+     connectAWS();
      
      timersMillis();
      createHandleGroup();
@@ -29,10 +25,20 @@ void loop(void)
        resetWdg();
        internetCheck();
        resetBoardID();
-       awsLoop();
        blynkLoop();
-       
+       awsLoop();
        bool zapScan = zapOnOff || zapScanOnly;
       if (zapScan) zappingAvCh ( zapScan, zapTimer); 
       
+//      if ( (millis() - Router_24_hoursTimer) >=  ROUTER_24_HOURS  )
+//          {
+//            Router_24_hoursTimer       = millis();
+//            myBlynk.TerminalPrint("RESTARTING ROUTER...");
+//            #ifdef CSR      //Use only CSR1 to restart Router
+//               myBlynk.Event24();
+//                resetRouter();
+//             #endif 
+//            
+//           }
+       
 }

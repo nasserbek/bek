@@ -18,7 +18,6 @@ extern bool liveLedUpdate;
 extern bool internetLossUpdate;
 extern bool InternetLoss;
 extern bool sendVerWifi;
-extern bool blynkConnected;
 
 WiFiMulti wifiMulti;
 BlynkTimer timer;
@@ -93,7 +92,7 @@ WidgetLED LIVE_LED_V121(V121);  //LIVE
 
 WidgetTerminal terminal(V102);
 
-unsigned int myServerTimeout  =  2000;  //  3.5s server connection timeout (SCT)
+unsigned int myServerTimeout  =  30000;  //  3.5s server connection timeout (SCT)
 unsigned int myWiFiTimeout    =  3200;  //  3.2s WiFi connection timeout   (WCT)
 unsigned int LiveUpdateInterval =  5000;  //  10s function call frequency   (FCF)
 unsigned int blynkIntervalInterval    = 10000;  // 25.0s check server frequency    (CSF)
@@ -119,7 +118,6 @@ void ledInit(void)
 
 void SendLiveLed()
   {
-    Serial.println("SendLiveLed");
     if (!InternetLoss && internetLossUpdate) sendVerWifi = true;
     else sendVerWifi = true;
     
@@ -132,7 +130,6 @@ void SendLiveLed()
   }
 
 void checkBlynk() {
-  Serial.println("checkBlynk");
   if (wifiMulti.run(WiFi_TIMEOUT) == WL_CONNECTED)  
   {
     unsigned long startConnecting = millis(); 
@@ -140,11 +137,10 @@ void checkBlynk() {
     _wifiIsConnected = true;
 
     while(!Blynk.connected()){
-      Serial.println("Blynk Disconnected");
       _blynkIsConnected = false;
-       Blynk.connect(myServerTimeout);  
+       Blynk.connect();  
        if(millis() > startConnecting + myServerTimeout){
-        Serial.println("Unable to connect to server. ");
+        Serial.print("Unable to connect to server. ");
         break;
       }
     }
@@ -159,17 +155,19 @@ void checkBlynk() {
   DEBUG_PRINT("BLYNK: ");DEBUG_PRINTLN( _blynkIsConnected ? F("Connected") : F("Not Connected"));  
   Serial.printf("\tChecking again Blynk connected in %is.\n", blynkIntervalInterval / 1000);
   Serial.println(".");
-  blynkConnected = _blynkIsConnected;
+
 }
 
-bool blynk::wifi_init() 
+
+void blynk::init() 
 {
+    _blynkIsConnected = false;   
     _wifiIsConnected = false;
 
     wifiMulti.addAP(WIFI_SSID_METEOR_BOX, WIFI_PASSWORD_METEOR);
     wifiMulti.addAP(WIFI_SSID_METEOR_BU, WIFI_PASSWORD_METEOR);
     wifiMulti.addAP(WIFI_SSID_XIAOMI , WIFI_PASSWORD);
-    wifiMulti.addAP(WIFI_SSID_FREE , WIFI_PASSWORD);
+
     
     Serial.println("Connecting Wifi...");
     //Connecting to the strongest WiFi connection
@@ -186,28 +184,20 @@ bool blynk::wifi_init()
       _wifiIsConnected = false;
     }
     DEBUG_PRINT("WIFI: ");DEBUG_PRINTLN( _wifiIsConnected ? F("Connected") : F("Not Connected"));
-    return _wifiIsConnected ;
-}
-
-
-bool blynk::init() 
-{
-   _blynkIsConnected = false;   
+  
   timer.setInterval(LiveUpdateInterval, SendLiveLed);// run some function at intervals per LiveUpdateInterval
   timer.setInterval(blynkIntervalInterval, checkBlynk);   // check connection to server per blynkIntervalInterval
   
   if(_wifiIsConnected)
     {
      Blynk.config(BLYNK_AUTH_TOKEN, BLYNK_SERVER);
-     Blynk.connect(myServerTimeout);
-//     delay(1000);
+     Blynk.connect();
+     delay(1000);
      _blynkIsConnected =Blynk.connected();
-     DEBUG_PRINT("BLYNK: ");DEBUG_PRINTLN( _blynkIsConnected ? F("Connected") : F("Not Connected"));
      blynkAtiveTimer     = millis();
      ledInit();     
      terminal.clear();
   }
-  return _blynkIsConnected;
 }
 
 

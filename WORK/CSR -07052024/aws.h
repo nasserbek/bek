@@ -5,80 +5,8 @@
 
 extern blynk myBlynk;
 extern void dvrOnOff (bool cmd);
-void callback(char* topic, byte* payload, unsigned int length);
-
-void debug(String msg)
-{
-    if ( blynkConnected ) myBlynk.TerminalPrint(msg);
-    else Serial.println(msg);
-}
-
 
 /*************************************************NODE RED AWS IOT ZONE********************************************************************************************/
-
-bool connectAWS()
-{
-  StaticJsonDocument<54> doc2; //Json to send from
-  
-  // Configure WiFiClientSecure to use the AWS IoT device credentials
-  net.setCACert(AWS_CERT_CA);
-  net.setCertificate(AWS_CERT_CRT);
-  net.setPrivateKey(AWS_CERT_PRIVATE);
- 
-  // Connect to the MQTT broker on the AWS endpoint we defined earlier
-  client.setServer(AWS_IOT_ENDPOINT, 8883);
- 
-  // Create a message handler
-  //client.setCallback(messageHandler); 
-  client.setCallback(callback);
-
- 
-  debug("Connecting Client to AWS IOT");
-  
-  
-  while (!client.connect(THINGNAME))
-  {
-    Serial.println("Connecting to AWS:");
-    Serial.println( THINGNAME );
-    Serial.print(".");
-    delay(2000);
-    return false;
-  }
-   if (!client.connected())
-  {
-    debug("AWS IoT Timeout!");
-    return false;
-  }
-
-  // Subscribe to a topic
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_VIDEO);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAP);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_RX);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_AV_RC);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_DVR);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_REBOOT);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_SCAN);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_REPEAT);  
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_PRESET); 
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO);  
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON); 
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_RC);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA);    
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA); 
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_LIVE);
-  
-  doc2["version"] = VERSION_ID;
-  serializeJson(doc2, Json); // print to client
-  client.publish(AWS_IOT_SUBSCRIBE_TOPIC_VERSION , Json);
-  debug("AWS IoT Connected!");
-  return true;
-}
-
-
-
 void retriveDataFromTopic (char* topic, byte* payload, unsigned int length )
 {
         for (int i=0;i<length;i++) //Converts the received message to String
@@ -89,8 +17,8 @@ void retriveDataFromTopic (char* topic, byte* payload, unsigned int length )
         DeserializationError error = deserializeJson(doc1, resultS); //Command to derealize the received Json
         if (error) 
         {
-          debug(F("deserializeJson() failed with code "));
-          debug(F("deserializeJson() failed with code "));
+          myBlynk.TerminalPrint(F("deserializeJson() failed with code "));
+          myBlynk.TerminalPrint(F("deserializeJson() failed with code "));
         } 
         _nodeRedEvent = true; 
         hmi = NODE_RED; 
@@ -232,7 +160,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
 else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_REBOOT)
     {
-        debug(" Received topic is: " + String(topic) +"Rebooting ESP");
+        myBlynk.TerminalPrint(" Received topic is: " + String(topic) +"Rebooting ESP");
         ESP.restart();
     }  
 
@@ -315,11 +243,64 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA)
  //       nodeRedeventdata = Q_EVENT_WIFI_IDE_V11;
  //       xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
     } 
- debug(" Topic " + String(topic) +" Payload: "+ String(_nodeRedData));
+ myBlynk.TerminalPrint(" Topic " + String(topic) +" Payload: "+ String(_nodeRedData));
 }
 
 
+void connectAWS()
+{
+  StaticJsonDocument<54> doc2; //Json to send from
+  
+  // Configure WiFiClientSecure to use the AWS IoT device credentials
+  net.setCACert(AWS_CERT_CA);
+  net.setCertificate(AWS_CERT_CRT);
+  net.setPrivateKey(AWS_CERT_PRIVATE);
+ 
+  // Connect to the MQTT broker on the AWS endpoint we defined earlier
+  client.setServer(AWS_IOT_ENDPOINT, 8883);
+ 
+  // Create a message handler
+  //client.setCallback(messageHandler); 
+  client.setCallback(callback);
+  myBlynk.TerminalPrint("Connecting Client to AWS IOT");
+ 
+  while (!client.connect(THINGNAME))
+  {
+    Serial.print(".");
+    delay(1000);
+    return;
+  }
+   if (!client.connected())
+  {
+    myBlynk.TerminalPrint("AWS IoT Timeout!");
+    return;
+  }
 
+  // Subscribe to a topic
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_VIDEO);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAP);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_RX);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_AV_RC);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_DVR);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_REBOOT);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_SCAN);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_REPEAT);  
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_PRESET); 
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO);  
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON); 
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_RC);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA);
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA);    
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA); 
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_LIVE);
+  
+  doc2["version"] = VERSION_ID;
+  serializeJson(doc2, Json); // print to client
+  client.publish(AWS_IOT_SUBSCRIBE_TOPIC_VERSION , Json);
+  myBlynk.TerminalPrint("AWS IoT Connected!");
+}
 
 
 
