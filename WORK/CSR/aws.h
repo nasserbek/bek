@@ -6,12 +6,8 @@
 extern blynk myBlynk;
 extern void dvrOnOff (bool cmd);
 void callback(char* topic, byte* payload, unsigned int length);
+StaticJsonDocument<54> rxDoc; //Json to receive in
 
-void debug(String msg)
-{
-    if ( blynkConnected ) myBlynk.TerminalPrint(msg);
-    else Serial.println(msg);
-}
 
 
 /*************************************************NODE RED AWS IOT ZONE********************************************************************************************/
@@ -33,7 +29,7 @@ bool connectAWS()
   client.setCallback(callback);
 
  
-  debug("Connecting Client to AWS IOT");
+  myBlynk.TerminalPrint("Connecting Client to AWS IOT");
   
   
   while (!client.connect(THINGNAME))
@@ -46,7 +42,7 @@ bool connectAWS()
   }
    if (!client.connected())
   {
-    debug("AWS IoT Timeout!");
+    myBlynk.TerminalPrint("AWS IoT Timeout!");
     return false;
   }
 
@@ -73,24 +69,24 @@ bool connectAWS()
   doc2["version"] = VERSION_ID;
   serializeJson(doc2, Json); // print to client
   client.publish(AWS_IOT_SUBSCRIBE_TOPIC_VERSION , Json);
-  debug("AWS IoT Connected!");
+  myBlynk.TerminalPrint("AWS IoT Connected!");
   return true;
 }
 
 
 
 void retriveDataFromTopic (char* topic, byte* payload, unsigned int length )
-{
+{    
         for (int i=0;i<length;i++) //Converts the received message to String
         {      
           resultS= resultS + (char)payload[i];
         }
-
-        DeserializationError error = deserializeJson(doc1, resultS); //Command to derealize the received Json
+               
+        DeserializationError error = deserializeJson(rxDoc, resultS); //Command to derealize the received Json
         if (error) 
         {
-          debug(F("deserializeJson() failed with code "));
-          debug(F("deserializeJson() failed with code "));
+          myBlynk.TerminalPrint(F("deserializeJson() failed with code "));
+          myBlynk.TerminalPrint(F("deserializeJson() failed with code "));
         } 
         _nodeRedEvent = true; 
         hmi = NODE_RED; 
@@ -114,65 +110,65 @@ int getChID(int ch)
         switch (ch)
         {
           case 1:
-                return (Q_EVENT_RM_ID_10_V112);
+                return Q_EVENT_RM_ID_10_V112;
           break;
 
           case 2:
-                    return (Q_EVENT_RM_ID_02_V122);
+                    return Q_EVENT_RM_ID_02_V122;
           break;
           case 3:
-                    return (Q_EVENT_RM_ID_03_V123);
+                    return Q_EVENT_RM_ID_03_V123;
           break;
           case 4:
-                    return (Q_EVENT_RM_ID_04_V124);
+                    return Q_EVENT_RM_ID_04_V124;
           break;
           case 5:
-                    return (Q_EVENT_RM_ID_05_V125);
+                    return Q_EVENT_RM_ID_05_V125;
           break;
           case 6:
-                    return (Q_EVENT_RM_ID_06_V126);
+                    return Q_EVENT_RM_ID_06_V126;
           break;
           case 7:
-                   return (Q_EVENT_RM_ID_07_V127);
+                   return Q_EVENT_RM_ID_07_V127;
           break;
           case 8:
-                    return (Q_EVENT_RM_ID_08_V93);
+                    return Q_EVENT_RM_ID_08_V93;
           break;
           case 9:
-                    return (Q_EVENT_RM_ID_09_V80);
+                    return Q_EVENT_RM_ID_09_V80;
           break;
           case 10:
-                    return (Q_EVENT_RM_ID_10_V21);
+                    return Q_EVENT_RM_ID_10_V21;
           break;
           case 11:
-                   return (Q_EVENT_RM_ID_11_V14);
+                   return Q_EVENT_RM_ID_11_V14;
           break;
           case 12:
-                    return (Q_EVENT_RM_ID_12_V15);
+                    return Q_EVENT_RM_ID_12_V15;
           break;
           case 13:
-                    return (Q_EVENT_RM_ID_13_V23);
+                    return Q_EVENT_RM_ID_13_V23;
           break;
           case 14:
-                    return (Q_EVENT_RM_ID_14_V103);
+                    return Q_EVENT_RM_ID_14_V103;
           break;
           case 15:
-                    return (Q_EVENT_RM_ID_15_V104);
+                    return Q_EVENT_RM_ID_15_V104;
           break;
           case 16:
-                    return (Q_EVENT_RM_ID_16_V105);
+                    return Q_EVENT_RM_ID_16_V105;
           break;
           case 17:
-                    return (Q_EVENT_RM_ID_17_V90);
+                    return Q_EVENT_RM_ID_17_V90;
           break;
           case 18:
-                   return (Q_EVENT_RM_ID_18_V91);
+                   return Q_EVENT_RM_ID_18_V91;
           break;
           case 19:
-                    return (Q_EVENT_RM_ID_19_V92);
+                    return Q_EVENT_RM_ID_19_V92;
           break;       
           default:
-           return (Q_EVENT_RM_ID_10_V112);            
+          return Q_EVENT_RM_ID_10_V112;            
         }  
  return 1;      
 }     
@@ -180,22 +176,20 @@ int getChID(int ch)
 
 void callback(char* topic, byte* payload, unsigned int length) {
   resultS = "";   //Empty variable from serialized Json
-
+  
+  
   if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_VIDEO)
-    {
+    {// "VIDEO": 3, "CMD":1
         retriveDataFromTopic(topic, payload,length);
-        _nodeRedData  = doc1["CMD"]; 
-        nodeRedeventdata =getChID (doc1["VIDEO"]) ;
+        _nodeRedData  = rxDoc["CMD"];; 
+        nodeRedeventdata =getChID (rxDoc["VIDEO"]);
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
-         V_Remote_CSR1=false; myBlynk.resetRemoteVideo(1);
-         V_Remote_CSR2=false; myBlynk.resetRemoteVideo(2);
-         V_Remote_CSR2=false; myBlynk.resetRemoteVideo(3);
      }
 
   else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_ZAP)
     {
         retriveDataFromTopic(topic, payload,length);
-        _nodeRedData  = doc1["ZAP"];
+        _nodeRedData  = rxDoc["ZAP"];
         nodeRedeventdata = Q_EVENT_ZAP_V71;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
         myBlynk.zapStatus(_nodeRedData);
@@ -204,7 +198,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_RX)
     {
         retriveDataFromTopic(topic, payload,length);
-        _nodeRedData  = doc1["RX"];
+        _nodeRedData  = rxDoc["RX"];
         nodeRedeventdata = Q_EVENT_SELECTED_RECIEVER_V9;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
         myBlynk.RelaySelect(_nodeRedData);
@@ -214,7 +208,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_AV_RC)
     {
         retriveDataFromTopic(topic, payload,length);
-        _nodeRedData  = doc1["AVRC"];
+        _nodeRedData  = rxDoc["AVRC"];
         nodeRedeventdata = Q_EVENT_ROOM_AV_RC_V19;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
         myBlynk.sendAvRxIndex(_nodeRedData);
@@ -223,7 +217,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_DVR)
     {
         retriveDataFromTopic(topic, payload,length);
-        _nodeRedData  = doc1["DVR"];
+        _nodeRedData  = rxDoc["DVR"];
         nodeRedeventdata = Q_EVENT_VIDEO_ON_OFF_V81;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
         dvrOnOff(_nodeRedData); 
@@ -232,7 +226,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
 else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_REBOOT)
     {
-        debug(" Received topic is: " + String(topic) +"Rebooting ESP");
+        myBlynk.TerminalPrint(" Received topic is: " + String(topic) +"Rebooting ESP");
         ESP.restart();
     }  
 
@@ -240,7 +234,7 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_REBOOT)
 else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_SCAN)
     {
         retriveDataFromTopic(topic, payload,length);
-        _nodeRedData  = doc1["SCAN"];
+        _nodeRedData  = rxDoc["SCAN"];
         nodeRedeventdata = Q_SCAN_ACTIVE_CH_V4;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
         myBlynk.resetSetupAndScan(_nodeRedData); 
@@ -249,7 +243,7 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_SCAN)
 else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_REPEAT)
     {
         retriveDataFromTopic(topic, payload,length);
-        _nodeRedData  = doc1["REPEAT"];
+        _nodeRedData  = rxDoc["REPEAT"];
         nodeRedeventdata = Q_EVENT_REPEAT_V3;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
         myBlynk.resetSetupAndScan(_nodeRedData); 
@@ -258,7 +252,7 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_REPEAT)
 else if(String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_PRESET)
     {
         retriveDataFromTopic(topic, payload,length);
-        _nodeRedData  = doc1["PRESET"];
+        _nodeRedData  = rxDoc["PRESET"];
         nodeRedeventdata = Q_EVENT_RESET_FREQ_V26;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
         
@@ -267,7 +261,7 @@ else if(String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_PRESET)
 else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO)
     {
         retriveDataFromTopic(topic, payload,length);
-        _nodeRedData  = doc1["ZAPAUTO"];
+        _nodeRedData  = rxDoc["ZAPAUTO"];
         nodeRedeventdata = Q_EVENT_AUTOMATIC_RC_L_R_V5;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
         myBlynk.zapAutoLocalRC(_nodeRedData); 
@@ -276,7 +270,7 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO)
 else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_RC)
     {
         retriveDataFromTopic(topic, payload,length);
-        _nodeRedData  = doc1["RC"];
+        _nodeRedData  = rxDoc["RC"];
         nodeRedeventdata = Q_EVENT_RC_CH_NR_V1;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
          RC_Remote_CSR1=false; myBlynk.resetRemoteRC(1);
@@ -287,7 +281,7 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_RC)
 else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA)
     {
         retriveDataFromTopic(topic, payload,length);
-        _nodeRedData  = doc1["OTAWEB"];
+        _nodeRedData  = rxDoc["OTAWEB"];
         nodeRedeventdata = Q_EVENT_OTA_LOCAL_WEB_WIFI_V6;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
     }    
@@ -295,7 +289,7 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA)
 else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA)
     {
         retriveDataFromTopic(topic, payload,length);
-        _nodeRedData  = doc1["OTAGITHUB"];
+        _nodeRedData  = rxDoc["OTAGITHUB"];
         nodeRedeventdata = Q_EVENT_OTA_GITHUB_V7;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
     }       
@@ -303,7 +297,7 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA)
 else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA)
     {
         retriveDataFromTopic(topic, payload,length);
-        _nodeRedData  = doc1["OTAIDE"];
+        _nodeRedData  = rxDoc["OTAIDE"];
         nodeRedeventdata = Q_EVENT_WIFI_IDE_V11;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
     } 
@@ -311,11 +305,11 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA)
     else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_LIVE)
     {
         retriveDataFromTopic(topic, payload,length);
-        _nodeRedData  = doc1["LIVE"];
+        _nodeRedData  = rxDoc["LIVE"];
  //       nodeRedeventdata = Q_EVENT_WIFI_IDE_V11;
  //       xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
     } 
- debug(" Topic " + String(topic) +" Payload: "+ String(_nodeRedData));
+ myBlynk.TerminalPrint(" Topic " + String(topic) +" Payload: "+ String(_nodeRedData));
 }
 
 

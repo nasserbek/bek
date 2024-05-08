@@ -348,6 +348,7 @@ void processBlynkQueu(void)
              case Q_EVENT_RM_ID_19_V92:
                   videoChanel(19, queuData);
              break;  
+
     }  
     selected_room = recevierCh;
 }
@@ -363,9 +364,8 @@ void blynkLoop(void)
             if(!liveLedUpdate) 
                 {
                   liveLedUpdate = true; 
-                  if ( blynkConnected ) myBlynk.liveLedCall(liveLed);
-                  else{ Serial.println("liveLedUpdate");  Serial.println(liveLedUpdate);}
-                  
+                  myBlynk.liveLedCall(liveLed);
+                                    
                   if(awsConnected)
                     {
                       doc["LIVE"] = liveLed;
@@ -423,7 +423,7 @@ void awsLoop(void)
                       getDataNodeRed ();
                       if (hmi == NODE_RED) { 
                       queuData = nodeRedData; 
-                      processBlynkQueu();
+                       processBlynkQueu();
                       }
                   }
          }

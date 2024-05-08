@@ -85,6 +85,10 @@ bool Tuner_PLL( int receiver, int _address, uint _pll)
           Wire.write(0xC2 );
           return (Wire.endTransmission() );  
 #endif
+
+#ifdef TEST   
+          return false;  
+#endif
 }
         
 bool receiverAvByCh (int Ch, int cmd)
@@ -95,7 +99,7 @@ bool receiverAvByCh (int Ch, int cmd)
 
        if (blynkConnected) myBlynk.blynkAckLed(ACK_BAD);
        ack = Tuner_PLL(selected_Rx, av_pll_addr, _pll[Ch]); 
-       
+      
        if (blynkConnected) {myBlynk.blynkAckLed( ack); myBlynk.sevenSegValue(Ch);}
        
        recevierFreq =videoCh[Ch].frequency;       
@@ -162,32 +166,11 @@ void room ( int RC, int AV, int sel , int cmd)
 
 void AvReceiverSel(int queuData)
  {            
-       #ifdef CSR  
-       TCA9548A(queuData-1);
-       
-        /*
-                switch (queuData)
-                    {
-                   case 1:
-                                 digitalWrite(I2C_1_2_RELAY, HIGH);  //  
-                      break;
-                      case 2:
-                                 digitalWrite(I2C_1_2_RELAY, LOW);  //  
-                      break;
-
-                      case 3:
-                                 digitalWrite(I2C_3_4_RELAY, HIGH);  //  
-                      break;
-                   case 4:
-                                 digitalWrite(I2C_3_4_RELAY, LOW);  //  
-                      break;                     
-                    }  
-          */          
+     #ifdef CSR  
+          TCA9548A(queuData-1);
      #endif
 
-
-
-      #ifdef CSR2  
+     #ifdef CSR2  
                 switch (queuData)
                     {
                       case 1:

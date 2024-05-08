@@ -47,6 +47,7 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON   "csr1/sub/zton"  
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "csr1/sub/ztoff" 
     #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "csr1/sub/live"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "csr1/sub/BLYNK"
     #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/CSR1.bin"  // URL to download the firmware from
 #endif
 
@@ -74,6 +75,7 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON   "csr2/sub/zton"  
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "csr2/sub/ztoff" 
     #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "csr2/sub/live"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "csr2/sub/BLYNK"
     #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/CSR2.bin"  // URL to download the firmware from
 #endif
 
@@ -102,13 +104,14 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON   "csr3/sub/zton"  
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "csr3/sub/ztoff" 
     #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "csr3/sub/live"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "csr3/sub/BLYNK"
     #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/CSR3.bin"  // URL to download the firmware from
 #endif
 
 #ifdef TEST     //R66 SWAN CASE 2CH ESP32S
     
-    #define VERSION_ID " V51.0 "
-    #define BLYNK_AUTH_TOKEN                "1xq6Re2q9eTOK8D5vfHhynNN2B_XoZ83" 
+    #define VERSION_ID " V55.0 "
+    #define BLYNK_AUTH_TOKEN                "1Wq6Re2q9eTOK8D5vfHhynNN2B_XoZ83" 
     #define THINGNAME "CSR4"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "test/sub/rc"
     #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "test/sub/video"
@@ -129,6 +132,7 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON   "test/sub/zton"  
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "test/sub/ztoff"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "test/sub/live"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "test/sub/BLYNK"
     #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/TEST.bin"  // URL to download the firmware from
 #endif
 

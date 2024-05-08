@@ -35,7 +35,7 @@ class blynk {
     bool wifi_init();
     void blynkRun();
     void blynkRunTimer();
-    bool blynkConnected();
+ //   bool blynkConnected();
     void blynkConnect();
     bool blynkStatus();
     bool wifiStatus();

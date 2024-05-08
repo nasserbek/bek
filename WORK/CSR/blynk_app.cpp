@@ -119,20 +119,12 @@ void ledInit(void)
 
 void SendLiveLed()
   {
-    Serial.println("SendLiveLed");
-    if (!InternetLoss && internetLossUpdate) sendVerWifi = true;
-    else sendVerWifi = true;
-    
-  if (liveLed)  liveLed = false; 
-  else liveLed = true;
-  liveLedUpdate =false;
-  if (!InternetLoss) internetLossUpdate = false;
-  else internetLossUpdate = true;
-  
+    if (liveLed)  liveLed = false; 
+    else liveLed = true;
+    liveLedUpdate =false;
   }
 
 void checkBlynk() {
-  Serial.println("checkBlynk");
   if (wifiMulti.run(WiFi_TIMEOUT) == WL_CONNECTED)  
   {
     unsigned long startConnecting = millis(); 
@@ -141,9 +133,9 @@ void checkBlynk() {
 
     while(!Blynk.connected()){
       Serial.println("Blynk Disconnected");
-      _blynkIsConnected = false;
        Blynk.connect(myServerTimeout);  
        if(millis() > startConnecting + myServerTimeout){
+        _blynkIsConnected = false;
         Serial.println("Unable to connect to server. ");
         break;
       }
@@ -915,10 +907,10 @@ void blynk::blynkRun()
   Blynk.run(); 
 }
 
-bool blynk::blynkConnected()
-{
-  return( Blynk.connected() ); 
-}
+//bool blynk::blynkConnected()
+//{
+//  return( Blynk.connected() ); 
+//}
 
 void blynk::blynkConnect()
 {
@@ -1127,7 +1119,13 @@ void blynk::repeatSync(bool repeat)
 
 void blynk::TerminalPrint (String str)
 {
-  terminal.println(str);
+    if ( blynkConnected )terminal.println(str);
+    else Serial.println(str);
+    
+    #ifdef TEST   
+       Serial.println(str);
+    #endif 
+
 }
 
 void blynk::TurnOffLastCh(bool lastAck, int lastSelectedCh, int chMode)
