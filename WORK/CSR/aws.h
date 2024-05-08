@@ -8,6 +8,16 @@ extern void dvrOnOff (bool cmd);
 void callback(char* topic, byte* payload, unsigned int length);
 StaticJsonDocument<54> rxDoc; //Json to receive in
 
+void awsTerminal(bool aws, String str)
+{
+  StaticJsonDocument<54> doc; //Json to send from
+  if(aws)
+    {
+     doc["TERMINAL"] = str;
+     serializeJson(doc, Json); // print to client
+     client.publish(AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL, Json);
+    }      
+}
 
 
 /*************************************************NODE RED AWS IOT ZONE********************************************************************************************/
@@ -70,6 +80,10 @@ bool connectAWS()
   serializeJson(doc2, Json); // print to client
   client.publish(AWS_IOT_SUBSCRIBE_TOPIC_VERSION , Json);
   myBlynk.TerminalPrint("AWS IoT Connected!");
+  
+  String str = WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString();
+  awsTerminal(awsConnected, str ) ;
+  
   return true;
 }
 

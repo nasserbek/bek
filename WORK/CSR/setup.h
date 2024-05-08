@@ -2,7 +2,7 @@
 
 #ifndef SETUP_H
 #define SETUP_H
-
+ 
 void relaySetup(void)
 {
      pinMode(AV_RX_DVR_PIN_2, OUTPUT);
@@ -14,16 +14,19 @@ void relaySetup(void)
        
 bool blynkInit(void)
 {
+   StaticJsonDocument<54> doc; //Json to send from
      blynkConnected = myBlynk.init();    
      if (blynkConnected) 
               {
                 myBlynk.sendAvRxIndex(Av_Rx);
                 dvrOnOff (1);
-                 myBlynk.TerminalPrint(WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) );
                 int rssi = WiFi.RSSI();
                 myBlynk.wifiRSSI(WiFi.RSSI());
                 myBlynk.sendVersion(VERSION_ID + WiFi.SSID()  );
              }
+    String str = WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI());
+    myBlynk.TerminalPrint(str );
+    awsTerminal(awsConnected, str ) ;
              
 return  blynkConnected;
 }     

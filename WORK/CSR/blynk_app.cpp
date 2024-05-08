@@ -19,6 +19,8 @@ extern bool internetLossUpdate;
 extern bool InternetLoss;
 extern bool sendVerWifi;
 extern bool blynkConnected;
+extern bool awsConnected;
+extern void awsTerminal(bool aws, String str) ;
 
 WiFiMulti wifiMulti;
 BlynkTimer timer;
@@ -1120,9 +1122,9 @@ void blynk::repeatSync(bool repeat)
 void blynk::TerminalPrint (String str)
 {
     if ( blynkConnected )terminal.println(str);
-    else Serial.println(str);
-    
-    #ifdef TEST   
+    else Serial.println(str); 
+   
+   #ifdef TEST   
        Serial.println(str);
     #endif 
 

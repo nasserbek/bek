@@ -1,13 +1,10 @@
 //#define CSR     // R64 SCATOLA 1CH TTGO
-//#define CSR2      // R65 SCATOLA 4CH ESP32S
+#define CSR2      // R65 SCATOLA 4CH ESP32S
 //#define CSR3   //R66 SWAN CASE 2CH ESP32S
 
 
 
-
-
-
-#define TEST
+//#define TEST
 #define ROUTER_CH 18  //PHYSICAL CH ON REMOTE CONTROL IS 1
 #define BLYNK_TEMPLATE_ID           "TMPL5Y2na6zpd"
 #define BLYNK_TEMPLATE_NAME         "CSR"
@@ -25,7 +22,7 @@
 
     
 #ifdef CSR      //TTGO R64 SCATOLA 1CH TTGO
-    #define VERSION_ID "V50.0 - "
+    #define VERSION_ID "V55.0 - "
     #define BLYNK_AUTH_TOKEN                "B1pZ48rPHfdQ8LxlqCoiPk8fxWBbv7B0" //CSR
     #define THINGNAME "CSR1"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr1/sub/rc"
@@ -47,13 +44,14 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON   "csr1/sub/zton"  
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "csr1/sub/ztoff" 
     #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "csr1/sub/live"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "csr1/sub/BLYNK"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "csr1/sub/blynk"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL   "csr1/sub/terminal"
     #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/CSR1.bin"  // URL to download the firmware from
 #endif
 
 #ifdef CSR2     // R65 SCATOLA 4CH ESP32S
  
-    #define VERSION_ID "V50.0 - "
+    #define VERSION_ID "V55.0 - "
     #define BLYNK_AUTH_TOKEN                "_cqYD1seWElWB-S1IxutIEI7VWmDpb05" //CS2
     #define THINGNAME "CSR2"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr2/sub/rc"
@@ -75,14 +73,15 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON   "csr2/sub/zton"  
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "csr2/sub/ztoff" 
     #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "csr2/sub/live"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "csr2/sub/BLYNK"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "csr2/sub/blynk"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL   "csr2/sub/terminal"
     #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/CSR2.bin"  // URL to download the firmware from
 #endif
 
 
 #ifdef CSR3     //R66 SWAN CASE 2CH ESP32S
    
-    #define VERSION_ID " V50.0 - "
+    #define VERSION_ID " V55.0 - "
     #define BLYNK_AUTH_TOKEN                "6DH6QZgVXrGXU5VzOpJSJgHoyXWL7aWS" //CSR3
     #define THINGNAME "CSR3"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr3/sub/rc"
@@ -104,7 +103,8 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON   "csr3/sub/zton"  
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "csr3/sub/ztoff" 
     #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "csr3/sub/live"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "csr3/sub/BLYNK"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "csr3/sub/blynk"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL   "csr3/sub/terminal"
     #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/CSR3.bin"  // URL to download the firmware from
 #endif
 
@@ -132,7 +132,8 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON   "test/sub/zton"  
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "test/sub/ztoff"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "test/sub/live"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "test/sub/BLYNK"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "test/sub/blynk"
+    #define AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL   "test/sub/terminal"
     #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/TEST.bin"  // URL to download the firmware from
 #endif
 
