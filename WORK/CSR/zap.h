@@ -59,17 +59,17 @@ void nextState( int nextSm)
  void automaticOn(int chanel)
     {
         #ifdef CSR3    
-          if  (  chanel == R_24 || chanel == R_28 || chanel == R_48 || chanel == R_29) RC_Remote_CSR2 =true; 
+          if  (  chanel == R_24 || chanel == R_28 || chanel == R_48 || chanel == R_29 || chanel == R_68) RC_Remote_CSR2 =true; 
           if  (  chanel == R_49 || chanel == R_50 || chanel == R_51 || chanel == R_52) RC_Remote_CSR1 =true; 
         #endif       
 
         #ifdef CSR2      
-          if  ( chanel != R_24 && chanel != R_28 && chanel != R_48 && chanel != R_29) RC_Remote_CSR3 =true;
+          if  ( chanel != R_24 && chanel != R_28 && chanel != R_48 && chanel != R_29 && chanel != R_68) RC_Remote_CSR3 =true;
           if  (  chanel == R_49 || chanel == R_50 || chanel == R_51 || chanel == R_52) RC_Remote_CSR1 =true; 
         #endif      
 
         #ifdef CSR      
-        if        ( chanel == R_24 ||  chanel == R_28 || chanel == R_48 || chanel == R_29) RC_Remote_CSR2 =true; 
+        if        ( chanel == R_24 ||  chanel == R_28 || chanel == R_48 || chanel == R_29 || chanel == R_68) RC_Remote_CSR2 =true; 
         else  if  ( chanel != R_49 && chanel != R_50 && chanel != R_51 && chanel != R_52) RC_Remote_CSR3 =true;
          #endif  
     }    
@@ -79,17 +79,17 @@ void automaticOff(int chanel)
     {
         #ifdef CSR3      
           if  ( chanel == R_51  ) RC_Remote_CSR1 =true;
-          if  ( chanel == R_49 || chanel == R_50 || chanel == R_24 || chanel == R_25 || chanel == R_26 || chanel == R_28 ) RC_Remote_CSR2 =true;
+          if  ( chanel == R_49 || chanel == R_50 || chanel == R_24 || chanel == R_25 || chanel == R_26 || chanel == R_28 || chanel == R_68 ) RC_Remote_CSR2 =true;
         #endif       
 
          
         #ifdef CSR2     
           if  ( chanel == R_51  ) RC_Remote_CSR1 =true;
-          else if ( chanel != R_49 && chanel != R_50 && chanel != R_24 && chanel != R_25 && chanel != R_26 && chanel != R_28 ) RC_Remote_CSR3 =true;
+          else if ( chanel != R_49 && chanel != R_50 && chanel != R_24 && chanel != R_25 && chanel != R_26 && chanel != R_28 && chanel != R_68) RC_Remote_CSR3 =true;
         #endif      
 
         #ifdef CSR      
-          if  ( chanel == R_49 || chanel == R_50 || chanel == R_24 || chanel == R_25 || chanel == R_26 || chanel == R_28 ) RC_Remote_CSR2 =true;
+          if  ( chanel == R_49 || chanel == R_50 || chanel == R_24 || chanel == R_25 || chanel == R_26 || chanel == R_28 || chanel == R_68) RC_Remote_CSR2 =true;
           else if  ( chanel != R_51  )                  RC_Remote_CSR3 =true;
         #endif  
     } 
