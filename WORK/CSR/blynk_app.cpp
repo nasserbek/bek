@@ -152,7 +152,7 @@ void checkBlynk() {
       _wifiIsConnected = false;
       _blynkIsConnected = false; 
     } 
-  terminal.clear(); 
+   
   DEBUG_PRINT("WIFI: ");DEBUG_PRINTLN( _wifiIsConnected ? F("Connected") : F("Not Connected"));
   DEBUG_PRINT("BLYNK: ");DEBUG_PRINTLN( _blynkIsConnected ? F("Connected") : F("Not Connected"));  
   Serial.printf("\tChecking again Blynk connected in %is.\n", blynkIntervalInterval / 1000);
@@ -208,6 +208,7 @@ bool blynk::init()
      LiveHour = 0;
      ledInit();     
      terminal.clear();
+     
   }
   return _blynkIsConnected;
 }

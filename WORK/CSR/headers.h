@@ -16,9 +16,10 @@
     #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO_1   "csr1/sub/video"
     #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO_2   "csr2/sub/video"
     #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO_3   "csr3/sub/video"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE_1   "csr1/sub/live"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE_2   "csr2/sub/live"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE_3   "csr3/sub/live"
+    #define AWS_IOT_PUBLISH_TOPIC_LIVE_1   "csr1/pub/live"
+    #define AWS_IOT_PUBLISH_TOPIC_LIVE_2   "csr2/pub/live"
+    #define AWS_IOT_PUBLISH_TOPIC_LIVE_3   "csr3/pub/live"
+    #define AWS_IOT_PUBLISH_TOPIC_LIVE_4   "test/pub/live"
 
     
 #ifdef CSR      //TTGO R64 SCATOLA 1CH TTGO

@@ -374,7 +374,22 @@ void blynkLoop(void)
                     {
                       doc["LIVE"] = LiveSec;
                       serializeJson(doc, Json); // print to client
-                      client.publish(AWS_IOT_SUBSCRIBE_TOPIC_LIVE, Json);
+                         #ifdef CSR    
+                            client.publish(AWS_IOT_PUBLISH_TOPIC_LIVE_1, Json);
+                         #endif 
+                         
+                         #ifdef CSR2    
+                            client.publish(AWS_IOT_PUBLISH_TOPIC_LIVE_2, Json);
+                         #endif 
+                         
+                         #ifdef CSR3  
+                            client.publish(AWS_IOT_PUBLISH_TOPIC_LIVE_3, Json);
+                         #endif 
+                         
+                         #ifdef TEST  
+                            client.publish(AWS_IOT_PUBLISH_TOPIC_LIVE_4, Json);
+                         #endif                       
+                      
                    }
                 }  
        
