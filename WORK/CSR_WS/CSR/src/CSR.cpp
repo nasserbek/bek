@@ -24,7 +24,8 @@ void setup()
             blynkConnected = blynkInit();
         }
      timersMillis();
-   
+
+     bool PowerOn = false;
 }
 
 

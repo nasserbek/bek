@@ -11,14 +11,15 @@ void videoChanel(int ch, bool cmd)
  
     if (zapSetup)videoCh[ch].zap=cmd;
     
-    if(!zapSetup)
+    if(!zapSetup || PowerOn)
     {
       remoteControlRcCh = ch;
       recevierCh        = ch;
       room ( remoteControlRcCh, recevierCh , Av_Rx , cmd );
-    }
+      if(PowerOn) myBlynk.TurnOffLastCh( ACK_BAD,recevierCh,CH_MODE_2);
+     }
      
-    if (lastSelectedCh !=0 && !zapOnOff && !zapSetup && lastSelectedCh != ch && (hmi == BLYNK)) myBlynk.TurnOffLastCh( ACK_BAD ,lastSelectedCh,CH_MODE_0);
+    if (!PowerOn && lastSelectedCh !=0 && !zapOnOff && !zapSetup && lastSelectedCh != ch && (hmi == BLYNK)) myBlynk.TurnOffLastCh( ACK_BAD ,lastSelectedCh,CH_MODE_0);
     lastSelectedCh = ch;
     
     if (hmi == NODE_RED) 

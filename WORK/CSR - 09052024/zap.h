@@ -10,16 +10,17 @@ void videoChanel(int ch, bool cmd)
     zaptime= millis(); zaptimeOff= millis();  //Stop Zap timers to show another room not in Zap list on the fly
  
     if (zapSetup)videoCh[ch].zap=cmd;
-    
-    if(!zapSetup)
+    if(!zapSetup || PowerOn)
     {
       remoteControlRcCh = ch;
       recevierCh        = ch;
       room ( remoteControlRcCh, recevierCh , Av_Rx , cmd );
-    }
+      if(PowerOn) {myBlynk.TurnOffLastCh( lastAck,recevierCh,CH_MODE_2); lastSelectedCh = ch;}
+     }
      
     if (lastSelectedCh !=0 && !zapOnOff && !zapSetup && lastSelectedCh != ch && (hmi == BLYNK)) myBlynk.TurnOffLastCh( ACK_BAD ,lastSelectedCh,CH_MODE_0);
     lastSelectedCh = ch;
+    
     
     if (hmi == NODE_RED) 
     {

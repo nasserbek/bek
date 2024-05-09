@@ -8,10 +8,6 @@
 #include <BlynkSimpleEsp32.h>
 #include <WiFiMulti.h>
 
-extern int LiveSec;
-extern int LiveMin;
-extern int LiveHour;
-
 extern int hmi;
 extern int activeBoard ;
 extern int selectedBoard;
@@ -203,9 +199,6 @@ bool blynk::init()
      DEBUG_PRINT("BLYNK: ");DEBUG_PRINTLN( _blynkIsConnected ? F("Connected") : F("Not Connected"));
      blynkAtiveTimer     = millis();
      blynkActive = false;
-     LiveSec  =0;
-     LiveMin = 0;
-     LiveHour = 0;
      ledInit();     
      terminal.clear();
   }
@@ -411,7 +404,7 @@ BLYNK_WRITE(V27)   //DVR ON OFF
 {
     _blynkEvent = true; 
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_TURN_ON_CHS_V27;
+    eventdata = Q_EVENT_SPARE_V27;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -541,22 +534,22 @@ BLYNK_WRITE(V81)   //DVR NEW
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
-//BLYNK_WRITE(V82)   //Zapping ch2
-//{
-//    _blynkEvent = true; 
-//    _blynkData=param.asInt();
-//    eventdata = Q_EVENT_ZAP_CHANNEL2_V82;
-//    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-//}
-//
-//BLYNK_WRITE(V83)   //Zapping ch3
-//{
-//    _blynkEvent = true; 
-//    _blynkData=param.asInt();
-//    eventdata = Q_EVENT_ZAP_CHANNEL3_V83;
-//    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
-//
-//}
+BLYNK_WRITE(V82)   //Zapping ch2
+{
+    _blynkEvent = true; 
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_ZAP_CHANNEL2_V82;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+}
+
+BLYNK_WRITE(V83)   //Zapping ch3
+{
+    _blynkEvent = true; 
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_ZAP_CHANNEL3_V83;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+
+}
 
 BLYNK_WRITE(V84)   //Zapping ch4
 {
@@ -936,9 +929,6 @@ bool blynk::getData()
       blynkEventID =_blynkEventID;
       _blynkEvent = false;
       blynkActive = true; 
-      LiveSec  =0;
-      LiveMin = 0;
-      LiveHour = 0;
       blynkAtiveTimer     = millis();
       hmi =BLYNK;
       return true;
@@ -952,7 +942,7 @@ void blynk::blynkRunTimer()
   timer.run();
   if ( (  (millis() - blynkAtiveTimer) >=  BLYNK_ACTIVE_TIMEOUT ) && blynkActive )
     {
-      blynkActive = false; blynkAtiveTimer     = millis();LiveSec  =0; LiveMin = 0; LiveHour = 0;
+      blynkActive = false; blynkAtiveTimer     = millis();
    }
 }
 
@@ -1088,16 +1078,9 @@ void blynk::liveLedCall(bool _data)
 {
   if(!blynkActive)
     {
-//      if (_data==1)  LIVE_LED_V121.setColor(BLYNK_RED); 
-//      else           LIVE_LED_V121.setColor(BLYNK_GREEN);
-      LiveSec +=5;
-      if (LiveSec >= 60) { LiveMin +=1; LiveSec  =0;}
-      if (LiveMin >= 60) { LiveHour +=1; LiveMin  =0;}
-      if (LiveHour > 24)  { LiveSec  =0; LiveMin =0; LiveHour =0;}
-      Blynk.virtualWrite(V121, LiveSec);
-      Blynk.virtualWrite(V82, LiveMin);
-      Blynk.virtualWrite(V83, LiveHour);
-      
+      if (_data==1)  LIVE_LED_V121.setColor(BLYNK_RED); 
+      else           LIVE_LED_V121.setColor(BLYNK_GREEN);
+      Blynk.virtualWrite(V121, _data);
     }
 }
 

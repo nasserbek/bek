@@ -42,10 +42,7 @@ bool liveLed = false;
 bool liveLedUpdate = false;
 bool internetLossUpdate = false;
 bool sendVerWifi = false;
-bool VideoChOn = false;
-int LiveSec = 0;
-int LiveMin = 0;
-int LiveHour = 0;
+bool PowerOn = true;
 
 bool lastAck = false;
 bool awsConnected = false;

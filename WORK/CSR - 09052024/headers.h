@@ -1,6 +1,6 @@
-//#define CSR     // R64 SCATOLA 1CH TTGO
+#define CSR     // R64 SCATOLA 1CH TTGO
 //#define CSR2      // R65 SCATOLA 4CH ESP32S
-#define CSR3   //R66 SWAN CASE 2CH ESP32S
+//#define CSR3   //R66 SWAN CASE 2CH ESP32S
 
 
 
@@ -22,7 +22,7 @@
 
     
 #ifdef CSR      //TTGO R64 SCATOLA 1CH TTGO
-    #define VERSION_ID "V60.0 - "
+    #define VERSION_ID "V55.0 - "
     #define BLYNK_AUTH_TOKEN                "B1pZ48rPHfdQ8LxlqCoiPk8fxWBbv7B0" //CSR
     #define THINGNAME "CSR1"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr1/sub/rc"
@@ -51,7 +51,7 @@
 
 #ifdef CSR2     // R65 SCATOLA 4CH ESP32S
  
-    #define VERSION_ID "V60.0 - "
+    #define VERSION_ID "V55.0 - "
     #define BLYNK_AUTH_TOKEN                "_cqYD1seWElWB-S1IxutIEI7VWmDpb05" //CS2
     #define THINGNAME "CSR2"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr2/sub/rc"
@@ -81,7 +81,7 @@
 
 #ifdef CSR3     //R66 SWAN CASE 2CH ESP32S
    
-    #define VERSION_ID " V60.0 - "
+    #define VERSION_ID " V55.0 - "
     #define BLYNK_AUTH_TOKEN                "6DH6QZgVXrGXU5VzOpJSJgHoyXWL7aWS" //CSR3
     #define THINGNAME "CSR3"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr3/sub/rc"
@@ -266,7 +266,7 @@ Q_EVENT_RM_ID_13_V23,  //62
 //V24 Version,
 Q_EVENT_ZAP_TIMER_OFF_V25,
 Q_EVENT_RESET_FREQ_V26,
-Q_EVENT_TURN_ON_CHS_V27,
+Q_EVENT_SPARE_V27,
 
 Q_EVENT_REL1_CH_V30,
 Q_EVENT_REL2_CH_V31,
@@ -284,8 +284,8 @@ Q_EVENT_VIDEO_ON_OFF_V41,
 Q_EVENT_ZAP_V71,
 Q_EVENT_ZAP_TIMER_V72,
 Q_EVENT_VIDEO_ON_OFF_V81,
-Q_EVENT_LIV_MIN_V82,
-Q_EVENT_LIV_HOUR_V83,
+Q_EVENT_ZAP_CHANNEL2_V82,
+Q_EVENT_ZAP_CHANNEL3_V83,
 Q_EVENT_ZAP_CHANNEL4_V84,
 Q_EVENT_ZAP_CHANNEL5_V85,
 Q_EVENT_ZAP_CHANNEL6_V86,

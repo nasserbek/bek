@@ -5,9 +5,6 @@
 
 extern bool connectAWS(void);
 extern blynk myBlynk;
-extern int LiveSec;
-extern int LiveMin;
-extern int LiveHour;
 
 void resetRouter(void)
 {
@@ -125,9 +122,8 @@ void processBlynkQueu(void)
                   receiverAvByFreq ( recevierFreq);        
             break;         
                  
-            case Q_EVENT_TURN_ON_CHS_V27:
-                     VideoChOn = true;
-                     dvrOnOff (1);
+            case Q_EVENT_SPARE_V27:
+
             break;   
 
             case Q_EVENT_REL1_CH_V30: 
@@ -187,52 +183,52 @@ void processBlynkQueu(void)
                  dvrOnOff (queuData);
             break;
 
-//            case Q_EVENT_ZAP_CHANNEL2_V82 :
-//                
-//            break;
-//
-//             case Q_EVENT_ZAP_CHANNEL3_V83 :
-//               
-//            break;
+            case Q_EVENT_ZAP_CHANNEL2_V82 :
+                 videoCh[2].zap=queuData;
+            break;
+
+             case Q_EVENT_ZAP_CHANNEL3_V83 :
+                videoCh[3].zap=queuData;
+            break;
 
              case Q_EVENT_ZAP_CHANNEL4_V84 :
-                
+                videoCh[4].zap=queuData;
             break;
 
             case Q_EVENT_ZAP_CHANNEL5_V85 :
-               
+                videoCh[5].zap=queuData;
             break;
 
             case Q_EVENT_ZAP_CHANNEL6_V86 :
-                
+                videoCh[6].zap=queuData;
             break;
 
             case Q_EVENT_ZAP_CHANNEL7_V87 :
-                
+                videoCh[7].zap=queuData;
             break;
 
             case Q_EVENT_ZAP_CHANNEL8_V88 :
-              
+              videoCh[8].zap=queuData;
             break;
             
             case Q_EVENT_ZAP_CHANNEL9_V89 :
-              
+              videoCh[9].zap=queuData;
             break; 
  
             case Q_EVENT_ZAP_CHANNEL10_V94 :
-              
+              videoCh[10].zap=queuData;
             break; 
  
             case Q_EVENT_ZAP_CHANNEL11_V95 :
-              
+              videoCh[11].zap=queuData;
             break; 
 
             case Q_EVENT_ZAP_CHANNEL12_V96 :
-              
+              videoCh[12].zap=queuData;
             break; 
  
             case Q_EVENT_ZAP_CHANNEL13_V97 :
-              
+              videoCh[13].zap=queuData;
             break; 
             
             case Q_EVENT_RC_PULSE_V98:
@@ -372,7 +368,7 @@ void blynkLoop(void)
                                     
                   if(awsConnected)
                     {
-                      doc["LIVE"] = LiveSec;
+                      doc["LIVE"] = liveLed;
                       serializeJson(doc, Json); // print to client
                       client.publish(AWS_IOT_SUBSCRIBE_TOPIC_LIVE, Json);
                    }

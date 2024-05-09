@@ -8,15 +8,11 @@ void setup()
      initWDG(MIN_5,EN);
      relaySetup();
      
-     Serial.print("Version: ");     Serial.println(VERSION_ID);
-     Serial.print("AWS IOT Thnis is: ");     Serial.println(THINGNAME);
+     Serial.println(VERSION_ID);
+     Serial.println(THINGNAME);
      
-     mySwitch.enableTransmit(RC_TX_PIN);  
-        
-     createHandleGroup();
-     looadRoomData();     
+     mySwitch.enableTransmit(RC_TX_PIN);
      i2cSetup();
-
      wifiAvailable = myBlynk.wifi_init();
      if(wifiAvailable)
         {
@@ -24,7 +20,9 @@ void setup()
             blynkConnected = blynkInit();
         }
      timersMillis();
-   
+     createHandleGroup();
+     looadRoomData();
+     bool PowerOn = false;
 }
 
 
