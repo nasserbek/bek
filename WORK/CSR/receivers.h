@@ -23,29 +23,40 @@ void remoteControl(int cmd )
 {
        StaticJsonDocument<54> doc4; //Json to send from
        
-       if( (!RC_Remote_CSR1) && (!RC_Remote_CSR2)  && (!RC_Remote_CSR3))
-        {
-         mySwitch.send(CH_433[cmd], RC_CODE_LENGTH);
-        }
+      if( (!RC_Remote_CSR1) && (!RC_Remote_CSR2)  && (!RC_Remote_CSR3)) mySwitch.send(CH_433[cmd], RC_CODE_LENGTH);  
+        
       else if( RC_Remote_CSR1)
        {
-        doc4["RC"] = cmd;
-        serializeJson(doc4, Json); // print to client
-        client.publish(AWS_IOT_PUBLISH_TOPIC_RC, Json); 
-      }
+
+        if (blynkConnected) apiSend(ESP1, "V1", cmd);
+        else 
+          {
+            doc4["RC"] = cmd;
+            serializeJson(doc4, Json); // print to client
+            client.publish(AWS_IOT_PUBLISH_TOPIC_RC, Json); 
+          }
+       }
 
        else if( RC_Remote_CSR2)
+       {
+        if (blynkConnected) apiSend(ESP2, "V1", cmd);
+        else
+            {
+              doc4["RC"] = cmd;
+              serializeJson(doc4, Json); // print to client
+              client.publish(AWS_IOT_PUBLISH_TOPIC_RC_2, Json); 
+            } 
+       }
+       
+      else if( RC_Remote_CSR3)
       {
-        doc4["RC"] = cmd;
-        serializeJson(doc4, Json); // print to client
-        client.publish(AWS_IOT_PUBLISH_TOPIC_RC_2, Json); 
-      } 
-
-       else if( RC_Remote_CSR3)
-      {
-        doc4["RC"] = cmd;
-        serializeJson(doc4, Json); // print to client
-        client.publish(AWS_IOT_PUBLISH_TOPIC_RC_3, Json); 
+        if (blynkConnected) apiSend(ESP3, "V1", cmd);
+          else 
+          {
+            doc4["RC"] = cmd;
+            serializeJson(doc4, Json); // print to client
+            client.publish(AWS_IOT_PUBLISH_TOPIC_RC_3, Json); 
+          }
       } 
 }
 
@@ -114,25 +125,31 @@ bool receiverAvByCh (int Ch, int cmd)
        lastAck = ack; 
        
     if(V_Remote_CSR1 || V_Remote_CSR2 || V_Remote_CSR2)
-        {
+      {
         doc3["CMD"] = cmd;
         serializeJson(doc3, Json); // print to client
         doc3["VIDEO"] = Ch;
         serializeJson(doc3, Json); // print to client
+      
             
     if( V_Remote_CSR1)
        {
-        client.publish(AWS_IOT_SUBSCRIBE_TOPIC_VIDEO_1, Json); 
-      }
+         if (blynkConnected) apiSend(ESP1, "V2", Ch);
+          else client.publish(AWS_IOT_SUBSCRIBE_TOPIC_VIDEO_1, Json); 
+       }
 
       if( V_Remote_CSR2)
       {
-        client.publish(AWS_IOT_SUBSCRIBE_TOPIC_VIDEO_2, Json); 
+        if (blynkConnected) apiSend(ESP2, "V2", Ch);
+        else client.publish(AWS_IOT_SUBSCRIBE_TOPIC_VIDEO_2, Json); 
+        
       } 
 
        if( V_Remote_CSR3)
       {
-        client.publish(AWS_IOT_SUBSCRIBE_TOPIC_VIDEO_3, Json); 
+        if (blynkConnected) apiSend(ESP3, "V2", Ch);
+        else client.publish(AWS_IOT_SUBSCRIBE_TOPIC_VIDEO_3, Json); 
+        
       } 
     }
    

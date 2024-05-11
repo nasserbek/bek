@@ -6,7 +6,7 @@
 #define BLYNK_AUTH_TOKEN_CSR1                "B1pZ48rPHfdQ8LxlqCoiPk8fxWBbv7B0" //CSR
 #define BLYNK_AUTH_TOKEN_CSR2                "_cqYD1seWElWB-S1IxutIEI7VWmDpb05" //CS2
 #define BLYNK_AUTH_TOKEN_CSR3                "6DH6QZgVXrGXU5VzOpJSJgHoyXWL7aWS" //CSR3
-#define BLYNK_AUTH_TOKEN_TEST                "lzXq8VnMflNkRrToeTSjv4b01kvkG9zl" //CSR4
+#define BLYNK_AUTH_TOKEN_TEST                "1Wq6Re2q9eTOK8D5vfHhynNN2B_XoZ83" //CSR4
 
 // Blynk cloud server
 const char* blynkHost = "blynk.cloud";
@@ -103,8 +103,30 @@ void apiSend(int board, String virtualPin, int value) {
             Serial.println(response);
           }
         }
- }
- 
+  }
+
+    if (board == ESP2)
+  {
+         if (httpRequest("GET", String("/external/api/update?token=") + BLYNK_AUTH_TOKEN_CSR2 + request + value, "", response)) {
+//         if (httpRequest("GET", String("/external/api/update?token=") + BLYNK_AUTH_TOKEN_CSR1 + "&pin=V2&value=" + value, "", response)) {
+          if (response.length() != 0) {
+            Serial.print("WARNING: ");
+            Serial.println(response);
+          }
+        }
+  }
+
+   if (board == ESP3)
+  {
+         if (httpRequest("GET", String("/external/api/update?token=") + BLYNK_AUTH_TOKEN_CSR3 + request + value, "", response)) {
+//         if (httpRequest("GET", String("/external/api/update?token=") + BLYNK_AUTH_TOKEN_CSR1 + "&pin=V2&value=" + value, "", response)) {
+          if (response.length() != 0) {
+            Serial.print("WARNING: ");
+            Serial.println(response);
+          }
+        }
+  }
+  
 }
 
 /*
