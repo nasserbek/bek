@@ -287,9 +287,9 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_RC)
         _nodeRedData  = rxDoc["RC"];
         nodeRedeventdata = Q_EVENT_RC_CH_NR_V1;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
-         RC_Remote_CSR1=false; myBlynk.resetRemoteRC(1);
-         RC_Remote_CSR2=false; myBlynk.resetRemoteRC(2);
-         RC_Remote_CSR2=false; myBlynk.resetRemoteRC(3);
+         RC_Remote_CSR1=false; 
+         RC_Remote_CSR2=false; 
+         RC_Remote_CSR2=false; 
     }
 
 else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA)

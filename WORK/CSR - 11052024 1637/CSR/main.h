@@ -46,6 +46,7 @@ bool DvrChOn = false;
 int LiveSec = 0;
 int LiveMin = 0;
 int LiveHour = 0;
+bool RemoteControlRC = false;
 
 bool lastAck = false;
 bool awsConnected = false;

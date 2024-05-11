@@ -24,6 +24,7 @@ extern void awsTerminal(bool aws, String str) ;
 extern int LiveSec;
 extern int LiveMin;
 extern int LiveHour;
+extern bool RemoteControlRC;
 
 WiFiMulti wifiMulti;
 BlynkTimer timer;
@@ -1071,8 +1072,13 @@ void blynk::sendBoardIndex(int _index)
 
 void blynk::blynkAckLed( bool _data)
 {
-  if (_data==1)  I2C_LED_V13.setColor(BLYNK_RED);
-  else           I2C_LED_V13.setColor(BLYNK_GREEN);
+  if (RemoteControlRC)  I2C_LED_V13.setColor(BLYNK_YELLOW);
+    else
+        {
+        if (_data==1)  I2C_LED_V13.setColor(BLYNK_RED);
+        else           I2C_LED_V13.setColor(BLYNK_GREEN);    
+        }
+
 }
 
 

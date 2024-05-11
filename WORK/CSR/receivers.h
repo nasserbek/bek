@@ -28,7 +28,7 @@ void remoteControl(int cmd )
       else if( RC_Remote_CSR1)
        {
 
-        if (blynkConnected) apiSend(ESP1, "V1", cmd);
+        if (blynkConnected) apiSend(ESP1, "V1", cmd); 
         else 
           {
             doc4["RC"] = cmd;

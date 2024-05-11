@@ -27,7 +27,12 @@ void processBlynkQueu(void)
             
             case Q_EVENT_RC_CH_NR_V1:
               remoteControlRcCh=queuData;
+              RemoteControlRC = true;
+              myBlynk.blynkAckLed(false);
               if (remoteControlRcCh >= 1 && remoteControlRcCh <= 20) {remoteControl(remoteControlRcCh );}
+              delay (300);
+              RemoteControlRC = false;
+              myBlynk.blynkAckLed(false);
             break;      
                   
             case Q_EVENT_VIDEO_CH_V2:

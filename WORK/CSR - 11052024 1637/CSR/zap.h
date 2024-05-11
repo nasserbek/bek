@@ -37,6 +37,13 @@ void resetRemoteRC(void)
       RC_Remote_CSR2 =false; myBlynk.resetRemoteRC(2);
       RC_Remote_CSR3 =false;  myBlynk.resetRemoteRC(3);  
 }
+
+void resetRemoteRCNoBlynk(void)
+{
+      RC_Remote_CSR1 =false; 
+      RC_Remote_CSR2 =false; 
+      RC_Remote_CSR3 =false;   
+}
 void resetZapper (void)
 {
   zaptime= millis(); 
@@ -53,25 +60,28 @@ void resetZapper (void)
 void nextState( int nextSm)
     {
       stateMachine =nextSm;
-      resetRemoteRC();      
+      resetRemoteRCNoBlynk();      
     } 
 
  void automaticOn(int chanel)
     {
         #ifdef CSR3    
-          if  (  chanel == R_24 || chanel == R_28 || chanel == R_48 || chanel == R_29 || chanel == R_66 || chanel == R_68) RC_Remote_CSR2 =true; 
-          if  (  chanel == R_49 || chanel == R_50 || chanel == R_51 || chanel == R_52) RC_Remote_CSR1 =true; 
+            if  (  chanel == R_24 || chanel == R_28 || chanel == R_48 || chanel == R_29 || chanel == R_66 || chanel == R_68) RC_Remote_CSR2 =true; 
+            else if  (  chanel == R_49 || chanel == R_50 || chanel == R_51 || chanel == R_52) RC_Remote_CSR1 =true; 
+            else   resetRemoteRCNoBlynk();
         #endif       
 
         #ifdef CSR2      
-          if  ( chanel != R_24 && chanel != R_28 && chanel != R_48 && chanel != R_29   && chanel != R_66 && chanel != R_68) RC_Remote_CSR3 =true;
-          if  (  chanel == R_49 || chanel == R_50 || chanel == R_51 || chanel == R_52) RC_Remote_CSR1 =true; 
+            if  ( chanel != R_24 && chanel != R_28 && chanel != R_48 && chanel != R_29   && chanel != R_66 && chanel != R_68) RC_Remote_CSR3 =true;
+            else if  (  chanel == R_49 || chanel == R_50 || chanel == R_51 || chanel == R_52) RC_Remote_CSR1 =true; 
+            else   resetRemoteRCNoBlynk();
         #endif      
 
         #ifdef CSR      
-        if        ( chanel == R_24 ||  chanel == R_28 || chanel == R_48 || chanel == R_29 || chanel == R_66 || chanel == R_68) RC_Remote_CSR2 =true; 
-        else  if  ( chanel != R_49 && chanel != R_50 && chanel != R_51 && chanel != R_52) RC_Remote_CSR3 =true;
-         #endif  
+            if        ( chanel == R_24 ||  chanel == R_28 || chanel == R_48 || chanel == R_29 || chanel == R_66 || chanel == R_68) RC_Remote_CSR2 =true; 
+            else  if  ( chanel != R_49 && chanel != R_50 && chanel != R_51 && chanel != R_52) RC_Remote_CSR3 =true;
+            else  resetRemoteRCNoBlynk();
+            #endif  
     }    
 
 
@@ -79,18 +89,21 @@ void automaticOff(int chanel)
     {
         #ifdef CSR3      
           if  ( chanel == R_51  ) RC_Remote_CSR1 =true;
-          if  ( chanel == R_49 || chanel == R_50 || chanel == R_24 || chanel == R_25 || chanel == R_26 || chanel == R_28 || chanel == R_66 || chanel == R_68 ) RC_Remote_CSR2 =true;
+          else if  ( chanel == R_49 || chanel == R_50 || chanel == R_24 || chanel == R_25 || chanel == R_26 || chanel == R_28 || chanel == R_66 || chanel == R_68 ) RC_Remote_CSR2 =true;
+          else   resetRemoteRCNoBlynk();
         #endif       
 
          
         #ifdef CSR2     
           if  ( chanel == R_51  ) RC_Remote_CSR1 =true;
           else if ( chanel != R_49 && chanel != R_50 && chanel != R_24 && chanel != R_25 && chanel != R_26 && chanel != R_28  && chanel != R_66 && chanel != R_68) RC_Remote_CSR3 =true;
+          else   resetRemoteRCNoBlynk();
         #endif      
 
         #ifdef CSR      
           if  ( chanel == R_49 || chanel == R_50 || chanel == R_24 || chanel == R_25 || chanel == R_26 || chanel == R_28 || chanel == R_66 || chanel == R_68) RC_Remote_CSR2 =true;
           else if  ( chanel != R_51  )                  RC_Remote_CSR3 =true;
+          else   resetRemoteRCNoBlynk();
         #endif  
     } 
         
