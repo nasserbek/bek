@@ -18,13 +18,13 @@ void videoChanel(int ch, bool cmd)
       room ( remoteControlRcCh, recevierCh , Av_Rx , cmd );
     }
      
-    if (lastSelectedCh !=0 && !zapOnOff && !zapSetup && lastSelectedCh != ch && (hmi == BLYNK)) myBlynk.TurnOffLastCh( ACK_BAD ,lastSelectedCh,CH_MODE_0);
+    if (lastSelectedCh !=0 && !zapOnOff && !zapSetup && lastSelectedCh != ch && (hmi == BLYNK)) myBlynk.BlynkButtonColours( lastSelectedCh,CH_MODE_0);
     lastSelectedCh = ch;
     
     if (hmi == NODE_RED) 
     {
-      if(cmd) myBlynk.TurnOffLastCh( lastAck,ch,CH_MODE_4);
-      else myBlynk.TurnOffLastCh( lastAck,ch,CH_MODE_0);
+      if(cmd) myBlynk.BlynkButtonColours( ch,CH_MODE_4);
+      else myBlynk.BlynkButtonColours( ch,CH_MODE_0);
     }  
     myBlynk.releActiveCh(selected_Rx, ch);
 }
@@ -110,11 +110,9 @@ void automaticOff(int chanel)
 void turnOn (int ch, int prevCh,  int smb,  int sma)
     {
       
-      zaptime= millis();
-      zaptimeOff= millis(); 
-      scantime= millis();
-      catchCh = false; 
-      myBlynk.repeatSync(catchCh);
+      zaptime= millis();  zaptimeOff= millis();  scantime= millis();
+       
+      if(catchCh) {myBlynk.repeatSync(false); catchCh = false;}
       
       stateMachine =smb;
       
@@ -123,7 +121,7 @@ void turnOn (int ch, int prevCh,  int smb,  int sma)
         {
           recevierCh=videoCh[ch].id;     
           receiverAvByCh (recevierCh,1);
-          myBlynk.TurnOffLastCh( lastAck,recevierCh,CH_MODE_1);
+          myBlynk.BlynkButtonColours( recevierCh,CH_MODE_1);
         }
       if (!zapScanOnly) remoteControl(ch);   
      }
@@ -135,8 +133,8 @@ void turnOff(int ch, int prevCh, int smc )
             {
               recevierCh=videoCh[ch].id; 
               receiverAvByCh (recevierCh,0); 
-              myBlynk.TurnOffLastCh( lastAck,recevierCh,CH_MODE_1);
-              myBlynk.TurnOffLastCh( lastAck,prevCh,CH_MODE_2);
+              myBlynk.BlynkButtonColours( recevierCh,CH_MODE_1);
+              myBlynk.BlynkButtonColours( prevCh,CH_MODE_2);
               if (!zapScanOnly) remoteControl(prevCh);
             }
           stateMachine =smc;
@@ -303,7 +301,7 @@ void zapAllOnOff(bool cmd)
               if(ch != ROUTER  )
                 {
                   videoCh[ch].zap=1;
-                  myBlynk.TurnOffLastCh( ACK_BAD ,ch,CH_MODE_4); 
+                  myBlynk.BlynkButtonColours( ch,CH_MODE_4); 
                   delay(200);                                 
                 }
             }
@@ -315,7 +313,7 @@ void zapAllOnOff(bool cmd)
               if(ch != ROUTER)
                 {
                   videoCh[ch].zap=0;
-                  myBlynk.TurnOffLastCh( ACK_BAD ,ch,CH_MODE_0);      
+                  myBlynk.BlynkButtonColours( ch,CH_MODE_0);      
                   delay(200);                            
                 }
             }

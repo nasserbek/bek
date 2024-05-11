@@ -1145,7 +1145,7 @@ void blynk::TerminalPrint (String str)
 
 }
 
-void blynk::TurnOffLastCh(bool lastAck, int lastSelectedCh, int chMode)
+void blynk::BlynkButtonColours(int lastSelectedCh, int chMode)
 {
   if(chMode == CH_MODE_0)
   {
