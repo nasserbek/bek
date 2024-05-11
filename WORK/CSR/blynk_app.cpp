@@ -932,6 +932,7 @@ bool blynk::getData()
       blynkActive = true; 
       blynkAtiveTimer     = millis();
       hmi =BLYNK;
+      LiveSec =LiveMin =LiveHour = 0;
       return true;
     }  
     else return false;
