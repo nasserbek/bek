@@ -1,6 +1,6 @@
 //#define CSR     // R64 SCATOLA 1CH TTGO
-//#define CSR2      // R65 SCATOLA 4CH ESP32S
-#define CSR3   //R66 SWAN CASE 2CH ESP32S
+#define CSR2      // R65 SCATOLA 4CH ESP32S
+//#define CSR3   //R66 SWAN CASE 2CH ESP32S
 
 
 
