@@ -169,8 +169,8 @@ bool smsOn      =true;
 
 int ackTimer =  500;
 int scanTimer = 5000;
-int zapTimer = 15000;
-int zapTimerOff = 5000;
+int zapTimer = 10000;
+int zapTimerOff = 3000;
 
 int routerTimer = 5000;
 long  routerResetTimer, resetNetgeerAfterInternetLossTimer,zaptime, zaptimeOff,scantime, AckTime, internetSurvilanceTimer, liveTimerOn,liveTimerOff,OtaTimeoutTimer,restartAfterResetNG,NetgeerResetGooglLostTimer,Router_24_hoursTimer,blynkNotActiveTimer;
