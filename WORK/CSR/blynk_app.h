@@ -49,7 +49,7 @@ class blynk {
     void resetT315Cmd(int cmd );
     void wifiRSSI(int _data);
     void zapAutoLocalRC(bool _data);
-    void sevenSegValue(int vch);
+    void VideoActiveCh(int vch);
     void frequencyValue(int freq );
     bool getData();
     void dvrSwitch(bool cmd);

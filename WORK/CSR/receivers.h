@@ -118,7 +118,7 @@ bool receiverAvByCh (int Ch, int cmd)
        if (blynkConnected) myBlynk.blynkAckLed(ACK_BAD);
        ack = Tuner_PLL(selected_Rx, av_pll_addr, _pll[Ch]); 
       
-       if (blynkConnected) {myBlynk.blynkAckLed( ack); myBlynk.sevenSegValue(Ch);}
+       if (blynkConnected) {myBlynk.blynkAckLed( ack); myBlynk.VideoActiveCh(Ch);}
        
        recevierFreq =videoCh[Ch].frequency;       
        if (blynkConnected) myBlynk.frequencyValue(recevierFreq );
