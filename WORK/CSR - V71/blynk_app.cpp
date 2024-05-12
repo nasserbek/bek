@@ -25,6 +25,8 @@ extern int LiveSec;
 extern int LiveMin;
 extern int LiveHour;
 extern bool RemoteControlRC;
+extern bool zapScanOnly;
+extern bool zapSetup;
 
 WiFiMulti wifiMulti;
 BlynkTimer timer;
@@ -982,6 +984,8 @@ void blynk::wifiRSSI(int _data)
 
 void blynk::resetRemoteRC(int _data)
 {
+if(!zapSetup && !zapScanOnly)
+{
   switch (_data)
         {
           case 1:
@@ -995,9 +999,12 @@ void blynk::resetRemoteRC(int _data)
                    Blynk.virtualWrite(V17, 0); 
           break;
         }   
+ }
 }
 
 void blynk::resetRemoteVideo(int _data)
+{
+if(!zapSetup && !zapScanOnly)
 {
   switch (_data)
         {
@@ -1012,6 +1019,7 @@ void blynk::resetRemoteVideo(int _data)
                    Blynk.virtualWrite(V37, 0); 
           break;
         }   
+ }
 }
 
 /***************************************************/
@@ -1026,7 +1034,7 @@ void blynk::resetT315Cmd(int cmd)
 
 }
 
-void blynk::sevenSegValue(int vch )
+void blynk::VideoActiveCh(int vch )
 {
  sevenSeg = vch;
  Blynk.virtualWrite(V2, vch);
@@ -1043,7 +1051,7 @@ void blynk::sendPulseRepetetion(int pulse, int repetetion)
 void blynk::frequencyValue(int freq )
 {
   frequency = freq;
-  Blynk.virtualWrite(V0, freq);
+  if(!zapSetup && !zapScanOnly) Blynk.virtualWrite(V0, freq);
 }
 
 void blynk::dvrSwitch(bool cmd)
@@ -1078,13 +1086,12 @@ void blynk::blynkAckLed( bool _data)
         if (_data==1)  I2C_LED_V13.setColor(BLYNK_RED);
         else           I2C_LED_V13.setColor(BLYNK_GREEN);    
         }
-
 }
 
 
 void blynk::liveLedCall(bool _data)
 {
-  if(!blynkActive)
+  if(!blynkActive && !zapSetup && !zapScanOnly)
     {
       LiveSec += LiveUpdateInterval/1000;
       if (LiveSec >= 60) { LiveMin +=1;  LiveSec = 0;}
@@ -1146,6 +1153,8 @@ void blynk::TerminalPrint (String str)
 }
 
 void blynk::BlynkButtonColours(int lastSelectedCh, int chMode)
+{
+if(!zapSetup && !zapScanOnly)
 {
   if(chMode == CH_MODE_0)
   {
@@ -1597,14 +1606,15 @@ if(chMode == CH_MODE_4)
 
           break;                   
         }  
-  }    
-
+   }    
+ }
 }
 
 
 void blynk::releActiveCh(int rele, int ch)
 {
-
+if(!zapSetup && !zapScanOnly)
+ {
     switch (rele)
         {
           case 0:
@@ -1623,6 +1633,7 @@ void blynk::releActiveCh(int rele, int ch)
                    Blynk.virtualWrite(V33, ch); 
           break;
         }
+ }
 }       
 
  void blynk::Event24(void)
