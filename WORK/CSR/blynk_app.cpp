@@ -8,6 +8,9 @@
 #include <BlynkSimpleEsp32.h>
 #include <WiFiMulti.h>
 
+extern void SendLiveLed(void);
+
+
 extern int hmi;
 extern int activeBoard ;
 extern int selectedBoard;
@@ -124,12 +127,12 @@ void ledInit(void)
   LIVE_LED_V121.on();
 }
 
-void SendLiveLed()
-  {
-    if (liveLed)  liveLed = false; 
-    else liveLed = true;
-    liveLedUpdate =false;
-  }
+//void SendLiveLed()
+//  {
+//    if (liveLed)  liveLed = false; 
+//    else liveLed = true;
+//    liveLedUpdate =false;
+//  }
 
 void checkBlynk() {
   if (wifiMulti.run(WiFi_TIMEOUT) == WL_CONNECTED)  

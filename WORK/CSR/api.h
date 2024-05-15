@@ -97,7 +97,6 @@ void apiSend(int board, String virtualPin, int value) {
   if (board == ESP1)
   {
          if (httpRequest("GET", String("/external/api/update?token=") + BLYNK_AUTH_TOKEN_CSR1 + request + value, "", response)) {
-//         if (httpRequest("GET", String("/external/api/update?token=") + BLYNK_AUTH_TOKEN_CSR1 + "&pin=V2&value=" + value, "", response)) {
           if (response.length() != 0) {
             Serial.print("WARNING: ");
             Serial.println(response);
@@ -108,7 +107,6 @@ void apiSend(int board, String virtualPin, int value) {
     if (board == ESP2)
   {
          if (httpRequest("GET", String("/external/api/update?token=") + BLYNK_AUTH_TOKEN_CSR2 + request + value, "", response)) {
-//         if (httpRequest("GET", String("/external/api/update?token=") + BLYNK_AUTH_TOKEN_CSR1 + "&pin=V2&value=" + value, "", response)) {
           if (response.length() != 0) {
             Serial.print("WARNING: ");
             Serial.println(response);
@@ -119,7 +117,6 @@ void apiSend(int board, String virtualPin, int value) {
    if (board == ESP3)
   {
          if (httpRequest("GET", String("/external/api/update?token=") + BLYNK_AUTH_TOKEN_CSR3 + request + value, "", response)) {
-//         if (httpRequest("GET", String("/external/api/update?token=") + BLYNK_AUTH_TOKEN_CSR1 + "&pin=V2&value=" + value, "", response)) {
           if (response.length() != 0) {
             Serial.print("WARNING: ");
             Serial.println(response);
@@ -129,53 +126,5 @@ void apiSend(int board, String virtualPin, int value) {
   
 }
 
-/*
-int apiGetValue(int board, String virtualPin, int value) {
-  String response;
 
-//  unsigned long value = millis();
-
-  // Send value to the cloud
-  // similar to Blynk.virtualWrite()
-  String request = "&pin="+ virtualPin +"&value=" ;
-  Serial.print("Sending value: ");
-  Serial.println(value);
-  if (board == ESP1)
-  {
-         if (httpRequest("GET", String("/external/api/update?token=") + BLYNK_AUTH_TOKEN_CSR1 + request + value, "", response)) {
-//         if (httpRequest("GET", String("/external/api/update?token=") + BLYNK_AUTH_TOKEN_CSR1 + "&pin=V2&value=" + value, "", response)) {
-          if (response.length() != 0) {
-            Serial.print("WARNING: ");
-            Serial.println(response);
-          }
-        }
- }
- 
-  // Read the value back
-  // similar to Blynk.syncVirtual()
-
-  Serial.println("Reading value");
-
-  if (httpRequest("GET", String("/external/api/get?token=") + BLYNK_AUTH_TOKEN + "&pin=V2", "", response)) {
-    Serial.print("Value from server: ");
-    Serial.println(response);
-  }
-
-  // Set Property
-  Serial.println("Setting property");
-
-  if (httpRequest("GET", String("/external/api/update/property?token=") + BLYNK_AUTH_TOKEN + "&pin=V2&label=" + value, "", response)) {
-    if (response.length() != 0) {
-      Serial.print("WARNING: ");
-      Serial.println(response);
-    }
-  }
-
-  // For more HTTP API, see https://docs.blynk.io/en/blynk.cloud/https-api-overview
-
-  // Wait
-  delay(30000L);
-}
-
-*/
 #endif

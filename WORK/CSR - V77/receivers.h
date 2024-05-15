@@ -259,7 +259,7 @@ void  dvrOnOff (bool onOff)
            delay (1000);
            if(DvrChOn) {Av_Rx = BOTH; videoChanel(R_49, ON);}
            else {Av_Rx = SOLO_VIDEO; videoChanel(R_49, ON);}
-           myBlynk.RelaySelect(3);   //RX3 SHOWS RX3 N HMI
+           myBlynk.RelaySelect(3);   //RX3 SHOWS RX3 IN HMI
 
     #endif
   

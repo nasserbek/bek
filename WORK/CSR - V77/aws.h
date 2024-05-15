@@ -47,7 +47,7 @@ bool connectAWS()
     Serial.println("Connecting to AWS:");
     Serial.println( THINGNAME );
     Serial.print(".");
-    delay(2000);
+    delay(1000);
     return false;
   }
    if (!client.connected())

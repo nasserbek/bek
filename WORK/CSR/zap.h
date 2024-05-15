@@ -318,7 +318,7 @@ void zapAllOnOff(bool cmd)
                 {
                   videoCh[ch].zap=1;
                   myBlynk.BlynkButtonColours( ch,CH_MODE_4); 
-                  delay(200);                                 
+                  delay(100);                                 
                 }
             }
         }
@@ -330,7 +330,7 @@ void zapAllOnOff(bool cmd)
                 {
                   videoCh[ch].zap=0;
                   myBlynk.BlynkButtonColours( ch,CH_MODE_0);      
-                  delay(200);                            
+                  delay(100);                            
                 }
             }
         }

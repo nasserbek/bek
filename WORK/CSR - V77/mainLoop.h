@@ -420,14 +420,13 @@ void blynkLoop(void)
 
 void awsLoop(void)
 {
-         
-         awsConnected = client.connected();
-         if (!awsConnected )
+      if (!awsConnected )
             {
               myBlynk.TerminalPrint("AWS IoT Disonnected, trying to reconnect");
               awsConnected = connectAWS();
            }
-        else 
+           
+        if (awsConnected )
         {
             client.loop();   //AWS MQTT
             queuValidData = (xQueueReceive(g_event_queue_handle, &queuDataID, 5 / portTICK_RATE_MS) == pdPASS);
@@ -442,7 +441,13 @@ void awsLoop(void)
          }
 }
 
-
+void SendLiveLed()
+  {
+    if (liveLed)  liveLed = false; 
+    else liveLed = true;
+    liveLedUpdate =false;
+    awsConnected = client.connected();
+  }
 
 
 #endif
