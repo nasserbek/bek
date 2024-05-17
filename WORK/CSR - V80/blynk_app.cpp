@@ -9,8 +9,8 @@
 #include <WiFiMulti.h>
 
 extern void SendLiveLed(void);
-
-
+extern void rebootSw(void);
+extern bool DvrChOn;
 extern int hmi;
 extern int activeBoard ;
 extern int selectedBoard;
@@ -1099,9 +1099,10 @@ void blynk::liveLedCall(bool _data)
       LiveSec += LiveUpdateInterval/1000;
       if (LiveSec >= 60) { LiveMin +=1;  LiveSec = 0;}
       if (LiveMin >= 60) { LiveHour +=1; LiveMin =0; }
-      Blynk.virtualWrite(V83, LiveHour);
+//    Blynk.virtualWrite(V83, LiveHour);
       Blynk.virtualWrite(V82, LiveMin);
       Blynk.virtualWrite(V121, LiveSec);
+      if(_wifiIsConnected && LiveMin >= 15 && DvrChOn ) { terminal.println("Rebooting for non activity in 10 min.."); rebootSw();}
     }
 }
 

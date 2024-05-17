@@ -119,7 +119,6 @@ char carray[5];
 void goToDeepSleep(int sleepTimer)
 {
     //  sendToHMI("Going to Deep Sleep", "Going to Deep Sleep", "Going to Deep Sleep",FB_NOTIFIER, "Going to Deep Sleep" );
-    //  sms.sim800DvrChOn(false)  ;
       DEBUG_PRINT("Sleep for: ");  DEBUG_PRINT(sleepTimer * 60* 1000000);DEBUG_PRINTLN(" uSec");
       esp_sleep_enable_timer_wakeup(sleepTimer * 60 * 1000000); // in microseconds
       Serial.flush(); 

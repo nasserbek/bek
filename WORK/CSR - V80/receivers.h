@@ -313,12 +313,14 @@ void  dvrOnOff (bool onOff)
            Av_Rx = SOLO_VIDEO; videoChanel(R_25, ON);
            myBlynk.RelaySelect(3);  //RX2 SHOWS RX3 IN HMI
     #endif
+    DvrChOn = true;
       
    }
    
    else 
    {
       digitalWrite(AV_RX_DVR_PIN_2, HIGH); 
+      DvrChOn = false;
    }
    
 }

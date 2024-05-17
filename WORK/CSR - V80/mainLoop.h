@@ -5,6 +5,8 @@
 
 extern bool connectAWS(void);
 extern blynk myBlynk;
+extern void resetRemoteRCNoBlynk(void);
+
 
 void resetRouter(void)
 {
@@ -26,6 +28,7 @@ void processBlynkQueu(void)
             break;
             
             case Q_EVENT_RC_CH_NR_V1:
+              resetRemoteRCNoBlynk();
               remoteControlRcCh=queuData;
               RemoteControlRC = true;
               myBlynk.blynkAckLed(false);
@@ -200,6 +203,7 @@ void processBlynkQueu(void)
             break;
 
             case Q_EVENT_VIDEO_ON_OFF_V81 :
+                 DvrChOn = false;
                  dvrOnOff (queuData);
             break;
 
