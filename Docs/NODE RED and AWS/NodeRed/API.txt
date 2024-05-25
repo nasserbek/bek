@@ -24,7 +24,7 @@
 
 https://lon1.blynk.cloud/external/api/get?token=B1pZ48rPHfdQ8LxlqCoiPk8fxWBbv7B0&v0
   reboot
-https://lon1.blynk.cloud/external/api/get?token=_cqYD1seWElWB-S1IxutIEI7VWmDpb05&v121
+https://lon1.blynk.cloud/external/api/get?token=_cqYD1seWElWB-S1IxutIEI7VWmDpb05&v121   csr2
 https://lon1.blynk.cloud/external/api/update?token=_cqYD1seWElWB-S1IxutIEI7VWmDpb05&v8=1
 https://lon1.blynk.cloud/external/api/update?token=_cqYD1seWElWB-S1IxutIEI7VWmDpb05&v8=1
 

@@ -4,10 +4,10 @@
  * session persistence, api calls, and more.
  * */
 const Alexa = require('ask-sdk-core');
-//const Alexa = require('ask-sdk');
 const http = require('http');
 const axios = require('axios');
 
+//*****************************************FIREBASE*********************************
 const firebase = require('firebase/app');
 require('firebase/database');
 
@@ -26,7 +26,7 @@ const config = {
 
 firebase.initializeApp(config);
 const database = firebase.database();
-
+*//***************************************************************************************
 
 
 const myAuthPathBek = '/external/api/update?token=B1pZ48rPHfdQ8LxlqCoiPk8fxWBbv7B0&';
