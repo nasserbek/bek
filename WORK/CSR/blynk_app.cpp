@@ -678,28 +678,22 @@ BLYNK_WRITE(V102)  //TERMINAL
 {
 
     // if you type "Marco" into Terminal Widget - it will respond: "Polo:"
-  if (String("wifi") == param.asStr()) 
+  if (String("w") == param.asStr()) 
   {
     Blynk.virtualWrite(V102, WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) + "\n");
   } 
+
+  else if (String("c") == param.asStr()) 
+  {
+    terminal.clear();
+  }
+  
   else 
   {
     // Send it back
     Blynk.virtualWrite(V102, "\nYou said:", param.asStr());
-
-/*  OLDER EXAMPLE VERSION HAD THESE LINES     
-*   terminal.print("You said:");
-*   terminal.write(param.getBuffer(), param.getLength());
-*   terminal.println(); 
-*/
-  }   
-   
-//    _blynkEvent = true; 
-//    _blynkData=param.asInt();
-//    eventdata = Q_EVENT_TERMINAL_V102;
-//    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+  }
 }
-
 
 
 BLYNK_WRITE(V106)   //Zapping ch14

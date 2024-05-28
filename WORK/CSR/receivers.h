@@ -288,12 +288,12 @@ void  dvrOnOff (bool onOff)
            myBlynk.RelaySelect(3);
            delay (1000); 
            
-           selected_Rx = 3;
-           AvReceiverSel(4);  
-           delay (1000);
-           if(!DvrChOn) {Av_Rx = BOTH; videoChanel(R_28, ON);}
-           else {Av_Rx = SOLO_VIDEO; videoChanel(R_28, ON);}
-           myBlynk.RelaySelect(4);
+//           selected_Rx = 3;
+//           AvReceiverSel(4);  
+//           delay (1000);
+//           if(!DvrChOn) {Av_Rx = BOTH; videoChanel(R_28, ON);}
+//           else {Av_Rx = SOLO_VIDEO; videoChanel(R_28, ON);}
+//           myBlynk.RelaySelect(4);
     #endif
     
     #ifdef CSR3      
@@ -310,8 +310,8 @@ void  dvrOnOff (bool onOff)
            selected_Rx = 1;   //CH3
            AvReceiverSel(2);  
            delay (1000);
-           if(DvrChOn) {Av_Rx = BOTH; videoChanel(R_51, ON);}
-           else {Av_Rx = SOLO_VIDEO; videoChanel(R_51, ON);}
+           if(DvrChOn) {Av_Rx = BOTH; videoChanel(R_28, ON);}
+           else {Av_Rx = SOLO_VIDEO; videoChanel(R_28, ON);}
            myBlynk.RelaySelect(3);  //RX2 SHOWS RX3 IN HMI
     #endif
     DvrChOn = true;

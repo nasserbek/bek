@@ -316,7 +316,7 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA)
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
     } 
 
-    else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_LIVE)
+else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_LIVE)
     {
       retriveDataFromTopic(topic, payload,length);
       
@@ -339,6 +339,13 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA)
           client.publish(AWS_IOT_PUBLISH_TOPIC_LIVE_4, Json);
        #endif 
     } 
+
+else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL)
+    {
+      retriveDataFromTopic(topic, payload,length);
+      _nodeRedData  = rxDoc["TERMINAL"];
+    } 
+    
  myBlynk.TerminalPrint(" Topic " + String(topic) +" Payload: "+ String(_nodeRedData));
 }
 
