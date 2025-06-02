@@ -1,0 +1,212 @@
+15:34:18.757 INFO - Using data dir 'server_data'
+15:34:19.162 INFO - Region : local. Host : 192.168.43.26.
+15:34:19.622 INFO - Initializing gmail smtp mail transport. Username : example@gmail.com. SMTP host : smtp.gmail.com:587
+15:34:19.651 INFO - Reports : 0
+15:34:19.651 INFO - Didn't find custom user certificates.
+15:34:19.654 INFO - Didn't find Let's Encrypt certificates.
+15:34:19.654 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+15:34:19.654 WARN - ATTENTION. Server certificate paths (cert : 'F:\blynk_server', key : 'F:\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+15:34:20.455 INFO - HTTP API and WebSockets server listening at 8080 port.
+15:34:20.455 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+15:34:20.455 INFO - Mqtt hardware server listening at 8440 port.
+15:36:26.724 INFO - Using data dir 'server_data'
+15:36:27.123 INFO - Region : local. Host : 192.168.43.26.
+15:36:27.538 INFO - Initializing gmail smtp mail transport. Username : example@gmail.com. SMTP host : smtp.gmail.com:587
+15:36:27.565 INFO - Reports : 0
+15:36:27.565 INFO - Didn't find custom user certificates.
+15:36:27.567 INFO - Didn't find Let's Encrypt certificates.
+15:36:27.567 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+15:36:27.567 WARN - ATTENTION. Server certificate paths (cert : 'F:\blynk_server', key : 'F:\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+15:36:28.187 INFO - HTTP API and WebSockets server listening at 8080 port.
+15:36:28.187 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+15:36:28.197 INFO - Mqtt hardware server listening at 8440 port.
+16:03:43.737 INFO - Trying register user : nasserbek@hotmail.com, app : Blynk
+16:03:43.737 WARN - User with email nasserbek@hotmail.com already exists.
+16:03:43.777 INFO - nasserbek@hotmail.com Blynk-app (android-22724) joined.
+16:05:00.622 INFO - nasserbek@hotmail.com Blynk-app (android-22724) joined.
+16:18:05.915 INFO - nasserbek@hotmail.com Blynk-app (android-22724) joined.
+16:24:37.739 INFO - nasserbek@hotmail.com Blynk-app (android-22724) joined.
+16:25:50.158 INFO - Trying register user : alibekhbekh@gmaik.com, app : Blynk
+16:25:50.158 INFO - Registered alibekhbekh@gmaik.com.
+16:25:50.168 INFO - alibekhbekh@gmaik.com Blynk-app (android-22724) joined.
+16:25:53.493 WARN - Error sending greeting email for alibekhbekh@gmaik.com.
+16:27:04.493 INFO - alibekhbekh@gmaik.com Blynk-app (android-22724) joined.
+16:28:04.790 INFO - Creating new dashboard.
+16:29:25.021 INFO - Creating new dashboard.
+16:29:27.505 ERROR- Error sending email auth token to user : alibekhbekh@gmaik.com. Error: 535-5.7.8 Username and Password not accepted. Learn more at
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials u73sm7242635pfc.169 - gsmtp
+
+16:31:25.353 INFO - nasserbek@hotmail.com Blynk-app (android-22724) joined.
+16:41:40.435 INFO - nasserbek@hotmail.com Blynk-app (android-22724) joined.
+16:42:18.291 INFO - Trying register user : nas@b.com, app : Blynk
+16:42:18.291 INFO - Registered nas@b.com.
+16:42:18.300 INFO - nas@b.com Blynk-app (android-22724) joined.
+16:42:21.048 WARN - Error sending greeting email for nas@b.com.
+16:42:39.167 INFO - Creating new dashboard.
+16:42:41.909 ERROR- Error sending email auth token to user : nas@b.com. Error: 535-5.7.8 Username and Password not accepted. Learn more at
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials p19sm11936299pjv.21 - gsmtp
+
+16:43:17.223 INFO - Trying register user : nasserbek@yahoo.it, app : Blynk
+16:43:17.223 INFO - Registered nasserbek@yahoo.it.
+16:43:17.237 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+16:43:19.418 WARN - Error sending greeting email for nasserbek@yahoo.it.
+16:43:27.646 INFO - Creating new dashboard.
+16:43:29.894 ERROR- Error sending email auth token to user : nasserbek@yahoo.it. Error: 535-5.7.8 Username and Password not accepted. Learn more at
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials c7sm7383245pgh.72 - gsmtp
+
+16:44:49.115 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+16:45:15.988 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+16:45:16.096 WARN - Didn't find cloned project on disk. Path server_data\clone\qkjPoYJNcv5ccOkpJf_x1wa1YUTuFZ_N. Reason server_data\clone\qkjPoYJNcv5ccOkpJf_x1wa1YUTuFZ_N
+16:45:53.692 INFO - Trying register user : alibekhbekh@gmail.com, app : Blynk
+16:45:53.692 INFO - Registered alibekhbekh@gmail.com.
+16:45:53.708 INFO - alibekhbekh@gmail.com Blynk-app (android-22724) joined.
+16:45:55.874 WARN - Error sending greeting email for alibekhbekh@gmail.com.
+16:46:04.475 INFO - Creating new dashboard.
+16:46:06.834 ERROR- Error sending email auth token to user : alibekhbekh@gmail.com. Error: 535-5.7.8 Username and Password not accepted. Learn more at
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials a187sm510510pfb.66 - gsmtp
+
+16:55:41.801 INFO - alibekhbekh@gmail.com Blynk-app (android-22724) joined.
+16:56:27.796 INFO - nasserbek@hotmail.com Blynk-app (android-22724) joined.
+16:57:58.360 INFO - nasserbek@hotmail.com Blynk-app (android-22724) joined.
+21:33:30.034 INFO - Using data dir 'server_data'
+21:33:30.482 INFO - Region : local. Host : 192.168.99.254.
+21:33:30.917 INFO - Initializing gmail smtp mail transport. Username : example@gmail.com. SMTP host : smtp.gmail.com:587
+21:33:30.947 INFO - Reports : 0
+21:33:30.948 INFO - Didn't find custom user certificates.
+21:33:30.950 INFO - Didn't find Let's Encrypt certificates.
+21:33:30.950 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+21:33:30.950 WARN - ATTENTION. Server certificate paths (cert : 'F:\blynk_server', key : 'F:\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+21:33:31.809 INFO - HTTP API and WebSockets server listening at 8080 port.
+21:33:31.810 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+21:33:31.811 INFO - Mqtt hardware server listening at 8440 port.
+22:23:28.537 WARN - User 'nasserbek@yahoo.it' credentials are wrong. /192.168.97.59:37381
+22:23:43.733 INFO - Trying register user : nasserbek@yahoo.it, app : Blynk
+22:23:43.740 WARN - User with email nasserbek@yahoo.it already exists.
+22:23:43.751 WARN - User 'nasserbek@yahoo.it' credentials are wrong. /192.168.97.59:38004
+22:24:26.292 INFO - Trying register user : nasserbek@yahoo.it, app : Blynk
+22:24:26.292 WARN - User with email nasserbek@yahoo.it already exists.
+22:24:26.300 WARN - User 'nasserbek@yahoo.it' credentials are wrong. /192.168.97.59:39983
+22:24:30.760 INFO - Trying register user : nasserbek@yahoo.it, app : Blynk
+22:24:30.761 WARN - User with email nasserbek@yahoo.it already exists.
+22:24:30.771 WARN - User 'nasserbek@yahoo.it' credentials are wrong. /192.168.97.59:39167
+22:24:42.048 INFO - Trying register user : nasserbek@yahoo.it, app : Blynk
+22:24:42.049 WARN - User with email nasserbek@yahoo.it already exists.
+22:24:42.059 WARN - User 'nasserbek@yahoo.it' credentials are wrong. /192.168.97.59:47769
+22:24:44.505 INFO - Trying register user : nasserbek@yahoo.it, app : Blynk
+22:24:44.505 WARN - User with email nasserbek@yahoo.it already exists.
+22:24:44.510 WARN - User 'nasserbek@yahoo.it' credentials are wrong. /192.168.97.59:48965
+22:25:20.938 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+22:25:39.935 INFO - Creating new dashboard.
+22:25:43.631 ERROR- Error sending email auth token to user : nasserbek@yahoo.it. Error: 535-5.7.8 Username and Password not accepted. Learn more at
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials c4sm8495453pfo.195 - gsmtp
+
+22:28:06.610 INFO - Trying register user : alibekhbekh@gmail.com, app : Blynk
+22:28:06.611 WARN - User with email alibekhbekh@gmail.com already exists.
+22:28:06.626 WARN - User 'alibekhbekh@gmail.com' credentials are wrong. /192.168.97.59:43050
+22:30:25.575 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+22:30:51.762 INFO - Creating new dashboard.
+22:30:54.070 ERROR- Error sending email auth token to user : nasserbek@yahoo.it. Error: 535-5.7.8 Username and Password not accepted. Learn more at
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials n8sm12945050pjo.1 - gsmtp
+
+22:32:17.287 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+22:32:38.981 INFO - Creating new dashboard.
+22:32:40.986 ERROR- Error sending email auth token to user : nasserbek@yahoo.it. Error: 535-5.7.8 Username and Password not accepted. Learn more at
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials s13sm7879449pjm.34 - gsmtp
+
+23:01:07.875 INFO - Using data dir 'server_data'
+23:01:08.321 INFO - Region : local. Host : 192.168.43.26.
+23:01:08.911 INFO - Initializing gmail smtp mail transport. Username : example@gmail.com. SMTP host : smtp.gmail.com:587
+23:01:08.951 INFO - Reports : 0
+23:01:08.951 INFO - Didn't find custom user certificates.
+23:01:08.951 INFO - Didn't find Let's Encrypt certificates.
+23:01:08.951 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+23:01:08.951 WARN - ATTENTION. Server certificate paths (cert : 'F:\blynk_server', key : 'F:\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+23:01:09.925 ERROR- Error initializing HTTP API and WebSockets, port 8080
+java.net.BindException: Address already in use: bind
+	at sun.nio.ch.Net.bind0(Native Method) ~[?:?]
+	at sun.nio.ch.Net.bind(Net.java:552) ~[?:?]
+	at sun.nio.ch.ServerSocketChannelImpl.netBind(ServerSocketChannelImpl.java:336) ~[?:?]
+	at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:294) ~[?:?]
+	at io.netty.channel.socket.nio.NioServerSocketChannel.doBind(NioServerSocketChannel.java:134) ~[server-0.41.16-java8.jar:?]
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.bind(AbstractChannel.java:562) ~[server-0.41.16-java8.jar:?]
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.bind(DefaultChannelPipeline.java:1334) ~[server-0.41.16-java8.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeBind(AbstractChannelHandlerContext.java:506) ~[server-0.41.16-java8.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.bind(AbstractChannelHandlerContext.java:491) ~[server-0.41.16-java8.jar:?]
+	at io.netty.channel.DefaultChannelPipeline.bind(DefaultChannelPipeline.java:973) ~[server-0.41.16-java8.jar:?]
+	at io.netty.channel.AbstractChannel.bind(AbstractChannel.java:260) ~[server-0.41.16-java8.jar:?]
+	at io.netty.bootstrap.AbstractBootstrap$2.run(AbstractBootstrap.java:356) ~[server-0.41.16-java8.jar:?]
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:164) ~[server-0.41.16-java8.jar:?]
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:472) ~[server-0.41.16-java8.jar:?]
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:500) ~[server-0.41.16-java8.jar:?]
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989) ~[server-0.41.16-java8.jar:?]
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74) ~[server-0.41.16-java8.jar:?]
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30) ~[server-0.41.16-java8.jar:?]
+	at java.lang.Thread.run(Thread.java:831) [?:?]
+23:12:53.245 INFO - nasserbek@yahoo.it hardware joined.
+23:16:28.865 INFO - nasserbek@yahoo.it hardware joined.
+23:17:02.292 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+23:17:52.301 INFO - Creating new dashboard.
+23:23:14.070 ERROR- Error sending email auth token to user : nasserbek@yahoo.it. Error: 535-5.7.8 Username and Password not accepted. Learn more at
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials gz14sm7407143pjb.18 - gsmtp
+
+23:24:18.668 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+23:26:36.242 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+23:27:51.579 INFO - nasserbek@yahoo.it hardware joined.
+23:57:20.806 INFO - Using data dir 'server_data'
+23:57:21.262 INFO - Region : local. Host : 192.168.98.171.
+23:57:21.676 INFO - Initializing gmail smtp mail transport. Username : example@gmail.com. SMTP host : smtp.gmail.com:587
+23:57:21.706 INFO - Reports : 0
+23:57:21.706 INFO - Didn't find custom user certificates.
+23:57:21.707 INFO - Didn't find Let's Encrypt certificates.
+23:57:21.707 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+23:57:21.708 WARN - ATTENTION. Server certificate paths (cert : 'F:\blynk_server', key : 'F:\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+23:57:22.802 ERROR- Error initializing HTTP API and WebSockets, port 8080
+java.net.BindException: Address already in use: bind
+	at sun.nio.ch.Net.bind0(Native Method) ~[?:?]
+	at sun.nio.ch.Net.bind(Net.java:552) ~[?:?]
+	at sun.nio.ch.ServerSocketChannelImpl.netBind(ServerSocketChannelImpl.java:336) ~[?:?]
+	at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:294) ~[?:?]
+	at io.netty.channel.socket.nio.NioServerSocketChannel.doBind(NioServerSocketChannel.java:134) ~[server-0.41.16-java8.jar:?]
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.bind(AbstractChannel.java:562) ~[server-0.41.16-java8.jar:?]
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.bind(DefaultChannelPipeline.java:1334) ~[server-0.41.16-java8.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeBind(AbstractChannelHandlerContext.java:506) ~[server-0.41.16-java8.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.bind(AbstractChannelHandlerContext.java:491) ~[server-0.41.16-java8.jar:?]
+	at io.netty.channel.DefaultChannelPipeline.bind(DefaultChannelPipeline.java:973) ~[server-0.41.16-java8.jar:?]
+	at io.netty.channel.AbstractChannel.bind(AbstractChannel.java:260) ~[server-0.41.16-java8.jar:?]
+	at io.netty.bootstrap.AbstractBootstrap$2.run(AbstractBootstrap.java:356) ~[server-0.41.16-java8.jar:?]
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:164) ~[server-0.41.16-java8.jar:?]
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:472) ~[server-0.41.16-java8.jar:?]
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:500) ~[server-0.41.16-java8.jar:?]
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989) ~[server-0.41.16-java8.jar:?]
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74) ~[server-0.41.16-java8.jar:?]
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30) ~[server-0.41.16-java8.jar:?]
+	at java.lang.Thread.run(Thread.java:831) [?:?]
+23:57:57.648 INFO - Using data dir 'server_data'
+23:57:58.080 INFO - Region : local. Host : 192.168.98.171.
+23:57:58.507 INFO - Initializing gmail smtp mail transport. Username : example@gmail.com. SMTP host : smtp.gmail.com:587
+23:57:58.538 INFO - Reports : 0
+23:57:58.539 INFO - Didn't find custom user certificates.
+23:57:58.540 INFO - Didn't find Let's Encrypt certificates.
+23:57:58.540 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+23:57:58.540 WARN - ATTENTION. Server certificate paths (cert : 'F:\blynk_server', key : 'F:\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+23:57:59.347 ERROR- Error initializing HTTP API and WebSockets, port 8080
+java.net.BindException: Address already in use: bind
+	at sun.nio.ch.Net.bind0(Native Method) ~[?:?]
+	at sun.nio.ch.Net.bind(Net.java:552) ~[?:?]
+	at sun.nio.ch.ServerSocketChannelImpl.netBind(ServerSocketChannelImpl.java:336) ~[?:?]
+	at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:294) ~[?:?]
+	at io.netty.channel.socket.nio.NioServerSocketChannel.doBind(NioServerSocketChannel.java:134) ~[server-0.41.16-java8.jar:?]
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.bind(AbstractChannel.java:562) ~[server-0.41.16-java8.jar:?]
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.bind(DefaultChannelPipeline.java:1334) ~[server-0.41.16-java8.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeBind(AbstractChannelHandlerContext.java:506) ~[server-0.41.16-java8.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.bind(AbstractChannelHandlerContext.java:491) ~[server-0.41.16-java8.jar:?]
+	at io.netty.channel.DefaultChannelPipeline.bind(DefaultChannelPipeline.java:973) ~[server-0.41.16-java8.jar:?]
+	at io.netty.channel.AbstractChannel.bind(AbstractChannel.java:260) ~[server-0.41.16-java8.jar:?]
+	at io.netty.bootstrap.AbstractBootstrap$2.run(AbstractBootstrap.java:356) ~[server-0.41.16-java8.jar:?]
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:164) ~[server-0.41.16-java8.jar:?]
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:472) ~[server-0.41.16-java8.jar:?]
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:500) ~[server-0.41.16-java8.jar:?]
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989) ~[server-0.41.16-java8.jar:?]
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74) ~[server-0.41.16-java8.jar:?]
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30) ~[server-0.41.16-java8.jar:?]
+	at java.lang.Thread.run(Thread.java:831) [?:?]
