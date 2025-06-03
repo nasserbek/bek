@@ -1,8 +1,18 @@
-#define CSR     // R64 SCATOLA 1CH TTGO
-//#define CSR2      // R65 SCATOLA 4CH ESP32S
+//#define CSR     // R64 SCATOLA 1CH TTGO
+#define CSR2      // R65 SCATOLA 4CH ESP32S
 //#define CSR3   //R66 SWAN CASE 2CH ESP32S
 
 
+//#define REMOTE_SERVER
+#define LOCAL_SERVER 
+
+#ifdef LOCAL_SERVER
+    #define BLYNK_SERVER  IPAddress(192,168,1,77)   //"192.168.1.77"  blynk-cloud.com
+#endif
+
+#ifdef REMOTE_SERVER
+    #define BLYNK_SERVER "blynk.cloud" //BLYNK2 REMOTE SERVER 
+#endif
 
 //#define TEST
 #define ROUTER_CH 18  //PHYSICAL CH ON REMOTE CONTROL IS 1
@@ -21,10 +31,22 @@
     #define AWS_IOT_PUBLISH_TOPIC_LIVE_3   "csr3/pub/live"
     #define AWS_IOT_PUBLISH_TOPIC_LIVE_4   "test/pub/live"
 
+#define BLYNK_AUTH_TOKEN_CSR1                "2NVzjDY96Cbam0_TxJqTVSsgI7LgWq0_" //CSR
+#define BLYNK_AUTH_TOKEN_CSR2                "n77QtZp08I7AOG8AcCpBhxJle1S6GXa0" //CS2
+#define BLYNK_AUTH_TOKEN_CSR3                "lsH8XwzGGUUneZTqYMN-5_hfx8YepjjY" //CSR3
+#define BLYNK_AUTH_TOKEN_TEST                "1Wq6Re2q9eTOK8D5vfHhynNN2B_XoZ83" //CSR4
+enum {
+ESP0 =0,
+ESP1 =1,
+ESP2 =2,
+ESP3 =3,
+TEST4=4,
+} ;
     
 #ifdef CSR      //TTGO R64 SCATOLA 1CH TTGO
-    #define VERSION_ID "V108.0 - "
-    #define BLYNK_AUTH_TOKEN                "B1pZ48rPHfdQ8LxlqCoiPk8fxWBbv7B0" //CSR
+    #define BOARD ESP1
+    #define VERSION_ID " CSR1_1 - "
+    #define BLYNK_AUTH_TOKEN                BLYNK_AUTH_TOKEN_CSR1 //CSR1
     #define THINGNAME "CSR1"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr1/sub/rc"
     #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "csr1/sub/video"
@@ -51,9 +73,9 @@
 #endif
 
 #ifdef CSR2     // R65 SCATOLA 4CH ESP32S
- 
-    #define VERSION_ID "V108.0 - "
-    #define BLYNK_AUTH_TOKEN                "_cqYD1seWElWB-S1IxutIEI7VWmDpb05" //CS2
+    #define BOARD ESP2
+    #define VERSION_ID " CSR2_1 - "
+    #define BLYNK_AUTH_TOKEN                BLYNK_AUTH_TOKEN_CSR2 //CSR2
     #define THINGNAME "CSR2"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr2/sub/rc"
     #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "csr2/sub/video"
@@ -81,9 +103,9 @@
 
 
 #ifdef CSR3     //R66 SWAN CASE 2CH ESP32S
-   
-    #define VERSION_ID " V108.0 - "
-    #define BLYNK_AUTH_TOKEN                "6DH6QZgVXrGXU5VzOpJSJgHoyXWL7aWS" //CSR3
+    #define BOARD ESP3
+    #define VERSION_ID " CSR1_1 - "
+    #define BLYNK_AUTH_TOKEN                BLYNK_AUTH_TOKEN_CSR3 //CSR3
     #define THINGNAME "CSR3"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr3/sub/rc"
     #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "csr3/sub/video"
@@ -111,8 +133,8 @@
 
 #ifdef TEST     //R66 SWAN CASE 2CH ESP32S
     
-    #define VERSION_ID " V71.0 "
-    #define BLYNK_AUTH_TOKEN                "1Wq6Re2q9eTOK8D5vfHhynNN2B_XoZ83" 
+    #define VERSION_ID " TEST_1 - "
+    #define BLYNK_AUTH_TOKEN                BLYNK_AUTH_TOKEN_CSR4
     #define THINGNAME "CSR4"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "test/sub/rc"
     #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "test/sub/video"
@@ -143,15 +165,20 @@
 #define ROUTER_24_HOURS 86400000  // 24 HOURS
 #define WiFi_TIMEOUT 30000  // 15sec Wifi connection timeout
                    
-#define BLYNK_SERVER "blynk.cloud" //BLYNK2 REMOTE SERVER 
 
-#define WIFI_SSID_METEOR_FREE      "BEK_FREE"
-#define WIFI_SSID_METEOR_BU      "BEK_BU"
+
+
+#define WIFI_SSID_METEOR_FREE     "Meteor-free"
+#define WIFI_SSID_FREE            "Freebox-bek"
+#define WIFI_SSID_ZFLIP           "ZFlip4_BEK"
+#define WIFI_SSID_XIAOMI          "XIAOMI_BEK"
+#define WIFI_SSID_GIGA            "GIGACUBE_BEK"
+#define WIFI_SSID_METEOR_BU       "BEK_BU"
 #define WIFI_SSID_METEOR_BUF      "BEK_BUF"
-#define WIFI_SSID_METEOR_BOX    "BEK_BOX"
-#define WIFI_SSID_GIGA        "GIGACUBE_BEK"                                                
-#define WIFI_SSID_FREE        "Freebox-bek"                                              
-#define WIFI_SSID_XIAOMI      "XIAOMI_BEK" 
+#define WIFI_SSID_METEOR_BOX      "BEK_BOX"
+                                                
+                                              
+ 
 
 #define WIFI_PASSWORD         "ali09042010"
 #define WIFI_PASSWORD_METEOR  "Ali09042010_"
@@ -192,12 +219,7 @@ CH_MODE_3,
 CH_MODE_4,
 } ;
 
-enum {
-ESP1,
-ESP2,
-ESP3,
-TEST4,
-} ;
+
 
 
 enum {
@@ -277,7 +299,7 @@ Q_EVENT_ZAP_ALL_ON_OFF_V34,
 Q_EVENT_SHARE_VIDEO_WITH_CSR1_V35,
 Q_EVENT_SHARE_VIDEO_WITH_CSR2_V36,
 Q_EVENT_SHARE_VIDEO_WITH_CSR3_V37,
-Q_EVENT_WIFI_RSSI_V38,
+Q_EVENT_WIFI_RSSI_V38, //Not used
 Q_EVENT_RESET_ROUTER_V39,
 Q_EVENT_AUTOMATIC_RESET_ROUTER_V40,
 Q_EVENT_VIDEO_ON_OFF_V41,

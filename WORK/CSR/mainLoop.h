@@ -28,7 +28,7 @@ void processBlynkQueu(void)
             break;
             
             case Q_EVENT_RC_CH_NR_V1:
-              resetRemoteRCNoBlynk(0);
+              resetRemoteRCNoBlynk(ESP0);
               remoteControlRcCh=queuData;
               RC_Api = true;
               myBlynk.blynkAckLed(false);
@@ -299,7 +299,7 @@ void processBlynkQueu(void)
             case Q_EVENT_RM_ID_10_V112 :
                   videoChanel(1, queuData);
             break; 
-
+      
 
              case Q_EVENT_RM_ID_02_V122:
                   videoChanel(2, queuData);

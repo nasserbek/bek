@@ -4,7 +4,7 @@
 #define CRITICAL_H
 
 #define _TIMERINTERRUPT_LOGLEVEL_     4
-#include "TimerInterrupt_Generic.h"
+#include "ESP32TimerInterrupt.h"
 ESP32Timer ITimer0(0);
 
 
@@ -36,7 +36,7 @@ void initWDG(int wdtTimeout,bool _enable)
   Serial.print(F("\nStarting TimerInterruptTest on "));
   Serial.println(ARDUINO_BOARD);
   Serial.println(ESP32_TIMER_INTERRUPT_VERSION);
-  Serial.println(TIMER_INTERRUPT_GENERIC_VERSION);
+//  Serial.println(TIMER_INTERRUPT_GENERIC_VERSION);
   Serial.print(F("CPU Frequency = "));
   Serial.print(F_CPU / 1000000);
   Serial.println(F(" MHz"));

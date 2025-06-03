@@ -25,7 +25,6 @@ void remoteControl(int cmd )
         
       else if( RC_Remote_CSR1)
        {
-
         if (blynkConnected) apiSend(ESP1, "V1", cmd); 
         else 
           {
@@ -123,7 +122,7 @@ bool receiverAvByCh (int Ch, int cmd)
        if (blynkConnected) myBlynk.frequencyValue(recevierFreq );
        lastAck = ack; 
        
-    if(V_Remote_CSR1 || V_Remote_CSR2 || V_Remote_CSR2)
+    if(V_Remote_CSR1 || V_Remote_CSR2 || V_Remote_CSR3)
       {
         StaticJsonDocument<54> doc3; //Json to send from
         doc3["CMD"] = cmd;

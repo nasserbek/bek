@@ -27,7 +27,7 @@ bool blynkInit(void)
     String str = WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI());
     myBlynk.TerminalPrint(str );
     awsTerminal(awsConnected, str ) ;
-             
+       
 return  blynkConnected;
 }     
 

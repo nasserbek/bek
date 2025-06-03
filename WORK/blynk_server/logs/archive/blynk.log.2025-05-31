@@ -1,0 +1,55 @@
+00:02:41.450 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+00:03:42.808 INFO - nasserbek@yahoo.it hardware joined.
+00:03:53.331 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+00:04:27.765 INFO - nasserbek@yahoo.it hardware joined.
+00:06:28.642 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+00:07:55.024 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+00:10:01.692 INFO - nasserbek@yahoo.it hardware joined.
+00:10:04.531 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+10:34:23.450 INFO - Using data dir 'server_data'
+10:34:23.892 INFO - Region : local. Host : 192.168.1.77.
+10:34:24.286 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+10:34:24.358 INFO - Reports : 0
+10:34:24.358 INFO - Didn't find custom user certificates.
+10:34:24.360 INFO - Didn't find Let's Encrypt certificates.
+10:34:24.360 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+10:34:24.360 WARN - ATTENTION. Server certificate paths (cert : 'D:\blynk_server', key : 'D:\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+10:34:25.018 INFO - HTTP API and WebSockets server listening at 8080 port.
+10:34:25.019 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+10:34:25.020 INFO - Mqtt hardware server listening at 8440 port.
+10:34:38.271 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+12:41:19.447 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+12:57:20.981 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+13:14:01.277 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+13:16:56.224 INFO - nasserbek@yahoo.it hardware joined.
+13:18:49.410 INFO - nasserbek@yahoo.it hardware joined.
+14:09:44.412 INFO - Using data dir 'server_data'
+14:09:44.891 INFO - Region : local. Host : 192.168.1.77.
+14:09:45.266 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+14:09:45.380 INFO - Reports : 0
+14:09:45.380 INFO - Didn't find custom user certificates.
+14:09:45.381 INFO - Didn't find Let's Encrypt certificates.
+14:09:45.381 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+14:09:45.381 WARN - ATTENTION. Server certificate paths (cert : 'D:\blynk_server', key : 'D:\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+14:09:46.129 INFO - HTTP API and WebSockets server listening at 8080 port.
+14:09:46.130 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+14:09:46.131 INFO - Mqtt hardware server listening at 8440 port.
+14:10:19.914 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+14:10:56.830 INFO - nasserbek@yahoo.it hardware joined.
+14:15:17.316 INFO - nasserbek@yahoo.it hardware joined.
+14:19:51.362 INFO - nasserbek@yahoo.it hardware joined.
+14:22:21.819 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+14:24:44.930 INFO - nasserbek@yahoo.it hardware joined.
+16:18:34.932 INFO - nasserbek@yahoo.it hardware joined.
+20:18:41.001 INFO - nasserbek@yahoo.it hardware joined.
+20:23:13.177 INFO - nasserbek@yahoo.it hardware joined.
+20:25:04.692 INFO - nasserbek@yahoo.it hardware joined.
+20:27:53.167 INFO - nasserbek@yahoo.it hardware joined.
+21:55:29.492 INFO - nasserbek@yahoo.it hardware joined.
+21:58:40.357 INFO - nasserbek@yahoo.it hardware joined.
+22:03:55.119 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+22:38:24.143 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+22:42:05.048 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+23:06:10.189 INFO - nasserbek@yahoo.it hardware joined.
+23:11:08.237 INFO - nasserbek@yahoo.it hardware joined.
+23:14:07.233 INFO - nasserbek@yahoo.it hardware joined.

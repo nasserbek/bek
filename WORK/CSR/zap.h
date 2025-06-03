@@ -17,34 +17,34 @@ byte csr3_nr_ch = 8;
 
 void resetRemoteRC(void)
 {
-      RC_Remote_CSR1 =false; myBlynk.resetRemoteRC(1);
-      RC_Remote_CSR2 =false; myBlynk.resetRemoteRC(2);
-      RC_Remote_CSR3 =false;  myBlynk.resetRemoteRC(3);  
+      RC_Remote_CSR1 =false; myBlynk.resetRemoteRC(ESP1);
+      RC_Remote_CSR2 =false; myBlynk.resetRemoteRC(ESP2);
+      RC_Remote_CSR3 =false;  myBlynk.resetRemoteRC(ESP3);  
 }
 
 void resetRemoteRCNoBlynk(int esp)
 {
        switch (esp)
           {
-            case 0:
+            case ESP0:
                   RC_Remote_CSR1 =false; 
                   RC_Remote_CSR2 =false; 
                   RC_Remote_CSR3 =false; 
             break;
             
-            case 1:
+            case ESP1:
                   RC_Remote_CSR1 =true; 
                   RC_Remote_CSR2 =false; 
                   RC_Remote_CSR3 =false; 
             break;
 
-            case 2:
+            case ESP2:
                   RC_Remote_CSR1 =false; 
                   RC_Remote_CSR2 =true; 
                   RC_Remote_CSR3 =false; 
             break;
 
-            case 3:
+            case ESP3:
                   RC_Remote_CSR1 =false; 
                   RC_Remote_CSR2 =false; 
                   RC_Remote_CSR3 =true; 
@@ -59,21 +59,21 @@ void automaticOn(int chanel)
        csr3on =   chanel == R_25 || chanel == R_27 || chanel == R_62 || chanel == R_63 || chanel == R_64 || chanel == R_65 || chanel == R_66 || chanel == R_68;
      
         #ifdef CSR3    
-            if        (csr1on) resetRemoteRCNoBlynk(1);
-            else if   (csr2on) resetRemoteRCNoBlynk(2);
-            else if   (csr3on) resetRemoteRCNoBlynk(0);
+            if        (csr1on) resetRemoteRCNoBlynk(ESP1);
+            else if   (csr2on) resetRemoteRCNoBlynk(ESP2);
+            else if   (csr3on) resetRemoteRCNoBlynk(ESP0);
         #endif       
 
         #ifdef CSR2      
-            if        (csr1on) resetRemoteRCNoBlynk(1);
-            else if   (csr3on) resetRemoteRCNoBlynk(3);
-            else if   (csr2on) resetRemoteRCNoBlynk(0);
+            if        (csr1on) resetRemoteRCNoBlynk(ESP1);
+            else if   (csr3on) resetRemoteRCNoBlynk(ESP3);
+            else if   (csr2on) resetRemoteRCNoBlynk(ESP0);
         #endif      
 
         #ifdef CSR      
-            if        (csr2on) resetRemoteRCNoBlynk(2);
-            else  if  (csr3on) resetRemoteRCNoBlynk(3);
-            else if   (csr1on) resetRemoteRCNoBlynk(0);
+            if        (csr2on) resetRemoteRCNoBlynk(ESP2);
+            else  if  (csr3on) resetRemoteRCNoBlynk(ESP3);
+            else if   (csr1on) resetRemoteRCNoBlynk(ESP0);
             #endif  
     }    
 
@@ -85,22 +85,22 @@ void automaticOff(int chanel)
        csr3off =  chanel == R_27 || chanel == R_62   || chanel == R_63  || chanel == R_64 || chanel == R_65 || chanel == R_66 || chanel == R_68   ;
 
         #ifdef CSR3      
-          if       (csr1off) resetRemoteRCNoBlynk(1);
-          else if  (csr2off) resetRemoteRCNoBlynk(2);
-          else if  (csr3off) resetRemoteRCNoBlynk(0);
+          if       (csr1off) resetRemoteRCNoBlynk(ESP1);
+          else if  (csr2off) resetRemoteRCNoBlynk(ESP2);
+          else if  (csr3off) resetRemoteRCNoBlynk(ESP0);
         #endif       
 
          
         #ifdef CSR2     
-          if      (csr1off) resetRemoteRCNoBlynk(1);
-          else if (csr3off) resetRemoteRCNoBlynk(3);
-          else if (csr2off) resetRemoteRCNoBlynk(0);
+          if      (csr1off) resetRemoteRCNoBlynk(ESP1);
+          else if (csr3off) resetRemoteRCNoBlynk(ESP3);
+          else if (csr2off) resetRemoteRCNoBlynk(ESP0);
         #endif      
 
         #ifdef CSR      
-          if        (csr2off) resetRemoteRCNoBlynk(2);
-          else if   (csr3off) resetRemoteRCNoBlynk(3);
-          else if   (csr1off) resetRemoteRCNoBlynk(0);
+          if        (csr2off) resetRemoteRCNoBlynk(ESP2);
+          else if   (csr3off) resetRemoteRCNoBlynk(ESP3);
+          else if   (csr1off) resetRemoteRCNoBlynk(ESP0);
         #endif  
     } 
     
@@ -114,7 +114,7 @@ void videoChanel(int ch, bool cmd)
     {
       remoteControlRcCh = ch;
       recevierCh        = ch;
-      if (!autoRemoteLocalRc ) 
+      if (autoRemoteLocalRc ) 
         {
           if(cmd)automaticOn(recevierCh);
           else automaticOff(recevierCh);
@@ -153,7 +153,7 @@ void resetZapper (void)
 void nextState( int nextSm)
     {
       stateMachine =nextSm;
-      resetRemoteRCNoBlynk(0);      
+      resetRemoteRCNoBlynk(ESP0);      
     } 
 
 
@@ -166,7 +166,7 @@ void turnOn (int ch, int prevCh,  int smb,  int sma)
       
       stateMachine =smb;
       
-      if (!autoRemoteLocalRc) automaticOn(ch);
+      if (autoRemoteLocalRc) automaticOn(ch);
       if (prevCh == 0)
         {
           recevierCh=videoCh[ch].id;     
@@ -178,7 +178,7 @@ void turnOn (int ch, int prevCh,  int smb,  int sma)
      
 void turnOff(int ch, int prevCh, int smc )
  {  
-          if (!autoRemoteLocalRc) automaticOff(prevCh);
+          if (autoRemoteLocalRc) automaticOff(prevCh);
           if (prevCh != 0)
             {
               recevierCh=videoCh[ch].id; 

@@ -3,10 +3,7 @@
 #ifndef API_H
 #define API_H
 
-#define BLYNK_AUTH_TOKEN_CSR1                "B1pZ48rPHfdQ8LxlqCoiPk8fxWBbv7B0" //CSR
-#define BLYNK_AUTH_TOKEN_CSR2                "_cqYD1seWElWB-S1IxutIEI7VWmDpb05" //CS2
-#define BLYNK_AUTH_TOKEN_CSR3                "6DH6QZgVXrGXU5VzOpJSJgHoyXWL7aWS" //CSR3
-#define BLYNK_AUTH_TOKEN_TEST                "1Wq6Re2q9eTOK8D5vfHhynNN2B_XoZ83" //CSR4
+
 
 // Blynk cloud server
 const char* blynkHost = "blynk.cloud";
@@ -24,12 +21,13 @@ bool httpRequest(const String& method,
   Serial.print(":");
   Serial.print(port);
   Serial.print("... ");
-  if (apiClient.connect(blynkHost, port)) {
-    Serial.println("OK");
-  } else {
-    Serial.println("failed");
-    return false;
-  }
+
+      if (apiClient.connect(blynkHost, port)) {
+        Serial.println("OK");
+      } else {
+        Serial.println("failed");
+        return false;
+      }
 
   Serial.print(method); Serial.print(" "); Serial.println(url);
 
@@ -86,15 +84,15 @@ bool httpRequest(const String& method,
 
 
 
-void apiSend(int board, String virtualPin, int value) {
+void apiSend(int RemoteBoard, String virtualPin, int value) {
   String response;
 
   // Send value to the cloud
   // similar to Blynk.virtualWrite()
   String request = "&pin="+ virtualPin +"&value=" ;
-  Serial.print("Sending value: ");
+  Serial.print("Sending value: " );
   Serial.println(value);
-  if (board == ESP1)
+  if (RemoteBoard == ESP1 && BOARD != ESP1)
   {
          if (httpRequest("GET", String("/external/api/update?token=") + BLYNK_AUTH_TOKEN_CSR1 + request + value, "", response)) {
           if (response.length() != 0) {
@@ -104,7 +102,7 @@ void apiSend(int board, String virtualPin, int value) {
         }
   }
 
-    if (board == ESP2)
+    if (RemoteBoard == ESP2 && BOARD != ESP2)
   {
          if (httpRequest("GET", String("/external/api/update?token=") + BLYNK_AUTH_TOKEN_CSR2 + request + value, "", response)) {
           if (response.length() != 0) {
@@ -114,7 +112,7 @@ void apiSend(int board, String virtualPin, int value) {
         }
   }
 
-   if (board == ESP3)
+   if (RemoteBoard == ESP3 && BOARD != ESP3)
   {
          if (httpRequest("GET", String("/external/api/update?token=") + BLYNK_AUTH_TOKEN_CSR3 + request + value, "", response)) {
           if (response.length() != 0) {

@@ -99,10 +99,19 @@ bool firstConnect= false;
 extern EventGroupHandle_t g_event_group;
 extern QueueHandle_t g_event_queue_handle;
 
+bool ledStatus = false;
+extern bool queuValidData;
+//#define BLYNK_GREEN     "#23C48E"
+//#define BLYNK_BLUE      "#04C0F8"
+//#define BLYNK_YELLOW    "#ED9D00"
+//#define BLYNK_RED       "#D3435C"
+//#define BLYNK_DARK_BLUE "#5F7CD8"
+
+
 
 WidgetLED I2C_LED_V13(V13);  //I2C ACK
 WidgetLED LIVE_LED_V121(V121);  //LIVE
-
+WidgetMap myMap(V12);
 WidgetTerminal terminal(V102);
 
 unsigned int BlynkServerTimeout  =  2000;  //  2s server connection timeout (SCT)
@@ -128,6 +137,22 @@ void ledInit(void)
   LIVE_LED_V121.on();
 }
 
+// V121 LED Widget is blinking
+void blinkLedWidget()
+{
+  if(!queuValidData)
+  {
+  if (ledStatus) {
+    LIVE_LED_V121.setColor(BLYNK_RED);
+    Serial.println("LED on V121: red");
+    ledStatus = false;
+  } else {
+    LIVE_LED_V121.setColor(BLYNK_GREEN);
+    Serial.println("LED on V121: green");
+    ledStatus = true;
+  }
+  }
+}
 //void SendLiveLed()
 //  {
 //    if (liveLed)  liveLed = false; 
@@ -142,7 +167,7 @@ void checkBlynk() {
     _blynkIsConnected = true;   
     _wifiIsConnected = true;
 
-    while(!Blynk.connected()){
+     while(!Blynk.connected()){
       Serial.println("Blynk Disconnected");
        Blynk.connect(BlynkServerTimeout);  
        if(millis() > startConnecting + BlynkServerTimeout){
@@ -150,7 +175,7 @@ void checkBlynk() {
         Serial.println("Unable to connect to server. ");
         break;
       }
-    }
+    } 
   }
   else 
     {
@@ -168,11 +193,12 @@ bool blynk::wifi_init()
 {
     _wifiIsConnected = false;
 
-    wifiMulti.addAP(WIFI_SSID_METEOR_BOX, WIFI_PASSWORD_METEOR);
-    wifiMulti.addAP(WIFI_SSID_METEOR_BU, WIFI_PASSWORD_METEOR);
-    wifiMulti.addAP(WIFI_SSID_XIAOMI , WIFI_PASSWORD);
-    wifiMulti.addAP(WIFI_SSID_FREE , WIFI_PASSWORD);
-    
+       wifiMulti.addAP(WIFI_SSID_METEOR_FREE, WIFI_PASSWORD_METEOR);
+       wifiMulti.addAP(WIFI_SSID_FREE , WIFI_PASSWORD);
+       wifiMulti.addAP(WIFI_SSID_ZFLIP , WIFI_PASSWORD);
+       wifiMulti.addAP(WIFI_SSID_XIAOMI , WIFI_PASSWORD);
+       wifiMulti.addAP(WIFI_SSID_METEOR_BU, WIFI_PASSWORD_METEOR);
+     
     Serial.println("Connecting Wifi...");
     //Connecting to the strongest WiFi connection
     if (wifiMulti.run(WiFi_TIMEOUT) == WL_CONNECTED)
@@ -197,13 +223,19 @@ bool blynk::init()
    _blynkIsConnected = false;   
   timer.setInterval(LiveUpdateInterval, SendLiveLed);// run some function at intervals per LiveUpdateInterval
   timer.setInterval(blynkIntervalInterval, checkBlynk);   // check connection to server per blynkIntervalInterval
-  
+  timer.setInterval(1000L, blinkLedWidget);
   if(_wifiIsConnected)
     {
-     Blynk.config(BLYNK_AUTH_TOKEN, BLYNK_SERVER);
-     Blynk.connect(BlynkServerTimeout);
-//     delay(1000);
-     _blynkIsConnected =Blynk.connected();
+        Blynk.config(BLYNK_AUTH_TOKEN, BLYNK_SERVER,8080); 
+        Blynk.connect(BlynkServerTimeout);
+        delay(1000);
+        _blynkIsConnected = Blynk.connected();
+      
+      int index = 0;
+      double lat = 43.97616119635222;
+      double lon = 4.871992547377278; //43.97616119635222, 4.871992547377278
+      myMap.location(index, lat, lon, "La Pontet");
+     
      DEBUG_PRINT("BLYNK: ");DEBUG_PRINTLN( _blynkIsConnected ? F("Connected") : F("Not Connected"));
      blynkAtiveTimer     = millis();
      blynkActive = false;
@@ -490,7 +522,7 @@ BLYNK_WRITE(V37)   //22
 }
 
 
-BLYNK_WRITE(V38)   //208 
+BLYNK_WRITE(V38)   //NOT USED
 {
     _blynkEvent = true; 
     _blynkData=param.asInt();
@@ -676,23 +708,32 @@ BLYNK_WRITE(V101)  //repetion
 
 BLYNK_WRITE(V102)  //TERMINAL
 {
-
-    // if you type "Marco" into Terminal Widget - it will respond: "Polo:"
-  if (String("w") == param.asStr()) 
+  // if you type "Marco" into Terminal Widget - it will respond: "Polo:"
+  if (String("Marco") == param.asStr()) {
+    terminal.println("You said: 'Marco'") ;
+    terminal.println("I said: 'Polo'") ;
+  } 
+  
+  else if (String("w") == param.asStr()) 
   {
-    Blynk.virtualWrite(V102, WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) + "\n");
+    terminal.println( WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) + "\n");
   } 
 
   else if (String("c") == param.asStr()) 
   {
     terminal.clear();
   }
-  
-  else 
-  {
+
+  else {
     // Send it back
-    Blynk.virtualWrite(V102, "\nYou said:", param.asStr());
+    terminal.print("You said:");
+    terminal.write(param.getBuffer(), param.getLength());
+    terminal.println();
   }
+
+  // Ensure everything is sent
+  terminal.flush();
+
 }
 
 
@@ -986,14 +1027,14 @@ if(!zapSetup && !zapScanOnly)
 {
   switch (_data)
         {
-          case 1:
+          case ESP1:
                    Blynk.virtualWrite(V16, 0); 
           break;
 
-          case 2:
+          case ESP2:
                    Blynk.virtualWrite(V20, 0); 
           break;
-          case 3:
+          case ESP3:
                    Blynk.virtualWrite(V17, 0); 
           break;
         }   
@@ -1006,14 +1047,14 @@ if(!zapSetup && !zapScanOnly)
 {
   switch (_data)
         {
-          case 1:
+          case ESP1:
                    Blynk.virtualWrite(V35, 0); 
           break;
 
-          case 2:
+          case ESP2:
                    Blynk.virtualWrite(V36, 0); 
           break;
-          case 3:
+          case ESP3:
                    Blynk.virtualWrite(V37, 0); 
           break;
         }   
@@ -1087,6 +1128,7 @@ void blynk::blynkAckLed( bool _data)
 }
 
 
+
 void blynk::liveLedCall(bool _data)
 {
   if(!blynkActive && !zapOnOff && !zapScanOnly)
@@ -1148,7 +1190,7 @@ void blynk::TerminalPrint (String str)
    #ifdef TEST   
        Serial.println(str);
     #endif 
-
+    terminal.flush();  
 }
 
 void blynk::BlynkButtonColours(int lastSelectedCh, int chMode)
