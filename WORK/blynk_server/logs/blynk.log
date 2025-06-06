@@ -1,1 +1,35 @@
 10:18:12.277 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+12:20:20.263 INFO - Using data dir 'server_data'
+12:20:21.494 INFO - Region : local. Host : blynk-local.com .
+12:20:22.863 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+12:20:22.938 INFO - Reports : 0
+12:20:22.939 INFO - Didn't find custom user certificates.
+12:20:22.941 INFO - Didn't find Let's Encrypt certificates.
+12:20:22.941 INFO - Automatic certificate generation is turned ON.
+12:20:22.941 WARN - ATTENTION. Server certificate paths (cert : 'C:\Users\roofc\OneDrive\GitHub2025\bek\WORK\blynk_server', key : 'C:\Users\roofc\OneDrive\GitHub2025\bek\WORK\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+12:20:26.002 INFO - HTTP API and WebSockets server listening at 8080 port.
+12:20:26.003 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+12:20:26.004 INFO - Mqtt hardware server listening at 8440 port.
+12:20:26.056 INFO - Starting up certificate retrieval process for host blynk-local.com  and email alibekhbekh@gmail.com.
+12:20:28.554 INFO - Registered a new user, URL: https://acme-v02.api.letsencrypt.org/acme/acct/2436959387
+12:20:29.190 INFO - Starting authorization for domain blynk-local.com
+12:20:31.616 INFO - nasserbek@yahoo.it hardware joined.
+13:31:06.197 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+13:33:10.000 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+13:34:40.033 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+13:36:27.587 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+13:40:30.487 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+13:41:24.353 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+13:43:16.419 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+13:44:57.927 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+13:46:47.779 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+13:48:28.976 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+13:49:47.761 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+13:51:19.473 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+13:55:31.093 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+13:57:30.026 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+14:17:21.692 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+19:05:28.072 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+20:38:53.203 INFO - nasserbek@yahoo.it hardware joined.
+20:39:47.172 INFO - nasserbek@yahoo.it hardware joined.
+20:41:10.274 INFO - nasserbek@yahoo.it hardware joined.
