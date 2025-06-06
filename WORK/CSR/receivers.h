@@ -8,7 +8,7 @@
 extern int  Av_Rx;
 extern void AvReceiverSel(int queuData);
 extern void videoChanel(int ch, bool cmd);
-
+extern bool PowerOnTune;
 
 bool  TCA9548A(uint8_t bus)
 {
@@ -232,15 +232,8 @@ void AvReceiverSel(int queuData)
 }
 
 
-
-void  dvrOnOff (bool onOff)
+void PowerOnTuning(void)
 {
-   myBlynk.dvrSwitch(onOff);
-   
-   if (onOff) 
-   {
-    digitalWrite(AV_RX_DVR_PIN_2, LOW); 
-   
     #ifdef CSR      
            
            selected_Rx = 3;  //H3
@@ -287,12 +280,6 @@ void  dvrOnOff (bool onOff)
            myBlynk.RelaySelect(3);
            delay (1000); 
            
-//           selected_Rx = 3;
-//           AvReceiverSel(4);  
-//           delay (1000);
-//           if(!DvrChOn) {Av_Rx = BOTH; videoChanel(R_28, ON);}
-//           else {Av_Rx = SOLO_VIDEO; videoChanel(R_28, ON);}
-//           myBlynk.RelaySelect(4);
     #endif
     
     #ifdef CSR3      
@@ -300,8 +287,6 @@ void  dvrOnOff (bool onOff)
            delay (1000);
            AvReceiverSel(1);  
            delay (1000);
-//           if(DvrChOn) {Av_Rx = BOTH; videoChanel(R_25, ON);}  //CH4 ZAP
-//           else {Av_Rx = SOLO_VIDEO; videoChanel(R_25, ON);}
            Av_Rx = SOLO_VIDEO; videoChanel(R_25, ON);
            myBlynk.RelaySelect(4);  //RX1 SHOWS RX2 IN HMI
            delay (1000); 
@@ -313,18 +298,28 @@ void  dvrOnOff (bool onOff)
            else {Av_Rx = SOLO_VIDEO; videoChanel(R_28, ON);}
            myBlynk.RelaySelect(3);  //RX2 SHOWS RX3 IN HMI
     #endif
+}      
+
+
+void  dvrOnOff (bool onOff)
+{
+   myBlynk.dvrSwitch(onOff);
+   
+   if (onOff) 
+   {
+    digitalWrite(AV_RX_DVR_PIN_2, LOW); 
+    if(PowerOnTune)PowerOnTuning();    
     DvrChOn = true;
     Av_Rx = SOLO_VIDEO;
-      
    }
-   
    else 
    {
       digitalWrite(AV_RX_DVR_PIN_2, HIGH); 
       DvrChOn = false;
    }
-   
 }
+
+
 
 /**************************************************END OF VIDEO RC CONTROL ZONE***************************************************************/
 

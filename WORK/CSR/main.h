@@ -35,6 +35,7 @@ EventGroupHandle_t g_event_group = NULL;
 WiFiClientSecure net = WiFiClientSecure();
 PubSubClient client(net);
 
+bool PowerOnTune = false;
 bool autoResetRouter = 0;
 int activeBoard   = ESP1;
 int selectedBoard = ESP1;

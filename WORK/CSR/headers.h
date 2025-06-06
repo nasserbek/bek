@@ -69,12 +69,12 @@ TEST4=4,
     #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "csr1/sub/live"
     #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "csr1/sub/blynk"
     #define AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL   "csr1/sub/terminal"
-    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/CSR1.bin"  // URL to download the firmware from
+    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/CSR.ino.esp32.bin"  // URL to download the firmware from
 #endif
 
 #ifdef CSR2     // R65 SCATOLA 4CH ESP32S
     #define BOARD ESP2
-    #define VERSION_ID " V1.0 "
+    #define VERSION_ID " V1.1 "
     #define BLYNK_AUTH_TOKEN                BLYNK_AUTH_TOKEN_CSR2 //CSR2
     #define THINGNAME "CSR2"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr2/sub/rc"
@@ -98,7 +98,7 @@ TEST4=4,
     #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "csr2/sub/live"
     #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "csr2/sub/blynk"
     #define AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL   "csr2/sub/terminal"
-    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/CSR2.bin"  // URL to download the firmware from
+    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/CSR.ino.esp32.bin"  // URL to download the firmware from
 #endif
 
 
@@ -128,7 +128,7 @@ TEST4=4,
     #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "csr3/sub/live"
     #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "csr3/sub/blynk"
     #define AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL   "csr3/sub/terminal"
-    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/CSR3.bin"  // URL to download the firmware from
+    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/CSR.ino.esp32.bin"  // URL to download the firmware from
 #endif
 
 #ifdef TEST     //R66 SWAN CASE 2CH ESP32S
@@ -157,7 +157,7 @@ TEST4=4,
     #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "test/sub/live"
     #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "test/sub/blynk"
     #define AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL   "test/sub/terminal"
-    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/TEST.bin"  // URL to download the firmware from
+    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/CSR/CSR.ino.esp32.bin"  // URL to download the firmware from
 #endif
 
 #define INTERNET_LOSS_TO_RESET_NG_TIMER 120000   // 2 MIN
