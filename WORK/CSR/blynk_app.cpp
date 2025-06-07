@@ -226,6 +226,8 @@ bool blynk::init()
   timer.setInterval(1000L, blinkLedWidget);
   if(_wifiIsConnected)
     {
+        if(WiFi.SSID() == WIFI_SSID_FREE) BLYNK_SERVER = BLYNK_SERVER_FREE_BOX;
+        else if(WiFi.SSID() == WIFI_SSID_METEOR_FREE) BLYNK_SERVER = BLYNK_SERVER_FREE_METEOR;
         Blynk.config(BLYNK_AUTH_TOKEN, BLYNK_SERVER,8080); 
         Blynk.connect(BlynkServerTimeout);
         delay(1000);

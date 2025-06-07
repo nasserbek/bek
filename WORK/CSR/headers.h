@@ -7,7 +7,9 @@
 #define LOCAL_SERVER 
 
 #ifdef LOCAL_SERVER
-    #define BLYNK_SERVER  IPAddress(192,168,1,77)   //"192.168.1.77"  blynk-cloud.com
+    #define BLYNK_SERVER              IPAddress(192,168,1,77)
+    #define BLYNK_SERVER_FREE_BOX     IPAddress(192,168,1,77)   //"192.168.1.77"  blynk-cloud.com
+    #define BLYNK_SERVER_FREE_METEOR  IPAddress(192,168,1,196)   //"192.168.1.77"  blynk-cloud.com
 #endif
 
 #ifdef REMOTE_SERVER
@@ -74,7 +76,7 @@ TEST4=4,
 
 #ifdef CSR2     // R65 SCATOLA 4CH ESP32S
     #define BOARD ESP2
-    #define VERSION_ID " V1.2 "
+    #define VERSION_ID " V1.3 "
     #define BLYNK_AUTH_TOKEN                BLYNK_AUTH_TOKEN_CSR2 //CSR2
     #define THINGNAME "CSR2"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr2/sub/rc"
