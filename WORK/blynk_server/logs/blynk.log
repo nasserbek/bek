@@ -1,2 +1,126 @@
 00:51:37.261 INFO - nasserbek@yahoo.it hardware joined.
 01:41:21.335 INFO - nasserbek@yahoo.it hardware joined.
+01:45:29.506 INFO - nasserbek@yahoo.it hardware joined.
+12:20:26.012 INFO - Starting up certificate retrieval process for host blynk-local.com  and email alibekhbekh@gmail.com.
+12:20:26.925 INFO - Registered a new user, URL: https://acme-v02.api.letsencrypt.org/acme/acct/2436959387
+12:20:27.441 INFO - Starting authorization for domain blynk-local.com
+14:23:51.405 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+14:24:13.032 INFO - nasserbek@yahoo.it hardware joined.
+14:26:17.671 INFO - nasserbek@yahoo.it hardware joined.
+14:27:04.691 INFO - nasserbek@yahoo.it hardware joined.
+14:30:08.547 INFO - nasserbek@yahoo.it hardware joined.
+14:33:07.852 INFO - nasserbek@yahoo.it hardware joined.
+14:38:54.685 INFO - nasserbek@yahoo.it hardware joined.
+14:50:17.091 INFO - Using data dir 'server_data'
+14:50:17.562 INFO - Region : local. Host : blynk-local.com .
+14:50:17.959 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+14:50:17.987 INFO - Reports : 0
+14:50:17.988 INFO - Didn't find custom user certificates.
+14:50:17.989 INFO - Didn't find Let's Encrypt certificates.
+14:50:17.990 INFO - Automatic certificate generation is turned ON.
+14:50:17.990 WARN - ATTENTION. Server certificate paths (cert : 'C:\Users\roofc\OneDrive\GitHub2025\bek\WORK\blynk_server', key : 'C:\Users\roofc\OneDrive\GitHub2025\bek\WORK\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+14:50:18.776 INFO - HTTP API and WebSockets server listening at 8080 port.
+14:50:18.777 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+14:50:18.778 INFO - Mqtt hardware server listening at 8440 port.
+14:50:18.798 INFO - Starting up certificate retrieval process for host blynk-local.com  and email alibekhbekh@gmail.com.
+14:50:19.555 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+14:52:55.760 INFO - Using data dir 'server_data'
+14:52:56.243 INFO - Region : local. Host : blynk-local.com .
+14:52:56.671 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+14:52:56.702 INFO - Reports : 0
+14:52:56.703 INFO - Didn't find custom user certificates.
+14:52:56.704 INFO - Didn't find Let's Encrypt certificates.
+14:52:56.704 INFO - Automatic certificate generation is turned ON.
+14:52:56.704 WARN - ATTENTION. Server certificate paths (cert : 'C:\Users\roofc\OneDrive\GitHub2025\bek\WORK\blynk_server', key : 'C:\Users\roofc\OneDrive\GitHub2025\bek\WORK\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+14:52:57.448 INFO - HTTP API and WebSockets server listening at 8080 port.
+14:52:57.450 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+14:52:57.451 INFO - Mqtt hardware server listening at 8440 port.
+14:52:57.471 INFO - Starting up certificate retrieval process for host blynk-local.com  and email alibekhbekh@gmail.com.
+14:52:58.945 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+14:53:08.924 INFO - nasserbek@yahoo.it hardware joined.
+14:53:35.818 INFO - Using data dir 'server_data'
+14:53:36.286 INFO - Region : local. Host : blynk-local.com .
+14:53:36.675 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+14:53:36.706 INFO - Reports : 0
+14:53:36.707 INFO - Didn't find custom user certificates.
+14:53:36.708 INFO - Didn't find Let's Encrypt certificates.
+14:53:36.708 INFO - Automatic certificate generation is turned ON.
+14:53:36.708 WARN - ATTENTION. Server certificate paths (cert : 'C:\Users\roofc\OneDrive\GitHub2025\bek\WORK\blynk_server', key : 'C:\Users\roofc\OneDrive\GitHub2025\bek\WORK\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+14:53:37.744 INFO - HTTP API and WebSockets server listening at 8080 port.
+14:53:37.746 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+14:53:37.747 INFO - Mqtt hardware server listening at 8440 port.
+14:53:37.767 INFO - Starting up certificate retrieval process for host blynk-local.com  and email alibekhbekh@gmail.com.
+14:53:38.154 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+14:53:38.996 INFO - nasserbek@yahoo.it hardware joined.
+14:54:43.845 INFO - Using data dir 'server_data'
+14:54:44.345 INFO - Region : local. Host : blynk-local.com .
+14:54:44.768 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+14:54:44.800 INFO - Reports : 0
+14:54:44.800 INFO - Didn't find custom user certificates.
+14:54:44.802 INFO - Didn't find Let's Encrypt certificates.
+14:54:44.802 INFO - Automatic certificate generation is turned ON.
+14:54:44.802 WARN - ATTENTION. Server certificate paths (cert : 'C:\Users\roofc\OneDrive\GitHub2025\bek\WORK\blynk_server', key : 'C:\Users\roofc\OneDrive\GitHub2025\bek\WORK\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+14:54:45.687 INFO - HTTP API and WebSockets server listening at 8080 port.
+14:54:45.688 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+14:54:45.689 INFO - Mqtt hardware server listening at 8440 port.
+14:54:45.709 INFO - Starting up certificate retrieval process for host blynk-local.com  and email alibekhbekh@gmail.com.
+14:54:45.972 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+14:54:46.332 INFO - nasserbek@yahoo.it hardware joined.
+14:54:52.548 INFO - Registered a new user, URL: https://acme-v02.api.letsencrypt.org/acme/acct/2436959387
+14:54:54.684 INFO - Starting authorization for domain blynk-local.com
+14:54:58.921 INFO - nasserbek@yahoo.it hardware joined.
+14:55:41.454 INFO - Using data dir 'server_data'
+14:55:41.936 INFO - Region : local. Host : 169.254.83.107.
+14:55:42.351 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+14:55:42.380 INFO - Reports : 0
+14:55:42.380 INFO - Didn't find custom user certificates.
+14:55:42.382 INFO - Didn't find Let's Encrypt certificates.
+14:55:42.382 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+14:55:42.382 WARN - ATTENTION. Server certificate paths (cert : 'C:\Users\roofc\OneDrive\GitHub2025\bek\WORK\blynk_server', key : 'C:\Users\roofc\OneDrive\GitHub2025\bek\WORK\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+14:55:43.077 INFO - HTTP API and WebSockets server listening at 8080 port.
+14:55:43.078 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+14:55:43.079 INFO - Mqtt hardware server listening at 8440 port.
+14:55:44.765 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+14:55:48.979 INFO - nasserbek@yahoo.it hardware joined.
+14:57:38.949 INFO - nasserbek@yahoo.it hardware joined.
+20:13:52.653 INFO - Using data dir 'server_data'
+20:13:53.293 INFO - Region : local. Host : 100.69.14.49.
+20:13:53.847 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+20:13:53.885 INFO - Reports : 0
+20:13:53.886 INFO - Didn't find custom user certificates.
+20:13:53.887 INFO - Didn't find Let's Encrypt certificates.
+20:13:53.887 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+20:13:53.888 WARN - ATTENTION. Server certificate paths (cert : 'C:\Users\CSR\OneDrive\GitHub2025\bek\WORK\blynk_server', key : 'C:\Users\CSR\OneDrive\GitHub2025\bek\WORK\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+20:13:54.992 INFO - HTTP API and WebSockets server listening at 8080 port.
+20:13:54.994 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+20:13:54.997 INFO - Mqtt hardware server listening at 8440 port.
+20:14:35.578 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+20:15:44.490 INFO - Using data dir 'server_data'
+20:15:45.061 INFO - Region : local. Host : 100.69.14.49.
+20:15:45.705 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+20:15:45.744 INFO - Reports : 0
+20:15:45.745 INFO - Didn't find custom user certificates.
+20:15:45.747 INFO - Didn't find Let's Encrypt certificates.
+20:15:45.747 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+20:15:45.747 WARN - ATTENTION. Server certificate paths (cert : 'C:\Users\CSR\OneDrive\GitHub2025\bek\WORK\blynk_server', key : 'C:\Users\CSR\OneDrive\GitHub2025\bek\WORK\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+20:15:47.081 ERROR- Error initializing HTTP API and WebSockets, port 8080
+java.net.BindException: Address already in use: bind
+	at sun.nio.ch.Net.bind0(Native Method) ~[?:?]
+	at sun.nio.ch.Net.bind(Net.java:511) ~[?:?]
+	at sun.nio.ch.ServerSocketChannelImpl.netBind(ServerSocketChannelImpl.java:335) ~[?:?]
+	at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:297) ~[?:?]
+	at io.netty.channel.socket.nio.NioServerSocketChannel.doBind(NioServerSocketChannel.java:134) ~[server-0.41.16.jar:?]
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.bind(AbstractChannel.java:562) ~[server-0.41.16.jar:?]
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.bind(DefaultChannelPipeline.java:1334) ~[server-0.41.16.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeBind(AbstractChannelHandlerContext.java:506) ~[server-0.41.16.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.bind(AbstractChannelHandlerContext.java:491) ~[server-0.41.16.jar:?]
+	at io.netty.channel.DefaultChannelPipeline.bind(DefaultChannelPipeline.java:973) ~[server-0.41.16.jar:?]
+	at io.netty.channel.AbstractChannel.bind(AbstractChannel.java:260) ~[server-0.41.16.jar:?]
+	at io.netty.bootstrap.AbstractBootstrap$2.run(AbstractBootstrap.java:356) ~[server-0.41.16.jar:?]
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:164) ~[server-0.41.16.jar:?]
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:472) ~[server-0.41.16.jar:?]
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:500) ~[server-0.41.16.jar:?]
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989) ~[server-0.41.16.jar:?]
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74) ~[server-0.41.16.jar:?]
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30) ~[server-0.41.16.jar:?]
+	at java.lang.Thread.run(Thread.java:1447) [?:?]
