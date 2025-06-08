@@ -124,3 +124,14 @@ java.net.BindException: Address already in use: bind
 	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74) ~[server-0.41.16.jar:?]
 	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30) ~[server-0.41.16.jar:?]
 	at java.lang.Thread.run(Thread.java:1447) [?:?]
+13:05:55.887 INFO - Using data dir 'server_data'
+13:05:56.720 INFO - Region : local. Host : 192.168.1.81.
+13:05:57.685 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+13:05:57.910 INFO - Reports : 0
+13:05:57.910 INFO - Didn't find custom user certificates.
+13:05:57.913 INFO - Didn't find Let's Encrypt certificates.
+13:05:57.913 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+13:05:57.913 WARN - ATTENTION. Server certificate paths (cert : 'H:\OneDrive\GitHub\WORK\blynk_server', key : 'H:\OneDrive\GitHub\WORK\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+13:05:59.446 INFO - HTTP API and WebSockets server listening at 8080 port.
+13:05:59.448 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+13:05:59.450 INFO - Mqtt hardware server listening at 8440 port.
