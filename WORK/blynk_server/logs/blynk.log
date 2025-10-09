@@ -25,3 +25,35 @@
 16:26:12.095 INFO - nasserbek@yahoo.it hardware joined.
 16:26:17.080 INFO - nasserbek@yahoo.it hardware joined.
 16:26:18.427 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+21:07:58.082 INFO - nasserbek@yahoo.it hardware joined.
+21:09:47.654 INFO - nasserbek@yahoo.it hardware joined.
+21:10:25.787 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+21:11:38.655 INFO - nasserbek@yahoo.it hardware joined.
+21:14:55.017 INFO - nasserbek@yahoo.it hardware joined.
+21:15:06.069 INFO - nasserbek@yahoo.it hardware joined.
+21:15:17.320 INFO - nasserbek@yahoo.it hardware joined.
+21:15:29.066 INFO - nasserbek@yahoo.it hardware joined.
+21:15:32.237 INFO - nasserbek@yahoo.it hardware joined.
+21:15:42.478 INFO - nasserbek@yahoo.it hardware joined.
+21:15:58.036 INFO - nasserbek@yahoo.it hardware joined.
+21:16:48.839 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+21:17:01.812 INFO - nasserbek@yahoo.it hardware joined.
+21:17:19.369 INFO - Using data dir 'server_data'
+21:17:19.933 INFO - Region : local. Host : 192.168.1.196.
+21:17:20.505 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+21:17:20.698 INFO - Reports : 0
+21:17:20.699 INFO - Didn't find custom user certificates.
+21:17:20.700 INFO - Didn't find Let's Encrypt certificates.
+21:17:20.700 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+21:17:20.701 WARN - ATTENTION. Server certificate paths (cert : 'D:\Github 2024\bek\WORK\blynk_server', key : 'D:\Github 2024\bek\WORK\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+21:17:21.890 INFO - HTTP API and WebSockets server listening at 8080 port.
+21:17:21.892 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+21:17:21.893 INFO - Mqtt hardware server listening at 8440 port.
+21:17:32.091 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+21:18:03.537 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+21:20:23.381 INFO - nasserbek@yahoo.it hardware joined.
+21:21:34.829 INFO - nasserbek@yahoo.it hardware joined.
+21:22:54.317 INFO - nasserbek@yahoo.it hardware joined.
+21:24:17.662 INFO - nasserbek@yahoo.it hardware joined.
+21:25:20.090 INFO - nasserbek@yahoo.it hardware joined.
+21:25:26.883 INFO - nasserbek@yahoo.it hardware joined.
