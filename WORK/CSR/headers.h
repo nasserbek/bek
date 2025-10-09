@@ -7,9 +7,10 @@
 #define LOCAL_SERVER 
 
 #ifdef LOCAL_SERVER
-    #define BLYNK_SERVER              IPAddress(192,168,1,77)
-    #define BLYNK_SERVER_FREE_BOX     IPAddress(192,168,1,77)   //"192.168.1.77"  blynk-cloud.com
-    #define BLYNK_SERVER_FREE_METEOR  IPAddress(192,168,1,196)   //"192.168.1.77"  blynk-cloud.com
+    #define BLYNK_SERVER              IPAddress(192,168,1,196)
+    #define BLYNK_SERVER_FREE_BOX     IPAddress(192,168,1,196)   //"192.168.1.77"  blynk-cloud.com
+    #define BLYNK_SERVER_FREE_METEOR  IPAddress(192,168,1,196)   //"192.168.1.196"  blynk-cloud.com
+    #define BLYNK_SERVER_MANSIONES    IPAddress(192,168,1,196)   //"192.168.1.27"  blynk-cloud.com
 #endif
 
 #ifdef REMOTE_SERVER
@@ -169,7 +170,7 @@ TEST4=4,
                    
 
 
-
+#define WIFI_SSID_MANSIONES       "Mansiones Nicole"
 #define WIFI_SSID_METEOR_FREE     "Meteor-free"
 #define WIFI_SSID_FREE            "Freebox-bek"
 #define WIFI_SSID_ZFLIP           "ZFlip4_BEK"
@@ -181,12 +182,12 @@ TEST4=4,
                                                 
                                               
  
+#define WIFI_PASSWORD_MANSIONES   "WifiMansionesChartres41"
+#define WIFI_PASSWORD             "ali09042010"
+#define WIFI_PASSWORD_METEOR      "Ali09042010_"
 
-#define WIFI_PASSWORD         "ali09042010"
-#define WIFI_PASSWORD_METEOR  "Ali09042010_"
-
-#define WIFI_SSID_TEMP      "TP-Link_97D8" 
-#define WIFI_PASSWORD_TEMP  "67942015"
+#define WIFI_SSID_TEMP            "TP-Link_97D8" 
+#define WIFI_PASSWORD_TEMP        "67942015"
 //av1
 #define I2C_SDA             21  //green
 #define I2C_SCL             22  //yellow

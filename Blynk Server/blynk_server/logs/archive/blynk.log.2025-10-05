@@ -1,0 +1,100 @@
+00:02:41.450 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+00:03:42.808 INFO - nasserbek@yahoo.it hardware joined.
+00:03:53.331 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+00:04:27.765 INFO - nasserbek@yahoo.it hardware joined.
+00:06:28.642 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+00:07:55.024 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+00:10:01.692 INFO - nasserbek@yahoo.it hardware joined.
+00:10:04.531 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+02:00:26.507 INFO - Using data dir 'server_data'
+02:00:26.901 INFO - Region : local. Host : 192.168.1.27.
+02:00:27.235 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+02:00:27.360 INFO - Reports : 0
+02:00:27.360 INFO - Didn't find custom user certificates.
+02:00:27.361 INFO - Didn't find Let's Encrypt certificates.
+02:00:27.361 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+02:00:27.364 ERROR- Error initializing ssl context. Reason : File does not contain valid certificates: 
+13:08:51.631 INFO - Using data dir 'server_data'
+13:08:52.180 INFO - Region : local. Host : 192.168.1.27.
+13:08:52.563 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+13:08:52.690 INFO - Reports : 0
+13:08:52.690 INFO - Didn't find custom user certificates.
+13:08:52.691 INFO - Didn't find Let's Encrypt certificates.
+13:08:52.691 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+13:08:52.693 ERROR- Error initializing ssl context. Reason : File does not contain valid certificates: 
+13:12:16.860 INFO - Using data dir 'server_data'
+13:12:17.253 INFO - Region : local. Host : 192.168.1.27.
+13:12:17.626 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+13:12:17.711 INFO - Reports : 0
+13:12:17.711 INFO - Didn't find custom user certificates.
+13:12:17.713 INFO - Didn't find Let's Encrypt certificates.
+13:12:17.713 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+13:12:17.715 ERROR- Error initializing ssl context. Reason : File does not contain valid certificates: 
+13:15:12.725 INFO - Using data dir 'server_data'
+13:15:13.157 INFO - Region : local. Host : 192.168.1.27.
+13:15:13.578 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+13:15:13.664 INFO - Reports : 0
+13:15:13.664 INFO - Didn't find custom user certificates.
+13:15:13.668 INFO - Didn't find Let's Encrypt certificates.
+13:15:13.668 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+13:15:13.676 ERROR- Error initializing ssl context. Reason : File does not contain valid certificates: 
+13:16:19.918 INFO - Using data dir 'C:\Users\CSR\AppData\Local\Temp\blynk'
+13:16:19.953 INFO - Region : local. Host : 192.168.1.27.
+13:16:20.338 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+13:16:20.601 INFO - Reports : 0
+13:16:20.602 INFO - Didn't find custom user certificates.
+13:16:20.604 INFO - Didn't find Let's Encrypt certificates.
+13:16:20.604 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+13:16:20.606 ERROR- Error initializing ssl context. Reason : File does not contain valid certificates: 
+13:16:32.346 INFO - Using data dir 'server_data'
+13:16:32.971 INFO - Region : local. Host : 192.168.1.27.
+13:16:33.403 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+13:16:33.493 INFO - Reports : 0
+13:16:33.493 INFO - Didn't find custom user certificates.
+13:16:33.494 INFO - Didn't find Let's Encrypt certificates.
+13:16:33.494 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+13:16:33.496 ERROR- Error initializing ssl context. Reason : File does not contain valid certificates: 
+13:20:42.123 INFO - Using data dir 'C:\Users\CSR\AppData\Local\Temp\blynk'
+13:20:42.157 INFO - Region : local. Host : 192.168.1.27.
+13:20:42.507 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+13:20:42.771 INFO - Reports : 0
+13:20:42.771 INFO - Didn't find custom user certificates.
+13:20:42.772 INFO - Didn't find Let's Encrypt certificates.
+13:20:42.773 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+13:20:42.776 ERROR- Error initializing ssl context. Reason : File does not contain valid certificates: 
+13:22:57.413 INFO - Using data dir 'C:\Users\CSR\AppData\Local\Temp\blynk'
+13:22:57.447 INFO - Region : local. Host : 192.168.1.27.
+13:23:11.548 INFO - Using data dir 'C:\Users\CSR\AppData\Local\Temp\blynk'
+13:23:11.584 INFO - Region : local. Host : 192.168.1.27.
+13:28:19.158 INFO - Using data dir 'server_data'
+13:28:19.576 INFO - Region : local. Host : 192.168.1.27.
+13:28:19.949 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+13:28:20.029 INFO - Reports : 0
+13:28:20.030 INFO - Didn't find custom user certificates.
+13:28:20.031 INFO - Didn't find Let's Encrypt certificates.
+13:28:20.031 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+13:28:20.034 ERROR- Error initializing ssl context. Reason : File does not contain valid certificates: 
+19:04:06.941 INFO - Using data dir 'server_data'
+19:04:07.366 INFO - Region : local. Host : 192.168.1.27.
+19:04:07.799 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+19:04:07.927 INFO - Reports : 0
+19:04:07.927 INFO - Didn't find custom user certificates.
+19:04:07.929 INFO - Didn't find Let's Encrypt certificates.
+19:04:07.929 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+19:04:07.931 ERROR- Error initializing ssl context. Reason : File does not contain valid certificates: 
+20:39:35.133 INFO - Using data dir 'server_data'
+20:39:35.813 INFO - Region : local. Host : 192.168.1.27.
+20:39:36.473 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+20:39:36.572 INFO - Reports : 0
+20:39:36.573 INFO - Didn't find custom user certificates.
+20:39:36.574 INFO - Didn't find Let's Encrypt certificates.
+20:39:36.574 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+20:39:36.577 ERROR- Error initializing ssl context. Reason : File does not contain valid certificates: 
+20:41:27.854 INFO - Using data dir 'server_data'
+20:41:28.336 INFO - Region : local. Host : 192.168.1.27.
+20:41:28.851 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+20:41:28.952 INFO - Reports : 0
+20:41:28.952 INFO - Didn't find custom user certificates.
+20:41:28.954 INFO - Didn't find Let's Encrypt certificates.
+20:41:28.954 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+20:41:28.956 ERROR- Error initializing ssl context. Reason : File does not contain valid certificates: 
