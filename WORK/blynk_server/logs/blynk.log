@@ -75,3 +75,27 @@
 22:46:21.876 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
 22:46:23.631 INFO - nasserbek@yahoo.it hardware joined.
 22:48:04.843 INFO - nasserbek@yahoo.it hardware joined.
+23:22:35.305 INFO - Using data dir 'server_data'
+23:22:35.586 INFO - Region : local. Host : 192.168.1.170.
+23:22:36.262 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+23:22:36.292 INFO - Reports : 0
+23:22:36.293 INFO - Didn't find custom user certificates.
+23:22:36.293 INFO - Didn't find Let's Encrypt certificates.
+23:22:36.293 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+23:22:36.293 WARN - ATTENTION. Server certificate paths (cert : 'E:\Github2025\bek\WORK\blynk_server', key : 'E:\Github2025\bek\WORK\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+23:22:38.815 INFO - HTTP API and WebSockets server listening at 8080 port.
+23:22:38.817 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+23:22:38.821 INFO - Mqtt hardware server listening at 8440 port.
+23:23:51.659 INFO - Using data dir 'server_data'
+23:23:51.989 INFO - Region : local. Host : 192.168.1.170.
+23:23:52.677 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+23:23:52.699 INFO - Reports : 0
+23:23:52.699 INFO - Didn't find custom user certificates.
+23:23:52.700 INFO - Didn't find Let's Encrypt certificates.
+23:23:52.700 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+23:23:52.700 WARN - ATTENTION. Server certificate paths (cert : 'E:\Github2025\bek\WORK\blynk_server', key : 'E:\Github2025\bek\WORK\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+23:23:55.297 INFO - HTTP API and WebSockets server listening at 8080 port.
+23:23:55.301 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+23:23:55.305 INFO - Mqtt hardware server listening at 8440 port.
+23:24:43.872 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+23:25:00.415 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
