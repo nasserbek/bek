@@ -128,7 +128,7 @@ uint _pll[21];
 #define AV_CH3B   1180  // 24 
 #define AV_CH4B   1220  // XX 
 
-#define RC_CH1    349443  // 49  
+#define RC_CH1    349111  // 49  
 #define RC_CH2    349452  // 51 
 #define RC_CH3    349488  // 63 
 #define RC_CH4    349811  // 25 
@@ -158,8 +158,8 @@ const uint freqTable[21] =       {0, AV_CH1,   AV_CH2,   AV_CH3,   AV_CH4,   AV_
 const unsigned long CH_433[35] = {0, RC_CH1,   RC_CH2,   RC_CH3,   RC_CH4,   RC_CH5,   RC_CH6,   RC_CH7,   RC_CH8,   RC_CH9,   RC_CH10,  RC_CH11,  RC_CH12,  RC_CH13, RC_CH14, RC_CH15, RC_CH16,   RC_CH17,  RC_CH18, RC_CH19, RC_CH20}; 
  //                                  49        51        63        25        65        64        52        48        50        25        24        53        62       26      64       65         66        ROUTER   68       spare
 //RC CSR IN ORDER ROOM NR
-//20042024 const unsigned long CH_433[35] ={0, 349649,   349811,  349491,    349500,   349635,  349644,      349680,  349443,   349211,    349452  , 349463,   349652 ,        349695,   349488,    349632,   349511,  349455,  349111, 349311 }; 
- //                                            24        25        26        27        28       29           48        49        50        51        52        53              62        63         64        65        66       67     68
+//const unsigned long CH_433[35] ={0, 349649,   349811,  349491,    349500,   349635,  349644,      349680,   349111 ,   349211,    349452  , 349463,   349652 ,        349695,   349488,    349632,   349511,  349455, 349443 , 349423 ,  349311}; 
+ //                                 24        25        26        27        28       29           48        49         50        51         52        53              62        63         64        65        66     ROUTER   68         spare
 
 
 
