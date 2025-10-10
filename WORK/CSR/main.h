@@ -116,23 +116,65 @@ struct Channels videoCh[21];
 uint _pll[21];
 
 
+#define AV_CH1    1080  // 49 
+#define AV_CH2    1120  // 51 
+#define AV_CH3    1160  // 63 
+#define AV_CH4    1200  // 25 
+#define AV_CH5    1240  // 65 
+#define AV_CH6    1280  // 64 
+#define AV_CH7    1320  // 52 
+#define AV_CH8    1360  // 48
+
+#define AV_CH3B   1180  // 24 
+#define AV_CH4B   1220  // XX 
+
+#define RC_CH1    349443  // 49  
+#define RC_CH2    349452  // 51 
+#define RC_CH3    349488  // 63 
+#define RC_CH4    349811  // 25 
+#define RC_CH5    349511  // 65 
+#define RC_CH6    349632  // 64 
+#define RC_CH7    349463  // 52 
+#define RC_CH8    349680  // 48
+
+#define RC_CH9    349211  // 50 
+#define RC_CH10   349500  // 27 
+#define RC_CH11   349649  // 24 
+#define RC_CH12   349652  // 53 
+#define RC_CH13   349695  // 62 
+#define RC_CH14   349491  // 26 
+#define RC_CH15   349644  // 29 
+#define RC_CH16   349635  // 28 
+#define RC_CH17   349455  // 66 
+#define RC_CH18   349311  // 68 
+#define RC_CH19   349483  // xx 
+#define RC_CH20   349411  // xx 
 
 //FREQ 2025
-const uint freqTable[21] =       {0, 1180,    1200   ,  1240,     1280,       1320,      1200,        1360,       1080,     1280,             1120,        1320,       1200,          1120 ,      1160,        1280   ,    1240,         1280,        1360 ,     1160,     1220}; 
-//                                  24        25-48-67   26-65     27-66-50    28-52      29-53        48-25-67     49-64    50-27-66          51-62        52-28       53-29          62-51       63-68        64-49       65-26         66-27-50     67-25-48   68-63       12                   Xxx
+const uint freqTable[21] =       {0, AV_CH1,   AV_CH2,   AV_CH3,   AV_CH4,   AV_CH5,   AV_CH6,   AV_CH7,   AV_CH8,   AV_CH6,   AV_CH2,   AV_CH7,   AV_CH4,   AV_CH2,  AV_CH3,  AV_CH6,  AV_CH5,    AV_CH6,   AV_CH8,  AV_CH3,  AV_CH4B}; 
+//                                   49        51        63        25        65        64        52        48        51-62     52-28     53-29     62-51    63-68    64-49    65-26      66-27-50  67-25-48 68-63    Xxx
+
+//RC CSR IN ORDER ROOM NR
+const unsigned long CH_433[35] = {0, RC_CH1,   RC_CH2,   RC_CH3,   RC_CH4,   RC_CH5,   RC_CH6,   RC_CH7,   RC_CH8,   RC_CH9,   RC_CH10,  RC_CH11,  RC_CH12,  RC_CH13, RC_CH14, RC_CH15, RC_CH16,   RC_CH17,  RC_CH18, RC_CH19, RC_CH20}; 
+ //                                  49        51        63        25        65        64        52        48        50        25        24        53        62       26      64       65         66        ROUTER   68       spare
+//RC CSR IN ORDER ROOM NR
+//20042024 const unsigned long CH_433[35] ={0, 349649,   349811,  349491,    349500,   349635,  349644,      349680,  349443,   349211,    349452  , 349463,   349652 ,        349695,   349488,    349632,   349511,  349455,  349111, 349311 }; 
+ //                                            24        25        26        27        28       29           48        49        50        51        52        53              62        63         64        65        66       67     68
+
+
+
+//FREQ 2025
+//const uint freqTable[21] =       {0, AV_CH3B,   AV_CH4,   AV_CH5,   AV_CH6,   AV_CH7,   AV_CH4,   AV_CH8,   AV_CH1,   AV_CH6,   AV_CH2,   AV_CH7,   AV_CH4,   AV_CH2,  AV_CH3,  AV_CH6,  AV_CH5,    AV_CH6,   AV_CH8,  AV_CH3,  AV_CH4B}; 
+////                                  24          25-48-67  26-65     27-66-50  28-52     29-53     48-25-67  49-64     50-27-66  51-62     52-28     53-29     62-51    63-68    64-49    65-26      66-27-50  67-25-48 68-63    Xxx
+
+//RC CSR IN ORDER ROOM NR
+// const unsigned long CH_433[35] = {0, RC_CH1,    RC_CH2,   RC_CH3,   RC_CH4,   RC_CH5,   RC_CH6,   RC_CH7,   RC_CH8,   RC_CH9,   RC_CH10,  RC_CH11,  RC_CH12,  RC_CH13, RC_CH14, RC_CH15, RC_CH16,   RC_CH17,  RC_CH18, RC_CH19, RC_CH20}; 
+ //                                  24            25        26        27        28        29        48        49        50        51        52        53        62       63       64       65         66        ROUTER   68       spare
+
 
 //FREQ CSR IN ORDER ROOM NR
 //const uint freqTable[21] =       {0, 1180,    1360    ,  1240,     1280,       1320,      1200,        1360,       1080,     1280,             1120,        1320,       1200,          1120 ,      1160,        1080   ,    1240,         1280,        1360 ,     1160,     1220}; 
 //                                  24        25-48-67   26-65     27-66-50    28-52      29-53        48-25-67     49-64    50-27-66          51-62        52-28       53-29          62-51       63-68        64-49       65-26         66-27-50     67-25-48   68-63       12                   Xxx
-
-
-//RC CSR IN ORDER ROOM NR
-//20042024 const unsigned long CH_433[35] ={0, 349649,   349811,  349491,    349500,   349635,  349644,      349680,  349443,   349211,    349452  , 349463,   349652 ,        349695,   349488,    349632,   349511,  349455,  349111, 349311 }; 
- //                                 24        25        26        27        28       29           48        49        50        51        52        53              62        63         64        65        66       67     68
-
-//RC CSR IN ORDER ROOM NR
-const unsigned long CH_433[35] ={0, 349649,   349811,  349491,    349500,   349635,  349644,      349680,   349111 ,   349211,    349452  , 349463,   349652 ,        349695,   349488,    349632,   349511,  349455, 349443 , 349423 ,  349311}; 
- //                                 24        25        26        27        28       29           48        49         50        51         52        53              62        63         64        65        66     ROUTER   68         spare
 
 
 
