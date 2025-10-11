@@ -152,6 +152,11 @@ void blinkLedWidget()
     ledStatus = true;
   }
   }
+      myMap.clear();
+      int index = 0;
+      double lat = 49.01643374960694;
+      double lon = 1.1691833659255038; //EVREUX 49.016450, 1.169214
+      myMap.location(index, lat, lon, "Evreux");
 }
 //void SendLiveLed()
 //  {
