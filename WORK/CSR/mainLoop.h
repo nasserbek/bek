@@ -336,6 +336,11 @@ void processBlynkQueu(void)
              case Q_EVENT_RM_ID_10_V21:
                   videoChanel(10, queuData);
              break;  
+
+             case Q_EVENT_MAP_INDEX_V22:
+                  MapIndex = queuData;
+                  myBlynk.mapRefresh(MapIndex);
+             break; 
              
              case Q_EVENT_RM_ID_11_V14:
                   videoChanel(11, queuData);

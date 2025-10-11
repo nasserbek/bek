@@ -7,6 +7,7 @@
 #include <WiFiClient.h>
 #include <BlynkSimpleEsp32.h>
 #include <WiFiMulti.h>
+extern int MapIndex;
 extern void dvrOnOff (bool cmd);
 extern void SendLiveLed(void);
 extern void rebootSw(void);
@@ -152,11 +153,6 @@ void blinkLedWidget()
     ledStatus = true;
   }
   }
-      myMap.clear();
-      int index = 0;
-      double lat = 49.01643374960694;
-      double lon = 1.1691833659255038; //EVREUX 49.016450, 1.169214
-      myMap.location(index, lat, lon, "Evreux");
 }
 //void SendLiveLed()
 //  {
@@ -256,6 +252,31 @@ bool blynk::init()
   return _blynkIsConnected;
 }
 
+void blynk::mapRefresh(int index)
+{
+      double lat ;
+      double lon ; //EVREUX 49.016450, 1.169214
+      myMap.clear();
+    //  int index = MapIndex;
+      switch (index)
+        {
+          case 1:
+             lat = 49.01643374960694;
+             lon = 1.1691833659255038; //EVREUX 49.016450, 1.169214 
+             myMap.location(index, lat, lon, "Evreux");
+          break;
+
+          case 2:
+             lat = 49.369435619166566;
+             lon = 1.1109930174357323; //Rouen 49.369435619166566, 1.1109930174357323
+             myMap.location(index, lat, lon, "Evreux");
+          break;    
+                         
+          break;
+
+        } 
+
+}
 
 BLYNK_WRITE(V0)  //freq
 {
@@ -881,6 +902,16 @@ BLYNK_WRITE(V21)
     eventdata = Q_EVENT_RM_ID_10_V21;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
+
+BLYNK_WRITE(V22)  
+{
+    _blynkEvent = true; 
+    _blynkData=param.asInt();
+    eventdata = Q_EVENT_MAP_INDEX_V22;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+}
+
+
 BLYNK_WRITE(V14)  
 {
     _blynkEvent = true; 

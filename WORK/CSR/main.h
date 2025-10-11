@@ -34,7 +34,7 @@ EventGroupHandle_t g_event_group = NULL;
 /********************* AWS MQTT BROKER *******************************************************/
 WiFiClientSecure net = WiFiClientSecure();
 PubSubClient client(net);
-
+int  MapIndex = 0;
 bool PowerOnTune = false;
 bool autoResetRouter = 0;
 int activeBoard   = ESP1;

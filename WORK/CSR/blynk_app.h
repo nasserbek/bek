@@ -33,6 +33,7 @@ class blynk {
     void SyncAll(void);
     bool init();
     bool wifi_init();
+    void mapRefresh(int index);
     void blynkRun();
     void blynkRunTimer();
  //   bool blynkConnected();
