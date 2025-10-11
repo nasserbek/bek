@@ -237,8 +237,8 @@ bool blynk::init()
         _blynkIsConnected = Blynk.connected();
       
       int index = 0;
-      double lat = 49.01644025168238;
-      double lon = 1.1692182600283976; //EVREUX 49.01644025168238, 1.1692182600283976
+      double lat = 49.01628104389779;
+      double lon = 1.1700225853528843; //EVREUX 49.01628104389779, 1.1700225853528843
       myMap.location(index, lat, lon, "Evreux");
      
      DEBUG_PRINT("BLYNK: ");DEBUG_PRINTLN( _blynkIsConnected ? F("Connected") : F("Not Connected"));
