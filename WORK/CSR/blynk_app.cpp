@@ -235,10 +235,11 @@ bool blynk::init()
         Blynk.connect(BlynkServerTimeout);
         delay(1000);
         _blynkIsConnected = Blynk.connected();
-      
+        
+      myMap.clear();
       int index = 0;
       double lat = 49.01643374960694;
-      double lon = 1.1691833659255038; //EVREUX 49.01643374960694, 1.1691833659255038
+      double lon = 1.1691833659255038; //EVREUX 49.016450, 1.169214
       myMap.location(index, lat, lon, "Evreux");
      
      DEBUG_PRINT("BLYNK: ");DEBUG_PRINTLN( _blynkIsConnected ? F("Connected") : F("Not Connected"));
@@ -1114,11 +1115,11 @@ void blynk::sendAvRxIndex(int _index)
 
 void blynk::sendBoardIndex(int _index)
 {
- Blynk.virtualWrite(V12, _index);
-  if (_index ==1) {Blynk.setProperty(V12, "color", BLYNK_GREEN);}
-  if (_index ==2) {Blynk.setProperty(V12, "color", BLYNK_YELLOW);}
-  if (_index ==3) {Blynk.setProperty(V12, "color", BLYNK_RED);}
-  if (_index ==4) {Blynk.setProperty(V12, "color", BLYNK_BLUE);}
+// Blynk.virtualWrite(V12, _index);
+//  if (_index ==1) {Blynk.setProperty(V12, "color", BLYNK_GREEN);}
+//  if (_index ==2) {Blynk.setProperty(V12, "color", BLYNK_YELLOW);}
+//  if (_index ==3) {Blynk.setProperty(V12, "color", BLYNK_RED);}
+//  if (_index ==4) {Blynk.setProperty(V12, "color", BLYNK_BLUE);}
    
 }
 
