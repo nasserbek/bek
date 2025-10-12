@@ -138,10 +138,10 @@ uint _pll[21];
 #define RC_CH7    349463  // 52 
 #define RC_CH8    349680  // 48
 
-#define RC_CH9    349211  // 50 
-#define RC_CH10   349500  // 27 
+#define RC_CH9    349652  // 53  
+#define RC_CH10   349211  // 50
 #define RC_CH11   349649  // 24 
-#define RC_CH12   349652  // 53 
+#define RC_CH12   349500  // 27 
 #define RC_CH13   349695  // 62 
 #define RC_CH14   349491  // 26 
 #define RC_CH15   349644  // 29 
@@ -152,12 +152,12 @@ uint _pll[21];
 #define RC_CH20   349411  // xx 
 
 //FREQ 2025
-const uint freqTable[21] =       {0, AV_CH1,   AV_CH2,   AV_CH3,   AV_CH4,   AV_CH5,   AV_CH6,   AV_CH7,   AV_CH8,   AV_CH6,   AV_CH2,   AV_CH7,   AV_CH4,   AV_CH2,  AV_CH3,  AV_CH6,  AV_CH5,    AV_CH6,   AV_CH8,  AV_CH3,  AV_CH4B}; 
-//                                   49        51        63        25        65        64        52        48        51-62     52-28     53-29     62-51    63-68    64-49    65-26      66-27-50  67-25-48 68-63    Xxx
+const uint freqTable[21] =       {0, AV_CH1,   AV_CH2,   AV_CH3,   AV_CH4,   AV_CH5,   AV_CH6,   AV_CH7,   AV_CH8,   AV_CH1,   AV_CH2,   AV_CH7,   AV_CH4,   AV_CH2,  AV_CH3,  AV_CH6,  AV_CH5,    AV_CH6,   AV_CH8,  AV_CH3,  AV_CH4B}; 
+//                                   49        51        63        25        65        64        52        48        53        50        24       62-51    63-68    64-49    65-26      66-27-50  67-25-48 68-63    Xxx
 
 //RC CSR IN ORDER ROOM NR
 const unsigned long CH_433[35] = {0, RC_CH1,   RC_CH2,   RC_CH3,   RC_CH4,   RC_CH5,   RC_CH6,   RC_CH7,   RC_CH8,   RC_CH9,   RC_CH10,  RC_CH11,  RC_CH12,  RC_CH13, RC_CH14, RC_CH15, RC_CH16,   RC_CH17,  RC_CH18, RC_CH19, RC_CH20}; 
- //                                  49        51        63        25        65        64        52        48        50        25        24        53        62       26      64       65         66        ROUTER   68       spare
+ //                                  49        51        63        25        65        64        52        48        53        50        24        50        62       26      64       65         66        ROUTER   68       spare
 //RC CSR IN ORDER ROOM NR
 //const unsigned long CH_433[35] ={0, 349649,   349811,  349491,    349500,   349635,  349644,      349680,   349111 ,   349211,    349452  , 349463,   349652 ,        349695,   349488,    349632,   349511,  349455, 349443 , 349423 ,  349311}; 
  //                                 24        25        26        27        28       29           48        49         50        51         52        53              62        63         64        65        66     ROUTER   68         spare
