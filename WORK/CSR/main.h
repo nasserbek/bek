@@ -34,6 +34,7 @@ EventGroupHandle_t g_event_group = NULL;
 /********************* AWS MQTT BROKER *******************************************************/
 WiFiClientSecure net = WiFiClientSecure();
 PubSubClient client(net);
+
 int  MapIndex = 0;
 bool PowerOnTune = false;
 bool autoResetRouter = 0;
@@ -74,7 +75,7 @@ int previousCh =0;
 int queuData;
 int queuDataID;
 bool queuValidData=false;
-bool streamWebDdns = DDNS;
+bool streamWebDdns = WEB;
 bool routerResetStart =false;
 bool RC_Remote_CSR1 = false;
 bool RC_Remote_CSR2 = false;

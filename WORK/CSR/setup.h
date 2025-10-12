@@ -19,6 +19,7 @@ bool blynkInit(void)
      if (blynkConnected) 
               {
                 myBlynk.sendAvRxIndex(Av_Rx);
+                myBlynk.streamSelect(streamWebDdns);
                 dvrOnOff (1);
                 int rssi = WiFi.RSSI();
                 myBlynk.wifiRSSI(WiFi.RSSI());
@@ -27,7 +28,6 @@ bool blynkInit(void)
     String str = WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI());
     myBlynk.TerminalPrint(str );
     awsTerminal(awsConnected, str ) ;
-       
 return  blynkConnected;
 }     
 
