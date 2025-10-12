@@ -77,7 +77,7 @@ TEST4=4,
 
 #ifdef CSR2     // R65 SCATOLA 4CH ESP32S
     #define BOARD ESP2
-    #define VERSION_ID " V1.13 "
+    #define VERSION_ID " V1.14 "
     #define BLYNK_AUTH_TOKEN                BLYNK_AUTH_TOKEN_CSR2 //CSR2
     #define THINGNAME "CSR2"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "csr2/sub/rc"
