@@ -281,8 +281,8 @@ void blynk::mapRefresh(int index)
 
 void blynk::streamSelect(bool stream)
 {
-  if (stream == DDNS) Blynk.setProperty(V28,"url", "rtsp://sdp:basma28112018@evrx.ddns.net:5001/ch01/0");
-  else if (stream == WEB) Blynk.setProperty(V28, "url","rtsp://sdp:basma28112018@192.168.1.94:554/ch01/0");
+  if (stream == DDNS) Blynk.setProperty(V28,"url", "rtsp://admin:basma28112018@evrx.ddns.net:5001/ch02/0");
+  else if (stream == WEB) Blynk.setProperty(V28, "url","rtsp://admin:basma28112018@192.168.1.96:554/ch02/0");
 }
 
 
