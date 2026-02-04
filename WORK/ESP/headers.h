@@ -11,7 +11,7 @@ TEST4=4,
 
 /////////////////////////////////////////////////////////////////////////
     #define BOARD ESP1
-    #define VERSION_ID " ESP0.1 "
+    #define VERSION_ID " ESP0.11 "
     #define BLYNK_AUTH_TOKEN                BLYNK_AUTH_TOKEN_ESP1 //ESP1
     #define THINGNAME "ESP1"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "esp1/sub/rc"
@@ -284,7 +284,7 @@ Q_EVENT_RM_ID_19_V92,  //68
 
 #define BLYNK_ACTIVE_TIMEOUT   60000 // 1 MIN
 #define LIVE_TIMER_OFF  3000
-#define WIFI_IDE_TIMER 300000  //10 MIN
+#define WIFI_IDE_TIMER 900000  //15 MIN
 #define WIFI_SURVILANCE_TIMER 120000  // 2 MIN
 #define WIFI_RECONNECT_TIMER 10000  // 10 sec
 #define DEEP_SLEEP_TIME_60_MIN 3600000000   // 1 HOUR in micro 
