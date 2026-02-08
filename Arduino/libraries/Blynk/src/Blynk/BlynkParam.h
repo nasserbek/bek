@@ -13,7 +13,6 @@
 
 #include <string.h>
 #include <stdlib.h>
-#include <Blynk/BlynkConfig.h>
 #include <Blynk/BlynkHelpers.h>
 
 #define BLYNK_PARAM_KV(k, v) k "\0" v "\0"

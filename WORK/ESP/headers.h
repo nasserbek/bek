@@ -9,6 +9,27 @@ ESP3 =3,
 TEST4=4,
 } ;
 
+#define NICE
+//#define CH
+
+#define LILLYGO_RELAY_8
+
+  #ifdef LILLYGO_RELAY_8
+    #define RELAY_PIN_1 33
+    #define RELAY_PIN_2 32
+    #define RELAY_PIN_3 13
+    #define RELAY_PIN_4 12
+    #define RELAY_PIN_5 21
+    #define RELAY_PIN_6 19
+    #define RELAY_PIN_7 18
+    #define RELAY_PIN_8 5
+    #define LED_PIN     25
+  #endif
+
+
+
+
+
 /////////////////////////////////////////////////////////////////////////
     #define BOARD ESP1
     #define VERSION_ID " ESP0.11 "
@@ -44,8 +65,9 @@ TEST4=4,
 #define LOCAL_SERVER 
 
 #ifdef LOCAL_SERVER
-    #define BLYNK_SERVER_OMV1         IPAddress(192,168,1,4)
-    #define BLYNK_SERVER_PROX         IPAddress(192,168,1,153)   //"192.168.1.77"  blynk-cloud.com
+    #define BLYNK_SERVER_OMV1        IPAddress(192,168,1,4)
+    #define BLYNK_SERVER_PROX        IPAddress(192,168,1,153)   
+    #define BLYNK_SERVER_NICE        IPAddress(192,168,1,200)
 #endif
 
 #ifdef REMOTE_SERVER
@@ -82,7 +104,7 @@ TEST4=4,
                    
 
 
-#define WIFI_SSID_MANSIONES       "Mansiones Nicole"
+#define WIFI_SSID_SFR             "SFR_BEK-23C0"
 #define WIFI_SSID_METEOR_FREE     "Meteor-free"
 #define WIFI_SSID_FREE            "Freebox-bek"
 #define WIFI_SSID_ZFLIP           "ZFlip4_BEK"
@@ -94,7 +116,7 @@ TEST4=4,
 #define WIFI_SSID_BBOX            "Bbox-Bek-2.4GHz"                                                
                                               
  
-#define WIFI_PASSWORD_MANSIONES   "WifiMansionesChartres41"
+#define WIFI_PASSWORD_SFR        "ali09042010"
 #define WIFI_PASSWORD             "ali09042010"
 #define WIFI_PASSWORD_METEOR      "Ali09042010_"
 #define WIFI_PASSWORD_BBOX       "Ali09042010_"

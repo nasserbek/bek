@@ -25,8 +25,8 @@ Enter the IP Address in the same LAN.You can control the state of the relay on t
 
 
 /* Your WiFi Credentials */
-const char *ssid = "YourNetworkName"; // SSID
-const char *password = "YourPassword"; // Password
+const char *ssid = "SFR_BEK"; // SSID
+const char *password = "ali09042010"; // Password
 
 /* Start Webserver */
 AsyncWebServer server(80);

@@ -22,10 +22,6 @@
   #include <stdarg.h>
 #endif
 
-#if defined(ARDUINO_AMEBA)
-  #include <strings.h> // for strncasecmp
-#endif
-
 class BlynkConsole
 {
 private:
