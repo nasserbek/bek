@@ -3,7 +3,65 @@
 #ifndef SETUP_H
 #define SETUP_H
 
+void LillyGo_Relay_8_Setup()
+{
+  pinMode(RELAY_PIN_1, OUTPUT);
+    pinMode(RELAY_PIN_2, OUTPUT);
+    pinMode(RELAY_PIN_3, OUTPUT);
+    pinMode(RELAY_PIN_4, OUTPUT);
+    pinMode(RELAY_PIN_5, OUTPUT);
+    pinMode(RELAY_PIN_6, OUTPUT);
+    pinMode(RELAY_PIN_7, OUTPUT);
+    pinMode(RELAY_PIN_8, OUTPUT);
+    pinMode(LED_PIN, OUTPUT);
+    delay(100);
 
+    //Turn off all relays
+    digitalWrite(RELAY_PIN_1, LOW);
+    digitalWrite(RELAY_PIN_2, LOW);
+    digitalWrite(RELAY_PIN_3, LOW);
+    digitalWrite(RELAY_PIN_4, LOW);
+    digitalWrite(RELAY_PIN_5, LOW);
+    digitalWrite(RELAY_PIN_6, LOW);
+    digitalWrite(RELAY_PIN_7, LOW);
+    digitalWrite(RELAY_PIN_8, LOW);
+    digitalWrite(LED_PIN, LOW);
+
+//Turn the relays on and off in turn
+    digitalWrite(RELAY_PIN_1, HIGH);
+    delay(100);
+    digitalWrite(RELAY_PIN_2, HIGH);
+    delay(100);
+    digitalWrite(RELAY_PIN_3, HIGH);
+    delay(100);
+    digitalWrite(RELAY_PIN_4, HIGH);
+    delay(100);
+    digitalWrite(RELAY_PIN_5, HIGH);
+    delay(100);
+    digitalWrite(RELAY_PIN_6, HIGH);
+    delay(100);
+    digitalWrite(RELAY_PIN_7, HIGH);
+    delay(100);
+    digitalWrite(RELAY_PIN_8, HIGH);
+    delay(100);
+
+    digitalWrite(RELAY_PIN_1, LOW);
+    delay(100);
+    digitalWrite(RELAY_PIN_2, LOW);
+    delay(100);
+    digitalWrite(RELAY_PIN_3, LOW);
+    delay(100);
+    digitalWrite(RELAY_PIN_4, LOW);
+    delay(100);
+    digitalWrite(RELAY_PIN_5, LOW);
+    delay(100);
+    digitalWrite(RELAY_PIN_6, LOW);
+    delay(100);
+    digitalWrite(RELAY_PIN_7, LOW);
+    delay(100);
+    digitalWrite(RELAY_PIN_8, LOW);
+    delay(100);  
+}
  
 void relaySetup(void)
 {
@@ -23,6 +81,7 @@ bool blynkInit(void)
 {
    StaticJsonDocument<54> doc; //Json to send from
      blynkConnected = myBlynk.init();    
+     String str = WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI());
      if (blynkConnected) 
               {
                 myBlynk.sendAvRxIndex(Av_Rx);
@@ -31,9 +90,9 @@ bool blynkInit(void)
                 int rssi = WiFi.RSSI();
                 myBlynk.wifiRSSI(WiFi.RSSI());
                 myBlynk.sendVersion(VERSION_ID + WiFi.SSID()  );
+                myBlynk.TerminalPrint(str );
              }
-    String str = WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI());
-    myBlynk.TerminalPrint(str );
+    
     awsTerminal(awsConnected, str ) ;
 return  blynkConnected;
 }     

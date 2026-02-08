@@ -195,7 +195,7 @@ bool blynk::wifi_init()
     _wifiIsConnected = false;
 
        wifiMulti.addAP(WIFI_SSID_BBOX, WIFI_PASSWORD_BBOX);
-     //  wifiMulti.addAP(WIFI_SSID_MANSIONES, WIFI_PASSWORD_MANSIONES);
+       wifiMulti.addAP(WIFI_SSID_SFR, WIFI_PASSWORD_SFR);
        wifiMulti.addAP(WIFI_SSID_FREE , WIFI_PASSWORD);
        wifiMulti.addAP(WIFI_SSID_ZFLIP , WIFI_PASSWORD);
        wifiMulti.addAP(WIFI_SSID_XIAOMI , WIFI_PASSWORD);
@@ -232,8 +232,15 @@ bool blynk::init()
 //        else if(WiFi.SSID() == WIFI_SSID_METEOR_FREE) BLYNK_SERVER = BLYNK_SERVER_FREE_METEOR;
 //        else if(WiFi.SSID() == WIFI_SSID_BBOX) 
 
-        #define BLYNK_SERVER  BLYNK_SERVER_OMV1
+  #ifdef NICE
+   #define BLYNK_SERVER  BLYNK_SERVER_NICE
+  #endif
 
+  #ifdef CH
+   #define BLYNK_SERVER  BLYNK_SERVER_OMV1
+  #endif
+        
+  
         Blynk.config(BLYNK_AUTH_TOKEN, BLYNK_SERVER,8080); 
         Blynk.connect(BlynkServerTimeout);
         delay(1000);
@@ -244,15 +251,19 @@ bool blynk::init()
       double lat = 49.01643374960694;
       double lon = 1.1691833659255038; //EVREUX 49.016450, 1.169214
       myMap.location(index, lat, lon, "Evreux");
-      if(!_blynkIsConnected)
-      {
-        #define BLYNK_SERVER  BLYNK_SERVER_PROX
-        Blynk.config(BLYNK_AUTH_TOKEN, BLYNK_SERVER,8080); 
-        Blynk.connect(BlynkServerTimeout);
-        delay(1000);
-        _blynkIsConnected = Blynk.connected();
-      }
 
+      #ifdef CH
+          if(!_blynkIsConnected)
+          {
+            #define BLYNK_SERVER  BLYNK_SERVER_PROX
+            Blynk.config(BLYNK_AUTH_TOKEN, BLYNK_SERVER,8080); 
+            Blynk.connect(BlynkServerTimeout);
+            delay(1000);
+            _blynkIsConnected = Blynk.connected();
+          }
+      #endif
+
+      
      DEBUG_PRINT("BLYNK: ");DEBUG_PRINTLN( _blynkIsConnected ? F("Connected to " + BLYNK_SERVER ) : F("Not Connected"));
      blynkAtiveTimer     = millis();
      blynkActive = false;

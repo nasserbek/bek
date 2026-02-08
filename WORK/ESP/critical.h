@@ -3,6 +3,7 @@
 #ifndef CRITICAL_H
 #define CRITICAL_H
 
+
 #define _TIMERINTERRUPT_LOGLEVEL_     4
 #include "ESP32TimerInterrupt.h"
 ESP32Timer ITimer0(0);
