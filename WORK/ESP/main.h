@@ -483,7 +483,7 @@ void BoardDefines()
       #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "test/sub/live"
       #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "test/sub/blynk"
       #define AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL   "test/sub/terminal"
-      #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP0.ino.esp32.bin"  // URL to download the firmware from
+      #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP1.ino.esp32.bin"  // URL to download the firmware from
    } 
 
 }
