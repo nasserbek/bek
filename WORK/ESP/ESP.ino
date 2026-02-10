@@ -16,7 +16,7 @@ void setup()
      
      Serial.print("Version: ");     Serial.println(VERSION_ID);
      Serial.print("AWS IOT Thnis is: ");     Serial.println(THINGNAME);
-     Serial.print("ActiveBoard: ");     Serial.println(ActiveBoard);
+     
      
      mySwitch.enableTransmit(RC_TX_PIN);  
         
@@ -36,7 +36,7 @@ void setup()
 
 void loop(void) 
 {
-       BoardDefines(); 
+       BoardDefines(ActiveBoard ); 
        resetWdg();
        internetCheck();
        resetBoardID();

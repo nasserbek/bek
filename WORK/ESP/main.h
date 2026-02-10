@@ -38,7 +38,18 @@ PubSubClient client(net);
 int   MapIndex            = 0;
 bool  PowerOnTune         = false;
 bool  autoResetRouter     = 0;
-int   ActiveBoard         = ESP1;
+//int   ActiveBoard         = ESP1;
+
+enum esp32{
+ESP0 =0,
+ESP1 =1,
+ESP2 =2,
+ESP3 =3,
+TEST4=4,
+} ;
+
+esp32 ActiveBoard = ESP1;
+
 int   selectedBoard       = ESP1;
 bool  liveLed             = false;
 bool  liveLedUpdate       = false;
@@ -361,9 +372,9 @@ int T433_St;
 int T315_St;
 RCSwitch mySwitch = RCSwitch();
 
-void BoardDefines()
+void BoardDefines(esp32 activeBoard )
 {
-  if(ActiveBoard == ESP1)      //TTGO R64 SCATOLA 1CH TTGO
+  if(activeBoard == ESP1)      //TTGO R64 SCATOLA 1CH TTGO
   {
       #define BOARD ESP1
       #define VERSION_ID " ESP1_1 - "
@@ -394,7 +405,7 @@ void BoardDefines()
   }
   
   
-  if(ActiveBoard == ESP2)      // R65 SCATOLA 4CH ESP32S
+    else if(activeBoard == ESP2)      // R65 SCATOLA 4CH ESP32S
   {
       #define BOARD ESP2
       #define VERSION_ID " V1.16 "
@@ -426,7 +437,7 @@ void BoardDefines()
   
   
   
-  if(ActiveBoard == ESP3)      //R66 SWAN CASE 2CH ESP32S
+    else if(activeBoard == ESP3)      //R66 SWAN CASE 2CH ESP32S
   {
       #define BOARD ESP3
       #define VERSION_ID " ESP1_1 - "
@@ -457,7 +468,7 @@ void BoardDefines()
     }  
   
   
-  if(ActiveBoard == ESP0)      //R66 SWAN CASE 2CH ESP32S
+  else if(activeBoard == ESP0)      //R66 SWAN CASE 2CH ESP32S
   {    
       #define VERSION_ID " TEST_1 - "
       #define BLYNK_AUTH_TOKEN                BLYNK_AUTH_TOKEN_ESP14

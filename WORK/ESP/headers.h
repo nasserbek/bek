@@ -1,13 +1,6 @@
 //#define ESP1     //  R64 SCATOLA 1CH TTGO
 //#define ESP2      // R65 SCATOLA 4CH ESP32S
 //#define ESP3   //R66 SWAN CASE 2CH ESP32S
-enum {
-ESP0 =0,
-ESP1 =1,
-ESP2 =2,
-ESP3 =3,
-TEST4=4,
-} ;
 
 #define LILLYGO_RELAY_8
 

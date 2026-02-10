@@ -13,9 +13,9 @@ void relaySetup(void)
      pinMode(BOARD_SEL_0 , INPUT); 
      pinMode(BOARD_SEL_1 , INPUT);
      digitalWrite(AV_RX_DVR_PIN_2, LOW);  // AV RECEIVER OFF POWER UP NC CONTACT
-     ActiveBoard = ( (digitalRead(BOARD_SEL_1) << 1) |   digitalRead(BOARD_SEL_0)) +1;
-
-     BoardDefines(); 
+     int activeBoard = ( (digitalRead(BOARD_SEL_1) << 1) |   digitalRead(BOARD_SEL_0)) +1;
+     ActiveBoard = activeBoard;
+     BoardDefines(ActiveBoard ); 
 }
 
  void LillyGo_Relay_8_Setup()

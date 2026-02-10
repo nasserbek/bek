@@ -294,9 +294,9 @@ void blynk::mapRefresh(int index)
 
 void blynk::streamSelect(bool stream)
 {
-   if(ActiveBoard == ESP1 ) Blynk.setProperty(V28, "url","rtsp://admin:basma28112018@192.168.1.94:554/ch01/0");
-   if(ActiveBoard == ESP2 ) Blynk.setProperty(V28, "url","rtsp://admin:basma28112018@192.168.1.96:554/ch02/0");
-   if(ActiveBoard == ESP3 )Blynk.setProperty(V28, "url","rtsp://admin:basma28112018@192.168.1.95:554/ch01/0");
+   if(ActiveBoard == esp1 ) Blynk.setProperty(V28, "url","rtsp://admin:basma28112018@192.168.1.94:554/ch01/0");
+   if(ActiveBoard == esp2 ) Blynk.setProperty(V28, "url","rtsp://admin:basma28112018@192.168.1.96:554/ch02/0");
+   if(ActiveBoard == esp3 )Blynk.setProperty(V28, "url","rtsp://admin:basma28112018@192.168.1.95:554/ch01/0");
 }
 
 
@@ -1085,40 +1085,40 @@ void blynk::wifiRSSI(int _data)
    Blynk.virtualWrite(V38, _data); 
 }
 
-void blynk::resetRemoteRC(int _data)
+void blynk::resetRemoteRC(esp _data)
 {
 if(!zapSetup && !zapScanOnly)
 {
   switch (_data)
         {
-          case ESP1:
+          case esp1:
                    Blynk.virtualWrite(V16, 0); 
           break;
 
-          case ESP2:
+          case esp2:
                    Blynk.virtualWrite(V20, 0); 
           break;
-          case ESP3:
+          case esp3:
                    Blynk.virtualWrite(V17, 0); 
           break;
         }   
  }
 }
 
-void blynk::resetRemoteVideo(int _data)
+void blynk::resetRemoteVideo(esp _data)
 {
 if(!zapSetup && !zapScanOnly)
 {
   switch (_data)
         {
-          case ESP1:
+          case esp1:
                    Blynk.virtualWrite(V35, 0); 
           break;
 
-          case ESP2:
+          case esp2:
                    Blynk.virtualWrite(V36, 0); 
           break;
-          case ESP3:
+          case esp3:
                    Blynk.virtualWrite(V37, 0); 
           break;
         }   
@@ -1251,7 +1251,7 @@ void blynk::TerminalPrint (String str)
     if ( blynkConnected )terminal.println(str);
     else Serial.println(str); 
    
-   if(ActiveBoard == ESP0 )Serial.println(str);
+   if(ActiveBoard == esp0 )Serial.println(str);
    terminal.flush();  
 }
 

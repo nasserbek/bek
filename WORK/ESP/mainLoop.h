@@ -5,7 +5,7 @@
 
 extern bool connectAWS(void);
 extern blynk myBlynk;
-extern void resetRemoteRCNoBlynk(int esp);
+extern void resetRemoteRCNoBlynk(esp32 esp);
 
 
 void resetRouter(void)

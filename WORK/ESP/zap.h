@@ -17,12 +17,12 @@ byte esp3_nr_ch = 8;
 
 void resetRemoteRC(void)
 {
-      RC_Remote_ESP1 =false; myBlynk.resetRemoteRC(ESP1);
-      RC_Remote_ESP2 =false; myBlynk.resetRemoteRC(ESP2);
-      RC_Remote_ESP3 =false;  myBlynk.resetRemoteRC(ESP3);  
+      RC_Remote_ESP1 =false; myBlynk.resetRemoteRC(esp1);
+      RC_Remote_ESP2 =false; myBlynk.resetRemoteRC(esp2);
+      RC_Remote_ESP3 =false;  myBlynk.resetRemoteRC(esp3);  
 }
 
-void resetRemoteRCNoBlynk(int esp)
+void resetRemoteRCNoBlynk(esp32 esp)
 {
        switch (esp)
           {

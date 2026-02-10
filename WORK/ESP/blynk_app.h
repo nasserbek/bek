@@ -3,6 +3,13 @@
 
 #include <Arduino.h>
 
+enum esp{
+esp0 =0,
+esp1 =1,
+esp2 =2,
+esp3 =3,
+test4=4,
+} ;
 
 class blynk {
   
@@ -40,8 +47,8 @@ class blynk {
     void blynkConnect();
     bool blynkStatus();
     bool wifiStatus();
-    void resetRemoteRC( int _data);
-    void resetRemoteVideo( int _data);
+    void resetRemoteRC( esp _data);
+    void resetRemoteVideo( esp _data);
     bool Tuner_PLL(int x, int _address, uint _pll);
     void blynkAckLed(bool _data);
     void liveLedCall(bool _data);
