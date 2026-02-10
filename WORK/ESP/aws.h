@@ -1,8 +1,9 @@
 // aws.h
 
-#ifndef AWS_H
-#define AWS_H
+//#ifndef AWS_H
+//#define AWS_H
 
+#pragma once
 extern blynk myBlynk;
 extern void dvrOnOff (bool cmd);
 void callback(char* topic, byte* payload, unsigned int length);
@@ -346,4 +347,4 @@ else if (String(topic) == esp.AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL)
 /*************************************************END OF NODE RED AWS IOT ZONE********************************************************************************************/
 
 
-#endif
+//#endif

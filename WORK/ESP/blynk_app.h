@@ -1,6 +1,7 @@
-#ifndef BLYNK_APP_H
-#define BLYNK_APP_H
+//#ifndef BLYNK_APP_H
+//#define BLYNK_APP_H
 
+#pragma once
 #include <Arduino.h>
 
 
@@ -72,4 +73,4 @@ class blynk {
     void Event24(void);
 
 };
-#endif
+//#endif

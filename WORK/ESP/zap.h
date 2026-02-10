@@ -1,7 +1,8 @@
 // zap.h
 
-#ifndef ZAP_H
-#define ZAP_H
+//#ifndef ZAP_H
+//#define ZAP_H
+#pragma once
 
 extern bool autoRemoteLocalRc;
 bool esp1on = false;
@@ -456,4 +457,4 @@ void zapAllOnOff(bool cmd)
 }
 /**************************************************END OF ZAPPING ZONE***************************************************************/
 
-#endif
+//#endif

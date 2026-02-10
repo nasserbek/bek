@@ -1,8 +1,9 @@
 // MainCalls.h
 
-#ifndef MAINCALLS_H
-#define MAINCALLS_H
+//#ifndef MAINCALLS_H
+//#define MAINCALLS_H
 
+#pragma once
 
 #include "main.h"
 #include "api.h"
@@ -14,4 +15,4 @@
 #include "setup.h"
 #include "mainLoop.h"
 
-#endif
+//#endif

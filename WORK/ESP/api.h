@@ -1,9 +1,9 @@
 // api.h
 
-#ifndef API_H
-#define API_H
+//#ifndef API_H
+//#define API_H
 
-
+#pragma once
 
 // Blynk cloud server
 const char* blynkHost = "blynk.cloud";
@@ -125,4 +125,4 @@ void apiSend(esp32baord RemoteBoard, String virtualPin, int value) {
 }
 
 
-#endif
+//#endif

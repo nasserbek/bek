@@ -1,8 +1,10 @@
 // critical.h
 
-#ifndef CRITICAL_H
-#define CRITICAL_H
+//#ifndef CRITICAL_H
+//#define CRITICAL_H
 
+
+#pragma once
 #define _TIMERINTERRUPT_LOGLEVEL_     4
 #include "ESP32TimerInterrupt.h"
 ESP32Timer ITimer0(0);
@@ -147,4 +149,4 @@ void createHandleGroup()
 /*************************************************END OF DON'T TOUCH*********************************************************************************************/
     
 
-#endif
+//#endif

@@ -1,15 +1,16 @@
 // setup.h
 
-#ifndef SETUP_H
-#define SETUP_H
+//#ifndef SETUP_H
+//#define SETUP_H
 
+#pragma once
 
 void BoardDefines()
 {
   if(ActiveBoard == ESP1)      //TTGO R64 SCATOLA 1CH TTGO
   {
       esp.BOARD = ESP1;
-      esp.VERSION_ID  = " ESP1 v0.1 - ";
+      esp.VERSION_ID  = " ESP1 v0.11 - ";
       esp.BLYNK_AUTH_TOKEN = BLYNK_AUTH_TOKEN_ESP1 ;
       esp.THINGNAME  = "ESP1"   ;
       esp.AWS_IOT_SUBSCRIBE_TOPIC_RC       = "esp1/sub/rc";
@@ -301,4 +302,4 @@ void resetBoardID(void)
 
 
 
-#endif
+//#endif

@@ -1,7 +1,9 @@
 // mainLoop.h
 
-#ifndef MAINLOOP_H
-#define MAINLOOP_H
+//#ifndef MAINLOOP_H
+//#define MAINLOOP_H
+
+#pragma once
 
 extern bool connectAWS(void);
 extern blynk myBlynk;
@@ -461,4 +463,4 @@ void SendLiveLed()
   }
 
 
-#endif
+//#endif

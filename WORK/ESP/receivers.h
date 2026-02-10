@@ -1,9 +1,10 @@
 // receivers.h
 
-#ifndef RECEIVERS_H
-#define RECEIVERS_H
+//#ifndef RECEIVERS_H
+//#define RECEIVERS_H
 
 
+#pragma once
 
 extern int  Av_Rx;
 extern void AvReceiverSel(int queuData);
@@ -328,4 +329,4 @@ void  dvrOnOff (bool onOff)
 /**************************************************END OF VIDEO RC CONTROL ZONE***************************************************************/
 
 
-#endif
+//#endif
