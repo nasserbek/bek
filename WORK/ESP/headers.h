@@ -9,9 +9,6 @@ ESP3 =3,
 TEST4=4,
 } ;
 
-#define NICE
-//#define CH
-
 #define LILLYGO_RELAY_8
 
   #ifdef LILLYGO_RELAY_8
@@ -27,12 +24,11 @@ TEST4=4,
   #endif
 
 
-
-
-
+//#define NICE
+#define CH
 /////////////////////////////////////////////////////////////////////////
     #define BOARD ESP1
-    #define VERSION_ID " ESP0.11 "
+    #define VERSION_ID " ESP1_1 - "
     #define BLYNK_AUTH_TOKEN                BLYNK_AUTH_TOKEN_ESP1 //ESP1
     #define THINGNAME "ESP1"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "esp1/sub/rc"
@@ -56,7 +52,7 @@ TEST4=4,
     #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "esp1/sub/live"
     #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "esp1/sub/blynk"
     #define AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL   "esp1/sub/terminal"
-    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP.ino.esp32.bin"  // URL to download the firmware from
+    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP1.ino.esp32.bin"  // URL to download the firmware from
 ////////////////////////////////////////
 
 
@@ -113,13 +109,15 @@ TEST4=4,
 #define WIFI_SSID_METEOR_BU       "BEK_BU"
 #define WIFI_SSID_METEOR_BUF      "BEK_BUF"
 #define WIFI_SSID_METEOR_BOX      "BEK_BOX"
-#define WIFI_SSID_BBOX            "Bbox-Bek-2.4GHz"                                                
+#define WIFI_SSID_BBOX            "Bbox-Bek-2.4GHz"    
+                                                
                                               
  
 #define WIFI_PASSWORD_SFR        "ali09042010"
 #define WIFI_PASSWORD             "ali09042010"
 #define WIFI_PASSWORD_METEOR      "Ali09042010_"
 #define WIFI_PASSWORD_BBOX       "Ali09042010_"
+
 
 #define WIFI_SSID_TEMP            "TP-Link_97D8" 
 #define WIFI_PASSWORD_TEMP        "67942015"
@@ -306,7 +304,7 @@ Q_EVENT_RM_ID_19_V92,  //68
 
 #define BLYNK_ACTIVE_TIMEOUT   60000 // 1 MIN
 #define LIVE_TIMER_OFF  3000
-#define WIFI_IDE_TIMER 900000  //15 MIN
+#define WIFI_IDE_TIMER 300000  //10 MIN
 #define WIFI_SURVILANCE_TIMER 120000  // 2 MIN
 #define WIFI_RECONNECT_TIMER 10000  // 10 sec
 #define DEEP_SLEEP_TIME_60_MIN 3600000000   // 1 HOUR in micro 

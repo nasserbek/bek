@@ -3,7 +3,6 @@
 #ifndef CRITICAL_H
 #define CRITICAL_H
 
-
 #define _TIMERINTERRUPT_LOGLEVEL_     4
 #include "ESP32TimerInterrupt.h"
 ESP32Timer ITimer0(0);
@@ -11,20 +10,13 @@ ESP32Timer ITimer0(0);
 
 extern void resetRouter(void);
 
-volatile uint32_t wdtTriggered = 0;
 
-bool IRAM_ATTR TimerHandler0(void *)
+
+bool IRAM_ATTR TimerHandler0(void * timerNo)
 {
-  wdtTriggered = 1;
+  ESP.restart();
   return true;
 }
-
-
-//bool IRAM_ATTR TimerHandler0(void * timerNo)
-//{
-//  ESP.restart();
-//  return true;
-//}
 
 void enableWDG(bool _enable)
   {
@@ -41,8 +33,6 @@ void resetWdg(void)
   
 void initWDG(int wdtTimeout,bool _enable) 
 {
-
-  
   Serial.print(F("\nStarting TimerInterruptTest on "));
   Serial.println(ARDUINO_BOARD);
   Serial.println(ESP32_TIMER_INTERRUPT_VERSION);
@@ -51,24 +41,14 @@ void initWDG(int wdtTimeout,bool _enable)
   Serial.print(F_CPU / 1000000);
   Serial.println(F(" MHz"));
 
-//  if (ITimer0.attachInterruptInterval(wdtTimeout * 1000, TimerHandler0))
-//  {
-//    Serial.print(F("Starting  ITimer0 OK, millis() = "));
-//    Serial.println(millis());
-//    ITimer0.restartTimer();  
-//  }
-//  else
-//    Serial.println(F("Can't set ITimer0. Select another freq. or timer"));
-
-    if (ITimer0.attachInterruptInterval((uint64_t)wdtTimeout * 1000, TimerHandler0))
-    {
-      Serial.print(F("Starting ITimer0 OK, millis() = "));
-      Serial.println(millis());
-    }
-    else
-    {
-      Serial.println(F("Can't set ITimer0"));
-    }
+  if (ITimer0.attachInterruptInterval(wdtTimeout * 1000, TimerHandler0))
+  {
+    Serial.print(F("Starting  ITimer0 OK, millis() = "));
+    Serial.println(millis());
+    ITimer0.restartTimer();  
+  }
+  else
+    Serial.println(F("Can't set ITimer0. Select another freq. or timer"));
 }
 
 

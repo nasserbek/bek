@@ -3,7 +3,22 @@
 #ifndef SETUP_H
 #define SETUP_H
 
-void LillyGo_Relay_8_Setup()
+
+ 
+void relaySetup(void)
+{
+     pinMode(AV_RX_DVR_PIN_2, OUTPUT);
+     pinMode(I2C_1_2_RELAY , OUTPUT);
+     pinMode(I2C_3_4_RELAY , OUTPUT);
+     pinMode(BOARD_SEL_0 , INPUT); 
+     pinMode(BOARD_SEL_1 , INPUT);
+     digitalWrite(AV_RX_DVR_PIN_2, LOW);  // AV RECEIVER OFF POWER UP NC CONTACT
+     ActiveBoard = ( (digitalRead(BOARD_SEL_1) << 1) |   digitalRead(BOARD_SEL_0)) +1;
+
+     BoardDefines(); 
+}
+
+ void LillyGo_Relay_8_Setup()
 {
   pinMode(RELAY_PIN_1, OUTPUT);
     pinMode(RELAY_PIN_2, OUTPUT);
@@ -61,27 +76,12 @@ void LillyGo_Relay_8_Setup()
     delay(100);
     digitalWrite(RELAY_PIN_8, LOW);
     delay(100);  
-}
- 
-void relaySetup(void)
-{
-     pinMode(AV_RX_DVR_PIN_2, OUTPUT);
-     pinMode(I2C_1_2_RELAY , OUTPUT);
-     pinMode(I2C_3_4_RELAY , OUTPUT);
-     pinMode(BOARD_SEL_0 , INPUT); 
-     pinMode(BOARD_SEL_1 , INPUT);
-     digitalWrite(AV_RX_DVR_PIN_2, LOW);  // AV RECEIVER OFF POWER UP NC CONTACT
-     ActiveBoard  = digitalRead(BOARD_SEL_0) + digitalRead(BOARD_SEL_1);  
-     if(ActiveBoard == ESP0) ActiveBoard = ESP1;
-     BoardDefines(); 
-}
-  
+} 
 
 bool blynkInit(void)
 {
    StaticJsonDocument<54> doc; //Json to send from
      blynkConnected = myBlynk.init();    
-     String str = WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI());
      if (blynkConnected) 
               {
                 myBlynk.sendAvRxIndex(Av_Rx);
@@ -90,9 +90,9 @@ bool blynkInit(void)
                 int rssi = WiFi.RSSI();
                 myBlynk.wifiRSSI(WiFi.RSSI());
                 myBlynk.sendVersion(VERSION_ID + WiFi.SSID()  );
-                myBlynk.TerminalPrint(str );
              }
-    
+    String str = WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI());
+    myBlynk.TerminalPrint(str );
     awsTerminal(awsConnected, str ) ;
 return  blynkConnected;
 }     

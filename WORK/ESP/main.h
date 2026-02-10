@@ -26,7 +26,6 @@
 #include <ArduinoOTA.h>
 
 
-
 QueueHandle_t g_event_queue_handle = NULL;
 EventGroupHandle_t g_event_group = NULL;
 
@@ -391,7 +390,7 @@ void BoardDefines()
       #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "esp1/sub/live"
       #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "esp1/sub/blynk"
       #define AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL   "esp1/sub/terminal"
-      #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP1/ESP1.ino.esp32.bin"  // URL to download the firmware from
+      #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP1.ino.esp32.bin"  // URL to download the firmware from
   }
   
   
@@ -422,7 +421,7 @@ void BoardDefines()
       #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "esp2/sub/live"
       #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "esp2/sub/blynk"
       #define AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL   "esp2/sub/terminal"
-      #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP1/ESP1.ino.esp32.bin"  // URL to download the firmware from
+      #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP2.ino.esp32.bin"  // URL to download the firmware from
   }
   
   
@@ -454,7 +453,7 @@ void BoardDefines()
       #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "esp3/sub/live"
       #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "esp3/sub/blynk"
       #define AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL   "esp3/sub/terminal"
-      #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP1/ESP1.ino.esp32.bin"  // URL to download the firmware from
+      #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP3.ino.esp32.bin"  // URL to download the firmware from
     }  
   
   
@@ -484,7 +483,7 @@ void BoardDefines()
       #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "test/sub/live"
       #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "test/sub/blynk"
       #define AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL   "test/sub/terminal"
-      #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP1/ESP1.ino.esp32.bin"  // URL to download the firmware from
+      #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP0.ino.esp32.bin"  // URL to download the firmware from
    } 
 
 }
