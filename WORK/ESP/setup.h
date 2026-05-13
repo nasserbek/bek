@@ -2,78 +2,48 @@
 
 #ifndef SETUP_H
 #define SETUP_H
-
-void LillyGo_Relay_8_Setup()
-{
-/*
-    pinMode(RELAY_PIN_1, OUTPUT);
-    pinMode(RELAY_PIN_2, OUTPUT);
-    pinMode(RELAY_PIN_3, OUTPUT);
-    pinMode(RELAY_PIN_4, OUTPUT);
-    pinMode(RELAY_PIN_5, OUTPUT);
-    pinMode(RELAY_PIN_6, OUTPUT);
-    pinMode(RELAY_PIN_7, OUTPUT);
-    pinMode(RELAY_PIN_8, OUTPUT);
-    pinMode(LED_PIN, OUTPUT);
-    delay(100);
-
-    //Turn off all relays
-    digitalWrite(RELAY_PIN_1, LOW);
-    digitalWrite(RELAY_PIN_2, LOW);
-    digitalWrite(RELAY_PIN_3, LOW);
-    digitalWrite(RELAY_PIN_4, LOW);
-    digitalWrite(RELAY_PIN_5, LOW);
-    digitalWrite(RELAY_PIN_6, LOW);
-    digitalWrite(RELAY_PIN_7, LOW);
-    digitalWrite(RELAY_PIN_8, LOW);
-    digitalWrite(LED_PIN, LOW);
-
-//Turn the relays on and off in turn
-    digitalWrite(RELAY_PIN_1, HIGH);
-    delay(100);
-    digitalWrite(RELAY_PIN_2, HIGH);
-    delay(100);
-    digitalWrite(RELAY_PIN_3, HIGH);
-    delay(100);
-    digitalWrite(RELAY_PIN_4, HIGH);
-    delay(100);
-    digitalWrite(RELAY_PIN_5, HIGH);
-    delay(100);
-    digitalWrite(RELAY_PIN_6, HIGH);
-    delay(100);
-    digitalWrite(RELAY_PIN_7, HIGH);
-    delay(100);
-    digitalWrite(RELAY_PIN_8, HIGH);
-    delay(100);
-
-    digitalWrite(RELAY_PIN_1, LOW);
-    delay(100);
-    digitalWrite(RELAY_PIN_2, LOW);
-    delay(100);
-    digitalWrite(RELAY_PIN_3, LOW);
-    delay(100);
-    digitalWrite(RELAY_PIN_4, LOW);
-    delay(100);
-    digitalWrite(RELAY_PIN_5, LOW);
-    delay(100);
-    digitalWrite(RELAY_PIN_6, LOW);
-    delay(100);
-    digitalWrite(RELAY_PIN_7, LOW);
-    delay(100);
-    digitalWrite(RELAY_PIN_8, LOW);
-    delay(100);  
-    */
-}
+int card = 0;
  
 void relaySetup(void)
 {
-     pinMode(AV_RX_DVR_PIN_2, OUTPUT);
-     pinMode(I2C_1_2_RELAY , OUTPUT);
-     pinMode(I2C_3_4_RELAY , OUTPUT);
-     pinMode(BOARD_SEL_0 , INPUT); 
-     pinMode(BOARD_SEL_1 , INPUT);
-     digitalWrite(AV_RX_DVR_PIN_2, LOW);  // AV RECEIVER OFF POWER UP NC CONTACT
-     ActiveBoard = ((digitalRead(BOARD_SEL_1) << 1) |     digitalRead(BOARD_SEL_0) ) +1;
+      pinMode(AV_RX_DVR_PIN_2, OUTPUT);
+      delay(50); // let signals stabilize
+      digitalWrite(AV_RX_DVR_PIN_2, LOW);  // AV RECEIVER OFF POWER UP NC CONTACT
+
+      pinMode(I2C_1_2_RELAY , OUTPUT);
+      pinMode(I2C_3_4_RELAY , OUTPUT);
+
+      pinMode(DIP1, INPUT_PULLUP);
+      pinMode(DIP2, INPUT_PULLUP);
+      delay(200); // let signals stabilize
+      // Read switches
+      int b0 = !digitalRead(DIP1); // invert because pullup
+      int b1 = !digitalRead(DIP2);
+    
+      // Convert to mode number
+      card = (b1 << 1) | b0;
+    
+      Serial.print("Card Selecter: ");
+      Serial.println(card);
+    
+      switch(card) {
+        case 0:
+          ActiveBoard = ESP1;
+          break;
+    
+        case 1:
+          ActiveBoard = ESP2;
+          break;
+    
+        case 2:
+          ActiveBoard = ESP3;
+          break;
+    
+        case 3:
+          ActiveBoard = TEST4;
+          break;
+      }
+     
      BoardDefines(); 
 }
   

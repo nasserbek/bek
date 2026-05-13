@@ -9,12 +9,9 @@ void setup()
      Serial.begin(115200);
      initWDG(MIN_5,EN);
      relaySetup();
-      #ifdef LILLYGO_RELAY_8
-        LillyGo_Relay_8_Setup();
-      #endif
-     
+    
      Serial.print("Version: ");     Serial.println(VERSION_ID);
-     Serial.print("AWS IOT Thnis is: ");     Serial.println(THINGNAME);
+     Serial.print("AWS IOT This is: ");     Serial.println(THINGNAME);
      
      mySwitch.enableTransmit(RC_TX_PIN);  
         

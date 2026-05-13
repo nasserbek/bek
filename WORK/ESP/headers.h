@@ -1,7 +1,7 @@
 //#define ESP1     //  R64 SCATOLA 1CH TTGO
 //#define ESP2      // R65 SCATOLA 4CH ESP32S
 //#define ESP3   //R66 SWAN CASE 2CH ESP32S
-enum {
+enum  {
 ESP0 =0,
 ESP1 =1,
 ESP2 =2,
@@ -32,7 +32,7 @@ TEST4=4,
 
 /////////////////////////////////////////////////////////////////////////
     #define BOARD ESP1
-    #define VERSION_ID " ESP0.11 "
+    #define VERSION_ID " ESP1.0 "
     #define BLYNK_AUTH_TOKEN                BLYNK_AUTH_TOKEN_ESP1 //ESP1
     #define THINGNAME "ESP1"   
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "esp1/sub/rc"
@@ -141,8 +141,8 @@ TEST4=4,
 #define I2C_3_4_RELAY       0
 
 //BOARD SEL
-#define BOARD_SEL_0         36
-#define BOARD_SEL_1         39
+#define DIP1         16
+#define DIP2         17
 
 
 
