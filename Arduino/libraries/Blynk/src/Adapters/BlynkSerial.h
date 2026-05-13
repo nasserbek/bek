@@ -15,11 +15,7 @@
 #define BLYNK_INFO_CONNECTION "Serial"
 #endif
 
-#ifdef PARTICLE
-#include <BlynkApiParticle.h>
-#else
 #include <BlynkApiArduino.h>
-#endif
 #include <Blynk/BlynkProtocol.h>
 
 class BlynkTransportStream
@@ -85,6 +81,13 @@ public:
     }
 
     void begin(Stream& stream, const char* auth) {
+        config(stream, auth);
+        while(this->connect() != true) {}
+    }
+
+    // Please use Blynk.begin(Stream, "auth")
+    BLYNK_DEPRECATED
+    void begin(const char* auth, Stream& stream) {
         config(stream, auth);
         while(this->connect() != true) {}
     }

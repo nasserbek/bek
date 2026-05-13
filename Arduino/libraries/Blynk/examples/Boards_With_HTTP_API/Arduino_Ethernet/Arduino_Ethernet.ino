@@ -1,19 +1,19 @@
 /*************************************************************
   Blynk is a platform with iOS and Android apps to control
-  ESP32, Arduino, Raspberry Pi and the likes over the Internet.
-  You can easily build mobile and web interfaces for any
+  Arduino, Raspberry Pi and the likes over the Internet.
+  You can easily build graphic interfaces for all your
   projects by simply dragging and dropping widgets.
 
-    Downloads, docs, tutorials: https://www.blynk.io
-    Sketch generator:           https://examples.blynk.cc
-    Blynk community:            https://community.blynk.cc
-    Follow us:                  https://www.fb.com/blynkapp
-                                https://twitter.com/blynk_app
+    Downloads, docs, tutorials: http://www.blynk.cc
+    Sketch generator:           http://examples.blynk.cc
+    Blynk community:            http://community.blynk.cc
+    Follow us:                  http://www.fb.com/blynkapp
+                                http://twitter.com/blynk_app
 
   This example code is in public domain.
 
  *************************************************************
-  App dashboard setup:
+  Project setup in the Blynk app:
     Value Display widget on V2
 
   NOTE: Pins 10, 11, 12 and 13 are reserved for Ethernet module.
@@ -28,14 +28,13 @@
 #include <SPI.h>
 #include <Ethernet.h>
 
-/* Fill in information from Blynk Device Info here */
-//#define BLYNK_TEMPLATE_ID           "TMPxxxxxx"
-//#define BLYNK_TEMPLATE_NAME         "Device"
-//#define BLYNK_AUTH_TOKEN            "YourAuthToken"
+// You should get Auth Token in the Blynk App.
+// Go to the Project Settings (nut icon).
+const char auth[] = "YourAuthToken";
 
 // Blynk cloud server
-const char* host = "blynk.cloud";
-unsigned int port = 80;
+const char* host = "blynk-cloud.com";
+unsigned int port = 8080;
 
 // Network settings
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
@@ -63,7 +62,6 @@ void connectNetwork()
 }
 
 bool httpRequest(const String& method,
-                 const String& url,
                  const String& request,
                  String&       response)
 {
@@ -79,10 +77,7 @@ bool httpRequest(const String& method,
     return false;
   }
 
-  Serial.print(method); Serial.print(" "); Serial.println(url);
-
-  client.print(method); client.print(" ");
-  client.print(url); client.println(F(" HTTP/1.1"));
+  client.print(method); client.println(F(" HTTP/1.1"));
   client.print(F("Host: ")); client.println(host);
   client.println(F("Connection: close"));
   if (request.length()) {
@@ -120,12 +115,10 @@ bool httpRequest(const String& method,
   //Serial.println("Reading response body");
   response = "";
   response.reserve(contentLength + 1);
-  while (response.length() < contentLength) {
-    if (client.available()) {
+  while (response.length() < contentLength && client.connected()) {
+    while (client.available()) {
       char c = client.read();
       response += c;
-    } else if (!client.connected()) {
-      break;
     }
   }
   client.stop();
@@ -153,7 +146,8 @@ void loop() {
   Serial.print("Sending value: ");
   Serial.println(value);
 
-  if (httpRequest("GET", String("/external/api/update?token=") + BLYNK_AUTH_TOKEN + "&pin=V2&value=" + value, "", response)) {
+  String putData = String("[\"") + value + "\"]";
+  if (httpRequest(String("PUT /") + auth + "/update/V2", putData, response)) {
     if (response.length() != 0) {
       Serial.print("WARNING: ");
       Serial.println(response);
@@ -165,7 +159,7 @@ void loop() {
 
   Serial.println("Reading value");
 
-  if (httpRequest("GET", String("/external/api/get?token=") + BLYNK_AUTH_TOKEN + "&pin=V2", "", response)) {
+  if (httpRequest(String("GET /") + auth + "/get/V2", "", response)) {
     Serial.print("Value from server: ");
     Serial.println(response);
   }
@@ -173,14 +167,14 @@ void loop() {
   // Set Property
   Serial.println("Setting property");
 
-  if (httpRequest("GET", String("/external/api/update/property?token=") + BLYNK_AUTH_TOKEN + "&pin=V2&label=" + value, "", response)) {
+  if (httpRequest(String("GET /") + auth + "/update/V2?label=" + value, "", response)) {
     if (response.length() != 0) {
       Serial.print("WARNING: ");
       Serial.println(response);
     }
   }
 
-  // For more HTTP API, see https://docs.blynk.io/en/blynk.cloud/https-api-overview
+  // For more HTTP API, see http://docs.blynkapi.apiary.io
 
   // Wait
   delay(30000L);

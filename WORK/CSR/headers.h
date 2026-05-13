@@ -7,10 +7,10 @@
 #define LOCAL_SERVER 
 
 #ifdef LOCAL_SERVER
-    #define BLYNK_SERVER              IPAddress(192,168,1,196)
-    #define BLYNK_SERVER_FREE_BOX     IPAddress(192,168,1,196)   //"192.168.1.77"  blynk-cloud.com
-    #define BLYNK_SERVER_FREE_METEOR  IPAddress(192,168,1,196)   //"192.168.1.196"  blynk-cloud.com
-    #define BLYNK_SERVER_MANSIONES    IPAddress(192,168,1,196)   //"192.168.1.27"  blynk-cloud.com
+    #define BLYNK_SERVER              IPAddress(192,168,1,4)
+    #define BLYNK_SERVER_FREE_BOX     IPAddress(192,168,1,4)   //"192.168.1.77"  blynk-cloud.com
+    #define BLYNK_SERVER_FREE_METEOR  IPAddress(192,168,1,4)   //"192.168.1.196"  blynk-cloud.com
+    #define BLYNK_SERVER_MANSIONES    IPAddress(192,168,1,4)   //"192.168.1.27"  blynk-cloud.com
 #endif
 
 #ifdef REMOTE_SERVER
@@ -176,7 +176,7 @@ TEST4=4,
 #define WIFI_SSID_ZFLIP           "ZFlip4_BEK"
 #define WIFI_SSID_XIAOMI          "XIAOMI_BEK"
 #define WIFI_SSID_GIGA            "GIGACUBE_BEK"
-#define WIFI_SSID_METEOR_BU       "BEK_BU"
+#define WIFI_SSID_METEOR_BU       "Bbox-Bek-2.4GHz"
 #define WIFI_SSID_METEOR_BUF      "BEK_BUF"
 #define WIFI_SSID_METEOR_BOX      "BEK_BOX"
                                                 

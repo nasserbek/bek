@@ -210,7 +210,7 @@ extern "C" {
 
 struct BlynkReq
 {
-    uint16_t pin;
+    uint8_t pin;
 };
 
 typedef void (*WidgetReadHandler)(BlynkReq BLYNK_UNUSED &request);
@@ -232,15 +232,11 @@ BLYNK_DISCONNECTED();
 BLYNK_WRITE(InternalPinACON);
 BLYNK_WRITE(InternalPinADIS);
 BLYNK_WRITE(InternalPinRTC);
-BLYNK_WRITE(InternalPinUTC);
 BLYNK_WRITE(InternalPinOTA);
-BLYNK_WRITE(InternalPinMETA);
-BLYNK_WRITE(InternalPinVFS);
-BLYNK_WRITE(InternalPinDBG);
 
 // Aliases
-//#define BLYNK_APP_CONNECTED()    BLYNK_WRITE(InternalPinACON)
-//#define BLYNK_APP_DISCONNECTED() BLYNK_WRITE(InternalPinADIS)
+#define BLYNK_APP_CONNECTED()    BLYNK_WRITE(InternalPinACON)
+#define BLYNK_APP_DISCONNECTED() BLYNK_WRITE(InternalPinADIS)
 
 // Regular Virtual Pins
 BLYNK_READ_DEFAULT();

@@ -38,16 +38,7 @@ public:
     }
 
     bool connect() {
-        if (wifly->open(domain, port)) {
-            return true;
-        }
-        // If port is 80 or 8080, try an alternative port
-        if (port == 80) {
-            return wifly->open(domain, 8080);
-        } else if (port == 8080) {
-            return wifly->open(domain, 80);
-        }
-        return false;
+        return wifly->open(domain, port);
     }
     void disconnect() { wifly->close(); }
 

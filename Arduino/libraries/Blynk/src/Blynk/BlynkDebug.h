@@ -12,7 +12,6 @@
 #define BlynkDebug_h
 
 #include <Blynk/BlynkConfig.h>
-#include <Blynk/BlynkHelpers.h>
 
 #include <stddef.h>
 #ifdef ESP8266
@@ -36,7 +35,53 @@ millis_time_t   BlynkMillis();
 size_t          BlynkFreeRam();
 void            BlynkReset() BLYNK_NORETURN;
 void            BlynkFatal() BLYNK_NORETURN;
-bool            BlynkResetImplemented();
+
+
+#if defined(SPARK) || defined(PARTICLE)
+    #include "application.h"
+#endif
+
+#if defined(ARDUINO)
+    #if ARDUINO >= 100
+        #include <Arduino.h>
+    #else
+        #include <WProgram.h>
+    #endif
+#endif
+
+#if defined(LINUX)
+    #if defined(RASPBERRY)
+        #include <wiringPi.h>
+    #endif
+#endif
+
+#if !defined(BLYNK_RUN_YIELD)
+    #if defined(BLYNK_NO_YIELD)
+        #define BLYNK_RUN_YIELD() {}
+    #elif defined(SPARK) || defined(PARTICLE)
+        #define BLYNK_RUN_YIELD() { Particle.process(); }
+    #elif !defined(ARDUINO) || (ARDUINO < 151)
+        #define BLYNK_RUN_YIELD() {}
+    #else
+        #define BLYNK_RUN_YIELD() { BlynkDelay(0); }
+    #endif
+#endif
+
+#if defined(__AVR__)
+    #include <avr/pgmspace.h>
+    #define BLYNK_HAS_PROGMEM
+    #define BLYNK_PROGMEM PROGMEM
+    #define BLYNK_F(s) F(s)
+    #define BLYNK_PSTR(s) PSTR(s)
+#else
+    #define BLYNK_PROGMEM
+    #define BLYNK_F(s) s
+    #define BLYNK_PSTR(s) s
+#endif
+
+#ifdef ARDUINO_AVR_DIGISPARK
+    typedef fstr_t __FlashStringHelper;
+#endif
 
 #if defined(BLYNK_DEBUG_ALL) && !(__cplusplus >= 201103L || defined(__GXX_EXPERIMENTAL_CXX0X__))
     #warning "Compiler features not enabled -> please contact yor board vendor to enable c++0x"
@@ -84,7 +129,7 @@ bool            BlynkResetImplemented();
                                             BLYNK_PRINT.print(ip[1]); BLYNK_PRINT.print('.');  \
                                             BLYNK_PRINT.println(ip[0]); }
 
-        static inline
+        static
         void BLYNK_LOG_TIME() {
             BLYNK_PRINT.print('[');
             BLYNK_PRINT.print(BlynkMillis());
@@ -96,7 +141,7 @@ bool            BlynkResetImplemented();
         #define BLYNK_DBG_BREAK()    { for(;;); }
         #define BLYNK_ASSERT(expr)   { if(!(expr)) { BLYNK_LOG2(BLYNK_F("Assertion failed: "), BLYNK_F(#expr)); BLYNK_DBG_BREAK() } }
 
-        static inline
+        static
         void BLYNK_DBG_DUMP(const char* msg, const void* addr, size_t len) {
             if (len) {
                 BLYNK_LOG_TIME();
@@ -106,7 +151,7 @@ bool            BlynkResetImplemented();
                 bool prev_print = true;
                 while (l2--) {
                     const uint8_t c = *octets++ & 0xFF;
-                    if (c > 32 && c < 127) {
+                    if (c >= 32 && c < 127) {
                         if (!prev_print) { BLYNK_PRINT.print(']'); }
                         BLYNK_PRINT.print((char)c);
                         prev_print = true;
@@ -129,7 +174,7 @@ bool            BlynkResetImplemented();
         #include <stdio.h>
         #include <stdarg.h>
 
-        static inline
+        BLYNK_UNUSED
         void blynk_dbg_print(const char* BLYNK_PROGMEM fmt, ...)
         {
             va_list ap;
@@ -163,7 +208,7 @@ bool            BlynkResetImplemented();
         #define BLYNK_DBG_BREAK()    raise(SIGTRAP);
         #define BLYNK_ASSERT(expr)   assert(expr)
 
-        static inline
+        static
         void BLYNK_DBG_DUMP(const char* msg, const void* addr, size_t len) {
             BLYNK_LOG_TIME();
             BLYNK_PRINT.printf(msg);
@@ -172,7 +217,7 @@ bool            BlynkResetImplemented();
             bool prev_print = true;
             while (l2--) {
                 const uint8_t c = *octets++ & 0xFF;
-                if (c > 32 && c < 127) {
+                if (c >= 32 && c < 127) {
                     if (!prev_print) { BLYNK_PRINT.putc(']'); }
                     BLYNK_PRINT.putc((char)c);
                     prev_print = true;
@@ -209,7 +254,7 @@ bool            BlynkResetImplemented();
         #define BLYNK_DBG_BREAK()    raise(SIGTRAP);
         #define BLYNK_ASSERT(expr)   assert(expr)
 
-        static inline
+        static
         void BLYNK_DBG_DUMP(const char* msg, const void* addr, size_t len) {
             BLYNK_LOG_TIME();
             fprintf(BLYNK_PRINT, "%s", msg);
@@ -218,7 +263,7 @@ bool            BlynkResetImplemented();
             bool prev_print = true;
             while (l2--) {
                 const uint8_t c = *octets++ & 0xFF;
-                if (c > 32 && c < 127) {
+                if (c >= 32 && c < 127) {
                     if (!prev_print) { fputc(']', BLYNK_PRINT); }
                     fputc((char)c, BLYNK_PRINT);
                     prev_print = true;
