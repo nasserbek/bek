@@ -391,7 +391,7 @@ void BoardDefines()
       #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "esp1/sub/live"
       #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "esp1/sub/blynk"
       #define AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL   "esp1/sub/terminal"
-      #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP1/ESP1.ino.esp32.bin"  // URL to download the firmware from
+      #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP.ino.esp32.bin"  // URL to download the firmware from
   }
   
   
@@ -422,7 +422,7 @@ void BoardDefines()
       #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "esp2/sub/live"
       #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "esp2/sub/blynk"
       #define AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL   "esp2/sub/terminal"
-      #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP1/ESP1.ino.esp32.bin"  // URL to download the firmware from
+      #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP.ino.esp32.bin"  // URL to download the firmware from
   }
   
   
@@ -454,13 +454,13 @@ void BoardDefines()
       #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "esp3/sub/live"
       #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "esp3/sub/blynk"
       #define AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL   "esp3/sub/terminal"
-      #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP1/ESP1.ino.esp32.bin"  // URL to download the firmware from
+      #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP.ino.esp32.bin"  // URL to download the firmware from
     }  
   
   
   if(ActiveBoard == ESP0)      //R66 SWAN CASE 2CH ESP32S
   {    
-      #define VERSION_ID " TEST_1 - "
+      #define VERSION_ID " TEST_2 - "
       #define BLYNK_AUTH_TOKEN                BLYNK_AUTH_TOKEN_ESP14
       #define THINGNAME "ESP14"   
       #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "test/sub/rc"
@@ -484,7 +484,7 @@ void BoardDefines()
       #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "test/sub/live"
       #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "test/sub/blynk"
       #define AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL   "test/sub/terminal"
-      #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP1/ESP1.ino.esp32.bin"  // URL to download the firmware from
+      #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP.ino.esp32.bin"  // URL to download the firmware from
    } 
 
 }
