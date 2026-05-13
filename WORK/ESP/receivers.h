@@ -1,9 +1,10 @@
 // receivers.h
 
-#ifndef RECEIVERS_H
-#define RECEIVERS_H
+//#ifndef RECEIVERS_H
+//#define RECEIVERS_H
 
 
+#pragma once
 
 extern int  Av_Rx;
 extern void AvReceiverSel(int queuData);
@@ -89,7 +90,7 @@ if(ActiveBoard == ESP2 )   //4CH 4 Relays Active LOW and 2 I2C Controllers
         }   
 }
 
-if(ActiveBoard == ESP1 )  
+if(esp.BOARD == ESP1 )  
 { 
    Wire.beginTransmission(_address);
    Wire.write(MSB );
@@ -98,7 +99,7 @@ if(ActiveBoard == ESP1 )
    return (Wire.endTransmission() ); 
 }
 
-if(ActiveBoard == ESP3 ) 
+if(esp.BOARD == ESP3 ) 
 {  
           Wire.beginTransmission(_address);
           Wire.write(MSB );
@@ -107,7 +108,7 @@ if(ActiveBoard == ESP3 )
           return (Wire.endTransmission() );  
 }
 
-if(ActiveBoard == ESP0 ) return false;  
+if(esp.BOARD == ESP0 ) return false;  
 
 }
         
@@ -190,9 +191,9 @@ void room ( int RC, int AV, int sel , int cmd)
 
 void AvReceiverSel(int queuData)
  {            
-     if(ActiveBoard == ESP1 ) TCA9548A(queuData-1);
+     if(esp.BOARD == ESP1 ) TCA9548A(queuData-1);
 
-     if(ActiveBoard == ESP2 ) 
+     if(esp.BOARD == ESP2 ) 
      {
                 switch (queuData)
                     {
@@ -212,7 +213,7 @@ void AvReceiverSel(int queuData)
                     }  
      }
      
-     if(ActiveBoard == ESP3 )
+     if(esp.BOARD == ESP3 )
      {
                 switch (queuData)
                     {
@@ -236,7 +237,7 @@ void AvReceiverSel(int queuData)
 
 void PowerOnTuning(void)
 {
-    if(ActiveBoard == ESP1 )      
+    if(esp.BOARD == ESP1 )      
        {    
            selected_Rx = 3;  //H3
            delay (1000);
@@ -256,7 +257,7 @@ void PowerOnTuning(void)
 
        }
   
-    if(ActiveBoard == ESP2 )      
+    if(esp.BOARD == ESP2 )      
     {
            selected_Rx = 0;
            delay (1000);
@@ -285,7 +286,7 @@ void PowerOnTuning(void)
            
     }
     
-    if(ActiveBoard == ESP3 )  
+    if(esp.BOARD == ESP3 )  
     {   
            selected_Rx = 0; //CH4
            delay (1000);
@@ -328,4 +329,4 @@ void  dvrOnOff (bool onOff)
 /**************************************************END OF VIDEO RC CONTROL ZONE***************************************************************/
 
 
-#endif
+//#endif

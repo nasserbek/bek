@@ -9,12 +9,14 @@ void setup()
      Serial.begin(115200);
      initWDG(MIN_5,EN);
      relaySetup();
-      #ifdef LILLYGO_RELAY_8
-        LillyGo_Relay_8_Setup();
-      #endif
      
-     Serial.print("Version: ");     Serial.println(VERSION_ID);
-     Serial.print("AWS IOT Thnis is: ");     Serial.println(THINGNAME);
+     #ifdef LILLYGO_RELAY_8
+        LillyGo_Relay_8_Setup();
+     #endif
+     
+     Serial.print("Version: ");     Serial.println(esp.VERSION_ID);
+     Serial.print("AWS IOT This is: ");     Serial.println(esp.THINGNAME);
+     Serial.print("ActiveBoard: ");     Serial.println(esp.BOARD);
      
      mySwitch.enableTransmit(RC_TX_PIN);  
         
@@ -34,15 +36,7 @@ void setup()
 
 void loop(void) 
 {
-        if (wdtTriggered)
-        {
-          wdtTriggered = 0;
-          Serial.println("WDT expired → restarting");
-          delay(20);
-          ESP.restart();
-        }
-       
-       BoardDefines(); 
+   //    BoardDefines(); 
        resetWdg();
        internetCheck();
        resetBoardID();

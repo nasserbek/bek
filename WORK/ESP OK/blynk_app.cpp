@@ -13,9 +13,10 @@ extern void SendLiveLed(void);
 extern void rebootSw(void);
 extern bool DvrChOn;
 extern int hmi;
-extern int ActiveBoard ;
-extern int selectedBoard;
-extern void apiSend(int board, String virtualPin, int value);
+//extern board esp;
+//extern esp32 ActiveBoard ;
+//extern esp32 seleActiveBoardctedBoard;
+extern void apiSend(esp32baord board, String virtualPin, int value);
 unsigned long startConnecting = millis();
 extern bool liveLed ;
 extern bool liveLedUpdate;
@@ -201,6 +202,7 @@ bool blynk::wifi_init()
        wifiMulti.addAP(WIFI_SSID_XIAOMI , WIFI_PASSWORD);
        wifiMulti.addAP(WIFI_SSID_METEOR_BU, WIFI_PASSWORD_METEOR);
      
+     
     Serial.println("Connecting Wifi...");
     //Connecting to the strongest WiFi connection
     if (wifiMulti.run(WiFi_TIMEOUT) == WL_CONNECTED)
@@ -230,8 +232,8 @@ bool blynk::init()
     {
 //        if(WiFi.SSID() == WIFI_SSID_FREE) BLYNK_SERVER = BLYNK_SERVER_FREE_BOX;
 //        else if(WiFi.SSID() == WIFI_SSID_METEOR_FREE) BLYNK_SERVER = BLYNK_SERVER_FREE_METEOR;
-//        else if(WiFi.SSID() == WIFI_SSID_BBOX) 
-
+//        else if(WiFi.SSID() == WIFI_SSID_MANSIONES) BLYNK_SERVER = BLYNK_SERVER_MANSIONES;
+  
   #ifdef NICE
    #define BLYNK_SERVER  BLYNK_SERVER_NICE
   #endif
@@ -239,30 +241,27 @@ bool blynk::init()
   #ifdef CH
    #define BLYNK_SERVER  BLYNK_SERVER_OMV1
   #endif
-        
-  
-        Blynk.config(BLYNK_AUTH_TOKEN, BLYNK_SERVER,8080); 
+          
+        Blynk.config(esp.BLYNK_AUTH_TOKEN, BLYNK_SERVER,8080); 
         Blynk.connect(BlynkServerTimeout);
         delay(1000);
         _blynkIsConnected = Blynk.connected();
-        if(_blynkIsConnected)
-        {
-          myMap.clear();
-          int index = 0;
-          double lat = 49.01643374960694;
-          double lon = 1.1691833659255038; //EVREUX 49.016450, 1.169214
-          myMap.location(index, lat, lon, "Evreux");
+        DEBUG_PRINT("BLYNK: ");DEBUG_PRINTLN( _blynkIsConnected ? F("Connected") : F("Not Connected"));
         
-
-
-      
-     DEBUG_PRINT("BLYNK: ");DEBUG_PRINTLN( _blynkIsConnected ? F("Connected to " + BLYNK_SERVER ) : F("Not Connected"));
+      myMap.clear();
+      int index = 0;
+      double lat = 49.01643374960694;
+      double lon = 1.1691833659255038; //EVREUX 49.016450, 1.169214
+      myMap.location(index, lat, lon, "Evreux");
+     
+     if(_blynkIsConnected )
+     {
      blynkAtiveTimer     = millis();
      blynkActive = false;
      ledInit();     
      terminal.clear();
      terminal.println( WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) + "BLYNK_SERVER : " + String(BLYNK_SERVER)+"\n");
-        }
+     }
   }
   return _blynkIsConnected;
 }
@@ -296,9 +295,9 @@ void blynk::mapRefresh(int index)
 
 void blynk::streamSelect(bool stream)
 {
-   if(ActiveBoard == ESP1 ) Blynk.setProperty(V28, "url","rtsp://admin:basma28112018@192.168.1.94:554/ch01/0");
-   if(ActiveBoard == ESP2 ) Blynk.setProperty(V28, "url","rtsp://admin:basma28112018@192.168.1.96:554/ch02/0");
-   if(ActiveBoard == ESP3 )Blynk.setProperty(V28, "url","rtsp://admin:basma28112018@192.168.1.95:554/ch01/0");
+   if(esp.BOARD == ESP1 ) Blynk.setProperty(V28, "url","rtsp://admin:basma28112018@192.168.1.94:554/ch01/0");
+   if(esp.BOARD == ESP2 ) Blynk.setProperty(V28, "url","rtsp://admin:basma28112018@192.168.1.96:554/ch02/0");
+   if(esp.BOARD == ESP3 )Blynk.setProperty(V28, "url","rtsp://admin:basma28112018@192.168.1.95:554/ch01/0");
 }
 
 
@@ -1087,25 +1086,25 @@ void blynk::wifiRSSI(int _data)
    Blynk.virtualWrite(V38, _data); 
 }
 
-void blynk::resetRemoteRC(int _data)
-{
-if(!zapSetup && !zapScanOnly)
-{
-  switch (_data)
-        {
-          case ESP1:
-                   Blynk.virtualWrite(V16, 0); 
-          break;
-
-          case ESP2:
-                   Blynk.virtualWrite(V20, 0); 
-          break;
-          case ESP3:
-                   Blynk.virtualWrite(V17, 0); 
-          break;
-        }   
- }
-}
+//void blynk::resetRemoteRC(esp32baord _data)
+//{
+//if(!zapSetup && !zapScanOnly)
+//{
+//  switch (_data)
+//        {
+//          case ESP1:
+//                   Blynk.virtualWrite(V16, 0); 
+//          break;
+//
+//          case ESP2:
+//                   Blynk.virtualWrite(V20, 0); 
+//          break;
+//          case ESP3:
+//                   Blynk.virtualWrite(V17, 0); 
+//          break;
+//        }   
+// }
+//}
 
 void blynk::resetRemoteVideo(int _data)
 {
@@ -1253,7 +1252,7 @@ void blynk::TerminalPrint (String str)
     if ( blynkConnected )terminal.println(str);
     else Serial.println(str); 
    
-   if(ActiveBoard == ESP0 )Serial.println(str);
+   if(esp.BOARD == ESP0 )Serial.println(str);
    terminal.flush();  
 }
 

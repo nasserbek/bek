@@ -3,7 +3,6 @@
 #ifndef CRITICAL_H
 #define CRITICAL_H
 
-
 #define _TIMERINTERRUPT_LOGLEVEL_     4
 #include "ESP32TimerInterrupt.h"
 ESP32Timer ITimer0(0);
@@ -11,26 +10,13 @@ ESP32Timer ITimer0(0);
 
 extern void resetRouter(void);
 
-volatile uint32_t wdtTriggered = 0;
 
 
-/***********************************************************************************/
-unsigned long lastFeed = 0;
-
-void resetWdg()
+bool IRAM_ATTR TimerHandler0(void * timerNo)
 {
-    lastFeed = millis();
+  ESP.restart();
+  return true;
 }
-
-
-/*********************************************************************/
-
-
-void IRAM_ATTR TimerHandler0()
-{
-    wdtTriggered = 1;
-}
-
 
 void enableWDG(bool _enable)
   {
@@ -38,27 +24,31 @@ void enableWDG(bool _enable)
    else ITimer0.stopTimer();                                //Disable interrupt
   }
   
-
+void resetWdg(void)
+  {
+   ITimer0.stopTimer();   
+   delay(100); 
+   ITimer0.restartTimer();                                  
+  }
   
 void initWDG(int wdtTimeout,bool _enable) 
 {
   Serial.print(F("\nStarting TimerInterruptTest on "));
   Serial.println(ARDUINO_BOARD);
   Serial.println(ESP32_TIMER_INTERRUPT_VERSION);
+//  Serial.println(TIMER_INTERRUPT_GENERIC_VERSION);
   Serial.print(F("CPU Frequency = "));
   Serial.print(F_CPU / 1000000);
   Serial.println(F(" MHz"));
 
-
-    if (ITimer0.attachInterruptInterval((uint64_t)wdtTimeout * 1000, TimerHandler0))
-    {
-      Serial.print(F("Starting ITimer0 OK, millis() = "));
-      Serial.println(millis());
-    }
-    else
-    {
-      Serial.println(F("Can't set ITimer0"));
-    }
+  if (ITimer0.attachInterruptInterval(wdtTimeout * 1000, TimerHandler0))
+  {
+    Serial.print(F("Starting  ITimer0 OK, millis() = "));
+    Serial.println(millis());
+    ITimer0.restartTimer();  
+  }
+  else
+    Serial.println(F("Can't set ITimer0. Select another freq. or timer"));
 }
 
 
@@ -81,7 +71,14 @@ void ResetNetgeer(void)
               if(autoResetRouter) resetRouter();
           }
 
-
+/*
+bool pingGoogleConnection(void)
+{
+       bool pingInternet= Ping.ping("www.google.com");
+       DEBUG_PRINT("Ping Google: ");DEBUG_PRINTLN(pingInternet ? F("succesiful") : F("failed"));
+       return (pingInternet);
+}
+*/
 
 void internetCheck(void)
 {

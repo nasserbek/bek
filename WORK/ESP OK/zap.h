@@ -17,9 +17,9 @@ byte esp3_nr_ch = 8;
 
 void resetRemoteRC(void)
 {
-      RC_Remote_ESP1 =false; myBlynk.resetRemoteRC(ESP1);
-      RC_Remote_ESP2 =false; myBlynk.resetRemoteRC(ESP2);
-      RC_Remote_ESP3 =false;  myBlynk.resetRemoteRC(ESP3);  
+//      RC_Remote_ESP1 =false; myBlynk.resetRemoteRC(ESP1);
+//      RC_Remote_ESP2 =false; myBlynk.resetRemoteRC(ESP2);
+//      RC_Remote_ESP3 =false;  myBlynk.resetRemoteRC(ESP3);  
 }
 
 void resetRemoteRCNoBlynk(int esp)
@@ -65,14 +65,14 @@ void automaticOn(int chanel)
             else if   (esp3on) resetRemoteRCNoBlynk(ESP0);
         }       
 
-        if(ActiveBoard == ESP2 ) 
+        if(esp.BOARD == ESP2 ) 
            {    
             if        (esp1on) resetRemoteRCNoBlynk(ESP1);
             else if   (esp3on) resetRemoteRCNoBlynk(ESP3);
             else if   (esp2on) resetRemoteRCNoBlynk(ESP0);
           }     
 
-        if(ActiveBoard == ESP1 )
+        if(esp.BOARD == ESP1 )
         {      
             if        (esp2on) resetRemoteRCNoBlynk(ESP2);
             else  if  (esp3on) resetRemoteRCNoBlynk(ESP3);
@@ -87,7 +87,7 @@ void automaticOff(int chanel)
        esp2off =  chanel == R_24 || chanel == R_25  ;
        esp3off =  chanel == R_27 || chanel == R_62   || chanel == R_63  || chanel == R_64 || chanel == R_65 || chanel == R_66 || chanel == R_68   ;
 
-        if(ActiveBoard == ESP3 ) 
+        if(esp.BOARD == ESP3 ) 
         {    
           if       (esp1off) resetRemoteRCNoBlynk(ESP1);
           else if  (esp2off) resetRemoteRCNoBlynk(ESP2);
@@ -95,14 +95,14 @@ void automaticOff(int chanel)
         }      
 
          
-        if(ActiveBoard == ESP2 )   
+        if(esp.BOARD == ESP2 )   
         {  
           if      (esp1off) resetRemoteRCNoBlynk(ESP1);
           else if (esp3off) resetRemoteRCNoBlynk(ESP3);
           else if (esp2off) resetRemoteRCNoBlynk(ESP0);
         }     
 
-        if(ActiveBoard == ESP1 )  
+        if(esp.BOARD == ESP1 )  
         {    
           if        (esp2off) resetRemoteRCNoBlynk(ESP2);
           else if   (esp3off) resetRemoteRCNoBlynk(ESP3);
@@ -352,7 +352,7 @@ void zapAllOnOff(bool cmd)
 {
   if(autoRemoteLocalRc)
     {
-         if(ActiveBoard == ESP1 )
+         if(esp.BOARD == ESP1 )
          {      
               if (cmd)
                     {
@@ -380,7 +380,7 @@ void zapAllOnOff(bool cmd)
                     }
          }
          
-         if(ActiveBoard == ESP3 )   
+         if(esp.BOARD == ESP3 )   
           {  
               if (cmd)
                     {
@@ -406,7 +406,7 @@ void zapAllOnOff(bool cmd)
                     }
           }
     
-         if(ActiveBoard == ESP2 )  
+         if(esp.BOARD == ESP2 )  
          {    
               if (cmd)
                     {

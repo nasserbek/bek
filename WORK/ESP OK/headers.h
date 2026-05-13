@@ -1,18 +1,67 @@
+
 //#define ESP1     //  R64 SCATOLA 1CH TTGO
 //#define ESP2      // R65 SCATOLA 4CH ESP32S
 //#define ESP3   //R66 SWAN CASE 2CH ESP32S
-enum {
-ESP0 =0,
-ESP1 =1,
-ESP2 =2,
-ESP3 =3,
-TEST4=4,
-} ;
 
-//#define NICE
-#define CH
+#define BLYNK_AUTH_TOKEN_ESP1                "2NVzjDY96Cbam0_TxJqTVSsgI7LgWq0_" //ESP1
+#define BLYNK_AUTH_TOKEN_ESP2                "n77QtZp08I7AOG8AcCpBhxJle1S6GXa0" //ESP2
+#define BLYNK_AUTH_TOKEN_ESP3                "lsH8XwzGGUUneZTqYMN-5_hfx8YepjjY" //ESP3
+#define BLYNK_AUTH_TOKEN_ESP0                "1Wq6Re2q9eTOK8D5vfHhynNN2B_XoZ83" //ESP14
 
-//#define LILLYGO_RELAY_8
+#define AWS_IOT_PUBLISH_TOPIC_RC     "esp1/sub/rc"
+#define AWS_IOT_PUBLISH_TOPIC_RC_2   "esp2/sub/rc"
+#define AWS_IOT_PUBLISH_TOPIC_RC_3   "esp3/sub/rc"
+
+#define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO_1   "esp1/sub/video"
+#define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO_2   "esp2/sub/video"
+#define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO_3   "esp3/sub/video"
+#define AWS_IOT_PUBLISH_TOPIC_LIVE_1   "esp1/pub/live"
+#define AWS_IOT_PUBLISH_TOPIC_LIVE_2   "esp2/pub/live"
+#define AWS_IOT_PUBLISH_TOPIC_LIVE_3   "esp3/pub/live"
+#define AWS_IOT_PUBLISH_TOPIC_LIVE_4   "test/pub/live"
+
+#pragma once
+   enum esp32baord{
+              ESP0 =0,
+              ESP1 =1,
+              ESP2 =2,
+              ESP3 =3,
+              TEST4=4,
+              } ; 
+
+
+   struct baord{
+                esp32baord BOARD = ESP1;
+                char*  VERSION_ID  = " ESP1_1 - ";
+                char*  BLYNK_AUTH_TOKEN = BLYNK_AUTH_TOKEN_ESP1 ;//ESP1
+                char*  THINGNAME  = "ESP1"   ;
+                char*  AWS_IOT_SUBSCRIBE_TOPIC_RC       = "esp1/sub/rc";
+                char*  AWS_IOT_SUBSCRIBE_TOPIC_VIDEO    = "esp1/sub/video";
+                char*  AWS_IOT_SUBSCRIBE_TOPIC_ZAP      = "esp1/sub/zap";
+                char*  AWS_IOT_SUBSCRIBE_TOPIC_RX       = "esp1/sub/rx";
+                char*  AWS_IOT_SUBSCRIBE_TOPIC_AV_RC    = "esp1/sub/avrc";
+                char*  AWS_IOT_SUBSCRIBE_TOPIC_DVR      = "esp1/sub/dvr";
+                char*  AWS_IOT_SUBSCRIBE_TOPIC_REBOOT   = "esp1/sub/reboot";
+                char*  AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH    = "esp1/sub/zapchanel";
+                char*  AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA    = "esp1/sub/localWebOta";
+                char*  AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA    = "esp1/sub/GitHubWebOta";
+                char*  AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA    = "esp1/sub/ideOta";
+                char*  AWS_IOT_SUBSCRIBE_TOPIC_VERSION    = "esp1/sub/version";
+                char*  AWS_IOT_SUBSCRIBE_TOPIC_SCAN    = "esp1/sub/scan";
+                char*  AWS_IOT_SUBSCRIBE_TOPIC_REPEAT    = "esp1/sub/repeat" ;  
+                char*  AWS_IOT_SUBSCRIBE_TOPIC_PRESET   = "esp1/sub/preset"  ;
+                char*  AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO    = "esp1/sub/zapauto" ; 
+                char*  AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON    = "esp1/sub/zton"  ;
+                char*  AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF    = "esp1/sub/ztoff" ;
+                char*  AWS_IOT_SUBSCRIBE_TOPIC_LIVE    = "esp1/sub/live";
+                char*  AWS_IOT_SUBSCRIBE_TOPIC_BLYNK    = "esp1/sub/blynk";
+                char*  AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL    = "esp1/sub/terminal";
+                char*  gitHubURL   = "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP1.ino.esp32.bin" ; // URL to download the firmware from
+              };
+extern struct baord esp;   // ✅ declaration only 
+
+
+#define LILLYGO_RELAY_8
 
   #ifdef LILLYGO_RELAY_8
     #define RELAY_PIN_1 33
@@ -27,37 +76,36 @@ TEST4=4,
   #endif
 
 
-
-
-
-/////////////////////////////////////////////////////////////////////////
-    #define BOARD ESP1
-    #define VERSION_ID " ESP0.11 "
-    #define BLYNK_AUTH_TOKEN                BLYNK_AUTH_TOKEN_ESP1 //ESP1
-    #define THINGNAME "ESP1"   
-    #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "esp1/sub/rc"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "esp1/sub/video"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAP     "esp1/sub/zap"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_RX      "esp1/sub/rx"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_AV_RC   "esp1/sub/avrc"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_DVR     "esp1/sub/dvr"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_REBOOT  "esp1/sub/reboot"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH   "esp1/sub/zapchanel"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA   "esp1/sub/localWebOta"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA   "esp1/sub/GitHubWebOta"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA   "esp1/sub/ideOta"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_VERSION   "esp1/sub/version"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_SCAN   "esp1/sub/scan"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_REPEAT   "esp1/sub/repeat"   
-    #define AWS_IOT_SUBSCRIBE_TOPIC_PRESET  "esp1/sub/preset"  
-    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO   "esp1/sub/zapauto"  
-    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON   "esp1/sub/zton"  
-    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "esp1/sub/ztoff" 
-    #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "esp1/sub/live"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "esp1/sub/blynk"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL   "esp1/sub/terminal"
-    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP.ino.esp32.bin"  // URL to download the firmware from
-////////////////////////////////////////
+//#define NICE
+#define CH
+///////////////////////////////////////////////////////////////////////////
+//    #define BOARD ESP1
+//    #define VERSION_ID " ESP1_1 - "
+//    #define BLYNK_AUTH_TOKEN                BLYNK_AUTH_TOKEN_ESP1 //ESP1
+//    #define THINGNAME "ESP1"   
+//    #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "esp1/sub/rc"
+//    #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "esp1/sub/video"
+//    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAP     "esp1/sub/zap"
+//    #define AWS_IOT_SUBSCRIBE_TOPIC_RX      "esp1/sub/rx"
+//    #define AWS_IOT_SUBSCRIBE_TOPIC_AV_RC   "esp1/sub/avrc"
+//    #define AWS_IOT_SUBSCRIBE_TOPIC_DVR     "esp1/sub/dvr"
+//    #define AWS_IOT_SUBSCRIBE_TOPIC_REBOOT  "esp1/sub/reboot"
+//    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH   "esp1/sub/zapchanel"
+//    #define AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA   "esp1/sub/localWebOta"
+//    #define AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA   "esp1/sub/GitHubWebOta"
+//    #define AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA   "esp1/sub/ideOta"
+//    #define AWS_IOT_SUBSCRIBE_TOPIC_VERSION   "esp1/sub/version"
+//    #define AWS_IOT_SUBSCRIBE_TOPIC_SCAN   "esp1/sub/scan"
+//    #define AWS_IOT_SUBSCRIBE_TOPIC_REPEAT   "esp1/sub/repeat"   
+//    #define AWS_IOT_SUBSCRIBE_TOPIC_PRESET  "esp1/sub/preset"  
+//    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO   "esp1/sub/zapauto"  
+//    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON   "esp1/sub/zton"  
+//    #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "esp1/sub/ztoff" 
+//    #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "esp1/sub/live"
+//    #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "esp1/sub/blynk"
+//    #define AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL   "esp1/sub/terminal"
+//    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP1.ino.esp32.bin"  // URL to download the firmware from
+//////////////////////////////////////////
 
 
 
@@ -79,22 +127,8 @@ TEST4=4,
 #define BLYNK_TEMPLATE_ID           "TMPL5Y2na6zpd"
 #define BLYNK_TEMPLATE_NAME         "ESP1"
 
-    #define AWS_IOT_PUBLISH_TOPIC_RC     "esp1/sub/rc"
-    #define AWS_IOT_PUBLISH_TOPIC_RC_2   "esp2/sub/rc"
-    #define AWS_IOT_PUBLISH_TOPIC_RC_3   "esp3/sub/rc"
 
-    #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO_1   "esp1/sub/video"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO_2   "esp2/sub/video"
-    #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO_3   "esp3/sub/video"
-    #define AWS_IOT_PUBLISH_TOPIC_LIVE_1   "esp1/pub/live"
-    #define AWS_IOT_PUBLISH_TOPIC_LIVE_2   "esp2/pub/live"
-    #define AWS_IOT_PUBLISH_TOPIC_LIVE_3   "esp3/pub/live"
-    #define AWS_IOT_PUBLISH_TOPIC_LIVE_4   "test/pub/live"
 
-#define BLYNK_AUTH_TOKEN_ESP1                "2NVzjDY96Cbam0_TxJqTVSsgI7LgWq0_" //ESP1
-#define BLYNK_AUTH_TOKEN_ESP2                "n77QtZp08I7AOG8AcCpBhxJle1S6GXa0" //ESP2
-#define BLYNK_AUTH_TOKEN_ESP3                "lsH8XwzGGUUneZTqYMN-5_hfx8YepjjY" //ESP3
-#define BLYNK_AUTH_TOKEN_TEST                "1Wq6Re2q9eTOK8D5vfHhynNN2B_XoZ83" //ESP14
 
 
 #define INTERNET_LOSS_TO_RESET_NG_TIMER 120000   // 2 MIN
@@ -113,13 +147,15 @@ TEST4=4,
 #define WIFI_SSID_METEOR_BU       "BEK_BU"
 #define WIFI_SSID_METEOR_BUF      "BEK_BUF"
 #define WIFI_SSID_METEOR_BOX      "BEK_BOX"
-#define WIFI_SSID_BBOX            "Bbox-Bek-2.4GHz"                                                
+#define WIFI_SSID_BBOX            "Bbox-Bek-2.4GHz"    
+                                                
                                               
  
 #define WIFI_PASSWORD_SFR        "ali09042010"
 #define WIFI_PASSWORD             "ali09042010"
 #define WIFI_PASSWORD_METEOR      "Ali09042010_"
 #define WIFI_PASSWORD_BBOX       "Ali09042010_"
+
 
 #define WIFI_SSID_TEMP            "TP-Link_97D8" 
 #define WIFI_PASSWORD_TEMP        "67942015"
@@ -306,7 +342,7 @@ Q_EVENT_RM_ID_19_V92,  //68
 
 #define BLYNK_ACTIVE_TIMEOUT   60000 // 1 MIN
 #define LIVE_TIMER_OFF  3000
-#define WIFI_IDE_TIMER 900000  //15 MIN
+#define WIFI_IDE_TIMER 300000  //10 MIN
 #define WIFI_SURVILANCE_TIMER 120000  // 2 MIN
 #define WIFI_RECONNECT_TIMER 10000  // 10 sec
 #define DEEP_SLEEP_TIME_60_MIN 3600000000   // 1 HOUR in micro 

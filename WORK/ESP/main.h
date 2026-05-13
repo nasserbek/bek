@@ -1,5 +1,7 @@
+
+
 #include <Wire.h>
-#include <RCSwitch.h>
+#include <RCSwitch.h> 
 #include <ESP32httpUpdate.h>
 
 #include "freertos/FreeRTOS.h"
@@ -26,7 +28,6 @@
 #include <ArduinoOTA.h>
 
 
-
 QueueHandle_t g_event_queue_handle = NULL;
 EventGroupHandle_t g_event_group = NULL;
 
@@ -39,8 +40,10 @@ PubSubClient client(net);
 int   MapIndex            = 0;
 bool  PowerOnTune         = false;
 bool  autoResetRouter     = 0;
-int   ActiveBoard         = ESP1;
-int   selectedBoard       = ESP1;
+
+esp32baord   ActiveBoard         = ESP1;
+esp32baord   selectedBoard       = ESP1;
+
 bool  liveLed             = false;
 bool  liveLedUpdate       = false;
 bool  internetLossUpdate  = false;
@@ -361,130 +364,5 @@ int T315_Ch_Status[16];
 int T433_St;
 int T315_St;
 RCSwitch mySwitch = RCSwitch();
-
-void BoardDefines()
-{
-  if(ActiveBoard == ESP1)      //TTGO R64 SCATOLA 1CH TTGO
-  {
-      #define BOARD ESP1
-      #define VERSION_ID " ESP1_1 - "
-      #define BLYNK_AUTH_TOKEN                BLYNK_AUTH_TOKEN_ESP1 //ESP1
-      #define THINGNAME "ESP1"   
-      #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "esp1/sub/rc"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "esp1/sub/video"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAP     "esp1/sub/zap"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_RX      "esp1/sub/rx"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_AV_RC   "esp1/sub/avrc"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_DVR     "esp1/sub/dvr"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_REBOOT  "esp1/sub/reboot"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH   "esp1/sub/zapchanel"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA   "esp1/sub/localWebOta"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA   "esp1/sub/GitHubWebOta"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA   "esp1/sub/ideOta"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_VERSION   "esp1/sub/version"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_SCAN   "esp1/sub/scan"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_REPEAT   "esp1/sub/repeat"   
-      #define AWS_IOT_SUBSCRIBE_TOPIC_PRESET  "esp1/sub/preset"  
-      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO   "esp1/sub/zapauto"  
-      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON   "esp1/sub/zton"  
-      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "esp1/sub/ztoff" 
-      #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "esp1/sub/live"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "esp1/sub/blynk"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL   "esp1/sub/terminal"
-      #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP1/ESP1.ino.esp32.bin"  // URL to download the firmware from
-  }
-  
-  
-  if(ActiveBoard == ESP2)      // R65 SCATOLA 4CH ESP32S
-  {
-      #define BOARD ESP2
-      #define VERSION_ID " V1.16 "
-      #define BLYNK_AUTH_TOKEN                BLYNK_AUTH_TOKEN_ESP2 //ESP2
-      #define THINGNAME "ESP2"   
-      #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "esp2/sub/rc"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "esp2/sub/video"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAP     "esp2/sub/zap"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_RX      "esp2/sub/rx"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_AV_RC   "esp2/sub/avrc"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_DVR     "esp2/sub/dvr"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_REBOOT  "esp2/sub/reboot"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH   "esp2/sub/zapchanel"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA   "esp2/sub/localWebOta"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA   "esp2/sub/GitHubWebOta"   
-      #define AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA   "esp2/sub/ideOta" 
-      #define AWS_IOT_SUBSCRIBE_TOPIC_VERSION   "esp2/sub/version"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_SCAN   "esp2/sub/scan"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_REPEAT   "esp2/sub/repeat"   
-      #define AWS_IOT_SUBSCRIBE_TOPIC_PRESET  "esp2/sub/preset"  
-      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO   "esp2/sub/zapauto"  
-      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON   "esp2/sub/zton"  
-      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "esp2/sub/ztoff" 
-      #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "esp2/sub/live"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "esp2/sub/blynk"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL   "esp2/sub/terminal"
-      #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP1/ESP1.ino.esp32.bin"  // URL to download the firmware from
-  }
-  
-  
-  
-  if(ActiveBoard == ESP3)      //R66 SWAN CASE 2CH ESP32S
-  {
-      #define BOARD ESP3
-      #define VERSION_ID " ESP1_1 - "
-      #define BLYNK_AUTH_TOKEN                BLYNK_AUTH_TOKEN_ESP3 //ESP3
-      #define THINGNAME "ESP3"   
-      #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "esp3/sub/rc"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "esp3/sub/video"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAP     "esp3/sub/zap"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_RX      "esp3/sub/rx"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_AV_RC   "esp3/sub/avrc"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_DVR     "esp3/sub/dvr"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_REBOOT  "esp3/sub/reboot"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH   "esp3/sub/zapchanel"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA   "esp3/sub/localWebOta"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA   "esp3/sub/GitHubWebOta" 
-      #define AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA   "esp3/sub/ideOta"   
-      #define AWS_IOT_SUBSCRIBE_TOPIC_VERSION   "esp3/sub/version" 
-      #define AWS_IOT_SUBSCRIBE_TOPIC_SCAN   "esp3/sub/scan"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_REPEAT   "esp3/sub/repeat"   
-      #define AWS_IOT_SUBSCRIBE_TOPIC_PRESET  "esp3/sub/preset"  
-      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO   "esp3/sub/zapauto"  
-      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON   "esp3/sub/zton"  
-      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "esp3/sub/ztoff" 
-      #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "esp3/sub/live"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "esp3/sub/blynk"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL   "esp3/sub/terminal"
-      #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP1/ESP1.ino.esp32.bin"  // URL to download the firmware from
-    }  
-  
-  
-  if(ActiveBoard == ESP0)      //R66 SWAN CASE 2CH ESP32S
-  {    
-      #define VERSION_ID " TEST_1 - "
-      #define BLYNK_AUTH_TOKEN                BLYNK_AUTH_TOKEN_ESP14
-      #define THINGNAME "ESP14"   
-      #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "test/sub/rc"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "test/sub/video"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAP     "test/sub/zap"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_RX      "test/sub/rx"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_AV_RC   "test/sub/avrc"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_DVR     "test/sub/dvr"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_REBOOT  "test/sub/reboot"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH   "test/sub/zapchanel"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA   "test/sub/localWebOta"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA   "test/sub/GitHubWebOta"   
-      #define AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA   "test/sub/ideOta" 
-      #define AWS_IOT_SUBSCRIBE_TOPIC_VERSION   "test/sub/version"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_SCAN   "test/sub/scan"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_REPEAT   "test/sub/repeat"   
-      #define AWS_IOT_SUBSCRIBE_TOPIC_PRESET  "test/sub/preset"  
-      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO   "test/sub/zapauto"  
-      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON   "test/sub/zton"  
-      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "test/sub/ztoff"   
-      #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "test/sub/live"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "test/sub/blynk"
-      #define AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL   "test/sub/terminal"
-      #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP1/ESP1.ino.esp32.bin"  // URL to download the firmware from
-   } 
-
-}
+struct baord esp ;
+ 

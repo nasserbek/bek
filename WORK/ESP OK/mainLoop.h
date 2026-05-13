@@ -5,7 +5,7 @@
 
 extern bool connectAWS(void);
 extern blynk myBlynk;
-extern void resetRemoteRCNoBlynk(int esp);
+//extern void resetRemoteRCNoBlynk(int esp);
 
 
 void resetRouter(void)
@@ -18,7 +18,7 @@ void resetRouter(void)
 
 void processBlynkQueu(void)
 {
-  String ver = VERSION_ID;
+  String ver = esp.VERSION_ID;
      switch (queuDataID)
           {
 
@@ -28,7 +28,7 @@ void processBlynkQueu(void)
             break;
             
             case Q_EVENT_RC_CH_NR_V1:
-              resetRemoteRCNoBlynk(ESP0);
+            //  resetRemoteRCNoBlynk(ESP0);
               remoteControlRcCh=queuData;
               RC_Api = true;
               myBlynk.blynkAckLed(false);
@@ -84,7 +84,7 @@ void processBlynkQueu(void)
                        if(queuData == 2) queuData =4;  //CH2_RX4   //CH3_RX3
                     }
                    
-                   if(ActiveBoard == ESP3 )  //RX4 ALIAS 1  RX3 ALIAS 2
+                   if(esp.BOARD == ESP3 )  //RX4 ALIAS 1  RX3 ALIAS 2
                    {
                       if(queuData == 1 || queuData == 2 ) {queuData =3; myBlynk.RelaySelect(3);} //FORCE IF SELECTE IS 1 OR 2
                  

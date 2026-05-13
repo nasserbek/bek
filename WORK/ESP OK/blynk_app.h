@@ -40,7 +40,7 @@ class blynk {
     void blynkConnect();
     bool blynkStatus();
     bool wifiStatus();
-    void resetRemoteRC( int _data);
+  //  void resetRemoteRC( extern esp32baord _data);
     void resetRemoteVideo( int _data);
     bool Tuner_PLL(int x, int _address, uint _pll);
     void blynkAckLed(bool _data);

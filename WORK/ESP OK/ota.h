@@ -121,7 +121,7 @@ while (!otaWifiGithub)
            ESP.restart();
         }
 
-      t_httpUpdate_return ret = ESPhttpUpdate.update(gitHubURL);
+      t_httpUpdate_return ret = ESPhttpUpdate.update(esp.gitHubURL);
 
         switch(ret) {
             case HTTP_UPDATE_FAILED:

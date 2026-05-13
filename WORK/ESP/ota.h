@@ -1,7 +1,9 @@
 // ota.h
 
-#ifndef OTA_H
-#define OTA_H
+//#ifndef OTA_H
+//#define OTA_H
+
+#pragma once
 
 extern void enableWDG(bool _enable);
 extern void resetWdg(void);
@@ -121,7 +123,7 @@ while (!otaWifiGithub)
            ESP.restart();
         }
 
-      t_httpUpdate_return ret = ESPhttpUpdate.update(gitHubURL);
+      t_httpUpdate_return ret = ESPhttpUpdate.update(esp.gitHubURL);
 
         switch(ret) {
             case HTTP_UPDATE_FAILED:
@@ -273,4 +275,4 @@ void localWebWifiOta (void)
 /************************ END LOCAL WIFI SERVER UPLOAD***************************/
 /*************************************************END OF OTA ZONE********************************************************************************************/
 
-#endif
+//#endif

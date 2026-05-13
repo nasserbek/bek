@@ -1,8 +1,9 @@
 // aws.h
 
-#ifndef AWS_H
-#define AWS_H
+//#ifndef AWS_H
+//#define AWS_H
 
+#pragma once
 extern blynk myBlynk;
 extern void dvrOnOff (bool cmd);
 void callback(char* topic, byte* payload, unsigned int length);
@@ -15,7 +16,7 @@ void awsTerminal(bool aws, String str)
     {
      doc["TERMINAL"] = str;
      serializeJson(doc, Json); // print to client
-     client.publish(AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL, Json);
+     client.publish(esp.AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL, Json);
     }      
 }
 
@@ -42,10 +43,10 @@ bool connectAWS()
   myBlynk.TerminalPrint("Connecting Client to AWS IOT");
   
   
-  while (!client.connect(THINGNAME))
+  while (!client.connect(esp.THINGNAME))
   {
     Serial.println("Connecting to AWS:");
-    Serial.println( THINGNAME );
+    Serial.println( esp.THINGNAME );
     Serial.print(".");
     delay(1000);
     return false;
@@ -57,28 +58,28 @@ bool connectAWS()
   }
 
   // Subscribe to a topic
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_VIDEO);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAP);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_RX);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_AV_RC);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_DVR);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_REBOOT);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_SCAN);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_REPEAT);  
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_PRESET); 
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO);  
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON); 
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_RC);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA);
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA);    
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA); 
-  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC_LIVE);
+  client.subscribe(esp.AWS_IOT_SUBSCRIBE_TOPIC_VIDEO);
+  client.subscribe(esp.AWS_IOT_SUBSCRIBE_TOPIC_ZAP);
+  client.subscribe(esp.AWS_IOT_SUBSCRIBE_TOPIC_RX);
+  client.subscribe(esp.AWS_IOT_SUBSCRIBE_TOPIC_AV_RC);
+  client.subscribe(esp.AWS_IOT_SUBSCRIBE_TOPIC_DVR);
+  client.subscribe(esp.AWS_IOT_SUBSCRIBE_TOPIC_REBOOT);
+  client.subscribe(esp.AWS_IOT_SUBSCRIBE_TOPIC_SCAN);
+  client.subscribe(esp.AWS_IOT_SUBSCRIBE_TOPIC_REPEAT);  
+  client.subscribe(esp.AWS_IOT_SUBSCRIBE_TOPIC_PRESET); 
+  client.subscribe(esp.AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO);  
+  client.subscribe(esp.AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON); 
+  client.subscribe(esp.AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF);
+  client.subscribe(esp.AWS_IOT_SUBSCRIBE_TOPIC_RC);
+  client.subscribe(esp.AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH);
+  client.subscribe(esp.AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA);
+  client.subscribe(esp.AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA);    
+  client.subscribe(esp.AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA); 
+  client.subscribe(esp.AWS_IOT_SUBSCRIBE_TOPIC_LIVE);
   
-//  doc2["version"] = VERSION_ID;
+//  doc2["version"] = esp.VERSION_ID;
 //  serializeJson(doc2, Json); // print to client
-//  client.publish(AWS_IOT_SUBSCRIBE_TOPIC_VERSION , Json);
+//  client.publish(esp.AWS_IOT_SUBSCRIBE_TOPIC_VERSION , Json);
   myBlynk.TerminalPrint("AWS IoT Connected!");
 //  
 //  String str = WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString();
@@ -192,7 +193,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   resultS = "";   //Empty variable from serialized Json
   
   
-  if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_VIDEO)
+  if (String(topic) == esp.AWS_IOT_SUBSCRIBE_TOPIC_VIDEO)
     {// "VIDEO": 3, "CMD":1
         retriveDataFromTopic(topic, payload,length);
         _nodeRedData  = rxDoc["CMD"];; 
@@ -200,7 +201,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
      }
 
-  else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_ZAP)
+  else if (String(topic) == esp.AWS_IOT_SUBSCRIBE_TOPIC_ZAP)
     {
         retriveDataFromTopic(topic, payload,length);
         _nodeRedData  = rxDoc["ZAP"];
@@ -209,7 +210,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
         myBlynk.zapStatus(_nodeRedData);
     }
 
-  else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_RX)
+  else if (String(topic) == esp.AWS_IOT_SUBSCRIBE_TOPIC_RX)
     {
         retriveDataFromTopic(topic, payload,length);
         _nodeRedData  = rxDoc["RX"];
@@ -219,7 +220,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
         
     }   
     
-  else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_AV_RC)
+  else if (String(topic) == esp.AWS_IOT_SUBSCRIBE_TOPIC_AV_RC)
     {
         retriveDataFromTopic(topic, payload,length);
         _nodeRedData  = rxDoc["AVRC"];
@@ -228,7 +229,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
         myBlynk.sendAvRxIndex(_nodeRedData);
       }   
 
-  else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_DVR)
+  else if (String(topic) == esp.AWS_IOT_SUBSCRIBE_TOPIC_DVR)
     {
         retriveDataFromTopic(topic, payload,length);
         _nodeRedData  = rxDoc["DVR"];
@@ -238,14 +239,14 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
     }   
 
-else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_REBOOT)
+else if (String(topic) == esp.AWS_IOT_SUBSCRIBE_TOPIC_REBOOT)
     {
         myBlynk.TerminalPrint(" Received topic is: " + String(topic) +"Rebooting ESP");
         ESP.restart();
     }  
 
 
-else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_SCAN)
+else if (String(topic) == esp.AWS_IOT_SUBSCRIBE_TOPIC_SCAN)
     {
         retriveDataFromTopic(topic, payload,length);
         _nodeRedData  = rxDoc["SCAN"];
@@ -254,7 +255,7 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_SCAN)
         myBlynk.resetSetupAndScan(_nodeRedData); 
      }
 
-else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_REPEAT)
+else if (String(topic) == esp.AWS_IOT_SUBSCRIBE_TOPIC_REPEAT)
     {
         retriveDataFromTopic(topic, payload,length);
         _nodeRedData  = rxDoc["REPEAT"];
@@ -263,7 +264,7 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_REPEAT)
         myBlynk.resetSetupAndScan(_nodeRedData); 
      }
      
-else if(String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_PRESET)
+else if(String(topic) == esp.AWS_IOT_SUBSCRIBE_TOPIC_PRESET)
     {
         retriveDataFromTopic(topic, payload,length);
         _nodeRedData  = rxDoc["PRESET"];
@@ -272,7 +273,7 @@ else if(String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_PRESET)
         
     }
     
-else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO)
+else if (String(topic) == esp.AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO)
     {
         retriveDataFromTopic(topic, payload,length);
         _nodeRedData  = rxDoc["ZAPAUTO"];
@@ -281,7 +282,7 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO)
         myBlynk.zapAutoLocalRC(_nodeRedData); 
     }
 
-else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_RC)
+else if (String(topic) == esp.AWS_IOT_SUBSCRIBE_TOPIC_RC)
     {
         retriveDataFromTopic(topic, payload,length);
         _nodeRedData  = rxDoc["RC"];
@@ -292,7 +293,7 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_RC)
          RC_Remote_ESP2=false; 
     }
 
-else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA)
+else if (String(topic) == esp.AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA)
     {
         retriveDataFromTopic(topic, payload,length);
         _nodeRedData  = rxDoc["OTAWEB"];
@@ -300,7 +301,7 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA)
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
     }    
 
-else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA)
+else if (String(topic) == esp.AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA)
     {
         retriveDataFromTopic(topic, payload,length);
         _nodeRedData  = rxDoc["OTAGITHUB"];
@@ -308,7 +309,7 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA)
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
     }       
 
-else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA)
+else if (String(topic) == esp.AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA)
     {
         retriveDataFromTopic(topic, payload,length);
         _nodeRedData  = rxDoc["OTAIDE"];
@@ -316,20 +317,20 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA)
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
     } 
 
-else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_LIVE)
+else if (String(topic) == esp.AWS_IOT_SUBSCRIBE_TOPIC_LIVE)
     {
       retriveDataFromTopic(topic, payload,length);
       
       StaticJsonDocument<54> doc; 
       doc["LIVE"] = LiveSec;
       serializeJson(doc, Json); 
-      if(ActiveBoard == ESP1 )   client.publish(AWS_IOT_PUBLISH_TOPIC_LIVE_1, Json);
-      if(ActiveBoard == ESP2 )   client.publish(AWS_IOT_PUBLISH_TOPIC_LIVE_2, Json);
-      if(ActiveBoard == ESP3 )   client.publish(AWS_IOT_PUBLISH_TOPIC_LIVE_3, Json);
-      if(ActiveBoard == ESP0 )   client.publish(AWS_IOT_PUBLISH_TOPIC_LIVE_4, Json);
+      if(esp.BOARD == ESP1 )   client.publish(AWS_IOT_PUBLISH_TOPIC_LIVE_1, Json);
+      if(esp.BOARD == ESP2 )   client.publish(AWS_IOT_PUBLISH_TOPIC_LIVE_2, Json);
+      if(esp.BOARD == ESP3 )   client.publish(AWS_IOT_PUBLISH_TOPIC_LIVE_3, Json);
+      if(esp.BOARD == ESP0 )   client.publish(AWS_IOT_PUBLISH_TOPIC_LIVE_4, Json);
       } 
 
-else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL)
+else if (String(topic) == esp.AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL)
     {
       retriveDataFromTopic(topic, payload,length);
       _nodeRedData  = rxDoc["TERMINAL"];
@@ -346,4 +347,4 @@ else if (String(topic) == AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL)
 /*************************************************END OF NODE RED AWS IOT ZONE********************************************************************************************/
 
 
-#endif
+//#endif
