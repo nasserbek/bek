@@ -7,8 +7,8 @@ TEST4=4,
 } ;
 
 //#define NICE
-#define CH
-
+//#define CH
+#define PLS
 /////////////////////////////////////////////////////////////////////////
 
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "esp1/sub/rc"
@@ -42,7 +42,7 @@ TEST4=4,
 #ifdef LOCAL_SERVER
     #define BLYNK_SERVER_OMV1        IPAddress(192,168,1,4)
     #define BLYNK_SERVER_PROX        IPAddress(192,168,1,153)   
-    #define BLYNK_SERVER_NICE        IPAddress(192,168,1,200)
+    #define BLYNK_SERVER_PLS       IPAddress(192,168,106,1)
 #endif
 
 #ifdef REMOTE_SERVER

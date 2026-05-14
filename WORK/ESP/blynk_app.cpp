@@ -234,8 +234,8 @@ bool blynk::init()
 //        else if(WiFi.SSID() == WIFI_SSID_METEOR_FREE) BLYNK_SERVER = BLYNK_SERVER_FREE_METEOR;
 //        else if(WiFi.SSID() == WIFI_SSID_BBOX) 
 
-  #ifdef NICE
-   #define BLYNK_SERVER  BLYNK_SERVER_NICE
+  #ifdef PLS
+   #define BLYNK_SERVER  BLYNK_SERVER_PLS
   #endif
 
   #ifdef CH
