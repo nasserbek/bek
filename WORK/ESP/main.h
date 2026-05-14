@@ -369,7 +369,7 @@ void BoardDefines()
   if(ActiveBoard == ESP2)      // R65 SCATOLA 4CH ESP32S
   {
       #define BOARD ESP2
-      #define VERSION_ID " V1.16 "
+      #define VERSION_ID " ESP2 "
       #define BLYNK_AUTH_TOKEN                BLYNK_AUTH_TOKEN_ESP2 //ESP2
       #define THINGNAME "ESP2"   
       #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "esp2/sub/rc"
@@ -401,7 +401,7 @@ void BoardDefines()
   else if(ActiveBoard == ESP3)      //R66 SWAN CASE 2CH ESP32S
   {
       #define BOARD ESP3
-      #define VERSION_ID " ESP1_1 - "
+      #define VERSION_ID " ESP3 "
       #define BLYNK_AUTH_TOKEN                BLYNK_AUTH_TOKEN_ESP3 //ESP3
       #define THINGNAME "ESP3"   
       #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "esp3/sub/rc"
@@ -431,7 +431,7 @@ void BoardDefines()
   
   else if(ActiveBoard == ESP0)      //R66 SWAN CASE 2CH ESP32S
   {    
-      #define VERSION_ID " TEST_0 - "
+      #define VERSION_ID " ESP0 - "
       #define BLYNK_AUTH_TOKEN                BLYNK_AUTH_TOKEN_ESP14
       #define THINGNAME "ESP14"   
       #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "test/sub/rc"
@@ -462,7 +462,7 @@ else
   {
       ActiveBoard == ESP1 ;
       #define BOARD ESP1
-      #define VERSION_ID " ESP1- "
+      #define VERSION_ID " ESP1-V0 "
       #define BLYNK_AUTH_TOKEN                BLYNK_AUTH_TOKEN_ESP1 //ESP1
       #define THINGNAME "ESP1"   
       #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "esp1/sub/rc"

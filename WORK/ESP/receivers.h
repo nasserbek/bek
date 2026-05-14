@@ -238,21 +238,21 @@ void PowerOnTuning(void)
 {
     if(ActiveBoard == ESP1 )      
        {    
-           selected_Rx = 3;  //H3
-           delay (1000);
-           AvReceiverSel(4);  
-           delay (1000);
+//           selected_Rx = 3;  //H3
+//           delay (1000);
+//           AvReceiverSel(4);  
+//           delay (1000);
            if(DvrChOn) {Av_Rx = BOTH; videoChanel(R_29, ON);}
            else {Av_Rx = SOLO_VIDEO; videoChanel(R_29, ON);}
-           myBlynk.RelaySelect(2);  //RX4 SHOWS RX2 N HMI
+ //          myBlynk.RelaySelect(2);  //RX4 SHOWS RX2 N HMI
            delay (1000);   
             
-           selected_Rx = 2;  //CH2
-           AvReceiverSel(3);  
-           delay (1000);
+//           selected_Rx = 2;  //CH2
+//           AvReceiverSel(3);  
+//           delay (1000);
            if(DvrChOn) {Av_Rx = BOTH; videoChanel(R_49, ON);}
            else {Av_Rx = SOLO_VIDEO; videoChanel(R_49, ON);}
-           myBlynk.RelaySelect(3);   //RX3 SHOWS RX3 IN HMI
+   //        myBlynk.RelaySelect(3);   //RX3 SHOWS RX3 IN HMI
 
        }
   
