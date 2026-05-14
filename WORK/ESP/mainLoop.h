@@ -79,17 +79,17 @@ void processBlynkQueu(void)
            
                    if(ActiveBoard == ESP1 )    //RX2 ALIAS 4  RX3 ALIAS 3
                     {
-                       if(queuData == 1) {queuData =2;myBlynk.RelaySelect(2);} //FORCE IF SELECTE IS 1
-                       if(queuData == 4) {queuData =3;myBlynk.RelaySelect(3);} //FORCE IF SELECTE IS 4
-                       if(queuData == 2) queuData =4;  //CH2_RX4   //CH3_RX3
+//                       if(queuData == 1) {queuData =2;myBlynk.RelaySelect(2);} //FORCE IF SELECTE IS 1
+//                       if(queuData == 4) {queuData =3;myBlynk.RelaySelect(3);} //FORCE IF SELECTE IS 4
+//                       if(queuData == 2) queuData =4;  //CH2_RX4   //CH3_RX3
                     }
                    
                    if(ActiveBoard == ESP3 )  //RX4 ALIAS 1  RX3 ALIAS 2
                    {
-                      if(queuData == 1 || queuData == 2 ) {queuData =3; myBlynk.RelaySelect(3);} //FORCE IF SELECTE IS 1 OR 2
-                 
-                      if(queuData == 4) queuData =1;  //CH4_RX1
-                      else if(queuData == 3) queuData =2;  //CH3_RX2
+//                      if(queuData == 1 || queuData == 2 ) {queuData =3; myBlynk.RelaySelect(3);} //FORCE IF SELECTE IS 1 OR 2
+//                 
+//                      if(queuData == 4) queuData =1;  //CH4_RX1
+//                      else if(queuData == 3) queuData =2;  //CH3_RX2
                    } 
                    
                   selected_Rx = queuData-1;

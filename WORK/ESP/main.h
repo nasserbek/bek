@@ -462,7 +462,7 @@ else
   {
       ActiveBoard == ESP1 ;
       #define BOARD ESP1
-      #define VERSION_ID " ESP1_1 "
+      #define VERSION_ID " ESP1- "
       #define BLYNK_AUTH_TOKEN                BLYNK_AUTH_TOKEN_ESP1 //ESP1
       #define THINGNAME "ESP1"   
       #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "esp1/sub/rc"
