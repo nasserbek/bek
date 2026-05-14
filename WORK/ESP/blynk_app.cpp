@@ -7,6 +7,8 @@
 #include <WiFiClient.h>
 #include <BlynkSimpleEsp32.h>
 #include <WiFiMulti.h>
+extern const char* BLYNK_AUTH_TOKEN;
+
 extern int MapIndex;
 extern void dvrOnOff (bool cmd);
 extern void SendLiveLed(void);

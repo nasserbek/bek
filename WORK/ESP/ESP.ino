@@ -39,7 +39,7 @@ void loop(void)
           ESP.restart();
         }
        
-       BoardDefines(); 
+  //     BoardDefines(); 
        resetWdg();
        internetCheck();
        resetBoardID();

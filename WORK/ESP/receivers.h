@@ -25,7 +25,7 @@ void remoteControl(int cmd )
         
       else if( RC_Remote_ESP1)
        {
-        if (blynkConnected) apiSend(ESP1, "V1", cmd); 
+        if (blynkConnected) apiSend("ESP1", "V1", cmd); 
         else 
           {
             StaticJsonDocument<54> doc4; //Json to send from
@@ -37,7 +37,7 @@ void remoteControl(int cmd )
 
        else if( RC_Remote_ESP2)
        {
-        if (blynkConnected) apiSend(ESP2, "V1", cmd);
+        if (blynkConnected) apiSend("ESP2", "V1", cmd);
         else
             {
               StaticJsonDocument<54> doc4; //Json to send from
@@ -49,7 +49,7 @@ void remoteControl(int cmd )
        
       else if( RC_Remote_ESP3)
       {
-        if (blynkConnected) apiSend(ESP3, "V1", cmd);
+        if (blynkConnected) apiSend("ESP3", "V1", cmd);
           else 
           {
             StaticJsonDocument<54> doc4; //Json to send from
@@ -134,20 +134,20 @@ bool receiverAvByCh (int Ch, int cmd)
              
           if( V_Remote_ESP1)
            {
-             if (blynkConnected) apiSend(ESP1, "V2", Ch);
+             if (blynkConnected) apiSend("ESP1", "V2", Ch);
               else client.publish(AWS_IOT_SUBSCRIBE_TOPIC_VIDEO_1, Json); 
            }
     
           if( V_Remote_ESP2)
           {
-            if (blynkConnected) apiSend(ESP2, "V2", Ch);
+            if (blynkConnected) apiSend("ESP2", "V2", Ch);
             else client.publish(AWS_IOT_SUBSCRIBE_TOPIC_VIDEO_2, Json); 
             
           } 
     
            if( V_Remote_ESP3)
           {
-            if (blynkConnected) apiSend(ESP3, "V2", Ch);
+            if (blynkConnected) apiSend("ESP3", "V2", Ch);
             else client.publish(AWS_IOT_SUBSCRIBE_TOPIC_VIDEO_3, Json); 
             
           } 

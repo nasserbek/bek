@@ -1,6 +1,3 @@
-//#define ESP1     //  R64 SCATOLA 1CH TTGO
-//#define ESP2      // R65 SCATOLA 4CH ESP32S
-//#define ESP3   //R66 SWAN CASE 2CH ESP32S
 enum  {
 ESP0 =0,
 ESP1 =1,
@@ -12,29 +9,8 @@ TEST4=4,
 //#define NICE
 #define CH
 
-//#define LILLYGO_RELAY_8
-
-  #ifdef LILLYGO_RELAY_8
-    #define RELAY_PIN_1 33
-    #define RELAY_PIN_2 32
-    #define RELAY_PIN_3 13
-    #define RELAY_PIN_4 12
-    #define RELAY_PIN_5 21
-    #define RELAY_PIN_6 19
-    #define RELAY_PIN_7 18
-    #define RELAY_PIN_8 5
-    #define LED_PIN     25
-  #endif
-
-
-
-
-
 /////////////////////////////////////////////////////////////////////////
-    #define BOARD ESP1
-    #define VERSION_ID " ESP1.0 "
-    #define BLYNK_AUTH_TOKEN                BLYNK_AUTH_TOKEN_ESP1 //ESP1
-    #define THINGNAME "ESP1"   
+
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "esp1/sub/rc"
     #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "esp1/sub/video"
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAP     "esp1/sub/zap"
@@ -56,7 +32,6 @@ TEST4=4,
     #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "esp1/sub/live"
     #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "esp1/sub/blynk"
     #define AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL   "esp1/sub/terminal"
-    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP.ino.esp32.bin"  // URL to download the firmware from
 ////////////////////////////////////////
 
 
@@ -91,10 +66,7 @@ TEST4=4,
     #define AWS_IOT_PUBLISH_TOPIC_LIVE_3   "esp3/pub/live"
     #define AWS_IOT_PUBLISH_TOPIC_LIVE_4   "test/pub/live"
 
-#define BLYNK_AUTH_TOKEN_ESP1                "2NVzjDY96Cbam0_TxJqTVSsgI7LgWq0_" //ESP1
-#define BLYNK_AUTH_TOKEN_ESP2                "n77QtZp08I7AOG8AcCpBhxJle1S6GXa0" //ESP2
-#define BLYNK_AUTH_TOKEN_ESP3                "lsH8XwzGGUUneZTqYMN-5_hfx8YepjjY" //ESP3
-#define BLYNK_AUTH_TOKEN_TEST                "1Wq6Re2q9eTOK8D5vfHhynNN2B_XoZ83" //ESP14
+
 
 
 #define INTERNET_LOSS_TO_RESET_NG_TIMER 120000   // 2 MIN
