@@ -3,6 +3,7 @@
 #ifndef SETUP_H
 #define SETUP_H
 int card = 0;
+
  
 void relaySetup(void)
 {
