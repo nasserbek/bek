@@ -188,7 +188,7 @@ void relaySetup(void)
              String(now.tm_mon + 1) + "/" +
              String(now.tm_year % 100) + " " +
              String(now.tm_hour) + ":" +
-             String(now.tm_min+" tm");
+             String(now.tm_min);
  
 }
 
