@@ -209,11 +209,11 @@ void processBlynkQueu(void)
                  dvrOnOff (queuData);
             break;
 
-//            case Q_EVENT_LIVE_MIN_V82 :
+//            case Q_EVENT_SPARE_V82 :
 //
 //            break;
 //
-//             case Q_EVENT_LIVE_HOUR_V83 :
+//             case Q_EVENT_SPARE_V83 :
 //
 //            break;
 

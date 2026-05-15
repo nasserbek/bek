@@ -227,7 +227,7 @@ bool blynk::init()
    _blynkIsConnected = false;   
   timer.setInterval(LiveUpdateInterval, SendLiveLed);// run some function at intervals per LiveUpdateInterval
   timer.setInterval(blynkIntervalInterval, checkBlynk);   // check connection to server per blynkIntervalInterval
-  timer.setInterval(1000L, blinkLedWidget);
+  timer.setInterval(5000L, blinkLedWidget);
   if(_wifiIsConnected)
     {
 //        if(WiFi.SSID() == WIFI_SSID_FREE) BLYNK_SERVER = BLYNK_SERVER_FREE_BOX;
@@ -636,7 +636,7 @@ BLYNK_WRITE(V81)   //DVR NEW
 //{
 //    _blynkEvent = true; 
 //    _blynkData=param.asInt();
-//    eventdata = Q_EVENT_LIVE_MIN_V82;
+//    eventdata = Q_EVENT_SPARE_V82;
 //    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 //}
 //
@@ -644,7 +644,7 @@ BLYNK_WRITE(V81)   //DVR NEW
 //{
 //    _blynkEvent = true; 
 //    _blynkData=param.asInt();
-//    eventdata = Q_EVENT_LIVE_HOUR_V83;
+//    eventdata = Q_EVENT_SPARE_V83;
 //    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 //
 //}
@@ -1196,18 +1196,30 @@ void blynk::blynkAckLed( bool _data)
 }
 
 
-
+bool dvrSleep = false;
 void blynk::liveLedCall(bool _data)
-{
+{ 
+  int state = digitalRead(AV_RX_DVR_PIN_2);
   if(!blynkActive && !zapOnOff && !zapScanOnly)
     {
       LiveSec += LiveUpdateInterval/1000;
       if (LiveSec >= 60) { LiveMin +=1;  LiveSec = 0;}
       if (LiveMin >= 60) { LiveHour +=1; LiveMin =0; }
-      Blynk.virtualWrite(V83, LiveHour);
-      Blynk.virtualWrite(V82, LiveMin);
-      Blynk.virtualWrite(V121, LiveSec);
-      if(_wifiIsConnected && LiveHour >= 2 && DvrChOn ) { terminal.println("Turninh Off Video for non activity in 2 Hours..."); dvrOnOff (false);}
+ //     Blynk.virtualWrite(V83, LiveHour);
+ //     Blynk.virtualWrite(V82, LiveMin);
+ //     Blynk.virtualWrite(V121, LiveSec);
+      if(_wifiIsConnected && LiveHour >= 2 && state == 1 && !dvrSleep ) 
+        { 
+          terminal.println("Turning Off Video for non activity in 2 Hours..."); 
+          dvrOnOff (false);
+          dvrSleep = true;
+        }
+    }
+    else if (dvrSleep && state ==0)
+    {
+      terminal.println("Turning On Video after sleeping..."); 
+      dvrOnOff (true);
+      bool dvrSleep = false;  
     }
 }
 
