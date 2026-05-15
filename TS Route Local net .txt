@@ -1,0 +1,306 @@
+
+
+
+how to access a local server connected to a remote tailscale windows
+
+If you have a local server behind a remote Windows PC running Tailscale, there are several ways to access it depending on your network setup.
+
+Scenario
+Example:
+
+Remote Windows PC:
+
+Tailscale installed
+
+Connected to LAN 192.168.1.x
+
+Local server on same LAN:
+
+IP = 192.168.1.50
+
+Your laptop elsewhere:
+
+Also connected to Tailscale
+
+Goal:
+Access 192.168.1.50 through the remote Windows machine.
+
+Option 1 — Use Windows PC as a Subnet Router (Best Method)
+This lets all your Tailscale devices reach the remote LAN directly.
+
+On the remote Windows PC
+Install and log into Tailscale for Windows.
+
+Open PowerShell as Administrator:
+
+tailscale up --advertise-routes=192.168.1.0/24
+Replace:
+
+192.168.1.0/24 with the remote LAN subnet.
+
+Example:
+
+10.0.0.0/24
+
+192.168.0.0/24
+
+Approve the route
+Go to:
+
+Tailscale Admin Console
+
+Open the Windows machine
+
+Enable/approve the advertised route
+
+Access the server
+Now from any Tailscale device:
+
+ping 192.168.1.50
+Or open:
+
+http://192.168.1.50
+SSH:
+
+ssh user@192.168.1.50
+RDP:
+
+mstsc -> 192.168.1.50
+Option 2 — Port Forward Through the Windows PC
+Useful if you only need one service.
+
+Example:
+
+Server = 192.168.1.50:80
+
+Windows Tailscale IP = 100.x.x.x
+
+On Windows:
+
+netsh interface portproxy add v4tov4 listenport=8080 listenaddress=0.0.0.0 connectport=80 connectaddress=192.168.1.50
+Then access:
+
+http://100.x.x.x:8080
+You may also need a firewall rule:
+
+New-NetFirewallRule -DisplayName "PortProxy8080" -Direction Inbound -Protocol TCP -LocalPort 8080 -Action Allow
+Option 3 — Use Tailscale Serve/Funnel
+If the service is web-based:
+
+tailscale serve http 8080 http://192.168.1.50:80
+Then access via:
+
+Tailscale MagicDNS
+
+HTTPS URL
+
+Documentation:
+
+Tailscale Serve Docs
+
+Important Windows Settings
+Enable IP forwarding
+Sometimes required for subnet routing.
+
+Open Registry Editor:
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters
+Set:
+
+IPEnableRouter = 1
+Then reboot.
+
+Allow LAN access in Tailscale
+In Tailscale settings:
+
+Enable:
+
+“Allow LAN access”
+
+Recommended Setup
+For your use case, the cleanest solution is:
+
+Remote Windows PC
+    ↓
+Advertise LAN subnet with Tailscale
+    ↓
+Access any LAN device remotely
+This works well for:
+
+NAS
+
+ESP32 web servers
+
+Home Assistant
+
+Proxmox
+
+Cameras
+
+PLC/BMS systems
+
+SSH/RDP
+
+If you want, I can also show:
+
+how to do this WITHOUT exposing the whole subnet
+
+how to access devices by hostname
+
+how to make the remote server itself join Tailscale
+
+how to use an ESP32 with a Tailscale subnet router
+
+how to create a permanent site-to-site tunnel between two LANs
+
+
+This machine does not expose any routes.
+
+Tailscale is already running with some non-default options enabled, so it wants you to include them again.
+
+Run exactly the command it suggested:
+
+tailscale up --advertise-routes=192.168.1.0/24 --exit-node-allow-lan-access --unattended
+After that:
+
+Open:
+Tailscale Admin Console
+
+Select the Windows machine
+
+Approve the subnet route 192.168.1.0/24
+
+Then from another Tailscale device you should be able to reach:
+
+192.168.1.x
+devices behind that Windows PC.
+
+You can verify locally on the Windows machine with:
+
+tailscale status
+You should see something similar to:
+
+subnets: 192.168.1.0/24
+And from the remote client:
+
+ping 192.168.1.50
+If it still does not work after approval, the next things to check are:
+
+Windows Firewall
+
+whether the target server allows connections from other subnets
+
+whether both networks use the same IP range (very common issue like both being 192.168.1.x)
+
+
+This machine does not expose any routes.
+
+If it still says:
+
+This machine does not expose any routes
+then the subnet route was not successfully enabled.
+
+Most common cause on Windows
+You ran the command in a normal terminal instead of an Administrator PowerShell/CMD.
+
+Fix step-by-step
+1. Open Administrator PowerShell
+Press:
+
+Start → type PowerShell → Right click → Run as administrator
+2. Reset and reapply settings
+Run:
+
+tailscale up --reset
+Then run:
+
+tailscale up --advertise-routes=192.168.1.0/24 --unattended
+3. Verify route is advertised
+Run:
+
+tailscale status
+You should now see:
+
+subnets: 192.168.1.0/24
+4. Approve route in admin console
+Open:
+
+Tailscale Machines Page
+
+Click the Windows machine.
+
+You should now see:
+
+Subnet routes
+
+192.168.1.0/24
+
+Approve button
+
+5. If still missing
+Enable IP forwarding:
+
+Set-ItemProperty HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters -Name IPEnableRouter -Value 1
+Then reboot Windows.
+
+6. Alternative: use Tailscale GUI
+Open:
+
+Tailscale tray icon
+
+Preferences
+
+Routing
+
+Enable:
+
+“Use as subnet router”
+
+(Some versions expose this in GUI.)
+
+Check actual subnet
+Sometimes the LAN is not 192.168.1.0/24.
+
+Run:
+
+ipconfig
+If the PC IP is:
+
+192.168.0.44 → subnet is 192.168.0.0/24
+
+10.0.0.12 → subnet is 10.0.0.0/24
+
+Use the correct subnet in --advertise-routes=.
+
+
+PS C:\WINDOWS\system32> tailscale up --advertise-routes=192.168.1.0/24 --exit-node-allow-lan-access --unattended
+--exit-node-allow-lan-access can only be used with --exit-node
+
+The issue is that your current Tailscale configuration already has --exit-node-allow-lan-access saved, but you are not using an exit node now.
+
+So remove that flag entirely and reset the configuration first.
+
+Run these commands in Administrator PowerShell:
+
+tailscale up --reset
+Then:
+
+tailscale up --advertise-routes=192.168.1.0/24 --unattended
+After that:
+
+tailscale status
+You should see:
+
+subnets: 192.168.1.0/24
+Then go to:
+
+Tailscale Admin Console Machines
+
+Approve the subnet route.
+
+After approval, the Windows machine will expose the LAN behind it and you can access devices like:
+
+192.168.1.50
+from your remote Tailscale devices.
+
+
