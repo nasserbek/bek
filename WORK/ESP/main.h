@@ -24,7 +24,12 @@
 #include <ESPmDNS.h>
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
-
+#include "time.h"
+// GMT offset in seconds
+const long gmtOffset_sec = 3600;      // France winter UTC+1
+const int daylightOffset_sec = 3600;  // Summer time +1h
+// NTP server
+const char* ntpServer = "pool.ntp.org";
 
     int ActiveBoard   = ESP1;
     int selectedBoard = ESP1;
@@ -33,7 +38,7 @@
     const char* BLYNK_AUTH_TOKEN_ESP3       =         "lsH8XwzGGUUneZTqYMN-5_hfx8YepjjY" ;//ESP3
     const char* BLYNK_AUTH_TOKEN_TEST       =         "1Wq6Re2q9eTOK8D5vfHhynNN2B_XoZ83" ;//ESP14
     const char* BOARD            = "ESP1";
-    const char* VERSION_ID       = " ESP1.0 ";
+    String VERSION_ID       = " ESP1.0 ";
     const char* BLYNK_AUTH_TOKEN = BLYNK_AUTH_TOKEN_ESP1; //ESP1";
     const char* THINGNAME        = "ESP1"   ;
     const char* gitHubURL        =  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP.ino.esp32.bin"  ;// URL to download the firmware from

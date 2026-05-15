@@ -9,7 +9,7 @@ void setup()
      Serial.begin(115200);
      initWDG(MIN_5,EN);
      relaySetup();
-    
+      
      Serial.print("Version: ");     Serial.println(VERSION_ID);
      Serial.print("AWS IOT This is: ");     Serial.println(THINGNAME);
      

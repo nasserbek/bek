@@ -4,6 +4,23 @@
 #define SETUP_H
 int card = 0;
 
+tm printLocalTime() {
+
+  struct tm timeinfo;
+
+  if (!getLocalTime(&timeinfo)) {
+    Serial.println("Failed to obtain time");
+
+    // return empty structure
+    struct tm emptyTime = {};
+    return emptyTime;
+  }
+
+  Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
+
+  return timeinfo;
+}
+
  
 void relaySetup(void)
 {
@@ -26,13 +43,25 @@ void relaySetup(void)
     
       Serial.print("Card Selecter: ");
       Serial.println(card);
-    
+
+      // Configure time
+     configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+
+     struct tm now = printLocalTime();
+      
+     Serial.print("Hour: ");        Serial.println(now.tm_hour);
+     Serial.print("Minute: ");      Serial.println(now.tm_min);
+     Serial.print("Month: ");       Serial.println(now.tm_mon);
+     Serial.print("Day: ");         Serial.println(now.tm_mday);
+     Serial.print("Year: ");        Serial.println(now.tm_year);
+     
       switch(card) {
         case 0:
           ActiveBoard = ESP1;
                             ActiveBoard == ESP1 ;
                             BOARD ="ESP1";
-                            VERSION_ID =" ESP1-V0.1- ";
+                            
+                            
                             BLYNK_AUTH_TOKEN                = BLYNK_AUTH_TOKEN_ESP1;  //ESP1
                             THINGNAME ="ESP1"   ;
                             gitHubURL  = "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP.ino.esp32.bin" ; // URL to download the firmware from
@@ -153,8 +182,14 @@ void relaySetup(void)
 //                            #define AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL   "test/sub/terminal"
            break;
       }
-     
- //    BoardDefines(); 
+
+     VERSION_ID = String(BOARD) + " " +
+             String(now.tm_mday) + "/" +
+             String(now.tm_mon + 1) + "/" +
+             String(now.tm_year ) + " " +
+             String(now.tm_hour) + ":" +
+             String(now.tm_min);
+ 
 }
 
 
