@@ -186,9 +186,9 @@ void relaySetup(void)
      VERSION_ID = String(BOARD) + " " +
              String(now.tm_mday) + "/" +
              String(now.tm_mon + 1) + "/" +
-             String(now.tm_year ) + " " +
+             String(now.tm_year % 100) + " " +
              String(now.tm_hour) + ":" +
-             String(now.tm_min);
+             String(now.tm_min+" tm");
  
 }
 
@@ -206,7 +206,7 @@ bool blynkInit(void)
                 int rssi = WiFi.RSSI();
                 myBlynk.wifiRSSI(WiFi.RSSI());
                 relaySetup();
-                myBlynk.sendVersion(VERSION_ID );//+ WiFi.SSID()  );
+                myBlynk.sendVersion(VERSION_ID +  "  "+ WiFi.SSID()  );
                 myBlynk.TerminalPrint(str );
              }
     
