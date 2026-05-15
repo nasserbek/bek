@@ -183,12 +183,16 @@ void relaySetup(void)
            break;
       }
 
-     VERSION_ID = String(BOARD) + " " +
-             String(now.tm_mday) + "/" +
-             String(now.tm_mon + 1) + "/" +
-             String(now.tm_year % 100) + " " +
-             String(now.tm_hour) + ":" +
-             String(now.tm_min);
+     char buffer[30];
+
+    sprintf(buffer, "%02d/%02d/%02d %02d:%02d",
+            now.tm_mday,
+            now.tm_mon + 1,
+            now.tm_year % 100,
+            now.tm_hour,
+            now.tm_min);
+    
+    VERSION_ID = BOARD + " " + String(buffer);
  
 }
 
