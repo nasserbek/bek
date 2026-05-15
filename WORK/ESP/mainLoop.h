@@ -452,6 +452,9 @@ void awsLoop(void)
                   }
          }
 }
+extern bool  blynkActive;
+extern unsigned int LiveUpdateInterval ;
+extern bool dvrSleep  ;
 
 void SendLiveLed()
   {
@@ -459,6 +462,30 @@ void SendLiveLed()
     else liveLed = true;
     liveLedUpdate =false;
     awsConnected = client.connected();
+
+
+ /******************************************   */
+  int state = digitalRead(AV_RX_DVR_PIN_2);
+  if(!blynkActive &&  state == 1 && !zapOnOff && !zapScanOnly)
+    {
+      LiveSec += LiveUpdateInterval/1000;
+      if (LiveSec >= 60) { LiveMin +=1;  LiveSec = 0;}
+      if (LiveMin >= 60) { LiveHour +=1; LiveMin =0; }
+      if(/*_wifiIsConnected && */LiveMin >= 5 && state == 1 && !dvrSleep ) 
+        { 
+      //    terminal.println("Turning Off Video for non activity in 2 Hours..."); 
+          dvrOnOff (false);
+          dvrSleep = true;
+        }
+    }
+    else if (dvrSleep && state ==0)
+    {
+ //     terminal.println("Turning On Video after sleeping..."); 
+      dvrOnOff (true);
+      bool dvrSleep = false;  
+    }
+
+    /********************************************************************/
   }
 
 

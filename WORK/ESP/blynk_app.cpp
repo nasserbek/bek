@@ -1208,7 +1208,7 @@ void blynk::liveLedCall(bool _data)
  //     Blynk.virtualWrite(V83, LiveHour);
  //     Blynk.virtualWrite(V82, LiveMin);
  //     Blynk.virtualWrite(V121, LiveSec);
-      if(_wifiIsConnected && LiveMin >= 10 && state == 1 && !dvrSleep ) 
+      if(/*_wifiIsConnected&& */LiveMin >= 10 && state == 1 && !dvrSleep ) 
         { 
           terminal.println("Turning Off Video for non activity in 2 Hours..."); 
           dvrOnOff (false);
