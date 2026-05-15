@@ -1200,7 +1200,7 @@ bool dvrSleep = false;
 void blynk::liveLedCall(bool _data)
 { 
   int state = digitalRead(AV_RX_DVR_PIN_2);
-  if(!blynkActive && !zapOnOff && !zapScanOnly)
+  if(!blynkActive &&  state == 1 && !zapOnOff && !zapScanOnly)
     {
       LiveSec += LiveUpdateInterval/1000;
       if (LiveSec >= 60) { LiveMin +=1;  LiveSec = 0;}
@@ -1208,7 +1208,7 @@ void blynk::liveLedCall(bool _data)
  //     Blynk.virtualWrite(V83, LiveHour);
  //     Blynk.virtualWrite(V82, LiveMin);
  //     Blynk.virtualWrite(V121, LiveSec);
-      if(_wifiIsConnected && LiveHour >= 2 && state == 1 && !dvrSleep ) 
+      if(_wifiIsConnected && LiveMin >= 10 && state == 1 && !dvrSleep ) 
         { 
           terminal.println("Turning Off Video for non activity in 2 Hours..."); 
           dvrOnOff (false);
