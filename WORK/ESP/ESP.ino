@@ -8,11 +8,7 @@ void setup()
 {
      Serial.begin(115200);
      initWDG(MIN_5,EN);
-     relaySetup();
-      
-     Serial.print("Version: ");     Serial.println(VERSION_ID);
-     Serial.print("AWS IOT This is: ");     Serial.println(THINGNAME);
-     
+       
      mySwitch.enableTransmit(RC_TX_PIN);  
         
      createHandleGroup();
@@ -25,7 +21,9 @@ void setup()
             awsConnected = connectAWS();
             blynkConnected = blynkInit();
         }
-     timersMillis();     
+     timersMillis();    
+     Serial.print("Version: ");     Serial.println(VERSION_ID);
+     Serial.print("AWS IOT This is: ");     Serial.println(THINGNAME); 
 }
 
 

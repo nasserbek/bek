@@ -205,7 +205,8 @@ bool blynkInit(void)
                 dvrOnOff (1);
                 int rssi = WiFi.RSSI();
                 myBlynk.wifiRSSI(WiFi.RSSI());
-                myBlynk.sendVersion(VERSION_ID + WiFi.SSID()  );
+                relaySetup();
+                myBlynk.sendVersion(VERSION_ID );//+ WiFi.SSID()  );
                 myBlynk.TerminalPrint(str );
              }
     
