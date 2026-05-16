@@ -54,9 +54,9 @@ void resetRemoteRCNoBlynk(int esp)
 
 void automaticOn(int chanel)
     {
-       esp1on =   chanel == R_26 || chanel == R_28 || chanel == R_29 || chanel == R_48 || chanel == R_49 || chanel == R_50 || chanel == R_51 || chanel == R_52 || chanel == R_53 ; 
-       esp2on =   chanel == R_24 ;
-       esp3on =   chanel == R_25 || chanel == R_27 || chanel == R_62 || chanel == R_63 || chanel == R_64 || chanel == R_65 || chanel == R_66 || chanel == R_68;
+       esp1on =   chanel == CH_3 || chanel == CH_5 || chanel == CH_6 || chanel == CH_7 || chanel == CH_8 || chanel == CH_9 || chanel == CH_10 || chanel == CH_11 || chanel == CH_12 ; 
+       esp2on =   chanel == CH_1 ;
+       esp3on =   chanel == CH_2 || chanel == CH_4 || chanel == CH_13 || chanel == CH_14 || chanel == CH_15 || chanel == CH_16 || chanel == CH_17 || chanel == CH_18;
      
         if(ActiveBoard == ESP3 )  
         {  
@@ -83,9 +83,9 @@ void automaticOn(int chanel)
 
 void automaticOff(int chanel)
     {
-       esp1off =  chanel == R_26 || chanel == R_28 || chanel == R_29 || chanel == R_48 || chanel == R_49 || chanel == R_50 || chanel == R_51 || chanel == R_52 || chanel == R_53 ; 
-       esp2off =  chanel == R_24 || chanel == R_25  ;
-       esp3off =  chanel == R_27 || chanel == R_62   || chanel == R_63  || chanel == R_64 || chanel == R_65 || chanel == R_66 || chanel == R_68   ;
+       esp1off =  chanel == CH_3 || chanel == CH_5 || chanel == CH_6 || chanel == CH_7 || chanel == CH_8 || chanel == CH_9 || chanel == CH_10 || chanel == CH_11 || chanel == CH_12 ; 
+       esp2off =  chanel == CH_1 || chanel == CH_2  ;
+       esp3off =  chanel == CH_4 || chanel == CH_13   || chanel == CH_14  || chanel == CH_15 || chanel == CH_16 || chanel == CH_17 || chanel == CH_18   ;
 
         if(ActiveBoard == ESP3 ) 
         {    
@@ -356,16 +356,16 @@ void zapAllOnOff(bool cmd)
          {      
               if (cmd)
                     {
-                        videoCh[R_25].zap=1; myBlynk.BlynkButtonColours( R_25,CH_MODE_4); 
-                        videoCh[R_26].zap=1; myBlynk.BlynkButtonColours( R_26,CH_MODE_4); 
-                        videoCh[R_28].zap=1; myBlynk.BlynkButtonColours( R_28,CH_MODE_4);
-                        videoCh[R_29].zap=1; myBlynk.BlynkButtonColours( R_29,CH_MODE_4);
-                        videoCh[R_48].zap=1; myBlynk.BlynkButtonColours( R_48,CH_MODE_4);
-                        videoCh[R_49].zap=1; myBlynk.BlynkButtonColours( R_49,CH_MODE_4);
-                        videoCh[R_50].zap=1; myBlynk.BlynkButtonColours( R_50,CH_MODE_4);
-                        videoCh[R_51].zap=1; myBlynk.BlynkButtonColours( R_51,CH_MODE_4);
-                        videoCh[R_52].zap=1; myBlynk.BlynkButtonColours( R_52,CH_MODE_4);
-                        videoCh[R_53].zap=1; myBlynk.BlynkButtonColours( R_53,CH_MODE_4);
+                        videoCh[CH_2].zap=1; myBlynk.BlynkButtonColours( CH_2,CH_MODE_4); 
+                        videoCh[CH_3].zap=1; myBlynk.BlynkButtonColours( CH_3,CH_MODE_4); 
+                        videoCh[CH_5].zap=1; myBlynk.BlynkButtonColours( CH_5,CH_MODE_4);
+                        videoCh[CH_6].zap=1; myBlynk.BlynkButtonColours( CH_6,CH_MODE_4);
+                        videoCh[CH_7].zap=1; myBlynk.BlynkButtonColours( CH_7,CH_MODE_4);
+                        videoCh[CH_8].zap=1; myBlynk.BlynkButtonColours( CH_8,CH_MODE_4);
+                        videoCh[CH_9].zap=1; myBlynk.BlynkButtonColours( CH_9,CH_MODE_4);
+                        videoCh[CH_10].zap=1; myBlynk.BlynkButtonColours( CH_10,CH_MODE_4);
+                        videoCh[CH_11].zap=1; myBlynk.BlynkButtonColours( CH_11,CH_MODE_4);
+                        videoCh[CH_12].zap=1; myBlynk.BlynkButtonColours( CH_12,CH_MODE_4);
                     }
               else
                     {
@@ -384,13 +384,13 @@ void zapAllOnOff(bool cmd)
           {  
               if (cmd)
                     {
-                        videoCh[R_27].zap=1; myBlynk.BlynkButtonColours( R_27,CH_MODE_4); 
-                        videoCh[R_62].zap=1; myBlynk.BlynkButtonColours( R_62,CH_MODE_4);
-                        videoCh[R_63].zap=1; myBlynk.BlynkButtonColours( R_63,CH_MODE_4);
-                        videoCh[R_64].zap=1; myBlynk.BlynkButtonColours( R_64,CH_MODE_4);
-                        videoCh[R_65].zap=1; myBlynk.BlynkButtonColours( R_65,CH_MODE_4);
-                        videoCh[R_66].zap=1; myBlynk.BlynkButtonColours( R_66,CH_MODE_4);
-                        videoCh[R_68].zap=1; myBlynk.BlynkButtonColours( R_68,CH_MODE_4);
+                        videoCh[CH_4].zap=1; myBlynk.BlynkButtonColours( CH_4,CH_MODE_4); 
+                        videoCh[CH_13].zap=1; myBlynk.BlynkButtonColours( CH_13,CH_MODE_4);
+                        videoCh[CH_14].zap=1; myBlynk.BlynkButtonColours( CH_14,CH_MODE_4);
+                        videoCh[CH_15].zap=1; myBlynk.BlynkButtonColours( CH_15,CH_MODE_4);
+                        videoCh[CH_16].zap=1; myBlynk.BlynkButtonColours( CH_16,CH_MODE_4);
+                        videoCh[CH_17].zap=1; myBlynk.BlynkButtonColours( CH_17,CH_MODE_4);
+                        videoCh[CH_18].zap=1; myBlynk.BlynkButtonColours( CH_18,CH_MODE_4);
 
                     }
               else
@@ -410,7 +410,7 @@ void zapAllOnOff(bool cmd)
          {    
               if (cmd)
                     {
-                        videoCh[R_24].zap=1; myBlynk.BlynkButtonColours( R_24,CH_MODE_4); 
+                        videoCh[CH_1].zap=1; myBlynk.BlynkButtonColours( CH_1,CH_MODE_4); 
                     }
               else
                     {

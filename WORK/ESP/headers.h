@@ -6,6 +6,45 @@ ESP3 =3,
 TEST4=4,
 } ;
 
+enum  {
+DVR_ON =0,
+DVR_OFF =1,
+} ;
+
+enum  {
+POWER_ON  =1,
+POWER_OFF =0,
+} ;
+
+enum  {
+TCA9548A_CH1  = 0,
+TCA9548A_CH2  = 1,
+TCA9548A_CH3  = 2,
+TCA9548A_CH4  = 3,
+} ;
+
+enum {
+CH_0,
+CH_1,
+CH_2,
+CH_3,
+CH_4,
+CH_5,
+CH_6,
+CH_7,
+CH_8,
+CH_9,
+CH_10,
+CH_11,
+CH_12,
+CH_13,
+CH_14,
+CH_15,
+CH_16,
+CH_17,
+CH_18,
+} ;
+
 //#define NICE
 //#define CH
 #define PLS

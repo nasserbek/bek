@@ -20,8 +20,8 @@ void SendLiveLed()
 
 
  /****************** DVR ************************   */
-  int state = digitalRead(AV_RX_DVR_PIN_2);
-  if(!blynkActive &&  state == 0 && !zapOnOff && !zapScanOnly)
+  
+  if(!blynkActive &&  stateDVR == DVR_ON && !zapOnOff && !zapScanOnly)
     {
       LiveSec += LiveUpdateInterval/1000;
       if (LiveSec >= 60) { LiveMin +=1;  LiveSec = 0;}
@@ -30,14 +30,14 @@ void SendLiveLed()
       if(LiveHour >= 1  && !dvrSleep ) 
         { 
           myBlynk.TerminalPrint("Turning Off Video for non activity for 1 Hour.."); 
-          dvrOnOff (false);
+          dvrOnOff (POWER_OFF);
           dvrSleep = true;
         }
     }
-    else if (dvrSleep && state ==1 && blynkActive)
+    else if (dvrSleep && stateDVR == DVR_OFF && blynkActive)
     {
       myBlynk.TerminalPrint("Turning On Video after sleeping..."); 
-      dvrOnOff (true);
+      dvrOnOff (POWER_ON);
       dvrSleep = false; 
       LiveSec =LiveMin =LiveHour = 0; 
     }
@@ -112,25 +112,8 @@ void processBlynkQueu(void)
             break;
 
            case Q_EVENT_SELECTED_RECIEVER_V9:
-           
-                   if(ActiveBoard == ESP1 )    //RX2 ALIAS 4  RX3 ALIAS 3
-                    {
-//                       if(queuData == 1) {queuData =2;myBlynk.RelaySelect(2);} //FORCE IF SELECTE IS 1
-//                       if(queuData == 4) {queuData =3;myBlynk.RelaySelect(3);} //FORCE IF SELECTE IS 4
-//                       if(queuData == 2) queuData =4;  //CH2_RX4   //CH3_RX3
-                    }
-                   
-                   if(ActiveBoard == ESP3 )  //RX4 ALIAS 1  RX3 ALIAS 2
-                   {
-//                      if(queuData == 1 || queuData == 2 ) {queuData =3; myBlynk.RelaySelect(3);} //FORCE IF SELECTE IS 1 OR 2
-//                 
-//                      if(queuData == 4) queuData =1;  //CH4_RX1
-//                      else if(queuData == 3) queuData =2;  //CH3_RX2
-                   } 
-                   
                   selected_Rx = queuData-1;
                   AvReceiverSel(queuData);
-                                 
            break;
  
             case Q_EVENT_ZAP_SCAN_ONLY_V10:
@@ -183,8 +166,8 @@ void processBlynkQueu(void)
             break;         
                  
             case Q_EVENT_SPARE_V27:
-                      DvrChOn = true;
-                      dvrOnOff (1);
+//                      DvrChOn = true;
+//                      dvrOnOff (POWER_ON);
             break;   
 
             case Q_EVENT_REL1_CH_V30: 

@@ -24,11 +24,13 @@ void setup()
      timersMillis();    
      Serial.print("Version: ");     Serial.println(VERSION_ID);
      Serial.print("AWS IOT This is: ");     Serial.println(THINGNAME); 
+     PowerOnTuning();
 }
 
 
 void loop(void) 
 {
+       stateDVR = digitalRead(AV_RX_DVR_PIN_2);
        resetWdg();
        internetCheck();
        resetBoardID();

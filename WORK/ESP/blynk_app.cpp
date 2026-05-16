@@ -12,7 +12,7 @@ extern const char* BLYNK_AUTH_TOKEN;
 IPAddress blynkLocalServer;
 
 extern int MapIndex;
-extern void dvrOnOff (bool cmd);
+extern void dvrOnOff (bool powerOn);
 extern void SendLiveLed(void);
 extern void rebootSw(void);
 extern bool DvrChOn;
@@ -1213,25 +1213,7 @@ void blynk::blynkAckLed( bool _data)
 
 void blynk::liveLedCall(bool _data)
 { 
-//  int state = digitalRead(AV_RX_DVR_PIN_2);
-//  if(!blynkActive &&  state == 0 && !zapOnOff && !zapScanOnly)
-//    {
-//      LiveSec += LiveUpdateInterval/1000;
-//      if (LiveSec >= 60) { LiveMin +=1;  LiveSec = 0;}
-//      if (LiveMin >= 60) { LiveHour +=1; LiveMin =0; }
-//      if(/*_wifiIsConnected&& */LiveMin >= 10 && state == 0 && !dvrSleep ) 
-//        { 
-//          terminal.println("Turning Off Video for non activity in 2 Hours..."); 
-//          dvrOnOff (false);
-//          dvrSleep = true;
-//        }
-//    }
-//    else if (dvrSleep && state ==1)
-//    {
-//      terminal.println("Turning On Video after sleeping..."); 
-//      dvrOnOff (true);
-//      bool dvrSleep = false;  
-//    }
+
 }
 
 void blynk::visualActiveRoom(int id, bool zap)
