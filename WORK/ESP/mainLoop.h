@@ -479,7 +479,7 @@ void SendLiveLed()
           dvrSleep = true;
         }
     }
-    else if (dvrSleep && state ==1)
+    else if (dvrSleep && state ==1 && blynkActive)
     {
       myBlynk.TerminalPrint("Turning On Video after sleeping..."); 
       dvrOnOff (true);
