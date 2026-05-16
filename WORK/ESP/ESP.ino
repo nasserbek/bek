@@ -16,6 +16,7 @@ void setup()
      i2cSetup();
 
      wifiAvailable = myBlynk.wifi_init();
+     relaySetup();
      if(wifiAvailable)
         {
             awsConnected = connectAWS();

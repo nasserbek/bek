@@ -222,6 +222,7 @@ extern IPAddress blynkLocalServer;;
 bool blynkInit(void)
 {
    StaticJsonDocument<54> doc; //Json to send from
+     
      blynkConnected = myBlynk.init();    
      String str = WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI());
      if (blynkConnected) 
@@ -231,7 +232,7 @@ bool blynkInit(void)
                 dvrOnOff (POWER_ON);
                 int rssi = WiFi.RSSI();
                 myBlynk.wifiRSSI(WiFi.RSSI());
-                relaySetup();
+                
                 myBlynk.sendVersion(VERSION_ID +  " Server IP: " + blynkLocalServer.toString()  );
                 myBlynk.TerminalPrint(str );
              }

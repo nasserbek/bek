@@ -365,7 +365,6 @@ Q_EVENT_RM_ID_19_V92,  //68
 #define   SEC_60           60000
 #define   MIN_5            300000
 
-
 #define MAX_NR_CHANNELS  20
 
 #define WEB 0

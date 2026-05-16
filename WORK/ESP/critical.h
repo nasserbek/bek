@@ -7,41 +7,25 @@
 #define _TIMERINTERRUPT_LOGLEVEL_     4
 #include "ESP32TimerInterrupt.h"
 ESP32Timer ITimer0(0);
-
-
 extern void resetRouter(void);
 
-volatile uint32_t wdtTriggered = 0;
-
-
 /***********************************************************************************/
-unsigned long lastFeed = 0;
 
 void resetWdg()
 {
-//    lastFeed = millis();
    ITimer0.stopTimer();   
    delay(100); 
    ITimer0.restartTimer();  
 }
-
 
 /*********************************************************************/
 
 
 void IRAM_ATTR TimerHandler0()
 {
-//    wdtTriggered = 1;
-//    Serial.println("WDT expired → restarting");
-//    delay(20);
     ESP.restart();
 }
 
-//bool IRAM_ATTR TimerHandler0(void * timerNo)
-//{
-//  ESP.restart();
-//  return true;
-//}
 
 void enableWDG(bool _enable)
   {
