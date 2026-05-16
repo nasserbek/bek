@@ -7,7 +7,43 @@ extern bool connectAWS(void);
 extern blynk myBlynk;
 extern void resetRemoteRCNoBlynk(int esp);
 
+extern bool  blynkActive;
+extern unsigned int LiveUpdateInterval ;
+bool dvrSleep  ;
 
+void SendLiveLed()
+  {
+    if (liveLed)  liveLed = false; 
+    else liveLed = true;
+    liveLedUpdate =false;
+    awsConnected = client.connected();
+
+
+ /****************** DVR ************************   */
+  int state = digitalRead(AV_RX_DVR_PIN_2);
+  if(!blynkActive &&  state == 0 && !zapOnOff && !zapScanOnly)
+    {
+      LiveSec += LiveUpdateInterval/1000;
+      if (LiveSec >= 60) { LiveMin +=1;  LiveSec = 0;}
+      if (LiveMin >= 60) { LiveHour +=1; LiveMin =0; }
+
+      if(LiveHour >= 1  && !dvrSleep ) 
+        { 
+          myBlynk.TerminalPrint("Turning Off Video for non activity for 1 Hour.."); 
+          dvrOnOff (false);
+          dvrSleep = true;
+        }
+    }
+    else if (dvrSleep && state ==1 && blynkActive)
+    {
+      myBlynk.TerminalPrint("Turning On Video after sleeping..."); 
+      dvrOnOff (true);
+      dvrSleep = false; 
+      LiveSec =LiveMin =LiveHour = 0; 
+    }
+    /********************************************************************/
+  }
+  
 void resetRouter(void)
 {
  remoteControl(ROUTER_CH);
@@ -451,42 +487,7 @@ void awsLoop(void)
                   }
          }
 }
-extern bool  blynkActive;
-extern unsigned int LiveUpdateInterval ;
-bool dvrSleep  ;
 
-void SendLiveLed()
-  {
-    if (liveLed)  liveLed = false; 
-    else liveLed = true;
-    liveLedUpdate =false;
-    awsConnected = client.connected();
-
-
- /******************************************   */
-  int state = digitalRead(AV_RX_DVR_PIN_2);
-  if(!blynkActive &&  state == 0 && !zapOnOff && !zapScanOnly)
-    {
-      LiveSec += LiveUpdateInterval/1000;
-      if (LiveSec >= 60) { LiveMin +=1;  LiveSec = 0;}
-      if (LiveMin >= 60) { LiveHour +=1; LiveMin =0; }
-
-      if(LiveHour >= 1  && !dvrSleep ) 
-        { 
-          myBlynk.TerminalPrint("Turning Off Video for non activity for 1 Hour.."); 
-          dvrOnOff (false);
-          dvrSleep = true;
-        }
-    }
-    else if (dvrSleep && state ==1 && blynkActive)
-    {
-      myBlynk.TerminalPrint("Turning On Video after sleeping..."); 
-      dvrOnOff (true);
-      dvrSleep = false;  
-    }
-
-    /********************************************************************/
-  }
 
 
 #endif

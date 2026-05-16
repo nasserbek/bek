@@ -29,14 +29,6 @@ void setup()
 
 void loop(void) 
 {
-//        if (wdtTriggered)
-//        {
-//          wdtTriggered = 0;
-//          Serial.println("WDT expired → restarting");
-//          delay(20);
-//          ESP.restart();
-//        }
-       
        resetWdg();
        internetCheck();
        resetBoardID();
@@ -45,10 +37,4 @@ void loop(void)
     
        bool zapScan = zapOnOff || zapScanOnly;
       if (zapScan) zappingAvCh ( zapScan, zapTimer); 
-
-//      if (millis() - lastFeed > 30000)
-//          {
-//              Serial.println("WDT timeout");
-//              ESP.restart();
-//          }
 }
