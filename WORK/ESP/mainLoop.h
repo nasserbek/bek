@@ -398,8 +398,7 @@ void blynkLoop(void)
            if(!liveLedUpdate) 
                 {
                   liveLedUpdate = true; 
-              //    myBlynk.liveLedCall(liveLed);
-                }  
+                } 
        
             myBlynk.blynkRun();
             queuValidData = (xQueueReceive(g_event_queue_handle, &queuDataID, 5 / portTICK_RATE_MS) == pdPASS);
@@ -454,7 +453,7 @@ void awsLoop(void)
 }
 extern bool  blynkActive;
 extern unsigned int LiveUpdateInterval ;
-extern bool dvrSleep  ;
+bool dvrSleep  ;
 
 void SendLiveLed()
   {
@@ -466,21 +465,23 @@ void SendLiveLed()
 
  /******************************************   */
   int state = digitalRead(AV_RX_DVR_PIN_2);
-  if(!blynkActive &&  state == 1 && !zapOnOff && !zapScanOnly)
+  if(!blynkActive &&  state == 0 && !zapOnOff && !zapScanOnly)
     {
       LiveSec += LiveUpdateInterval/1000;
       if (LiveSec >= 60) { LiveMin +=1;  LiveSec = 0;}
       if (LiveMin >= 60) { LiveHour +=1; LiveMin =0; }
-      if(/*_wifiIsConnected && */LiveMin >= 2 && state == 1 && !dvrSleep ) 
+
+      myBlynk.TerminalPrint(String(LiveMin));
+      if(LiveMin >= 2  && !dvrSleep ) 
         { 
-      //    terminal.println("Turning Off Video for non activity in 2 Hours..."); 
+          myBlynk.TerminalPrint("Turning Off Video for non activity in 2 Hours..."); 
           dvrOnOff (false);
           dvrSleep = true;
         }
     }
-    else if (dvrSleep && state ==0)
+    else if (dvrSleep && state ==1)
     {
- //     terminal.println("Turning On Video after sleeping..."); 
+      myBlynk.TerminalPrint("Turning On Video after sleeping..."); 
       dvrOnOff (true);
       bool dvrSleep = false;  
     }
