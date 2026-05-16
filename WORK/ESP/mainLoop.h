@@ -471,10 +471,9 @@ void SendLiveLed()
       if (LiveSec >= 60) { LiveMin +=1;  LiveSec = 0;}
       if (LiveMin >= 60) { LiveHour +=1; LiveMin =0; }
 
-      myBlynk.TerminalPrint(String(LiveMin));
-      if(LiveMin >= 2  && !dvrSleep ) 
+      if(LiveHour >= 1  && !dvrSleep ) 
         { 
-          myBlynk.TerminalPrint("Turning Off Video for non activity in 2 Hours..."); 
+          myBlynk.TerminalPrint("Turning Off Video for non activity for 1 Hour.."); 
           dvrOnOff (false);
           dvrSleep = true;
         }
