@@ -9,6 +9,8 @@
 #include <WiFiMulti.h>
 extern const char* BLYNK_AUTH_TOKEN;
 
+IPAddress blynkLocalServer;
+
 extern int MapIndex;
 extern void dvrOnOff (bool cmd);
 extern void SendLiveLed(void);
@@ -235,15 +237,16 @@ bool blynk::init()
 //        else if(WiFi.SSID() == WIFI_SSID_BBOX) 
 
   #ifdef PLS
-   #define BLYNK_SERVER  BLYNK_SERVER_PLS
+   blynkLocalServer = BLYNK_SERVER_PLS ;
   #endif
 
   #ifdef CH
-   #define BLYNK_SERVER  BLYNK_SERVER_OMV1
+   blynkLocalServer = BLYNK_SERVER_OMV1;
   #endif
         
-  
-        Blynk.config(BLYNK_AUTH_TOKEN, BLYNK_SERVER,8080); 
+   //     blynkLocalServer = String(blynkLocalServer);
+        
+        Blynk.config(BLYNK_AUTH_TOKEN, blynkLocalServer,8080); 
         Blynk.connect(BlynkServerTimeout);
         delay(1000);
         _blynkIsConnected = Blynk.connected();
@@ -258,12 +261,23 @@ bool blynk::init()
 
 
       
-     DEBUG_PRINT("BLYNK: ");DEBUG_PRINTLN( _blynkIsConnected ? F("Connected to " + BLYNK_SERVER ) : F("Not Connected"));
+    DEBUG_PRINT("BLYNK: ");
+   
+    if (_blynkIsConnected)
+    {
+        DEBUG_PRINT("Connected to ");
+        DEBUG_PRINTLN(blynkLocalServer.toString());
+    }
+    else
+    {
+        DEBUG_PRINTLN("Not Connected");
+    }
+
      blynkAtiveTimer     = millis();
      blynkActive = false;
      ledInit();     
      terminal.clear();
-     terminal.println( WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) + "BLYNK_SERVER : " + String(BLYNK_SERVER)+"\n");
+     terminal.println( WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) + " Server IP: " + blynkLocalServer.toString()+"\n");
         }
   }
   return _blynkIsConnected;

@@ -2,6 +2,7 @@
 
 #ifndef SETUP_H
 #define SETUP_H
+
 int card = 0;
 
 tm printLocalTime() {
@@ -191,12 +192,12 @@ void relaySetup(void)
             now.tm_year % 100,
             now.tm_hour,
             now.tm_min);
-    
-    VERSION_ID = BOARD + " " + String(buffer);
+    String buildTime = String(__DATE__) + " " + String(__TIME__);
+    VERSION_ID = BOARD + " " + buildTime;//String(buffer);
  
 }
 
-
+extern IPAddress blynkLocalServer;;
 bool blynkInit(void)
 {
    StaticJsonDocument<54> doc; //Json to send from
@@ -210,7 +211,7 @@ bool blynkInit(void)
                 int rssi = WiFi.RSSI();
                 myBlynk.wifiRSSI(WiFi.RSSI());
                 relaySetup();
-                myBlynk.sendVersion(VERSION_ID +  "  "+ WiFi.SSID()  );
+                myBlynk.sendVersion(VERSION_ID +  " Server IP: " + blynkLocalServer.toString()  );
                 myBlynk.TerminalPrint(str );
              }
     

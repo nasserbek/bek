@@ -40,8 +40,7 @@ TEST4=4,
 #define LOCAL_SERVER 
 
 #ifdef LOCAL_SERVER
-    #define BLYNK_SERVER_OMV1        IPAddress(192,168,1,4)
-    #define BLYNK_SERVER_PROX        IPAddress(192,168,1,153)   
+    #define BLYNK_SERVER_OMV1      IPAddress(192,168,1,4)
     #define BLYNK_SERVER_PLS       IPAddress(192,168,1,2)
 #endif
 
