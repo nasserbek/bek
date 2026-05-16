@@ -19,7 +19,10 @@ unsigned long lastFeed = 0;
 
 void resetWdg()
 {
-    lastFeed = millis();
+//    lastFeed = millis();
+   ITimer0.stopTimer();   
+   delay(100); 
+   ITimer0.restartTimer();  
 }
 
 
@@ -28,9 +31,17 @@ void resetWdg()
 
 void IRAM_ATTR TimerHandler0()
 {
-    wdtTriggered = 1;
+//    wdtTriggered = 1;
+//    Serial.println("WDT expired → restarting");
+//    delay(20);
+    ESP.restart();
 }
 
+//bool IRAM_ATTR TimerHandler0(void * timerNo)
+//{
+//  ESP.restart();
+//  return true;
+//}
 
 void enableWDG(bool _enable)
   {
