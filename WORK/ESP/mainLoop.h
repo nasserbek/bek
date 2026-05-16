@@ -398,7 +398,7 @@ void blynkLoop(void)
            if(!liveLedUpdate) 
                 {
                   liveLedUpdate = true; 
-                  myBlynk.liveLedCall(liveLed);
+              //    myBlynk.liveLedCall(liveLed);
                 }  
        
             myBlynk.blynkRun();
@@ -471,7 +471,7 @@ void SendLiveLed()
       LiveSec += LiveUpdateInterval/1000;
       if (LiveSec >= 60) { LiveMin +=1;  LiveSec = 0;}
       if (LiveMin >= 60) { LiveHour +=1; LiveMin =0; }
-      if(/*_wifiIsConnected && */LiveMin >= 5 && state == 1 && !dvrSleep ) 
+      if(/*_wifiIsConnected && */LiveMin >= 2 && state == 1 && !dvrSleep ) 
         { 
       //    terminal.println("Turning Off Video for non activity in 2 Hours..."); 
           dvrOnOff (false);
