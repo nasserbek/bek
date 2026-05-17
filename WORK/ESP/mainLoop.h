@@ -86,7 +86,8 @@ void processBlynkQueu(void)
 //                if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
 //                else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
 //                receiverAvByCh ( recevierCh,1);
-                videoChanel(recevierCh, 0);
+                videoChanel(recevierCh, ON);
+                lastSelectedCh = recevierCh;
 
              break;
              
