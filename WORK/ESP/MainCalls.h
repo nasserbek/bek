@@ -12,5 +12,5 @@
 #include "zap.h"
 #include "setup.h"
 #include "mainLoop.h"
-
+#include "safeMode.h"
 #endif

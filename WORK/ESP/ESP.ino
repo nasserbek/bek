@@ -1,8 +1,6 @@
 #include "MainCalls.h"
 
 blynk myBlynk;
- 
-
 
 void setup() 
 {
@@ -25,6 +23,7 @@ void setup()
      timersMillis();    
      Serial.print("Version: ");     Serial.println(VERSION_ID);
      Serial.print("AWS IOT This is: ");     Serial.println(THINGNAME); 
+     resetInactivityTimer();
 }
 
 
@@ -36,7 +35,9 @@ void loop(void)
        resetBoardID();
        awsLoop();
        blynkLoop();
-    
+       
+       if(inactivityCtrl == MILLS)restartForInactivity(); //This checks inactivity once per second only controlled by mills().
+       
        bool zapScan = zapOnOff || zapScanOnly;
       if (zapScan) zappingAvCh ( zapScan, zapTimer); 
 }

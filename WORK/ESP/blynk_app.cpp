@@ -10,6 +10,7 @@
 extern const char* BLYNK_AUTH_TOKEN;
 
 IPAddress blynkLocalServer;
+extern void resetInactivityTimer();
 
 extern int MapIndex;
 extern void dvrOnOff (bool powerOn);
@@ -527,7 +528,7 @@ BLYNK_WRITE(V30)   //03
 {
     _blynkEvent = true; 
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_REL1_CH_V30;
+    eventdata = Q_EVENT_DVR_OFF_TIMER_V30;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -537,7 +538,7 @@ BLYNK_WRITE(V31)   //21
 {
     _blynkEvent = true; 
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_REL2_CH_V31;    
+    eventdata = Q_EVENT_RESTART_TIMER_V31;    
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -546,7 +547,7 @@ BLYNK_WRITE(V32)   //27
 {
     _blynkEvent = true; 
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_REL3_CH_V32;
+    eventdata = Q_EVENT_SPARE_V32;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -555,7 +556,7 @@ BLYNK_WRITE(V33)   //50
 {
     _blynkEvent = true; 
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_REL4_CH_V33;
+    eventdata = Q_EVENT_SPARE_V33;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -1059,6 +1060,7 @@ bool blynk::getData()
       blynkAtiveTimer     = millis();
       hmi =BLYNK;
       LiveSec =LiveMin =LiveHour = 0;
+      resetInactivityTimer();
       return true;
     }  
     else return false;
