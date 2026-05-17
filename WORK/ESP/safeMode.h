@@ -48,12 +48,12 @@ void restartForInactivity()
         
         if(!blynkActive &&  !zapOnOff && !zapScanOnly)
         {
-              if ((uint32_t)(millis() - lastActivityTime) >= inactivityPowerOffTimer)//INACTIVITY_TIMEOUT_MS_POWER_OFF)
+              if ((uint32_t)(millis() - lastActivityTime) >= PowerOffTimer)//INACTIVITY_TIMEOUT_MS_POWER_OFF)
               {
                   inactivityVideoPowerOff();
               }
               
-              if ((uint32_t)(millis() - lastActivityTime) >= inactivityRestartTimer)//INACTIVITY_TIMEOUT_MS_RESTART)
+              if ((uint32_t)(millis() - lastActivityTime) >= RestartTimer)//INACTIVITY_TIMEOUT_MS_RESTART)
               {
                   ESP.restart();
               }

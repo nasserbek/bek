@@ -8,6 +8,10 @@
 #include <BlynkSimpleEsp32.h>
 #include <WiFiMulti.h>
 extern const char* BLYNK_AUTH_TOKEN;
+extern int inactivityPowerOffTimer  ; //1 Hour;
+extern int inactivityRestartTimer  ; //10 Hours;
+extern int zapTimer;
+
 
 IPAddress blynkLocalServer;
 extern void resetInactivityTimer();
@@ -1249,9 +1253,11 @@ void blynk::SyncAll(void)
 {
 }
 
-void blynk::blynk1(void)
+void blynk::blynkTimers(void)
 {
-
+  Blynk.virtualWrite(V30, inactivityPowerOffTimer);
+  Blynk.virtualWrite(V31, inactivityRestartTimer);
+  Blynk.virtualWrite(V72, zapTimer);
 }    
 
 void blynk::repeatSync(bool repeat)

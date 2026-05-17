@@ -19,6 +19,7 @@ void setup()
         {
             awsConnected = connectAWS();
             blynkConnected = blynkInit();
+            myBlynk.blynkTimers();
         }
      timersMillis();    
      Serial.print("Version: ");     Serial.println(VERSION_ID);
