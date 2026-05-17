@@ -241,7 +241,8 @@ void processBlynkQueu(void)
             break;
 
             case Q_EVENT_ZAP_TIMER_V72:
-                 zapTimer=queuData;
+                  zapTimerSec = queuData;
+                  zapTimer  =  (zapTimerSec * 1000UL) ;
             break;
 
             case Q_EVENT_VIDEO_ON_OFF_V81 :

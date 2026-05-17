@@ -10,7 +10,7 @@
 extern const char* BLYNK_AUTH_TOKEN;
 extern int inactivityPowerOffTimer  ; //1 Hour;
 extern int inactivityRestartTimer  ; //10 Hours;
-extern int zapTimer;
+extern int zapTimerSec;
 
 
 IPAddress blynkLocalServer;
@@ -1257,7 +1257,7 @@ void blynk::blynkTimers(void)
 {
   Blynk.virtualWrite(V30, inactivityPowerOffTimer);
   Blynk.virtualWrite(V31, inactivityRestartTimer);
-  Blynk.virtualWrite(V72, zapTimer);
+  Blynk.virtualWrite(V72, zapTimerSec);
 }    
 
 void blynk::repeatSync(bool repeat)

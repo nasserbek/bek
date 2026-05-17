@@ -208,7 +208,7 @@ void turnOff(int ch, int prevCh, int smc )
 }
 
 
-void zappingAvCh (bool zapCmd, int zapTimer)
+void zappingAvCh (bool zapCmd, uint32_t zapTimer)
 {
  if( (Av_Rx !=1) || zapSetup )  //Stop Zapping if RC or Both is selected or Zsetup
   {

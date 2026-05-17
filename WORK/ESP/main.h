@@ -246,7 +246,8 @@ bool smsOn      =true;
 
 int ackTimer =  500;
 int scanTimer = 5000;
-int zapTimer = 10000;
+int zapTimerSec = 10;
+uint32_t zapTimer  =  (1UL * 1000UL) ;
 int zapTimerOff = 5000;
 
 int routerTimer = 5000;

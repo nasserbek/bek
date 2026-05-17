@@ -40,5 +40,6 @@ void loop(void)
        if(inactivityCtrl == MILLS)restartForInactivity(); //This checks inactivity once per second only controlled by mills().
        
        bool zapScan = zapOnOff || zapScanOnly;
+       
       if (zapScan) zappingAvCh ( zapScan, zapTimer); 
 }
