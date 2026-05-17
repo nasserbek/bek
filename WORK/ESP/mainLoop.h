@@ -83,9 +83,11 @@ void processBlynkQueu(void)
                   
             case Q_EVENT_VIDEO_CH_V2:
                 recevierCh=queuData;
-                if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
-                else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
-                receiverAvByCh ( recevierCh,1);
+//                if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
+//                else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
+//                receiverAvByCh ( recevierCh,1);
+                videoChanel(recevierCh, 0);
+
              break;
              
              case Q_EVENT_REPEAT_V3:
