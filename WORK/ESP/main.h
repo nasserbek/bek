@@ -30,11 +30,6 @@ uint32_t lastActivityTime = 0;
 
 bool inactivityCtrl = MILLS;
 
-
-RTC_DATA_ATTR int bootCount = 0;
-RTC_DATA_ATTR int crashCount = 0;
-
-
 // GMT offset in seconds
 const long gmtOffset_sec = 3600;      // France winter UTC+1
 const int daylightOffset_sec = 3600;  // Summer time +1h
