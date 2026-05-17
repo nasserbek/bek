@@ -85,9 +85,9 @@ void processBlynkQueu(void)
                 recevierCh=queuData;
 //                if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
 //                else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
-//                receiverAvByCh ( recevierCh,1);
+                receiverAvByCh ( recevierCh,1);
                 if(lastSelectedCh !=0 && lastSelectedCh != recevierCh)myBlynk.BlynkButtonColours( lastSelectedCh,CH_MODE_0);
-                videoChanel(recevierCh, ON);
+//                videoChanel(recevierCh, ON);
                 myBlynk.BlynkButtonColours( recevierCh,CH_MODE_2);
                 lastSelectedCh = recevierCh;
 
