@@ -8,11 +8,34 @@ unsigned long lastCheck = 0;
 extern uint32_t lastActivityTime;
 
 
-RTC_DATA_ATTR int crashCount = 0;
+Preferences prefs;
+
+uint32_t crashCount = 0;
+
 
 #define MAX_CRASH_COUNT 5
 
 bool safeMode = false;
+
+void loadCrashCount()
+{
+    prefs.begin("system", false);
+
+    crashCount = prefs.getUInt("crash", 0);
+
+    Serial.print("Loaded crash count: ");
+    Serial.println(crashCount);
+}
+
+// --------------------------------------------------
+
+void saveCrashCount()
+{
+    prefs.putUInt("crash", crashCount);
+
+    Serial.print("Saved crash count: ");
+    Serial.println(crashCount);
+}
 
 // --------------------------------------------------
 // Called whenever activity is detected
@@ -25,45 +48,81 @@ void resetInactivityTimer()
 // --------------------------------------------------
 // Detect reboot reason
 // --------------------------------------------------
-
-void checkCrashCounter()
+void printResetReason()
 {
     esp_reset_reason_t reason = esp_reset_reason();
 
+    Serial.print("Reset reason code: ");
+    Serial.println((int)reason);
+
+    Serial.print("Meaning: ");
+
+    switch(reason)
+    {
+        case ESP_RST_POWERON:   Serial.println("POWERON"); break;
+        case ESP_RST_SW:        Serial.println("SW RESET"); break;
+        case ESP_RST_PANIC:     Serial.println("PANIC"); break;
+        case ESP_RST_TASK_WDT:  Serial.println("TASK WDT"); break;
+        case ESP_RST_INT_WDT:   Serial.println("INT WDT"); break;
+        case ESP_RST_WDT:       Serial.println("WDT"); break;
+        case ESP_RST_BROWNOUT:  Serial.println("BROWNOUT"); break;
+        case ESP_RST_DEEPSLEEP: Serial.println("DEEPSLEEP"); break;
+        default:                Serial.println("OTHER"); break;
+    }
+}
+
+void checkCrashCounter()
+{
+
+    loadCrashCount();
+
+    esp_reset_reason_t reason = esp_reset_reason();
+
     Serial.print("Reset reason: ");
-    Serial.println(reason);
+    Serial.println((int)reason);
 
-    // ------------------------------------------
-    // Count only abnormal resets
-    // ------------------------------------------
+    bool crashDetected = false;
 
-    if (
-        reason == ESP_RST_PANIC ||
-        reason == ESP_RST_TASK_WDT ||
-        reason == ESP_RST_INT_WDT ||
-        reason == ESP_RST_WDT ||
-        reason == ESP_RST_BROWNOUT
-    )
+    switch(reason)
+    {
+        case ESP_RST_PANIC:
+        case ESP_RST_INT_WDT:
+        case ESP_RST_TASK_WDT:
+        case ESP_RST_WDT:
+        case ESP_RST_BROWNOUT:
+
+            crashDetected = true;
+            break;
+
+        default:
+            break;
+    }
+
+    if (crashDetected)
     {
         crashCount++;
-    }
-    else
-    {
-        // Normal reboot -> clear crashes
-        crashCount = 0;
+
+        saveCrashCount();
     }
 
     Serial.print("Crash count: ");
     Serial.println(crashCount);
 
-    // ------------------------------------------
-    // Enter safe mode
-    // ------------------------------------------
+    // --------------------------------------------------
+    // SAFE MODE
+    // --------------------------------------------------
 
-    if (crashCount >= MAX_CRASH_COUNT)
+    if (crashCount >= 5)
     {
+        Serial.println("SAFE MODE");
         safeMode = true;
+        // minimal startup only
+        return;
     }
+
+    Serial.println("NORMAL MODE");
+
+    printResetReason();
 }
 
 // --------------------------------------------------
