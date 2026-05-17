@@ -45,7 +45,7 @@ class blynk {
     bool Tuner_PLL(int x, int _address, uint _pll);
     void blynkAckLed(bool _data);
     void liveLedCall(bool _data);
-    void streamSelect(bool stream);
+    void streamSelect(String  stream);
     void resetSetupAndScan(bool _data);
     void resetT433Cmd(int cmd );
     void resetT315Cmd(int cmd );

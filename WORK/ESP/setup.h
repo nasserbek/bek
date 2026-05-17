@@ -228,7 +228,7 @@ bool blynkInit(void)
      if (blynkConnected) 
               {
                 myBlynk.sendAvRxIndex(Av_Rx);
-                myBlynk.streamSelect(streamWebDdns);
+                myBlynk.streamSelect("ch01");
                 dvrOnOff (POWER_ON);
                 int rssi = WiFi.RSSI();
                 myBlynk.wifiRSSI(WiFi.RSSI());

@@ -43,7 +43,8 @@ const char* ntpServer = "pool.ntp.org";
     const char* THINGNAME        = "ESP1"   ;
     const char* gitHubURL        =  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP.ino.esp32.bin"  ;// URL to download the firmware from
     int stateDVR = DVR_ON;
-
+    String videoplayerCh = "ch01";
+    
 QueueHandle_t g_event_queue_handle = NULL;
 EventGroupHandle_t g_event_group = NULL;
 

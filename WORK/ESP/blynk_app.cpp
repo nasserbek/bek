@@ -310,11 +310,13 @@ void blynk::mapRefresh(int index)
 }
 
 
-void blynk::streamSelect(bool stream)
+void blynk::streamSelect(String ch)
 {
-   if(ActiveBoard == ESP1 ) Blynk.setProperty(V28, "url","rtsp://admin:basma28112018@192.168.1.96:554/ch01/0");
-   if(ActiveBoard == ESP2 ) Blynk.setProperty(V28, "url","rtsp://admin:basma28112018@192.168.1.94:554/ch02/0");
-   if(ActiveBoard == ESP3 )Blynk.setProperty(V28, "url","rtsp://admin:basma28112018@192.168.1.95:554/ch01/0");
+   String SelectedCh = "rtsp://admin:basma28112018@192.168.1.96:554/"+ch+"/0" ;
+   Blynk.setProperty(V28, "url",SelectedCh);
+//   if(ActiveBoard == ESP1 ) Blynk.setProperty(V28, "url","rtsp://admin:basma28112018@192.168.1.96:554/ch01/0");
+//   if(ActiveBoard == ESP2 ) Blynk.setProperty(V28, "url","rtsp://admin:basma28112018@192.168.1.94:554/ch02/0");
+//   if(ActiveBoard == ESP3 )Blynk.setProperty(V28, "url","rtsp://admin:basma28112018@192.168.1.95:554/ch03/0");
 }
 
 

@@ -121,6 +121,8 @@ void processBlynkQueu(void)
            case Q_EVENT_SELECTED_RECIEVER_V9:
                   selected_Rx = queuData-1;
                   AvReceiverSel(queuData);
+                  videoplayerCh = "ch0" + String(queuData);
+                  myBlynk.streamSelect(videoplayerCh);
            break;
  
             case Q_EVENT_ZAP_SCAN_ONLY_V10:
