@@ -54,7 +54,7 @@ WiFiClientSecure net = WiFiClientSecure();
 PubSubClient client(net);
 
 int   MapIndex            = 0;
-bool  PowerOnTune         = false;
+bool  PowerOnTune         = true;
 bool  autoResetRouter     = 0;
 
 bool  liveLed             = false;

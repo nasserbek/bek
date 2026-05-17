@@ -25,7 +25,7 @@ void setup()
      timersMillis();    
      Serial.print("Version: ");     Serial.println(VERSION_ID);
      Serial.print("AWS IOT This is: ");     Serial.println(THINGNAME); 
-     PowerOnTuning();
+     if(PowerOnTune) PowerOnTuning();
 }
 
 

@@ -27,16 +27,16 @@ void SendLiveLed()
       if (LiveSec >= 60) { LiveMin +=1;  LiveSec = 0;}
       if (LiveMin >= 60) { LiveHour +=1; LiveMin =0; }
 
-      if(LiveMin >= 1  &&  stateDVR == DVR_ON && !dvrSleep ) 
+      if(LiveHour >= 1  &&  stateDVR == DVR_ON && !dvrSleep ) 
         { 
           myBlynk.TerminalPrint("Turning Off Video for non activity for 1 Hour.."); 
           dvrOnOff (POWER_OFF);
           dvrSleep = true;
         }
 
-      else if(LiveMin >= 3  &&  stateDVR == DVR_OFF && dvrSleep ) 
+      else if(LiveHour >= 12  &&  stateDVR == DVR_OFF && dvrSleep ) 
         { 
-          myBlynk.TerminalPrint("Restarting for non activity for 6 Hour.."); 
+          myBlynk.TerminalPrint("Restarting for non activity for 12 Hour.."); 
           ESP.restart();
         }
     }
