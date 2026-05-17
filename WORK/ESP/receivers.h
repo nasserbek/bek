@@ -187,7 +187,8 @@ void PowerOnTuning(void)
         Av_Rx = SOLO_VIDEO; 
         videoChanel(CH_1, ON);
         myBlynk.RelaySelect(selected_Rx+1);
-       
+        lastSelectedCh = CH_1;
+      
 }      
 
 
