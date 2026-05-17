@@ -34,29 +34,21 @@ void SendLiveLed()
           dvrSleep = true;
         }
 
-      if(LiveMin >= 3  &&  stateDVR == DVR_OFF && dvrSleep ) 
+      else if(LiveMin >= 3  &&  stateDVR == DVR_OFF && dvrSleep ) 
         { 
           myBlynk.TerminalPrint("Restarting for non activity for 6 Hour.."); 
           ESP.restart();
         }
     }
     
-    if (blynkActive && dvrSleep && stateDVR == DVR_OFF )
+    else if (blynkActive && dvrSleep && stateDVR == DVR_OFF )
     {
       myBlynk.TerminalPrint("Turning On Video after sleeping..."); 
       dvrOnOff (POWER_ON);
       dvrSleep = false; 
       LiveSec =LiveMin =LiveHour = 0; 
     }
-
-    else if (dvrSleep && stateDVR == DVR_OFF )
-    {
-      myBlynk.TerminalPrint("Turning On Video after sleeping..."); 
-      dvrOnOff (POWER_ON);
-      dvrSleep = false; 
-      LiveSec =LiveMin =LiveHour = 0; 
-    }
-    /********************************************************************/
+   /********************************************************************/
   }
   
 void resetRouter(void)
