@@ -27,6 +27,7 @@ void loop(void)
        blynkLoop();
        safeModeLoop();
        if(inactivityCtrl == MILLS)restartForInactivity(); //This checks inactivity once per second only controlled by mills().
+       checkSleep();
        
        bool zapScan = zapOnOff || zapScanOnly;
        

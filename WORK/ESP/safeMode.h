@@ -19,6 +19,9 @@ bool safeMode = false;
 
 void checkSleep()
 {
+  uint32_t PowerOffTimer  = (inactivityPowerOffTimer * 60UL * 1000UL) ; //inactivityPowerOffTimer in Minutes ;
+  if ((uint32_t)(millis() - lastActivityTime) >= PowerOffTimer  && !blynkActive &&  !zapOnOff && !zapScanOnly)
+  {
         Serial.println("Entering light sleep");
         myBlynk.TerminalPrint("Entering light sleep for 10 sec...."); 
 
@@ -28,6 +31,8 @@ void checkSleep()
 
         Serial.println("Woke up");
         myBlynk.TerminalPrint("Woke up"); 
+
+  }     
 
 }
 
@@ -263,12 +268,11 @@ void restartForInactivity()
     {
         lastCheck = millis();
         
-        if(!blynkActive &&  !zapOnOff && !zapScanOnly)
+        if(!blynkActive &&  !zapOnOff && !zapScanOnly)  
         {
-              if ((uint32_t)(millis() - lastActivityTime) >= PowerOffTimer )//INACTIVITY_TIMEOUT_MS_POWER_OFF)
+              if ((uint32_t)(millis() - lastActivityTime) >= PowerOffTimer &&  stateDVR == DVR_ON && !dvrSleep)//INACTIVITY_TIMEOUT_MS_POWER_OFF)
               {
-                 if(stateDVR == DVR_ON && !dvrSleep) inactivityVideoPowerOff();
-                 checkSleep();
+                  inactivityVideoPowerOff();
               }
               
               if ((uint32_t)(millis() - lastActivityTime) >= RestartTimer &&  stateDVR == DVR_OFF && dvrSleep)//INACTIVITY_TIMEOUT_MS_RESTART)
