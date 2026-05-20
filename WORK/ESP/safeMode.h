@@ -245,14 +245,7 @@ void safeModeLoop()
 void inactivityVideoPowerOff()
 {
   struct tm now = printLocalTime();
-    char buildTime[20];
-    int hour, minute;
-    sscanf(__TIME__, "%d:%d", &hour, &minute);
-    sprintf(buildTime,
-            "%02d:%02d",
-            hour,
-            minute);
-  String hourMin = buildTime;
+  String hourMin = now.tm_hour + ":" + now.tm_min;
   myBlynk.TerminalPrint(hourMin +":Turning Off Video for non activity for 1 Hour.."); 
   dvrOnOff (POWER_OFF);
   dvrSleep = true;  
@@ -261,15 +254,8 @@ void inactivityVideoPowerOff()
 void videoPowerOnAfterSleep()
 {
   struct tm now = printLocalTime();
-    char buildTime[20];
-    int hour, minute;
-    sscanf(__TIME__, "%d:%d", &hour, &minute);
-    sprintf(buildTime,
-            "%02d:%02d",
-            hour,
-            minute);
-  String hourMin = buildTime;
-  myBlynk.TerminalPrint(hourMin  +":Turning On Video after sleeping..."); 
+  String hourMin = now.tm_hour + ":" + now.tm_min;
+  myBlynk.TerminalPrint(hourMin +":Turning Off Video for non activity for 1 Hour..");  
   dvrOnOff (POWER_ON);
   dvrSleep = false; 
 }
