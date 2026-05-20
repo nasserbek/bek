@@ -1252,7 +1252,7 @@ void blynk::sendVersion(String ver)
 
 void blynk::sendNotify(String msg)
 {
-Blynk.notify(msg);
+//Blynk.notify(msg);
 }
 
 void blynk::SyncAll(void)
