@@ -1273,12 +1273,10 @@ void blynk::repeatSync(bool repeat)
 
 void blynk::TerminalPrint (String str)
 {
-  String msg = BOARD + ":" + str;
+  String msg =  str;
     if ( blynkConnected )
       {
         terminal.println(msg);
-   //     delay (500);
-  //      Blynk.notify(str);
       }
     else Serial.println(msg); 
 }

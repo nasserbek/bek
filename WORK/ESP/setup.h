@@ -20,6 +20,7 @@ bool blynkInit(void)
                 
                 myBlynk.sendVersion(VERSION_ID);
                 myBlynk.TerminalPrint(VERSION_ID );
+                myBlynk.sendNotify(VERSION_ID );
              }
     
     awsTerminal(awsConnected, str ) ;

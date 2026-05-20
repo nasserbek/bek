@@ -246,7 +246,8 @@ void inactivityVideoPowerOff()
 {
   struct tm now = printLocalTime();
   String hourMin = String(now.tm_hour) + ":" + String(now.tm_min);
-  myBlynk.TerminalPrint(hourMin +":Turning Off Video for non activity for 1 Hour.."); 
+  myBlynk.TerminalPrint   (hourMin +":Turning Off Video for non activity for 1 Hour.."); 
+  myBlynk.sendNotify      (hourMin +":Turning Off Video for non activity for 1 Hour..");
   dvrOnOff (POWER_OFF);
   dvrSleep = true;  
 }
@@ -255,7 +256,8 @@ void videoPowerOnAfterSleep()
 {
   struct tm now = printLocalTime();
   String hourMin = String(now.tm_hour) + ":" + String(now.tm_min);
-  myBlynk.TerminalPrint(hourMin +":Turning Off Video for non activity for 1 Hour..");  
+  myBlynk.TerminalPrint (hourMin +":Turning On Video for activity after sleep..");  
+  myBlynk.sendNotify    (hourMin +":Turning On Video for activity after sleep..");
   dvrOnOff (POWER_ON);
   dvrSleep = false; 
 }
