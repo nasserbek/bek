@@ -1256,7 +1256,7 @@ void blynk::sendVersion(String ver)
 
 void blynk::sendNotify(String msg)
 {
-Blynk.notify("ESP32 Connected");
+Blynk.notify(msg);
 }
 
 void blynk::SyncAll(void)
