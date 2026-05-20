@@ -282,7 +282,7 @@ bool blynk::init()
      blynkActive = false;
      ledInit();     
      terminal.clear();
-     terminal.println( VERSION_ID +  " -- "+ WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) + " Server IP: " + blynkLocalServer.toString()+"\n");
+     terminal.println(WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) + " Server IP: " + blynkLocalServer.toString()+"\n");
              }
   }
   return _blynkIsConnected;

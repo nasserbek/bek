@@ -232,7 +232,7 @@ bool blynkInit(void)
                 int rssi = WiFi.RSSI();
                 myBlynk.wifiRSSI(WiFi.RSSI());
                 
-                myBlynk.sendVersion(VERSION_ID +  " Server IP: " + blynkLocalServer.toString()  );
+                myBlynk.sendVersion(VERSION_ID );
                 myBlynk.TerminalPrint(str );
              }
     
