@@ -1273,12 +1273,14 @@ void blynk::repeatSync(bool repeat)
 
 void blynk::TerminalPrint (String str)
 {
+  String msg = BOARD + ":" + str;
     if ( blynkConnected )
       {
-        terminal.println(str);
+        terminal.println(msg);
+        delay (500);
         Blynk.notify(str);
       }
-    else Serial.println(str); 
+    else Serial.println(msg); 
 }
 
 void blynk::BlynkButtonColours(int lastSelectedCh, int chMode)
