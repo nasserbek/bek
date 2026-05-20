@@ -1277,8 +1277,8 @@ void blynk::TerminalPrint (String str)
     if ( blynkConnected )
       {
         terminal.println(msg);
-        delay (500);
-        Blynk.notify(str);
+   //     delay (500);
+  //      Blynk.notify(str);
       }
     else Serial.println(msg); 
 }
