@@ -12,6 +12,7 @@ extern int inactivityPowerOffTimer  ; //1 Hour;
 extern int inactivityRestartTimer  ; //10 Hours;
 extern int zapTimerSec;
 extern String VERSION_ID  ;
+extern String BOARD;
 
 IPAddress blynkLocalServer;
 extern void resetInactivityTimer();
@@ -1249,6 +1250,11 @@ void blynk::sendVersion(String ver)
   Blynk.virtualWrite(V24, ver);
 }
 
+void blynk::sendNotify(String msg)
+{
+Blynk.notify(msg);
+}
+
 void blynk::SyncAll(void)
 {
 }
@@ -1267,11 +1273,12 @@ void blynk::repeatSync(bool repeat)
 
 void blynk::TerminalPrint (String str)
 {
-    if ( blynkConnected )terminal.println(str);
-    else Serial.println(str); 
-   
-   if(ActiveBoard == ESP0 )Serial.println(str);
-   terminal.flush();  
+    if ( blynkConnected )
+      {
+        terminal.println(BOARD+":"+str);
+        Blynk.notify(BOARD+":"+str);
+      }
+    else Serial.println(BOARD+":"+str); 
 }
 
 void blynk::BlynkButtonColours(int lastSelectedCh, int chMode)

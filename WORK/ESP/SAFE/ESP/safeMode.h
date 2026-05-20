@@ -244,16 +244,20 @@ void safeModeLoop()
 
 void inactivityVideoPowerOff()
 {
-  myBlynk.TerminalPrint("Turning Off Video for non activity for 1 Hour.."); 
+  struct tm now = printLocalTime();
+  String hourMin = String(now.tm_hour) + ":" + String(now.tm_min);
+  myBlynk.TerminalPrint(hourMin +":Turning Off Video for non activity for 1 Hour.."); 
   dvrOnOff (POWER_OFF);
   dvrSleep = true;  
 }
 
 void videoPowerOnAfterSleep()
 {
-      myBlynk.TerminalPrint("Turning On Video after sleeping..."); 
-      dvrOnOff (POWER_ON);
-      dvrSleep = false; 
+  struct tm now = printLocalTime();
+  String hourMin = String(now.tm_hour) + ":" + String(now.tm_min);
+  myBlynk.TerminalPrint(hourMin +":Turning Off Video for non activity for 1 Hour..");  
+  dvrOnOff (POWER_ON);
+  dvrSleep = false; 
 }
 
 
@@ -281,7 +285,11 @@ void restartForInactivity()
               }
         }
         
-        else if (blynkActive && dvrSleep && stateDVR == DVR_OFF )  videoPowerOnAfterSleep(); //Check every second activity to power on after sleep
+        else if (dvrSleep && stateDVR == DVR_OFF)
+        {
+            if( blynkActive )  videoPowerOnAfterSleep(); //Check every second activity to power on after sleep  
+            resetInactivityTimer();     
+        }
     }
 }
 

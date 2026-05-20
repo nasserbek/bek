@@ -11,7 +11,7 @@ extern const char* BLYNK_AUTH_TOKEN;
 extern int inactivityPowerOffTimer  ; //1 Hour;
 extern int inactivityRestartTimer  ; //10 Hours;
 extern int zapTimerSec;
-
+extern String VERSION_ID  ;
 
 IPAddress blynkLocalServer;
 extern void resetInactivityTimer();
@@ -282,8 +282,8 @@ bool blynk::init()
      blynkActive = false;
      ledInit();     
      terminal.clear();
-     terminal.println( WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) + " Server IP: " + blynkLocalServer.toString()+"\n");
-        }
+     terminal.println(WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) + " Server IP: " + blynkLocalServer.toString()+"\n");
+             }
   }
   return _blynkIsConnected;
 }
