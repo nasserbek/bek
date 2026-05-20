@@ -1276,9 +1276,9 @@ void blynk::TerminalPrint (String str)
   String msg =  str;
     if ( blynkConnected )
       {
-        terminal.println(msg);
+        terminal.println(str);
       }
-    else Serial.println(msg); 
+    else Serial.println(str); 
 }
 
 void blynk::BlynkButtonColours(int lastSelectedCh, int chMode)
