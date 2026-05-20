@@ -19,8 +19,8 @@ bool blynkInit(void)
                 myBlynk.wifiRSSI(WiFi.RSSI());
                 
                 myBlynk.sendVersion(VERSION_ID);
-                myBlynk.TerminalPrint(VERSION_ID );
-                myBlynk.sendNotify(VERSION_ID );
+//                myBlynk.TerminalPrint(VERSION_ID );
+//                myBlynk.sendNotify(VERSION_ID );
              }
     
     awsTerminal(awsConnected, str ) ;
