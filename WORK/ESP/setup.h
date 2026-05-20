@@ -231,9 +231,6 @@ bool blynkInit(void)
                 dvrOnOff (POWER_ON);
                 int rssi = WiFi.RSSI();
                 myBlynk.wifiRSSI(WiFi.RSSI());
-                
-                myBlynk.sendVersion(VERSION_ID +  " Server IP: " + blynkLocalServer.toString()  );
- //               myBlynk.TerminalPrint(str );
              }
     String str = WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI());
     awsTerminal(awsConnected, str ) ;
