@@ -222,7 +222,7 @@ extern IPAddress blynkLocalServer;;
 bool blynkInit(void)
 {
    StaticJsonDocument<54> doc; //Json to send from
-     
+   String str = VERSION_ID  + "  ...  " + WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI());   
      blynkConnected = myBlynk.init();    
      if (blynkConnected) 
               {
@@ -231,8 +231,11 @@ bool blynkInit(void)
                 dvrOnOff (POWER_ON);
                 int rssi = WiFi.RSSI();
                 myBlynk.wifiRSSI(WiFi.RSSI());
+                
+                myBlynk.sendVersion(VERSION_ID +  " Server IP: " + blynkLocalServer.toString()  );
+                myBlynk.TerminalPrint(str );
              }
-    String str = WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI());
+    
     awsTerminal(awsConnected, str ) ;
 return  blynkConnected;
 }     
