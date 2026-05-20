@@ -1252,7 +1252,7 @@ void blynk::sendVersion(String ver)
 
 void blynk::sendNotify(String msg)
 {
-//Blynk.notify(msg);
+Blynk.notify(msg);
 }
 
 void blynk::SyncAll(void)
@@ -1274,11 +1274,11 @@ void blynk::repeatSync(bool repeat)
 void blynk::TerminalPrint (String str)
 {
   String msg =  str;
-//    if ( blynkConnected )
-//      {
+    if ( blynkConnected )
+      {
         terminal.println(str);
-//      }
-//    else Serial.println(str); 
+      }
+    else Serial.println(str); 
 }
 
 void blynk::BlynkButtonColours(int lastSelectedCh, int chMode)
