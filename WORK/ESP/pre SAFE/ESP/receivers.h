@@ -64,12 +64,51 @@ bool Tuner_PLL( int receiver, int _address, uint _pll)
 {
   byte MSB = (_pll & 0xFF00) >> 8   ;   //mask LSB, shift 8 bits to the right
   byte LSB = _pll & 0x00FF     ;        //mask MSB, no need to shift
+
+if(ActiveBoard == ESP2 )   //4CH 4 Relays Active LOW and 2 I2C Controllers
+{
+  switch (receiver)
+        {
+          case 2:
+          case 3:
+                Wire1.beginTransmission(_address);
+                Wire1.write(MSB );
+                Wire1.write(LSB );
+                Wire1.write(0xC2 );
+                return (Wire1.endTransmission() );                       
+          break;
+
+          case 0:
+          case 1:
+                Wire.beginTransmission(_address);
+                Wire.write(MSB );
+                Wire.write(LSB );
+                Wire.write(0xC2 );
+                return (Wire.endTransmission() );                      
+            break;                     
+        }   
+}
+
+if(ActiveBoard == ESP1 )  
+{ 
    Wire.beginTransmission(_address);
    Wire.write(MSB );
    Wire.write(LSB );
    Wire.write(0xC2 );
-   if(ActiveBoard == ESP0 ) return false;  
-   else return (Wire.endTransmission() ); 
+   return (Wire.endTransmission() ); 
+}
+
+if(ActiveBoard == ESP3 ) 
+{  
+          Wire.beginTransmission(_address);
+          Wire.write(MSB );
+          Wire.write(LSB );
+          Wire.write(0xC2 );
+          return (Wire.endTransmission() );  
+}
+
+if(ActiveBoard == ESP0 ) return false;  
+
 }
         
 bool receiverAvByCh (int Ch, int cmd)
@@ -151,64 +190,136 @@ void room ( int RC, int AV, int sel , int cmd)
 
 void AvReceiverSel(int queuData)
  {            
-     TCA9548A(queuData-1);
+     if(ActiveBoard == ESP1 ) TCA9548A(queuData-1);
+
+     if(ActiveBoard == ESP2 ) 
+     {
+                switch (queuData)
+                    {
+                      case 1:
+                                 digitalWrite(I2C_1_2_RELAY, HIGH);  //  
+                      break;
+                      case 2:
+                                 digitalWrite(I2C_1_2_RELAY, LOW);  //  
+                      break;
+
+                       case 3:
+                                 digitalWrite(I2C_3_4_RELAY, HIGH);  //  
+                      break;
+                      case 4:
+                                 digitalWrite(I2C_3_4_RELAY, LOW);  //  
+                      break;                     
+                    }  
+     }
+     
+     if(ActiveBoard == ESP3 )
+     {
+                switch (queuData)
+                    {
+                   case 1:
+                                 digitalWrite(I2C_1_2_RELAY, LOW);  //  
+                      break;
+                      case 2:
+                                 digitalWrite(I2C_1_2_RELAY, HIGH);  //  
+                      break;
+
+                      case 3:
+                                 digitalWrite(I2C_3_4_RELAY, LOW);  //  
+                      break;
+                   case 4:
+                                 digitalWrite(I2C_3_4_RELAY, HIGH);  //  
+                      break;                     
+                    }   
+     }
 }
 
 
 void PowerOnTuning(void)
 {
-        selected_Rx = TCA9548A_CH4;  //CH4
-        AvReceiverSel(selected_Rx+1);  
-        delay (1000);
-        Av_Rx = SOLO_VIDEO; 
-        videoChanel(CH_1, ON);
-        myBlynk.RelaySelect(selected_Rx+1);
-        delay (1000);
-        
-        selected_Rx = TCA9548A_CH3;  //CH3
-        AvReceiverSel(selected_Rx+1);  
-        delay (1000);
-        Av_Rx = SOLO_VIDEO; 
-        videoChanel(CH_1, ON);
-        myBlynk.RelaySelect(selected_Rx+1);
-        delay (1000);
-        
-        selected_Rx = TCA9548A_CH2;  //CH2
-        AvReceiverSel(selected_Rx+1);  
-        delay (1000);
-        Av_Rx = SOLO_VIDEO; 
-        videoChanel(CH_1, ON);
-        myBlynk.RelaySelect(selected_Rx+1);
-        delay (1000);
+    if(ActiveBoard == ESP1 )      
+       {    
+//           selected_Rx = 3;  //H3
+//           delay (1000);
+//           AvReceiverSel(4);  
+//           delay (1000);
+           if(DvrChOn) {Av_Rx = BOTH; videoChanel(R_29, ON);}
+           else {Av_Rx = SOLO_VIDEO; videoChanel(R_29, ON);}
+ //          myBlynk.RelaySelect(2);  //RX4 SHOWS RX2 N HMI
+           delay (1000);   
+            
+//           selected_Rx = 2;  //CH2
+//           AvReceiverSel(3);  
+//           delay (1000);
+           if(DvrChOn) {Av_Rx = BOTH; videoChanel(R_49, ON);}
+           else {Av_Rx = SOLO_VIDEO; videoChanel(R_49, ON);}
+   //        myBlynk.RelaySelect(3);   //RX3 SHOWS RX3 IN HMI
 
-        selected_Rx = TCA9548A_CH1;  //CH1
-        AvReceiverSel(selected_Rx+1);  
-        delay (1000);
-        Av_Rx = SOLO_VIDEO; 
-        videoChanel(CH_1, ON);
-        myBlynk.RelaySelect(selected_Rx+1);
-        lastSelectedCh = CH_1;
-      
+       }
+  
+    if(ActiveBoard == ESP2 )      
+    {
+           selected_Rx = 0;
+           delay (1000);
+           AvReceiverSel(1);  
+           delay (1000);
+           if(DvrChOn) {Av_Rx = BOTH; videoChanel(R_25, ON);}
+           else {Av_Rx = SOLO_VIDEO; videoChanel(R_25, ON);}
+           myBlynk.RelaySelect(1);
+           delay (1000); 
+           
+           selected_Rx = 1;
+           AvReceiverSel(2);  
+           delay (1000);
+           if(DvrChOn) {Av_Rx = BOTH; videoChanel(R_26, ON);}
+           else {Av_Rx = SOLO_VIDEO; videoChanel(R_26, ON);}
+           myBlynk.RelaySelect(2);
+           delay (1000); 
+
+           selected_Rx = 2;
+           AvReceiverSel(3);  
+           delay (1000);
+           if(DvrChOn) {Av_Rx = BOTH; videoChanel(R_27, ON);}
+           else {Av_Rx = SOLO_VIDEO; videoChanel(R_27, ON);}
+           myBlynk.RelaySelect(3);
+           delay (1000); 
+           
+    }
+    
+    if(ActiveBoard == ESP3 )  
+    {   
+           selected_Rx = 0; //CH4
+           delay (1000);
+           AvReceiverSel(1);  
+           delay (1000);
+           Av_Rx = SOLO_VIDEO; videoChanel(R_25, ON);
+           myBlynk.RelaySelect(4);  //RX1 SHOWS RX2 IN HMI
+           delay (1000); 
+           
+           selected_Rx = 1;   //CH3
+           AvReceiverSel(2);  
+           delay (1000);
+           if(DvrChOn) {Av_Rx = BOTH; videoChanel(R_28, ON);}
+           else {Av_Rx = SOLO_VIDEO; videoChanel(R_28, ON);}
+           myBlynk.RelaySelect(3);  //RX2 SHOWS RX3 IN HMI
+    }
 }      
 
 
-void  dvrOnOff (bool powerOn)
+void  dvrOnOff (bool onOff)
 {
-   myBlynk.dvrSwitch(powerOn);
+   myBlynk.dvrSwitch(onOff);
    
-   if (powerOn) 
+   if (onOff) 
    {
     digitalWrite(AV_RX_DVR_PIN_2, LOW); 
     if(PowerOnTune)PowerOnTuning();    
     DvrChOn = true;
-    stateDVR = DVR_ON;
     Av_Rx = SOLO_VIDEO;
    }
    else 
    {
       digitalWrite(AV_RX_DVR_PIN_2, HIGH); 
       DvrChOn = false;
-      stateDVR = DVR_OFF;
    }
 }
 

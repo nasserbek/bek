@@ -8,16 +8,11 @@
 #include <BlynkSimpleEsp32.h>
 #include <WiFiMulti.h>
 extern const char* BLYNK_AUTH_TOKEN;
-extern int inactivityPowerOffTimer  ; //1 Hour;
-extern int inactivityRestartTimer  ; //10 Hours;
-extern int zapTimerSec;
-
 
 IPAddress blynkLocalServer;
-extern void resetInactivityTimer();
 
 extern int MapIndex;
-extern void dvrOnOff (bool powerOn);
+extern void dvrOnOff (bool cmd);
 extern void SendLiveLed(void);
 extern void rebootSw(void);
 extern bool DvrChOn;
@@ -315,13 +310,11 @@ void blynk::mapRefresh(int index)
 }
 
 
-void blynk::streamSelect(String ch)
+void blynk::streamSelect(bool stream)
 {
-   String SelectedCh = "rtsp://admin:basma28112018@192.168.1.96:554/"+ch+"/0" ;
-   Blynk.setProperty(V28, "url",SelectedCh);
-//   if(ActiveBoard == ESP1 ) Blynk.setProperty(V28, "url","rtsp://admin:basma28112018@192.168.1.96:554/ch01/0");
-//   if(ActiveBoard == ESP2 ) Blynk.setProperty(V28, "url","rtsp://admin:basma28112018@192.168.1.94:554/ch02/0");
-//   if(ActiveBoard == ESP3 )Blynk.setProperty(V28, "url","rtsp://admin:basma28112018@192.168.1.95:554/ch03/0");
+   if(ActiveBoard == ESP1 ) Blynk.setProperty(V28, "url","rtsp://admin:basma28112018@192.168.1.94:554/ch01/0");
+   if(ActiveBoard == ESP2 ) Blynk.setProperty(V28, "url","rtsp://admin:basma28112018@192.168.1.96:554/ch02/0");
+   if(ActiveBoard == ESP3 )Blynk.setProperty(V28, "url","rtsp://admin:basma28112018@192.168.1.95:554/ch01/0");
 }
 
 
@@ -532,7 +525,7 @@ BLYNK_WRITE(V30)   //03
 {
     _blynkEvent = true; 
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_DVR_OFF_TIMER_V30;
+    eventdata = Q_EVENT_REL1_CH_V30;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -542,7 +535,7 @@ BLYNK_WRITE(V31)   //21
 {
     _blynkEvent = true; 
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_RESTART_TIMER_V31;    
+    eventdata = Q_EVENT_REL2_CH_V31;    
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -551,7 +544,7 @@ BLYNK_WRITE(V32)   //27
 {
     _blynkEvent = true; 
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_SPARE_V32;
+    eventdata = Q_EVENT_REL3_CH_V32;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -560,7 +553,7 @@ BLYNK_WRITE(V33)   //50
 {
     _blynkEvent = true; 
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_SPARE_V33;
+    eventdata = Q_EVENT_REL4_CH_V33;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -1064,7 +1057,6 @@ bool blynk::getData()
       blynkAtiveTimer     = millis();
       hmi =BLYNK;
       LiveSec =LiveMin =LiveHour = 0;
-      resetInactivityTimer();
       return true;
     }  
     else return false;
@@ -1221,7 +1213,25 @@ void blynk::blynkAckLed( bool _data)
 
 void blynk::liveLedCall(bool _data)
 { 
-
+//  int state = digitalRead(AV_RX_DVR_PIN_2);
+//  if(!blynkActive &&  state == 0 && !zapOnOff && !zapScanOnly)
+//    {
+//      LiveSec += LiveUpdateInterval/1000;
+//      if (LiveSec >= 60) { LiveMin +=1;  LiveSec = 0;}
+//      if (LiveMin >= 60) { LiveHour +=1; LiveMin =0; }
+//      if(/*_wifiIsConnected&& */LiveMin >= 10 && state == 0 && !dvrSleep ) 
+//        { 
+//          terminal.println("Turning Off Video for non activity in 2 Hours..."); 
+//          dvrOnOff (false);
+//          dvrSleep = true;
+//        }
+//    }
+//    else if (dvrSleep && state ==1)
+//    {
+//      terminal.println("Turning On Video after sleeping..."); 
+//      dvrOnOff (true);
+//      bool dvrSleep = false;  
+//    }
 }
 
 void blynk::visualActiveRoom(int id, bool zap)
@@ -1253,11 +1263,9 @@ void blynk::SyncAll(void)
 {
 }
 
-void blynk::blynkTimers(void)
+void blynk::blynk1(void)
 {
-  Blynk.virtualWrite(V30, inactivityPowerOffTimer);
-  Blynk.virtualWrite(V31, inactivityRestartTimer);
-  Blynk.virtualWrite(V72, zapTimerSec);
+
 }    
 
 void blynk::repeatSync(bool repeat)

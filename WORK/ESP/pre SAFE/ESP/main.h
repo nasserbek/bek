@@ -13,8 +13,6 @@
 #include "headers.h"
 #include <Wire.h>
 #include <WiFi.h>
-#include "esp_sleep.h"
-
 
  //AWS
 #include "secrets.h"
@@ -27,12 +25,6 @@
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 #include "time.h"
-#include <Preferences.h>
-
-uint32_t lastActivityTime = 0;
-
-bool inactivityCtrl = MILLS;
-
 // GMT offset in seconds
 const long gmtOffset_sec = 3600;      // France winter UTC+1
 const int daylightOffset_sec = 3600;  // Summer time +1h
@@ -50,9 +42,8 @@ const char* ntpServer = "pool.ntp.org";
     const char* BLYNK_AUTH_TOKEN = BLYNK_AUTH_TOKEN_ESP1; //ESP1";
     const char* THINGNAME        = "ESP1"   ;
     const char* gitHubURL        =  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP.ino.esp32.bin"  ;// URL to download the firmware from
-    int stateDVR = DVR_ON;
-    String videoplayerCh = "ch01";
-    
+
+
 QueueHandle_t g_event_queue_handle = NULL;
 EventGroupHandle_t g_event_group = NULL;
 
@@ -63,7 +54,7 @@ WiFiClientSecure net = WiFiClientSecure();
 PubSubClient client(net);
 
 int   MapIndex            = 0;
-bool  PowerOnTune         = true;
+bool  PowerOnTune         = false;
 bool  autoResetRouter     = 0;
 
 bool  liveLed             = false;
@@ -244,8 +235,7 @@ bool smsOn      =true;
 
 int ackTimer =  500;
 int scanTimer = 5000;
-int zapTimerSec = 10;
-uint32_t zapTimer  =  (1UL * 1000UL) ;
+int zapTimer = 10000;
 int zapTimerOff = 5000;
 
 int routerTimer = 5000;

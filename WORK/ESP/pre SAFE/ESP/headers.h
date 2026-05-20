@@ -1,59 +1,9 @@
-#define INACTIVITY_TIMEOUT_MS_RESTART  (10UL * 60UL * 60UL * 1000UL)  //10 Hours
-#define INACTIVITY_TIMEOUT_MS_POWER_OFF  (1UL * 60UL * 60UL * 1000UL)  //10 Hours
-#define uS_TO_S_FACTOR 1000000ULL
-#define LIGHT_SLEEP_WAKE 10*uS_TO_S_FACTOR
-
-
-enum  {
-MILLS =0,
-BLYNK_TIMERS =1,
-} ;
-
 enum  {
 ESP0 =0,
 ESP1 =1,
 ESP2 =2,
 ESP3 =3,
 TEST4=4,
-} ;
-
-enum  {
-DVR_ON =0,
-DVR_OFF =1,
-} ;
-
-enum  {
-POWER_ON  =1,
-POWER_OFF =0,
-} ;
-
-enum  {
-TCA9548A_CH1  = 0,
-TCA9548A_CH2  = 1,
-TCA9548A_CH3  = 2,
-TCA9548A_CH4  = 3,
-} ;
-
-enum {
-CH_0,
-CH_1,
-CH_2,
-CH_3,
-CH_4,
-CH_5,
-CH_6,
-CH_7,
-CH_8,
-CH_9,
-CH_10,
-CH_11,
-CH_12,
-CH_13,
-CH_14,
-CH_15,
-CH_16,
-CH_17,
-CH_18,
 } ;
 
 //#define NICE
@@ -163,7 +113,7 @@ CH_18,
 
 //BOARD SEL
 #define DIP1         16
-#define DIP2         5
+#define DIP2         17
 
 
 
@@ -257,10 +207,10 @@ Q_EVENT_ZAP_TIMER_OFF_V25,
 Q_EVENT_RESET_FREQ_V26,
 Q_EVENT_SPARE_V27,
 //V28 Streamin
-Q_EVENT_DVR_OFF_TIMER_V30,
-Q_EVENT_RESTART_TIMER_V31,
-Q_EVENT_SPARE_V32,
-Q_EVENT_SPARE_V33,
+Q_EVENT_REL1_CH_V30,
+Q_EVENT_REL2_CH_V31,
+Q_EVENT_REL3_CH_V32,
+Q_EVENT_REL4_CH_V33,
 Q_EVENT_ZAP_ALL_ON_OFF_V34,
 Q_EVENT_SHARE_VIDEO_WITH_ESP1_V35,
 Q_EVENT_SHARE_VIDEO_WITH_ESP2_V36,
@@ -375,6 +325,7 @@ Q_EVENT_RM_ID_19_V92,  //68
 #define   SEC_30           30000
 #define   SEC_60           60000
 #define   MIN_5            300000
+
 
 #define MAX_NR_CHANNELS  20
 

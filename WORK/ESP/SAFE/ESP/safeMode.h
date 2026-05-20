@@ -244,32 +244,16 @@ void safeModeLoop()
 
 void inactivityVideoPowerOff()
 {
-    char buildTime[20];
-    int hour, minute;
-    sscanf(__TIME__, "%d:%d", &hour, &minute);
-    sprintf(buildTime,
-            "%02d:%02d",
-            hour,
-            minute);
-  String hourMin = buildTime;
-  myBlynk.TerminalPrint(hourMin +":Turning Off Video for non activity for 1 Hour.."); 
+  myBlynk.TerminalPrint("Turning Off Video for non activity for 1 Hour.."); 
   dvrOnOff (POWER_OFF);
   dvrSleep = true;  
 }
 
 void videoPowerOnAfterSleep()
 {
-    char buildTime[20];
-    int hour, minute;
-    sscanf(__TIME__, "%d:%d", &hour, &minute);
-    sprintf(buildTime,
-            "%02d:%02d",
-            hour,
-            minute);
-  String hourMin = buildTime;
-  myBlynk.TerminalPrint(hourMin  +":Turning On Video after sleeping..."); 
-  dvrOnOff (POWER_ON);
-  dvrSleep = false; 
+      myBlynk.TerminalPrint("Turning On Video after sleeping..."); 
+      dvrOnOff (POWER_ON);
+      dvrSleep = false; 
 }
 
 
@@ -297,11 +281,7 @@ void restartForInactivity()
               }
         }
         
-        else if (dvrSleep && stateDVR == DVR_OFF)
-        {
-            if( blynkActive )  videoPowerOnAfterSleep(); //Check every second activity to power on after sleep  
-            resetInactivityTimer();     
-        }
+        else if (blynkActive && dvrSleep && stateDVR == DVR_OFF )  videoPowerOnAfterSleep(); //Check every second activity to power on after sleep
     }
 }
 

@@ -29,7 +29,7 @@ class blynk {
 
 
     blynk(void) ;
-    void blynkTimers(void);
+    void blynk1(void);
     void SyncAll(void);
     bool init();
     bool wifi_init();
@@ -45,7 +45,7 @@ class blynk {
     bool Tuner_PLL(int x, int _address, uint _pll);
     void blynkAckLed(bool _data);
     void liveLedCall(bool _data);
-    void streamSelect(String  stream);
+    void streamSelect(bool stream);
     void resetSetupAndScan(bool _data);
     void resetT433Cmd(int cmd );
     void resetT315Cmd(int cmd );

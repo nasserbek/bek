@@ -50,11 +50,11 @@ void relaySetup(void)
 
      struct tm now = printLocalTime();
       
-     Serial.print("Hour: ");        Serial.println(now.tm_hour);
-     Serial.print("Minute: ");      Serial.println(now.tm_min);
-     Serial.print("Month: ");       Serial.println(now.tm_mon);
-     Serial.print("Day: ");         Serial.println(now.tm_mday);
-     Serial.print("Year: ");        Serial.println(now.tm_year);
+//     Serial.print("Hour: ");        Serial.println(now.tm_hour);
+//     Serial.print("Minute: ");      Serial.println(now.tm_min);
+//     Serial.print("Month: ");       Serial.println(now.tm_mon);
+//     Serial.print("Day: ");         Serial.println(now.tm_mday);
+//     Serial.print("Year: ");        Serial.println(now.tm_year);
      
       switch(card) {
         case 0:
@@ -222,16 +222,17 @@ extern IPAddress blynkLocalServer;;
 bool blynkInit(void)
 {
    StaticJsonDocument<54> doc; //Json to send from
+     
      blynkConnected = myBlynk.init();    
      String str = WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI());
      if (blynkConnected) 
               {
                 myBlynk.sendAvRxIndex(Av_Rx);
-                myBlynk.streamSelect(streamWebDdns);
-                dvrOnOff (1);
+                myBlynk.streamSelect("ch01");
+                dvrOnOff (POWER_ON);
                 int rssi = WiFi.RSSI();
                 myBlynk.wifiRSSI(WiFi.RSSI());
-                relaySetup();
+                
                 myBlynk.sendVersion(VERSION_ID +  " Server IP: " + blynkLocalServer.toString()  );
                 myBlynk.TerminalPrint(str );
              }

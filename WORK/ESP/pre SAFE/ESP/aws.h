@@ -4,7 +4,7 @@
 #define AWS_H
 
 extern blynk myBlynk;
-extern void dvrOnOff (bool powerOn);
+extern void dvrOnOff (bool cmd);
 void callback(char* topic, byte* payload, unsigned int length);
 StaticJsonDocument<54> rxDoc; //Json to receive in
 

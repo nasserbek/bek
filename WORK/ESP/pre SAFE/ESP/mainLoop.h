@@ -3,8 +3,6 @@
 #ifndef MAINLOOP_H
 #define MAINLOOP_H
 
-extern int inactivityPowerOffTimer  ; //1 Hour;
-extern int inactivityRestartTimer  ; //10 Hours;
 extern bool connectAWS(void);
 extern blynk myBlynk;
 extern void resetRemoteRCNoBlynk(int esp);
@@ -22,37 +20,28 @@ void SendLiveLed()
 
 
  /****************** DVR ************************   */
-  if(inactivityCtrl == BLYNK_TIMERS)
+  int state = digitalRead(AV_RX_DVR_PIN_2);
+  if(!blynkActive &&  state == 0 && !zapOnOff && !zapScanOnly)
     {
-    if(!blynkActive &&  !zapOnOff && !zapScanOnly)
-      {
-        LiveSec += LiveUpdateInterval/1000;
-        if (LiveSec >= 60) { LiveMin +=1;  LiveSec = 0;}
-        if (LiveMin >= 60) { LiveHour +=1; LiveMin =0; }
-  
-        if(LiveHour >= 1  &&  stateDVR == DVR_ON && !dvrSleep ) 
-          { 
-            myBlynk.TerminalPrint("Turning Off Video for non activity for 1 Hour.."); 
-            dvrOnOff (POWER_OFF);
-            dvrSleep = true;
-          }
-  
-        else if(LiveHour >= 12  &&  stateDVR == DVR_OFF && dvrSleep ) 
-          { 
-            myBlynk.TerminalPrint("Restarting for non activity for 12 Hour.."); 
-            ESP.restart();
-          }
-      }
-      
-      else if (blynkActive && dvrSleep && stateDVR == DVR_OFF )
-      {
-        myBlynk.TerminalPrint("Turning On Video after sleeping..."); 
-        dvrOnOff (POWER_ON);
-        dvrSleep = false; 
-        LiveSec =LiveMin =LiveHour = 0; 
-      }
-  }
-   /********************************************************************/
+      LiveSec += LiveUpdateInterval/1000;
+      if (LiveSec >= 60) { LiveMin +=1;  LiveSec = 0;}
+      if (LiveMin >= 60) { LiveHour +=1; LiveMin =0; }
+
+      if(LiveHour >= 1  && !dvrSleep ) 
+        { 
+          myBlynk.TerminalPrint("Turning Off Video for non activity for 1 Hour.."); 
+          dvrOnOff (false);
+          dvrSleep = true;
+        }
+    }
+    else if (dvrSleep && state ==1 && blynkActive)
+    {
+      myBlynk.TerminalPrint("Turning On Video after sleeping..."); 
+      dvrOnOff (true);
+      dvrSleep = false; 
+      LiveSec =LiveMin =LiveHour = 0; 
+    }
+    /********************************************************************/
   }
   
 void resetRouter(void)
@@ -87,15 +76,9 @@ void processBlynkQueu(void)
                   
             case Q_EVENT_VIDEO_CH_V2:
                 recevierCh=queuData;
-//                if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
-//                else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
-                
-                myBlynk.BlynkButtonColours( lastSelectedCh,CH_MODE_0);
+                if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
+                else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
                 receiverAvByCh ( recevierCh,1);
-                delay(100);
-                myBlynk.BlynkButtonColours( recevierCh,CH_MODE_4);
-                lastSelectedCh = recevierCh;
-
              break;
              
              case Q_EVENT_REPEAT_V3:
@@ -129,10 +112,25 @@ void processBlynkQueu(void)
             break;
 
            case Q_EVENT_SELECTED_RECIEVER_V9:
+           
+                   if(ActiveBoard == ESP1 )    //RX2 ALIAS 4  RX3 ALIAS 3
+                    {
+//                       if(queuData == 1) {queuData =2;myBlynk.RelaySelect(2);} //FORCE IF SELECTE IS 1
+//                       if(queuData == 4) {queuData =3;myBlynk.RelaySelect(3);} //FORCE IF SELECTE IS 4
+//                       if(queuData == 2) queuData =4;  //CH2_RX4   //CH3_RX3
+                    }
+                   
+                   if(ActiveBoard == ESP3 )  //RX4 ALIAS 1  RX3 ALIAS 2
+                   {
+//                      if(queuData == 1 || queuData == 2 ) {queuData =3; myBlynk.RelaySelect(3);} //FORCE IF SELECTE IS 1 OR 2
+//                 
+//                      if(queuData == 4) queuData =1;  //CH4_RX1
+//                      else if(queuData == 3) queuData =2;  //CH3_RX2
+                   } 
+                   
                   selected_Rx = queuData-1;
                   AvReceiverSel(queuData);
-                  videoplayerCh = "ch0" + String(queuData);
-                  myBlynk.streamSelect(videoplayerCh);
+                                 
            break;
  
             case Q_EVENT_ZAP_SCAN_ONLY_V10:
@@ -185,22 +183,20 @@ void processBlynkQueu(void)
             break;         
                  
             case Q_EVENT_SPARE_V27:
-//                      DvrChOn = true;
-//                      dvrOnOff (POWER_ON);
+                      DvrChOn = true;
+                      dvrOnOff (1);
             break;   
 
-            case Q_EVENT_DVR_OFF_TIMER_V30: 
-                        inactivityPowerOffTimer  = queuData ; //1 Hour;
+            case Q_EVENT_REL1_CH_V30: 
             break;   
 
-            case Q_EVENT_RESTART_TIMER_V31:   
-                        inactivityRestartTimer  = queuData ; //10 HourS;
+            case Q_EVENT_REL2_CH_V31:   
             break;  
 
-            case Q_EVENT_SPARE_V32: 
+            case Q_EVENT_REL3_CH_V32: 
             break;   
 
-            case Q_EVENT_SPARE_V33: 
+            case Q_EVENT_REL4_CH_V33: 
             break;  
 
             case Q_EVENT_ZAP_ALL_ON_OFF_V34:  
@@ -241,8 +237,7 @@ void processBlynkQueu(void)
             break;
 
             case Q_EVENT_ZAP_TIMER_V72:
-                  zapTimerSec = queuData;
-                  zapTimer  =  (zapTimerSec * 1000UL) ;
+                 zapTimer=queuData;
             break;
 
             case Q_EVENT_VIDEO_ON_OFF_V81 :
