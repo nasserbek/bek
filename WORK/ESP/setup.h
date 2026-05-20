@@ -4,6 +4,27 @@
 #define SETUP_H
 
 int card = 0;
+extern IPAddress blynkLocalServer;;
+bool blynkInit(void)
+{
+   StaticJsonDocument<54> doc; //Json to send from
+   String str = VERSION_ID  + "  ...  " + WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI());   
+     blynkConnected = myBlynk.init();    
+     if (blynkConnected) 
+              {
+                myBlynk.sendAvRxIndex(Av_Rx);
+                myBlynk.streamSelect("ch01");
+                dvrOnOff (POWER_ON);
+                int rssi = WiFi.RSSI();
+                myBlynk.wifiRSSI(WiFi.RSSI());
+                
+                myBlynk.sendVersion(VERSION_ID);
+                myBlynk.TerminalPrint(VERSION_ID );
+             }
+    
+    awsTerminal(awsConnected, str ) ;
+return  blynkConnected;
+}     
 
 tm printLocalTime() {
 
@@ -218,27 +239,7 @@ void relaySetup(void)
     VERSION_ID = BOARD + " " + buildTime;
 }
 
-extern IPAddress blynkLocalServer;;
-bool blynkInit(void)
-{
-   StaticJsonDocument<54> doc; //Json to send from
-   String str = VERSION_ID  + "  ...  " + WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI());   
-     blynkConnected = myBlynk.init();    
-     if (blynkConnected) 
-              {
-                myBlynk.sendAvRxIndex(Av_Rx);
-                myBlynk.streamSelect("ch01");
-                dvrOnOff (POWER_ON);
-                int rssi = WiFi.RSSI();
-                myBlynk.wifiRSSI(WiFi.RSSI());
-                
-                myBlynk.sendVersion(VERSION_ID );
-                myBlynk.TerminalPrint(str );
-             }
-    
-    awsTerminal(awsConnected, str ) ;
-return  blynkConnected;
-}     
+
 
 void timersMillis(void)
 {
