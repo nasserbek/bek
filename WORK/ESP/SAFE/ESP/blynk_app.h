@@ -70,6 +70,7 @@ class blynk {
     void sendBoardIndex(int _index);
     void releActiveCh(int rele, int ch);
     void Event24(void);
+    void sendNotify(String msg);
 
 };
 #endif
