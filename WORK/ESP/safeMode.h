@@ -244,6 +244,7 @@ void safeModeLoop()
 
 void inactivityVideoPowerOff()
 {
+  struct tm now = printLocalTime();
     char buildTime[20];
     int hour, minute;
     sscanf(__TIME__, "%d:%d", &hour, &minute);
@@ -259,6 +260,7 @@ void inactivityVideoPowerOff()
 
 void videoPowerOnAfterSleep()
 {
+  struct tm now = printLocalTime();
     char buildTime[20];
     int hour, minute;
     sscanf(__TIME__, "%d:%d", &hour, &minute);
