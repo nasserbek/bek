@@ -184,7 +184,7 @@ void relaySetup(void)
            break;
       }
 
-    char buildTime[20];
+     char buildTime[20];
      
     int day, year, hour, minute, second;
     char monthStr[4];
@@ -224,7 +224,6 @@ bool blynkInit(void)
    StaticJsonDocument<54> doc; //Json to send from
      
      blynkConnected = myBlynk.init();    
-     String str = WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI());
      if (blynkConnected) 
               {
                 myBlynk.sendAvRxIndex(Av_Rx);
@@ -234,9 +233,9 @@ bool blynkInit(void)
                 myBlynk.wifiRSSI(WiFi.RSSI());
                 
                 myBlynk.sendVersion(VERSION_ID +  " Server IP: " + blynkLocalServer.toString()  );
-                myBlynk.TerminalPrint(str );
+ //               myBlynk.TerminalPrint(str );
              }
-    
+    String str = WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI());
     awsTerminal(awsConnected, str ) ;
 return  blynkConnected;
 }     
