@@ -1252,9 +1252,10 @@ bool blynk::wifiStatus(void)
  return  _wifiIsConnected;
 }
 
-void blynk::RelaySelect(int rele)
+void blynk::RelaySelect(int receiver)
 {
- Blynk.virtualWrite(V9, rele);
+if(receiver >=1 && receiver <=4 ) Blynk.virtualWrite(V9, receiver);
+else if(receiver >=5 && receiver <=8 ) Blynk.virtualWrite(V32, (receiver-4));
 }
 
 void blynk::sendVersion(String ver)
