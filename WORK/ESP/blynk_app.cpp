@@ -419,7 +419,7 @@ BLYNK_WRITE(V9) // Room Nr
 
     _blynkEvent = true; 
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_SELECTED_RECIEVER_V9;
+    eventdata = Q_EVENT_SELECTED_RECIEVER_CH_1_4_V9;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 
 }
@@ -561,7 +561,7 @@ BLYNK_WRITE(V32)   //27
 {
     _blynkEvent = true; 
     _blynkData=param.asInt();
-    eventdata = Q_EVENT_SPARE_V32;
+    eventdata = Q_EVENT_SELECTED_RECIEVER_CH_5_6_V32;
     xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
