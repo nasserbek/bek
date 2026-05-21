@@ -12,6 +12,8 @@ extern void resetRemoteRCNoBlynk(int esp);
 extern bool  blynkActive;
 extern unsigned int LiveUpdateInterval ;
 bool dvrSleep  ;
+extern uint32_t crashCount;
+extern void saveCrashCount(void);
 
 void SendLiveLed()
   {
@@ -125,6 +127,9 @@ void processBlynkQueu(void)
  
             case Q_EVENT_REBOOT_V8:
                   rebootCmd=queuData;
+                  crashCount = 0;
+                  saveCrashCount();
+                  delay(1000);
                   rebootSw();
             break;
 
