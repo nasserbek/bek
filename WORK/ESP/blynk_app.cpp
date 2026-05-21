@@ -211,13 +211,13 @@ void checkBlynk() {
 bool blynk::wifi_init() 
 {
     _wifiIsConnected = false;
-
+       wifiMulti.addAP(WIFI_SSID_METEOR_BU, WIFI_PASSWORD_METEOR);
        wifiMulti.addAP(WIFI_SSID_BBOX, WIFI_PASSWORD_BBOX);
        wifiMulti.addAP(WIFI_SSID_SFR, WIFI_PASSWORD_SFR);
        wifiMulti.addAP(WIFI_SSID_FREE , WIFI_PASSWORD);
        wifiMulti.addAP(WIFI_SSID_ZFLIP , WIFI_PASSWORD);
        wifiMulti.addAP(WIFI_SSID_XIAOMI , WIFI_PASSWORD);
-       wifiMulti.addAP(WIFI_SSID_METEOR_BU, WIFI_PASSWORD_METEOR);
+       
      
     Serial.println("Connecting Wifi...");
     //Connecting to the strongest WiFi connection
@@ -246,16 +246,16 @@ bool blynk::init()
   timer.setInterval(5000L, blinkLedWidget);
   if(_wifiIsConnected)
     {
-//        if(WiFi.SSID() == WIFI_SSID_FREE) BLYNK_SERVER = BLYNK_SERVER_FREE_BOX;
-//        else if(WiFi.SSID() == WIFI_SSID_METEOR_FREE) BLYNK_SERVER = BLYNK_SERVER_FREE_METEOR;
-//        else if(WiFi.SSID() == WIFI_SSID_BBOX) 
-
-  #ifdef PLS
-   blynkLocalServer = BLYNK_SERVER_PLS ;
+  #ifdef METEOR_ETH
+   blynkLocalServer = BLYNK_SERVER_METEOR_ETH ;
   #endif
 
+  #ifdef METEOR_WIFI
+   blynkLocalServer = BLYNK_SERVER_METEOR_WIFI ;
+  #endif
+  
   #ifdef CH
-   blynkLocalServer = BLYNK_SERVER_OMV1;
+   blynkLocalServer = BLYNK_SERVER_BBOX;
   #endif
         
    //     blynkLocalServer = String(blynkLocalServer);
