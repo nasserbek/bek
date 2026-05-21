@@ -284,7 +284,8 @@ bool blynk::init()
      ledInit();     
      terminal.clear();
      terminal.println(WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) + " Server IP: " + blynkLocalServer.toString()+"\n");
-             }
+    terminal.flush();
+    }
   }
   return _blynkIsConnected;
 }
@@ -792,11 +793,13 @@ BLYNK_WRITE(V102)  //TERMINAL
   if (String("Marco") == param.asStr()) {
     terminal.println("You said: 'Marco'") ;
     terminal.println("I said: 'Polo'") ;
+    terminal.flush();
   } 
   
   else if (String("w") == param.asStr()) 
   {
     terminal.println( WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) + "\n");
+  terminal.flush();
   } 
 
   else if (String("c") == param.asStr()) 
@@ -809,6 +812,7 @@ BLYNK_WRITE(V102)  //TERMINAL
     terminal.print("You said:");
     terminal.write(param.getBuffer(), param.getLength());
     terminal.println();
+    
   }
 
   // Ensure everything is sent
@@ -1252,7 +1256,7 @@ void blynk::sendVersion(String ver)
 
 void blynk::sendNotify(String msg)
 {
-//Blynk.notify(msg);
+Blynk.notify(msg);
 }
 
 void blynk::SyncAll(void)
@@ -1277,6 +1281,7 @@ void blynk::TerminalPrint (String str)
     if ( blynkConnected )
       {
         terminal.println(str);
+        terminal.flush();
       }
     else Serial.println(str); 
 }
