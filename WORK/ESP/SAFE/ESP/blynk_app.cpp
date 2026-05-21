@@ -42,6 +42,8 @@ extern bool RC_Api;
 extern bool zapScanOnly;
 extern bool zapSetup;
 extern bool zapOnOff;
+extern bool dvrSleep ;
+extern int stateDVR;
 
 WiFiMulti wifiMulti;
 BlynkTimer timer;
@@ -151,17 +153,23 @@ void ledInit(void)
 // V121 LED Widget is blinking
 void blinkLedWidget()
 {
-  if(!queuValidData)
+  if(!blynkActive &&  !zapOnOff && !zapScanOnly && dvrSleep && stateDVR == DVR_OFF)  
   {
-  if (ledStatus) {
-    LIVE_LED_V121.setColor(BLYNK_RED);
-    Serial.println("LED on V121: red");
-    ledStatus = false;
-  } else {
-    LIVE_LED_V121.setColor(BLYNK_GREEN);
-    Serial.println("LED on V121: green");
-    ledStatus = true;
+      if (ledStatus) {
+        LIVE_LED_V121.setColor(BLYNK_RED);
+        Serial.println("LED on V121: red");
+        ledStatus = false;
+      } else {
+        LIVE_LED_V121.setColor(BLYNK_GREEN);
+        Serial.println("LED on V121: green");
+        ledStatus = true;
+      }
   }
+  else 
+  {
+        LIVE_LED_V121.setColor(BLYNK_YELLOW);
+        Serial.println("LED on V121: yellow");
+        ledStatus = false;    
   }
 }
 //void SendLiveLed()
