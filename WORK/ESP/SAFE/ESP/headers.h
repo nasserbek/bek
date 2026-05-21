@@ -62,7 +62,21 @@ CH_18,
 
 //#define NICE
 //#define CH
-#define PLS
+#define METEOR_ETH
+//#define METEOR_WIFI
+
+//#define REMOTE_SERVER
+#define LOCAL_SERVER 
+
+#ifdef LOCAL_SERVER
+    #define BLYNK_SERVER_BBOX           IPAddress(192,168,1,2)
+    #define BLYNK_SERVER_METEOR_WIFI       IPAddress(192,168,1,168)
+    #define BLYNK_SERVER_METEOR_ETH        IPAddress(192,168,1,194)
+#endif
+
+#ifdef REMOTE_SERVER
+    #define BLYNK_SERVER "blynk.cloud" //BLYNK2 REMOTE SERVER 
+#endif
 /////////////////////////////////////////////////////////////////////////
 
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "esp1/sub/rc"
@@ -90,17 +104,7 @@ CH_18,
 
 
 
-//#define REMOTE_SERVER
-#define LOCAL_SERVER 
 
-#ifdef LOCAL_SERVER
-    #define BLYNK_SERVER_OMV1      IPAddress(192,168,1,4)
-    #define BLYNK_SERVER_PLS       IPAddress(192,168,1,2)
-#endif
-
-#ifdef REMOTE_SERVER
-    #define BLYNK_SERVER "blynk.cloud" //BLYNK2 REMOTE SERVER 
-#endif
 
 //#define TEST
 #define ROUTER_CH 18  //PHYSICAL CH ON REMOTE CONTROL IS 1
@@ -135,7 +139,7 @@ CH_18,
 #define WIFI_SSID_ZFLIP           "ZFlip4_BEK"
 #define WIFI_SSID_XIAOMI          "XIAOMI_BEK"
 #define WIFI_SSID_GIGA            "GIGACUBE_BEK"
-#define WIFI_SSID_METEOR_BU       "BEK_BU"
+#define WIFI_SSID_METEOR_BU       "BEK_METEOR_2.4G"
 #define WIFI_SSID_METEOR_BUF      "BEK_BUF"
 #define WIFI_SSID_METEOR_BOX      "BEK_BOX"
 #define WIFI_SSID_BBOX            "Bbox-Bek-2.4GHz"                                                
