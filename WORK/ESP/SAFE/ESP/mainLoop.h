@@ -115,12 +115,16 @@ void processBlynkQueu(void)
 
             case Q_EVENT_OTA_LOCAL_WEB_WIFI_V6:
                      wifiWebUpdater = false;
+                     crashCount = 0;
+                     saveCrashCount();
                      OtaTimeoutTimer = millis();
                      localWebWifiOta ();
             break;
 
             case Q_EVENT_OTA_GITHUB_V7:
                    otaWifiGithub= false;         
+                   crashCount = 0;
+                   saveCrashCount();
                    OtaTimeoutTimer = millis();
                    OtaGithub();
             break;
@@ -133,7 +137,7 @@ void processBlynkQueu(void)
                   rebootSw();
             break;
 
-           case Q_EVENT_SELECTED_RECIEVER_V9:
+           case Q_EVENT_SELECTED_RECIEVER_CH_1_4_V9:
                   selected_Rx = queuData-1;
                   AvReceiverSel(queuData);
                   videoplayerCh = "ch0" + String(queuData);
@@ -145,7 +149,9 @@ void processBlynkQueu(void)
             break;
 
             case Q_EVENT_WIFI_IDE_V11:
-                 wifiIde = false;         
+                 wifiIde = false;  
+                 crashCount = 0;
+                 saveCrashCount();       
                  OtaTimeoutTimer = millis();
                  ArduinoIdeWifi();
             break;            
@@ -202,7 +208,11 @@ void processBlynkQueu(void)
                         inactivityRestartTimer  = queuData ; //10 HourS;
             break;  
 
-            case Q_EVENT_SPARE_V32: 
+            case Q_EVENT_SELECTED_RECIEVER_CH_5_6_V32: 
+                      selected_Rx = queuData-1;
+                      AvReceiverSel(queuData);
+                      videoplayerCh = "ch0" + String(queuData);
+                      myBlynk.streamSelect(videoplayerCh);
             break;   
 
             case Q_EVENT_SPARE_V33: 
