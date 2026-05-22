@@ -98,7 +98,8 @@ void internetCheck(void)
           {
             DEBUG_PRINTLN("Resetaring 7 min after Internet or Blynk Loss");
             netGeerReset = false;
-            ESP.restart(); 
+            activateLocalWifiWeb();
+  //          ESP.restart(); 
           }
 }     
 

@@ -169,17 +169,20 @@ void normalModeSetup()
 }
 
 // --------------------------------------------------
-
+void activateLocalWifiWeb()
+{
+       wifiWebUpdater = false;
+       crashCount = 0;
+       saveCrashCount();
+       OtaTimeoutTimer = millis();
+       localWebWifiOta ();  
+}
 void safeModeSetup()
 {
     Serial.println("SAFE MODE");
 
     // Minimal startup only
-       wifiWebUpdater = false;
-       crashCount = 0;
-       saveCrashCount();
-       OtaTimeoutTimer = millis();
-       localWebWifiOta ();
+       activateLocalWifiWeb();
                      
 //    wifiAvailable = myBlynk.wifi_init();
 //    delay(1000);
