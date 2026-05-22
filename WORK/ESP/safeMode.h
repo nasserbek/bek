@@ -175,13 +175,18 @@ void safeModeSetup()
     Serial.println("SAFE MODE");
 
     // Minimal startup only
-
-    wifiAvailable = myBlynk.wifi_init();
-    delay(1000);
-    otaWifiGithub= false;         
-    OtaTimeoutTimer = millis();
-    gitHubURL  = "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/SAFE/ESP/ESP.ino.esp32.bin" ;
-    OtaGithub();
+       wifiWebUpdater = false;
+       crashCount = 0;
+       saveCrashCount();
+       OtaTimeoutTimer = millis();
+       localWebWifiOta ();
+                     
+//    wifiAvailable = myBlynk.wifi_init();
+//    delay(1000);
+//    otaWifiGithub= false;         
+//    OtaTimeoutTimer = millis();
+//    gitHubURL  = "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/SAFE/ESP/ESP.ino.esp32.bin" ;
+//    OtaGithub();
                    
     // No Blynk
     // No AWS
