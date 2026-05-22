@@ -8,6 +8,7 @@
 #include "ESP32TimerInterrupt.h"
 ESP32Timer ITimer0(0);
 extern void resetRouter(void);
+extern void activateLocalWifiWeb();
 
 /***********************************************************************************/
 
