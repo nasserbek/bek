@@ -53,9 +53,9 @@ void relaySetup(void)
       pinMode(AV_RX_DVR_PIN_2, OUTPUT);
       delay(50); // let signals stabilize
       digitalWrite(AV_RX_DVR_PIN_2, LOW);  // AV RECEIVER OFF POWER UP NC CONTACT
-
-      pinMode(I2C_1_2_RELAY , OUTPUT);
-      pinMode(I2C_3_4_RELAY , OUTPUT);
+//
+//      pinMode(I2C_1_2_RELAY , OUTPUT);
+//      pinMode(I2C_3_4_RELAY , OUTPUT);
 
       pinMode(DIP1, INPUT_PULLUP);
       pinMode(DIP2, INPUT_PULLUP);

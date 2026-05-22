@@ -170,8 +170,8 @@ CH_18,
 //RELAYS
 #define AV_RX_DVR_PIN_2     2
 
-#define I2C_1_2_RELAY       4
-#define I2C_3_4_RELAY       0
+//#define I2C_1_2_RELAY       4
+//#define I2C_3_4_RELAY       0
 
 //BOARD SEL
 #define DIP1         16
