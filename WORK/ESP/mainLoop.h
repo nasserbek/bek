@@ -440,15 +440,22 @@ void processBlynkQueu(void)
     selected_room = recevierCh;
 }
 
-
+void resetInternetLoss()
+{
+      InternetLoss = false;   
+      netGeerReset = false; 
+      routerResetStart  = false;
+      resetNetgeerAfterInternetLossTimer = millis();
+      restartAfterResetNG = millis();
+      routerResetTimer        = millis();
+}
       
 void blynkLoop(void)
 {
  StaticJsonDocument<54> doc; //Json to send from
  
        blynkConnected=myBlynk.blynkStatus(); 
-
-
+       
        if ( blynkConnected )
           {
            if(!liveLedUpdate) 
@@ -467,15 +474,17 @@ void blynkLoop(void)
                      processBlynkQueu(); 
                     }
                   }
-            InternetLoss = false;   resetNetgeerAfterInternetLossTimer = millis();
-            netGeerReset = false;   restartAfterResetNG = millis();
-                 }
+            resetInternetLoss();
+          }
 
        else if( !InternetLoss && !blynkConnected)  
           {
             DEBUG_PRINTLN("Blynk Disconnected , Internet Loss!!!");
             InternetLoss = true; 
+            netGeerReset = false; 
+            routerResetStart  = false;
             resetNetgeerAfterInternetLossTimer = millis();
+            
             blynkEvent=false; 
             myBlynk.sendToBlynk = false;
             myBlynk.sendToBlynkLeds = false;

@@ -80,29 +80,24 @@ void ResetNetgeer(void)
 
 void internetCheck(void)
 {
-         if ( ( (millis() - resetNetgeerAfterInternetLossTimer) >= INTERNET_LOSS_TO_RESET_NG_TIMER) && InternetLoss && !blynkConnected && !netGeerReset)
+         if ( ( (millis() - resetNetgeerAfterInternetLossTimer) >= INTERNET_LOSS_TO_RESET_NG_TIMER) && InternetLoss && !blynkConnected && !routerResetStart)
         {
               DEBUG_PRINTLN("Blynk Disconnected for 2 min, Reset Netgeer");
-              if(!routerResetStart)
-                {
-                  routerResetTimer        = millis();
-                  routerResetStart = true;
-                  DEBUG_PRINTLN("Netgeer Reset done: ");
-                }
+              routerResetTimer        = millis();
+              routerResetStart = true;
+              DEBUG_PRINTLN("Netgeer Reset done: ");
         }
-       if ( (  (millis() - routerResetTimer) >= ROUTER_RESET_TIMER) && routerResetStart)
+       if ( (  (millis() - routerResetTimer) >= ROUTER_RESET_TIMER) && InternetLoss && !blynkConnected && routerResetStart)
                 {
                 routerResetStart=false;
-                routerResetTimer        = millis();
                 restartAfterResetNG     = millis();
                 netGeerReset = true;
-                blynkInitDone = false;
-                pingGoogle =false;
                }
 
-       if (  ( (millis() - restartAfterResetNG) >=  RESTART_AFTER_NG_RESET_TIMER) && netGeerReset )
+       if (  ( (millis() - restartAfterResetNG) >=  RESTART_AFTER_NG_RESET_TIMER) && InternetLoss && !blynkConnected && netGeerReset )
           {
             DEBUG_PRINTLN("Resetaring 5 min after Netgeer Rreset");
+            netGeerReset = false;
             ESP.restart(); 
           }
 }     
