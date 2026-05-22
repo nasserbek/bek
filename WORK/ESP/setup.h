@@ -2,6 +2,8 @@
 
 #ifndef SETUP_H
 #define SETUP_H
+extern void loadCrashCount();
+extern uint32_t crashCount;
 
 int card = 0;
 extern IPAddress blynkLocalServer;;
@@ -19,8 +21,9 @@ bool blynkInit(void)
                 myBlynk.wifiRSSI(WiFi.RSSI());
                 
                 myBlynk.sendVersion(VERSION_ID);
-                myBlynk.TerminalPrint(VERSION_ID );
-                myBlynk.sendNotify(VERSION_ID );
+                loadCrashCount();
+                myBlynk.TerminalPrint(VERSION_ID + " " + String(crashCount) + " Craches" );
+      //          myBlynk.sendNotify(VERSION_ID );
              }
     
     awsTerminal(awsConnected, str ) ;

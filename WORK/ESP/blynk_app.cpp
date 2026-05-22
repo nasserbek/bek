@@ -190,12 +190,6 @@ void blinkLedWidget()
     ledStatus = false;
   }
 }
-//void SendLiveLed()
-//  {
-//    if (liveLed)  liveLed = false;
-//    else liveLed = true;
-//    liveLedUpdate =false;
-//  }
 
 void checkBlynk() {
   if (wifiMulti.run(WiFi_TIMEOUT) == WL_CONNECTED)
@@ -229,14 +223,25 @@ void checkBlynk() {
 bool blynk::wifi_init()
 {
   _wifiIsConnected = false;
-  wifiMulti.addAP(WIFI_SSID_METEOR_BU, WIFI_PASSWORD_METEOR);
-  wifiMulti.addAP(WIFI_SSID_BBOX, WIFI_PASSWORD_BBOX);
-  wifiMulti.addAP(WIFI_SSID_SFR, WIFI_PASSWORD_SFR);
-  wifiMulti.addAP(WIFI_SSID_FREE , WIFI_PASSWORD);
-  wifiMulti.addAP(WIFI_SSID_ZFLIP , WIFI_PASSWORD);
-  wifiMulti.addAP(WIFI_SSID_XIAOMI , WIFI_PASSWORD);
 
+#ifdef METEOR_ETH
+    wifiMulti.addAP(WIFI_SSID_METEOR, WIFI_PASSWORD_METEOR);
+#endif
 
+#ifdef METEOR_WIFI
+    wifiMulti.addAP(WIFI_SSID_METEOR, WIFI_PASSWORD_METEOR);
+#endif  
+  
+#ifdef CH
+    wifiMulti.addAP(WIFI_SSID_BBOX, WIFI_PASSWORD_BBOX);
+#endif
+
+#ifdef NICE
+   wifiMulti.addAP(WIFI_SSID_SFR, WIFI_PASSWORD_SFR);
+#endif  
+
+  wifiMulti.addAP(WIFI_SSID_ZFLIP, WIFI_PASSWORD_ZFLIP);
+  
   Serial.println("Connecting Wifi...");
   //Connecting to the strongest WiFi connection
   if (wifiMulti.run(WiFi_TIMEOUT) == WL_CONNECTED)

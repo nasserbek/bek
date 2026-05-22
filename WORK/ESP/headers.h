@@ -1,3 +1,39 @@
+//#define NICE
+//#define CH
+#define METEOR_ETH
+//#define METEOR_WIFI
+
+//#define REMOTE_SERVER
+#define LOCAL_SERVER 
+
+#ifdef LOCAL_SERVER
+    #define BLYNK_SERVER_BBOX              IPAddress(192,168,1,2)
+    #define BLYNK_SERVER_METEOR_WIFI       IPAddress(192,168,1,168)
+    #define BLYNK_SERVER_METEOR_ETH        IPAddress(192,168,1,194)
+#endif
+
+#ifdef REMOTE_SERVER
+    #define BLYNK_SERVER "blynk.cloud" //BLYNK2 REMOTE SERVER 
+#endif
+
+#define WIFI_SSID_SFR             "SFR_BEK-23C0"
+#define WIFI_SSID_ZFLIP           "ZFlip4_BEK"
+#define WIFI_SSID_METEOR          "BEK_METEOR_2.4G"
+#define WIFI_SSID_BBOX            "Bbox-Bek-2.4GHz"                                                
+                                              
+ 
+#define WIFI_PASSWORD_SFR        "ali09042010"
+#define WIFI_PASSWORD_ZFLIP      "ali09042010"
+#define WIFI_PASSWORD_METEOR     "Ali09042010_"
+#define WIFI_PASSWORD_BBOX       "Ali09042010_"
+
+
+
+#define INTERNET_LOSS_TO_RESET_NG_TIMER (2 * 60UL * 1000UL)   // 2 MIN
+#define ROUTER_RESET_TIMER              (1 * 60UL * 1000UL)   //1 MIN
+#define RESTART_AFTER_NG_RESET_TIMER    (5 * 60UL * 1000UL)   //5 MIN
+
+
 #define INACTIVITY_TIMEOUT_MS_RESTART  (10UL * 60UL * 60UL * 1000UL)  //10 Hours
 #define INACTIVITY_TIMEOUT_MS_POWER_OFF  (1UL * 60UL * 60UL * 1000UL)  //10 Hours
 #define uS_TO_S_FACTOR 1000000ULL
@@ -60,23 +96,7 @@ CH_17,
 CH_18,
 } ;
 
-//#define NICE
-//#define CH
-#define METEOR_ETH
-//#define METEOR_WIFI
 
-//#define REMOTE_SERVER
-#define LOCAL_SERVER 
-
-#ifdef LOCAL_SERVER
-    #define BLYNK_SERVER_BBOX           IPAddress(192,168,1,2)
-    #define BLYNK_SERVER_METEOR_WIFI       IPAddress(192,168,1,168)
-    #define BLYNK_SERVER_METEOR_ETH        IPAddress(192,168,1,194)
-#endif
-
-#ifdef REMOTE_SERVER
-    #define BLYNK_SERVER "blynk.cloud" //BLYNK2 REMOTE SERVER 
-#endif
 /////////////////////////////////////////////////////////////////////////
 
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "esp1/sub/rc"
@@ -126,32 +146,16 @@ CH_18,
 
 
 
-#define INTERNET_LOSS_TO_RESET_NG_TIMER 120000   // 2 MIN
-#define RESTART_AFTER_NG_RESET_TIMER 60000   // 1 MIN
+
+
 #define ROUTER_24_HOURS 86400000  // 24 HOURS
 #define WiFi_TIMEOUT 30000  // 15sec Wifi connection timeout
                    
 
 
-#define WIFI_SSID_SFR             "SFR_BEK-23C0"
-#define WIFI_SSID_METEOR_FREE     "Meteor-free"
-#define WIFI_SSID_FREE            "Freebox-bek"
-#define WIFI_SSID_ZFLIP           "ZFlip4_BEK"
-#define WIFI_SSID_XIAOMI          "XIAOMI_BEK"
-#define WIFI_SSID_GIGA            "GIGACUBE_BEK"
-#define WIFI_SSID_METEOR_BU       "BEK_METEOR_2.4G"
-#define WIFI_SSID_METEOR_BUF      "BEK_BUF"
-#define WIFI_SSID_METEOR_BOX      "BEK_BOX"
-#define WIFI_SSID_BBOX            "Bbox-Bek-2.4GHz"                                                
-                                              
- 
-#define WIFI_PASSWORD_SFR        "ali09042010"
-#define WIFI_PASSWORD             "ali09042010"
-#define WIFI_PASSWORD_METEOR      "Ali09042010_"
-#define WIFI_PASSWORD_BBOX       "Ali09042010_"
 
-#define WIFI_SSID_TEMP            "TP-Link_97D8" 
-#define WIFI_PASSWORD_TEMP        "67942015"
+
+
 //av1
 #define I2C_SDA             21  //green
 #define I2C_SCL             22  //yellow
@@ -345,7 +349,7 @@ Q_EVENT_RM_ID_19_V92,  //68
 
 
 #define ROUTER_24_HOURS 86400000  // 24 HOURS
-#define ROUTER_RESET_TIMER  2000  // 2 SEC
+
 #define MUX_ROOM_ZAP        30000  // 2 SEC
 
 

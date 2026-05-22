@@ -249,8 +249,8 @@ int zapTimerSec = 10;
 uint32_t zapTimer  =  (1UL * 1000UL) ;
 int zapTimerOff = 5000;
 
-int routerTimer = 5000;
-long  routerResetTimer, resetNetgeerAfterInternetLossTimer,zaptime, zaptimeOff,scantime, AckTime, internetSurvilanceTimer, liveTimerOn,liveTimerOff,OtaTimeoutTimer,restartAfterResetNG,NetgeerResetGooglLostTimer,Router_24_hoursTimer,blynkNotActiveTimer;
+//int routerTimer = 5000;
+uint32_t  routerResetTimer, resetNetgeerAfterInternetLossTimer,zaptime, zaptimeOff,scantime, AckTime, internetSurvilanceTimer, liveTimerOn,liveTimerOff,OtaTimeoutTimer,restartAfterResetNG,NetgeerResetGooglLostTimer,Router_24_hoursTimer,blynkNotActiveTimer;
 bool pingGoogle= false;
 bool googlePingOk= true;
 bool netGeerReset = false;

@@ -59,9 +59,9 @@ void SendLiveLed()
   
 void resetRouter(void)
 {
- remoteControl(ROUTER_CH);
- delay(3000);
- remoteControl(ROUTER_CH);
+// remoteControl(ROUTER_CH);
+// delay(3000);
+// remoteControl(ROUTER_CH);
 }
 
 
