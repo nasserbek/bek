@@ -9,6 +9,7 @@
 ESP32Timer ITimer0(0);
 extern void resetRouter(void);
 extern void activateLocalWifiWeb();
+extern void resetInternetLoss();
 
 /***********************************************************************************/
 
@@ -99,6 +100,7 @@ void internetCheck(void)
           {
             DEBUG_PRINTLN("Resetaring 7 min after Internet or Blynk Loss");
             netGeerReset = false;
+            resetInternetLoss();
             activateLocalWifiWeb();
   //          ESP.restart(); 
           }
