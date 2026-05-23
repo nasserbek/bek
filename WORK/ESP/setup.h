@@ -50,9 +50,9 @@ tm printLocalTime() {
  
 void relaySetup(void)
 {
-      pinMode(AV_RX_DVR_PIN_2, OUTPUT);
+      pinMode(AV_RX_DVR_PIN, OUTPUT);
       delay(50); // let signals stabilize
-      digitalWrite(AV_RX_DVR_PIN_2, LOW);  // AV RECEIVER OFF POWER UP NC CONTACT
+      digitalWrite(AV_RX_DVR_PIN, LOW);  // AV RECEIVER OFF POWER UP NC CONTACT
 //
 //      pinMode(I2C_1_2_RELAY , OUTPUT);
 //      pinMode(I2C_3_4_RELAY , OUTPUT);
@@ -264,14 +264,10 @@ void i2cSetup(void)
    bool ta9548a = false;
      Wire.begin();
      delay(500);
-     Wire1.begin(SDA_2, SCL_2);
-
- if(ActiveBoard == ESP1 )
- {      
+//     Wire1.begin(SDA_2, SCL_2);
      ta9548a = !TCA9548A(0);
      DEBUG_PRINTLN ( ta9548a ? F("TCA9548A Connected") : F("TCA9548A Not Connected"));
      myBlynk.TerminalPrint ( ta9548a ? F("TCA9548A Connected") : F("TCA9548A Not Connected"));
- }    
 }
 
 void resetBoardID(void)

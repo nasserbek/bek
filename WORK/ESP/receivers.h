@@ -230,7 +230,7 @@ void  dvrOnOff (bool powerOn)
    
    if (powerOn) 
    {
-    digitalWrite(AV_RX_DVR_PIN_2, LOW); 
+    digitalWrite(AV_RX_DVR_PIN, LOW); 
     if(PowerOnTune)PowerOnTuning();    
     DvrChOn = true;
     stateDVR = DVR_ON;
@@ -238,7 +238,7 @@ void  dvrOnOff (bool powerOn)
    }
    else 
    {
-      digitalWrite(AV_RX_DVR_PIN_2, HIGH); 
+      digitalWrite(AV_RX_DVR_PIN, HIGH); 
       DvrChOn = false;
       stateDVR = DVR_OFF;
    }

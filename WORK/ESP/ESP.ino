@@ -18,7 +18,7 @@ void setup()
 
 void loop(void) 
 {
-       stateDVR = digitalRead(AV_RX_DVR_PIN_2);
+       stateDVR = digitalRead(AV_RX_DVR_PIN);
        
        resetWdg();
        internetCheck();
