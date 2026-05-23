@@ -74,6 +74,7 @@ void relaySetup(void)
      pinMode(BOARD_SEL_1 , INPUT);
      digitalWrite(AV_RX_DVR_PIN_2, LOW);  // AV RECEIVER OFF POWER UP NC CONTACT
      ActiveBoard = ((digitalRead(BOARD_SEL_1) << 1) |     digitalRead(BOARD_SEL_0) ) +1;
+     ActiveBoard = 1;
      BoardDefines(); 
 }
   

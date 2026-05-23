@@ -65,9 +65,9 @@ TEST4=4,
 #define LOCAL_SERVER 
 
 #ifdef LOCAL_SERVER
-    #define BLYNK_SERVER_OMV1        IPAddress(192,168,1,4)
-    #define BLYNK_SERVER_PROX        IPAddress(192,168,1,153)   
-    #define BLYNK_SERVER_NICE        IPAddress(192,168,1,200)
+    #define BLYNK_SERVER_OMV1        IPAddress(192,168,1,194)
+    #define BLYNK_SERVER_PROX        IPAddress(192,168,1,194)   
+    #define BLYNK_SERVER_NICE        IPAddress(192,168,1,194)
 #endif
 
 #ifdef REMOTE_SERVER
@@ -110,7 +110,7 @@ TEST4=4,
 #define WIFI_SSID_ZFLIP           "ZFlip4_BEK"
 #define WIFI_SSID_XIAOMI          "XIAOMI_BEK"
 #define WIFI_SSID_GIGA            "GIGACUBE_BEK"
-#define WIFI_SSID_METEOR_BU       "BEK_BU"
+#define WIFI_SSID_METEOR_BU       "BEK_METEOR_2.4G"
 #define WIFI_SSID_METEOR_BUF      "BEK_BUF"
 #define WIFI_SSID_METEOR_BOX      "BEK_BOX"
 #define WIFI_SSID_BBOX            "Bbox-Bek-2.4GHz"                                                

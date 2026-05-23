@@ -194,11 +194,11 @@ bool blynk::wifi_init()
 {
     _wifiIsConnected = false;
 
-       wifiMulti.addAP(WIFI_SSID_BBOX, WIFI_PASSWORD_BBOX);
-       wifiMulti.addAP(WIFI_SSID_SFR, WIFI_PASSWORD_SFR);
-       wifiMulti.addAP(WIFI_SSID_FREE , WIFI_PASSWORD);
-       wifiMulti.addAP(WIFI_SSID_ZFLIP , WIFI_PASSWORD);
-       wifiMulti.addAP(WIFI_SSID_XIAOMI , WIFI_PASSWORD);
+//       wifiMulti.addAP(WIFI_SSID_BBOX, WIFI_PASSWORD_BBOX);
+//       wifiMulti.addAP(WIFI_SSID_SFR, WIFI_PASSWORD_SFR);
+//       wifiMulti.addAP(WIFI_SSID_FREE , WIFI_PASSWORD);
+//       wifiMulti.addAP(WIFI_SSID_ZFLIP , WIFI_PASSWORD);
+//       wifiMulti.addAP(WIFI_SSID_XIAOMI , WIFI_PASSWORD);
        wifiMulti.addAP(WIFI_SSID_METEOR_BU, WIFI_PASSWORD_METEOR);
      
     Serial.println("Connecting Wifi...");
