@@ -28,6 +28,28 @@
 #define WIFI_PASSWORD_BBOX       "Ali09042010_"
 
 
+//av1
+#define I2C_SDA             21  //green
+#define I2C_SCL             22  //yellow
+
+#define SDA_2              33  //green
+#define SCL_2              32  //yellow
+
+//RC
+#define RC_TX_PIN           15
+
+//RELAYS
+#define AV_RX_DVR_PIN     0
+
+//BOARD SEL
+#define DIP1         16
+#define DIP2         5
+
+//board led
+#define BLUE_LED        2
+
+
+#define RC_CODE_LENGTH      24
 
 #define INTERNET_LOSS_TO_RESET_NG_TIMER (2 * 60UL * 1000UL)   // 2 MIN
 #define ROUTER_RESET_TIMER              (1 * 60UL * 1000UL)   //1 MIN
@@ -157,26 +179,7 @@ CH_18,
 
 
 
-//av1
-#define I2C_SDA             21  //green
-#define I2C_SCL             22  //yellow
 
-#define SDA_2              33  //green
-#define SCL_2              32  //yellow
-
-//RC
-#define RC_TX_PIN           15
-#define RC_CODE_LENGTH      24
-
-//RELAYS
-#define AV_RX_DVR_PIN_2     2
-
-//#define I2C_1_2_RELAY       4
-//#define I2C_3_4_RELAY       0
-
-//BOARD SEL
-#define DIP1         16
-#define DIP2         5
 
 
 

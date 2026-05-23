@@ -177,10 +177,12 @@ void blinkLedWidget()
       LIVE_LED_V121.setColor(BLYNK_RED);
       Serial.println("LED on V121: red");
       ledStatus = false;
+      digitalWrite(BLUE_LED, LOW);
     } else {
       LIVE_LED_V121.setColor(BLYNK_GREEN);
       Serial.println("LED on V121: green");
       ledStatus = true;
+      digitalWrite(BLUE_LED, HIGH);
     }
   }
   else
@@ -351,10 +353,10 @@ void blynk::mapRefresh(int index)
 void blynk::streamSelect(String ch)
 {
   String SelectedCh = "rtsp://admin:basma28112018@192.168.1.96:554/" + ch + "/0" ;
+      if        (ActiveBoard == ESP1 ) SelectedCh = "rtsp://admin:basma28112018@192.168.1.96:554/" + ch + "/0" ;
+      else  if  (ActiveBoard == ESP2 ) SelectedCh = "rtsp://admin:basma28112018@192.168.1.94:554/" + ch + "/0" ;
+      else if   (ActiveBoard == ESP3 ) SelectedCh = "rtsp://admin:basma28112018@192.168.1.108:554/" + ch + "/0" ;
   Blynk.setProperty(V28, "url", SelectedCh);
-  //   if(ActiveBoard == ESP1 ) Blynk.setProperty(V28, "url","rtsp://admin:basma28112018@192.168.1.96:554/ch01/0");
-  //   if(ActiveBoard == ESP2 ) Blynk.setProperty(V28, "url","rtsp://admin:basma28112018@192.168.1.94:554/ch02/0");
-  //   if(ActiveBoard == ESP3 )Blynk.setProperty(V28, "url","rtsp://admin:basma28112018@192.168.1.95:554/ch03/0");
 }
 
 

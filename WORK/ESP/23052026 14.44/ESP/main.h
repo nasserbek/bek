@@ -29,6 +29,13 @@
 #include "time.h"
 #include <Preferences.h>
 
+// Static IP configuration
+IPAddress local_IP(192, 168, 1, 153);   // ESP1
+IPAddress gateway(192, 168, 1, 1);      // Router IP
+IPAddress subnet(255, 255, 255, 0);
+IPAddress primaryDNS(8, 8, 8, 8);       // Optional
+IPAddress secondaryDNS(8, 8, 4, 4);     // Optional
+
 uint32_t lastActivityTime = 0;
 
 bool inactivityCtrl = MILLS;
@@ -52,7 +59,7 @@ const char* ntpServer = "pool.ntp.org";
     const char* gitHubURL        =  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP.ino.esp32.bin"  ;// URL to download the firmware from
     int stateDVR = DVR_ON;
     String videoplayerCh = "ch01";
-    const int defaultRxCh[19]   ={0, CH_1,   CH_2,   CH_3,   CH_4,   CH_5,   CH_6,   CH_7,   CH_8,   CH_9,   CH_10,  CH_11,  CH_12,  CH_13, CH_14, CH_15, CH_16,   CH_17,  CH_18}; 
+    const int defaultRxCh[19]   ={0, CH_1,   CH_1,   CH_1,   CH_1,   CH_1,   CH_1,   CH_1,   CH_1,   CH_9,   CH_10,  CH_11,  CH_12,  CH_13, CH_14, CH_15, CH_16,   CH_17,  CH_18}; 
  //                              
 QueueHandle_t g_event_queue_handle = NULL;
 EventGroupHandle_t g_event_group = NULL;
