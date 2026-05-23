@@ -1,0 +1,22 @@
+08:51:39.485 INFO - Using data dir 'server_data'
+08:51:40.936 INFO - Region : local. Host : 169.254.83.107.
+08:51:41.970 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+08:51:42.272 INFO - Reports : 0
+08:51:42.273 INFO - Didn't find custom user certificates.
+08:51:42.278 INFO - Didn't find Let's Encrypt certificates.
+08:51:42.278 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+08:51:42.278 WARN - ATTENTION. Server certificate paths (cert : 'G:\My Drive\WORK\blynk_server', key : 'G:\My Drive\WORK\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+08:51:45.194 INFO - HTTP API and WebSockets server listening at 8080 port.
+08:51:45.200 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+08:51:45.203 INFO - Mqtt hardware server listening at 8440 port.
+09:40:51.258 INFO - Using data dir 'server_data'
+09:40:52.688 INFO - Region : local. Host : 100.99.156.1.
+09:40:56.083 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+09:40:58.461 INFO - Reports : 0
+09:40:58.462 INFO - Didn't find custom user certificates.
+09:40:58.470 INFO - Didn't find Let's Encrypt certificates.
+09:40:58.470 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+09:40:58.470 WARN - ATTENTION. Server certificate paths (cert : 'G:\My Drive\WORK\blynk_server', key : 'G:\My Drive\WORK\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+09:41:01.207 INFO - HTTP API and WebSockets server listening at 8080 port.
+09:41:01.213 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+09:41:01.214 INFO - Mqtt hardware server listening at 8440 port.

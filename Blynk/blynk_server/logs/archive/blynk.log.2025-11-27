@@ -1,0 +1,18 @@
+07:17:45.909 INFO - Using data dir 'server_data'
+07:17:47.420 INFO - Region : local. Host : 192.168.1.196.
+07:17:48.305 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+07:17:48.415 INFO - Reports : 0
+07:17:48.415 INFO - Didn't find custom user certificates.
+07:17:48.422 INFO - Didn't find Let's Encrypt certificates.
+07:17:48.422 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+07:17:48.422 WARN - ATTENTION. Server certificate paths (cert : 'G:\My Drive\WORK\blynk_server', key : 'G:\My Drive\WORK\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+07:17:49.476 INFO - HTTP API and WebSockets server listening at 8080 port.
+07:17:49.477 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+07:17:49.477 INFO - Mqtt hardware server listening at 8440 port.
+07:17:50.938 INFO - nasserbek@yahoo.it hardware joined.
+07:18:01.324 INFO - nasserbek@yahoo.it hardware joined.
+07:18:14.256 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+07:56:59.153 INFO - nasserbek@yahoo.it hardware joined.
+20:32:19.441 INFO - nasserbek@yahoo.it hardware joined.
+20:33:03.204 INFO - nasserbek@yahoo.it hardware joined.
+20:38:38.005 INFO - nasserbek@yahoo.it hardware joined.
