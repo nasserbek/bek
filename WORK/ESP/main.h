@@ -40,7 +40,7 @@ uint32_t lastActivityTime = 0;
 
 bool inactivityCtrl = MILLS;
 unsigned long blueLedPreviousMillis = 0;
-const unsigned long blueLedInterval = 5000; // 5 seconds
+unsigned long blueLedInterval = 5000; // 5 seconds
 
 bool blueLedState = false;
 

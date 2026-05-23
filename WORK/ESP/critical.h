@@ -11,7 +11,7 @@ extern void resetRouter(void);
 extern void activateLocalWifiWeb();
 extern void resetInternetLoss();
 extern void activateWifiIde();
-extern void blueLedFlash();
+extern void blueLedFlash(unsigned long interval);
 
 /***********************************************************************************/
 
@@ -108,7 +108,7 @@ void internetCheck(void)
             else ESP.restart(); 
           }
 
-       else if ( InternetLoss && !blynkConnected ) blueLedFlash() ; 
+       else if ( InternetLoss && !blynkConnected ) blueLedFlash(10000) ; 
 }     
 
 

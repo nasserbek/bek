@@ -19,11 +19,11 @@ uint32_t crashCount = 0;
 
 bool safeMode = false;
 
-void blueLedFlash()
+void blueLedFlash(unsigned long interval)
 {
   unsigned long currentMillis = millis();
 
-  if (currentMillis - blueLedPreviousMillis >= blueLedInterval) {
+  if (currentMillis - blueLedPreviousMillis >= interval) {
     blueLedPreviousMillis = currentMillis;
 
     blueLedState = !blueLedState;              // toggle LED
@@ -211,7 +211,7 @@ void safeModeSetup()
           Serial.println("Wifi Disconnected");
           wifiAvailable = myBlynk.wifi_init();
           
-          blueLedFlash() ; 
+          blueLedFlash(2000) ; 
           
           if (millis() > startConnecting + WIFI_DISCONNECTED_RESTART) {
             wifiAvailable = false;
