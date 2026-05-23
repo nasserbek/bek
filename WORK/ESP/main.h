@@ -52,7 +52,7 @@ const char* ntpServer = "pool.ntp.org";
     const char* gitHubURL        =  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP.ino.esp32.bin"  ;// URL to download the firmware from
     int stateDVR = DVR_ON;
     String videoplayerCh = "ch01";
-    const int defaultRxCh[19]   ={0, CH_1,   CH_2,   CH_3,   CH_4,   CH_5,   CH_6,   CH_7,   CH_8,   CH_9,   CH_10,  CH_11,  CH_12,  CH_13, CH_14, CH_15, CH_16,   CH_17,  CH_18}; 
+    const int defaultRxCh[19]   ={0, CH_1,   CH_1,   CH_1,   CH_1,   CH_1,   CH_1,   CH_1,   CH_1,   CH_9,   CH_10,  CH_11,  CH_12,  CH_13, CH_14, CH_15, CH_16,   CH_17,  CH_18}; 
  //                              
 QueueHandle_t g_event_queue_handle = NULL;
 EventGroupHandle_t g_event_group = NULL;

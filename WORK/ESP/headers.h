@@ -45,6 +45,10 @@
 #define DIP1         16
 #define DIP2         5
 
+//board led
+#define BLUE_LED        2
+
+
 #define RC_CODE_LENGTH      24
 
 #define INTERNET_LOSS_TO_RESET_NG_TIMER (2 * 60UL * 1000UL)   // 2 MIN

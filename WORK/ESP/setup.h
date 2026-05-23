@@ -51,6 +51,9 @@ tm printLocalTime() {
 void relaySetup(void)
 {
       pinMode(AV_RX_DVR_PIN, OUTPUT);
+      pinMode(BLUE_LED, OUTPUT);
+      digitalWrite(BLUE_LED, HIGH);
+       
       delay(50); // let signals stabilize
       digitalWrite(AV_RX_DVR_PIN, LOW);  // AV RECEIVER OFF POWER UP NC CONTACT
 //

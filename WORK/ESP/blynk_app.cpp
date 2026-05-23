@@ -177,10 +177,12 @@ void blinkLedWidget()
       LIVE_LED_V121.setColor(BLYNK_RED);
       Serial.println("LED on V121: red");
       ledStatus = false;
+      digitalWrite(BLUE_LED, LOW);
     } else {
       LIVE_LED_V121.setColor(BLYNK_GREEN);
       Serial.println("LED on V121: green");
       ledStatus = true;
+      digitalWrite(BLUE_LED, HIGH);
     }
   }
   else
