@@ -29,6 +29,13 @@
 #include "time.h"
 #include <Preferences.h>
 
+// Static IP configuration
+IPAddress local_IP(192, 168, 1, 153);   // ESP1
+IPAddress gateway(192, 168, 1, 1);      // Router IP
+IPAddress subnet(255, 255, 255, 0);
+IPAddress primaryDNS(8, 8, 8, 8);       // Optional
+IPAddress secondaryDNS(8, 8, 4, 4);     // Optional
+
 uint32_t lastActivityTime = 0;
 
 bool inactivityCtrl = MILLS;

@@ -5,13 +5,17 @@ blynk myBlynk;
 void setup() 
 {
      Serial.begin(115200);
+     
      initWDG(MIN_5,EN);
      mySwitch.enableTransmit(RC_TX_PIN);  
         
      createHandleGroup();
      looadRoomData();     
      i2cSetup();
-     
+     // Configure static IP
+     if (!WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS)) {
+     Serial.println("STA Failed to configure");
+     }
      safeModeCheck();
 }
 
