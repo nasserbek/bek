@@ -19,6 +19,17 @@ uint32_t crashCount = 0;
 
 bool safeMode = false;
 
+void blueLedFlash()
+{
+  unsigned long currentMillis = millis();
+
+  if (currentMillis - blueLedPreviousMillis >= blueLedInterval) {
+    blueLedPreviousMillis = currentMillis;
+
+    blueLedState = !blueLedState;              // toggle LED
+    digitalWrite(BLUE_LED, blueLedState);
+  }  
+}
 void checkSleep()
 {
   uint32_t PowerOffTimer  = (inactivityPowerOffTimer * 60UL * 1000UL) ; //inactivityPowerOffTimer in Minutes 1000UL = 1 sec;
@@ -199,6 +210,9 @@ void safeModeSetup()
        else while (!myBlynk.wifi_init()) {
           Serial.println("Wifi Disconnected");
           wifiAvailable = myBlynk.wifi_init();
+          
+          blueLedFlash() ; 
+          
           if (millis() > startConnecting + WIFI_DISCONNECTED_RESTART) {
             wifiAvailable = false;
             Serial.println("Unable to connect to wifi, restarting ");
