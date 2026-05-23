@@ -14,6 +14,7 @@ extern unsigned int LiveUpdateInterval ;
 bool dvrSleep  ;
 extern uint32_t crashCount;
 extern void saveCrashCount(void);
+extern void blueLedFlash();
 
 void SendLiveLed()
   {
@@ -458,6 +459,7 @@ void blynkLoop(void)
        
        if ( blynkConnected )
           {
+           blueLedFlash();
            if(!liveLedUpdate) 
                 {
                   liveLedUpdate = true; 
