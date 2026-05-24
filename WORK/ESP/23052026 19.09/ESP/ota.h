@@ -6,7 +6,7 @@
 extern void enableWDG(bool _enable);
 extern void resetWdg(void);
 extern tm printLocalTime();
-
+extern void blueLedFlash(unsigned long interval);
 /*************************************************OTA ZONE********************************************************************************************/
 /*********************************************** web upodater *********************************************/
 
@@ -260,6 +260,7 @@ void localWebWifiOta (void)
    localWebWifiOtaSetup();
    while (!wifiWebUpdater) 
        {
+        blueLedFlash(5000) ;        
         enableWDG(false);
         if (  millis() - OtaTimeoutTimer > WIFI_IDE_TIMER )
         {

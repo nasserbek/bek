@@ -39,6 +39,10 @@ IPAddress secondaryDNS(8, 8, 4, 4);     // Optional
 uint32_t lastActivityTime = 0;
 
 bool inactivityCtrl = MILLS;
+unsigned long blueLedPreviousMillis = 0;
+unsigned long blueLedInterval = 5000; // 5 seconds
+
+bool blueLedState = false;
 
 // GMT offset in seconds
 const long gmtOffset_sec = 3600;      // France winter UTC+1
