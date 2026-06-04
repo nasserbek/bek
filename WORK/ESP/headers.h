@@ -1,6 +1,12 @@
+//#define LILLYGO_RELAY_8
+#define ESP32_DEV
+
+
 //#define NICE
 //#define CH
 #define METEOR_ETH
+
+
 //#define METEOR_WIFI
 
 //#define REMOTE_SERVER
@@ -27,27 +33,36 @@
 #define WIFI_PASSWORD_METEOR     "Ali09042010_"
 #define WIFI_PASSWORD_BBOX       "Ali09042010_"
 
-
-//av1
-#define I2C_SDA             21  //green
-#define I2C_SCL             22  //yellow
-
-#define SDA_2              33  //green
-#define SCL_2              32  //yellow
-
 //RC
-#define RC_TX_PIN           15
-
-//RELAYS
+#define RC_TX_PIN         15
+//DVR
 #define AV_RX_DVR_PIN     0
 
-//BOARD SEL
-#define DIP1         16
-#define DIP2         5
+#ifdef ESP32_DEV
+    //av1
+    #define I2C_SDA       21  //green
+    #define I2C_SCL       22  //yellow
+    
+    //BOARD SEL
+    #define DIP1          16
+    #define DIP2          5
+    
+    //board led
+    #define BOARD_LED     2
+#endif
 
-//board led
-#define BLUE_LED        2
-
+#ifdef LILLYGO_RELAY_8
+    //av1
+    #define I2C_SDA             23  //green
+    #define I2C_SCL             22  //yellow
+    
+    //BOARD SEL
+    #define DIP1         26
+    #define DIP2         27
+    
+    //board led
+    #define BOARD_LED    25
+#endif
 
 #define RC_CODE_LENGTH      24
 

@@ -143,6 +143,10 @@ void processBlynkQueu(void)
                   AvReceiverSel(queuData);
                   videoplayerCh = "ch0" + String(queuData);
                   myBlynk.streamSelect(videoplayerCh);
+                      #ifdef LILLYGO_RELAY_8
+                        selectRelay(selected_Rx);
+                      #endif 
+
            break;
  
             case Q_EVENT_ZAP_SCAN_ONLY_V10:
@@ -210,10 +214,14 @@ void processBlynkQueu(void)
             break;  
 
             case Q_EVENT_SELECTED_RECIEVER_CH_5_6_V32: 
-                      selected_Rx = queuData-1;
-                      AvReceiverSel(queuData);
-                      videoplayerCh = "ch0" + String(queuData);
+                      selected_Rx = queuData+4-1;
+                      AvReceiverSel(queuData+4);
+                      videoplayerCh = "ch0" + String(queuData+4);
                       myBlynk.streamSelect(videoplayerCh);
+                      #ifdef LILLYGO_RELAY_8
+                          selectRelay(selected_Rx);
+                      #endif
+                      
             break;   
 
             case Q_EVENT_SPARE_V33: 

@@ -9,6 +9,7 @@ extern uint32_t lastActivityTime;
 
 extern bool wifiIde ;  
 extern void ArduinoIdeWifi();
+extern bool powerOnReason ;
 
 Preferences prefs;
 
@@ -27,7 +28,7 @@ void blueLedFlash(unsigned long interval)
     blueLedPreviousMillis = currentMillis;
 
     blueLedState = !blueLedState;              // toggle LED
-    digitalWrite(BLUE_LED, blueLedState);
+    digitalWrite(BOARD_LED, blueLedState);
   }  
 }
 void checkSleep()
@@ -129,6 +130,7 @@ void checkCrashCounter()
         case ESP_RST_POWERON:
               crashCount = 0;
               saveCrashCount();
+              powerOnReason = true;
         break;
         
         default:
@@ -167,7 +169,28 @@ void checkCrashCounter()
 void normalModeSetup()
 {
      Serial.println("NORMAL MODE");
-     
+     powerOnReason = false; //disable until test with serial
+      if (powerOnReason)
+      {
+          Serial.println("Power-on reset detected, stopping interrupt timer and wait  min. for reuter to start..");
+          enableWDG(false);
+          unsigned long timeout = millis();
+      
+          while (millis() - timeout < 300000)  // max 5 minutes
+          {
+              wifiAvailable = myBlynk.wifi_init();
+              if (wifiAvailable) 
+              {
+                initWDG(MIN_5,EN);
+                enableWDG(true);
+                break;
+              }
+              WiFi.disconnect(true);
+              delay(10000);  // retry every 10 seconds
+          }
+      }
+else
+  {
      wifiAvailable = myBlynk.wifi_init();
      
      relaySetup();
@@ -179,6 +202,7 @@ void normalModeSetup()
      Serial.print("Version: ");     Serial.println(VERSION_ID);
      Serial.print("AWS IOT This is: ");     Serial.println(THINGNAME); 
      resetInactivityTimer();
+  }    
 }
 
 // --------------------------------------------------
@@ -255,10 +279,13 @@ void safeModeCheck()
     }
 }
 
+bool stable = false;
+
 void safeModeLoop()
 {
-   if (millis() > 300000) // 5 minutes stable
+   if (millis() > 300000 && !stable) // 5 minutes stable
     {
+        stable = true;
         crashCount = 0;
         saveCrashCount();
     }

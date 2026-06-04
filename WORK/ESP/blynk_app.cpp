@@ -13,7 +13,7 @@ extern int inactivityRestartTimer  ; //10 Hours;
 extern int zapTimerSec;
 extern String VERSION_ID  ;
 extern String BOARD;
-
+extern bool powerOnReason ;
 IPAddress blynkLocalServer;
 extern void resetInactivityTimer();
 
@@ -169,6 +169,8 @@ void ledInit(void)
 }
 
 // V121 LED Widget is blinking
+bool ledYellow = false;
+
 void blinkLedWidget()
 {
   if (!blynkActive &&  !zapOnOff && !zapScanOnly && dvrSleep && stateDVR == DVR_OFF)
@@ -182,16 +184,27 @@ void blinkLedWidget()
       Serial.println("LED on V121: green");
       ledStatus = true;
     }
+   ledYellow = false;
   }
-  else
+  else if(!ledYellow)
   {
     LIVE_LED_V121.setColor(BLYNK_YELLOW);
     Serial.println("LED on V121: yellow");
     ledStatus = false;
+    ledYellow =true;
   }
 }
 
 void checkBlynk() {
+
+  if(!_blynkIsConnected)
+  {
+      DEBUG_PRINT("WIFI: "); DEBUG_PRINTLN( _wifiIsConnected ? F("Connected") : F("Not Connected"));
+      DEBUG_PRINT("BLYNK: "); DEBUG_PRINTLN( _blynkIsConnected ? F("Connected") : F("Not Connected"));
+      Serial.printf("\tChecking again Blynk connected in %is.\n", blynkIntervalInterval / 1000);
+      Serial.println(".");
+  }
+  
   if (wifiMulti.run(WiFi_TIMEOUT) == WL_CONNECTED)
   {
     unsigned long startConnecting = millis();
@@ -213,10 +226,7 @@ void checkBlynk() {
     _wifiIsConnected = false;
     _blynkIsConnected = false;
   }
-  DEBUG_PRINT("WIFI: "); DEBUG_PRINTLN( _wifiIsConnected ? F("Connected") : F("Not Connected"));
-  DEBUG_PRINT("BLYNK: "); DEBUG_PRINTLN( _blynkIsConnected ? F("Connected") : F("Not Connected"));
-  Serial.printf("\tChecking again Blynk connected in %is.\n", blynkIntervalInterval / 1000);
-  Serial.println(".");
+
   blynkConnected = _blynkIsConnected;
 }
 
@@ -251,6 +261,7 @@ bool blynk::wifi_init()
     Serial.println("IP address: ");
     Serial.println(WiFi.localIP());  //print IP of the connected WiFi network
     _wifiIsConnected = true;
+    powerOnReason = false;
   }
   else  // if not WiFi not connected
   {

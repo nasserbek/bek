@@ -10,6 +10,29 @@ extern void AvReceiverSel(int queuData);
 extern void videoChanel(int ch, bool cmd);
 extern bool PowerOnTune;
 
+
+// Lillygo Realy-8
+void setRelayByte(uint8_t value)
+{
+  for (int i = 0; i < 8; i++) {
+    digitalWrite(relayPins[i], (value >> i) & 0x01);
+  }
+}
+
+void selectRelay(uint8_t relay)
+{
+  if (relay > 7) return;
+
+  // Generate 8-bit command
+  uint8_t cmd = (1 << relay);
+
+  setRelayByte(cmd);
+
+  Serial.print("Command = 0b");
+  Serial.println(cmd, BIN);
+}
+
+
 bool  TCA9548A(uint8_t bus)
 {
 
@@ -159,68 +182,72 @@ void PowerOnTuning(void)
 {
         selected_Rx = TCA9548A_CH8;  //CH8
         AvReceiverSel(selected_Rx+1);  
-        delay (500);
+        delay (100);
         Av_Rx = SOLO_VIDEO; 
         videoChanel(defaultRxCh[8], ON);
-        myBlynk.RelaySelect(selected_Rx+1);
-        delay (500);
+    //    myBlynk.RelaySelect(selected_Rx+1);
+        delay (100);
 
         selected_Rx = TCA9548A_CH7;  //CH7
         AvReceiverSel(selected_Rx+1);  
-        delay (500);
+        delay (100);
         Av_Rx = SOLO_VIDEO; 
         videoChanel(defaultRxCh[7], ON);
-        myBlynk.RelaySelect(selected_Rx+1);
-        delay (500);
+        //    myBlynk.RelaySelect(selected_Rx+1);
+        delay (100);
         
         selected_Rx = TCA9548A_CH6;  //CH6
         AvReceiverSel(selected_Rx+1);  
-        delay (500);
+        delay (100);
         Av_Rx = SOLO_VIDEO; 
         videoChanel(defaultRxCh[6], ON);
-        myBlynk.RelaySelect(selected_Rx+1);
-        delay (500);
+        //    myBlynk.RelaySelect(selected_Rx+1);
+        delay (100);
 
         selected_Rx = TCA9548A_CH5;  //CH5
         AvReceiverSel(selected_Rx+1);  
-        delay (500);
+        delay (100);
         Av_Rx = SOLO_VIDEO; 
         videoChanel(defaultRxCh[5], ON);
-        myBlynk.RelaySelect(selected_Rx+1);
+        //    myBlynk.RelaySelect(selected_Rx+1);
         lastSelectedCh = CH_1;  
-        delay (500);
+        delay (100);
         
         selected_Rx = TCA9548A_CH4;  //CH4
         AvReceiverSel(selected_Rx+1);  
-        delay (500);
+        delay (100);
         Av_Rx = SOLO_VIDEO; 
         videoChanel(defaultRxCh[4], ON);
-        myBlynk.RelaySelect(selected_Rx+1);
-        delay (500);
+        //    myBlynk.RelaySelect(selected_Rx+1);
+        delay (100);
     
         selected_Rx = TCA9548A_CH3;  //CH3
         AvReceiverSel(selected_Rx+1);  
-        delay (500);
+        delay (100);
         Av_Rx = SOLO_VIDEO; 
         videoChanel(defaultRxCh[3], ON);
-        myBlynk.RelaySelect(selected_Rx+1);
-        delay (500);
+        //    myBlynk.RelaySelect(selected_Rx+1);
+        delay (100);
         
         selected_Rx = TCA9548A_CH2;  //CH2
         AvReceiverSel(selected_Rx+1);  
-        delay (500);
+        delay (100);
         Av_Rx = SOLO_VIDEO; 
         videoChanel(defaultRxCh[2], ON);
-        myBlynk.RelaySelect(selected_Rx+1);
-        delay (500);
+        //    myBlynk.RelaySelect(selected_Rx+1);
+        delay (100);
 
         selected_Rx = TCA9548A_CH1;  //CH1
         AvReceiverSel(selected_Rx+1);  
-        delay (500);
+        delay (100);
         Av_Rx = SOLO_VIDEO; 
         videoChanel(defaultRxCh[1], ON);
         myBlynk.RelaySelect(selected_Rx+1);
         lastSelectedCh = CH_1;
+        
+        #ifdef LILLYGO_RELAY_8
+            selectRelay(TCA9548A_CH1);
+        #endif        
 }      
 
 

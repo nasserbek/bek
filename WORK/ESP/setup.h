@@ -51,14 +51,11 @@ tm printLocalTime() {
 void relaySetup(void)
 {
       pinMode(AV_RX_DVR_PIN, OUTPUT);
-      pinMode(BLUE_LED, OUTPUT);
-      digitalWrite(BLUE_LED, HIGH);
+      pinMode(BOARD_LED, OUTPUT);
+      digitalWrite(BOARD_LED, HIGH);
        
       delay(50); // let signals stabilize
       digitalWrite(AV_RX_DVR_PIN, LOW);  // AV RECEIVER OFF POWER UP NC CONTACT
-//
-//      pinMode(I2C_1_2_RELAY , OUTPUT);
-//      pinMode(I2C_3_4_RELAY , OUTPUT);
 
       pinMode(DIP1, INPUT_PULLUP);
       pinMode(DIP2, INPUT_PULLUP);
@@ -78,12 +75,6 @@ void relaySetup(void)
 
      struct tm now = printLocalTime();
       
-//     Serial.print("Hour: ");        Serial.println(now.tm_hour);
-//     Serial.print("Minute: ");      Serial.println(now.tm_min);
-//     Serial.print("Month: ");       Serial.println(now.tm_mon);
-//     Serial.print("Day: ");         Serial.println(now.tm_mday);
-//     Serial.print("Year: ");        Serial.println(now.tm_year);
-     
       switch(card) {
         case 0:
           ActiveBoard = ESP1;
@@ -93,7 +84,7 @@ void relaySetup(void)
                             
                             BLYNK_AUTH_TOKEN                = BLYNK_AUTH_TOKEN_ESP1;  //ESP1
                             THINGNAME ="ESP1"   ;
-                            gitHubURL  = "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP.ino.esp32.bin" ; // URL to download the firmware from
+                            gitHubURL  = "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP.ino.esp32.bin"; // URL to download the firmware from
                             
                             #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "esp1/sub/rc"
                             #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "esp1/sub/video"
@@ -124,7 +115,7 @@ void relaySetup(void)
                             VERSION_ID =" ESP2 ";
                             BLYNK_AUTH_TOKEN                = BLYNK_AUTH_TOKEN_ESP2 ; //ESP2
                             THINGNAME ="ESP2"  ; 
-                            gitHubURL  = "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP.ino.esp32.bin" ; // URL to download the firmware from          
+                            gitHubURL  = "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP.ino.esp32.bin"; // URL to download the firmware from          
                             
                             #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "esp2/sub/rc"
                             #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "esp2/sub/video"
@@ -155,7 +146,7 @@ void relaySetup(void)
                             VERSION_ID =" ESP3 ";
                             BLYNK_AUTH_TOKEN         =        BLYNK_AUTH_TOKEN_ESP3  ; //ESP3
                             THINGNAME ="ESP3"  ; 
-                            gitHubURL = "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP.ino.esp32.bin" ; // URL to download the firmware from          
+                            gitHubURL = "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP.ino.esp32.bin"; // URL to download the firmware from          
                             
 //                            #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "esp3/sub/rc"
 //                            #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "esp3/sub/video"
@@ -186,7 +177,7 @@ void relaySetup(void)
                             VERSION_ID =" ESP0 - ";
                             BLYNK_AUTH_TOKEN   =              BLYNK_AUTH_TOKEN_TEST ;
                             THINGNAME ="ESP14"   ;
-                            gitHubURL  ="https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP.ino.esp32.bin"  ;// URL to download the firmware from          
+                            gitHubURL  ="https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP.ino.esp32.bin" ;// URL to download the firmware from          
 //
 //                            #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "test/sub/rc"
 //                            #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "test/sub/video"
@@ -244,6 +235,16 @@ void relaySetup(void)
             minute);
             
     VERSION_ID = BOARD + " " + buildTime;
+
+    // Lillygo Realy-8
+    #ifdef LILLYGO_RELAY_8
+        for (int i = 0; i < 8; i++) {
+        pinMode(relayPins[i], OUTPUT);
+        digitalWrite(relayPins[i], LOW);
+      }
+      selectRelay(TCA9548A_CH1);// Relay K1 ON
+      #endif 
+  
 }
 
 
@@ -265,9 +266,8 @@ void timersMillis(void)
 void i2cSetup(void)
 {
    bool ta9548a = false;
-     Wire.begin();
+     Wire.begin(I2C_SDA ,I2C_SCL );
      delay(500);
-//     Wire1.begin(SDA_2, SCL_2);
      ta9548a = !TCA9548A(0);
      DEBUG_PRINTLN ( ta9548a ? F("TCA9548A Connected") : F("TCA9548A Not Connected"));
      myBlynk.TerminalPrint ( ta9548a ? F("TCA9548A Connected") : F("TCA9548A Not Connected"));
