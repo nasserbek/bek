@@ -235,7 +235,7 @@ void safeModeSetup()
           Serial.println("Wifi Disconnected");
           wifiAvailable = myBlynk.wifi_init();
           
-          blueLedFlash(2000) ; 
+          blueLedFlash(30000) ; 
           
           if (millis() > startConnecting + WIFI_DISCONNECTED_RESTART) {
             wifiAvailable = false;

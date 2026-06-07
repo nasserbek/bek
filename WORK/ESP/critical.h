@@ -108,7 +108,7 @@ void internetCheck(void)
             else ESP.restart(); 
           }
 
-       else if ( InternetLoss && !blynkConnected ) blueLedFlash(10000) ; 
+ //      else if ( InternetLoss && !blynkConnected ) blueLedFlash(10000) ; 
 }     
 
 

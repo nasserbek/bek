@@ -16,7 +16,8 @@ extern String BOARD;
 extern bool powerOnReason ;
 IPAddress blynkLocalServer;
 extern void resetInactivityTimer();
-
+extern bool wifiAvailable ;
+extern void blueLedFlash(unsigned long interval);
 extern int MapIndex;
 extern void dvrOnOff (bool powerOn);
 extern void SendLiveLed(void);
@@ -145,7 +146,7 @@ WidgetLED LIVE_LED_V121(V121);  //LIVE
 WidgetMap myMap(V12);
 WidgetTerminal terminal(V102);
 
-unsigned int BlynkServerTimeout  =  2000;  //  2s server connection timeout (SCT)
+unsigned int BlynkServerTimeout  =  5000;  //  5s server connection timeout (SCT)
 unsigned int LiveUpdateInterval =  15000;  //  15s function call frequency   (FCF)
 unsigned int blynkIntervalInterval    = 10000;  // 10 s check Blyk and Wifi
 
@@ -195,40 +196,6 @@ void blinkLedWidget()
   }
 }
 
-void checkBlynk() {
-
-  if(!_blynkIsConnected)
-  {
-      DEBUG_PRINT("WIFI: "); DEBUG_PRINTLN( _wifiIsConnected ? F("Connected") : F("Not Connected"));
-      DEBUG_PRINT("BLYNK: "); DEBUG_PRINTLN( _blynkIsConnected ? F("Connected") : F("Not Connected"));
-      Serial.printf("\tChecking again Blynk connected in %is.\n", blynkIntervalInterval / 1000);
-      Serial.println(".");
-  }
-  
-  if (wifiMulti.run(WiFi_TIMEOUT) == WL_CONNECTED)
-  {
-    unsigned long startConnecting = millis();
-    _blynkIsConnected = true;
-    _wifiIsConnected = true;
-
-    while (!Blynk.connected()) {
-      Serial.println("Blynk Disconnected");
-      Blynk.connect(BlynkServerTimeout);
-      if (millis() > startConnecting + BlynkServerTimeout) {
-        _blynkIsConnected = false;
-        Serial.println("Unable to connect to server. ");
-        break;
-      }
-    }
-  }
-  else
-  {
-    _wifiIsConnected = false;
-    _blynkIsConnected = false;
-  }
-
-  blynkConnected = _blynkIsConnected;
-}
 
 bool blynk::wifi_init()
 {
@@ -271,6 +238,131 @@ bool blynk::wifi_init()
   return _wifiIsConnected ;
 }
 
+bool  wifi_connect()
+{
+  _wifiIsConnected = false;
+
+#ifdef METEOR_ETH
+    wifiMulti.addAP(WIFI_SSID_METEOR, WIFI_PASSWORD_METEOR);
+#endif
+
+#ifdef METEOR_WIFI
+    wifiMulti.addAP(WIFI_SSID_METEOR, WIFI_PASSWORD_METEOR);
+#endif  
+  
+#ifdef CH
+    wifiMulti.addAP(WIFI_SSID_BBOX, WIFI_PASSWORD_BBOX);
+#endif
+
+#ifdef NICE
+   wifiMulti.addAP(WIFI_SSID_SFR, WIFI_PASSWORD_SFR);
+#endif  
+
+  wifiMulti.addAP(WIFI_SSID_ZFLIP, WIFI_PASSWORD_ZFLIP);
+  
+  Serial.println("Connecting Wifi...");
+  //Connecting to the strongest WiFi connection
+  if (wifiMulti.run(WiFi_TIMEOUT) == WL_CONNECTED)
+  {
+    Serial.println("");
+    Serial.println("WiFi connected");
+    Serial.println("IP address: ");
+    Serial.println(WiFi.localIP());  //print IP of the connected WiFi network
+    _wifiIsConnected = true;
+    powerOnReason = false;
+  }
+  else  // if not WiFi not connected
+  {
+    _wifiIsConnected = false;
+  }
+  DEBUG_PRINT("WIFI: "); DEBUG_PRINTLN( _wifiIsConnected ? F("Connected") : F("Not Connected"));
+  return _wifiIsConnected ;
+}
+
+bool blynkconnect()
+{
+    _blynkIsConnected = false;
+
+#ifdef METEOR_ETH
+    blynkLocalServer = BLYNK_SERVER_METEOR_ETH ;
+#endif
+
+#ifdef METEOR_WIFI
+    blynkLocalServer = BLYNK_SERVER_METEOR_WIFI ;
+#endif
+
+#ifdef CH
+    blynkLocalServer = BLYNK_SERVER_BBOX;
+#endif
+
+    Blynk.config(BLYNK_AUTH_TOKEN, blynkLocalServer, 8080);
+    Blynk.connect(BlynkServerTimeout);
+    delay(1000);
+    _blynkIsConnected = Blynk.connected();
+    if (_blynkIsConnected)
+    {
+      myMap.clear();
+      int index = 0;
+      double lat = 48.79922843700954;   
+      double lon = 1.9549987192776308; //PLS  
+      myMap.location(index, lat, lon, "PLS");
+
+
+
+
+      DEBUG_PRINT("BLYNK: ");
+
+      if (_blynkIsConnected)
+      {
+        DEBUG_PRINT("Connected to ");
+        DEBUG_PRINTLN(blynkLocalServer.toString());
+      }
+      else
+      {
+        DEBUG_PRINTLN("Not Connected");
+      }
+
+      blynkAtiveTimer     = millis();
+      blynkActive = false;
+      ledInit();
+      terminal.clear();
+      terminal.println(WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) + " Server IP: " + blynkLocalServer.toString() + "\n");
+      terminal.flush();
+    }
+  return _blynkIsConnected;
+}
+
+void checkBlynk() {
+  if (wifiMulti.run(WiFi_TIMEOUT) == WL_CONNECTED)
+  {
+    unsigned long startConnecting = millis();
+    _blynkIsConnected = true;
+    _wifiIsConnected = true;
+
+    while (!Blynk.connected()) {
+      
+      if (millis() > startConnecting + BlynkServerTimeout) {
+        Serial.println("Wifi connected but Blynk is Disconnected, connectig agin to Blynk....");
+        blueLedFlash(2000) ;
+        _blynkIsConnected = blynkConnected = blynkconnect();
+        Serial.println("Unable to connect to server. ");
+        break;
+      }
+    }
+  }
+  else
+  {
+     Serial.println("WIFI Diconnected!! Trying to reconnect.");//); DEBUG_PRINT( _wifiIsConnected ? F("Connected") : F("Not Connected"));
+     _wifiIsConnected  = wifi_connect();
+    _wifiIsConnected = false;
+    _blynkIsConnected = false;
+    blueLedFlash(500) ;
+  }
+
+  Serial.printf("Checking again Blynk connected in %is.\n", blynkIntervalInterval / 1000);
+  Serial.println(".");
+}
+
 
 bool blynk::init()
 {
@@ -303,8 +395,8 @@ bool blynk::init()
       myMap.clear();
       int index = 0;
       double lat = 49.01643374960694;
-      double lon = 1.1691833659255038; //EVREUX 49.016450, 1.169214
-      myMap.location(index, lat, lon, "Evreux");
+      double lon = 1.1691833659255038; //PLS 49.016450, 1.169214
+      myMap.location(index, lat, lon, "PLS");
 
 
 
@@ -335,21 +427,21 @@ bool blynk::init()
 void blynk::mapRefresh(int index)
 {
   double lat ;
-  double lon ; //EVREUX 49.016450, 1.169214
+  double lon ; //PLS 4 
   myMap.clear();
   //  int index = MapIndex;
   switch (index)
   {
     case 1:
-      lat = 49.01643374960694;
-      lon = 1.1691833659255038; //EVREUX 49.016450, 1.169214
-      myMap.location(index, lat, lon, "Evreux");
+      lat = 48.79922843700954; 
+      lon = 1.9549987192776308; //PLS  
+      myMap.location(index, lat, lon, "PLS");
       break;
 
     case 2:
-      lat = 49.369435619166566;
-      lon = 1.1109930174357323; //Rouen 49.369435619166566, 1.1109930174357323
-      myMap.location(index, lat, lon, "Evreux");
+      lat = 48.79922843700954; 
+      lon = 1.9549987192776308; //PLS  
+      myMap.location(index, lat, lon, "PLS");
       break;
 
       break;
@@ -357,6 +449,9 @@ void blynk::mapRefresh(int index)
   }
 
 }
+
+
+
 
 
 void blynk::streamSelect(String ch)

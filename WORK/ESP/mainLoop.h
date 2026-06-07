@@ -467,7 +467,7 @@ void blynkLoop(void)
        
        if ( blynkConnected )
           {
-           blueLedFlash(15000);
+           blueLedFlash(5000);
            if(!liveLedUpdate) 
                 {
                   liveLedUpdate = true; 
