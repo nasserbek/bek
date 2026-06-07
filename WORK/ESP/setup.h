@@ -22,8 +22,7 @@ bool blynkInit(void)
                 
                 myBlynk.sendVersion(VERSION_ID);
                 loadCrashCount();
-                myBlynk.TerminalPrint(VERSION_ID + " " + String(crashCount) + " Craches" );
-      //          myBlynk.sendNotify(VERSION_ID );
+                myBlynk.TerminalPrint("Connecion Stablished " + VERSION_ID + " " + String(crashCount) + " Craches" );
              }
     
     awsTerminal(awsConnected, str ) ;

@@ -7,6 +7,8 @@
 #include <WiFiClient.h>
 #include <BlynkSimpleEsp32.h>
 #include <WiFiMulti.h>
+extern uint32_t crashCount;
+extern String VERSION_ID ;
 extern const char* BLYNK_AUTH_TOKEN;
 extern int inactivityPowerOffTimer  ; //1 Hour;
 extern int inactivityRestartTimer  ; //10 Hours;
@@ -14,6 +16,7 @@ extern int zapTimerSec;
 extern String VERSION_ID  ;
 extern String BOARD;
 extern bool powerOnReason ;
+extern void loadCrashCount();
 IPAddress blynkLocalServer;
 extern void resetInactivityTimer();
 extern bool wifiAvailable ;
@@ -45,6 +48,7 @@ extern bool zapSetup;
 extern bool zapOnOff;
 extern bool dvrSleep ;
 extern int stateDVR;
+extern int  Av_Rx;
 
 WiFiMulti wifiMulti;
 BlynkTimer timer;
@@ -332,6 +336,46 @@ bool blynkconnect()
   return _blynkIsConnected;
 }
 
+void   AvRxIndex(int _index)
+{
+  Blynk.virtualWrite(V19, _index);
+  if (_index == 1) {
+    Blynk.setProperty(V19, "color", BLYNK_GREEN);
+  }
+  if (_index == 2) {
+    Blynk.setProperty(V19, "color", BLYNK_YELLOW);
+  }
+  if (_index == 3) {
+    Blynk.setProperty(V19, "color", BLYNK_RED);
+  }
+
+}
+
+void chSelect(String ch)
+{
+  String SelectedCh = "rtsp://admin:basma28112018@192.168.1.96:554/" + ch + "/0" ;
+      if        (ActiveBoard == ESP1 ) SelectedCh = "rtsp://admin:basma28112018@192.168.1.96:554/" + ch + "/0" ;
+      else  if  (ActiveBoard == ESP2 ) SelectedCh = "rtsp://admin:basma28112018@192.168.1.94:554/" + ch + "/0" ;
+      else if   (ActiveBoard == ESP3 ) SelectedCh = "rtsp://admin:basma28112018@192.168.1.108:554/" + ch + "/0" ;
+  Blynk.setProperty(V28, "url", SelectedCh);
+}
+
+void  versionBlynk(String ver)
+{
+  Blynk.virtualWrite(V24, ver);
+}
+
+void  terminalSend (String str)
+{
+  String msg =  str;
+  if ( blynkConnected )
+  {
+    terminal.println(str);
+    terminal.flush();
+  }
+  else Serial.println(str);
+}
+
 void checkBlynk() {
   if (wifiMulti.run(WiFi_TIMEOUT) == WL_CONNECTED)
   {
@@ -345,7 +389,15 @@ void checkBlynk() {
         Serial.println("Wifi connected but Blynk is Disconnected, connectig agin to Blynk....");
         blueLedFlash(2000) ;
         _blynkIsConnected = blynkConnected = blynkconnect();
-        Serial.println("Unable to connect to server. ");
+        if (blynkConnected) 
+              {
+                 AvRxIndex(Av_Rx);
+                 chSelect("ch01");
+                 versionBlynk(VERSION_ID);
+                 loadCrashCount();
+                 terminalSend (VERSION_ID + " " + String(crashCount) + " Craches" );
+             }
+        else Serial.println("Unable to connect to Blynk server. ");
         break;
       }
     }
