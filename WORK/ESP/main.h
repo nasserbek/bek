@@ -199,8 +199,8 @@ uint _pll[21];
 #define RC_CH20   349411  // xx 
 
 //FREQ 2025
-const uint freqTable[21] =       {0, AV_CH1,   AV_CH2,   AV_CH3,   AV_CH4,   AV_CH5,   AV_CH6,   AV_CH7,   AV_CH8,   AV_CH2,   AV_CH2,   AV_CH3,   AV_CH4,   AV_CH5,  AV_CH6,  AV_CH7,  AV_CH8,    AV_CH6,   AV_CH8,  AV_CH3,  AV_CH4B}; 
-//                                   201       210       211       212       232       206       207                 209                  208        66        62       29       68      66-27-50  67-25-48 68-63    Xxx
+const uint freqTable[21] =       {0, AV_CH1,   AV_CH2,   AV_CH3,   AV_CH4,   AV_CH5,   AV_CH6,   AV_CH7,   AV_CH8,   AV_CH2,   AV_CH8,   AV_CH3,   AV_CH4,   AV_CH5,  AV_CH1,  AV_CH7,  AV_CH8,    AV_CH6,   AV_CH8,  AV_CH3,  AV_CH4B}; 
+//                                   201       210       211       212       232       206       207                 209       208                 66        62       327       68      66-27-50  67-25-48 68-63    Xxx
 
 //RC ESP1 IN ORDER ROOM NR
 const unsigned long CH_433[35] = {0, RC_CH1,   RC_CH2,   RC_CH3,   RC_CH4,   RC_CH5,   RC_CH6,   RC_CH7,   RC_CH8,   RC_CH9,   RC_CH10,  RC_CH11,  RC_CH12,  RC_CH13, RC_CH14, RC_CH15, RC_CH16,   RC_CH17,  RC_CH18, RC_CH19, RC_CH20}; 
