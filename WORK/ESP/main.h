@@ -30,7 +30,9 @@
 #include <Preferences.h>
 
 // Static IP configuration
-IPAddress local_IP(192, 168, 1, 153);   // ESP1
+IPAddress local_IP(192, 168, 1, 151);   // ESP1
+IPAddress local_IP_Relays(192, 168, 1, 152);   // ESP2
+
 IPAddress gateway(192, 168, 1, 1);      // Router IP
 IPAddress subnet(255, 255, 255, 0);
 IPAddress primaryDNS(8, 8, 8, 8);       // Optional
@@ -43,6 +45,33 @@ const uint8_t relayPins[8] = {
   21, 19, 18, 5
 };
 
+const uint8_t LilluGoPins[5] = {
+  23, 22,
+  25, 26, 14
+};
+
+const uint8_t Esp32Pins[5] = {
+  21, 22, 2, 15, 0
+};
+
+const uint8_t CommonPins[2] = {
+  27, 4
+};
+
+uint8_t   I2C_SDA; //green
+uint8_t   I2C_SCL; //yellow
+    
+    //BOARD SEL
+uint8_t   DIP1;
+uint8_t   DIP2;
+    
+    //board led
+uint8_t   BOARD_LED;
+
+    //RC
+uint8_t   RC_TX_PIN ;
+    //DVR
+uint8_t   AV_RX_DVR_PIN;
 
 uint32_t lastActivityTime = 0;
 
@@ -57,7 +86,7 @@ const long gmtOffset_sec = 3600;      // France winter UTC+1
 const int daylightOffset_sec = 3600;  // Summer time +1h
 // NTP server
 const char* ntpServer = "pool.ntp.org";
-
+   
     int ActiveBoard   = ESP1;
     int selectedBoard = ESP1;
     const char* BLYNK_AUTH_TOKEN_ESP1       =         "2NVzjDY96Cbam0_TxJqTVSsgI7LgWq0_" ;//ESP1

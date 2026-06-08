@@ -11,12 +11,10 @@ void setup()
         
      createHandleGroup();
      looadRoomData();     
-     i2cSetup();
-     // Configure static IP
-     if (!WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS)) {
-     Serial.println("STA Failed to configure");
-     }
+
      safeModeCheck();
+
+     i2cSetup();
 }
 
 

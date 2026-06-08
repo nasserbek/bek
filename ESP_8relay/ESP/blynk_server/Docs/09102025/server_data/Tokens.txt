@@ -1,0 +1,3 @@
+"name":"CSR1","boardType":"ESP32 Dev Board","token":"2NVzjDY96Cbam0_TxJqTVSsgI7LgWq0_",
+"name":"CSR2","boardType":"ESP32 Dev Board","token":"n77QtZp08I7AOG8AcCpBhxJle1S6GXa0",
+"name":"CSR3","boardType":"ESP32 Dev Board","token":"lsH8XwzGGUUneZTqYMN-5_hfx8YepjjY",

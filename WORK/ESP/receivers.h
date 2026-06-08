@@ -28,7 +28,7 @@ void selectRelay(uint8_t relay)
 
   setRelayByte(cmd);
 
-  Serial.print("Command = 0b");
+  Serial.print("Relay Command = Ch");
   Serial.println(cmd, BIN);
 }
 
@@ -245,9 +245,8 @@ void PowerOnTuning(void)
         myBlynk.RelaySelect(selected_Rx+1);
         lastSelectedCh = CH_1;
         
-        #ifdef LILLYGO_RELAY_8
-            selectRelay(TCA9548A_CH1);
-        #endif        
+        if(ActiveBoard == ESP2)  selectRelay(TCA9548A_CH1);
+              
 }      
 
 

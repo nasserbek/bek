@@ -47,15 +47,10 @@ tm printLocalTime() {
 }
 
  
-void relaySetup(void)
+void gpioSetup(void)
 {
-      pinMode(AV_RX_DVR_PIN, OUTPUT);
-      pinMode(BOARD_LED, OUTPUT);
-      digitalWrite(BOARD_LED, HIGH);
-       
-      delay(50); // let signals stabilize
-      digitalWrite(AV_RX_DVR_PIN, LOW);  // AV RECEIVER OFF POWER UP NC CONTACT
-
+      DIP1 = CommonPins[0];
+      DIP2 = CommonPins[1];
       pinMode(DIP1, INPUT_PULLUP);
       pinMode(DIP2, INPUT_PULLUP);
       delay(200); // let signals stabilize
@@ -66,13 +61,13 @@ void relaySetup(void)
       // Convert to mode number
       card = (b1 << 1) | b0;
     
-      Serial.print("Card Selecter: ");
-      Serial.println(card);
+      Serial.print("Esp Selecter:ESP");
+      Serial.println(card+1);
 
       // Configure time
      configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
 
-     struct tm now = printLocalTime();
+     
       
       switch(card) {
         case 0:
@@ -202,47 +197,43 @@ void relaySetup(void)
            break;
       }
 
-     char buildTime[20];
-     
-    int day, year, hour, minute, second;
-    char monthStr[4];
-
-    sscanf(__DATE__, "%s %d %d", monthStr, &day, &year);
-    sscanf(__TIME__, "%d:%d:%d", &hour, &minute, &second);
-
-    int month = 0;
-
-    if      (strcmp(monthStr, "Jan") == 0) month = 1;
-    else if (strcmp(monthStr, "Feb") == 0) month = 2;
-    else if (strcmp(monthStr, "Mar") == 0) month = 3;
-    else if (strcmp(monthStr, "Apr") == 0) month = 4;
-    else if (strcmp(monthStr, "May") == 0) month = 5;
-    else if (strcmp(monthStr, "Jun") == 0) month = 6;
-    else if (strcmp(monthStr, "Jul") == 0) month = 7;
-    else if (strcmp(monthStr, "Aug") == 0) month = 8;
-    else if (strcmp(monthStr, "Sep") == 0) month = 9;
-    else if (strcmp(monthStr, "Oct") == 0) month = 10;
-    else if (strcmp(monthStr, "Nov") == 0) month = 11;
-    else if (strcmp(monthStr, "Dec") == 0) month = 12;
-
-    sprintf(buildTime,
-            "%02d/%02d/%02d %02d:%02d",
-            day,
-            month,
-            year % 100,
-            hour,
-            minute);
-            
-    VERSION_ID = BOARD + " " + buildTime;
-
+ 
     // Lillygo Realy-8
-    #ifdef LILLYGO_RELAY_8
+    if(ActiveBoard == ESP2) {
         for (int i = 0; i < 8; i++) {
         pinMode(relayPins[i], OUTPUT);
         digitalWrite(relayPins[i], LOW);
       }
       selectRelay(TCA9548A_CH1);// Relay K1 ON
-      #endif 
+      
+      I2C_SDA           =LilluGoPins[0]; //green
+      I2C_SCL           =LilluGoPins[1]; //yellow
+      BOARD_LED         =LilluGoPins[2];
+      RC_TX_PIN         =LilluGoPins[3];
+      AV_RX_DVR_PIN     =LilluGoPins[4];
+           // Configure static IP
+     if (!WiFi.config(local_IP_Relays, gateway, subnet, primaryDNS, secondaryDNS)) {
+     Serial.println("STA Failed to configure");
+     }
+    }
+
+    else
+    {
+      I2C_SDA           =Esp32Pins[0]; //green
+      I2C_SCL           =Esp32Pins[1]; //yellow
+      BOARD_LED         =Esp32Pins[2];
+      RC_TX_PIN         =Esp32Pins[3];
+      AV_RX_DVR_PIN     =Esp32Pins[4];
+           // Configure static IP
+     if (!WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS)) {
+     Serial.println("STA Failed to configure");
+     }
+    }
+      pinMode(AV_RX_DVR_PIN, OUTPUT);
+      pinMode(BOARD_LED, OUTPUT);
+      digitalWrite(BOARD_LED, HIGH);
+      delay(50); // let signals stabilize
+      digitalWrite(AV_RX_DVR_PIN, LOW);  // AV RECEIVER OFF POWER UP NC CONTACT
   
 }
 

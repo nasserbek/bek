@@ -1,0 +1,11 @@
+I²C SDA  -> GPIO22
+I²C SCL  -> GPIO23
+
+Input 1  -> GPIO27 (INPUT_PULLUP)
+Input 2  -> GPIO4  (INPUT_PULLUP)
+
+Output 1 -> GPIO26
+Output 2 -> GPIO14
+
+Spare inputs:
+GPIO34, GPIO35, GPIO36, GPIO39
