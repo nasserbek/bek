@@ -54,6 +54,7 @@ const uint8_t Esp32Pins[5] = {
   21, 22, 2, 15, 0
 };
 
+//Board Selection
 const uint8_t CommonPins[2] = {
   27, 4
 };
@@ -228,15 +229,15 @@ uint _pll[21];
 #define RC_CH20   349411  // xx 
 
 //FREQ 2025
-const uint freqTable[21] =       {0, AV_CH1,   AV_CH2,   AV_CH3,   AV_CH4,   AV_CH5,   AV_CH6,   AV_CH7,   AV_CH8,   AV_CH2,   AV_CH8,   AV_CH3,   AV_CH4,   AV_CH5,  AV_CH1,  AV_CH7,  AV_CH8,    AV_CH6,   AV_CH8,  AV_CH3,  AV_CH4B}; 
-//                                   201       210       211       212       232       206       207                 209       208                 66        62       327       68      66-27-50  67-25-48 68-63    Xxx
+const uint freqTable[21] =       {0, AV_CH1,   AV_CH2,   AV_CH3,   AV_CH4,   AV_CH5,   AV_CH6,   AV_CH7,   AV_CH4,   AV_CH2,   AV_CH8,   AV_CH3,   AV_CH4,   AV_CH5,  AV_CH1,  AV_CH7,  AV_CH8,    AV_CH6,   AV_CH8,  AV_CH3,  AV_CH4B}; 
+//                                   201       210       211       212       232       206       207        214        216       208        217      12         13      327       68      66-27-50  67-25-48 68-63    Xxx
 
 //RC ESP1 IN ORDER ROOM NR
 const unsigned long CH_433[35] = {0, RC_CH1,   RC_CH2,   RC_CH3,   RC_CH4,   RC_CH5,   RC_CH6,   RC_CH7,   RC_CH8,   RC_CH9,   RC_CH10,  RC_CH11,  RC_CH12,  RC_CH13, RC_CH14, RC_CH15, RC_CH16,   RC_CH17,  RC_CH18, RC_CH19, RC_CH20}; 
- //                                  49        51        63        25        65        64        52        48        53        50        24        66        62       29       68       65         66        ROUTER   68       spare
+ //                                  201        210        211      212      232       206       207       8         216       208        217       12        13        327       68       65         66        ROUTER   68       spare
 //RC ESP1 IN ORDER ROOM NR
-//const unsigned long CH_433[35] ={0, 349649,   349811,  349491,    349500,   349635,  349644,      349680,   349111 ,   349211,    349452  , 349463,   349652 ,        349695,   349488,    349632,   349511,  349455, 349443 , 349423 ,  349311}; 
- //                                 24        25        26        27        28       29           48        49         50        51         52        53              62        63         64        65        66     ROUTER   68         spare
+//const unsigned long CH_433[35] ={0, 349649,   349811,  349491,    349500,   349635,  349644,      349680,   349111 ,   349211,    349452  , 349463,   349652 ,        349695,   349488,   349632 ,   349511,  349455, 349443 , 349423 ,  349311}; 
+ //                                    24        25        26        27        28       29           48        49         50        51         52        53              62        63         64        65        66     ROUTER   68         spare
 
 
 
