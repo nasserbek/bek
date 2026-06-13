@@ -3,66 +3,16 @@
 #ifndef MAINLOOP_H
 #define MAINLOOP_H
 
-extern int inactivityPowerOffTimer  ; //1 Hour;
-extern int inactivityRestartTimer  ; //10 Hours;
 extern bool connectAWS(void);
 extern blynk myBlynk;
 extern void resetRemoteRCNoBlynk(int esp);
 
-extern bool  blynkActive;
-extern unsigned int LiveUpdateInterval ;
-bool dvrSleep  ;
-extern uint32_t crashCount;
-extern void saveCrashCount(void);
-extern void blueLedFlash(unsigned long interval);
 
-void SendLiveLed()
-  {
-    if (liveLed)  liveLed = false; 
-    else liveLed = true;
-    liveLedUpdate =false;
-    awsConnected = client.connected();
-
-
- /****************** DVR ************************   */
-  if(inactivityCtrl == BLYNK_TIMERS)
-    {
-    if(!blynkActive &&  !zapOnOff && !zapScanOnly)
-      {
-        LiveSec += LiveUpdateInterval/1000;
-        if (LiveSec >= 60) { LiveMin +=1;  LiveSec = 0;}
-        if (LiveMin >= 60) { LiveHour +=1; LiveMin =0; }
-  
-        if(LiveHour >= 1  &&  stateDVR == DVR_ON && !dvrSleep ) 
-          { 
-            myBlynk.TerminalPrint("Turning Off Video for non activity for 1 Hour.."); 
-            dvrOnOff (POWER_OFF);
-            dvrSleep = true;
-          }
-  
-        else if(LiveHour >= 12  &&  stateDVR == DVR_OFF && dvrSleep ) 
-          { 
-            myBlynk.TerminalPrint("Restarting for non activity for 12 Hour.."); 
-            ESP.restart();
-          }
-      }
-      
-      else if (blynkActive && dvrSleep && stateDVR == DVR_OFF )
-      {
-        myBlynk.TerminalPrint("Turning On Video after sleeping..."); 
-        dvrOnOff (POWER_ON);
-        dvrSleep = false; 
-        LiveSec =LiveMin =LiveHour = 0; 
-      }
-  }
-   /********************************************************************/
-  }
-  
 void resetRouter(void)
 {
-// remoteControl(ROUTER_CH);
-// delay(3000);
-// remoteControl(ROUTER_CH);
+ remoteControl(ROUTER_CH);
+ delay(3000);
+ remoteControl(ROUTER_CH);
 }
 
 
@@ -90,15 +40,9 @@ void processBlynkQueu(void)
                   
             case Q_EVENT_VIDEO_CH_V2:
                 recevierCh=queuData;
-//                if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
-//                else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
-                
-                myBlynk.BlynkButtonColours( lastSelectedCh,CH_MODE_0);
+                if (recevierCh > MAX_NR_CHANNELS) recevierCh = 1;
+                else if (recevierCh < 1) recevierCh = MAX_NR_CHANNELS;
                 receiverAvByCh ( recevierCh,1);
-                delay(100);
-                myBlynk.BlynkButtonColours( recevierCh,CH_MODE_4);
-                lastSelectedCh = recevierCh;
-
              break;
              
              case Q_EVENT_REPEAT_V3:
@@ -116,35 +60,41 @@ void processBlynkQueu(void)
 
             case Q_EVENT_OTA_LOCAL_WEB_WIFI_V6:
                      wifiWebUpdater = false;
-                     crashCount = 0;
-                     saveCrashCount();
                      OtaTimeoutTimer = millis();
                      localWebWifiOta ();
             break;
 
             case Q_EVENT_OTA_GITHUB_V7:
                    otaWifiGithub= false;         
-                   crashCount = 0;
-                   saveCrashCount();
                    OtaTimeoutTimer = millis();
                    OtaGithub();
             break;
  
             case Q_EVENT_REBOOT_V8:
                   rebootCmd=queuData;
-                  crashCount = 0;
-                  saveCrashCount();
-                  delay(1000);
                   rebootSw();
             break;
 
-           case Q_EVENT_SELECTED_RECIEVER_CH_1_4_V9:
+           case Q_EVENT_SELECTED_RECIEVER_V9:
+           
+                   if(ActiveBoard == ESP1 )    //RX2 ALIAS 4  RX3 ALIAS 3
+                    {
+                       if(queuData == 1) {queuData =2;myBlynk.RelaySelect(2);} //FORCE IF SELECTE IS 1
+                       if(queuData == 4) {queuData =3;myBlynk.RelaySelect(3);} //FORCE IF SELECTE IS 4
+                       if(queuData == 2) queuData =4;  //CH2_RX4   //CH3_RX3
+                    }
+                   
+                   if(ActiveBoard == ESP3 )  //RX4 ALIAS 1  RX3 ALIAS 2
+                   {
+                      if(queuData == 1 || queuData == 2 ) {queuData =3; myBlynk.RelaySelect(3);} //FORCE IF SELECTE IS 1 OR 2
+                 
+                      if(queuData == 4) queuData =1;  //CH4_RX1
+                      else if(queuData == 3) queuData =2;  //CH3_RX2
+                   } 
+                   
                   selected_Rx = queuData-1;
                   AvReceiverSel(queuData);
-                  videoplayerCh = "ch0" + String(queuData);
-                  myBlynk.streamSelect(videoplayerCh);
-                  if(ActiveBoard == ESP2) selectRelay(selected_Rx);
-
+                                 
            break;
  
             case Q_EVENT_ZAP_SCAN_ONLY_V10:
@@ -152,9 +102,7 @@ void processBlynkQueu(void)
             break;
 
             case Q_EVENT_WIFI_IDE_V11:
-                 wifiIde = false;  
-                 crashCount = 0;
-                 saveCrashCount();       
+                 wifiIde = false;         
                  OtaTimeoutTimer = millis();
                  ArduinoIdeWifi();
             break;            
@@ -199,29 +147,20 @@ void processBlynkQueu(void)
             break;         
                  
             case Q_EVENT_SPARE_V27:
-//                      DvrChOn = true;
-//                      dvrOnOff (POWER_ON);
+                      DvrChOn = true;
+                      dvrOnOff (1);
             break;   
 
-            case Q_EVENT_DVR_OFF_TIMER_V30: 
-                        inactivityPowerOffTimer  = queuData ; //1 Hour;
+            case Q_EVENT_REL1_CH_V30: 
             break;   
 
-            case Q_EVENT_RESTART_TIMER_V31:   
-                        inactivityRestartTimer  = queuData ; //10 HourS;
+            case Q_EVENT_REL2_CH_V31:   
             break;  
 
-            case Q_EVENT_SELECTED_RECIEVER_CH_5_6_V32: 
-                      selected_Rx = queuData+4-1;
-                      AvReceiverSel(queuData+4);
-                      videoplayerCh = "ch0" + String(queuData+4);
-                      myBlynk.streamSelect(videoplayerCh);
-                      if(ActiveBoard == ESP2)  selectRelay(selected_Rx);
-
-                      
+            case Q_EVENT_REL3_CH_V32: 
             break;   
 
-            case Q_EVENT_SPARE_V33: 
+            case Q_EVENT_REL4_CH_V33: 
             break;  
 
             case Q_EVENT_ZAP_ALL_ON_OFF_V34:  
@@ -262,8 +201,7 @@ void processBlynkQueu(void)
             break;
 
             case Q_EVENT_ZAP_TIMER_V72:
-                  zapTimerSec = queuData;
-                  zapTimer  =  (zapTimerSec * 1000UL) ;
+                 zapTimer=queuData;
             break;
 
             case Q_EVENT_VIDEO_ON_OFF_V81 :
@@ -271,11 +209,11 @@ void processBlynkQueu(void)
                  dvrOnOff (queuData);
             break;
 
-//            case Q_EVENT_SPARE_V82 :
+//            case Q_EVENT_LIVE_MIN_V82 :
 //
 //            break;
 //
-//             case Q_EVENT_SPARE_V83 :
+//             case Q_EVENT_LIVE_HOUR_V83 :
 //
 //            break;
 
@@ -446,29 +384,22 @@ void processBlynkQueu(void)
     selected_room = recevierCh;
 }
 
-void resetInternetLoss()
-{
-      InternetLoss = false;   
-      netGeerReset = false; 
-      routerResetStart  = false;
-      resetNetgeerAfterInternetLossTimer = millis();
-      restartAfterResetNG = millis();
-      routerResetTimer        = millis();
-}
+
       
 void blynkLoop(void)
 {
  StaticJsonDocument<54> doc; //Json to send from
  
        blynkConnected=myBlynk.blynkStatus(); 
-       
+
+
        if ( blynkConnected )
           {
-           blueLedFlash(5000);
            if(!liveLedUpdate) 
                 {
                   liveLedUpdate = true; 
-                } 
+                  myBlynk.liveLedCall(liveLed);
+                }  
        
             myBlynk.blynkRun();
             queuValidData = (xQueueReceive(g_event_queue_handle, &queuDataID, 5 / portTICK_RATE_MS) == pdPASS);
@@ -481,17 +412,15 @@ void blynkLoop(void)
                      processBlynkQueu(); 
                     }
                   }
-            resetInternetLoss();
-          }
+            InternetLoss = false;   resetNetgeerAfterInternetLossTimer = millis();
+            netGeerReset = false;   restartAfterResetNG = millis();
+                 }
 
        else if( !InternetLoss && !blynkConnected)  
           {
             DEBUG_PRINTLN("Blynk Disconnected , Internet Loss!!!");
             InternetLoss = true; 
-            netGeerReset = false; 
-            routerResetStart  = false;
             resetNetgeerAfterInternetLossTimer = millis();
-            
             blynkEvent=false; 
             myBlynk.sendToBlynk = false;
             myBlynk.sendToBlynkLeds = false;
@@ -524,6 +453,13 @@ void awsLoop(void)
          }
 }
 
+void SendLiveLed()
+  {
+    if (liveLed)  liveLed = false; 
+    else liveLed = true;
+    liveLedUpdate =false;
+    awsConnected = client.connected();
+  }
 
 
 #endif

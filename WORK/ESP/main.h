@@ -1,7 +1,7 @@
 #include <Wire.h>
 #include <RCSwitch.h>
 #include <ESP32httpUpdate.h>
-#include <IPAddress.h>
+
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/timers.h"
@@ -13,8 +13,6 @@
 #include "headers.h"
 #include <Wire.h>
 #include <WiFi.h>
-#include "esp_sleep.h"
-
 
  //AWS
 #include "secrets.h"
@@ -26,84 +24,9 @@
 #include <ESPmDNS.h>
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
-#include "time.h"
-#include <Preferences.h>
 
-// Static IP configuration
-IPAddress local_IP(192, 168, 1, 151);   // ESP1
-IPAddress local_IP_Relays(192, 168, 1, 152);   // ESP2
 
-IPAddress gateway(192, 168, 1, 1);      // Router IP
-IPAddress subnet(255, 255, 255, 0);
-IPAddress primaryDNS(8, 8, 8, 8);       // Optional
-IPAddress secondaryDNS(8, 8, 4, 4);     // Optional
-bool powerOnReason = false;
 
-// Lillygo Realy-8
-const uint8_t relayPins[8] = {
-  33, 32, 13, 12,
-  21, 19, 18, 5
-};
-
-const uint8_t LilluGoPins[5] = {
-  23, 22,
-  25, 26, 14
-};
-
-const uint8_t Esp32Pins[5] = {
-  21, 22, 2, 15, 0
-};
-
-//Board Selection
-const uint8_t CommonPins[2] = {
-  27, 4
-};
-
-uint8_t   I2C_SDA; //green
-uint8_t   I2C_SCL; //yellow
-    
-    //BOARD SEL
-uint8_t   DIP1;
-uint8_t   DIP2;
-    
-    //board led
-uint8_t   BOARD_LED;
-
-    //RC
-uint8_t   RC_TX_PIN ;
-    //DVR
-uint8_t   AV_RX_DVR_PIN;
-
-uint32_t lastActivityTime = 0;
-
-bool inactivityCtrl = MILLS;
-unsigned long blueLedPreviousMillis = 0;
-unsigned long blueLedInterval = 5000; // 5 seconds
-
-bool blueLedState = false;
-
-// GMT offset in seconds
-const long gmtOffset_sec = 3600;      // France winter UTC+1
-const int daylightOffset_sec = 3600;  // Summer time +1h
-// NTP server
-const char* ntpServer = "pool.ntp.org";
-   
-    int ActiveBoard   = ESP1;
-    int selectedBoard = ESP1;
-    const char* BLYNK_AUTH_TOKEN_ESP1       =         "2NVzjDY96Cbam0_TxJqTVSsgI7LgWq0_" ;//ESP1
-    const char* BLYNK_AUTH_TOKEN_ESP2       =         "n77QtZp08I7AOG8AcCpBhxJle1S6GXa0" ;//ESP2
-    const char* BLYNK_AUTH_TOKEN_ESP3       =         "lsH8XwzGGUUneZTqYMN-5_hfx8YepjjY" ;//ESP3
-    const char* BLYNK_AUTH_TOKEN_TEST       =         "1Wq6Re2q9eTOK8D5vfHhynNN2B_XoZ83" ;//ESP14
-    String BOARD            = "ESP1";
-    String VERSION_ID       = " ESP1.0 ";
-    const char* BLYNK_AUTH_TOKEN = BLYNK_AUTH_TOKEN_ESP1; //ESP1";
-    const char* THINGNAME        = "ESP1"   ;
-    const char* gitHubURL        =  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP.ino.esp32.bin"  ;// URL to download the firmware from
-     
-    int stateDVR = DVR_ON;
-    String videoplayerCh = "ch01";
-    const int defaultRxCh[19]   ={0, CH_1,   CH_1,   CH_1,   CH_1,   CH_1,   CH_1,   CH_1,   CH_1,   CH_9,   CH_10,  CH_11,  CH_12,  CH_13, CH_14, CH_15, CH_16,   CH_17,  CH_18}; 
- //                              
 QueueHandle_t g_event_queue_handle = NULL;
 EventGroupHandle_t g_event_group = NULL;
 
@@ -114,9 +37,10 @@ WiFiClientSecure net = WiFiClientSecure();
 PubSubClient client(net);
 
 int   MapIndex            = 0;
-bool  PowerOnTune         = true;
+bool  PowerOnTune         = false;
 bool  autoResetRouter     = 0;
-
+int   ActiveBoard         = ESP1;
+int   selectedBoard       = ESP1;
 bool  liveLed             = false;
 bool  liveLedUpdate       = false;
 bool  internetLossUpdate  = false;
@@ -229,15 +153,15 @@ uint _pll[21];
 #define RC_CH20   349411  // xx 
 
 //FREQ 2025
-const uint freqTable[21] =       {0, AV_CH1,   AV_CH2,   AV_CH3,   AV_CH4,   AV_CH5,   AV_CH6,   AV_CH7,   AV_CH4,   AV_CH2,   AV_CH8,   AV_CH3,   AV_CH4,   AV_CH5,  AV_CH1,  AV_CH7,  AV_CH8,    AV_CH6,   AV_CH8,  AV_CH3,  AV_CH4B}; 
-//                                   201       210       211       212       232       206       207        214        216       208        217      12         13      327       68      66-27-50  67-25-48 68-63    Xxx
+const uint freqTable[21] =       {0, AV_CH1,   AV_CH2,   AV_CH3,   AV_CH4,   AV_CH5,   AV_CH6,   AV_CH7,   AV_CH8,   AV_CH1,   AV_CH2,   AV_CH3,   AV_CH4,   AV_CH5,  AV_CH6,  AV_CH7,  AV_CH8,    AV_CH6,   AV_CH8,  AV_CH3,  AV_CH4B}; 
+//                                   49        51        63        25        65        64        52        48        53        50        24        66        62       29       68      66-27-50  67-25-48 68-63    Xxx
 
 //RC ESP1 IN ORDER ROOM NR
 const unsigned long CH_433[35] = {0, RC_CH1,   RC_CH2,   RC_CH3,   RC_CH4,   RC_CH5,   RC_CH6,   RC_CH7,   RC_CH8,   RC_CH9,   RC_CH10,  RC_CH11,  RC_CH12,  RC_CH13, RC_CH14, RC_CH15, RC_CH16,   RC_CH17,  RC_CH18, RC_CH19, RC_CH20}; 
- //                                  201        210        211      212      232       206       207       8         216       208        217       12        13        327       68       65         66        ROUTER   68       spare
+ //                                  49        51        63        25        65        64        52        48        53        50        24        66        62       29       68       65         66        ROUTER   68       spare
 //RC ESP1 IN ORDER ROOM NR
-//const unsigned long CH_433[35] ={0, 349649,   349811,  349491,    349500,   349635,  349644,      349680,   349111 ,   349211,    349452  , 349463,   349652 ,        349695,   349488,   349632 ,   349511,  349455, 349443 , 349423 ,  349311}; 
- //                                    24        25        26        27        28       29           48        49         50        51         52        53              62        63         64        65        66     ROUTER   68         spare
+//const unsigned long CH_433[35] ={0, 349649,   349811,  349491,    349500,   349635,  349644,      349680,   349111 ,   349211,    349452  , 349463,   349652 ,        349695,   349488,    349632,   349511,  349455, 349443 , 349423 ,  349311}; 
+ //                                 24        25        26        27        28       29           48        49         50        51         52        53              62        63         64        65        66     ROUTER   68         spare
 
 
 
@@ -295,12 +219,11 @@ bool smsOn      =true;
 
 int ackTimer =  500;
 int scanTimer = 5000;
-int zapTimerSec = 10;
-uint32_t zapTimer  =  (1UL * 1000UL) ;
+int zapTimer = 10000;
 int zapTimerOff = 5000;
 
-//int routerTimer = 5000;
-uint32_t  routerResetTimer, resetNetgeerAfterInternetLossTimer,zaptime, zaptimeOff,scantime, AckTime, internetSurvilanceTimer, liveTimerOn,liveTimerOff,OtaTimeoutTimer,restartAfterResetNG,NetgeerResetGooglLostTimer,Router_24_hoursTimer,blynkNotActiveTimer;
+int routerTimer = 5000;
+long  routerResetTimer, resetNetgeerAfterInternetLossTimer,zaptime, zaptimeOff,scantime, AckTime, internetSurvilanceTimer, liveTimerOn,liveTimerOff,OtaTimeoutTimer,restartAfterResetNG,NetgeerResetGooglLostTimer,Router_24_hoursTimer,blynkNotActiveTimer;
 bool pingGoogle= false;
 bool googlePingOk= true;
 bool netGeerReset = false;
@@ -438,3 +361,130 @@ int T315_Ch_Status[16];
 int T433_St;
 int T315_St;
 RCSwitch mySwitch = RCSwitch();
+
+void BoardDefines()
+{
+  if(ActiveBoard == ESP1)      //TTGO R64 SCATOLA 1CH TTGO
+  {
+      #define BOARD ESP1
+      #define VERSION_ID " ESP1_1 - "
+      #define BLYNK_AUTH_TOKEN                BLYNK_AUTH_TOKEN_ESP1 //ESP1
+      #define THINGNAME "ESP1"   
+      #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "esp1/sub/rc"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "esp1/sub/video"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAP     "esp1/sub/zap"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_RX      "esp1/sub/rx"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_AV_RC   "esp1/sub/avrc"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_DVR     "esp1/sub/dvr"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_REBOOT  "esp1/sub/reboot"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH   "esp1/sub/zapchanel"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA   "esp1/sub/localWebOta"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA   "esp1/sub/GitHubWebOta"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA   "esp1/sub/ideOta"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_VERSION   "esp1/sub/version"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_SCAN   "esp1/sub/scan"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_REPEAT   "esp1/sub/repeat"   
+      #define AWS_IOT_SUBSCRIBE_TOPIC_PRESET  "esp1/sub/preset"  
+      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO   "esp1/sub/zapauto"  
+      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON   "esp1/sub/zton"  
+      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "esp1/sub/ztoff" 
+      #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "esp1/sub/live"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "esp1/sub/blynk"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL   "esp1/sub/terminal"
+      #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP1/ESP1.ino.esp32.bin"  // URL to download the firmware from
+  }
+  
+  
+  if(ActiveBoard == ESP2)      // R65 SCATOLA 4CH ESP32S
+  {
+      #define BOARD ESP2
+      #define VERSION_ID " V1.16 "
+      #define BLYNK_AUTH_TOKEN                BLYNK_AUTH_TOKEN_ESP2 //ESP2
+      #define THINGNAME "ESP2"   
+      #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "esp2/sub/rc"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "esp2/sub/video"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAP     "esp2/sub/zap"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_RX      "esp2/sub/rx"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_AV_RC   "esp2/sub/avrc"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_DVR     "esp2/sub/dvr"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_REBOOT  "esp2/sub/reboot"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH   "esp2/sub/zapchanel"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA   "esp2/sub/localWebOta"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA   "esp2/sub/GitHubWebOta"   
+      #define AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA   "esp2/sub/ideOta" 
+      #define AWS_IOT_SUBSCRIBE_TOPIC_VERSION   "esp2/sub/version"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_SCAN   "esp2/sub/scan"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_REPEAT   "esp2/sub/repeat"   
+      #define AWS_IOT_SUBSCRIBE_TOPIC_PRESET  "esp2/sub/preset"  
+      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO   "esp2/sub/zapauto"  
+      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON   "esp2/sub/zton"  
+      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "esp2/sub/ztoff" 
+      #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "esp2/sub/live"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "esp2/sub/blynk"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL   "esp2/sub/terminal"
+      #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP1/ESP1.ino.esp32.bin"  // URL to download the firmware from
+  }
+  
+  
+  
+  if(ActiveBoard == ESP3)      //R66 SWAN CASE 2CH ESP32S
+  {
+      #define BOARD ESP3
+      #define VERSION_ID " ESP1_1 - "
+      #define BLYNK_AUTH_TOKEN                BLYNK_AUTH_TOKEN_ESP3 //ESP3
+      #define THINGNAME "ESP3"   
+      #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "esp3/sub/rc"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "esp3/sub/video"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAP     "esp3/sub/zap"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_RX      "esp3/sub/rx"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_AV_RC   "esp3/sub/avrc"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_DVR     "esp3/sub/dvr"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_REBOOT  "esp3/sub/reboot"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH   "esp3/sub/zapchanel"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA   "esp3/sub/localWebOta"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA   "esp3/sub/GitHubWebOta" 
+      #define AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA   "esp3/sub/ideOta"   
+      #define AWS_IOT_SUBSCRIBE_TOPIC_VERSION   "esp3/sub/version" 
+      #define AWS_IOT_SUBSCRIBE_TOPIC_SCAN   "esp3/sub/scan"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_REPEAT   "esp3/sub/repeat"   
+      #define AWS_IOT_SUBSCRIBE_TOPIC_PRESET  "esp3/sub/preset"  
+      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO   "esp3/sub/zapauto"  
+      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON   "esp3/sub/zton"  
+      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "esp3/sub/ztoff" 
+      #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "esp3/sub/live"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "esp3/sub/blynk"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL   "esp3/sub/terminal"
+      #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP1/ESP1.ino.esp32.bin"  // URL to download the firmware from
+    }  
+  
+  
+  if(ActiveBoard == ESP0)      //R66 SWAN CASE 2CH ESP32S
+  {    
+      #define VERSION_ID " TEST_1 - "
+      #define BLYNK_AUTH_TOKEN                BLYNK_AUTH_TOKEN_ESP14
+      #define THINGNAME "ESP14"   
+      #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "test/sub/rc"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "test/sub/video"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAP     "test/sub/zap"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_RX      "test/sub/rx"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_AV_RC   "test/sub/avrc"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_DVR     "test/sub/dvr"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_REBOOT  "test/sub/reboot"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPCH   "test/sub/zapchanel"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_LOCAL_WEB_OTA   "test/sub/localWebOta"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_GITHUB_WEB_OTA   "test/sub/GitHubWebOta"   
+      #define AWS_IOT_SUBSCRIBE_TOPIC_IDE_OTA   "test/sub/ideOta" 
+      #define AWS_IOT_SUBSCRIBE_TOPIC_VERSION   "test/sub/version"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_SCAN   "test/sub/scan"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_REPEAT   "test/sub/repeat"   
+      #define AWS_IOT_SUBSCRIBE_TOPIC_PRESET  "test/sub/preset"  
+      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPAUTO   "test/sub/zapauto"  
+      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMERON   "test/sub/zton"  
+      #define AWS_IOT_SUBSCRIBE_TOPIC_ZAPTIMEROFF   "test/sub/ztoff"   
+      #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "test/sub/live"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "test/sub/blynk"
+      #define AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL   "test/sub/terminal"
+      #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP1/ESP1.ino.esp32.bin"  // URL to download the firmware from
+   } 
+
+}

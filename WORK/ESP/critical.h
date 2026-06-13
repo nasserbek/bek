@@ -7,27 +7,28 @@
 #define _TIMERINTERRUPT_LOGLEVEL_     4
 #include "ESP32TimerInterrupt.h"
 ESP32Timer ITimer0(0);
+
+
 extern void resetRouter(void);
-extern void activateLocalWifiWeb();
-extern void resetInternetLoss();
-extern void activateWifiIde();
-extern void blueLedFlash(unsigned long interval);
+
+volatile uint32_t wdtTriggered = 0;
+
 
 /***********************************************************************************/
+unsigned long lastFeed = 0;
 
 void resetWdg()
 {
-   ITimer0.stopTimer();   
-   delay(100); 
-   ITimer0.restartTimer();  
+    lastFeed = millis();
 }
+
 
 /*********************************************************************/
 
 
 void IRAM_ATTR TimerHandler0()
 {
-    ESP.restart();
+    wdtTriggered = 1;
 }
 
 
@@ -77,38 +78,36 @@ void ResetNetgeer(void)
                 DEBUG_PRINTLN("Netgeer Reset done: ");
                 myBlynk.TerminalPrint("RESTARTING ROUTER...");
               }
-         //     if(autoResetRouter) resetRouter();
+              if(autoResetRouter) resetRouter();
           }
 
 
 
 void internetCheck(void)
 {
-//         if ( ( (millis() - resetNetgeerAfterInternetLossTimer) >= INTERNET_LOSS_TO_RESET_NG_TIMER) && InternetLoss && !blynkConnected && !routerResetStart)
-//        {
-//              DEBUG_PRINTLN("Blynk Disconnected for 2 min, Reset Netgeer");
-//              routerResetTimer        = millis();
-//              routerResetStart = true;
-//              DEBUG_PRINTLN("Netgeer Reset done: ");
-//        }
-//       if ( (  (millis() - routerResetTimer) >= ROUTER_RESET_TIMER) && InternetLoss && !blynkConnected && routerResetStart)
-//                {
-//                routerResetStart=false;
-//                restartAfterResetNG     = millis();
-//                netGeerReset = true;
-//               }
+       if ( (  (millis() - routerResetTimer) >= routerTimer) && routerResetStart)
+                {
+    
+                routerResetStart=false;
+                routerResetTimer        = millis();
+                restartAfterResetNG     = millis();
+                netGeerReset = true;
+                blynkInitDone = false;
+                pingGoogle =false;
+               }
 
-       if (  ( (millis() - restartAfterResetNG) >=  RESTART_AFTER_NG_RESET_TIMER) && InternetLoss && !blynkConnected )//&& netGeerReset )
+       if ( ( (millis() - resetNetgeerAfterInternetLossTimer) >= INTERNET_LOSS_TO_RESET_NG_TIMER) && InternetLoss && !blynkConnected && !netGeerReset)
+        {
+              DEBUG_PRINTLN("Blynk Disconnected for 2 min, Reset Netgeer");
+ //             ResetNetgeer();
+              if(!routerResetStart){routerResetTimer        = millis();routerResetStart = true;DEBUG_PRINTLN("Netgeer Reset done: ");}
+        }
+
+       if (  ( (millis() - restartAfterResetNG) >=  RESTART_AFTER_NG_RESET_TIMER) && netGeerReset )
           {
-            DEBUG_PRINTLN("Resetaring 7 min after Internet or Blynk Loss");
-            netGeerReset = false;
-            resetInternetLoss();
-            wifiAvailable = myBlynk.wifi_init();
-            if(wifiAvailable)activateLocalWifiWeb();
-            else ESP.restart(); 
+            DEBUG_PRINTLN("Resetaring 30 min after Netgeer Rreset");
+            ESP.restart(); 
           }
-
- //      else if ( InternetLoss && !blynkConnected ) blueLedFlash(10000) ; 
 }     
 
 

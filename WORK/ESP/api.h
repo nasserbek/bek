@@ -84,7 +84,7 @@ bool httpRequest(const String& method,
 
 
 
-void apiSend(char* RemoteBoard, String virtualPin, int value) {
+void apiSend(int RemoteBoard, String virtualPin, int value) {
   String response;
 
   // Send value to the cloud
@@ -92,7 +92,7 @@ void apiSend(char* RemoteBoard, String virtualPin, int value) {
   String request = "&pin="+ virtualPin +"&value=" ;
   Serial.print("Sending value: " );
   Serial.println(value);
-  if (RemoteBoard == "ESP1" && BOARD != "ESP1")
+  if (RemoteBoard == ESP1 && BOARD != ESP1)
   {
          if (httpRequest("GET", String("/external/api/update?token=") + BLYNK_AUTH_TOKEN_ESP1 + request + value, "", response)) {
           if (response.length() != 0) {
@@ -102,7 +102,7 @@ void apiSend(char* RemoteBoard, String virtualPin, int value) {
         }
   }
 
-    if (RemoteBoard == "ESP2" && BOARD != "ESP2")
+    if (RemoteBoard == ESP2 && BOARD != ESP2)
   {
          if (httpRequest("GET", String("/external/api/update?token=") + BLYNK_AUTH_TOKEN_ESP2 + request + value, "", response)) {
           if (response.length() != 0) {
@@ -112,7 +112,7 @@ void apiSend(char* RemoteBoard, String virtualPin, int value) {
         }
   }
 
-   if (RemoteBoard == "ESP3" && BOARD != "ESP3")
+   if (RemoteBoard == ESP3 && BOARD != ESP3)
   {
          if (httpRequest("GET", String("/external/api/update?token=") + BLYNK_AUTH_TOKEN_ESP3 + request + value, "", response)) {
           if (response.length() != 0) {
