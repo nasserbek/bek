@@ -1,0 +1,187 @@
+00:13:04.029 INFO - Using data dir 'server_data'
+00:13:05.405 INFO - Region : local. Host : 100.108.109.51.
+00:13:08.688 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+00:13:08.794 INFO - Reports : 0
+00:13:08.794 INFO - Didn't find custom user certificates.
+00:13:08.798 INFO - Didn't find Let's Encrypt certificates.
+00:13:08.798 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+00:13:08.798 WARN - ATTENTION. Server certificate paths (cert : 'C:\Users\CSR\Desktop\blynk_server', key : 'C:\Users\CSR\Desktop\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+00:13:15.493 INFO - HTTP API and WebSockets server listening at 8080 port.
+00:13:15.496 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+00:13:15.498 INFO - Mqtt hardware server listening at 8440 port.
+00:48:52.310 INFO - Using data dir 'server_data'
+00:48:53.069 INFO - Region : local. Host : 100.108.109.51.
+00:48:54.022 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+00:48:54.072 INFO - Reports : 0
+00:48:54.072 INFO - Didn't find custom user certificates.
+00:48:54.076 INFO - Didn't find Let's Encrypt certificates.
+00:48:54.076 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+00:48:54.076 WARN - ATTENTION. Server certificate paths (cert : 'C:\Users\CSR\Desktop\blynk_server', key : 'C:\Users\CSR\Desktop\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+00:48:55.895 INFO - HTTP API and WebSockets server listening at 8080 port.
+00:48:55.898 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+00:48:55.899 INFO - Mqtt hardware server listening at 8440 port.
+00:52:04.157 INFO - Using data dir 'server_data'
+00:52:04.982 INFO - Region : local. Host : 100.108.109.51.
+00:52:05.776 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+00:52:05.822 INFO - Reports : 0
+00:52:05.822 INFO - Didn't find custom user certificates.
+00:52:05.824 INFO - Didn't find Let's Encrypt certificates.
+00:52:05.825 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+00:52:05.826 WARN - ATTENTION. Server certificate paths (cert : 'C:\Users\CSR\Desktop\blynk_server', key : 'C:\Users\CSR\Desktop\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+00:52:07.299 INFO - HTTP API and WebSockets server listening at 8080 port.
+00:52:07.301 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+00:52:07.303 INFO - Mqtt hardware server listening at 8440 port.
+00:52:54.366 INFO - Using data dir 'server_data'
+00:52:55.115 INFO - Region : local. Host : 100.108.109.51.
+00:52:55.992 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+00:52:56.052 INFO - Reports : 0
+00:52:56.053 INFO - Didn't find custom user certificates.
+00:52:56.056 INFO - Didn't find Let's Encrypt certificates.
+00:52:56.056 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+00:52:56.057 WARN - ATTENTION. Server certificate paths (cert : 'C:\Users\CSR\Desktop\blynk_server', key : 'C:\Users\CSR\Desktop\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+00:52:58.367 INFO - HTTP API and WebSockets server listening at 8080 port.
+00:52:58.369 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+00:52:58.370 INFO - Mqtt hardware server listening at 8440 port.
+01:02:49.930 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+01:07:53.926 INFO - nasserbek@yahoo.it hardware joined.
+01:08:40.310 INFO - nasserbek@yahoo.it hardware joined.
+01:10:35.142 INFO - nasserbek@yahoo.it hardware joined.
+01:11:15.512 INFO - nasserbek@yahoo.it hardware joined.
+01:13:29.664 INFO - nasserbek@yahoo.it hardware joined.
+01:15:29.409 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+03:59:21.006 ERROR- Error sending push. Reason No such host is known (fcm.googleapis.com)
+03:59:21.007 ERROR- Error sending push. Reason fcm.googleapis.com
+03:59:21.007 ERROR- Error sending push. Reason fcm.googleapis.com
+03:59:21.007 ERROR- Error sending push. Reason fcm.googleapis.com
+03:59:21.008 ERROR- Error sending push. Reason fcm.googleapis.com
+03:59:21.009 ERROR- Error sending push. Reason fcm.googleapis.com
+03:59:21.009 ERROR- Error sending push. Reason fcm.googleapis.com
+03:59:21.010 ERROR- Error sending push. Reason fcm.googleapis.com
+03:59:21.010 ERROR- Error sending push. Reason fcm.googleapis.com
+03:59:21.010 ERROR- Error sending push. Reason fcm.googleapis.com
+03:59:21.011 ERROR- Error sending push. Reason fcm.googleapis.com
+03:59:21.011 ERROR- Error sending push. Reason fcm.googleapis.com
+03:59:21.011 ERROR- Error sending push. Reason fcm.googleapis.com
+03:59:21.012 ERROR- Error sending push. Reason fcm.googleapis.com
+03:59:21.012 ERROR- Error sending push. Reason fcm.googleapis.com
+04:00:02.402 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+04:02:57.044 INFO - nasserbek@yahoo.it hardware joined.
+04:02:59.388 INFO - nasserbek@yahoo.it hardware joined.
+04:03:05.331 INFO - nasserbek@yahoo.it hardware joined.
+08:09:43.570 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+08:14:41.197 INFO - nasserbek@yahoo.it hardware joined.
+08:40:17.726 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+08:48:51.431 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+08:50:17.799 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+08:51:17.226 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+09:28:47.250 INFO - nasserbek@yahoo.it hardware joined.
+09:34:27.608 INFO - Using data dir 'server_data'
+09:34:28.490 INFO - Region : local. Host : 100.108.109.51.
+09:34:29.318 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+09:34:29.362 INFO - Reports : 0
+09:34:29.362 INFO - Didn't find custom user certificates.
+09:34:29.366 INFO - Didn't find Let's Encrypt certificates.
+09:34:29.366 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+09:34:29.366 WARN - ATTENTION. Server certificate paths (cert : 'C:\Users\CSR\Desktop\blynk_server', key : 'C:\Users\CSR\Desktop\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+09:34:31.046 INFO - HTTP API and WebSockets server listening at 8080 port.
+09:34:31.047 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+09:34:31.049 INFO - Mqtt hardware server listening at 8440 port.
+09:34:31.384 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+09:34:32.396 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+09:34:33.823 INFO - nasserbek@yahoo.it hardware joined.
+09:34:39.685 INFO - nasserbek@yahoo.it hardware joined.
+10:13:55.345 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+10:28:18.806 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+11:52:03.832 INFO - nasserbek@yahoo.it hardware joined.
+11:52:28.703 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+12:46:40.517 INFO - Using data dir 'server_data'
+12:46:41.539 INFO - Region : local. Host : 100.108.109.51.
+12:46:42.576 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+12:46:42.630 INFO - Reports : 0
+12:46:42.630 INFO - Didn't find custom user certificates.
+12:46:42.632 INFO - Didn't find Let's Encrypt certificates.
+12:46:42.632 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+12:46:42.633 WARN - ATTENTION. Server certificate paths (cert : 'C:\Users\CSR\Desktop\blynk_server', key : 'C:\Users\CSR\Desktop\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+12:46:45.237 INFO - HTTP API and WebSockets server listening at 8080 port.
+12:46:45.239 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+12:46:45.241 INFO - Mqtt hardware server listening at 8440 port.
+12:46:45.533 INFO - nasserbek@yahoo.it hardware joined.
+12:46:45.574 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+12:46:51.347 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+12:46:53.976 INFO - nasserbek@yahoo.it hardware joined.
+13:08:11.893 INFO - nasserbek@yahoo.it hardware joined.
+13:25:48.227 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+13:26:01.626 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+13:58:13.233 INFO - nasserbek@yahoo.it hardware joined.
+14:20:52.500 INFO - Using data dir 'server_data'
+14:20:53.277 INFO - Region : local. Host : 100.108.109.51.
+14:20:54.129 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+14:20:54.173 INFO - Reports : 0
+14:20:54.174 INFO - Didn't find custom user certificates.
+14:20:54.176 INFO - Didn't find Let's Encrypt certificates.
+14:20:54.176 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+14:20:54.176 WARN - ATTENTION. Server certificate paths (cert : 'C:\Users\CSR\Desktop\blynk_server', key : 'C:\Users\CSR\Desktop\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+14:20:56.166 INFO - HTTP API and WebSockets server listening at 8080 port.
+14:20:56.168 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+14:20:56.170 INFO - Mqtt hardware server listening at 8440 port.
+14:20:59.406 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+14:25:17.436 INFO - nasserbek@yahoo.it hardware joined.
+14:26:45.076 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+14:42:58.182 INFO - nasserbek@yahoo.it hardware joined.
+14:43:21.814 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+14:43:22.101 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+14:43:32.579 INFO - nasserbek@yahoo.it hardware joined.
+14:51:00.934 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+14:55:35.288 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+14:57:22.445 INFO - nasserbek@yahoo.it hardware joined.
+15:02:49.112 INFO - nasserbek@yahoo.it hardware joined.
+15:03:45.577 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+15:19:43.695 INFO - nasserbek@yahoo.it hardware joined.
+15:24:14.550 INFO - nasserbek@yahoo.it hardware joined.
+15:24:46.871 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+15:48:01.491 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+15:57:33.314 INFO - nasserbek@yahoo.it hardware joined.
+15:58:53.366 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+16:14:21.866 INFO - nasserbek@yahoo.it hardware joined.
+16:39:04.240 INFO - nasserbek@yahoo.it hardware joined.
+16:49:33.587 INFO - nasserbek@yahoo.it hardware joined.
+16:51:27.863 INFO - nasserbek@yahoo.it hardware joined.
+16:58:22.895 INFO - nasserbek@yahoo.it hardware joined.
+22:27:26.913 INFO - Using data dir 'server_data'
+22:27:29.778 INFO - Region : local. Host : 100.108.109.51.
+22:27:36.938 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+22:27:37.250 INFO - Reports : 0
+22:27:37.250 INFO - Didn't find custom user certificates.
+22:27:37.255 INFO - Didn't find Let's Encrypt certificates.
+22:27:37.255 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+22:27:37.255 WARN - ATTENTION. Server certificate paths (cert : 'C:\Users\CSR\Desktop\blynk_server', key : 'C:\Users\CSR\Desktop\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+22:27:44.247 INFO - HTTP API and WebSockets server listening at 8080 port.
+22:27:44.250 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+22:27:44.252 INFO - Mqtt hardware server listening at 8440 port.
+22:28:06.189 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+22:28:11.823 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+22:39:48.800 INFO - Using data dir 'server_data'
+22:39:49.590 INFO - Region : local. Host : 100.108.109.51.
+22:39:50.499 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+22:39:50.552 INFO - Reports : 0
+22:39:50.553 INFO - Didn't find custom user certificates.
+22:39:50.555 INFO - Didn't find Let's Encrypt certificates.
+22:39:50.555 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+22:39:50.555 WARN - ATTENTION. Server certificate paths (cert : 'C:\Users\CSR\Desktop\blynk_server', key : 'C:\Users\CSR\Desktop\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+22:39:52.270 INFO - HTTP API and WebSockets server listening at 8080 port.
+22:39:52.271 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+22:39:52.272 INFO - Mqtt hardware server listening at 8440 port.
+22:40:11.632 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+22:40:38.334 INFO - nasserbek@yahoo.it hardware joined.
+22:40:58.994 INFO - nasserbek@yahoo.it hardware joined.
+22:43:16.968 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+22:45:15.681 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+22:47:34.870 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+22:48:55.731 INFO - nasserbek@yahoo.it hardware joined.
+23:09:18.368 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+23:29:48.401 INFO - nasserbek@yahoo.it hardware joined.
+23:31:14.572 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+23:32:39.184 INFO - nasserbek@yahoo.it hardware joined.
+23:42:08.889 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+23:42:23.096 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+23:49:07.883 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.

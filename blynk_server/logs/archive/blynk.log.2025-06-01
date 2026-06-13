@@ -1,0 +1,240 @@
+00:51:44.387 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+02:19:33.991 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+02:22:27.131 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+02:25:13.938 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+14:34:30.988 INFO - nasserbek@yahoo.it hardware joined.
+14:54:42.850 INFO - nasserbek@yahoo.it hardware joined.
+15:09:55.133 INFO - nasserbek@yahoo.it hardware joined.
+15:51:42.200 INFO - nasserbek@yahoo.it hardware joined.
+16:19:49.876 INFO - nasserbek@yahoo.it hardware joined.
+16:27:28.363 INFO - nasserbek@yahoo.it hardware joined.
+16:30:42.717 INFO - nasserbek@yahoo.it hardware joined.
+18:55:43.474 INFO - Using data dir 'server_data'
+18:55:44.030 INFO - Region : local. Host : 192.168.1.196.
+18:55:44.507 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+18:55:44.655 INFO - Reports : 0
+18:55:44.655 INFO - Didn't find custom user certificates.
+18:55:44.657 INFO - Didn't find Let's Encrypt certificates.
+18:55:44.657 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+18:55:44.657 WARN - ATTENTION. Server certificate paths (cert : 'D:\blynk_server', key : 'D:\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+18:55:45.654 INFO - HTTP API and WebSockets server listening at 8080 port.
+18:55:45.655 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+18:55:45.655 INFO - Mqtt hardware server listening at 8440 port.
+18:57:26.615 INFO - Using data dir 'C:\Users\roofc\AppData\Local\Temp\blynk'
+18:57:27.009 INFO - Region : local. Host : 192.168.1.196.
+18:57:27.426 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+18:57:27.497 INFO - Reports : 0
+18:57:27.497 INFO - Didn't find custom user certificates.
+18:57:27.498 INFO - Didn't find Let's Encrypt certificates.
+18:57:27.498 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+18:57:27.498 WARN - ATTENTION. Server certificate paths (cert : 'D:\blynk_server', key : 'D:\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+18:57:28.366 INFO - HTTP API and WebSockets server listening at 8080 port.
+18:57:28.367 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+18:57:28.368 INFO - Mqtt hardware server listening at 8440 port.
+18:57:46.238 INFO - Using data dir 'C:\Users\roofc\AppData\Local\Temp\blynk'
+18:57:46.637 INFO - Region : local. Host : 192.168.1.196.
+18:57:47.028 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+18:57:47.095 INFO - Reports : 0
+18:57:47.096 INFO - Didn't find custom user certificates.
+18:57:47.097 INFO - Didn't find Let's Encrypt certificates.
+18:57:47.097 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+18:57:47.098 WARN - ATTENTION. Server certificate paths (cert : 'D:\blynk_server', key : 'D:\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+18:57:47.875 ERROR- Error initializing HTTP API and WebSockets, port 8080
+java.net.BindException: Address already in use: bind
+	at sun.nio.ch.Net.bind0(Native Method) ~[?:?]
+	at sun.nio.ch.Net.bind(Net.java:511) ~[?:?]
+	at sun.nio.ch.ServerSocketChannelImpl.netBind(ServerSocketChannelImpl.java:335) ~[?:?]
+	at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:297) ~[?:?]
+	at io.netty.channel.socket.nio.NioServerSocketChannel.doBind(NioServerSocketChannel.java:134) ~[server-0.41.16.jar:?]
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.bind(AbstractChannel.java:562) ~[server-0.41.16.jar:?]
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.bind(DefaultChannelPipeline.java:1334) ~[server-0.41.16.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeBind(AbstractChannelHandlerContext.java:506) ~[server-0.41.16.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.bind(AbstractChannelHandlerContext.java:491) ~[server-0.41.16.jar:?]
+	at io.netty.channel.DefaultChannelPipeline.bind(DefaultChannelPipeline.java:973) ~[server-0.41.16.jar:?]
+	at io.netty.channel.AbstractChannel.bind(AbstractChannel.java:260) ~[server-0.41.16.jar:?]
+	at io.netty.bootstrap.AbstractBootstrap$2.run(AbstractBootstrap.java:356) ~[server-0.41.16.jar:?]
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:164) ~[server-0.41.16.jar:?]
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:472) ~[server-0.41.16.jar:?]
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:500) ~[server-0.41.16.jar:?]
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989) ~[server-0.41.16.jar:?]
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74) ~[server-0.41.16.jar:?]
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30) ~[server-0.41.16.jar:?]
+	at java.lang.Thread.run(Thread.java:1447) [?:?]
+18:58:26.503 INFO - Using data dir 'server_data'
+18:58:27.068 INFO - Region : local. Host : 192.168.1.196.
+18:58:27.553 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+18:58:27.641 INFO - Reports : 0
+18:58:27.641 INFO - Didn't find custom user certificates.
+18:58:27.643 INFO - Didn't find Let's Encrypt certificates.
+18:58:27.643 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+18:58:27.643 WARN - ATTENTION. Server certificate paths (cert : 'D:\blynk_server', key : 'D:\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+18:58:28.833 ERROR- Error initializing HTTP API and WebSockets, port 8080
+java.net.BindException: Address already in use: bind
+	at sun.nio.ch.Net.bind0(Native Method) ~[?:?]
+	at sun.nio.ch.Net.bind(Net.java:511) ~[?:?]
+	at sun.nio.ch.ServerSocketChannelImpl.netBind(ServerSocketChannelImpl.java:335) ~[?:?]
+	at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:297) ~[?:?]
+	at io.netty.channel.socket.nio.NioServerSocketChannel.doBind(NioServerSocketChannel.java:134) ~[server-0.41.16.jar:?]
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.bind(AbstractChannel.java:562) ~[server-0.41.16.jar:?]
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.bind(DefaultChannelPipeline.java:1334) ~[server-0.41.16.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeBind(AbstractChannelHandlerContext.java:506) ~[server-0.41.16.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.bind(AbstractChannelHandlerContext.java:491) ~[server-0.41.16.jar:?]
+	at io.netty.channel.DefaultChannelPipeline.bind(DefaultChannelPipeline.java:973) ~[server-0.41.16.jar:?]
+	at io.netty.channel.AbstractChannel.bind(AbstractChannel.java:260) ~[server-0.41.16.jar:?]
+	at io.netty.bootstrap.AbstractBootstrap$2.run(AbstractBootstrap.java:356) ~[server-0.41.16.jar:?]
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:164) ~[server-0.41.16.jar:?]
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:472) ~[server-0.41.16.jar:?]
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:500) ~[server-0.41.16.jar:?]
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989) ~[server-0.41.16.jar:?]
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74) ~[server-0.41.16.jar:?]
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30) ~[server-0.41.16.jar:?]
+	at java.lang.Thread.run(Thread.java:1447) [?:?]
+19:03:36.800 INFO - Using data dir 'C:\Users\roofc\AppData\Local\Temp\blynk'
+19:03:37.210 INFO - Region : local. Host : 192.168.1.196.
+19:03:37.620 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+19:03:37.692 INFO - Reports : 0
+19:03:37.692 INFO - Didn't find custom user certificates.
+19:03:37.694 INFO - Didn't find Let's Encrypt certificates.
+19:03:37.694 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+19:03:37.694 WARN - ATTENTION. Server certificate paths (cert : 'D:\blynk_server', key : 'D:\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+19:03:38.632 ERROR- Error initializing HTTP API and WebSockets, port 8080
+java.net.BindException: Address already in use: bind
+	at sun.nio.ch.Net.bind0(Native Method) ~[?:?]
+	at sun.nio.ch.Net.bind(Net.java:511) ~[?:?]
+	at sun.nio.ch.ServerSocketChannelImpl.netBind(ServerSocketChannelImpl.java:335) ~[?:?]
+	at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:297) ~[?:?]
+	at io.netty.channel.socket.nio.NioServerSocketChannel.doBind(NioServerSocketChannel.java:134) ~[server-0.41.16.jar:?]
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.bind(AbstractChannel.java:562) ~[server-0.41.16.jar:?]
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.bind(DefaultChannelPipeline.java:1334) ~[server-0.41.16.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeBind(AbstractChannelHandlerContext.java:506) ~[server-0.41.16.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.bind(AbstractChannelHandlerContext.java:491) ~[server-0.41.16.jar:?]
+	at io.netty.channel.DefaultChannelPipeline.bind(DefaultChannelPipeline.java:973) ~[server-0.41.16.jar:?]
+	at io.netty.channel.AbstractChannel.bind(AbstractChannel.java:260) ~[server-0.41.16.jar:?]
+	at io.netty.bootstrap.AbstractBootstrap$2.run(AbstractBootstrap.java:356) ~[server-0.41.16.jar:?]
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:164) ~[server-0.41.16.jar:?]
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:472) ~[server-0.41.16.jar:?]
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:500) ~[server-0.41.16.jar:?]
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989) ~[server-0.41.16.jar:?]
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74) ~[server-0.41.16.jar:?]
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30) ~[server-0.41.16.jar:?]
+	at java.lang.Thread.run(Thread.java:1447) [?:?]
+19:03:48.270 INFO - Using data dir 'server_data'
+19:03:48.723 INFO - Region : local. Host : 192.168.1.196.
+19:03:49.116 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+19:03:49.186 INFO - Reports : 0
+19:03:49.187 INFO - Didn't find custom user certificates.
+19:03:49.188 INFO - Didn't find Let's Encrypt certificates.
+19:03:49.188 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+19:03:49.188 WARN - ATTENTION. Server certificate paths (cert : 'D:\blynk_server', key : 'D:\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+19:03:50.168 ERROR- Error initializing HTTP API and WebSockets, port 8080
+java.net.BindException: Address already in use: bind
+	at sun.nio.ch.Net.bind0(Native Method) ~[?:?]
+	at sun.nio.ch.Net.bind(Net.java:511) ~[?:?]
+	at sun.nio.ch.ServerSocketChannelImpl.netBind(ServerSocketChannelImpl.java:335) ~[?:?]
+	at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:297) ~[?:?]
+	at io.netty.channel.socket.nio.NioServerSocketChannel.doBind(NioServerSocketChannel.java:134) ~[server-0.41.16.jar:?]
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.bind(AbstractChannel.java:562) ~[server-0.41.16.jar:?]
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.bind(DefaultChannelPipeline.java:1334) ~[server-0.41.16.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeBind(AbstractChannelHandlerContext.java:506) ~[server-0.41.16.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.bind(AbstractChannelHandlerContext.java:491) ~[server-0.41.16.jar:?]
+	at io.netty.channel.DefaultChannelPipeline.bind(DefaultChannelPipeline.java:973) ~[server-0.41.16.jar:?]
+	at io.netty.channel.AbstractChannel.bind(AbstractChannel.java:260) ~[server-0.41.16.jar:?]
+	at io.netty.bootstrap.AbstractBootstrap$2.run(AbstractBootstrap.java:356) ~[server-0.41.16.jar:?]
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:164) ~[server-0.41.16.jar:?]
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:472) ~[server-0.41.16.jar:?]
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:500) ~[server-0.41.16.jar:?]
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989) ~[server-0.41.16.jar:?]
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74) ~[server-0.41.16.jar:?]
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30) ~[server-0.41.16.jar:?]
+	at java.lang.Thread.run(Thread.java:1447) [?:?]
+19:15:26.831 INFO - Using data dir 'server_data'
+19:15:27.371 INFO - Region : local. Host : 192.168.1.196.
+19:15:27.813 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+19:15:27.899 INFO - Reports : 0
+19:15:27.899 INFO - Didn't find custom user certificates.
+19:15:27.901 INFO - Didn't find Let's Encrypt certificates.
+19:15:27.901 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+19:15:27.901 WARN - ATTENTION. Server certificate paths (cert : 'D:\blynk_server', key : 'D:\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+19:15:28.861 ERROR- Error initializing HTTP API and WebSockets, port 8080
+java.net.BindException: Address already in use: bind
+	at sun.nio.ch.Net.bind0(Native Method) ~[?:?]
+	at sun.nio.ch.Net.bind(Net.java:511) ~[?:?]
+	at sun.nio.ch.ServerSocketChannelImpl.netBind(ServerSocketChannelImpl.java:335) ~[?:?]
+	at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:297) ~[?:?]
+	at io.netty.channel.socket.nio.NioServerSocketChannel.doBind(NioServerSocketChannel.java:134) ~[server-0.41.16.jar:?]
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.bind(AbstractChannel.java:562) ~[server-0.41.16.jar:?]
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.bind(DefaultChannelPipeline.java:1334) ~[server-0.41.16.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeBind(AbstractChannelHandlerContext.java:506) ~[server-0.41.16.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.bind(AbstractChannelHandlerContext.java:491) ~[server-0.41.16.jar:?]
+	at io.netty.channel.DefaultChannelPipeline.bind(DefaultChannelPipeline.java:973) ~[server-0.41.16.jar:?]
+	at io.netty.channel.AbstractChannel.bind(AbstractChannel.java:260) ~[server-0.41.16.jar:?]
+	at io.netty.bootstrap.AbstractBootstrap$2.run(AbstractBootstrap.java:356) ~[server-0.41.16.jar:?]
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:164) ~[server-0.41.16.jar:?]
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:472) ~[server-0.41.16.jar:?]
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:500) ~[server-0.41.16.jar:?]
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989) ~[server-0.41.16.jar:?]
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74) ~[server-0.41.16.jar:?]
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30) ~[server-0.41.16.jar:?]
+	at java.lang.Thread.run(Thread.java:1447) [?:?]
+19:23:54.623 INFO - Using data dir 'server_data'
+19:23:55.347 INFO - Region : local. Host : 192.168.1.196.
+19:23:55.991 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+19:23:56.124 INFO - Reports : 0
+19:23:56.125 INFO - Didn't find custom user certificates.
+19:23:56.126 INFO - Didn't find Let's Encrypt certificates.
+19:23:56.126 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+19:23:56.126 WARN - ATTENTION. Server certificate paths (cert : 'D:\blynk_server', key : 'D:\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+19:23:57.959 ERROR- Error initializing HTTP API and WebSockets, port 8080
+java.net.BindException: Address already in use: bind
+	at sun.nio.ch.Net.bind0(Native Method) ~[?:?]
+	at sun.nio.ch.Net.bind(Net.java:511) ~[?:?]
+	at sun.nio.ch.ServerSocketChannelImpl.netBind(ServerSocketChannelImpl.java:335) ~[?:?]
+	at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:297) ~[?:?]
+	at io.netty.channel.socket.nio.NioServerSocketChannel.doBind(NioServerSocketChannel.java:134) ~[server-0.41.16.jar:?]
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.bind(AbstractChannel.java:562) ~[server-0.41.16.jar:?]
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.bind(DefaultChannelPipeline.java:1334) ~[server-0.41.16.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeBind(AbstractChannelHandlerContext.java:506) ~[server-0.41.16.jar:?]
+	at io.netty.channel.AbstractChannelHandlerContext.bind(AbstractChannelHandlerContext.java:491) ~[server-0.41.16.jar:?]
+	at io.netty.channel.DefaultChannelPipeline.bind(DefaultChannelPipeline.java:973) ~[server-0.41.16.jar:?]
+	at io.netty.channel.AbstractChannel.bind(AbstractChannel.java:260) ~[server-0.41.16.jar:?]
+	at io.netty.bootstrap.AbstractBootstrap$2.run(AbstractBootstrap.java:356) ~[server-0.41.16.jar:?]
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:164) ~[server-0.41.16.jar:?]
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:472) ~[server-0.41.16.jar:?]
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:500) ~[server-0.41.16.jar:?]
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989) ~[server-0.41.16.jar:?]
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74) ~[server-0.41.16.jar:?]
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30) ~[server-0.41.16.jar:?]
+	at java.lang.Thread.run(Thread.java:1447) [?:?]
+19:36:51.995 INFO - Using data dir 'server_data'
+19:36:52.907 INFO - Region : local. Host : 192.168.1.196.
+19:36:53.684 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+19:36:53.890 INFO - Reports : 0
+19:36:53.891 INFO - Didn't find custom user certificates.
+19:36:53.893 INFO - Didn't find Let's Encrypt certificates.
+19:36:53.893 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+19:36:53.893 WARN - ATTENTION. Server certificate paths (cert : 'D:\blynk_server', key : 'D:\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+19:36:56.349 INFO - HTTP API and WebSockets server listening at 8080 port.
+19:36:56.351 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+19:36:56.352 INFO - Mqtt hardware server listening at 8440 port.
+19:42:07.637 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+19:47:55.494 INFO - nasserbek@yahoo.it hardware joined.
+19:54:13.396 INFO - nasserbek@yahoo.it hardware joined.
+19:54:43.066 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+20:02:32.095 INFO - nasserbek@yahoo.it hardware joined.
+20:04:12.653 INFO - nasserbek@yahoo.it hardware joined.
+20:05:26.695 INFO - nasserbek@yahoo.it hardware joined.
+23:47:12.674 INFO - Using data dir 'server_data'
+23:47:13.206 INFO - Region : local. Host : 192.168.1.77.
+23:47:13.653 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+23:47:13.744 INFO - Reports : 0
+23:47:13.744 INFO - Didn't find custom user certificates.
+23:47:13.746 INFO - Didn't find Let's Encrypt certificates.
+23:47:13.746 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+23:47:13.746 WARN - ATTENTION. Server certificate paths (cert : 'D:\blynk_server', key : 'D:\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+23:47:14.555 INFO - HTTP API and WebSockets server listening at 8080 port.
+23:47:14.557 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+23:47:14.558 INFO - Mqtt hardware server listening at 8440 port.
+23:47:18.915 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+23:47:19.070 INFO - nasserbek@yahoo.it hardware joined.
+23:47:20.989 INFO - nasserbek@yahoo.it hardware joined.
+23:59:02.783 INFO - nasserbek@yahoo.it hardware joined.

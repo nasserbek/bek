@@ -1,0 +1,82 @@
+00:06:08.850 INFO - nasserbek@yahoo.it hardware joined.
+00:09:11.414 INFO - nasserbek@yahoo.it hardware joined.
+00:25:18.956 INFO - nasserbek@yahoo.it hardware joined.
+00:26:41.645 INFO - nasserbek@yahoo.it hardware joined.
+00:31:32.815 INFO - nasserbek@yahoo.it hardware joined.
+00:36:30.209 INFO - nasserbek@yahoo.it hardware joined.
+00:52:34.036 INFO - nasserbek@yahoo.it hardware joined.
+00:54:42.188 INFO - nasserbek@yahoo.it hardware joined.
+00:58:02.838 INFO - nasserbek@yahoo.it hardware joined.
+00:58:10.876 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+01:04:04.167 INFO - nasserbek@yahoo.it hardware joined.
+01:05:41.884 INFO - nasserbek@yahoo.it hardware joined.
+01:05:50.885 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+01:07:18.430 INFO - nasserbek@yahoo.it hardware joined.
+01:08:28.534 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+07:37:17.480 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+07:37:54.903 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+08:58:03.122 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+09:19:11.553 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+12:48:16.569 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+16:50:23.992 INFO - Using data dir 'server_data'
+16:50:25.430 INFO - Region : local. Host : 100.108.109.51.
+16:50:26.389 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+16:50:26.478 INFO - Reports : 0
+16:50:26.479 INFO - Didn't find custom user certificates.
+16:50:26.481 INFO - Didn't find Let's Encrypt certificates.
+16:50:26.482 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+16:50:26.482 WARN - ATTENTION. Server certificate paths (cert : 'C:\Users\CSR\Desktop\blynk_server', key : 'C:\Users\CSR\Desktop\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+16:50:28.548 INFO - HTTP API and WebSockets server listening at 8080 port.
+16:50:28.552 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+16:50:28.557 INFO - Mqtt hardware server listening at 8440 port.
+16:50:29.368 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+16:50:37.540 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+16:51:04.268 INFO - nasserbek@yahoo.it hardware joined.
+16:53:52.423 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+16:54:42.694 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+17:06:42.315 INFO - nasserbek@yahoo.it hardware joined.
+17:42:39.716 INFO - nasserbek@yahoo.it hardware joined.
+18:01:15.538 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+18:39:14.243 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+20:03:04.499 ERROR- Error sending push. Reason No such host is known (fcm.googleapis.com)
+20:03:04.499 ERROR- Error sending push. Reason fcm.googleapis.com
+20:03:04.500 ERROR- Error sending push. Reason fcm.googleapis.com
+20:03:04.500 ERROR- Error sending push. Reason fcm.googleapis.com
+20:03:04.500 ERROR- Error sending push. Reason fcm.googleapis.com
+20:04:18.592 INFO - nasserbek@yahoo.it hardware joined.
+20:48:44.520 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+20:50:04.349 INFO - nasserbek@yahoo.it hardware joined.
+20:53:07.085 INFO - nasserbek@yahoo.it hardware joined.
+20:54:29.238 INFO - nasserbek@yahoo.it hardware joined.
+20:56:07.681 INFO - nasserbek@yahoo.it hardware joined.
+20:56:18.794 INFO - nasserbek@yahoo.it hardware joined.
+21:01:58.094 INFO - Using data dir 'server_data'
+21:01:58.755 INFO - Region : local. Host : 100.108.109.51.
+21:01:59.531 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+21:01:59.623 INFO - Reports : 0
+21:01:59.623 INFO - Didn't find custom user certificates.
+21:01:59.623 INFO - Didn't find Let's Encrypt certificates.
+21:01:59.623 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+21:01:59.623 WARN - ATTENTION. Server certificate paths (cert : 'C:\Users\CSR\Desktop\blynk_server', key : 'C:\Users\CSR\Desktop\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+21:02:00.905 INFO - HTTP API and WebSockets server listening at 8080 port.
+21:02:00.905 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+21:02:00.905 INFO - Mqtt hardware server listening at 8440 port.
+21:02:01.846 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+21:02:08.217 INFO - nasserbek@yahoo.it hardware joined.
+21:05:14.035 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+21:47:21.639 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+21:59:59.289 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+22:02:39.566 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+22:05:03.512 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+22:10:32.977 INFO - nasserbek@yahoo.it hardware joined.
+22:11:28.086 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+22:18:44.292 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+22:19:38.383 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+22:25:01.582 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+22:29:33.840 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+22:31:17.789 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+22:33:59.346 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+22:34:03.310 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+22:34:25.773 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+23:46:48.779 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+23:59:56.103 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.

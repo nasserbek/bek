@@ -1,0 +1,32 @@
+15:29:57.536 INFO - Using data dir 'server_data'
+15:29:58.301 INFO - Region : local. Host : 192.168.1.194.
+15:29:59.712 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+15:29:59.802 INFO - Reports : 0
+15:29:59.817 INFO - Didn't find custom user certificates.
+15:29:59.817 INFO - Didn't find Let's Encrypt certificates.
+15:29:59.817 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+15:29:59.817 WARN - ATTENTION. Server certificate paths (cert : 'C:\Users\CSR\Desktop\blynk_server', key : 'C:\Users\CSR\Desktop\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+15:30:03.170 INFO - HTTP API and WebSockets server listening at 8080 port.
+15:30:03.175 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+15:30:03.180 INFO - Mqtt hardware server listening at 8440 port.
+15:33:50.752 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+15:35:44.779 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+15:37:10.443 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+15:38:27.623 INFO - nasserbek@yahoo.it hardware joined.
+16:23:02.527 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+16:55:02.221 ERROR- Error sending push. Reason No such host is known (fcm.googleapis.com)
+16:55:02.222 ERROR- Error sending push. Reason fcm.googleapis.com
+16:55:02.222 ERROR- Error sending push. Reason fcm.googleapis.com
+16:55:02.223 ERROR- Error sending push. Reason fcm.googleapis.com
+16:55:02.223 ERROR- Error sending push. Reason fcm.googleapis.com
+16:55:02.225 INFO - nasserbek@yahoo.it hardware joined.
+16:55:02.245 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+16:55:03.251 ERROR- Error sending push. Reason fcm.googleapis.com
+16:55:03.253 ERROR- Error sending push. Reason fcm.googleapis.com
+16:55:03.253 ERROR- Error sending push. Reason fcm.googleapis.com
+16:55:03.254 ERROR- Error sending push. Reason fcm.googleapis.com
+16:55:03.255 ERROR- Error sending push. Reason fcm.googleapis.com
+16:55:09.166 INFO - nasserbek@yahoo.it hardware joined.
+18:12:12.228 INFO - nasserbek@yahoo.it hardware joined.
+18:15:38.525 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+18:17:03.790 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
