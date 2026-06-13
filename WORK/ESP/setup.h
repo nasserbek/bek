@@ -199,26 +199,26 @@ void gpioSetup(void)
 
  
     // Lillygo Realy-8
-    if(ActiveBoard == ESP2) {
-        for (int i = 0; i < 8; i++) {
-        pinMode(relayPins[i], OUTPUT);
-        digitalWrite(relayPins[i], LOW);
-      }
-      selectRelay(TCA9548A_CH1);// Relay K1 ON
-      
-      I2C_SDA           =LilluGoPins[0]; //green
-      I2C_SCL           =LilluGoPins[1]; //yellow
-      BOARD_LED         =LilluGoPins[2];
-      RC_TX_PIN         =LilluGoPins[3];
-      AV_RX_DVR_PIN     =LilluGoPins[4];
-           // Configure static IP
-     if (!WiFi.config(local_IP_Relays, gateway, subnet, primaryDNS, secondaryDNS)) {
-     Serial.println("STA Failed to configure");
-     }
-    }
-
-    else
-    {
+//    if(ActiveBoard == ESP2) {
+//        for (int i = 0; i < 8; i++) {
+//        pinMode(relayPins[i], OUTPUT);
+//        digitalWrite(relayPins[i], LOW);
+//      }
+//      selectRelay(TCA9548A_CH1);// Relay K1 ON
+//      
+//      I2C_SDA           =LilluGoPins[0]; //green
+//      I2C_SCL           =LilluGoPins[1]; //yellow
+//      BOARD_LED         =LilluGoPins[2];
+//      RC_TX_PIN         =LilluGoPins[3];
+//      AV_RX_DVR_PIN     =LilluGoPins[4];
+//           // Configure static IP
+//     if (!WiFi.config(local_IP_Relays, gateway, subnet, primaryDNS, secondaryDNS)) {
+//     Serial.println("STA Failed to configure");
+//     }
+//    }
+//
+//    else
+//    {
       I2C_SDA           =Esp32Pins[0]; //green
       I2C_SCL           =Esp32Pins[1]; //yellow
       BOARD_LED         =Esp32Pins[2];
@@ -228,7 +228,7 @@ void gpioSetup(void)
      if (!WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS)) {
      Serial.println("STA Failed to configure");
      }
-    }
+//    }
       pinMode(AV_RX_DVR_PIN, OUTPUT);
       pinMode(BOARD_LED, OUTPUT);
       digitalWrite(BOARD_LED, HIGH);
