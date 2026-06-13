@@ -1,0 +1,13 @@
+23:52:53.085 INFO - Using data dir 'server_data'
+23:53:01.418 INFO - Region : local. Host : 192.168.106.1.
+23:53:05.088 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+23:53:05.760 INFO - Reports : 0
+23:53:05.762 INFO - Didn't find custom user certificates.
+23:53:05.780 INFO - Didn't find Let's Encrypt certificates.
+23:53:05.780 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
+23:53:05.780 WARN - ATTENTION. Server certificate paths (cert : 'G:\My Drive\Vari\Vision Arduino\WORK (1)\blynk_server', key : 'G:\My Drive\Vari\Vision Arduino\WORK (1)\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+23:53:09.970 INFO - HTTP API and WebSockets server listening at 8080 port.
+23:53:09.984 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+23:53:09.986 INFO - Mqtt hardware server listening at 8440 port.
+23:54:06.378 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+23:59:38.843 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.

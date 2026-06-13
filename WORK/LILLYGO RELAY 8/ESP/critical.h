@@ -1,0 +1,154 @@
+// critical.h
+
+#ifndef CRITICAL_H
+#define CRITICAL_H
+
+
+#define _TIMERINTERRUPT_LOGLEVEL_     4
+#include "ESP32TimerInterrupt.h"
+ESP32Timer ITimer0(0);
+extern void resetRouter(void);
+extern void activateLocalWifiWeb();
+extern void resetInternetLoss();
+extern void activateWifiIde();
+extern void blueLedFlash(unsigned long interval);
+
+/***********************************************************************************/
+
+void resetWdg()
+{
+   ITimer0.stopTimer();   
+   delay(100); 
+   ITimer0.restartTimer();  
+}
+
+/*********************************************************************/
+
+
+void IRAM_ATTR TimerHandler0()
+{
+    ESP.restart();
+}
+
+
+void enableWDG(bool _enable)
+  {
+   if (_enable) ITimer0.restartTimer();                       //enable interrupt
+   else ITimer0.stopTimer();                                //Disable interrupt
+  }
+  
+
+  
+void initWDG(int wdtTimeout,bool _enable) 
+{
+  Serial.print(F("\nStarting TimerInterruptTest on "));
+  Serial.println(ARDUINO_BOARD);
+  Serial.println(ESP32_TIMER_INTERRUPT_VERSION);
+  Serial.print(F("CPU Frequency = "));
+  Serial.print(F_CPU / 1000000);
+  Serial.println(F(" MHz"));
+
+
+    if (ITimer0.attachInterruptInterval((uint64_t)wdtTimeout * 1000, TimerHandler0))
+    {
+      Serial.print(F("Starting ITimer0 OK, millis() = "));
+      Serial.println(millis());
+    }
+    else
+    {
+      Serial.println(F("Can't set ITimer0"));
+    }
+}
+
+
+void rebootSw(void)
+{
+ ESP.restart();
+}
+
+
+
+void ResetNetgeer(void)
+          {
+              if(!routerResetStart)
+              {
+                routerResetTimer        = millis();
+                routerResetStart = true;
+                DEBUG_PRINTLN("Netgeer Reset done: ");
+                myBlynk.TerminalPrint("RESTARTING ROUTER...");
+              }
+         //     if(autoResetRouter) resetRouter();
+          }
+
+
+
+void internetCheck(void)
+{
+//         if ( ( (millis() - resetNetgeerAfterInternetLossTimer) >= INTERNET_LOSS_TO_RESET_NG_TIMER) && InternetLoss && !blynkConnected && !routerResetStart)
+//        {
+//              DEBUG_PRINTLN("Blynk Disconnected for 2 min, Reset Netgeer");
+//              routerResetTimer        = millis();
+//              routerResetStart = true;
+//              DEBUG_PRINTLN("Netgeer Reset done: ");
+//        }
+//       if ( (  (millis() - routerResetTimer) >= ROUTER_RESET_TIMER) && InternetLoss && !blynkConnected && routerResetStart)
+//                {
+//                routerResetStart=false;
+//                restartAfterResetNG     = millis();
+//                netGeerReset = true;
+//               }
+
+       if (  ( (millis() - restartAfterResetNG) >=  RESTART_AFTER_NG_RESET_TIMER) && InternetLoss && !blynkConnected )//&& netGeerReset )
+          {
+            DEBUG_PRINTLN("Resetaring 7 min after Internet or Blynk Loss");
+            netGeerReset = false;
+            resetInternetLoss();
+            wifiAvailable = myBlynk.wifi_init();
+            if(wifiAvailable)activateLocalWifiWeb();
+            else ESP.restart(); 
+          }
+
+ //      else if ( InternetLoss && !blynkConnected ) blueLedFlash(10000) ; 
+}     
+
+
+
+int stringToInteger(String str)
+{
+char carray[5]; 
+      str.toCharArray(carray, sizeof(carray));
+      return ( atoi(carray));  
+}
+
+void goToDeepSleep(int sleepTimer)
+{
+    //  sendToHMI("Going to Deep Sleep", "Going to Deep Sleep", "Going to Deep Sleep",FB_NOTIFIER, "Going to Deep Sleep" );
+      DEBUG_PRINT("Sleep for: ");  DEBUG_PRINT(sleepTimer * 60* 1000000);DEBUG_PRINTLN(" uSec");
+      esp_sleep_enable_timer_wakeup(sleepTimer * 60 * 1000000); // in microseconds
+      Serial.flush(); 
+      esp_deep_sleep_start();
+}
+
+void looadRoomData()
+{
+  int freq;
+       
+ for(byte i=1;i<21;i++)
+          {
+            videoCh[i].frequency = freqTable[i];
+            freq=videoCh[i].frequency;
+            roomId[i].vCh  = roomId[i].rCh = videoCh[i].id = i;
+            _pll[i] = ( 512 * (freq + 479.5) ) / 64 ;
+          }
+}
+
+void createHandleGroup()
+{
+     //Create a program that allows the required message objects and group flags
+    g_event_queue_handle = xQueueCreate(50, sizeof(int)); // Creates a queue of 50 int elements
+    g_event_group = xEventGroupCreate();
+}
+/*************************************************END OF DON'T TOUCH*********************************************************************************************/
+    
+
+#endif
