@@ -1,7 +1,88 @@
-//#define ESP1     //  R64 SCATOLA 1CH TTGO
-//#define ESP2      // R65 SCATOLA 4CH ESP32S
-//#define ESP3   //R66 SWAN CASE 2CH ESP32S
-enum {
+
+
+//#define METEOR_ETH_PLS
+//#define NICE
+//#define CH
+
+//#define METEOR_WIFI
+
+//#define REMOTE_SERVER
+//#define LOCAL_SERVER 
+
+//#ifdef LOCAL_SERVER
+//    #define BLYNK_SERVER_BBOX                   IPAddress(192,168,1,4)
+//    #define BLYNK_SERVER_METEOR_SFR            IPAddress(192,168,1,168)
+//    #define BLYNK_SERVER_METEOR_ETH_PLS         IPAddress(192,168,1,194)
+//#endif
+
+//#ifdef REMOTE_SERVER
+//    #define BLYNK_SERVER "blynk.cloud" //BLYNK2 REMOTE SERVER 
+//#endif
+
+                                            
+                                              
+ 
+//#define WIFI_PASSWORD_SFR        "ali09042010"
+//#define WIFI_PASSWORD_METEOR     "Ali09042010_"
+//#define WIFI_PASSWORD_BBOX       "Ali09042010_"
+
+
+
+//#ifdef ESP32_DEV
+//    //av1
+//    #define I2C_SDA       21  //green
+//    #define I2C_SCL       22  //yellow
+//    
+//    //BOARD SEL
+//    #define DIP1          27
+//    #define DIP2          4
+//    
+//    //board led
+//    #define BOARD_LED     2
+//
+//    //RC
+//    #define RC_TX_PIN         15
+//    //DVR
+//    #define AV_RX_DVR_PIN     0    
+//#endif
+//
+//#ifdef LILLYGO_RELAY_8
+//    //av1
+//    #define I2C_SDA             23  //green
+//    #define I2C_SCL             22  //yellow
+//    
+//    //BOARD SEL
+//    #define DIP1         27
+//    #define DIP2         4
+//    
+//    //board led
+//    #define BOARD_LED    25
+//    //RC
+//    #define RC_TX_PIN         26
+//    //DVR
+//    #define AV_RX_DVR_PIN     14    
+//#endif
+
+#define RC_CODE_LENGTH      24
+
+#define INTERNET_LOSS_TO_RESET_NG_TIMER (2 * 60UL * 1000UL)   // 2 MIN
+#define ROUTER_RESET_TIMER              (1 * 60UL * 1000UL)   //1 MIN
+#define RESTART_AFTER_NG_RESET_TIMER    (7 * 60UL * 1000UL)   //7 MIN
+
+
+#define INACTIVITY_TIMEOUT_MS_RESTART  (10UL * 60UL * 60UL * 1000UL)  //10 Hours
+#define INACTIVITY_TIMEOUT_MS_POWER_OFF  (1UL * 60UL * 60UL * 1000UL)  //10 Hours
+#define WIFI_DISCONNECTED_RESTART  (30 * 60UL * 1000UL)  //30 MIN
+#define uS_TO_S_FACTOR 1000000ULL
+#define LIGHT_SLEEP_WAKE 10*uS_TO_S_FACTOR
+
+
+enum  {
+MILLS =0,
+BLYNK_TIMERS =1,
+} ;
+
+enum  {
 ESP0 =0,
 ESP1 =1,
 ESP2 =2,
@@ -9,32 +90,52 @@ ESP3 =3,
 TEST4=4,
 } ;
 
-//#define NICE
-#define CH
+enum  {
+DVR_ON =0,
+DVR_OFF =1,
+} ;
 
-//#define LILLYGO_RELAY_8
+enum  {
+POWER_ON  =1,
+POWER_OFF =0,
+} ;
 
-  #ifdef LILLYGO_RELAY_8
-    #define RELAY_PIN_1 33
-    #define RELAY_PIN_2 32
-    #define RELAY_PIN_3 13
-    #define RELAY_PIN_4 12
-    #define RELAY_PIN_5 21
-    #define RELAY_PIN_6 19
-    #define RELAY_PIN_7 18
-    #define RELAY_PIN_8 5
-    #define LED_PIN     25
-  #endif
+enum  {
+TCA9548A_CH1  = 0,
+TCA9548A_CH2  = 1,
+TCA9548A_CH3  = 2,
+TCA9548A_CH4  = 3,
+TCA9548A_CH5  = 4,
+TCA9548A_CH6  = 5,
+TCA9548A_CH7  = 6,
+TCA9548A_CH8  = 7,
+} ;
 
-
-
+enum {
+CH_0,
+CH_1,
+CH_2,
+CH_3,
+CH_4,
+CH_5,
+CH_6,
+CH_7,
+CH_8,
+CH_9,
+CH_10,
+CH_11,
+CH_12,
+CH_13,
+CH_14,
+CH_15,
+CH_16,
+CH_17,
+CH_18,
+} ;
 
 
 /////////////////////////////////////////////////////////////////////////
-    #define BOARD ESP1
-    #define VERSION_ID " ESP0.11 "
-    #define BLYNK_AUTH_TOKEN                BLYNK_AUTH_TOKEN_ESP1 //ESP1
-    #define THINGNAME "ESP1"   
+
     #define AWS_IOT_SUBSCRIBE_TOPIC_RC      "esp1/sub/rc"
     #define AWS_IOT_SUBSCRIBE_TOPIC_VIDEO   "esp1/sub/video"
     #define AWS_IOT_SUBSCRIBE_TOPIC_ZAP     "esp1/sub/zap"
@@ -56,23 +157,11 @@ TEST4=4,
     #define AWS_IOT_SUBSCRIBE_TOPIC_LIVE   "esp1/sub/live"
     #define AWS_IOT_SUBSCRIBE_TOPIC_BLYNK   "esp1/sub/blynk"
     #define AWS_IOT_SUBSCRIBE_TOPIC_TERMINAL   "esp1/sub/terminal"
-    #define gitHubURL  "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP.ino.esp32.bin"  // URL to download the firmware from
 ////////////////////////////////////////
 
 
 
-//#define REMOTE_SERVER
-#define LOCAL_SERVER 
 
-#ifdef LOCAL_SERVER
-    #define BLYNK_SERVER_OMV1        IPAddress(192,168,1,194)
-    #define BLYNK_SERVER_PROX        IPAddress(192,168,1,194)   
-    #define BLYNK_SERVER_NICE        IPAddress(192,168,1,194)
-#endif
-
-#ifdef REMOTE_SERVER
-    #define BLYNK_SERVER "blynk.cloud" //BLYNK2 REMOTE SERVER 
-#endif
 
 //#define TEST
 #define ROUTER_CH 18  //PHYSICAL CH ON REMOTE CONTROL IS 1
@@ -91,58 +180,20 @@ TEST4=4,
     #define AWS_IOT_PUBLISH_TOPIC_LIVE_3   "esp3/pub/live"
     #define AWS_IOT_PUBLISH_TOPIC_LIVE_4   "test/pub/live"
 
-#define BLYNK_AUTH_TOKEN_ESP1                "2NVzjDY96Cbam0_TxJqTVSsgI7LgWq0_" //ESP1
-#define BLYNK_AUTH_TOKEN_ESP2                "n77QtZp08I7AOG8AcCpBhxJle1S6GXa0" //ESP2
-#define BLYNK_AUTH_TOKEN_ESP3                "lsH8XwzGGUUneZTqYMN-5_hfx8YepjjY" //ESP3
-#define BLYNK_AUTH_TOKEN_TEST                "1Wq6Re2q9eTOK8D5vfHhynNN2B_XoZ83" //ESP14
 
 
-#define INTERNET_LOSS_TO_RESET_NG_TIMER 120000   // 2 MIN
-#define RESTART_AFTER_NG_RESET_TIMER 60000   // 1 MIN
+
+
+
 #define ROUTER_24_HOURS 86400000  // 24 HOURS
 #define WiFi_TIMEOUT 30000  // 15sec Wifi connection timeout
                    
 
 
-#define WIFI_SSID_SFR             "SFR_BEK-23C0"
-#define WIFI_SSID_METEOR_FREE     "Meteor-free"
-#define WIFI_SSID_FREE            "Freebox-bek"
-#define WIFI_SSID_ZFLIP           "ZFlip4_BEK"
-#define WIFI_SSID_XIAOMI          "XIAOMI_BEK"
-#define WIFI_SSID_GIGA            "GIGACUBE_BEK"
-#define WIFI_SSID_METEOR_BU       "BEK_METEOR_2.4G"
-#define WIFI_SSID_METEOR_BUF      "BEK_BUF"
-#define WIFI_SSID_METEOR_BOX      "BEK_BOX"
-#define WIFI_SSID_BBOX            "Bbox-Bek-2.4GHz"                                                
-                                              
- 
-#define WIFI_PASSWORD_SFR        "ali09042010"
-#define WIFI_PASSWORD             "ali09042010"
-#define WIFI_PASSWORD_METEOR      "Ali09042010_"
-#define WIFI_PASSWORD_BBOX       "Ali09042010_"
 
-#define WIFI_SSID_TEMP            "TP-Link_97D8" 
-#define WIFI_PASSWORD_TEMP        "67942015"
-//av1
-#define I2C_SDA             21  //green
-#define I2C_SCL             22  //yellow
 
-#define SDA_2              33  //green
-#define SCL_2              32  //yellow
 
-//RC
-#define RC_TX_PIN           15
-#define RC_CODE_LENGTH      24
 
-//RELAYS
-#define AV_RX_DVR_PIN_2     2
-
-#define I2C_1_2_RELAY       4
-#define I2C_3_4_RELAY       0
-
-//BOARD SEL
-#define BOARD_SEL_0         36
-#define BOARD_SEL_1         39
 
 
 
@@ -214,7 +265,7 @@ Q_EVENT_OTA_LOCAL_WEB_WIFI_V6,
 Q_EVENT_OTA_GITHUB_V7,
 
 Q_EVENT_REBOOT_V8,
-Q_EVENT_SELECTED_RECIEVER_V9,
+Q_EVENT_SELECTED_RECIEVER_CH_1_4_V9,
 Q_EVENT_ZAP_SCAN_ONLY_V10, 
 Q_EVENT_WIFI_IDE_V11,
 Q_EVENT_SPARE_V12,   //// USED Map
@@ -236,10 +287,10 @@ Q_EVENT_ZAP_TIMER_OFF_V25,
 Q_EVENT_RESET_FREQ_V26,
 Q_EVENT_SPARE_V27,
 //V28 Streamin
-Q_EVENT_REL1_CH_V30,
-Q_EVENT_REL2_CH_V31,
-Q_EVENT_REL3_CH_V32,
-Q_EVENT_REL4_CH_V33,
+Q_EVENT_DVR_OFF_TIMER_V30,
+Q_EVENT_RESTART_TIMER_V31,
+Q_EVENT_SELECTED_RECIEVER_CH_5_6_V32,
+Q_EVENT_SPARE_V33,
 Q_EVENT_ZAP_ALL_ON_OFF_V34,
 Q_EVENT_SHARE_VIDEO_WITH_ESP1_V35,
 Q_EVENT_SHARE_VIDEO_WITH_ESP2_V36,
@@ -252,8 +303,8 @@ Q_EVENT_VIDEO_ON_OFF_V41,
 Q_EVENT_ZAP_V71,
 Q_EVENT_ZAP_TIMER_V72,
 Q_EVENT_VIDEO_ON_OFF_V81,
-Q_EVENT_LIVE_MIN_V82,
-Q_EVENT_LIVE_HOUR_V83,
+Q_EVENT_SPARE_V82,
+Q_EVENT_SPARE_V83,
 Q_EVENT_VIDEO_STREAMING_V84,
 Q_EVENT_ZAP_CHANNEL5_V85,
 Q_EVENT_ZAP_CHANNEL6_V86,
@@ -316,7 +367,7 @@ Q_EVENT_RM_ID_19_V92,  //68
 
 
 #define ROUTER_24_HOURS 86400000  // 24 HOURS
-#define ROUTER_RESET_TIMER  2000  // 2 SEC
+
 #define MUX_ROOM_ZAP        30000  // 2 SEC
 
 
@@ -354,7 +405,6 @@ Q_EVENT_RM_ID_19_V92,  //68
 #define   SEC_30           30000
 #define   SEC_60           60000
 #define   MIN_5            300000
-
 
 #define MAX_NR_CHANNELS  20
 

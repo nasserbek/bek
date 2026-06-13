@@ -4,7 +4,7 @@
 #define AWS_H
 
 extern blynk myBlynk;
-extern void dvrOnOff (bool cmd);
+extern void dvrOnOff (bool powerOn);
 void callback(char* topic, byte* payload, unsigned int length);
 StaticJsonDocument<54> rxDoc; //Json to receive in
 
@@ -213,7 +213,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
     {
         retriveDataFromTopic(topic, payload,length);
         _nodeRedData  = rxDoc["RX"];
-        nodeRedeventdata = Q_EVENT_SELECTED_RECIEVER_V9;
+        nodeRedeventdata = Q_EVENT_SELECTED_RECIEVER_CH_1_4_V9;
         xQueueSend(g_event_queue_handle, &nodeRedeventdata, portMAX_DELAY);
         myBlynk.RelaySelect(_nodeRedData);
         

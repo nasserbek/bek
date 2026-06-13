@@ -5,8 +5,8 @@
 
 extern void enableWDG(bool _enable);
 extern void resetWdg(void);
-
-
+extern tm printLocalTime();
+extern void blueLedFlash(unsigned long interval);
 /*************************************************OTA ZONE********************************************************************************************/
 /*********************************************** web upodater *********************************************/
 
@@ -203,7 +203,7 @@ void ArduinoIdeWifi(void)
 
  void localWebWifiOtaSetup(void)
 {
-  myBlynk.TerminalPrint("Local Web connected to http://esp32.local with admin admin " );
+  myBlynk.TerminalPrint("Local Web connected to http://esp32.local or " + WiFi.localIP().toString() +" with admin admin " );
   //use mdns for host name resolution
   if (!MDNS.begin(host)) { //http://esp32.local
      myBlynk.TerminalPrint("Error setting up MDNS responder!");
@@ -254,10 +254,13 @@ void ArduinoIdeWifi(void)
  
 void localWebWifiOta (void)
  {
-  myBlynk.TerminalPrint("Starting Local Web Server");
+   struct tm now = printLocalTime();
+   String hourMin = String(now.tm_hour) + ":" + String(now.tm_min);
+   myBlynk.TerminalPrint(hourMin +":Starting Local Web Server");
    localWebWifiOtaSetup();
    while (!wifiWebUpdater) 
        {
+        blueLedFlash(5000) ;        
         enableWDG(false);
         if (  millis() - OtaTimeoutTimer > WIFI_IDE_TIMER )
         {
