@@ -29,14 +29,16 @@
 #include "time.h"
 #include <Preferences.h>
 
+bool internetConnected = false;
+
 // Static IP configuration
 IPAddress local_IP(192, 168, 1, 151);   // ESP1
 IPAddress local_IP_Relays(192, 168, 1, 152);   // ESP2
 
 IPAddress gateway(192, 168, 1, 1);      // Router IP
 IPAddress subnet(255, 255, 255, 0);
-IPAddress primaryDNS(8, 8, 8, 8);       // Optional
-IPAddress secondaryDNS(8, 8, 4, 4);     // Optional
+IPAddress primaryDNS(1, 1, 1, 1);       // Optional
+IPAddress secondaryDNS(8, 8, 8, 8);     // Optional
 bool powerOnReason = false;
 
 // Lillygo Realy-8
@@ -56,7 +58,7 @@ const uint8_t Esp32Pins[5] = {
 
 //Board Selection
 const uint8_t CommonPins[2] = {
-   36, 39
+   27, 4
 };
 
 uint8_t   I2C_SDA; //green
@@ -194,10 +196,10 @@ struct Channels videoCh[21];
 uint _pll[21];
 
 
-#define AV_CH1    1080  // 49 
-#define AV_CH2    1120  // 51 
-#define AV_CH3    1160  // 63 
-#define AV_CH4    1200  // 25 
+#define AV_CH1    1080  // 201 
+#define AV_CH2    1120  // 210 
+#define AV_CH3    1160  // 211
+#define AV_CH4    1200  // 212
 #define AV_CH5    1240  // 65 
 #define AV_CH6    1280  // 64 
 #define AV_CH7    1320  // 52 
@@ -210,17 +212,18 @@ uint _pll[21];
 #define RC_CH2    349452  // 51 
 #define RC_CH3    349488  // 63 
 #define RC_CH4    349811  // 25 
-#define RC_CH5    349511  // 65 
+#define RC_CH5    349455   // 65 
 #define RC_CH6    349632  // 64 
 #define RC_CH7    349463  // 52 
-#define RC_CH8    349680  // 48
+#define RC_CH8     349211 // 48
 
-#define RC_CH9    349652  // 53  
-#define RC_CH10   349211  // 50
-#define RC_CH11   349649  // 24 
-#define RC_CH12   349455  // 66 
-#define RC_CH13   349695  // 62 
-#define RC_CH14   349644  // 29
+#define RC_CH9    349644  // 29
+#define RC_CH10    349652  // 53  
+#define RC_CH11   349649   // 50
+#define RC_CH12   349680  // 24 
+#define RC_CH13   349511 // 66 
+#define RC_CH14   349695  // 62 
+
 #define RC_CH15   349423  // 68 
 #define RC_CH16   349635  // 28 
 #define RC_CH17   349500  // 27 
@@ -229,12 +232,12 @@ uint _pll[21];
 #define RC_CH20   349411  // xx 
 
 //FREQ 2025
-const uint freqTable[21] =       {0, AV_CH1,   AV_CH2,   AV_CH3,   AV_CH4,   AV_CH5,   AV_CH6,   AV_CH7,   AV_CH4,   AV_CH2,   AV_CH8,   AV_CH3,   AV_CH4,   AV_CH5,  AV_CH1,  AV_CH7,  AV_CH8,    AV_CH6,   AV_CH8,  AV_CH3,  AV_CH4B}; 
-//                                   201       210       211       212       232       206       207        214        216       208        217      12         13      327       68      66-27-50  67-25-48 68-63    Xxx
+const uint freqTable[21] =       {0, AV_CH1,   AV_CH2,   AV_CH3,   AV_CH4,   AV_CH5,   AV_CH6,   AV_CH7,   AV_CH8,   AV_CH1,  AV_CH2,    AV_CH3,   AV_CH4,   AV_CH5,   AV_CH5,  AV_CH7,  AV_CH8,    AV_CH6,   AV_CH8,  AV_CH3,  AV_CH4B}; 
+//                                   201       210       211       212       205       206       207        208       327     216        217        214      232         14      15      66-27-50  67-25-48 68-63    Xxx
 
 //RC ESP1 IN ORDER ROOM NR
 const unsigned long CH_433[35] = {0, RC_CH1,   RC_CH2,   RC_CH3,   RC_CH4,   RC_CH5,   RC_CH6,   RC_CH7,   RC_CH8,   RC_CH9,   RC_CH10,  RC_CH11,  RC_CH12,  RC_CH13, RC_CH14, RC_CH15, RC_CH16,   RC_CH17,  RC_CH18, RC_CH19, RC_CH20}; 
- //                                  201        210        211      212      232       206       207       8         216       208        217       12        13        327       68       65         66        ROUTER   68       spare
+ //                                  201       210       211       212       205       206       207       208       327       216        217       214      232        14       15       65         66        ROUTER   68       spare
 //RC ESP1 IN ORDER ROOM NR
 //const unsigned long CH_433[35] ={0, 349649,   349811,  349491,    349500,   349635,  349644,      349680,   349111 ,   349211,    349452  , 349463,   349652 ,        349695,   349488,   349632 ,   349511,  349455, 349443 , 349423 ,  349311}; 
  //                                    24        25        26        27        28       29           48        49         50        51         52        53              62        63         64        65        66     ROUTER   68         spare
