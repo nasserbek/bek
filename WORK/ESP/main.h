@@ -51,7 +51,7 @@ const uint8_t LilluGoPins[5] = {
 };
 
 const uint8_t Esp32Pins[5] = {
-  21, 22, 5, 15, 2
+  21, 22, 2, 15, 5
 };
 
 //Board Selection
