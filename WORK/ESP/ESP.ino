@@ -16,8 +16,36 @@ void setup()
 
      i2cSetup();
      mySwitch.enableTransmit(RC_TX_PIN);  
+     internetConnected = checkInternet();
+
 }
 
+bool checkInternet()
+{
+WiFiClient client;
+IPAddress ip;
+    if (WiFi.hostByName("raw.githubusercontent.com", ip))
+    {
+        Serial.print("GitHub IP: ");
+        Serial.println(ip);
+    }
+    else
+    {
+        Serial.println("DNS FAILED");
+    }
+    
+  if (client.connect("1.1.1.1", 80))
+  {
+      Serial.println("Internet OK");
+      client.stop();
+      return true;
+  }
+  else
+  {
+      Serial.println("No Internet");
+      return false;
+  }  
+}
 
 void loop(void) 
 {

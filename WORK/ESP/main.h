@@ -29,14 +29,16 @@
 #include "time.h"
 #include <Preferences.h>
 
+bool internetConnected = false;
+
 // Static IP configuration
 IPAddress local_IP(192, 168, 1, 151);   // ESP1
 IPAddress local_IP_Relays(192, 168, 1, 152);   // ESP2
 
 IPAddress gateway(192, 168, 1, 1);      // Router IP
 IPAddress subnet(255, 255, 255, 0);
-IPAddress primaryDNS(8, 8, 8, 8);       // Optional
-IPAddress secondaryDNS(8, 8, 4, 4);     // Optional
+IPAddress primaryDNS(1, 1, 1, 1);       // Optional
+IPAddress secondaryDNS(8, 8, 8, 8);     // Optional
 bool powerOnReason = false;
 
 // Lillygo Realy-8
