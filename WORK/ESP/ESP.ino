@@ -7,7 +7,7 @@ void setup()
      Serial.begin(115200);
      
      initWDG(MIN_5,EN);
-     mySwitch.enableTransmit(RC_TX_PIN);  
+     
         
      createHandleGroup();
      looadRoomData();     
@@ -15,6 +15,7 @@ void setup()
      safeModeCheck();
 
      i2cSetup();
+     mySwitch.enableTransmit(RC_TX_PIN);  
 }
 
 
