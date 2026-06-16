@@ -1,111 +1,33 @@
-00:32:08.376 INFO - nasserbek@yahoo.it hardware joined.
-01:42:03.633 INFO - nasserbek@yahoo.it hardware joined.
-01:56:30.743 INFO - nasserbek@yahoo.it hardware joined.
-02:04:05.453 INFO - nasserbek@yahoo.it hardware joined.
-02:12:38.241 INFO - nasserbek@yahoo.it hardware joined.
-02:27:08.554 INFO - nasserbek@yahoo.it hardware joined.
-02:30:32.922 INFO - nasserbek@yahoo.it hardware joined.
-02:34:05.045 INFO - nasserbek@yahoo.it hardware joined.
-02:44:00.678 INFO - nasserbek@yahoo.it hardware joined.
-02:50:14.144 INFO - nasserbek@yahoo.it hardware joined.
-03:01:17.395 INFO - nasserbek@yahoo.it hardware joined.
-03:01:32.351 INFO - nasserbek@yahoo.it hardware joined.
-03:01:51.081 INFO - nasserbek@yahoo.it hardware joined.
-03:02:07.314 INFO - nasserbek@yahoo.it hardware joined.
-03:02:25.497 INFO - nasserbek@yahoo.it hardware joined.
-03:02:41.876 INFO - nasserbek@yahoo.it hardware joined.
-03:03:16.301 INFO - nasserbek@yahoo.it hardware joined.
-03:03:34.509 INFO - nasserbek@yahoo.it hardware joined.
-03:03:51.097 INFO - nasserbek@yahoo.it hardware joined.
-03:04:41.146 INFO - nasserbek@yahoo.it hardware joined.
-03:04:56.332 INFO - nasserbek@yahoo.it hardware joined.
-03:05:11.259 INFO - nasserbek@yahoo.it hardware joined.
-03:05:27.154 INFO - nasserbek@yahoo.it hardware joined.
-03:05:42.302 INFO - nasserbek@yahoo.it hardware joined.
-03:05:58.847 INFO - nasserbek@yahoo.it hardware joined.
-03:06:13.907 INFO - nasserbek@yahoo.it hardware joined.
-03:06:28.900 INFO - nasserbek@yahoo.it hardware joined.
-03:06:44.057 INFO - nasserbek@yahoo.it hardware joined.
-03:06:59.929 INFO - nasserbek@yahoo.it hardware joined.
-03:07:17.134 INFO - nasserbek@yahoo.it hardware joined.
-03:07:36.995 INFO - nasserbek@yahoo.it hardware joined.
-03:07:52.257 INFO - nasserbek@yahoo.it hardware joined.
-03:08:08.131 INFO - nasserbek@yahoo.it hardware joined.
-03:08:23.485 INFO - nasserbek@yahoo.it hardware joined.
-03:08:38.343 INFO - nasserbek@yahoo.it hardware joined.
-03:08:56.809 INFO - nasserbek@yahoo.it hardware joined.
-03:11:57.409 INFO - nasserbek@yahoo.it hardware joined.
-03:12:12.761 INFO - nasserbek@yahoo.it hardware joined.
-03:12:28.327 INFO - nasserbek@yahoo.it hardware joined.
-03:12:45.142 INFO - nasserbek@yahoo.it hardware joined.
-03:13:02.121 INFO - nasserbek@yahoo.it hardware joined.
-03:13:19.192 INFO - nasserbek@yahoo.it hardware joined.
-03:13:54.498 INFO - nasserbek@yahoo.it hardware joined.
-03:14:11.043 INFO - nasserbek@yahoo.it hardware joined.
-03:14:26.593 INFO - nasserbek@yahoo.it hardware joined.
-03:14:42.060 INFO - nasserbek@yahoo.it hardware joined.
-03:15:25.277 INFO - nasserbek@yahoo.it hardware joined.
-03:15:42.282 INFO - nasserbek@yahoo.it hardware joined.
-03:16:03.578 INFO - nasserbek@yahoo.it hardware joined.
-03:16:19.037 INFO - nasserbek@yahoo.it hardware joined.
-03:16:35.629 INFO - nasserbek@yahoo.it hardware joined.
-03:16:54.665 INFO - nasserbek@yahoo.it hardware joined.
-03:17:10.853 INFO - nasserbek@yahoo.it hardware joined.
-03:17:26.827 INFO - nasserbek@yahoo.it hardware joined.
-03:17:42.749 INFO - nasserbek@yahoo.it hardware joined.
-03:26:47.435 INFO - nasserbek@yahoo.it hardware joined.
-03:27:32.659 INFO - nasserbek@yahoo.it hardware joined.
-03:33:11.705 INFO - nasserbek@yahoo.it hardware joined.
-03:40:22.108 INFO - nasserbek@yahoo.it hardware joined.
-04:31:18.168 INFO - nasserbek@yahoo.it hardware joined.
-04:40:16.523 INFO - nasserbek@yahoo.it hardware joined.
-14:11:42.185 INFO - Using data dir 'server_data'
-14:11:42.929 INFO - Region : local. Host : 100.108.109.51.
-14:11:46.144 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
-14:11:46.229 INFO - Reports : 0
-14:11:46.230 INFO - Didn't find custom user certificates.
-14:11:46.233 INFO - Didn't find Let's Encrypt certificates.
-14:11:46.233 WARN - You didn't specified 'server.host' or 'contact.email' properties in server.properties file. Automatic certificate generation is turned off. Please specify above properties for automatic certificates retrieval.
-14:11:46.233 WARN - ATTENTION. Server certificate paths (cert : 'C:\Users\CSR\Desktop\blynk_server', key : 'C:\Users\CSR\Desktop\blynk_server') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
-14:11:50.496 INFO - HTTP API and WebSockets server listening at 8080 port.
-14:11:50.498 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
-14:11:50.499 INFO - Mqtt hardware server listening at 8440 port.
-14:13:11.989 INFO - nasserbek@yahoo.it hardware joined.
-14:14:56.754 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
-14:15:20.084 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
-14:15:40.084 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
-14:27:20.241 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
-15:08:31.109 INFO - nasserbek@yahoo.it hardware joined.
-16:11:33.978 INFO - nasserbek@yahoo.it hardware joined.
-16:14:23.244 INFO - nasserbek@yahoo.it hardware joined.
-16:52:52.558 INFO - nasserbek@yahoo.it hardware joined.
-16:58:04.117 INFO - nasserbek@yahoo.it hardware joined.
-16:58:37.962 INFO - nasserbek@yahoo.it hardware joined.
-16:59:30.198 INFO - nasserbek@yahoo.it hardware joined.
-17:02:20.239 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
-17:03:56.137 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
-17:05:25.187 INFO - nasserbek@yahoo.it hardware joined.
-17:14:15.248 INFO - nasserbek@yahoo.it hardware joined.
-17:16:21.442 ERROR- Error sending push. Reason No such host is known (fcm.googleapis.com)
-17:16:21.442 ERROR- Error sending push. Reason fcm.googleapis.com
-17:16:21.442 ERROR- Error sending push. Reason fcm.googleapis.com
-17:16:21.446 ERROR- Error sending push. Reason fcm.googleapis.com
-17:16:21.447 ERROR- Error sending push. Reason fcm.googleapis.com
-17:18:10.278 INFO - nasserbek@yahoo.it hardware joined.
-17:18:12.662 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
-17:20:48.382 INFO - nasserbek@yahoo.it hardware joined.
-17:23:56.577 INFO - nasserbek@yahoo.it hardware joined.
-17:24:30.622 INFO - nasserbek@yahoo.it hardware joined.
-17:27:07.653 INFO - nasserbek@yahoo.it hardware joined.
-17:57:48.258 INFO - nasserbek@yahoo.it hardware joined.
-21:10:17.696 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
-21:12:58.358 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
-21:15:55.248 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
-21:17:02.339 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
-21:18:39.084 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
-21:20:14.810 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
-21:22:02.755 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
-21:23:29.525 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
-21:25:49.243 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
-21:25:57.241 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
-21:39:19.029 INFO - nasserbek@yahoo.it Blynk-app (android-22734) joined.
+00:02:06.607 ERROR- Error sending email auth token to user : nasserbek@yahoo.it. Error: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-4922fa8b423sm108583975e9.11 - gsmtp
+
+00:02:08.957 ERROR- Error sending email auth token to user : nasserbek@yahoo.it. Error: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-49233bdf5fasm12951645e9.1 - gsmtp
+
+00:04:08.317 INFO - nasserbek@yahoo.it hardware joined.
+00:10:49.843 INFO - nasserbek@yahoo.it hardware joined.
+00:17:18.168 INFO - nasserbek@yahoo.it hardware joined.
+00:17:56.716 INFO - nasserbek@yahoo.it hardware joined.
+00:18:22.632 INFO - nasserbek@yahoo.it hardware joined.
+00:18:34.359 INFO - nasserbek@yahoo.it hardware joined.
+00:18:46.078 INFO - nasserbek@yahoo.it hardware joined.
+00:18:57.984 INFO - nasserbek@yahoo.it hardware joined.
+00:19:09.523 INFO - nasserbek@yahoo.it hardware joined.
+00:19:21.219 INFO - nasserbek@yahoo.it hardware joined.
+00:19:32.953 INFO - nasserbek@yahoo.it hardware joined.
+00:19:44.761 INFO - nasserbek@yahoo.it hardware joined.
+00:19:56.575 INFO - nasserbek@yahoo.it hardware joined.
+00:20:37.290 INFO - nasserbek@yahoo.it hardware joined.
+00:20:53.166 INFO - nasserbek@yahoo.it hardware joined.
+00:21:17.674 INFO - nasserbek@yahoo.it hardware joined.
+00:21:29.484 INFO - nasserbek@yahoo.it hardware joined.
+00:21:41.190 INFO - nasserbek@yahoo.it hardware joined.
+00:21:52.913 INFO - nasserbek@yahoo.it hardware joined.
+00:22:04.655 INFO - nasserbek@yahoo.it hardware joined.
+00:22:16.245 INFO - nasserbek@yahoo.it hardware joined.
+00:22:43.536 INFO - nasserbek@yahoo.it hardware joined.
+00:23:19.531 INFO - nasserbek@yahoo.it hardware joined.
+00:24:43.946 INFO - nasserbek@yahoo.it hardware joined.
+00:25:30.362 INFO - nasserbek@yahoo.it hardware joined.
+00:26:38.580 INFO - nasserbek@yahoo.it hardware joined.
+00:29:42.131 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.

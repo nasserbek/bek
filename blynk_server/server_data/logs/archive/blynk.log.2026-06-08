@@ -1,0 +1,76 @@
+17:15:11.497 INFO - Using data dir '/data'
+17:15:12.006 INFO - Region : local. Host : blynk-local.com .
+17:15:12.041 INFO - Using native epoll transport.
+17:15:12.550 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+17:15:12.603 INFO - Reports : 0
+17:15:12.603 INFO - Didn't find custom user certificates.
+17:15:12.605 INFO - Didn't find Let's Encrypt certificates.
+17:15:12.605 INFO - Automatic certificate generation is turned ON.
+17:15:12.605 INFO - Using native openSSL provider.
+17:15:12.605 WARN - ATTENTION. Server certificate paths (cert : '/blynk', key : '/blynk') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+17:15:13.429 INFO - HTTP API and WebSockets server listening at 8080 port.
+17:15:13.430 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+17:15:13.431 INFO - Mqtt hardware server listening at 8440 port.
+17:15:13.439 INFO - Starting up certificate retrieval process for host blynk-local.com  and email alibekhbekh@gmail.com.
+17:15:14.746 INFO - Registered a new user, URL: https://acme-v02.api.letsencrypt.org/acme/acct/3416734156
+17:15:15.399 INFO - Starting authorization for domain blynk-local.com
+17:17:34.862 INFO - Using data dir '/data'
+17:17:35.441 INFO - Region : local. Host : blynk-local.com .
+17:17:35.471 INFO - Using native epoll transport.
+17:17:35.852 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+17:17:35.897 INFO - Reports : 0
+17:17:35.897 INFO - Didn't find custom user certificates.
+17:17:35.899 INFO - Didn't find Let's Encrypt certificates.
+17:17:35.899 INFO - Automatic certificate generation is turned ON.
+17:17:35.899 INFO - Using native openSSL provider.
+17:17:35.899 WARN - ATTENTION. Server certificate paths (cert : '/blynk', key : '/blynk') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+17:17:36.795 INFO - HTTP API and WebSockets server listening at 8080 port.
+17:17:36.796 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+17:17:36.797 INFO - Mqtt hardware server listening at 8440 port.
+17:17:36.812 INFO - Starting up certificate retrieval process for host blynk-local.com  and email alibekhbekh@gmail.com.
+17:17:38.397 INFO - Registered a new user, URL: https://acme-v02.api.letsencrypt.org/acme/acct/3416739706
+17:17:39.072 INFO - Starting authorization for domain blynk-local.com
+17:18:21.972 INFO - nasserbek@yahoo.it hardware joined.
+17:19:58.581 INFO - Using data dir '/data'
+17:19:59.147 INFO - Region : local. Host : blynk-local.com .
+17:19:59.182 INFO - Using native epoll transport.
+17:19:59.629 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+17:19:59.676 INFO - Reports : 0
+17:19:59.676 INFO - Didn't find custom user certificates.
+17:19:59.677 INFO - Didn't find Let's Encrypt certificates.
+17:19:59.677 INFO - Automatic certificate generation is turned ON.
+17:19:59.677 INFO - Using native openSSL provider.
+17:19:59.678 WARN - ATTENTION. Server certificate paths (cert : '/blynk', key : '/blynk') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+17:20:00.570 INFO - HTTP API and WebSockets server listening at 8080 port.
+17:20:00.572 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+17:20:00.574 INFO - Mqtt hardware server listening at 8440 port.
+17:20:00.592 INFO - Starting up certificate retrieval process for host blynk-local.com  and email alibekhbekh@gmail.com.
+17:20:02.449 INFO - Registered a new user, URL: https://acme-v02.api.letsencrypt.org/acme/acct/3416745246
+17:20:03.195 INFO - Starting authorization for domain blynk-local.com
+17:20:03.703 INFO - nasserbek@yahoo.it hardware joined.
+17:21:11.278 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+17:21:42.740 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+17:26:27.230 INFO - Using data dir '/data'
+17:26:27.771 INFO - Region : local. Host : blynk-local.com .
+17:26:27.811 INFO - Using native epoll transport.
+17:26:28.349 INFO - Initializing gmail smtp mail transport. Username : alibekhbekh@gmail.com. SMTP host : smtp.gmail.com:587
+17:26:28.394 INFO - Reports : 0
+17:26:28.395 INFO - Didn't find custom user certificates.
+17:26:28.396 INFO - Didn't find Let's Encrypt certificates.
+17:26:28.396 INFO - Automatic certificate generation is turned ON.
+17:26:28.396 INFO - Using native openSSL provider.
+17:26:28.396 WARN - ATTENTION. Server certificate paths (cert : '/blynk', key : '/blynk') not valid. Using embedded server certs and one way ssl. This is not secure. Please replace it with your own certs.
+17:26:29.649 INFO - HTTP API and WebSockets server listening at 8080 port.
+17:26:29.651 INFO - HTTPS API, WebSockets and Admin page server listening at 9443 port.
+17:26:29.652 INFO - Mqtt hardware server listening at 8440 port.
+17:26:29.667 INFO - Starting up certificate retrieval process for host blynk-local.com  and email alibekhbekh@gmail.com.
+17:26:31.018 INFO - Registered a new user, URL: https://acme-v02.api.letsencrypt.org/acme/acct/3416759776
+17:26:31.669 INFO - Starting authorization for domain blynk-local.com
+17:26:38.109 INFO - nasserbek@yahoo.it hardware joined.
+17:26:46.304 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+17:26:46.305 INFO - nasserbek@yahoo.it Blynk-app (android-22724) joined.
+17:31:42.546 INFO - nasserbek@yahoo.it hardware joined.
+17:31:55.798 INFO - nasserbek@yahoo.it hardware joined.
+17:38:09.054 INFO - nasserbek@yahoo.it hardware joined.
+17:44:48.426 INFO - nasserbek@yahoo.it hardware joined.
+17:58:48.690 INFO - nasserbek@yahoo.it hardware joined.
