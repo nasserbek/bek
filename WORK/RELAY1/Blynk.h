@@ -12,8 +12,8 @@ void processBlynkQueu(void)
             case Q_EVENT_V1:
                   relayState = queuData;
                   digitalWrite(RELAY_PIN, relayState ? LOW : HIGH);
-//                  if(relayState) RELAY_LED_V2.on();
-//                  else RELAY_LED_V2.off();
+                  if(relayState) RELAY_LED_V2.on();
+                  else RELAY_LED_V2.off();
 //               //   Blynk.virtualWrite(V2, relayState);  
                   DEBUG_PRINTLN("Received V2 Relay command " + String(queuData) );          
             break;      
@@ -164,6 +164,13 @@ BLYNK_WRITE(V6)
   QueueSend(eventdata);
 }
 
+BLYNK_WRITE(V7) 
+{
+  _blynkEvent = true;
+  _blynkData = param.asInt();
+  eventdata = Q_EVENT_V7;
+  QueueSend(eventdata);
+}
 BLYNK_CONNECTED()
 {
     Blynk.syncVirtual(V1);
