@@ -48,8 +48,7 @@ const uint8_t relayPins[8] = {
 };
 
 const uint8_t LilluGoPins[5] = {
-  23, 22,
-  25, 26, 14
+  23, 22,25, 26, 14
 };
 
 const uint8_t Esp32Pins[5] = {

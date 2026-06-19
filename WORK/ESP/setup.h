@@ -67,7 +67,7 @@ void gpioSetup(void)
       // Configure time
      configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
 
-     card = 0;
+   
       
       switch(card) {
         case 0:
