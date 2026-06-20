@@ -1,67 +1,8 @@
-
-
-//#define METEOR_ETH_PLS
-//#define NICE
-//#define CH
-
-//#define METEOR_WIFI
-
-//#define REMOTE_SERVER
-//#define LOCAL_SERVER 
-
-//#ifdef LOCAL_SERVER
-//    #define BLYNK_SERVER_BBOX                   IPAddress(192,168,1,4)
-//    #define BLYNK_SERVER_METEOR_SFR            IPAddress(192,168,1,168)
-//    #define BLYNK_SERVER_METEOR_ETH_PLS         IPAddress(192,168,1,194)
-//#endif
-
-//#ifdef REMOTE_SERVER
-//    #define BLYNK_SERVER "blynk.cloud" //BLYNK2 REMOTE SERVER 
-//#endif
-
-                                            
-                                              
+#define METEOR_ETH_PLS
+#define METEOR_WIFI
  
-//#define WIFI_PASSWORD_SFR        "ali09042010"
-//#define WIFI_PASSWORD_METEOR     "Ali09042010_"
-//#define WIFI_PASSWORD_BBOX       "Ali09042010_"
-
-
-
-//#ifdef ESP32_DEV
-//    //av1
-//    #define I2C_SDA       21  //green
-//    #define I2C_SCL       22  //yellow
-//    
-//    //BOARD SEL
-//    #define DIP1          27
-//    #define DIP2          4
-//    
-//    //board led
-//    #define BOARD_LED     2
-//
-//    //RC
-//    #define RC_TX_PIN         15
-//    //DVR
-//    #define AV_RX_DVR_PIN     0    
-//#endif
-//
-//#ifdef LILLYGO_RELAY_8
-//    //av1
-//    #define I2C_SDA             23  //green
-//    #define I2C_SCL             22  //yellow
-//    
-//    //BOARD SEL
-//    #define DIP1         27
-//    #define DIP2         4
-//    
-//    //board led
-//    #define BOARD_LED    25
-//    //RC
-//    #define RC_TX_PIN         26
-//    //DVR
-//    #define AV_RX_DVR_PIN     14    
-//#endif
+//#define CH
+//#define NICE
 
 #define RC_CODE_LENGTH      24
 

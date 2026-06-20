@@ -197,7 +197,8 @@ void gpioSetup(void)
            break;
       }
 
- 
+ IPAddress ip4;
+ IPAddress igateway;
     // Lillygo Realy-8
     if(ActiveBoard == ESP2) {
         for (int i = 0; i < 8; i++) {
@@ -212,7 +213,26 @@ void gpioSetup(void)
       RC_TX_PIN         =LilluGoPins[3];
       AV_RX_DVR_PIN     =LilluGoPins[4];
            // Configure static IP
-     if (!WiFi.config(local_IP_Relays, gateway, subnet, primaryDNS, secondaryDNS)) {
+#ifdef METEOR_ETH_PLS
+    ip4 = local_IP_Relays;
+    igateway = gateway;
+#endif
+
+#ifdef METEOR_WIFI
+    ip4 = local_IP_Relays;
+    igateway = gateway;
+#endif  
+  
+#ifdef CH
+    ip4 = local_IP_NICE_CH;
+    igateway = gateway_NICE_CH;
+#endif
+
+#ifdef NICE
+   ip4 = local_IP_NICE_CH;
+   igateway = gateway_NICE_CH;
+#endif               
+     if (!WiFi.config(ip4, igateway, subnet, primaryDNS, secondaryDNS)) {
      Serial.println("STA Failed to configure");
      }
     }
@@ -225,7 +245,27 @@ void gpioSetup(void)
       RC_TX_PIN         =Esp32Pins[3];
       AV_RX_DVR_PIN     =Esp32Pins[4];
            // Configure static IP
-     if (!WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS)) {
+#ifdef METEOR_ETH_PLS
+    ip4 = local_IP;
+    igateway = gateway;
+#endif
+
+#ifdef METEOR_WIFI
+    ip4 = local_IP;
+    igateway = gateway;
+#endif  
+  
+#ifdef CH
+    ip4 = local_IP_NICE_CH;
+    igateway = gateway_NICE_CH;
+#endif
+
+#ifdef NICE
+   ip4 = local_IP_NICE_CH;
+   igateway = gateway_NICE_CH;
+#endif           
+           
+     if (!WiFi.config(ip4, igateway, subnet, primaryDNS, secondaryDNS)) {
      Serial.println("STA Failed to configure");
      }
     }

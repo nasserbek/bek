@@ -8,8 +8,8 @@ void setup()
      
      initWDG(MIN_5,EN);
      
-        
      createHandleGroup();
+
      looadRoomData();     
 
      safeModeCheck();
@@ -17,8 +17,9 @@ void setup()
      i2cSetup();
      mySwitch.enableTransmit(RC_TX_PIN);  
      internetConnected = checkInternet();
-
 }
+
+
 
 bool checkInternet()
 {

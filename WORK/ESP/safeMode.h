@@ -20,6 +20,70 @@ uint32_t crashCount = 0;
 
 bool safeMode = false;
 
+// --------------------------------------------------
+void getTimeDate()
+{
+    
+    struct tm now = printLocalTime();
+    char buildTime[20];
+     
+    int day, year, hour, minute, second;
+    char monthStr[4];
+
+    sscanf(__DATE__, "%s %d %d", monthStr, &day, &year);
+    sscanf(__TIME__, "%d:%d:%d", &hour, &minute, &second);
+
+    int month = 0;
+
+    if      (strcmp(monthStr, "Jan") == 0) month = 1;
+    else if (strcmp(monthStr, "Feb") == 0) month = 2;
+    else if (strcmp(monthStr, "Mar") == 0) month = 3;
+    else if (strcmp(monthStr, "Apr") == 0) month = 4;
+    else if (strcmp(monthStr, "May") == 0) month = 5;
+    else if (strcmp(monthStr, "Jun") == 0) month = 6;
+    else if (strcmp(monthStr, "Jul") == 0) month = 7;
+    else if (strcmp(monthStr, "Aug") == 0) month = 8;
+    else if (strcmp(monthStr, "Sep") == 0) month = 9;
+    else if (strcmp(monthStr, "Oct") == 0) month = 10;
+    else if (strcmp(monthStr, "Nov") == 0) month = 11;
+    else if (strcmp(monthStr, "Dec") == 0) month = 12;
+
+    sprintf(buildTime,
+            "%02d/%02d/%02d %02d:%02d",
+            day,
+            month,
+            year % 100,
+            hour,
+            minute);
+            
+    VERSION_ID = BOARD + " " + buildTime;  
+}
+
+// --------------------------------------------------
+// Called whenever activity is detected
+// --------------------------------------------------
+void resetInactivityTimer()
+{
+    lastActivityTime = millis();
+}
+
+void normalModeSetup()
+{
+    Serial.println("NORMAL MODE");
+    gpioSetup();
+    wifiAvailable = myBlynk.wifi_init();
+    getTimeDate();
+    
+     blynkConnected = blynkInit();
+     myBlynk.blynkTimers();
+     
+     timersMillis();    
+     Serial.print("Version: ");     Serial.println(VERSION_ID);
+     Serial.print("AWS IOT This is: ");     Serial.println(THINGNAME); 
+     resetInactivityTimer();
+}
+
+
 void blueLedFlash(unsigned long interval)
 {
   unsigned long currentMillis = millis();
@@ -70,13 +134,7 @@ void saveCrashCount()
     Serial.println(crashCount);
 }
 
-// --------------------------------------------------
-// Called whenever activity is detected
-// --------------------------------------------------
-void resetInactivityTimer()
-{
-    lastActivityTime = millis();
-}
+
 
 // --------------------------------------------------
 // Detect reboot reason
@@ -164,84 +222,8 @@ void checkCrashCounter()
     printResetReason();
 }
 
-// --------------------------------------------------
-void getTimeDate()
-{
-    
-    struct tm now = printLocalTime();
-    char buildTime[20];
-     
-    int day, year, hour, minute, second;
-    char monthStr[4];
 
-    sscanf(__DATE__, "%s %d %d", monthStr, &day, &year);
-    sscanf(__TIME__, "%d:%d:%d", &hour, &minute, &second);
 
-    int month = 0;
-
-    if      (strcmp(monthStr, "Jan") == 0) month = 1;
-    else if (strcmp(monthStr, "Feb") == 0) month = 2;
-    else if (strcmp(monthStr, "Mar") == 0) month = 3;
-    else if (strcmp(monthStr, "Apr") == 0) month = 4;
-    else if (strcmp(monthStr, "May") == 0) month = 5;
-    else if (strcmp(monthStr, "Jun") == 0) month = 6;
-    else if (strcmp(monthStr, "Jul") == 0) month = 7;
-    else if (strcmp(monthStr, "Aug") == 0) month = 8;
-    else if (strcmp(monthStr, "Sep") == 0) month = 9;
-    else if (strcmp(monthStr, "Oct") == 0) month = 10;
-    else if (strcmp(monthStr, "Nov") == 0) month = 11;
-    else if (strcmp(monthStr, "Dec") == 0) month = 12;
-
-    sprintf(buildTime,
-            "%02d/%02d/%02d %02d:%02d",
-            day,
-            month,
-            year % 100,
-            hour,
-            minute);
-            
-    VERSION_ID = BOARD + " " + buildTime;  
-}
-
-void normalModeSetup()
-{
-     Serial.println("NORMAL MODE");
-     powerOnReason = false; //disable until test with serial
-      if (powerOnReason)
-      {
-          Serial.println("Power-on reset detected, stopping interrupt timer and wait  min. for reuter to start..");
-          enableWDG(false);
-          unsigned long timeout = millis();
-      
-          while (millis() - timeout < 300000)  // max 5 minutes
-          {
-              wifiAvailable = myBlynk.wifi_init();
-              if (wifiAvailable) 
-              {
-                initWDG(MIN_5,EN);
-                enableWDG(true);
-                break;
-              }
-              WiFi.disconnect(true);
-              delay(10000);  // retry every 10 seconds
-          }
-      }
-else
-  {
-     
-    gpioSetup();
-    wifiAvailable = myBlynk.wifi_init();
-    getTimeDate();
-    
-     blynkConnected = blynkInit();
-     myBlynk.blynkTimers();
-     
-     timersMillis();    
-     Serial.print("Version: ");     Serial.println(VERSION_ID);
-     Serial.print("AWS IOT This is: ");     Serial.println(THINGNAME); 
-     resetInactivityTimer();
-  }    
-}
 
 // --------------------------------------------------
 void activateLocalWifiWeb()

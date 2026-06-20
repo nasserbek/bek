@@ -32,10 +32,14 @@
 bool internetConnected = false;
 
 // Static IP configuration
-IPAddress local_IP(192, 168, 1, 151);   // ESP1
-IPAddress local_IP_Relays(192, 168, 1, 152);   // ESP2
+IPAddress local_IP(192, 168, 10, 151);   // ESP1
+IPAddress local_IP_Relays(192, 168, 10, 152);   // ESP2
+IPAddress gateway(192, 168, 10, 1);      // Router IP
 
-IPAddress gateway(192, 168, 1, 1);      // Router IP
+IPAddress local_IP_NICE_CH(192, 168, 1, 151);   // ESP1
+IPAddress local_IP_Relays_NICE_CH(192, 168, 1, 152);   // ESP2
+IPAddress gateway_NICE_CH(192, 168, 1, 1);      // Router IP
+
 IPAddress subnet(255, 255, 255, 0);
 IPAddress primaryDNS(1, 1, 1, 1);       // Optional
 IPAddress secondaryDNS(8, 8, 8, 8);     // Optional
@@ -307,7 +311,7 @@ bool pingGoogle= false;
 bool googlePingOk= true;
 bool netGeerReset = false;
 bool liveBit = false;
-IPAddress ip (192, 168, 0, 1); // The remote ip to ping
+//IPAddress ip (192, 168, 10, 1); // The remote ip to ping
 bool aliveTimout = false;
 int stateMachine =0;
 bool wifiIde = true;

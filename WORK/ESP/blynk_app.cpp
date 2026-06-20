@@ -20,8 +20,8 @@ extern void loadCrashCount();
 
 IPAddress blynkLocalServer;
 IPAddress BLYNK_SERVER_BBOX(192,168,1,4);
-IPAddress BLYNK_SERVER_METEOR_SFR(192,168,1,168);
-IPAddress BLYNK_SERVER_METEOR_ETH_PLS(192,168,1,194);
+IPAddress BLYNK_SERVER_METEOR_SFR(192,168,1,46);
+IPAddress BLYNK_SERVER_METEOR_ETH_PLS(192,168,10,195);
 
 const char* WIFI_SSID_SFR    = "SFR_BEK-23C0";
 const char* WIFI_SSID_METEOR_PLS ="BEK_METEOR_2.4G";
@@ -218,21 +218,21 @@ bool blynk::wifi_init()
 {
   _wifiIsConnected = false;
 
-//#ifdef METEOR_ETH_PLS
+#ifdef METEOR_ETH_PLS
     wifiMulti.addAP(WIFI_SSID_METEOR_PLS, WIFI_PASSWORD_METEOR);
-//#endif
+#endif
 
-//#ifdef METEOR_WIFI
+#ifdef METEOR_WIFI
     wifiMulti.addAP(WIFI_SSID_METEOR_PLS, WIFI_PASSWORD_METEOR);
-//#endif  
+#endif  
   
-//#ifdef CH
+#ifdef CH
     wifiMulti.addAP(WIFI_SSID_BBOX, WIFI_PASSWORD_BBOX);
-//#endif
+#endif
 
-//#ifdef NICE
+#ifdef NICE
    wifiMulti.addAP(WIFI_SSID_SFR, WIFI_PASSWORD_SFR);
-//#endif  
+#endif  
 
   
   Serial.println("Connecting Wifi...");
@@ -258,21 +258,21 @@ bool  wifi_connect()
 {
   _wifiIsConnected = false;
 
-//#ifdef METEOR_ETH_PLS
+#ifdef METEOR_ETH_PLS
     wifiMulti.addAP(WIFI_SSID_METEOR_PLS, WIFI_PASSWORD_METEOR);
-//#endif
+#endif
 
-//#ifdef METEOR_WIFI
+#ifdef METEOR_WIFI
     wifiMulti.addAP(WIFI_SSID_METEOR_PLS, WIFI_PASSWORD_METEOR);
-//#endif  
+#endif  
   
-//#ifdef CH
+#ifdef CH
     wifiMulti.addAP(WIFI_SSID_BBOX, WIFI_PASSWORD_BBOX);
-//#endif
+#endif
 
-//#ifdef NICE
+#ifdef NICE
    wifiMulti.addAP(WIFI_SSID_SFR, WIFI_PASSWORD_SFR);
-//#endif  
+#endif  
 
   
   Serial.println("Connecting Wifi...");
@@ -361,9 +361,9 @@ void   AvRxIndex(int _index)
 
 void chSelect(String ch)
 {
-  String SelectedCh = "rtsp://admin:basma28112018@192.168.1.96:554/" + ch + "/0" ;
-      if        (ActiveBoard == ESP1 ) SelectedCh = "rtsp://admin:basma28112018@192.168.1.96:554/" + ch + "/0" ;
-      else  if  (ActiveBoard == ESP2 ) SelectedCh = "rtsp://admin:basma28112018@192.168.1.94:554/" + ch + "/0" ;
+  String SelectedCh = "rtsp://admin:basma28112018@192.168.10.114:554/" + ch + "/0" ;
+      if        (ActiveBoard == ESP1 ) SelectedCh = "rtsp://admin:basma28112018@192.168.10.114:554/" + ch + "/0" ;
+      else  if  (ActiveBoard == ESP2 ) SelectedCh = "rtsp://admin:basma28112018@192.168.10.112:554/" + ch + "/0" ;
       else if   (ActiveBoard == ESP3 ) SelectedCh = "rtsp://admin:basma28112018@192.168.1.108:554/" + ch + "/0" ;
   Blynk.setProperty(V28, "url", SelectedCh);
 }
@@ -512,9 +512,9 @@ void blynk::mapRefresh(int index)
 
 void blynk::streamSelect(String ch)
 {
-  String SelectedCh = "rtsp://admin:basma28112018@192.168.1.96:554/" + ch + "/0" ;
-      if        (ActiveBoard == ESP1 ) SelectedCh = "rtsp://admin:basma28112018@192.168.1.96:554/" + ch + "/0" ;
-      else  if  (ActiveBoard == ESP2 ) SelectedCh = "rtsp://admin:basma28112018@192.168.1.94:554/" + ch + "/0" ;
+  String SelectedCh = "rtsp://admin:basma28112018@192.168.10.114:554/" + ch + "/0" ;
+      if        (ActiveBoard == ESP1 ) SelectedCh = "rtsp://admin:basma28112018@192.168.10.114:554/" + ch + "/0" ;
+      else  if  (ActiveBoard == ESP2 ) SelectedCh = "rtsp://admin:basma28112018@192.168.10.112:554/" + ch + "/0" ;
       else if   (ActiveBoard == ESP3 ) SelectedCh = "rtsp://admin:basma28112018@192.168.1.108:554/" + ch + "/0" ;
   Blynk.setProperty(V28, "url", SelectedCh);
 }
