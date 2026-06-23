@@ -217,11 +217,7 @@ void gpioSetup(void)
     ip4 = local_IP_Relays;
     igateway = gateway;
 #endif
-
-#ifdef METEOR_WIFI
-    ip4 = local_IP_Relays;
-    igateway = gateway;
-#endif  
+ 
   
 #ifdef CH
     ip4 = local_IP_NICE_CH;
@@ -250,10 +246,6 @@ void gpioSetup(void)
     igateway = gateway;
 #endif
 
-#ifdef METEOR_WIFI
-    ip4 = local_IP;
-    igateway = gateway;
-#endif  
   
 #ifdef CH
     ip4 = local_IP_NICE_CH;

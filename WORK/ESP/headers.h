@@ -1,5 +1,4 @@
 #define METEOR_ETH_PLS
-#define METEOR_WIFI
  
 //#define CH
 //#define NICE

@@ -221,10 +221,6 @@ bool blynk::wifi_init()
 #ifdef METEOR_ETH_PLS
     wifiMulti.addAP(WIFI_SSID_METEOR_PLS, WIFI_PASSWORD_METEOR);
 #endif
-
-#ifdef METEOR_WIFI
-    wifiMulti.addAP(WIFI_SSID_METEOR_PLS, WIFI_PASSWORD_METEOR);
-#endif  
   
 #ifdef CH
     wifiMulti.addAP(WIFI_SSID_BBOX, WIFI_PASSWORD_BBOX);
@@ -262,9 +258,6 @@ bool  wifi_connect()
     wifiMulti.addAP(WIFI_SSID_METEOR_PLS, WIFI_PASSWORD_METEOR);
 #endif
 
-#ifdef METEOR_WIFI
-    wifiMulti.addAP(WIFI_SSID_METEOR_PLS, WIFI_PASSWORD_METEOR);
-#endif  
   
 #ifdef CH
     wifiMulti.addAP(WIFI_SSID_BBOX, WIFI_PASSWORD_BBOX);
@@ -362,8 +355,8 @@ void   AvRxIndex(int _index)
 void chSelect(String ch)
 {
   String SelectedCh = "rtsp://admin:basma28112018@192.168.10.114:554/" + ch + "/0" ;
-      if        (ActiveBoard == ESP1 ) SelectedCh = "rtsp://admin:basma28112018@192.168.10.114:554/" + ch + "/0" ;
-      else  if  (ActiveBoard == ESP2 ) SelectedCh = "rtsp://admin:basma28112018@192.168.10.112:554/" + ch + "/0" ;
+      if        (ActiveBoard == ESP1 ) SelectedCh = "rtsp://admin:basma28112018@192.168.10.112:554/" + ch + "/0" ;
+      else  if  (ActiveBoard == ESP2 ) SelectedCh = "rtsp://admin:basma28112018@192.168.10.114:554/" + ch + "/0" ;
       else if   (ActiveBoard == ESP3 ) SelectedCh = "rtsp://admin:basma28112018@192.168.1.108:554/" + ch + "/0" ;
   Blynk.setProperty(V28, "url", SelectedCh);
 }
@@ -513,8 +506,8 @@ void blynk::mapRefresh(int index)
 void blynk::streamSelect(String ch)
 {
   String SelectedCh = "rtsp://admin:basma28112018@192.168.10.114:554/" + ch + "/0" ;
-      if        (ActiveBoard == ESP1 ) SelectedCh = "rtsp://admin:basma28112018@192.168.10.114:554/" + ch + "/0" ;
-      else  if  (ActiveBoard == ESP2 ) SelectedCh = "rtsp://admin:basma28112018@192.168.10.112:554/" + ch + "/0" ;
+      if        (ActiveBoard == ESP1 ) SelectedCh = "rtsp://admin:basma28112018@192.168.10.112:554/" + ch + "/0" ;
+      else  if  (ActiveBoard == ESP2 ) SelectedCh = "rtsp://admin:basma28112018@192.168.10.113:554/" + ch + "/0" ;
       else if   (ActiveBoard == ESP3 ) SelectedCh = "rtsp://admin:basma28112018@192.168.1.108:554/" + ch + "/0" ;
   Blynk.setProperty(V28, "url", SelectedCh);
 }
