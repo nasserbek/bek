@@ -194,12 +194,12 @@ void blinkLedWidget()
   if (!blynkActive &&  !zapOnOff && !zapScanOnly && dvrSleep && stateDVR == DVR_OFF)
   {
     if (ledStatus) {
-      LIVE_LED_V121.setColor(BLYNK_RED);
-      Serial.println("LED on V121: red");
+//      LIVE_LED_V121.setColor(BLYNK_RED);
+//      Serial.println("LED on V121: red");
       ledStatus = false;
     } else {
-      LIVE_LED_V121.setColor(BLYNK_GREEN);
-      Serial.println("LED on V121: green");
+//      LIVE_LED_V121.setColor(BLYNK_GREEN);
+//      Serial.println("LED on V121: green");
       ledStatus = true;
     }
    ledYellow = false;

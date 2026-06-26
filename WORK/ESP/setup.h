@@ -257,9 +257,9 @@ void gpioSetup(void)
    igateway = gateway_NICE_CH;
 #endif           
            
-     if (!WiFi.config(ip4, igateway, subnet, primaryDNS, secondaryDNS)) {
-     Serial.println("STA Failed to configure");
-     }
+//     if (!WiFi.config(ip4, igateway, subnet, primaryDNS, secondaryDNS)) {
+//     Serial.println("STA Failed to configure");
+//     }
     }
       pinMode(AV_RX_DVR_PIN, OUTPUT);
       pinMode(BOARD_LED, OUTPUT);
