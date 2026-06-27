@@ -16,20 +16,20 @@ bool httpRequest(const String& method,
                  const String& request,
                  String&       response)
 {
-  DEBUG_PRINT(F("Connecting to "));
-  DEBUG_PRINT(blynkHost);
-  DEBUG_PRINT(":");
-  DEBUG_PRINT(port);
-  DEBUG_PRINT("... ");
+  Serial.print(F("Connecting to "));
+  Serial.print(blynkHost);
+  Serial.print(":");
+  Serial.print(port);
+  Serial.print("... ");
 
       if (apiClient.connect(blynkHost, port)) {
-        DEBUG_PRINTLN("OK");
+        Serial.println("OK");
       } else {
-        DEBUG_PRINTLN("failed");
+        Serial.println("failed");
         return false;
       }
 
-  DEBUG_PRINT(method); DEBUG_PRINT(" "); DEBUG_PRINTLN(url);
+  Serial.print(method); Serial.print(" "); Serial.println(url);
 
   apiClient.print(method); apiClient.print(" ");
   apiClient.print(url); apiClient.println(F(" HTTP/1.1"));
@@ -44,17 +44,17 @@ bool httpRequest(const String& method,
     apiClient.println();
   }
 
-  //DEBUG_PRINTLN("Waiting response");
+  //Serial.println("Waiting response");
   int timeout = millis() + 5000;
   while (apiClient.available() == 0) {
     if (timeout - millis() < 0) {
-      DEBUG_PRINTLN(">>> apiClient Timeout !");
+      Serial.println(">>> apiClient Timeout !");
       apiClient.stop();
       return false;
     }
   }
 
-  //DEBUG_PRINTLN("Reading response");
+  //Serial.println("Reading response");
   int contentLength = -1;
   while (apiClient.available()) {
     String line = apiClient.readStringUntil('\n');
@@ -67,7 +67,7 @@ bool httpRequest(const String& method,
     }
   }
 
-  //DEBUG_PRINTLN("Reading response body");
+  //Serial.println("Reading response body");
   response = "";
   response.reserve(contentLength + 1);
   while (response.length() < contentLength) {
@@ -90,14 +90,14 @@ void apiSend(char* RemoteBoard, String virtualPin, int value) {
   // Send value to the cloud
   // similar to Blynk.virtualWrite()
   String request = "&pin="+ virtualPin +"&value=" ;
-  DEBUG_PRINT("Sending value: " );
-  DEBUG_PRINTLN(value);
+  Serial.print("Sending value: " );
+  Serial.println(value);
   if (RemoteBoard == "ESP1" && BOARD != "ESP1")
   {
          if (httpRequest("GET", String("/external/api/update?token=") + BLYNK_AUTH_TOKEN_ESP1 + request + value, "", response)) {
           if (response.length() != 0) {
-            DEBUG_PRINT("WARNING: ");
-            DEBUG_PRINTLN(response);
+            Serial.print("WARNING: ");
+            Serial.println(response);
           }
         }
   }
@@ -106,8 +106,8 @@ void apiSend(char* RemoteBoard, String virtualPin, int value) {
   {
          if (httpRequest("GET", String("/external/api/update?token=") + BLYNK_AUTH_TOKEN_ESP2 + request + value, "", response)) {
           if (response.length() != 0) {
-            DEBUG_PRINT("WARNING: ");
-            DEBUG_PRINTLN(response);
+            Serial.print("WARNING: ");
+            Serial.println(response);
           }
         }
   }
@@ -116,8 +116,8 @@ void apiSend(char* RemoteBoard, String virtualPin, int value) {
   {
          if (httpRequest("GET", String("/external/api/update?token=") + BLYNK_AUTH_TOKEN_ESP3 + request + value, "", response)) {
           if (response.length() != 0) {
-            DEBUG_PRINT("WARNING: ");
-            DEBUG_PRINTLN(response);
+            Serial.print("WARNING: ");
+            Serial.println(response);
           }
         }
   }

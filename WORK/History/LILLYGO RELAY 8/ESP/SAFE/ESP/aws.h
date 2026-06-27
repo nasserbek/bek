@@ -44,9 +44,9 @@ bool connectAWS()
   
   while (!client.connect(THINGNAME))
   {
-    DEBUG_PRINTLN("Connecting to AWS:");
-    DEBUG_PRINTLN( THINGNAME );
-    DEBUG_PRINT(".");
+    Serial.println("Connecting to AWS:");
+    Serial.println( THINGNAME );
+    Serial.print(".");
     delay(1000);
     return false;
   }

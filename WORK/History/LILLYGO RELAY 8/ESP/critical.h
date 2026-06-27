@@ -41,22 +41,22 @@ void enableWDG(bool _enable)
   
 void initWDG(int wdtTimeout,bool _enable) 
 {
-  DEBUG_PRINT(F("\nStarting TimerInterruptTest on "));
-  DEBUG_PRINTLN(ARDUINO_BOARD);
-  DEBUG_PRINTLN(ESP32_TIMER_INTERRUPT_VERSION);
-  DEBUG_PRINT(F("CPU Frequency = "));
-  DEBUG_PRINT(F_CPU / 1000000);
-  DEBUG_PRINTLN(F(" MHz"));
+  Serial.print(F("\nStarting TimerInterruptTest on "));
+  Serial.println(ARDUINO_BOARD);
+  Serial.println(ESP32_TIMER_INTERRUPT_VERSION);
+  Serial.print(F("CPU Frequency = "));
+  Serial.print(F_CPU / 1000000);
+  Serial.println(F(" MHz"));
 
 
     if (ITimer0.attachInterruptInterval((uint64_t)wdtTimeout * 1000, TimerHandler0))
     {
-      DEBUG_PRINT(F("Starting ITimer0 OK, millis() = "));
-      DEBUG_PRINTLN(millis());
+      Serial.print(F("Starting ITimer0 OK, millis() = "));
+      Serial.println(millis());
     }
     else
     {
-      DEBUG_PRINTLN(F("Can't set ITimer0"));
+      Serial.println(F("Can't set ITimer0"));
     }
 }
 
@@ -84,17 +84,31 @@ void ResetNetgeer(void)
 
 void internetCheck(void)
 {
+//         if ( ( (millis() - resetNetgeerAfterInternetLossTimer) >= INTERNET_LOSS_TO_RESET_NG_TIMER) && InternetLoss && !blynkConnected && !routerResetStart)
+//        {
+//              DEBUG_PRINTLN("Blynk Disconnected for 2 min, Reset Netgeer");
+//              routerResetTimer        = millis();
+//              routerResetStart = true;
+//              DEBUG_PRINTLN("Netgeer Reset done: ");
+//        }
+//       if ( (  (millis() - routerResetTimer) >= ROUTER_RESET_TIMER) && InternetLoss && !blynkConnected && routerResetStart)
+//                {
+//                routerResetStart=false;
+//                restartAfterResetNG     = millis();
+//                netGeerReset = true;
+//               }
+
        if (  ( (millis() - restartAfterResetNG) >=  RESTART_AFTER_NG_RESET_TIMER) && InternetLoss && !blynkConnected )//&& netGeerReset )
           {
-            Serial.printf(
-                          "Restarting %lu minutes after Internet or Blynk loss.\n",
-                          RESTART_AFTER_NG_RESET_TIMER / (60UL * 1000UL)
-                      );
+            DEBUG_PRINTLN("Resetaring 7 min after Internet or Blynk Loss");
             netGeerReset = false;
             resetInternetLoss();
-            ESP.restart(); 
+            wifiAvailable = myBlynk.wifi_init();
+            if(wifiAvailable)activateLocalWifiWeb();
+            else ESP.restart(); 
           }
 
+ //      else if ( InternetLoss && !blynkConnected ) blueLedFlash(10000) ; 
 }     
 
 

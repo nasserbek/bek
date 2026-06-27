@@ -29,7 +29,7 @@
 #include "time.h"
 #include <Preferences.h>
 
-
+bool internetConnected = false;
 
 // Static IP configuration
 IPAddress local_IP(192, 168, 10, 151);   // ESP1
@@ -43,7 +43,7 @@ IPAddress gateway_NICE_CH(192, 168, 1, 1);      // Router IP
 IPAddress subnet(255, 255, 255, 0);
 IPAddress primaryDNS(1, 1, 1, 1);       // Optional
 IPAddress secondaryDNS(8, 8, 8, 8);     // Optional
-
+bool powerOnReason = false;
 
 // Lillygo Realy-8
 const uint8_t relayPins[8] = {
@@ -287,7 +287,7 @@ uint8_t bus = 1;
 
 
 
-
+int blynkStatus = 1;
 bool googleConnected=false;
 bool blynkInitDone=false;
 bool blynkConnected = false;

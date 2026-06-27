@@ -3,18 +3,6 @@
 //#define CH
 //#define NICE
 
-#define DEBUG_SERIAL
-
-#ifdef DEBUG_SERIAL
-#define DEBUG_PRINT(...)     Serial.print(__VA_ARGS__)
-#define DEBUG_PRINTLN(...)   Serial.println(__VA_ARGS__)
-#define DEBUG_PRINTF(...)    Serial.printf(__VA_ARGS__)
-//#else
-// #define DEBUG_PRINT(x)
-// #define DEBUG_PRINTLN(x)
-// #define DEBUG_WRITE(x)  
-#endif
-
 
 #define RC_CODE_LENGTH      24
 
@@ -151,7 +139,7 @@ CH_18,
 
 
 
-
+#define DEBUG_SERIAL
 
 
 #define ON  1
@@ -324,7 +312,15 @@ Q_EVENT_RM_ID_19_V92,  //68
 #define MUX_ROOM_ZAP        30000  // 2 SEC
 
 
-
+#ifdef DEBUG_SERIAL
+ #define DEBUG_PRINT(x)    Serial.print (x)
+ #define DEBUG_PRINTLN(x)  Serial.println (x)
+ #define DEBUG_WRITE(x)    Serial.write (x)
+#else
+ #define DEBUG_PRINT(x)
+ #define DEBUG_PRINTLN(x)
+ #define DEBUG_WRITE(x)  
+#endif
 
 
 #define BLYNK_GREEN     "#23C48E"

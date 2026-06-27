@@ -460,10 +460,11 @@ void blynkLoop(void)
 {
  StaticJsonDocument<54> doc; //Json to send from
  
-//       blynkConnected=myBlynk.blynkStatus(); 
+       blynkConnected=myBlynk.blynkStatus(); 
        
        if ( blynkConnected )
           {
+           blueLedFlash(5000);
            if(!liveLedUpdate) 
                 {
                   liveLedUpdate = true; 

@@ -28,8 +28,8 @@ void selectRelay(uint8_t relay)
 
   setRelayByte(cmd);
 
-  DEBUG_PRINT("Relay Command = Ch");
-  DEBUG_PRINTLN(cmd, BIN);
+  Serial.print("Relay Command = Ch");
+  Serial.println(cmd, BIN);
 }
 
 

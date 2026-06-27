@@ -9,7 +9,7 @@ extern uint32_t lastActivityTime;
 
 extern bool wifiIde ;  
 extern void ArduinoIdeWifi();
-
+extern bool powerOnReason ;
 
 Preferences prefs;
 
@@ -69,7 +69,7 @@ void resetInactivityTimer()
 
 void normalModeSetup()
 {
-    DEBUG_PRINTLN("NORMAL MODE");
+    Serial.println("NORMAL MODE");
     gpioSetup();
     wifiAvailable = myBlynk.wifi_init();
     getTimeDate();
@@ -78,7 +78,8 @@ void normalModeSetup()
      myBlynk.blynkTimers();
      
      timersMillis();    
-     DEBUG_PRINT("Version: ");     DEBUG_PRINTLN(VERSION_ID);
+     Serial.print("Version: ");     Serial.println(VERSION_ID);
+     Serial.print("AWS IOT This is: ");     Serial.println(THINGNAME); 
      resetInactivityTimer();
 }
 
@@ -99,14 +100,14 @@ void checkSleep()
   uint32_t PowerOffTimer  = (inactivityPowerOffTimer * 60UL * 1000UL) ; //inactivityPowerOffTimer in Minutes 1000UL = 1 sec;
   if ((uint32_t)(millis() - lastActivityTime) >= PowerOffTimer  && !blynkActive &&  !zapOnOff && !zapScanOnly)
   {
-        DEBUG_PRINTLN("Entering light sleep");
+        Serial.println("Entering light sleep");
         myBlynk.TerminalPrint("Entering light sleep for 10 sec...."); 
 
         delay(100);
         esp_sleep_enable_timer_wakeup(LIGHT_SLEEP_WAKE);
         esp_light_sleep_start();
 
-        DEBUG_PRINTLN("Woke up");
+        Serial.println("Woke up");
         myBlynk.TerminalPrint("Woke up"); 
 
   }     
@@ -119,8 +120,8 @@ void loadCrashCount()
 
     crashCount = prefs.getUInt("crash", 0);
 
-    DEBUG_PRINT("Loaded crash count: ");
-    DEBUG_PRINTLN(crashCount);
+    Serial.print("Loaded crash count: ");
+    Serial.println(crashCount);
 }
 
 // --------------------------------------------------
@@ -129,8 +130,8 @@ void saveCrashCount()
 {
     prefs.putUInt("crash", crashCount);
 
-    DEBUG_PRINT("Saved crash count: ");
-    DEBUG_PRINTLN(crashCount);
+    Serial.print("Saved crash count: ");
+    Serial.println(crashCount);
 }
 
 
@@ -142,22 +143,22 @@ void printResetReason()
 {
     esp_reset_reason_t reason = esp_reset_reason();
 
-    DEBUG_PRINT("Reset reason code: ");
-    DEBUG_PRINTLN((int)reason);
+    Serial.print("Reset reason code: ");
+    Serial.println((int)reason);
 
-    DEBUG_PRINT("Meaning: ");
+    Serial.print("Meaning: ");
 
     switch(reason)
     {
-        case ESP_RST_POWERON:   DEBUG_PRINTLN("POWERON"); break;
-        case ESP_RST_SW:        DEBUG_PRINTLN("SW RESET"); break;
-        case ESP_RST_PANIC:     DEBUG_PRINTLN("PANIC"); break;
-        case ESP_RST_TASK_WDT:  DEBUG_PRINTLN("TASK WDT"); break;
-        case ESP_RST_INT_WDT:   DEBUG_PRINTLN("INT WDT"); break;
-        case ESP_RST_WDT:       DEBUG_PRINTLN("WDT"); break;
-        case ESP_RST_BROWNOUT:  DEBUG_PRINTLN("BROWNOUT"); break;
-        case ESP_RST_DEEPSLEEP: DEBUG_PRINTLN("DEEPSLEEP"); break;
-        default:                DEBUG_PRINTLN("OTHER"); break;
+        case ESP_RST_POWERON:   Serial.println("POWERON"); break;
+        case ESP_RST_SW:        Serial.println("SW RESET"); break;
+        case ESP_RST_PANIC:     Serial.println("PANIC"); break;
+        case ESP_RST_TASK_WDT:  Serial.println("TASK WDT"); break;
+        case ESP_RST_INT_WDT:   Serial.println("INT WDT"); break;
+        case ESP_RST_WDT:       Serial.println("WDT"); break;
+        case ESP_RST_BROWNOUT:  Serial.println("BROWNOUT"); break;
+        case ESP_RST_DEEPSLEEP: Serial.println("DEEPSLEEP"); break;
+        default:                Serial.println("OTHER"); break;
     }
 }
 
@@ -168,8 +169,8 @@ void checkCrashCounter()
 
     esp_reset_reason_t reason = esp_reset_reason();
 
-    DEBUG_PRINT("Reset reason: ");
-    DEBUG_PRINTLN((int)reason);
+    Serial.print("Reset reason: ");
+    Serial.println((int)reason);
 
     bool crashDetected = false;
 
@@ -187,6 +188,7 @@ void checkCrashCounter()
         case ESP_RST_POWERON:
               crashCount = 0;
               saveCrashCount();
+              powerOnReason = true;
         break;
         
         default:
@@ -200,8 +202,8 @@ void checkCrashCounter()
         saveCrashCount();
     }
 
-    DEBUG_PRINT("Crash count: ");
-    DEBUG_PRINTLN(crashCount);
+    Serial.print("Crash count: ");
+    Serial.println(crashCount);
 
     // --------------------------------------------------
     // SAFE MODE
@@ -209,13 +211,13 @@ void checkCrashCounter()
 
     if (crashCount >= 10)
     {
-        DEBUG_PRINTLN("SAFE MODE");
+        Serial.println("SAFE MODE");
         safeMode = true;
         // minimal startup only
         return;
     }
 
-    DEBUG_PRINTLN("NORMAL MODE");
+    Serial.println("NORMAL MODE");
 
     printResetReason();
 }
@@ -243,21 +245,21 @@ void activateWifiIde()
 }
 void safeModeSetup()
 {
-    DEBUG_PRINTLN("SAFE MODE");
+    Serial.println("SAFE MODE");
     unsigned long startConnecting = millis();
     // Minimal startup only
        wifiAvailable = myBlynk.wifi_init();
        if(wifiAvailable)activateLocalWifiWeb();
 
        else while (!myBlynk.wifi_init()) {
-          DEBUG_PRINTLN("Wifi Disconnected");
+          Serial.println("Wifi Disconnected");
           wifiAvailable = myBlynk.wifi_init();
           
           blueLedFlash(30000) ; 
           
           if (millis() > startConnecting + WIFI_DISCONNECTED_RESTART) {
             wifiAvailable = false;
-            DEBUG_PRINTLN("Unable to connect to wifi, restarting ");
+            Serial.println("Unable to connect to wifi, restarting ");
             ESP.restart();
             break;
           }
@@ -318,7 +320,7 @@ void safeModeLoop()
         {
             lastMsg = millis();
 
-            DEBUG_PRINTLN("SAFE MODE ACTIVE");
+            Serial.println("SAFE MODE ACTIVE");
             
         }
 

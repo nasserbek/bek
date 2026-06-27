@@ -125,15 +125,15 @@ while (!otaWifiGithub)
 
         switch(ret) {
             case HTTP_UPDATE_FAILED:
-                DEBUG_PRINTF("HTTP_UPDATE_FAILD Error (%d): %s", ESPhttpUpdate.getLastError(), ESPhttpUpdate.getLastErrorString().c_str());
+                USE_SERIAL.printf("HTTP_UPDATE_FAILD Error (%d): %s", ESPhttpUpdate.getLastError(), ESPhttpUpdate.getLastErrorString().c_str());
                 break;
 
             case HTTP_UPDATE_NO_UPDATES:
-                DEBUG_PRINTLN("HTTP_UPDATE_NO_UPDATES");
+                USE_SERIAL.println("HTTP_UPDATE_NO_UPDATES");
                 break;
 
             case HTTP_UPDATE_OK:
-                DEBUG_PRINTLN("HTTP_UPDATE_OK");
+                USE_SERIAL.println("HTTP_UPDATE_OK");
                 break;
                 }
       }
@@ -152,28 +152,28 @@ void ArduinoIdeWifiSetup (void)
         type = "filesystem";
 
       // NOTE: if updating SPIFFS this would be the place to unmount SPIFFS using SPIFFS.end()
-      DEBUG_PRINTLN("Start updating " + type);
+      Serial.println("Start updating " + type);
       myBlynk.TerminalPrint("Start updating " + type);
     })
     .onEnd([]() {
-      DEBUG_PRINTLN("\nEnd");
+      Serial.println("\nEnd");
     })
     .onProgress([](unsigned int progress, unsigned int total) {
-      DEBUG_PRINTF("Progress: %u%%\r", (progress / (total / 100)));
+      Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
     })
     .onError([](ota_error_t error) {
-      DEBUG_PRINTF("Error[%u]: ", error);
-      if (error == OTA_AUTH_ERROR) DEBUG_PRINTLN("Auth Failed");
-      else if (error == OTA_BEGIN_ERROR) DEBUG_PRINTLN("Begin Failed");
-      else if (error == OTA_CONNECT_ERROR) DEBUG_PRINTLN("Connect Failed");
-      else if (error == OTA_RECEIVE_ERROR) DEBUG_PRINTLN("Receive Failed");
-      else if (error == OTA_END_ERROR) DEBUG_PRINTLN("End Failed");
+      Serial.printf("Error[%u]: ", error);
+      if (error == OTA_AUTH_ERROR) Serial.println("Auth Failed");
+      else if (error == OTA_BEGIN_ERROR) Serial.println("Begin Failed");
+      else if (error == OTA_CONNECT_ERROR) Serial.println("Connect Failed");
+      else if (error == OTA_RECEIVE_ERROR) Serial.println("Receive Failed");
+      else if (error == OTA_END_ERROR) Serial.println("End Failed");
     });
   ArduinoOTA.begin();
 
-  DEBUG_PRINTLN("Ready");
-  DEBUG_PRINT("IP address: ");
-  DEBUG_PRINTLN(WiFi.localIP());
+  Serial.println("Ready");
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
  }
 
 
@@ -232,7 +232,7 @@ void ArduinoIdeWifi(void)
   }, []() {
     HTTPUpload& upload = server.upload();
     if (upload.status == UPLOAD_FILE_START) {
-      DEBUG_PRINTF("Update: %s\n", upload.filename.c_str());
+      Serial.printf("Update: %s\n", upload.filename.c_str());
       if (!Update.begin(UPDATE_SIZE_UNKNOWN)) { //start with max available size
         Update.printError(Serial);
       }
@@ -243,7 +243,7 @@ void ArduinoIdeWifi(void)
       }
     } else if (upload.status == UPLOAD_FILE_END) {
       if (Update.end(true)) { //true to set the size to the current progress
-        DEBUG_PRINTF("Update Success: %u\nRebooting...\n", upload.totalSize);
+        Serial.printf("Update Success: %u\nRebooting...\n", upload.totalSize);
       } else {
         Update.printError(Serial);
       }

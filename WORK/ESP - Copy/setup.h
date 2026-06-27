@@ -35,16 +35,14 @@ tm printLocalTime() {
   struct tm timeinfo;
 
   if (!getLocalTime(&timeinfo)) {
-    DEBUG_PRINTLN("Failed to obtain time");
+    Serial.println("Failed to obtain time");
 
     // return empty structure
     struct tm emptyTime = {};
     return emptyTime;
   }
 
-  char buf[64];
-  strftime(buf, sizeof(buf), "%A, %B %d %Y %H:%M:%S", &timeinfo);
-  DEBUG_PRINTLN(buf);
+  Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
 
   return timeinfo;
 }
@@ -64,13 +62,10 @@ void gpioSetup(void)
       // Convert to mode number
       card = (b1 << 1) | b0;
 
-#if defined TESTING
-  card = 2;
-#endif
-      
+      card = 2;
 
-      DEBUG_PRINT("Esp Selecter:ESP");
-      DEBUG_PRINTLN(card+1);
+      Serial.print("Esp Selecter:ESP");
+      Serial.println(card+1);
 
       // Configure time
      configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
@@ -140,7 +135,7 @@ void gpioSetup(void)
 //   igateway = gateway_NICE_CH;
 //#endif               
 //     if (!WiFi.config(ip4, igateway, subnet, primaryDNS, secondaryDNS)) {
-//     DEBUG_PRINTLN("STA Failed to configure");
+//     Serial.println("STA Failed to configure");
 //     }
     }
 
@@ -169,7 +164,7 @@ void gpioSetup(void)
 //#endif           
 //           
 ////     if (!WiFi.config(ip4, igateway, subnet, primaryDNS, secondaryDNS)) {
-////     DEBUG_PRINTLN("STA Failed to configure");
+////     Serial.println("STA Failed to configure");
 ////     }
     }
       pinMode(AV_RX_DVR_PIN, OUTPUT);

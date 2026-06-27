@@ -41,22 +41,22 @@ void enableWDG(bool _enable)
   
 void initWDG(int wdtTimeout,bool _enable) 
 {
-  DEBUG_PRINT(F("\nStarting TimerInterruptTest on "));
-  DEBUG_PRINTLN(ARDUINO_BOARD);
-  DEBUG_PRINTLN(ESP32_TIMER_INTERRUPT_VERSION);
-  DEBUG_PRINT(F("CPU Frequency = "));
-  DEBUG_PRINT(F_CPU / 1000000);
-  DEBUG_PRINTLN(F(" MHz"));
+  Serial.print(F("\nStarting TimerInterruptTest on "));
+  Serial.println(ARDUINO_BOARD);
+  Serial.println(ESP32_TIMER_INTERRUPT_VERSION);
+  Serial.print(F("CPU Frequency = "));
+  Serial.print(F_CPU / 1000000);
+  Serial.println(F(" MHz"));
 
 
     if (ITimer0.attachInterruptInterval((uint64_t)wdtTimeout * 1000, TimerHandler0))
     {
-      DEBUG_PRINT(F("Starting ITimer0 OK, millis() = "));
-      DEBUG_PRINTLN(millis());
+      Serial.print(F("Starting ITimer0 OK, millis() = "));
+      Serial.println(millis());
     }
     else
     {
-      DEBUG_PRINTLN(F("Can't set ITimer0"));
+      Serial.println(F("Can't set ITimer0"));
     }
 }
 

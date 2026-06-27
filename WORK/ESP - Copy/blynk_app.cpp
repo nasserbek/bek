@@ -15,7 +15,7 @@ extern int inactivityRestartTimer  ; //10 Hours;
 extern int zapTimerSec;
 extern String VERSION_ID  ;
 extern String BOARD;
-bool internetConnected = false;
+
 extern void loadCrashCount();
 extern uint32_t  restartAfterResetNG;
 
@@ -192,14 +192,14 @@ void blinkLedWidget()
     if(ledStatus)
     {
       LIVE_LED_V121.setColor(BLYNK_RED);
-      DEBUG_PRINTLN("LED on V121: Red");
+      Serial.println("LED on V121: Red");
       ledStatus = false;
     }      
   }
   else if(!ledStatus)
   {
     LIVE_LED_V121.setColor(BLYNK_GREEN);
-    DEBUG_PRINTLN("LED on V121: Green");
+    Serial.println("LED on V121: Green");
     ledStatus = true;
   }
 }
@@ -241,7 +241,7 @@ void  terminalSend (String str)
     terminal.println(str);
     terminal.flush();
   }
-  else DEBUG_PRINTLN(str);
+  else Serial.println(str);
 }
 
 void blynk::mapRefresh(int index)
@@ -308,30 +308,27 @@ struct NetworkConfig
     const char* ssid;
     const char* wifiPw;
     IPAddress server;
-    IPAddress serverMobile;
     uint16_t port;
     const char* location;
 };
 
 NetworkConfig nets[] =
 {
-    {SSID_METEOR  , WIFI_PW_METEOR   , BLYNK_PI     , BLYNK_FLIP7     , 8080, "PLS"},
-//    {SSID_FLIP7   , WIFI_PW_FLIP7    , BLYNK_FLIP7  , BLYNK_FLIP7  , 8080, "MOBILE"},
-    {SSID_BBOX    , WIFI_PW_BBOX     , BLYNK_BBOX   , BLYNK_BBOX   , 8080, "CH"},
-    {SSID_SFR     , WIFI_PW_SFR      , BLYNK_SFR    , BLYNK_SFR    , 8080, "NICE"} 
+    {SSID_METEOR  , WIFI_PW_METEOR   , BLYNK_PI     , 8080, "PLS"},
+    {SSID_FLIP7   , WIFI_PW_FLIP7    , BLYNK_FLIP7  , 8080, "MOBILE"},
+    {SSID_BBOX    , WIFI_PW_BBOX     , BLYNK_BBOX   , 8080, "CH"},
+    {SSID_SFR     , WIFI_PW_SFR      , BLYNK_SFR    , 8080, "NICE"} 
 };
 int NUM_NETWORKS = sizeof(nets) / sizeof(nets[0]);
-
-
 
 NetworkConfig* getCurrentNetwork()
 {
     String currentSSID = WiFi.SSID();
-#if defined TESTING
-  NUM_NETWORKS = sizeof(nets) / sizeof(nets[0]);
-#else
-  NUM_NETWORKS = 1;
+
+#ifndef  TESTING
+  NUM_NETWORKS = 2;
 #endif
+
     for (int i = 0; i < NUM_NETWORKS; i++)
     {
         if (currentSSID == nets[i].ssid  )
@@ -344,120 +341,78 @@ NetworkConfig* getCurrentNetwork()
 
 bool blynk_connect()
 {
+    bool blynkConnection = false;
+
     NetworkConfig* net = getCurrentNetwork();
 
     if (net == nullptr)
     {
-        DEBUG_PRINT("Unknown SSID: ");
-        DEBUG_PRINTLN(WiFi.SSID());
+        Serial.print("Unknown SSID: ");
+        Serial.println(WiFi.SSID());
         return false;
     }
 
-    IPAddress servers[] =
-    {
-        net->server,
-        net->serverMobile
-    };
+    Serial.println("--------------------------------");
+    Serial.print("Connected SSID : ");
+    Serial.println(net->ssid);
 
-    DEBUG_PRINTLN("--------------------------------");
-    DEBUG_PRINT("Connected SSID : ");
-    DEBUG_PRINTLN(net->ssid);
+    Serial.print("Blynk Server   : ");
+    Serial.println(net->server);
+    Serial.println("--------------------------------");
 
     Blynk.disconnect();
     delay(100);
 
-    for (uint8_t i = 0; i < 2; i++)
+    Blynk.config(BLYNK_AUTH_TOKEN, net->server, 8080);
+
+    if (Blynk.connect(BlynkServerTimeout))
     {
-        DEBUG_PRINT("Trying Blynk Server : ");
-        DEBUG_PRINTLN(servers[i]);
+        blynkConnection= true;
+        Serial.println("Blynk Connected");
 
-        Blynk.config(BLYNK_AUTH_TOKEN, servers[i], 8080);
-
-        if (Blynk.connect(BlynkServerTimeout))
-        {
-            DEBUG_PRINTLN("Blynk Connected");
-
-            terminal.clear();
-            terminal.println(
-                String(net->ssid) +
-                " IP:" + WiFi.localIP().toString() +
-                " RSSI:" + String(WiFi.RSSI()) +
-                " Server:" + servers[i].toString()
-            );
-            terminal.flush();
-
-            blynkAtiveTimer = millis();
-            blynkActive = true;        // I think this should be true
-            ledInit();
-
-            return true;
-        }
-
-        DEBUG_PRINTLN("Connection Failed");
+        terminal.clear();
+        terminal.println(
+            String(net->ssid) +
+            " IP:" + WiFi.localIP().toString() +
+            " RSSI:" + String(WiFi.RSSI()) +
+            " Server:" + net->server.toString()
+        );
+        terminal.flush();
+        
+      blynkAtiveTimer     = millis();
+      blynkActive = false;
+      ledInit();
+    }
+    else
+    {
+        Serial.println("Blynk Connection Failed");
     }
 
-    DEBUG_PRINTLN("No Blynk server available");
-    return false;
+    return blynkConnection;
 }
-
 /*********************************************************************************************************************/
-
-bool checkInternet()
-{
-WiFiClient client;
-IPAddress ip;
-//    if (WiFi.hostByName("raw.githubusercontent.com", ip))
-//    {
-//        DEBUG_PRINT("GitHub IP: ");
-//        DEBUG_PRINTLN(ip);
-//    }
-//    else
-//    {
-//        DEBUG_PRINTLN("DNS FAILED");
-//    }
-//    
-  if (client.connect("1.1.1.1", 80))
-  {
-      DEBUG_PRINTLN("Internet OK");
-      client.stop();
-      return true;
-  }
-  else
-  {
-      DEBUG_PRINTLN("No Internet");
-      return false;
-  }  
-}
-
-
 
 bool  wifi_connect()
 {
-  #if defined TESTING
-  NUM_NETWORKS = sizeof(nets) / sizeof(nets[0]);
-#else
-  NUM_NETWORKS = 1;
-#endif
-
   bool wifiConnection = false;
   for (int i = 0; i < NUM_NETWORKS; i++)
     {
       wifiMulti.addAP(nets[i].ssid,nets[i].wifiPw);
     } 
 
-  DEBUG_PRINTLN("Connecting to Wifi...");
+  Serial.println("Connecting to Wifi...");
   //Connecting to the strongest WiFi connection
   if (wifiMulti.run(WiFi_TIMEOUT) == WL_CONNECTED)
   {
-    DEBUG_PRINTLN("");
-    DEBUG_PRINTLN("WiFi is connected to: " + String (WiFi.SSID() )) ;
-    DEBUG_PRINTLN("ESP Local IP address: ");
-    DEBUG_PRINTLN(WiFi.localIP());  //print IP of the connected WiFi network
+    Serial.println("");
+    Serial.println("WiFi is connected to: " + String (WiFi.SSID() )) ;
+    Serial.println("ESP Local IP address: ");
+    Serial.println(WiFi.localIP());  //print IP of the connected WiFi network
     wifiConnection = true;
   }
   else  // if not WiFi not connected
   {
-    DEBUG_PRINTLN("WIFI Connection Failed");  
+    Serial.println("WIFI Connection Failed");  
     wifiConnection = false;
   }
 
@@ -466,9 +421,6 @@ bool  wifi_connect()
 
 
 void checkBlynk() {
-  
-  internetConnected = checkInternet();
-  
   if (wifiMulti.run(WiFi_TIMEOUT) == WL_CONNECTED)
   {
     unsigned long startConnecting = millis();
@@ -477,11 +429,11 @@ void checkBlynk() {
     while (!Blynk.connected()) {
       
       if (millis() > startConnecting + BlynkServerTimeout) {
-        DEBUG_PRINTLN("Wifi connected but Blynk is Disconnected, connectig agin to Blynk....");
-        DEBUG_PRINTLN("");
-        DEBUG_PRINTLN("WiFi is connected to: " + String (WiFi.SSID() )) ;
-        DEBUG_PRINTLN("ESP Local IP address: ");
-        DEBUG_PRINTLN(WiFi.localIP());  //print IP of the connected WiFi network
+        Serial.println("Wifi connected but Blynk is Disconnected, connectig agin to Blynk....");
+        Serial.println("");
+        Serial.println("WiFi is connected to: " + String (WiFi.SSID() )) ;
+        Serial.println("ESP Local IP address: ");
+        Serial.println(WiFi.localIP());  //print IP of the connected WiFi network
     
         blynkConnected = blynk_connect();
         if (blynkConnected) 
@@ -492,26 +444,25 @@ void checkBlynk() {
                  loadCrashCount();
                  terminalSend (VERSION_ID + " " + String(crashCount) + " Craches" );
               }
-        else DEBUG_PRINTLN("Unable to connect to Blynk server. ");
+        else Serial.println("Unable to connect to Blynk server. ");
         break;
       }
     }
   }
   else
   {
-     DEBUG_PRINTLN("WIFI Diconnected!! Trying to reconnect.");//); 
+     Serial.println("WIFI Diconnected!! Trying to reconnect.");//); 
      wifiAvailable  = wifi_connect();
      blynkConnected = false;
   }
+    Serial.println("--------------------------------");
+    Serial.print("WIFI is ");
+    Serial.println(wifiAvailable ? F("Connected") : F("Not Connected"));
+    Serial.print("BLYNK is ");
+    Serial.println(blynkConnected ? F("Connected") : F("Not Connected"));
     
-    DEBUG_PRINTLN("--------------------------------");
-    DEBUG_PRINT("WIFI is ");
-    DEBUG_PRINTLN(wifiAvailable ? F("Connected") : F("Not Connected"));
-    DEBUG_PRINT("BLYNK is ");
-    DEBUG_PRINTLN(blynkConnected ? F("Connected") : F("Not Connected"));
-    
-    DEBUG_PRINTF("Checking the connection again in %is.\n", blynkIntervalInterval / 1000);
-
+    Serial.printf("Checking again Blynk connected in %is.\n", blynkIntervalInterval / 1000);
+    Serial.println(".");
     if(InternetLoss)
     {
       unsigned long remaining = RESTART_AFTER_NG_RESET_TIMER - (millis() - restartAfterResetNG);
@@ -519,11 +470,11 @@ void checkBlynk() {
       unsigned long minutes = remaining / 60000;
       unsigned long seconds = (remaining % 60000) / 1000;
       
-      DEBUG_PRINT("Restart in ");
-      DEBUG_PRINT(minutes);
-      DEBUG_PRINT(":");
-      if (seconds < 10) DEBUG_PRINT('0');
-      DEBUG_PRINTLN(seconds);      
+      Serial.print("Restart in ");
+      Serial.print(minutes);
+      Serial.print(":");
+      if (seconds < 10) Serial.print('0');
+      Serial.println(seconds);      
     
     }
 }
@@ -576,7 +527,7 @@ BLYNK_WRITE(V3) // catchCh
   _blynkEvent = true;
   _blynkData = param.asInt();
   eventdata = Q_EVENT_REPEAT_V3;
-  DEBUG_PRINTLN(_blynkData);
+  Serial.println(_blynkData);
   xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
@@ -1509,7 +1460,7 @@ void blynk::TerminalPrint (String str)
     terminal.println(str);
     terminal.flush();
   }
-  else DEBUG_PRINTLN(str);
+  else Serial.println(str);
 }
 
 void blynk::BlynkButtonColours(int lastSelectedCh, int chMode)
