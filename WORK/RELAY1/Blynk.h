@@ -29,7 +29,6 @@ void processBlynkQueu(void)
                     RELAY_LED_V2.off();
                     Blynk.setProperty(V1, "color", BLYNK_RED);
                   }
-//               //   Blynk.virtualWrite(V2, relayState);  
                   DEBUG_PRINTLN("Received V2 Relay command " + String(queuData) );          
             break;      
                   
@@ -40,20 +39,20 @@ void processBlynkQueu(void)
              break;
 
             case Q_EVENT_V6:
-                    DEBUG_PRINTLN("Received V6 Local Web command " + String(queuData) ); 
+                    DEBUG_PRINTLN("Received V6 Local Web command "  ); 
                     localWebWifiOta();
             break;
 
             case Q_EVENT_V7:
                    otaWifiGithub= false;         
                    OtaTimeoutTimer = millis();
-                   DEBUG_PRINTLN("Received V7 GIThUB OTA command " + String(queuData) ); 
+                   DEBUG_PRINTLN("Received V7 GIThUB OTA command "  ); 
                    OtaGithub();
             break;
  
             case Q_EVENT_V8:
                   rebootCmd=queuData;
-                  DEBUG_PRINTLN("Received V8 REBOOT command " + String(queuData) ); 
+                  DEBUG_PRINTLN("Received V8 REBOOT command " ); 
                   delay(1000);
                   rebootSw();
             break;             
