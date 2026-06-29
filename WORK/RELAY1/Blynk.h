@@ -47,11 +47,13 @@ void processBlynkQueu(void)
             case Q_EVENT_V7:
                    otaWifiGithub= false;         
                    OtaTimeoutTimer = millis();
+                   DEBUG_PRINTLN("Received V7 GIThUB OTA command " + String(queuData) ); 
                    OtaGithub();
             break;
  
             case Q_EVENT_V8:
                   rebootCmd=queuData;
+                  DEBUG_PRINTLN("Received V8 REBOOT command " + String(queuData) ); 
                   delay(1000);
                   rebootSw();
             break;             
@@ -186,6 +188,16 @@ BLYNK_WRITE(V7)
   eventdata = Q_EVENT_V7;
   QueueSend(eventdata);
 }
+
+BLYNK_WRITE(V8) 
+{
+  _blynkEvent = true;
+  _blynkData = param.asInt();
+  eventdata = Q_EVENT_V8;
+  QueueSend(eventdata);
+}
+
+
 BLYNK_CONNECTED()
 {
     Blynk.syncVirtual(V1);
