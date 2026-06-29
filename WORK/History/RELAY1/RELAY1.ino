@@ -14,7 +14,7 @@ void setup()
       pinMode(RELAY_PIN, OUTPUT);
       digitalWrite(RELAY_PIN, HIGH);
       wifiAvailable = wifi_connect();
-      BLYNK_AUTH_TOKEN = BLYNK_AUTH_TOKEN_ESP8266_ESP01_1;
+      BLYNK_AUTH_TOKEN = BLYNK_AUTH_TOKEN_RELAY1;
       blynkConnected = blynkconnect();
       if(blynkConnected)
       {

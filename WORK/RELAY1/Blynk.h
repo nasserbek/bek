@@ -186,16 +186,6 @@ BLYNK_WRITE(V7)
   eventdata = Q_EVENT_V7;
   QueueSend(eventdata);
 }
-
-BLYNK_WRITE(V8) 
-{
-  _blynkEvent = true;
-  _blynkData = param.asInt();
-  eventdata = Q_EVENT_V8;
-  QueueSend(eventdata);
-}
-
-
 BLYNK_CONNECTED()
 {
     Blynk.syncVirtual(V1);
