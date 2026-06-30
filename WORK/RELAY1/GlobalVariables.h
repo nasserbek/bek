@@ -38,7 +38,7 @@ bool  blynkConnected = false;
  
 bool _wifiIsConnected = false;
 char auth[] = "4acmqJCbVBLr8_liazx69mWNbF2hjNtw";//RELAY1
-const char* BLYNK_AUTH_TOKEN_RELAY1        =        "GqtBGDTWvFUNqEyiKTLJKgxBkVPHW4Xn";//RELAY1
+const char* BLYNK_AUTH_TOKEN_RELAY        =        "GqtBGDTWvFUNqEyiKTLJKgxBkVPHW4Xn";//RELAY1
 const char* BLYNK_AUTH_TOKEN;
 const char* WIFI_SSID_SFR    = "SFR_BEK-23C0";
 const char* WIFI_SSID_METEOR_PLS ="BEK_METEOR_2.4G";

@@ -52,12 +52,15 @@ void internetCheck(void)
 {
        if (  ( (millis() - restartAfterResetNG) >=  RESTART_AFTER_NG_RESET_TIMER) && InternetLoss && !blynkConnected )//&& netGeerReset )
           {
-            DEBUG_PRINTLN("Resetaring " + String ( RESTART_AFTER_NG_RESET_TIMER/ (60UL * 1000UL) ) +" min after Internet or Blynk Loss");
+            Serial.printf(
+                          "Restarting %lu minutes after Internet or Blynk loss.\n",
+                          RESTART_AFTER_NG_RESET_TIMER / (60UL * 1000UL)
+                      );
             netGeerReset = false;
             resetInternetLoss();
-            wifiAvailable = wifi_connect();
             ESP.restart(); 
           }
-}     
+
+}   
 
 #endif
