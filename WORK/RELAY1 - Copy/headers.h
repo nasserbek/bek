@@ -1,4 +1,14 @@
 #define DEBUG_SERIAL
+#ifdef DEBUG_SERIAL
+  #define DEBUG_PRINT(...)     Serial.print(__VA_ARGS__)
+  #define DEBUG_PRINTLN(...)   Serial.println(__VA_ARGS__)
+  #define DEBUG_PRINTF(...)    Serial.printf(__VA_ARGS__)
+#else
+  #define DEBUG_PRINT(x)
+  #define DEBUG_PRINTLN(x)
+  #define DEBUG_PRINTF(x)  
+#endif
+
 enum {
 NONE,
 Q_EVENT_V0,
@@ -34,15 +44,6 @@ Q_EVENT_V8,
 #define PING_GOOGLE_BLYNK_TIMER 30000  // 30 sec
 #define ROUTER_24_HOURS 86400000  // 24 HOURS
 
-#ifdef DEBUG_SERIAL
- #define DEBUG_PRINT(x)    Serial.print (x)
- #define DEBUG_PRINTLN(x)  Serial.println (x)
- #define DEBUG_WRITE(x)    Serial.write (x)
-#else
- #define DEBUG_PRINT(x)
- #define DEBUG_PRINTLN(x)
- #define DEBUG_WRITE(x)  
-#endif
 
 
 #define BLYNK_GREEN     "#23C48E"

@@ -12,9 +12,11 @@
 #include <ESP8266httpUpdate.h>
 #include <ESP8266HTTPClient.h>
 #include <WiFiClientSecure.h>
+#include "time.h"
 
 
-
+String BOARD            = "ESP01-R1";
+String VERSION_ID       = " R1.0 ";
 Ticker WDGTimer;
 int g_wdtTimeout = 10000;   // ms
 long  blynkAtiveTimer;
@@ -22,7 +24,7 @@ long  blynkAtiveTimer;
 ESP8266WiFiMulti wifiMulti;
 BlynkTimer timer;
 WidgetLED RELAY_LED_V2(V2);   
-WidgetTerminal terminal(V3);
+WidgetTerminal terminal(V102);
 ESP8266WebServer server(80);
 const char* host = "esp8266";
 unsigned int BlynkServerTimeout  =  5000;  //  5s server connection timeout (SCT)
@@ -37,9 +39,10 @@ bool  blynkConnected = false;
  int zapTimerSec;
  
 bool _wifiIsConnected = false;
-char auth[] = "4acmqJCbVBLr8_liazx69mWNbF2hjNtw";//RELAY1
-const char* BLYNK_AUTH_TOKEN_RELAY1        =        "GqtBGDTWvFUNqEyiKTLJKgxBkVPHW4Xn";//RELAY1
-const char* BLYNK_AUTH_TOKEN;
+
+const char* BLYNK_AUTH_TOKEN_RELAY        =        "GqtBGDTWvFUNqEyiKTLJKgxBkVPHW4Xn";//RELAY1
+const char* blynkAuthToken;
+
 const char* WIFI_SSID_SFR    = "SFR_BEK-23C0";
 const char* WIFI_SSID_METEOR_PLS ="BEK_METEOR_2.4G";
 const char* WIFI_SSID_BBOX   ="Bbox-Bek-2.4G" ;

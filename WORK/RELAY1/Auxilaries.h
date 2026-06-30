@@ -5,7 +5,7 @@
 
 IPAddress   BLYNK_CH_PI3(192,168,1,195);
 IPAddress   BLYNK_CH_OMV1(192,168,1,4);
-IPAddress   BLYNK_CH_OMV_PVE(192,168,1,4);
+IPAddress   BLYNK_CH_OMV_PVE(192,168,1,116);
 const char* SSID_CH     ="Bbox-Bek-2.4G" ;
 const char* WIFI_PW_CH    =  "Ali09042010_";
 
@@ -43,10 +43,62 @@ NetworkConfig nets[] =
 };
 int NUM_NETWORKS = sizeof(nets) / sizeof(nets[0]);
 
-void ledInit(void)
-{
-  RELAY_LED_V2.on();
+tm printLocalTime() {
+
+  struct tm timeinfo;
+
+  if (!getLocalTime(&timeinfo)) {
+    DEBUG_PRINTLN("Failed to obtain time");
+
+    // return empty structure
+    struct tm emptyTime = {};
+    return emptyTime;
+  }
+
+  char buf[64];
+  strftime(buf, sizeof(buf), "%A, %B %d %Y %H:%M:%S", &timeinfo);
+  DEBUG_PRINTLN(buf);
+
+  return timeinfo;
 }
+
+void getTimeDate()
+{
+    struct tm now = printLocalTime();
+    char buildTime[20];
+     
+    int day, year, hour, minute, second;
+    char monthStr[4];
+
+    sscanf(__DATE__, "%s %d %d", monthStr, &day, &year);
+    sscanf(__TIME__, "%d:%d:%d", &hour, &minute, &second);
+
+    int month = 0;
+
+    if      (strcmp(monthStr, "Jan") == 0) month = 1;
+    else if (strcmp(monthStr, "Feb") == 0) month = 2;
+    else if (strcmp(monthStr, "Mar") == 0) month = 3;
+    else if (strcmp(monthStr, "Apr") == 0) month = 4;
+    else if (strcmp(monthStr, "May") == 0) month = 5;
+    else if (strcmp(monthStr, "Jun") == 0) month = 6;
+    else if (strcmp(monthStr, "Jul") == 0) month = 7;
+    else if (strcmp(monthStr, "Aug") == 0) month = 8;
+    else if (strcmp(monthStr, "Sep") == 0) month = 9;
+    else if (strcmp(monthStr, "Oct") == 0) month = 10;
+    else if (strcmp(monthStr, "Nov") == 0) month = 11;
+    else if (strcmp(monthStr, "Dec") == 0) month = 12;
+
+    sprintf(buildTime,
+            "%02d/%02d/%02d %02d:%02d",
+            day,
+            month,
+            year % 100,
+            hour,
+            minute);
+            
+    VERSION_ID = BOARD + " " + buildTime;  
+}
+
 
 NetworkConfig* getCurrentNetwork()
 {
@@ -80,6 +132,7 @@ bool  wifi_connect()
     DEBUG_PRINTLN("ESP Local IP address: ");
     DEBUG_PRINTLN(WiFi.localIP());  //print IP of the connected WiFi network
     wifiConnection = true;
+    getTimeDate();
   }
   else  // if not WiFi not connected
   {
@@ -121,7 +174,7 @@ bool blynk_muliservers_connect()
         DEBUG_PRINT("Trying Blynk Server : ");
         DEBUG_PRINTLN(servers[i]);
 
-        Blynk.config(BLYNK_AUTH_TOKEN, servers[i], 8080);
+        Blynk.config(blynkAuthToken, servers[i], 8080);
 
         if (Blynk.connect(BlynkServerTimeout))
         {
@@ -137,11 +190,12 @@ bool blynk_muliservers_connect()
             terminal.clear();
             terminal.println(WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) + " Server IP: " + servers[i].toString() + "\n");
             terminal.flush();
-
+            Blynk.virtualWrite(V24, VERSION_ID);
+            RELAY_LED_V2.off();
+            Blynk.setProperty(V1, "color", BLYNK_BLUE);
+            Blynk.virtualWrite(V1, 0);
             blynkAtiveTimer = millis();
             blynkActive = true;        // I think this should be true
-            ledInit();
-
             return true;
         }
 
@@ -152,46 +206,6 @@ bool blynk_muliservers_connect()
     return false;
 }
 
-
-//bool  wifi_connect()
-//{
-//  _wifiIsConnected = false;
-//
-//////#ifdef METEOR_ETH_PLS
-////    wifiMulti.addAP(WIFI_SSID_SFR , WIFI_PASSWORD_SFR);
-//////#endif
-////
-//////#ifdef METEOR_WIFI
-////    wifiMulti.addAP(WIFI_SSID_METEOR_PLS, WIFI_PASSWORD_METEOR_PLS);
-//////#endif  
-////  
-////
-//////#ifdef NICE
-////   wifiMulti.addAP(WIFI_SSID_SFR, WIFI_PASSWORD_SFR);
-//////#endif  
-//
-// 
-//    wifiMulti.addAP(WIFI_SSID_BBOX, WIFI_PASSWORD_BBOX);
-// 
-//
-//  
-//  Serial.println("Connecting Wifi...");
-//  //Connecting to the strongest WiFi connection
-//  if (wifiMulti.run(WiFi_TIMEOUT) == WL_CONNECTED)
-//  {
-//    Serial.println("");
-//    Serial.println("WiFi connected to: " + String (WiFi.SSID() )) ;
-//    Serial.println("IP address: ");
-//    Serial.println(WiFi.localIP());  //print IP of the connected WiFi network
-//    _wifiIsConnected = true;
-//  }
-//  else  // if not WiFi not connected
-//  {
-//    _wifiIsConnected = false;
-//  }
-//  Serial.println("WIFI: "); Serial.println( _wifiIsConnected ? F("Connected") : F("Not Connected"));
-//  return _wifiIsConnected ;
-//}
 
 
 bool checkInternet()

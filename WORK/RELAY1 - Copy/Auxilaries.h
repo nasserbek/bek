@@ -3,64 +3,214 @@
 #define AUX_H
 
 
+IPAddress   BLYNK_CH_PI3(192,168,1,195);
+IPAddress   BLYNK_CH_OMV1(192,168,1,4);
+IPAddress   BLYNK_CH_OMV_PVE(192,168,1,116);
+const char* SSID_CH     ="Bbox-Bek-2.4G" ;
+const char* WIFI_PW_CH    =  "Ali09042010_";
 
+
+
+IPAddress   BLYNK_SFR(192,168,1,46);
+const char* SSID_SFR      ="SFR_BEK-23C0";
+const char* WIFI_PW_SFR     =  "ali09042010";
+
+IPAddress   BLYNK_PI4(192,168,10,195);
+const char* SSID_METEOR   ="BEK_METEOR_2.4G";
+const char* WIFI_PW_METEOR  =  "Ali09042010_";
+
+IPAddress   BLYNK_FLIP7(10,174,107,53);  //
+const char* SSID_FLIP7    ="BEK_FLIP7" ;
+const char* WIFI_PW_FLIP7   =  "ali09042010";
+
+struct NetworkConfig
+{
+    const char* ssid;
+    const char* wifiPw;
+    IPAddress server1;
+    IPAddress server2;
+    IPAddress server3;
+    uint16_t port;
+    const char* location;
+};
+
+NetworkConfig nets[] =
+{
+    {SSID_METEOR  , WIFI_PW_METEOR   , BLYNK_PI4    , BLYNK_PI4     , BLYNK_FLIP7     , 8080, "PLS"},
+    {SSID_FLIP7   , WIFI_PW_FLIP7    , BLYNK_FLIP7  , BLYNK_FLIP7   , BLYNK_FLIP7     , 8080, "MOBILE"},
+    {SSID_CH      , WIFI_PW_CH       , BLYNK_CH_PI3 , BLYNK_CH_OMV1 , BLYNK_CH_OMV_PVE, 8080, "CH"},
+    {SSID_SFR     , WIFI_PW_SFR      , BLYNK_SFR    , BLYNK_SFR     , BLYNK_SFR       , 8080, "NICE"} 
+};
+int NUM_NETWORKS = sizeof(nets) / sizeof(nets[0]);
+
+tm printLocalTime() {
+
+  struct tm timeinfo;
+
+  if (!getLocalTime(&timeinfo)) {
+    DEBUG_PRINTLN("Failed to obtain time");
+
+    // return empty structure
+    struct tm emptyTime = {};
+    return emptyTime;
+  }
+
+  char buf[64];
+  strftime(buf, sizeof(buf), "%A, %B %d %Y %H:%M:%S", &timeinfo);
+  DEBUG_PRINTLN(buf);
+
+  return timeinfo;
+}
+
+void getTimeDate()
+{
+    struct tm now = printLocalTime();
+    char buildTime[20];
+     
+    int day, year, hour, minute, second;
+    char monthStr[4];
+
+    sscanf(__DATE__, "%s %d %d", monthStr, &day, &year);
+    sscanf(__TIME__, "%d:%d:%d", &hour, &minute, &second);
+
+    int month = 0;
+
+    if      (strcmp(monthStr, "Jan") == 0) month = 1;
+    else if (strcmp(monthStr, "Feb") == 0) month = 2;
+    else if (strcmp(monthStr, "Mar") == 0) month = 3;
+    else if (strcmp(monthStr, "Apr") == 0) month = 4;
+    else if (strcmp(monthStr, "May") == 0) month = 5;
+    else if (strcmp(monthStr, "Jun") == 0) month = 6;
+    else if (strcmp(monthStr, "Jul") == 0) month = 7;
+    else if (strcmp(monthStr, "Aug") == 0) month = 8;
+    else if (strcmp(monthStr, "Sep") == 0) month = 9;
+    else if (strcmp(monthStr, "Oct") == 0) month = 10;
+    else if (strcmp(monthStr, "Nov") == 0) month = 11;
+    else if (strcmp(monthStr, "Dec") == 0) month = 12;
+
+    sprintf(buildTime,
+            "%02d/%02d/%02d %02d:%02d",
+            day,
+            month,
+            year % 100,
+            hour,
+            minute);
+            
+    VERSION_ID = BOARD + " " + buildTime;  
+}
+
+
+NetworkConfig* getCurrentNetwork()
+{
+    String currentSSID = WiFi.SSID();
+
+    for (int i = 0; i < NUM_NETWORKS; i++)
+    {
+        if (currentSSID == nets[i].ssid  )
+        {
+            return &nets[i];
+        }
+    }
+    return nullptr;
+}
 
 
 bool  wifi_connect()
 {
-  _wifiIsConnected = false;
+  bool wifiConnection = false;
+  for (int i = 0; i < NUM_NETWORKS; i++)
+    {
+      wifiMulti.addAP(nets[i].ssid,nets[i].wifiPw);
+    } 
 
-////#ifdef METEOR_ETH_PLS
-//    wifiMulti.addAP(WIFI_SSID_SFR , WIFI_PASSWORD_SFR);
-////#endif
-//
-////#ifdef METEOR_WIFI
-//    wifiMulti.addAP(WIFI_SSID_METEOR_PLS, WIFI_PASSWORD_METEOR_PLS);
-////#endif  
-//  
-//
-////#ifdef NICE
-//   wifiMulti.addAP(WIFI_SSID_SFR, WIFI_PASSWORD_SFR);
-////#endif  
-
- 
-    wifiMulti.addAP(WIFI_SSID_BBOX, WIFI_PASSWORD_BBOX);
- 
-
-  
-  Serial.println("Connecting Wifi...");
+  DEBUG_PRINTLN("Connecting to Wifi...");
   //Connecting to the strongest WiFi connection
   if (wifiMulti.run(WiFi_TIMEOUT) == WL_CONNECTED)
   {
-    Serial.println("");
-    Serial.println("WiFi connected to: " + String (WiFi.SSID() )) ;
-    Serial.println("IP address: ");
-    Serial.println(WiFi.localIP());  //print IP of the connected WiFi network
-    _wifiIsConnected = true;
+    DEBUG_PRINTLN("");
+    DEBUG_PRINTLN("WiFi is connected to: " + String (WiFi.SSID() )) ;
+    DEBUG_PRINTLN("ESP Local IP address: ");
+    DEBUG_PRINTLN(WiFi.localIP());  //print IP of the connected WiFi network
+    wifiConnection = true;
+    getTimeDate();
   }
   else  // if not WiFi not connected
   {
-    _wifiIsConnected = false;
+    DEBUG_PRINTLN("WIFI Connection Failed");  
+    wifiConnection = false;
   }
-  Serial.println("WIFI: "); Serial.println( _wifiIsConnected ? F("Connected") : F("Not Connected"));
-  return _wifiIsConnected ;
+
+  return wifiConnection ;
 }
+
+
+bool blynk_muliservers_connect()
+{
+    NetworkConfig* net = getCurrentNetwork();
+
+    if (net == nullptr)
+    {
+        DEBUG_PRINT("Unknown SSID: ");
+        DEBUG_PRINTLN(WiFi.SSID());
+        return false;
+    }
+
+    IPAddress servers[] =
+    {
+        net->server1,
+        net->server2,
+        net->server3
+    };
+
+    DEBUG_PRINTLN("--------------------------------");
+    DEBUG_PRINT("Connected SSID : ");
+    DEBUG_PRINTLN(net->ssid);
+
+    Blynk.disconnect();
+    delay(100);
+
+    for (uint8_t i = 0; i < 3; i++)
+    {
+        DEBUG_PRINT("Trying Blynk Server : ");
+        DEBUG_PRINTLN(servers[i]);
+
+        Blynk.config(blynkAuthToken, servers[i], 8080);
+
+        if (Blynk.connect(BlynkServerTimeout))
+        {
+            DEBUG_PRINTLN("Blynk Connected");
+
+            terminal.clear();
+            terminal.println(
+                String(net->ssid) +
+                " IP:" + WiFi.localIP().toString() +
+                " RSSI:" + String(WiFi.RSSI()) +
+                " Server:" + servers[i].toString()
+            );
+            terminal.clear();
+            terminal.println(WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) + " Server IP: " + servers[i].toString() + "\n");
+            terminal.flush();
+            Blynk.virtualWrite(V24, VERSION_ID);
+            RELAY_LED_V2.off();
+            Blynk.setProperty(V1, "color", BLYNK_BLUE);
+            Blynk.virtualWrite(V1, 0);
+            blynkAtiveTimer = millis();
+            blynkActive = true;        // I think this should be true
+            return true;
+        }
+
+        DEBUG_PRINTLN("Connection Failed");
+    }
+
+    DEBUG_PRINTLN("No Blynk server available");
+    return false;
+}
+
 
 
 bool checkInternet()
 {
 WiFiClient client;
-IPAddress ip;
-    if (WiFi.hostByName("raw.githubusercontent.com", ip))
-    {
-        Serial.print("GitHub IP: ");
-        Serial.println(ip);
-    }
-    else
-    {
-        Serial.println("DNS FAILED");
-    }
-    
   if (client.connect("1.1.1.1", 80))
   {
       Serial.println("Internet OK");
@@ -89,7 +239,8 @@ void blynkRunTimer()
   timer.run();
   if ( (  (millis() - blynkAtiveTimer) >=  BLYNK_ACTIVE_TIMEOUT ) && blynkActive )
   {
-    blynkActive = false; blynkAtiveTimer     = millis();
+    blynkActive = false; 
+    blynkAtiveTimer     = millis();
   }
 }
 
@@ -208,10 +359,7 @@ void timersMillis(void)
 //    Router_24_hoursTimer       = millis();
 } 
 
-void ledInit(void)
-{
-  RELAY_LED_V2.on();
-}
+
 
 
 

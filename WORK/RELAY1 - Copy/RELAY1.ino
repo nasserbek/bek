@@ -2,10 +2,7 @@
 
 void BlynkTimersInit()
 {
- _blynkIsConnected = false;
-  timer.setInterval(LiveUpdateInterval, SendLiveLed);// run some function at intervals per LiveUpdateInterval
-  timer.setInterval(blynkIntervalInterval, checkBlynk);   // check connection to server per blynkIntervalInterval
-  timer.setInterval(5000L, blinkLedWidget);  
+  
 }
 void setup()
 {
@@ -14,17 +11,12 @@ void setup()
       pinMode(RELAY_PIN, OUTPUT);
       digitalWrite(RELAY_PIN, HIGH);
       wifiAvailable = wifi_connect();
-      BLYNK_AUTH_TOKEN = BLYNK_AUTH_TOKEN_RELAY1;
-      blynkConnected = blynkconnect();
-      if(blynkConnected)
-      {
-        blynkTimers();
-        timersMillis();    
-        resetInactivityTimer();
-      }
+      blynkAuthToken = BLYNK_AUTH_TOKEN_RELAY;
+      blynkConnected = blynk_muliservers_connect();
+      timer.setInterval(blynkIntervalInterval, checkBlynk);   // check connection to server per blynkIntervalInterval
+      lastActivityTime = millis();
       resetInternetLoss();
-      BlynkTimersInit();
-      
+      digitalWrite(RELAY_PIN, LOW );
 }
 
 void loop()
