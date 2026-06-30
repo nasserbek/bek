@@ -14,26 +14,30 @@
 #include <WiFiClientSecure.h>
 #include "time.h"
 
-struct RelayInfo {
-  uint32_t chipId;
-  const char* token;
-  const char* name;
-};
 
-RelayInfo relays[] =
+
+struct RelayInfo
 {
-  {15234879, "GqtBGDTWvFUNqEyiKTLJKgxBkVPHW4Xn", "Relay1"},
-  {15098231, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "Relay2"},
-  {14756342, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "Relay3"},
-  {14627891, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "Relay4"},
-  {14578234, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "Relay5"},
-  {14491234, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "Relay6"},
-  {14381234, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "Relay7"},
-  {14271234, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "Relay8"},
-  {14161234, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "Relay9"},
-  {14051234, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "Relay10"}
+    uint32_t chipID;
+    const char* token;
+    byte relayNumber;
 };
 
+RelayInfo relayTable[] =
+{
+    {0x6A3F12, "GqtBGDTWvFUNqEyiKTLJKgxBkVPHW4Xn", 1},
+    {0x72C4A8, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 2},
+    {0x5D19EF, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 3},
+    {0x123456, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 4},
+    {0x234567, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 5},
+    {0x345678, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 6},
+    {0x456789, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 7},
+    {0x56789A, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 8},
+    {0x6789AB, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 9},
+    {0x789ABC, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",10}
+};
+const char* blynkAuthToken = nullptr;
+byte relayNumber = 0;
 
 String BOARD            = "ESP01-R1";
 String VERSION_ID       = " R1.0 ";
@@ -61,7 +65,7 @@ bool  blynkConnected = false;
 bool _wifiIsConnected = false;
 
 const char* BLYNK_AUTH_TOKEN_RELAY        =        "GqtBGDTWvFUNqEyiKTLJKgxBkVPHW4Xn";//RELAY1
-const char* blynkAuthToken;
+//const char* blynkAuthToken;
 
 const char* WIFI_SSID_SFR    = "SFR_BEK-23C0";
 const char* WIFI_SSID_METEOR_PLS ="BEK_METEOR_2.4G";

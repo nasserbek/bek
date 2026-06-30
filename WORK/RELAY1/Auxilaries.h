@@ -43,6 +43,29 @@ NetworkConfig nets[] =
 };
 int NUM_NETWORKS = sizeof(nets) / sizeof(nets[0]);
 
+
+
+void identifyBoard()
+{
+    uint32_t myChip = ESP.getChipId();
+
+    Serial.printf("Chip ID = %06X\n", myChip);
+
+    for (int i = 0; i < sizeof(relayTable)/sizeof(relayTable[0]); i++)
+    {
+        if (relayTable[i].chipID == myChip)
+        {
+            blynkAuthToken = relayTable[i].token;
+            relayNumber = relayTable[i].relayNumber;
+
+            Serial.printf("Relay %d detected\n", relayNumber);
+            return;
+        }
+    }
+
+    Serial.println("ERROR: Unknown ESP board!");
+}
+
 tm printLocalTime() {
 
   struct tm timeinfo;
