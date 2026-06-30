@@ -205,8 +205,8 @@ BLYNK_WRITE(V102)  //TERMINAL
 
   else if (String("id") == param.asStr())
   {
+    terminal.println("R" + String(relayNumber) + " ID" + String(chipID));
     terminal.println( WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) + "\n");
-    terminal.println( String( ESP.getChipId() ) + "Relay Numer is: " + relayNumber );
     terminal.flush();
   }
 

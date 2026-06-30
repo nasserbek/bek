@@ -14,8 +14,32 @@
 #include <WiFiClientSecure.h>
 #include "time.h"
 
+uint32_t chipID;
 
-String BOARD            = "ESP01-R1";
+struct RelayInfo
+{
+    uint32_t chipID;
+    const char* token;
+    byte relayNumber;
+};
+
+RelayInfo relayTable[] =
+{
+    {0xD5AD0F, "GqtBGDTWvFUNqEyiKTLJKgxBkVPHW4Xn", 1},
+    {0x72C4A8, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 2},
+    {0x5D19EF, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 3},
+    {0x123456, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 4},
+    {0x234567, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 5},
+    {0x345678, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 6},
+    {0x456789, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 7},
+    {0x56789A, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 8},
+    {0x6789AB, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 9},
+    {0x789ABC, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",10}
+};
+const char* blynkAuthToken = nullptr;
+byte relayNumber = 0;
+
+String BOARD            = "ESP01";
 String VERSION_ID       = " R1.0 ";
 Ticker WDGTimer;
 int g_wdtTimeout = 10000;   // ms
@@ -41,7 +65,7 @@ bool  blynkConnected = false;
 bool _wifiIsConnected = false;
 
 const char* BLYNK_AUTH_TOKEN_RELAY        =        "GqtBGDTWvFUNqEyiKTLJKgxBkVPHW4Xn";//RELAY1
-const char* blynkAuthToken;
+//const char* blynkAuthToken;
 
 const char* WIFI_SSID_SFR    = "SFR_BEK-23C0";
 const char* WIFI_SSID_METEOR_PLS ="BEK_METEOR_2.4G";

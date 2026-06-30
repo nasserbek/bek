@@ -45,7 +45,7 @@ int NUM_NETWORKS = sizeof(nets) / sizeof(nets[0]);
 
 
 
-void identifyBoard()
+uint32_t identifyBoard()
 {
     uint32_t myChip = ESP.getChipId();
 
@@ -59,30 +59,45 @@ void identifyBoard()
             relayNumber = relayTable[i].relayNumber;
 
             Serial.printf("Relay %d detected\n", relayNumber);
-            return;
+            return myChip;
         }
     }
 
     Serial.println("ERROR: Unknown ESP board!");
+    return 0;
 }
 
-tm printLocalTime() {
+//tm printLocalTime() {
+//
+//  struct tm timeinfo;
+//
+//  if (!getLocalTime(&timeinfo)) {
+//    DEBUG_PRINTLN("Failed to obtain time");
+//
+//    // return empty structure
+//    struct tm emptyTime = {};
+//    return emptyTime;
+//  }
+//
+//  char buf[64];
+//  strftime(buf, sizeof(buf), "%A, %B %d %Y %H:%M:%S", &timeinfo);
+//  DEBUG_PRINTLN(buf);
+//
+//  return timeinfo;
+//}
 
-  struct tm timeinfo;
+tm printLocalTime()
+{
+    struct tm timeinfo;
 
-  if (!getLocalTime(&timeinfo)) {
-    DEBUG_PRINTLN("Failed to obtain time");
+    if (!getLocalTime(&timeinfo, 10000))   // wait up to 10 seconds
+    {
+        DEBUG_PRINTLN("Failed to obtain time");
+        struct tm empty = {};
+        return empty;
+    }
 
-    // return empty structure
-    struct tm emptyTime = {};
-    return emptyTime;
-  }
-
-  char buf[64];
-  strftime(buf, sizeof(buf), "%A, %B %d %Y %H:%M:%S", &timeinfo);
-  DEBUG_PRINTLN(buf);
-
-  return timeinfo;
+    return timeinfo;
 }
 
 void getTimeDate()
@@ -118,7 +133,7 @@ void getTimeDate()
             year % 100,
             hour,
             minute);
-            
+        
     VERSION_ID = BOARD + " " + buildTime;  
 }
 
@@ -155,7 +170,7 @@ bool  wifi_connect()
     DEBUG_PRINTLN("ESP Local IP address: ");
     DEBUG_PRINTLN(WiFi.localIP());  //print IP of the connected WiFi network
     wifiConnection = true;
-    getTimeDate();
+    
   }
   else  // if not WiFi not connected
   {
@@ -211,7 +226,7 @@ bool blynk_muliservers_connect()
                 " Server:" + servers[i].toString()
             );
             terminal.clear();
-            terminal.println("Chip ID: " + String( ESP.getChipId() ) + WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) + " Server IP: " + servers[i].toString() + "\n");
+            terminal.println("R" + String(relayNumber) + " ID" + String(chipID) + " " + WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) + " Server IP: " + servers[i].toString() + "\n");
             terminal.flush();
             Blynk.virtualWrite(V24, VERSION_ID);
             RELAY_LED_V2.off();

@@ -14,7 +14,7 @@
 #include <WiFiClientSecure.h>
 #include "time.h"
 
-
+uint32_t chipID;
 
 struct RelayInfo
 {
@@ -25,7 +25,7 @@ struct RelayInfo
 
 RelayInfo relayTable[] =
 {
-    {0x6A3F12, "GqtBGDTWvFUNqEyiKTLJKgxBkVPHW4Xn", 1},
+    {0xD5AD0F, "GqtBGDTWvFUNqEyiKTLJKgxBkVPHW4Xn", 1},
     {0x72C4A8, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 2},
     {0x5D19EF, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 3},
     {0x123456, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 4},
@@ -39,7 +39,7 @@ RelayInfo relayTable[] =
 const char* blynkAuthToken = nullptr;
 byte relayNumber = 0;
 
-String BOARD            = "ESP01-R1";
+String BOARD            = "ESP01";
 String VERSION_ID       = " R1.0 ";
 Ticker WDGTimer;
 int g_wdtTimeout = 10000;   // ms

@@ -203,8 +203,9 @@ BLYNK_WRITE(V102)  //TERMINAL
     terminal.flush();
   }
 
-  else if (String("w") == param.asStr())
+  else if (String("id") == param.asStr())
   {
+    terminal.println("R" + String(relayNumber) + " ID" + String(chipID));
     terminal.println( WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) + "\n");
     terminal.flush();
   }
