@@ -188,7 +188,7 @@ bool blynk_muliservers_connect()
                 " Server:" + servers[i].toString()
             );
             terminal.clear();
-            terminal.println("Chip ID: " + ESP.getChipId() + WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) + " Server IP: " + servers[i].toString() + "\n");
+            terminal.println("Chip ID: " + ESP.getChipId() );//+ WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) + " Server IP: " + servers[i].toString() + "\n");
             terminal.flush();
             Blynk.virtualWrite(V24, VERSION_ID);
             RELAY_LED_V2.off();

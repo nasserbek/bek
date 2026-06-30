@@ -14,6 +14,26 @@
 #include <WiFiClientSecure.h>
 #include "time.h"
 
+struct RelayInfo {
+  uint32_t chipId;
+  const char* token;
+  const char* name;
+};
+
+RelayInfo relays[] =
+{
+  {15234879, "GqtBGDTWvFUNqEyiKTLJKgxBkVPHW4Xn", "Relay1"},
+  {15098231, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "Relay2"},
+  {14756342, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "Relay3"},
+  {14627891, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "Relay4"},
+  {14578234, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "Relay5"},
+  {14491234, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "Relay6"},
+  {14381234, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "Relay7"},
+  {14271234, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "Relay8"},
+  {14161234, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "Relay9"},
+  {14051234, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "Relay10"}
+};
+
 
 String BOARD            = "ESP01-R1";
 String VERSION_ID       = " R1.0 ";
