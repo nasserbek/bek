@@ -469,24 +469,4 @@ BLYNK_CONNECTED()
 
 
 
-// --------------------------------------------------
-// Called whenever activity is detected
-// --------------------------------------------------
-void resetInactivityTimer()
-{
-    lastActivityTime = millis();
-}
-
-
-
-void SendLiveLed()
-  {
-    if (liveLed)  liveLed = false; 
-    else liveLed = true;
-    liveLedUpdate =false;
-
- }
-
-
-
 #endif

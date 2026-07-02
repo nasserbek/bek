@@ -28,7 +28,7 @@ RelayInfo relayTable[] =
 {
     {0xD5AD0F, "GqtBGDTWvFUNqEyiKTLJKgxBkVPHW4Xn", 1},
     {0xD5C2FB, "SYtq6n1RKTzcw6MVVxllP7yEG9ZTYS1c", 2},
-    {0x5D19EF, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 3},
+    {0xD52DC4, "wawiIvW9F8l3g29kF8PopNjfNscrhd3Y", 3},
     {0x123456, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 4},
     {0x234567, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 5},
     {0x345678, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 6},
