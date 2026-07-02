@@ -295,7 +295,8 @@ IPAddress   BLYNK_SFR(192,168,1,46);
 const char* SSID_SFR      ="SFR_BEK-23C0";
 const char* WIFI_PW_SFR     =  "ali09042010";
 
-IPAddress   BLYNK_PI(192,168,10,196);
+IPAddress   BLYNK_PI  (192,168,10,195);
+IPAddress   BLYNK_PC  (192,168,10,196);
 const char* SSID_METEOR   ="BEK_METEOR_2.4G";
 const char* WIFI_PW_METEOR  =  "Ali09042010_";
 
@@ -307,18 +308,19 @@ struct NetworkConfig
 {
     const char* ssid;
     const char* wifiPw;
-    IPAddress server;
-    IPAddress serverMobile;
+    IPAddress server1;
+    IPAddress server2;
+    IPAddress server3;
     uint16_t port;
     const char* location;
 };
 
 NetworkConfig nets[] =
 {
-    {SSID_METEOR  , WIFI_PW_METEOR   , BLYNK_PI     , BLYNK_FLIP7     , 8080, "PLS"},
-//    {SSID_FLIP7   , WIFI_PW_FLIP7    , BLYNK_FLIP7  , BLYNK_FLIP7  , 8080, "MOBILE"},
-    {SSID_BBOX    , WIFI_PW_BBOX     , BLYNK_BBOX   , BLYNK_BBOX   , 8080, "CH"},
-    {SSID_SFR     , WIFI_PW_SFR      , BLYNK_SFR    , BLYNK_SFR    , 8080, "NICE"} 
+    {SSID_METEOR  , WIFI_PW_METEOR   , BLYNK_PI     , BLYNK_PC      , BLYNK_FLIP7   , 8080, "PLS"},
+//  {SSID_FLIP7   , WIFI_PW_FLIP7    , BLYNK_FLIP7  , BLYNK_FLIP7   , BLYNK_FLIP7   , 8080, "MOBILE"},
+    {SSID_BBOX    , WIFI_PW_BBOX     , BLYNK_BBOX   , BLYNK_BBOX    , BLYNK_BBOX    , 8080, "CH"},
+    {SSID_SFR     , WIFI_PW_SFR      , BLYNK_SFR    , BLYNK_SFR     , BLYNK_SFR     , 8080, "NICE"} 
 };
 int NUM_NETWORKS = sizeof(nets) / sizeof(nets[0]);
 
@@ -355,8 +357,9 @@ bool blynk_connect()
 
     IPAddress servers[] =
     {
-        net->server,
-        net->serverMobile
+        net->server1,
+        net->server2,
+        net->server3
     };
 
     DEBUG_PRINTLN("--------------------------------");
@@ -366,7 +369,7 @@ bool blynk_connect()
     Blynk.disconnect();
     delay(100);
 
-    for (uint8_t i = 0; i < 2; i++)
+    for (uint8_t i = 0; i < 3; i++)
     {
         DEBUG_PRINT("Trying Blynk Server : ");
         DEBUG_PRINTLN(servers[i]);

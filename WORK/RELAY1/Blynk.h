@@ -8,12 +8,11 @@ extern bool queuValidData;
 #define BLYNK_RED       "#D3435C"
 #define BLYNK_DARK_BLUE "#5F7CD8"
 
-void relayCmd(int vPin, int cmd, const char* colorOn, const char* colorOff)
+void relayCmd(int vPin, int cmd)
 {
       digitalWrite(RELAY_PIN, cmd ? LOW : HIGH);
-      if(cmd) Blynk.setProperty(vPin, "onBackColor", colorOn );
-      else  (vPin, "onBackColor", colorOff );
-      DEBUG_PRINTLN("Received " + String(vPin) + "Relay command " + String(cmd) ); 
+      Blynk.virtualWrite(vPin, cmd);
+      DEBUG_PRINTLN("Received vPin" + String(vPin) + " Relay command " + String(cmd) ); 
 }
 
 void processBlynkQueu(void)
@@ -40,84 +39,84 @@ void processBlynkQueu(void)
             break;   
 
             case Q_EVENT_RM_ID_01_V112 :
-                 relayCmd(V112 ,queuData, BLYNK_DARK_BLUE,  BLYNK_RED);
+                 relayCmd(V112 ,queuData);
               break; 
      
 
              case Q_EVENT_RM_ID_02_V122:
-                  relayCmd(V122 ,queuData, BLYNK_DARK_BLUE,  BLYNK_RED);
+                  relayCmd(V122 ,queuData);
               break;
                
              case Q_EVENT_RM_ID_03_V123:
-                  relayCmd(V123 ,queuData, BLYNK_DARK_BLUE,  BLYNK_RED);
+                  relayCmd(V123 ,queuData);
               break;  
              
              case Q_EVENT_RM_ID_04_V124:
-                  relayCmd(V124 ,queuData, BLYNK_DARK_BLUE,  BLYNK_RED);
+                  relayCmd(V124 ,queuData);
               break;  
              
              case Q_EVENT_RM_ID_05_V125:
-                  relayCmd(V125 ,queuData, BLYNK_DARK_BLUE,  BLYNK_RED);
+                  relayCmd(V125 ,queuData);
               break;  
              
              case Q_EVENT_RM_ID_06_V126:
-                  relayCmd(V126 ,queuData, BLYNK_DARK_BLUE,  BLYNK_RED);
+                  relayCmd(V126 ,queuData);
               break;  
              
              case Q_EVENT_RM_ID_07_V127:
-                  relayCmd(V127 ,queuData, BLYNK_DARK_BLUE,  BLYNK_RED);
+                  relayCmd(V127 ,queuData);
               break;  
              
              case Q_EVENT_RM_ID_08_V93:
-                  relayCmd(V93 ,queuData, BLYNK_DARK_BLUE,  BLYNK_RED);
+                  relayCmd(V93 ,queuData);
               break;  
              
              case Q_EVENT_RM_ID_09_V80:
-                  relayCmd(V80 ,queuData, BLYNK_DARK_BLUE,  BLYNK_RED);
+                  relayCmd(V80 ,queuData);
               break;  
              
              case Q_EVENT_RM_ID_10_V21:
-             relayCmd(V21 ,queuData, BLYNK_DARK_BLUE,  BLYNK_RED);
+             relayCmd(V21 ,queuData);
               break;  
              
              case Q_EVENT_RM_ID_11_V14:
-                  relayCmd(V14 ,queuData, BLYNK_DARK_BLUE,  BLYNK_RED);
+                  relayCmd(V14 ,queuData);
               break;  
              
              case Q_EVENT_RM_ID_12_V15:
-                  relayCmd(V15 ,queuData, BLYNK_DARK_BLUE,  BLYNK_RED);
+                  relayCmd(V15 ,queuData);
               break;  
              
              case Q_EVENT_RM_ID_13_V23:
-                  relayCmd(V23 ,queuData, BLYNK_DARK_BLUE,  BLYNK_RED);
+                  relayCmd(V23 ,queuData);
               break;  
              
              case Q_EVENT_RM_ID_14_V103:
-                  relayCmd(V112 ,queuData, BLYNK_DARK_BLUE,  BLYNK_RED);
+                  relayCmd(V112 ,queuData);
               break;  
              
              case Q_EVENT_RM_ID_15_V104:
-                  relayCmd(V104 ,queuData, BLYNK_DARK_BLUE,  BLYNK_RED);
+                  relayCmd(V104 ,queuData);
               break;  
              
              case Q_EVENT_RM_ID_16_V105:
-                  relayCmd(V105 ,queuData, BLYNK_DARK_BLUE,  BLYNK_RED);
+                  relayCmd(V105 ,queuData);
               break;  
              
              case Q_EVENT_RM_ID_17_V90:
-                  relayCmd(V90 ,queuData, BLYNK_DARK_BLUE,  BLYNK_RED);
+                  relayCmd(V90 ,queuData);
               break;  
              
              case Q_EVENT_RM_ID_18_V91:
-                  relayCmd(V91 ,queuData, BLYNK_DARK_BLUE,  BLYNK_RED);
+                  relayCmd(V91 ,queuData);
               break;  
              
              case Q_EVENT_RM_ID_19_V92:
-                  relayCmd(V92 ,queuData, BLYNK_DARK_BLUE,  BLYNK_RED);
+                  relayCmd(V92 ,queuData);
               break;  
 
              case Q_EVENT_RM_ID_20_V100:
-                  relayCmd(V100 ,queuData, BLYNK_DARK_BLUE,  BLYNK_RED);
+                  relayCmd(V100 ,queuData);
               break; 
           }
 }      
@@ -261,6 +260,15 @@ BLYNK_WRITE(V102)  //TERMINAL
   {
     terminal.clear();
   }
+
+  else if (String("on") == param.asStr())
+  {
+    relayOnOff (relayNumber, 1);
+  }
+  else if (String("off") == param.asStr())
+  {
+    relayOnOff (relayNumber, 0);
+  }  
 
   else {
     // Send it back

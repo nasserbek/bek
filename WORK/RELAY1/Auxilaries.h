@@ -8,7 +8,7 @@ IPAddress   BLYNK_CH_OMV1(192,168,1,4);
 IPAddress   BLYNK_CH_OMV_PVE(192,168,1,116);
 const char* SSID_CH     ="Bbox-Bek-2.4G" ;
 const char* WIFI_PW_CH    =  "Ali09042010_";
-
+extern void relayCmd(int vPin, int cmd);
 
 
 IPAddress   BLYNK_SFR(192,168,1,46);
@@ -181,6 +181,91 @@ bool  wifi_connect()
   return wifiConnection ;
 }
 
+void relayOnOff (int relay, int cmd)
+{
+          switch (relay)
+            {
+              case 1:
+                    relayCmd(V112 ,cmd);
+              break;
+             case 2:
+                  relayCmd(V122 ,cmd);
+              break;
+               
+             case 3:
+                  relayCmd(V123 ,cmd);
+              break;  
+             
+             case 4:
+                  relayCmd(V124 ,cmd);
+              break;  
+             
+             case 5:
+                  relayCmd(V125 ,cmd);
+              break;  
+             
+             case 6:
+                  relayCmd(V126 ,cmd);
+              break;  
+             
+             case 7:
+                  relayCmd(V127 ,cmd);
+              break;  
+             
+             case 8:
+                  relayCmd(V93 ,cmd);
+              break;  
+             
+             case 9:
+                  relayCmd(V80 ,cmd);
+              break;  
+             
+             case 10:
+             relayCmd(V21 ,cmd);
+              break;  
+             
+             case 11:
+                  relayCmd(V14 ,cmd);
+              break;  
+             
+             case 12:
+                  relayCmd(V15 ,cmd);
+              break;  
+             
+             case 13:
+                  relayCmd(V23 ,cmd);
+              break;  
+             
+             case 14:
+                  relayCmd(V112 ,cmd);
+              break;  
+             
+             case 15:
+                  relayCmd(V104 ,cmd);
+              break;  
+             
+             case 16:
+                  relayCmd(V105 ,cmd);
+              break;  
+             
+             case 17:
+                  relayCmd(V90 ,cmd);
+              break;  
+             
+             case 18:
+                  relayCmd(V91 ,cmd);
+              break;  
+             
+             case 19:
+                  relayCmd(V92 ,cmd);
+              break;  
+
+             case 20:
+                  relayCmd(V100 ,cmd);
+              break; 
+          }
+            
+}
 
 bool blynk_muliservers_connect()
 {
@@ -229,9 +314,7 @@ bool blynk_muliservers_connect()
             terminal.println("R" + String(relayNumber) + " ID" + String(chipID) + " " + WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) + " Server IP: " + servers[i].toString() + "\n");
             terminal.flush();
             Blynk.virtualWrite(V24, VERSION_ID);
-            RELAY_LED_V2.off();
-            Blynk.setProperty(V1, "color", BLYNK_BLUE);
-            Blynk.virtualWrite(V1, 0);
+            relayOnOff (relayNumber, 0);
             blynkAtiveTimer = millis();
             blynkActive = true;        // I think this should be true
             return true;
