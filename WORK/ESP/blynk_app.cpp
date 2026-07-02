@@ -22,7 +22,7 @@ extern uint32_t  restartAfterResetNG;
 IPAddress blynkLocalServer;
 IPAddress BLYNK_SERVER_BBOX(192,168,1,4);
 IPAddress BLYNK_SERVER_METEOR_SFR(192,168,1,46);
-IPAddress BLYNK_SERVER_METEOR_ETH_PLS(192,168,10,195);
+IPAddress BLYNK_SERVER_METEOR_ETH_PLS(192,168,10,196);
 
 const char* WIFI_SSID_SFR    = "SFR_BEK-23C0";
 const char* WIFI_SSID_METEOR_PLS ="BEK_METEOR_2.4G";
@@ -295,7 +295,7 @@ IPAddress   BLYNK_SFR(192,168,1,46);
 const char* SSID_SFR      ="SFR_BEK-23C0";
 const char* WIFI_PW_SFR     =  "ali09042010";
 
-IPAddress   BLYNK_PI(192,168,10,195);
+IPAddress   BLYNK_PI(192,168,10,196);
 const char* SSID_METEOR   ="BEK_METEOR_2.4G";
 const char* WIFI_PW_METEOR  =  "Ali09042010_";
 
