@@ -256,11 +256,11 @@ void blynk::streamSelect(String ch)
 NetworkConfig* getCurrentNetwork()
 {
     String currentSSID = WiFi.SSID();
-#if defined TESTING
-  NUM_NETWORKS = sizeof(nets) / sizeof(nets[0]);
-#else
-  NUM_NETWORKS = 1;
-#endif
+//#if defined TESTING
+//  NUM_NETWORKS = sizeof(nets) / sizeof(nets[0]);
+//#else
+//  NUM_NETWORKS = 1;
+//#endif
     for (int i = 0; i < NUM_NETWORKS; i++)
     {
         if (currentSSID == nets[i].ssid  )
@@ -363,11 +363,11 @@ IPAddress ip;
 
 bool  wifi_connect()
 {
-  #if defined TESTING
-  NUM_NETWORKS = sizeof(nets) / sizeof(nets[0]);
-#else
-  NUM_NETWORKS = 1;
-#endif
+//  #if defined TESTING
+//  NUM_NETWORKS = sizeof(nets) / sizeof(nets[0]);
+//#else
+//  NUM_NETWORKS = 1;
+//#endif
 
   bool wifiConnection = false;
   for (int i = 0; i < NUM_NETWORKS; i++)
