@@ -1,12 +1,13 @@
 #include "blynk_app.h"
 #include "headers.h"
-
-
 #define BLYNK_PRINT Serial
 #include <WiFi.h>
 #include <WiFiClient.h>
 #include <BlynkSimpleEsp32.h>
 #include <WiFiMulti.h>
+#include "routers.h"
+
+
 extern uint32_t crashCount;
 extern String VERSION_ID ;
 extern const char* BLYNK_AUTH_TOKEN;
@@ -18,20 +19,6 @@ extern String BOARD;
 bool internetConnected = false;
 extern void loadCrashCount();
 extern uint32_t  restartAfterResetNG;
-
-IPAddress blynkLocalServer;
-IPAddress BLYNK_SERVER_BBOX(192,168,1,4);
-IPAddress BLYNK_SERVER_METEOR_SFR(192,168,1,46);
-IPAddress BLYNK_SERVER_METEOR_ETH_PLS(192,168,10,196);
-
-const char* WIFI_SSID_SFR    = "SFR_BEK-23C0";
-const char* WIFI_SSID_METEOR_PLS ="BEK_METEOR_2.4G";
-const char* WIFI_SSID_BBOX   ="Bbox-Bek-2.4G" ;  
-     
-const char* WIFI_PASSWORD_SFR     =  "ali09042010";
-const char* WIFI_PASSWORD_METEOR  =  "Ali09042010_";
-const char* WIFI_PASSWORD_BBOX    =  "Ali09042010_";
-
 extern void resetInactivityTimer();
 extern bool wifiAvailable ;
 extern void blueLedFlash(unsigned long interval);
@@ -90,12 +77,6 @@ extern QueueHandle_t g_event_queue_handle;
 
 bool ledStatus = false;
 extern bool queuValidData;
-//#define BLYNK_GREEN     "#23C48E"
-//#define BLYNK_BLUE      "#04C0F8"
-//#define BLYNK_YELLOW    "#ED9D00"
-//#define BLYNK_RED       "#D3435C"
-//#define BLYNK_DARK_BLUE "#5F7CD8"
-
 
 
 WidgetLED I2C_LED_V13(V13);  //I2C ACK
@@ -121,60 +102,6 @@ int eventdata;
 blynk::blynk(void)
 {
 
-}
-
-
-void reboot()
-{
-#if defined(ARDUINO_ARCH_MEGAAVR)
-  wdt_enable(WDT_PERIOD_8CLK_gc);
-#elif defined(__AVR__)
-  wdt_enable(WDTO_15MS);
-#elif defined(__arm__)
-  NVIC_SystemReset();
-#elif defined(ESP8266) || defined(ESP32)
-  ESP.restart();
-#else
-#error "MCU reset procedure not implemented"
-#endif
-  for (;;) {}
-}
-
-BLYNK_WRITE(InternalPinOTA) {
-  Blynk.disconnect();
-  String overTheAirURL = param.asString();
-  HTTPClient http;
-  http.begin(overTheAirURL);
-  int httpCode = http.GET();
-  if (httpCode != HTTP_CODE_OK) {
-    Blynk.connect();
-    return;
-  }
-  int contentLength = http.getSize();
-  if (contentLength <= 0) {
-    Blynk.connect();
-    return;
-  }
-  bool canBegin = Update.begin(contentLength);
-  if (!canBegin) {
-    Blynk.connect();
-    return;
-  }
-  Client& client = http.getStream();
-  int written = Update.writeStream(client);
-  if (written != contentLength) {
-    Blynk.connect();
-    return;
-  }
-  if (!Update.end()) {
-    Blynk.connect();
-    return;
-  }
-  if (!Update.isFinished()) {
-    Blynk.connect();
-    return;
-  }
-  reboot();
 }
 
 
@@ -286,43 +213,43 @@ void blynk::streamSelect(String ch)
 
 
 /*********************************************************************************************************************/
-bool        gpt = true;
-IPAddress   BLYNK_BBOX(192,168,1,4);
-const char* SSID_BBOX     ="Bbox-Bek-2.4G" ;
-const char* WIFI_PW_BBOX    =  "Ali09042010_";
 
-IPAddress   BLYNK_SFR(192,168,1,46);
-const char* SSID_SFR      ="SFR_BEK-23C0";
-const char* WIFI_PW_SFR     =  "ali09042010";
+//IPAddress   BLYNK_BBOX(192,168,1,4);
+//const char* SSID_BBOX     ="Bbox-Bek-2.4G" ;
+//const char* WIFI_PW_BBOX    =  "Ali09042010_";
+//
+//IPAddress   BLYNK_SFR(192,168,1,46);
+//const char* SSID_SFR      ="SFR_BEK-23C0";
+//const char* WIFI_PW_SFR     =  "ali09042010";
+//
+//IPAddress   BLYNK_PI  (192,168,10,195);
+//IPAddress   BLYNK_PC  (192,168,10,196);
+//const char* SSID_METEOR   ="BEK_METEOR_2.4G";
+//const char* WIFI_PW_METEOR  =  "Ali09042010_";
+//
+//IPAddress   BLYNK_FLIP7(10,174,107,53);  //
+//const char* SSID_FLIP7    ="BEK_FLIP7" ;
+//const char* WIFI_PW_FLIP7   =  "ali09042010";
 
-IPAddress   BLYNK_PI  (192,168,10,195);
-IPAddress   BLYNK_PC  (192,168,10,196);
-const char* SSID_METEOR   ="BEK_METEOR_2.4G";
-const char* WIFI_PW_METEOR  =  "Ali09042010_";
+//struct NetworkConfig
+//{
+//    const char* ssid;
+//    const char* wifiPw;
+//    IPAddress server1;
+//    IPAddress server2;
+//    IPAddress server3;
+//    uint16_t port;
+//    const char* location;
+//};
+//
+//NetworkConfig nets[] =
+//{
+//    {SSID_METEOR  , WIFI_PW_METEOR   , BLYNK_PI     , BLYNK_PC      , BLYNK_FLIP7   , 8080, "PLS"},
+////  {SSID_FLIP7   , WIFI_PW_FLIP7    , BLYNK_FLIP7  , BLYNK_FLIP7   , BLYNK_FLIP7   , 8080, "MOBILE"},
+//    {SSID_BBOX    , WIFI_PW_BBOX     , BLYNK_BBOX   , BLYNK_BBOX    , BLYNK_BBOX    , 8080, "CH"},
+//    {SSID_SFR     , WIFI_PW_SFR      , BLYNK_SFR    , BLYNK_SFR     , BLYNK_SFR     , 8080, "NICE"} 
+//};
 
-IPAddress   BLYNK_FLIP7(10,174,107,53);  //
-const char* SSID_FLIP7    ="BEK_FLIP7" ;
-const char* WIFI_PW_FLIP7   =  "ali09042010";
-
-struct NetworkConfig
-{
-    const char* ssid;
-    const char* wifiPw;
-    IPAddress server1;
-    IPAddress server2;
-    IPAddress server3;
-    uint16_t port;
-    const char* location;
-};
-
-NetworkConfig nets[] =
-{
-    {SSID_METEOR  , WIFI_PW_METEOR   , BLYNK_PI     , BLYNK_PC      , BLYNK_FLIP7   , 8080, "PLS"},
-//  {SSID_FLIP7   , WIFI_PW_FLIP7    , BLYNK_FLIP7  , BLYNK_FLIP7   , BLYNK_FLIP7   , 8080, "MOBILE"},
-    {SSID_BBOX    , WIFI_PW_BBOX     , BLYNK_BBOX   , BLYNK_BBOX    , BLYNK_BBOX    , 8080, "CH"},
-    {SSID_SFR     , WIFI_PW_SFR      , BLYNK_SFR    , BLYNK_SFR     , BLYNK_SFR     , 8080, "NICE"} 
-};
-int NUM_NETWORKS = sizeof(nets) / sizeof(nets[0]);
 
 
 
@@ -2002,4 +1929,57 @@ void blynk::releActiveCh(int rele, int ch)
 void blynk::Event24(void)
 {
   Blynk.logEvent("meteor_restart");
+}
+
+void reboot()
+{
+#if defined(ARDUINO_ARCH_MEGAAVR)
+  wdt_enable(WDT_PERIOD_8CLK_gc);
+#elif defined(__AVR__)
+  wdt_enable(WDTO_15MS);
+#elif defined(__arm__)
+  NVIC_SystemReset();
+#elif defined(ESP8266) || defined(ESP32)
+  ESP.restart();
+#else
+#error "MCU reset procedure not implemented"
+#endif
+  for (;;) {}
+}
+
+BLYNK_WRITE(InternalPinOTA) {
+  Blynk.disconnect();
+  String overTheAirURL = param.asString();
+  HTTPClient http;
+  http.begin(overTheAirURL);
+  int httpCode = http.GET();
+  if (httpCode != HTTP_CODE_OK) {
+    Blynk.connect();
+    return;
+  }
+  int contentLength = http.getSize();
+  if (contentLength <= 0) {
+    Blynk.connect();
+    return;
+  }
+  bool canBegin = Update.begin(contentLength);
+  if (!canBegin) {
+    Blynk.connect();
+    return;
+  }
+  Client& client = http.getStream();
+  int written = Update.writeStream(client);
+  if (written != contentLength) {
+    Blynk.connect();
+    return;
+  }
+  if (!Update.end()) {
+    Blynk.connect();
+    return;
+  }
+  if (!Update.isFinished()) {
+    Blynk.connect();
+    return;
+  }
+  reboot();
 }
