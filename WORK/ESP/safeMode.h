@@ -83,17 +83,7 @@ void normalModeSetup()
 }
 
 
-void blueLedFlash(unsigned long interval)
-{
-  unsigned long currentMillis = millis();
 
-  if (currentMillis - blueLedPreviousMillis >= interval) {
-    blueLedPreviousMillis = currentMillis;
-
-    blueLedState = !blueLedState;              // toggle LED
-    digitalWrite(BOARD_LED, blueLedState);
-  }  
-}
 void checkSleep()
 {
   uint32_t PowerOffTimer  = (inactivityPowerOffTimer * 60UL * 1000UL) ; //inactivityPowerOffTimer in Minutes 1000UL = 1 sec;
@@ -253,7 +243,7 @@ void safeModeSetup()
           DEBUG_PRINTLN("Wifi Disconnected");
           wifiAvailable = myBlynk.wifi_init();
           
-          blueLedFlash(30000) ; 
+          
           
           if (millis() > startConnecting + WIFI_DISCONNECTED_RESTART) {
             wifiAvailable = false;

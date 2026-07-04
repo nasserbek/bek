@@ -11,7 +11,7 @@ extern void resetRouter(void);
 extern void activateLocalWifiWeb();
 extern void resetInternetLoss();
 extern void activateWifiIde();
-extern void blueLedFlash(unsigned long interval);
+
 
 /***********************************************************************************/
 

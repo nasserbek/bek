@@ -14,7 +14,7 @@ extern unsigned int LiveUpdateInterval ;
 bool dvrSleep  ;
 extern uint32_t crashCount;
 extern void saveCrashCount(void);
-extern void blueLedFlash(unsigned long interval);
+
 
 void SendLiveLed()
   {

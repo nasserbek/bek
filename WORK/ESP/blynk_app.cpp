@@ -7,6 +7,8 @@
 #include <WiFiMulti.h>
 #include "routers.h"
 
+const uint32_t DEBOUNCE_MS = 1000;
+uint32_t lastPressTime = 0;
 
 extern uint32_t crashCount;
 extern String VERSION_ID ;
@@ -21,7 +23,7 @@ extern void loadCrashCount();
 extern uint32_t  restartAfterResetNG;
 extern void resetInactivityTimer();
 extern bool wifiAvailable ;
-extern void blueLedFlash(unsigned long interval);
+
 extern int MapIndex;
 extern void dvrOnOff (bool powerOn);
 extern void SendLiveLed(void);
@@ -529,9 +531,18 @@ BLYNK_WRITE(V5)
 
 }
 
-BLYNK_WRITE(V6)
+ 
+BLYNK_WRITE(V6) //OTA_LOCAL_WEB
 {
+  if (param.asInt() != 1)
+    return;
 
+  uint32_t now = millis();
+
+  if (now - lastPressTime < DEBOUNCE_MS)
+    return;
+  lastPressTime = now;
+  
   _blynkEvent = true;
   _blynkData = param.asInt();
   eventdata = Q_EVENT_OTA_LOCAL_WEB_WIFI_V6;
@@ -539,8 +550,16 @@ BLYNK_WRITE(V6)
 
 }
 
-BLYNK_WRITE(V7)
+BLYNK_WRITE(V7)  //OTA_GITHUB
 {
+  if (param.asInt() != 1)
+    return;
+
+  uint32_t now = millis();
+
+  if (now - lastPressTime < DEBOUNCE_MS)
+    return;
+  lastPressTime = now;  
   _blynkEvent = true;
   _blynkData = param.asInt();
   eventdata = Q_EVENT_OTA_GITHUB_V7;
@@ -549,6 +568,15 @@ BLYNK_WRITE(V7)
 
 BLYNK_WRITE(V8)   //boot
 {
+  if (param.asInt() != 1)
+    return;
+
+  uint32_t now = millis();
+
+  if (now - lastPressTime < DEBOUNCE_MS)
+    return;
+  lastPressTime = now;
+    
   _blynkEvent = true;
   _blynkData = param.asInt();
   eventdata = Q_EVENT_REBOOT_V8;
