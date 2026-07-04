@@ -534,10 +534,11 @@ BLYNK_WRITE(V5)
  
 BLYNK_WRITE(V6) //OTA_LOCAL_WEB
 {
+  uint32_t now = millis();
   if (param.asInt() != 1)
     return;
 
-  uint32_t now = millis();
+ // uint32_t now = millis();
 
   if (now - lastPressTime < DEBOUNCE_MS)
     return;
@@ -552,14 +553,16 @@ BLYNK_WRITE(V6) //OTA_LOCAL_WEB
 
 BLYNK_WRITE(V7)  //OTA_GITHUB
 {
+  uint32_t now = millis();
   if (param.asInt() != 1)
     return;
 
-  uint32_t now = millis();
+ // uint32_t now = millis();
 
   if (now - lastPressTime < DEBOUNCE_MS)
     return;
-  lastPressTime = now;  
+  lastPressTime = now;
+    
   _blynkEvent = true;
   _blynkData = param.asInt();
   eventdata = Q_EVENT_OTA_GITHUB_V7;
@@ -568,10 +571,11 @@ BLYNK_WRITE(V7)  //OTA_GITHUB
 
 BLYNK_WRITE(V8)   //boot
 {
+  uint32_t now = millis();
   if (param.asInt() != 1)
     return;
 
-  uint32_t now = millis();
+ // uint32_t now = millis();
 
   if (now - lastPressTime < DEBOUNCE_MS)
     return;
