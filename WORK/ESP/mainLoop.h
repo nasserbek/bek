@@ -135,6 +135,7 @@ void processBlynkQueu(void)
                   crashCount = 0;
                   saveCrashCount();
                   delay(1000);
+                  myBlynk.TerminalPrint("Rebooting the ESP.......");
                   rebootSw();
             break;
 

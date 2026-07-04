@@ -2,6 +2,8 @@
 
 blynk myBlynk;
 
+extern void BLYNK_WRITE_V8_boot();
+
 void setup() 
 {
      Serial.begin(115200);
@@ -30,8 +32,10 @@ void loop(void)
        resetWdg();
        internetCheck();
        resetBoardID();
-    //   awsLoop();
        blynkLoop();
+       
+       BLYNK_WRITE_V8_boot();
+       
        safeModeLoop();
        if(inactivityCtrl == MILLS)restartForInactivity(); //This checks inactivity once per second only controlled by mills().
        

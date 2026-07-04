@@ -8,10 +8,10 @@
 #include "routers.h"
 
 const uint32_t DEBOUNCE_MS = 3000;
-
-uint32_t lastPressTimeV6 =0  ;
-uint32_t lastPressTimeV7 =0  ;
-uint32_t lastPressTimeV8 =0  ;
+uint32_t rebootTime = 0;
+bool lastPressTimeV6 =false  ;
+bool lastPressTimeV7 =false  ;
+bool lastPressTimeV8 =false  ;
 
 extern uint32_t crashCount;
 extern String VERSION_ID ;
@@ -534,25 +534,11 @@ BLYNK_WRITE(V5)
 
 }
 
-bool debounceButton(uint32_t &lastTime, uint32_t debounceMs)
-{
-    uint32_t now = millis();
 
-    if (now - lastTime < debounceMs)
-        return false;
 
-    lastTime = now;
-    return true;
-}
- 
+
 BLYNK_WRITE(V6) //OTA_LOCAL_WEB
 {
-    if (param.asInt() != 1)
-        return;
-
-    if (!debounceButton(lastPressTimeV6, DEBOUNCE_MS))
-        return;
-  
   _blynkEvent = true;
   _blynkData = param.asInt();
   eventdata = Q_EVENT_OTA_LOCAL_WEB_WIFI_V6;
@@ -562,30 +548,36 @@ BLYNK_WRITE(V6) //OTA_LOCAL_WEB
 
 BLYNK_WRITE(V7)  //OTA_GITHUB
 {
-    if (param.asInt() != 1)
-        return;
-
-    if (!debounceButton(lastPressTimeV7, DEBOUNCE_MS))
-        return;
-    
   _blynkEvent = true;
   _blynkData = param.asInt();
   eventdata = Q_EVENT_OTA_GITHUB_V7;
   xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
+void BLYNK_WRITE_V8_boot()
+{
+  if (lastPressTimeV8 && (int32_t)(millis() - rebootTime) >= 0)
+  {
+    lastPressTimeV8 = false;
+  
+    _blynkEvent = true;
+    _blynkData = true;
+    eventdata = Q_EVENT_REBOOT_V8;
+    xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+  }  
+}
+
 BLYNK_WRITE(V8)   //boot
 {
-    if (param.asInt() != 1)
-        return;
-
-    if (!debounceButton(lastPressTimeV8, DEBOUNCE_MS))
-        return;
+    if (param.asInt() != 1) return;
+    if (lastPressTimeV8) return;      // Ignore additional presses while waiting
+    lastPressTimeV8 = true;
+    rebootTime = millis() + DEBOUNCE_MS;
     
-  _blynkEvent = true;
-  _blynkData = param.asInt();
-  eventdata = Q_EVENT_REBOOT_V8;
-  xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+//  _blynkEvent = true;
+//  _blynkData = param.asInt();
+//  eventdata = Q_EVENT_REBOOT_V8;
+//  xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
 BLYNK_WRITE(V9) // Room Nr
