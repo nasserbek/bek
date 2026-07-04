@@ -569,15 +569,15 @@ void BLYNK_WRITE_V8_boot()
 
 BLYNK_WRITE(V8)   //boot
 {
-    if (param.asInt() != 1) return;
-    if (lastPressTimeV8) return;      // Ignore additional presses while waiting
-    lastPressTimeV8 = true;
-    rebootTime = millis() + DEBOUNCE_MS;
-    
-//  _blynkEvent = true;
-//  _blynkData = param.asInt();
-//  eventdata = Q_EVENT_REBOOT_V8;
-//  xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+//    if (param.asInt() != 1) return;
+//    if (lastPressTimeV8) return;      // Ignore additional presses while waiting
+//    lastPressTimeV8 = true;
+//    rebootTime = millis() + DEBOUNCE_MS;
+//    
+  _blynkEvent = true;
+  _blynkData = param.asInt();
+  eventdata = Q_EVENT_REBOOT_V8;
+  xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 }
 
 BLYNK_WRITE(V9) // Room Nr
