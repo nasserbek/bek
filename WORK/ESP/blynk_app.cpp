@@ -7,7 +7,7 @@
 #include <WiFiMulti.h>
 #include "routers.h"
 
-const uint32_t DEBOUNCE_MS = 1000;
+const uint32_t DEBOUNCE_MS = 5000;
 uint32_t lastPressTime = 0;
 
 extern uint32_t crashCount;
