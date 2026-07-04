@@ -7,8 +7,11 @@
 #include <WiFiMulti.h>
 #include "routers.h"
 
-const uint32_t DEBOUNCE_MS = 5000;
-uint32_t lastPressTime = 0;
+const uint32_t DEBOUNCE_MS = 3000;
+
+uint32_t lastPressTimeV6 =0  ;
+uint32_t lastPressTimeV7 =0  ;
+uint32_t lastPressTimeV8 =0  ;
 
 extern uint32_t crashCount;
 extern String VERSION_ID ;
@@ -531,18 +534,24 @@ BLYNK_WRITE(V5)
 
 }
 
+bool debounceButton(uint32_t &lastTime, uint32_t debounceMs)
+{
+    uint32_t now = millis();
+
+    if (now - lastTime < debounceMs)
+        return false;
+
+    lastTime = now;
+    return true;
+}
  
 BLYNK_WRITE(V6) //OTA_LOCAL_WEB
 {
-  uint32_t now = millis();
-  if (param.asInt() != 1)
-    return;
+    if (param.asInt() != 1)
+        return;
 
- // uint32_t now = millis();
-
-  if (now - lastPressTime < DEBOUNCE_MS)
-    return;
-  lastPressTime = now;
+    if (!debounceButton(lastPressTimeV6, DEBOUNCE_MS))
+        return;
   
   _blynkEvent = true;
   _blynkData = param.asInt();
@@ -553,15 +562,11 @@ BLYNK_WRITE(V6) //OTA_LOCAL_WEB
 
 BLYNK_WRITE(V7)  //OTA_GITHUB
 {
-  uint32_t now = millis();
-  if (param.asInt() != 1)
-    return;
+    if (param.asInt() != 1)
+        return;
 
- // uint32_t now = millis();
-
-  if (now - lastPressTime < DEBOUNCE_MS)
-    return;
-  lastPressTime = now;
+    if (!debounceButton(lastPressTimeV7, DEBOUNCE_MS))
+        return;
     
   _blynkEvent = true;
   _blynkData = param.asInt();
@@ -571,15 +576,11 @@ BLYNK_WRITE(V7)  //OTA_GITHUB
 
 BLYNK_WRITE(V8)   //boot
 {
-  uint32_t now = millis();
-  if (param.asInt() != 1)
-    return;
+    if (param.asInt() != 1)
+        return;
 
- // uint32_t now = millis();
-
-  if (now - lastPressTime < DEBOUNCE_MS)
-    return;
-  lastPressTime = now;
+    if (!debounceButton(lastPressTimeV8, DEBOUNCE_MS))
+        return;
     
   _blynkEvent = true;
   _blynkData = param.asInt();

@@ -29,7 +29,7 @@
 #include "time.h"
 #include <Preferences.h>
 
-
+uint32_t lastPressTime = 0  ;
 
 // Static IP configuration
 IPAddress local_IP(192, 168, 10, 151);   // ESP1
