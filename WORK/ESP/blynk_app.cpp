@@ -27,6 +27,9 @@ extern uint32_t  restartAfterResetNG;
 extern void resetInactivityTimer();
 extern bool wifiAvailable ;
 
+extern byte espNumber;
+extern uint32_t chipID;
+
 extern int MapIndex;
 extern void dvrOnOff (bool powerOn);
 extern void SendLiveLed(void);
@@ -970,9 +973,12 @@ BLYNK_WRITE(V102)  //TERMINAL
     terminal.flush();
   }
 
-  else if (String("w") == param.asStr())
+  else if (String("id") == param.asStr())
   {
-    terminal.println( WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) + "\n");
+    uint64_t chipid = ESP.getEfuseMac();
+    uint32_t myChip = (uint32_t)chipid;
+    terminal.println("Esp" + String(espNumber) + " Chip ID = " + String(myChip, HEX));
+//    terminal.println( WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) + "\n");
     terminal.flush();
   }
 
@@ -980,6 +986,7 @@ BLYNK_WRITE(V102)  //TERMINAL
   {
     terminal.clear();
   }
+
 
   else {
     // Send it back
@@ -993,6 +1000,7 @@ BLYNK_WRITE(V102)  //TERMINAL
   terminal.flush();
 
 }
+
 
 
 BLYNK_WRITE(V106)   //Zapping ch14

@@ -4,20 +4,20 @@
 //field
 const char* SSID_METEOR             ="BEK_METEOR_2.4G";
 const char* WIFI_PW_METEOR          ="Ali09042010_";
-IPAddress   BLYNK_PI4(192,168,10,195);
-IPAddress   BLYNK_PC(192,168,10,196);
-
+IPAddress   BLYNK_PI4(192,168,10,196);
+IPAddress   BLYNK_PC(192,168,10,195);
+IPAddress   BLYNK_TEST(192,168,1,46);
 //field2 Box 5g
 const char* SSID_METEOR2            ="Meteor_2.4g";  
 const char* WIFI_PW_METEOR2          ="Ali09042010_";
-IPAddress   BLYNK_PI3(192,168,11,195);
-IPAddress   BLYNK_PC2(192,168,11,196);
+IPAddress   BLYNK_PI3(192,168,11,196);
+IPAddress   BLYNK_PC2(192,168,11,195);
 
 //ch
 const char* SSID_CH                 ="Bbox-Bek-2.4G" ;
 const char* WIFI_PW_CH              ="Ali09042010_";
 IPAddress   BLYNK_CH_PI3(192,168,1,195);
-IPAddress   BLYNK_CH_OMV1(192,168,1,4);
+IPAddress   BLYNK_CH_PC(192,168,1,46);
 IPAddress   BLYNK_CH_OMV_PVE(192,168,1,116);
 
 
@@ -44,10 +44,10 @@ struct NetworkConfig
 
 NetworkConfig nets[] =
 {
-    {SSID_METEOR      , WIFI_PW_METEOR   , BLYNK_PI4    , BLYNK_PC      , BLYNK_FLIP7     , 8080, "PLS"},
-    {SSID_METEOR2     , WIFI_PW_METEOR2  , BLYNK_PI3    , BLYNK_PC2     , BLYNK_FLIP7     , 8080, "XXX"},
+    {SSID_METEOR      , WIFI_PW_METEOR   , BLYNK_PI4    , BLYNK_PC      , BLYNK_TEST     , 8080, "PLS"},
     {SSID_FLIP7       , WIFI_PW_FLIP7    , BLYNK_FLIP7  , BLYNK_FLIP7   , BLYNK_FLIP7     , 8080, "MOBILE"},
-    {SSID_CH          , WIFI_PW_CH       , BLYNK_CH_PI3 , BLYNK_CH_OMV1 , BLYNK_CH_OMV_PVE, 8080, "CH"},
+    {SSID_METEOR2     , WIFI_PW_METEOR2  , BLYNK_PI3    , BLYNK_PC2     , BLYNK_TEST     , 8080, "XXX"},
+    {SSID_CH          , WIFI_PW_CH       , BLYNK_CH_PI3 , BLYNK_CH_PC , BLYNK_CH_OMV_PVE, 8080, "CH"},
     {SSID_SFR         , WIFI_PW_SFR      , BLYNK_SFR    , BLYNK_SFR     , BLYNK_SFR       , 8080, "NICE"} 
 };
 int NUM_NETWORKS = sizeof(nets) / sizeof(nets[0]);
