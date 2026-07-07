@@ -40,7 +40,7 @@ ESP0 =0,
 ESP1 =1,
 ESP2 =2,
 ESP3 =3,
-TEST4=4,
+ESP4 =4,
 } ;
 
 enum  {

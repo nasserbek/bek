@@ -160,9 +160,9 @@ void gpioSetup(void)
       break;
 
     case 3:
-      ActiveBoard = TEST4;
-      BOARD = "ESP0";
-      VERSION_ID = " ESP0 - ";
+      ActiveBoard = ESP4;
+      BOARD = "ESP4";
+      VERSION_ID = " ESP4 - ";
       BLYNK_AUTH_TOKEN   =              BLYNK_AUTH_TOKEN_TEST ;
       break;
   }
