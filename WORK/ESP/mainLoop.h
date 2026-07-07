@@ -21,7 +21,7 @@ void SendLiveLed()
     if (liveLed)  liveLed = false; 
     else liveLed = true;
     liveLedUpdate =false;
-    awsConnected = client.connected();
+//    awsConnected = client.connected();
 
 
  /****************** DVR ************************   */
@@ -56,7 +56,7 @@ void SendLiveLed()
       }
   }
    /********************************************************************/
-  }
+}
   
 void resetRouter(void)
 {

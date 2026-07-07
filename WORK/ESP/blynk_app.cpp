@@ -28,7 +28,7 @@ extern void resetInactivityTimer();
 extern bool wifiAvailable ;
 
 extern byte espNumber;
-extern uint32_t chipID;
+extern uint64_t chipID;
 
 extern int MapIndex;
 extern void dvrOnOff (bool powerOn);
@@ -976,9 +976,7 @@ BLYNK_WRITE(V102)  //TERMINAL
   else if (String("id") == param.asStr())
   {
     uint64_t chipid = ESP.getEfuseMac();
-    uint32_t myChip = (uint32_t)chipid;
-    terminal.println("Esp" + String(espNumber) + " Chip ID = " + String(myChip, HEX));
-//    terminal.println( WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) + "\n");
+    terminal.println("Esp" + String(espNumber) + " Chip ID = " + String(chipid, HEX));
     terminal.flush();
   }
 

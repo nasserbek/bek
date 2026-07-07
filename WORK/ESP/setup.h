@@ -7,21 +7,27 @@ extern uint32_t crashCount;
 
 int card = 0;
 extern IPAddress blynkLocalServer;
-uint32_t chipID;
+uint64_t chipID;
 
-struct EspInfo
-{
-  uint32_t chipID;
-  const char* token;
-  byte espNumber;
+//struct EspInfo
+//{
+//  uint32_t chipID;
+//  const char* token;
+//  byte espNumber;
+//};
+
+struct ESPInfo {
+    uint64_t chipID;
+    const char *token;
+    byte espNumber;
 };
 
-EspInfo espTable[] =
+ESPInfo espTable[] =
 {
   {0xD5AD0F,  "2NVzjDY96Cbam0_TxJqTVSsgI7LgWq0_", 1},
   {0xD5C2FB,  "n77QtZp08I7AOG8AcCpBhxJle1S6GXa0", 2},
   {0x6FDF948C, "lsH8XwzGGUUneZTqYMN-5_hfx8YepjjY", 3},
-  {0x123456,  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 4},
+  {0x80AB6FDF948C,  "R45hOtUvRUsELLwghdmLxGO8AJsci0Z5", 4},
   {0x234567,  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 5},
   {0x345678,  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 6},
   {0x456789,  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 7},
@@ -33,22 +39,23 @@ EspInfo espTable[] =
 const char* blynkAuthToken = nullptr;
 byte espNumber = 0;
 
-uint32_t identifyBoard()
+uint64_t identifyBoard()
 {
-  uint64_t chipid = ESP.getEfuseMac();
-  uint32_t myChip = (uint32_t)chipid;
+  uint64_t mac = ESP.getEfuseMac();
 
-  Serial.printf("Chip ID = %06X\n", myChip);
-
+  Serial.printf("Full eFuse MAC : %012llX\n", mac);
+  Serial.printf("High 16 bits   : %04X\n", (uint16_t)(mac >> 32));
+  Serial.printf("Low 32 bits    : %08X\n", (uint32_t)mac);
+  
   for (int i = 0; i < sizeof(espTable) / sizeof(espTable[0]); i++)
   {
-    if (espTable[i].chipID == myChip)
+    if (espTable[i].chipID == mac)
     {
       blynkAuthToken = espTable[i].token;
       espNumber = espTable[i].espNumber;
 
       Serial.printf("Esp %d detected\n", espNumber);
-      return myChip;
+      return mac;
     }
   }
 
@@ -75,7 +82,7 @@ bool blynkInit(void)
     myBlynk.TerminalPrint("Connecion Stablished " + VERSION_ID + " " + String(crashCount) + " Craches" );
   }
 
-  awsTerminal(awsConnected, str ) ;
+//  awsTerminal(awsConnected, str ) ;
   return  blynkConnected;
 }
 
