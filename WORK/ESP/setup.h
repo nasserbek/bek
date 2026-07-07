@@ -26,7 +26,7 @@ ESPInfo espTable[] =
 {
   {0xD5AD0F,  "2NVzjDY96Cbam0_TxJqTVSsgI7LgWq0_", 1},
   {0xD5C2FB,  "n77QtZp08I7AOG8AcCpBhxJle1S6GXa0", 2},
-  {0x6FDF948C, "lsH8XwzGGUUneZTqYMN-5_hfx8YepjjY", 3},
+  {0x208E6FDF948C, "lsH8XwzGGUUneZTqYMN-5_hfx8YepjjY", 3},
   {0x80AB6FDF948C,  "R45hOtUvRUsELLwghdmLxGO8AJsci0Z5", 4},
   {0x234567,  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 5},
   {0x345678,  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 6},
