@@ -9,7 +9,7 @@ void setup()
       Serial.begin(115200);
       initWDG(MIN_5,EN);
       pinMode(RELAY_PIN, OUTPUT);
-      digitalWrite(RELAY_PIN, HIGH);
+//      digitalWrite(RELAY_PIN, LOW);
       wifiAvailable = wifi_connect();
       
       chipID = identifyBoard();
@@ -30,7 +30,7 @@ void setup()
       timer.setInterval(blynkIntervalInterval, checkBlynk);   // check connection to server per blynkIntervalInterval
       lastActivityTime = millis();
       resetInternetLoss();
-      digitalWrite(RELAY_PIN, HIGH );
+ //     digitalWrite(RELAY_PIN, HIGH );
 }
 
 void loop()
