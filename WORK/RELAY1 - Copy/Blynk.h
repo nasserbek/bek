@@ -8,54 +8,116 @@ extern bool queuValidData;
 #define BLYNK_RED       "#D3435C"
 #define BLYNK_DARK_BLUE "#5F7CD8"
 
+void relayCmd(int vPin, int cmd)
+{
+      digitalWrite(RELAY_PIN, cmd ? LOW : HIGH);
+      Blynk.virtualWrite(vPin, cmd);
+      DEBUG_PRINTLN("Received vPin" + String(vPin) + " Relay command " + String(cmd) ); 
+}
 
 void processBlynkQueu(void)
 {
      switch (queuDataID)
           {
-            case Q_EVENT_V0:
-            break;
-            
-            case Q_EVENT_V1:
-                  relayState = queuData;
-                  digitalWrite(RELAY_PIN, relayState ? LOW : HIGH);
-                  if(relayState) 
-                    {
-                      RELAY_LED_V2.on();
-                      Blynk.setProperty(V1, "color", BLYNK_YELLOW);
-                    }
-                  else 
-                  {
-                    RELAY_LED_V2.off();
-                    Blynk.setProperty(V1, "color", BLYNK_RED);
-                  }
-                  DEBUG_PRINTLN("Received V2 Relay command " + String(queuData) );          
-            break;      
-                  
-            case Q_EVENT_V2:
-             break;
-             
-             case Q_EVENT_V3:
-             break;
-
-            case Q_EVENT_V6:
+             case Q_EVENT_LOCALWEB_V6:
                     DEBUG_PRINTLN("Received V6 Local Web command "  ); 
                     localWebWifiOta();
             break;
 
-            case Q_EVENT_V7:
+            case Q_EVENT_GITHUB_V7:
                    otaWifiGithub= false;         
                    OtaTimeoutTimer = millis();
                    DEBUG_PRINTLN("Received V7 GIThUB OTA command "  ); 
                    OtaGithub();
             break;
  
-            case Q_EVENT_V8:
+            case Q_EVENT_REBOOT_V8:
                   rebootCmd=queuData;
                   DEBUG_PRINTLN("Received V8 REBOOT command " ); 
                   delay(1000);
                   rebootSw();
-            break;             
+            break;   
+
+            case Q_EVENT_RM_ID_01_V112 :
+                 relayCmd(V112 ,queuData);
+              break; 
+     
+
+             case Q_EVENT_RM_ID_02_V122:
+                  relayCmd(V122 ,queuData);
+              break;
+               
+             case Q_EVENT_RM_ID_03_V123:
+                  relayCmd(V123 ,queuData);
+              break;  
+             
+             case Q_EVENT_RM_ID_04_V124:
+                  relayCmd(V124 ,queuData);
+              break;  
+             
+             case Q_EVENT_RM_ID_05_V125:
+                  relayCmd(V125 ,queuData);
+              break;  
+             
+             case Q_EVENT_RM_ID_06_V126:
+                  relayCmd(V126 ,queuData);
+              break;  
+             
+             case Q_EVENT_RM_ID_07_V127:
+                  relayCmd(V127 ,queuData);
+              break;  
+             
+             case Q_EVENT_RM_ID_08_V93:
+                  relayCmd(V93 ,queuData);
+              break;  
+             
+             case Q_EVENT_RM_ID_09_V80:
+                  relayCmd(V80 ,queuData);
+              break;  
+             
+             case Q_EVENT_RM_ID_10_V21:
+             relayCmd(V21 ,queuData);
+              break;  
+             
+             case Q_EVENT_RM_ID_11_V14:
+                  relayCmd(V14 ,queuData);
+              break;  
+             
+             case Q_EVENT_RM_ID_12_V15:
+                  relayCmd(V15 ,queuData);
+              break;  
+             
+             case Q_EVENT_RM_ID_13_V23:
+                  relayCmd(V23 ,queuData);
+              break;  
+             
+             case Q_EVENT_RM_ID_14_V103:
+                  relayCmd(V112 ,queuData);
+              break;  
+             
+             case Q_EVENT_RM_ID_15_V104:
+                  relayCmd(V104 ,queuData);
+              break;  
+             
+             case Q_EVENT_RM_ID_16_V105:
+                  relayCmd(V105 ,queuData);
+              break;  
+             
+             case Q_EVENT_RM_ID_17_V90:
+                  relayCmd(V90 ,queuData);
+              break;  
+             
+             case Q_EVENT_RM_ID_18_V91:
+                  relayCmd(V91 ,queuData);
+              break;  
+             
+             case Q_EVENT_RM_ID_19_V92:
+                  relayCmd(V92 ,queuData);
+              break;  
+
+             case Q_EVENT_RM_ID_20_V100:
+                  relayCmd(V100 ,queuData);
+              break; 
           }
 }      
 
@@ -154,28 +216,12 @@ void checkBlynk() {
 
 
 
-BLYNK_WRITE(V1)
-{
-  _blynkEvent = true;
-  _blynkData = param.asInt();
-  eventdata = Q_EVENT_V1;
-  QueueSend(eventdata);
-}
-
-
-BLYNK_WRITE(V3) 
-{
-  _blynkEvent = true;
-  _blynkData = param.asInt();
-  eventdata = Q_EVENT_V3;
-  QueueSend(eventdata);
-}
 
 BLYNK_WRITE(V6) 
 {
   _blynkEvent = true;
   _blynkData = param.asInt();
-  eventdata = Q_EVENT_V6;
+  eventdata = Q_EVENT_LOCALWEB_V6;
   QueueSend(eventdata);
 }
 
@@ -183,7 +229,7 @@ BLYNK_WRITE(V7)
 {
   _blynkEvent = true;
   _blynkData = param.asInt();
-  eventdata = Q_EVENT_V7;
+  eventdata = Q_EVENT_GITHUB_V7;
   QueueSend(eventdata);
 }
 
@@ -191,7 +237,7 @@ BLYNK_WRITE(V8)
 {
   _blynkEvent = true;
   _blynkData = param.asInt();
-  eventdata = Q_EVENT_V8;
+  eventdata = Q_EVENT_REBOOT_V8;
   QueueSend(eventdata);
 }
 BLYNK_WRITE(V102)  //TERMINAL
@@ -215,6 +261,15 @@ BLYNK_WRITE(V102)  //TERMINAL
     terminal.clear();
   }
 
+  else if (String("on") == param.asStr())
+  {
+    relayOnOff (relayNumber, 1);
+  }
+  else if (String("off") == param.asStr())
+  {
+    relayOnOff (relayNumber, 0);
+  }  
+
   else {
     // Send it back
     terminal.print("You said:");
@@ -228,30 +283,197 @@ BLYNK_WRITE(V102)  //TERMINAL
 
 }
 
+/*
+Q_EVENT_RM_ID_01_V112,
+Q_EVENT_RM_ID_02_V122,
+Q_EVENT_RM_ID_03_V123, 
+Q_EVENT_RM_ID_04_V124,
+Q_EVENT_RM_ID_05_V125,
+Q_EVENT_RM_ID_06_V126,
+Q_EVENT_RM_ID_07_V127,
+Q_EVENT_RM_ID_08_V93,
+Q_EVENT_RM_ID_09_V80,
+Q_EVENT_RM_ID_10_V21, 
+Q_EVENT_RM_ID_11_V14, 
+Q_EVENT_RM_ID_12_V15,  
+Q_EVENT_RM_ID_13_V23,  
+Q_EVENT_RM_ID_14_V103,  
+Q_EVENT_RM_ID_15_V104,  
+Q_EVENT_RM_ID_16_V105,  
+Q_EVENT_RM_ID_17_V90,  
+Q_EVENT_RM_ID_18_V91,  
+Q_EVENT_RM_ID_19_V92, 
+Q_EVENT_RM_ID_20_V100,
+*/
+
+BLYNK_WRITE(V112) 
+{
+  _blynkEvent = true;
+  _blynkData = param.asInt();
+  eventdata = Q_EVENT_RM_ID_01_V112;
+  QueueSend(eventdata);
+}
+
+BLYNK_WRITE(V122) 
+{
+  _blynkEvent = true;
+  _blynkData = param.asInt();
+  eventdata = Q_EVENT_RM_ID_02_V122;
+  QueueSend(eventdata);
+}
+
+BLYNK_WRITE(V123) 
+{
+  _blynkEvent = true;
+  _blynkData = param.asInt();
+  eventdata = Q_EVENT_RM_ID_03_V123;
+  QueueSend(eventdata);
+}
+
+BLYNK_WRITE(V124) 
+{
+  _blynkEvent = true;
+  _blynkData = param.asInt();
+  eventdata = Q_EVENT_RM_ID_04_V124;
+  QueueSend(eventdata);
+}
+
+BLYNK_WRITE(V125) 
+{
+  _blynkEvent = true;
+  _blynkData = param.asInt();
+  eventdata = Q_EVENT_RM_ID_05_V125;
+  QueueSend(eventdata);
+}
+
+BLYNK_WRITE(V126) 
+{
+  _blynkEvent = true;
+  _blynkData = param.asInt();
+  eventdata = Q_EVENT_RM_ID_06_V126;
+  QueueSend(eventdata);
+}
+
+BLYNK_WRITE(V127) 
+{
+  _blynkEvent = true;
+  _blynkData = param.asInt();
+  eventdata = Q_EVENT_RM_ID_07_V127;
+  QueueSend(eventdata);
+}
+
+BLYNK_WRITE(V93) 
+{
+  _blynkEvent = true;
+  _blynkData = param.asInt();
+  eventdata = Q_EVENT_RM_ID_08_V93;
+  QueueSend(eventdata);
+}
+
+BLYNK_WRITE(V80) 
+{
+  _blynkEvent = true;
+  _blynkData = param.asInt();
+  eventdata = Q_EVENT_RM_ID_09_V80;
+  QueueSend(eventdata);
+}
+
+BLYNK_WRITE(V21) 
+{
+  _blynkEvent = true;
+  _blynkData = param.asInt();
+  eventdata = Q_EVENT_RM_ID_10_V21;
+  QueueSend(eventdata);
+}
+
+BLYNK_WRITE(V14) 
+{
+  _blynkEvent = true;
+  _blynkData = param.asInt();
+  eventdata = Q_EVENT_RM_ID_11_V14;
+  QueueSend(eventdata);
+}
+
+BLYNK_WRITE(V15) 
+{
+  _blynkEvent = true;
+  _blynkData = param.asInt();
+  eventdata = Q_EVENT_RM_ID_12_V15;
+  QueueSend(eventdata);
+}
+
+BLYNK_WRITE(V23) 
+{
+  _blynkEvent = true;
+  _blynkData = param.asInt();
+  eventdata = Q_EVENT_RM_ID_13_V23;
+  QueueSend(eventdata);
+}
+
+BLYNK_WRITE(V103) 
+{
+  _blynkEvent = true;
+  _blynkData = param.asInt();
+  eventdata = Q_EVENT_RM_ID_14_V103;
+  QueueSend(eventdata);
+}
+
+BLYNK_WRITE(V104) 
+{
+  _blynkEvent = true;
+  _blynkData = param.asInt();
+  eventdata = Q_EVENT_RM_ID_15_V104;
+  QueueSend(eventdata);
+}
+
+BLYNK_WRITE(V105) 
+{
+  _blynkEvent = true;
+  _blynkData = param.asInt();
+  eventdata = Q_EVENT_RM_ID_16_V105;
+  QueueSend(eventdata);
+}
+
+BLYNK_WRITE(V90) 
+{
+  _blynkEvent = true;
+  _blynkData = param.asInt();
+  eventdata = Q_EVENT_RM_ID_17_V90;
+  QueueSend(eventdata);
+}
+
+BLYNK_WRITE(V91) 
+{
+  _blynkEvent = true;
+  _blynkData = param.asInt();
+  eventdata = Q_EVENT_RM_ID_18_V91;
+  QueueSend(eventdata);
+}
+
+BLYNK_WRITE(V92) 
+{
+  _blynkEvent = true;
+  _blynkData = param.asInt();
+  eventdata = Q_EVENT_RM_ID_19_V92;
+  QueueSend(eventdata);
+}
+
+BLYNK_WRITE(V100) 
+{
+  _blynkEvent = true;
+  _blynkData = param.asInt();
+  eventdata = Q_EVENT_RM_ID_20_V100;
+  QueueSend(eventdata);
+}
+
+
+
+
+
 BLYNK_CONNECTED()
 {
 //    Blynk.syncVirtual(V1);
 }
-
-
-
-// --------------------------------------------------
-// Called whenever activity is detected
-// --------------------------------------------------
-void resetInactivityTimer()
-{
-    lastActivityTime = millis();
-}
-
-
-
-void SendLiveLed()
-  {
-    if (liveLed)  liveLed = false; 
-    else liveLed = true;
-    liveLedUpdate =false;
-
- }
 
 
 

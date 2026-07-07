@@ -30,7 +30,7 @@ void setup()
       timer.setInterval(blynkIntervalInterval, checkBlynk);   // check connection to server per blynkIntervalInterval
       lastActivityTime = millis();
       resetInternetLoss();
-      digitalWrite(RELAY_PIN, LOW );
+      digitalWrite(RELAY_PIN, HIGH );
 }
 
 void loop()

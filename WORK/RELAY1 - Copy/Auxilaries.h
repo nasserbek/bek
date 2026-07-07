@@ -1,49 +1,8 @@
 
 #ifndef AUX_H
 #define AUX_H
-
-
-IPAddress   BLYNK_CH_PI3(192,168,1,195);
-IPAddress   BLYNK_CH_OMV1(192,168,1,4);
-IPAddress   BLYNK_CH_OMV_PVE(192,168,1,116);
-const char* SSID_CH     ="Bbox-Bek-2.4G" ;
-const char* WIFI_PW_CH    =  "Ali09042010_";
-
-
-
-IPAddress   BLYNK_SFR(192,168,1,46);
-const char* SSID_SFR      ="SFR_BEK-23C0";
-const char* WIFI_PW_SFR     =  "ali09042010";
-
-IPAddress   BLYNK_PI4(192,168,10,195);
-const char* SSID_METEOR   ="BEK_METEOR_2.4G";
-const char* WIFI_PW_METEOR  =  "Ali09042010_";
-
-IPAddress   BLYNK_FLIP7(10,174,107,53);  //
-const char* SSID_FLIP7    ="BEK_FLIP7" ;
-const char* WIFI_PW_FLIP7   =  "ali09042010";
-
-struct NetworkConfig
-{
-    const char* ssid;
-    const char* wifiPw;
-    IPAddress server1;
-    IPAddress server2;
-    IPAddress server3;
-    uint16_t port;
-    const char* location;
-};
-
-NetworkConfig nets[] =
-{
-    {SSID_METEOR  , WIFI_PW_METEOR   , BLYNK_PI4    , BLYNK_PI4     , BLYNK_FLIP7     , 8080, "PLS"},
-    {SSID_FLIP7   , WIFI_PW_FLIP7    , BLYNK_FLIP7  , BLYNK_FLIP7   , BLYNK_FLIP7     , 8080, "MOBILE"},
-    {SSID_CH      , WIFI_PW_CH       , BLYNK_CH_PI3 , BLYNK_CH_OMV1 , BLYNK_CH_OMV_PVE, 8080, "CH"},
-    {SSID_SFR     , WIFI_PW_SFR      , BLYNK_SFR    , BLYNK_SFR     , BLYNK_SFR       , 8080, "NICE"} 
-};
-int NUM_NETWORKS = sizeof(nets) / sizeof(nets[0]);
-
-
+extern void relayCmd(int vPin, int cmd);
+#include "routers.h"
 
 uint32_t identifyBoard()
 {
@@ -181,6 +140,91 @@ bool  wifi_connect()
   return wifiConnection ;
 }
 
+void relayOnOff (int relay, int cmd)
+{
+          switch (relay)
+            {
+              case 1:
+                    relayCmd(V112 ,cmd);
+              break;
+             case 2:
+                  relayCmd(V122 ,cmd);
+              break;
+               
+             case 3:
+                  relayCmd(V123 ,cmd);
+              break;  
+             
+             case 4:
+                  relayCmd(V124 ,cmd);
+              break;  
+             
+             case 5:
+                  relayCmd(V125 ,cmd);
+              break;  
+             
+             case 6:
+                  relayCmd(V126 ,cmd);
+              break;  
+             
+             case 7:
+                  relayCmd(V127 ,cmd);
+              break;  
+             
+             case 8:
+                  relayCmd(V93 ,cmd);
+              break;  
+             
+             case 9:
+                  relayCmd(V80 ,cmd);
+              break;  
+             
+             case 10:
+             relayCmd(V21 ,cmd);
+              break;  
+             
+             case 11:
+                  relayCmd(V14 ,cmd);
+              break;  
+             
+             case 12:
+                  relayCmd(V15 ,cmd);
+              break;  
+             
+             case 13:
+                  relayCmd(V23 ,cmd);
+              break;  
+             
+             case 14:
+                  relayCmd(V112 ,cmd);
+              break;  
+             
+             case 15:
+                  relayCmd(V104 ,cmd);
+              break;  
+             
+             case 16:
+                  relayCmd(V105 ,cmd);
+              break;  
+             
+             case 17:
+                  relayCmd(V90 ,cmd);
+              break;  
+             
+             case 18:
+                  relayCmd(V91 ,cmd);
+              break;  
+             
+             case 19:
+                  relayCmd(V92 ,cmd);
+              break;  
+
+             case 20:
+                  relayCmd(V100 ,cmd);
+              break; 
+          }
+            
+}
 
 bool blynk_muliservers_connect()
 {
@@ -229,9 +273,7 @@ bool blynk_muliservers_connect()
             terminal.println("R" + String(relayNumber) + " ID" + String(chipID) + " " + WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) + " Server IP: " + servers[i].toString() + "\n");
             terminal.flush();
             Blynk.virtualWrite(V24, VERSION_ID);
-            RELAY_LED_V2.off();
-            Blynk.setProperty(V1, "color", BLYNK_BLUE);
-            Blynk.virtualWrite(V1, 0);
+            relayOnOff (relayNumber, 0);
             blynkAtiveTimer = millis();
             blynkActive = true;        // I think this should be true
             return true;
