@@ -18,7 +18,7 @@ extern uint32_t crashCount;
 extern String VERSION_ID ;
 extern const char* BLYNK_AUTH_TOKEN;
 extern int inactivityPowerOffTimer  ; //1 Hour;
-extern int inactivityRestartTimer  ; //10 Hours;
+
 extern int zapTimerSec;
 extern String VERSION_ID  ;
 extern String BOARD;
@@ -1469,7 +1469,6 @@ void blynk::SyncAll(void)
 void blynk::blynkTimers(void)
 {
   Blynk.virtualWrite(V30, inactivityPowerOffTimer);
-  Blynk.virtualWrite(V31, inactivityRestartTimer);
   Blynk.virtualWrite(V72, zapTimerSec);
 }
 
@@ -1947,31 +1946,6 @@ void blynk::BlynkButtonColours(int lastSelectedCh, int chMode)
   }
 }
 
-
-void blynk::releActiveCh(int rele, int ch)
-{
-  if (!zapSetup && !zapScanOnly)
-  {
-    switch (rele)
-    {
-      case 0:
-        Blynk.virtualWrite(V30, ch);
-        break;
-
-      case 1:
-        Blynk.virtualWrite(V31, ch);
-        break;
-
-      case 2:
-        Blynk.virtualWrite(V32, ch);
-        break;
-
-      case 3:
-        Blynk.virtualWrite(V33, ch);
-        break;
-    }
-  }
-}
 
 void blynk::Event24(void)
 {

@@ -137,7 +137,7 @@ void videoChanel(int ch, bool cmd)
       if(cmd) myBlynk.BlynkButtonColours( ch,CH_MODE_4);
       else myBlynk.BlynkButtonColours( ch,CH_MODE_0);
     }  
- //   myBlynk.releActiveCh(selected_Rx, ch);
+
 }
 
 /**************************************************ZAPPING ZONE***************************************************************/

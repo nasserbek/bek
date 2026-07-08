@@ -4,7 +4,7 @@
 #define MAINLOOP_H
 
 extern int inactivityPowerOffTimer  ; //1 Hour;
-extern int inactivityRestartTimer  ; //10 Hours;
+
 extern bool connectAWS(void);
 extern blynk myBlynk;
 extern void resetRemoteRCNoBlynk(int esp);
@@ -209,7 +209,7 @@ void processBlynkQueu(void)
             break;   
 
             case Q_EVENT_RESTART_TIMER_V31:   
-                        inactivityRestartTimer  = queuData ; //10 HourS;
+                      
             break;  
 
             case Q_EVENT_SELECTED_RECIEVER_CH_5_6_V32: 

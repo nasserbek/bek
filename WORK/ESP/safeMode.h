@@ -2,7 +2,7 @@
 #define SAFEMODE_H
 
 int inactivityPowerOffTimer  = (1L * 60UL ) ; //60 Min;
-int inactivityRestartTimer  = (10L * 60UL ) ; //600 Min;
+
 bool enableRestart  = false;
 unsigned long lastCheck = 0;
 extern uint32_t lastActivityTime;
@@ -327,7 +327,6 @@ void inactivityVideoPowerOff()
   struct tm now = printLocalTime();
   String hourMin = String(now.tm_hour) + ":" + String(now.tm_min);
   myBlynk.TerminalPrint   (hourMin +":Turning Off Video for non activity for 1 Hour.."); 
-//  myBlynk.sendNotify      (hourMin +":Turning Off Video for non activity for 1 Hour..");
   dvrOnOff (POWER_OFF);
   dvrSleep = true;  
 }
@@ -337,7 +336,6 @@ void videoPowerOnAfterSleep()
   struct tm now = printLocalTime();
   String hourMin = String(now.tm_hour) + ":" + String(now.tm_min);
   myBlynk.TerminalPrint (hourMin +":Turning On Video for activity after sleep..");  
-//  myBlynk.sendNotify    (hourMin +":Turning On Video for activity after sleep..");
   dvrOnOff (POWER_ON);
   dvrSleep = false; 
 }
@@ -349,21 +347,15 @@ void videoPowerOnAfterSleep()
 void checkDvrInactivity()
 {
   uint32_t PowerOffTimer  = (inactivityPowerOffTimer * 60UL * 1000UL) ; //inactivityPowerOffTimer in Minutes ;
-  uint32_t RestartTimer  =  (inactivityRestartTimer  * 60UL * 1000UL) ; //inactivityRestartTimer in Minutes ;
   if (millis() - lastCheck >= 1000)
     {
         lastCheck = millis();
         
         if(!blynkActive &&  !zapOnOff && !zapScanOnly)  
         {
-              if ((uint32_t)(millis() - lastActivityTime) >= PowerOffTimer &&  stateDVR == DVR_ON && !dvrSleep)//INACTIVITY_TIMEOUT_MS_POWER_OFF)
+              if ((uint32_t)(millis() - lastActivityTime) >= PowerOffTimer /* &&  stateDVR == DVR_ON */&& !dvrSleep)//INACTIVITY_TIMEOUT_MS_POWER_OFF)
               {
                   inactivityVideoPowerOff();
-              }
-              
-              if ((uint32_t)(millis() - lastActivityTime) >= RestartTimer &&  stateDVR == DVR_OFF && dvrSleep)//INACTIVITY_TIMEOUT_MS_RESTART)
-              {
-                 if(enableRestart) ESP.restart();
               }
         }
         
