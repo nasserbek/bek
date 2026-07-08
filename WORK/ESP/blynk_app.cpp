@@ -992,10 +992,10 @@ BLYNK_WRITE(V102)  //TERMINAL
   else if (String("id") == param.asStr())
   {
     uint64_t chipid = ESP.getEfuseMac();
-    terminal.println("Esp" + String(espNumber) + " Chip ID = " + String(chipid, HEX));
+    terminal.println("I'm Esp" + String(espNumber) + "- my Chip ID is " + String(chipid, HEX))+ " ******* ";
     terminal.flush();
   }
-
+ 
   else if (String("c") == param.asStr())
   {
     terminal.clear();
@@ -1012,6 +1012,10 @@ BLYNK_WRITE(V102)  //TERMINAL
 
   // Ensure everything is sent
   terminal.flush();
+  _blynkEvent = true;
+  _blynkData = param.asInt();
+  eventdata = Q_EVENT_TERMINAL_V102;
+  xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 
 }
 

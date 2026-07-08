@@ -180,39 +180,39 @@ void AvReceiverSel(int queuData)
 
 void PowerOnTuning(void)
 {
-        selected_Rx = TCA9548A_CH8;  //CH8
-        AvReceiverSel(selected_Rx+1);  
-        delay (100);
-        Av_Rx = SOLO_VIDEO; 
-        videoChanel(defaultRxCh[8], ON);
-    //    myBlynk.RelaySelect(selected_Rx+1);
-        delay (100);
-
-        selected_Rx = TCA9548A_CH7;  //CH7
-        AvReceiverSel(selected_Rx+1);  
-        delay (100);
-        Av_Rx = SOLO_VIDEO; 
-        videoChanel(defaultRxCh[7], ON);
-        //    myBlynk.RelaySelect(selected_Rx+1);
-        delay (100);
-        
-        selected_Rx = TCA9548A_CH6;  //CH6
-        AvReceiverSel(selected_Rx+1);  
-        delay (100);
-        Av_Rx = SOLO_VIDEO; 
-        videoChanel(defaultRxCh[6], ON);
-        //    myBlynk.RelaySelect(selected_Rx+1);
-        delay (100);
-
-        selected_Rx = TCA9548A_CH5;  //CH5
-        AvReceiverSel(selected_Rx+1);  
-        delay (100);
-        Av_Rx = SOLO_VIDEO; 
-        videoChanel(defaultRxCh[5], ON);
-        //    myBlynk.RelaySelect(selected_Rx+1);
-        lastSelectedCh = CH_1;  
-        delay (100);
-        
+//        selected_Rx = TCA9548A_CH8;  //CH8
+//        AvReceiverSel(selected_Rx+1);  
+//        delay (100);
+//        Av_Rx = SOLO_VIDEO; 
+//        videoChanel(defaultRxCh[8], ON);
+//    //    myBlynk.RelaySelect(selected_Rx+1);
+//        delay (100);
+//
+//        selected_Rx = TCA9548A_CH7;  //CH7
+//        AvReceiverSel(selected_Rx+1);  
+//        delay (100);
+//        Av_Rx = SOLO_VIDEO; 
+//        videoChanel(defaultRxCh[7], ON);
+//        //    myBlynk.RelaySelect(selected_Rx+1);
+//        delay (100);
+//        
+//        selected_Rx = TCA9548A_CH6;  //CH6
+//        AvReceiverSel(selected_Rx+1);  
+//        delay (100);
+//        Av_Rx = SOLO_VIDEO; 
+//        videoChanel(defaultRxCh[6], ON);
+//        //    myBlynk.RelaySelect(selected_Rx+1);
+//        delay (100);
+//
+//        selected_Rx = TCA9548A_CH5;  //CH5
+//        AvReceiverSel(selected_Rx+1);  
+//        delay (100);
+//        Av_Rx = SOLO_VIDEO; 
+//        videoChanel(defaultRxCh[5], ON);
+//        //    myBlynk.RelaySelect(selected_Rx+1);
+//        lastSelectedCh = CH_1;  
+//        delay (100);
+//        
         selected_Rx = TCA9548A_CH4;  //CH4
         AvReceiverSel(selected_Rx+1);  
         delay (100);
