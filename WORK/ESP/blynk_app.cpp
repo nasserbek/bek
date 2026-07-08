@@ -7,6 +7,7 @@
 #include <WiFiMulti.h>
 #include "routers.h"
 
+extern uint32_t lastActivityTime;
 const uint32_t DEBOUNCE_MS = 3000;
 uint32_t rebootTime = 0;
 bool lastPressTimeV6 =false  ;
@@ -462,8 +463,23 @@ void checkBlynk() {
       DEBUG_PRINT(":");
       if (seconds < 10) DEBUG_PRINT('0');
       DEBUG_PRINTLN(seconds);      
-    
     }
+
+     if(!blynkActive && !zapOnOff && !zapScanOnly &&  stateDVR == DVR_ON && !dvrSleep)  
+    {
+      uint32_t PowerOffTimer  = (inactivityPowerOffTimer * 60UL * 1000UL) ; //inactivityPowerOffTimer in Minutes 1000UL = 1 sec;
+      
+      unsigned long remainingDvr = PowerOffTimer - (millis() - lastActivityTime);
+      
+      unsigned long minutesDvr = remainingDvr / 60000;
+      unsigned long secondsDvr = (remainingDvr % 60000) / 1000;
+      
+      DEBUG_PRINT("Power Off DVR in ");
+      DEBUG_PRINT(minutesDvr);
+      DEBUG_PRINT(":");
+      if (secondsDvr < 10) DEBUG_PRINT('0');
+      DEBUG_PRINTLN(secondsDvr);      
+    }    
 }
 
 

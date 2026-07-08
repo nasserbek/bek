@@ -346,7 +346,7 @@ void videoPowerOnAfterSleep()
 
 
 //This checks once per second only.
-void restartForInactivity()
+void checkDvrInactivity()
 {
   uint32_t PowerOffTimer  = (inactivityPowerOffTimer * 60UL * 1000UL) ; //inactivityPowerOffTimer in Minutes ;
   uint32_t RestartTimer  =  (inactivityRestartTimer  * 60UL * 1000UL) ; //inactivityRestartTimer in Minutes ;

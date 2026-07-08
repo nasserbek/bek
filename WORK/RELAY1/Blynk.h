@@ -8,11 +8,14 @@ extern bool queuValidData;
 #define BLYNK_RED       "#D3435C"
 #define BLYNK_DARK_BLUE "#5F7CD8"
 
+
+
 void relayCmd(int vPin, int cmd)
 {
       digitalWrite(RELAY_PIN, cmd ? LOW : HIGH);
       Blynk.virtualWrite(vPin, cmd);
       DEBUG_PRINTLN("Received vPin" + String(vPin) + " Relay command " + String(cmd) ); 
+      relayState = (bool)cmd;
 }
 
 void processBlynkQueu(void)
@@ -37,7 +40,11 @@ void processBlynkQueu(void)
                   delay(1000);
                   rebootSw();
             break;   
-
+            
+            case Q_EVENT_DVR_OFF_TIMER_V30: 
+                        inactivityPowerOffTimer  = queuData ; //1 Hour;
+            break;
+            
             case Q_EVENT_RM_ID_01_V112 :
                  relayCmd(V112 ,queuData);
               break; 
@@ -283,28 +290,14 @@ BLYNK_WRITE(V102)  //TERMINAL
 
 }
 
-/*
-Q_EVENT_RM_ID_01_V112,
-Q_EVENT_RM_ID_02_V122,
-Q_EVENT_RM_ID_03_V123, 
-Q_EVENT_RM_ID_04_V124,
-Q_EVENT_RM_ID_05_V125,
-Q_EVENT_RM_ID_06_V126,
-Q_EVENT_RM_ID_07_V127,
-Q_EVENT_RM_ID_08_V93,
-Q_EVENT_RM_ID_09_V80,
-Q_EVENT_RM_ID_10_V21, 
-Q_EVENT_RM_ID_11_V14, 
-Q_EVENT_RM_ID_12_V15,  
-Q_EVENT_RM_ID_13_V23,  
-Q_EVENT_RM_ID_14_V103,  
-Q_EVENT_RM_ID_15_V104,  
-Q_EVENT_RM_ID_16_V105,  
-Q_EVENT_RM_ID_17_V90,  
-Q_EVENT_RM_ID_18_V91,  
-Q_EVENT_RM_ID_19_V92, 
-Q_EVENT_RM_ID_20_V100,
-*/
+
+BLYNK_WRITE(V30)   
+{
+  _blynkEvent = true;
+  _blynkData = param.asInt();
+  eventdata = Q_EVENT_DVR_OFF_TIMER_V30;
+  QueueSend(eventdata);
+}
 
 BLYNK_WRITE(V112) 
 {

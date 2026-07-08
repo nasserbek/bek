@@ -15,6 +15,10 @@
 #include <WiFiClientSecure.h>
 #include "time.h"
 
+int inactivityPowerOffTimer  = (2L * 60UL ) ; //120 Min;
+unsigned long lastCheck = 0;
+bool relayState = false;
+
 uint32_t chipID;
 
 struct RelayInfo
@@ -54,14 +58,12 @@ ESP8266WebServer server(80);
 const char* host = "esp8266";
 unsigned int BlynkServerTimeout  =  5000;  //  5s server connection timeout (SCT)
 
-bool relayState = false;
+
 bool wifiAvailable = false;
 bool  blynkActive = false;
 bool _blynkIsConnected  = false;
 bool  blynkConnected = false;
- int inactivityPowerOffTimer  ; //1 Hour;
- int inactivityRestartTimer  ; //10 Hours;
- int zapTimerSec;
+int zapTimerSec;
  
 bool _wifiIsConnected = false;
 

@@ -4,47 +4,6 @@
 extern void relayCmd(int vPin, int cmd);
 #include "routers.h"
 
-uint32_t identifyBoard()
-{
-    uint32_t myChip = ESP.getChipId();
-
-    Serial.printf("Chip ID = %06X\n", myChip);
-
-    for (int i = 0; i < sizeof(relayTable)/sizeof(relayTable[0]); i++)
-    {
-        if (relayTable[i].chipID == myChip)
-        {
-            blynkAuthToken = relayTable[i].token;
-            relayNumber = relayTable[i].relayNumber;
-
-            Serial.printf("Relay %d detected\n", relayNumber);
-            return myChip;
-        }
-    }
-
-    Serial.println("ERROR: Unknown ESP board!");
-    return 0;
-}
-
-//tm printLocalTime() {
-//
-//  struct tm timeinfo;
-//
-//  if (!getLocalTime(&timeinfo)) {
-//    DEBUG_PRINTLN("Failed to obtain time");
-//
-//    // return empty structure
-//    struct tm emptyTime = {};
-//    return emptyTime;
-//  }
-//
-//  char buf[64];
-//  strftime(buf, sizeof(buf), "%A, %B %d %Y %H:%M:%S", &timeinfo);
-//  DEBUG_PRINTLN(buf);
-//
-//  return timeinfo;
-//}
-
 tm printLocalTime()
 {
     struct tm timeinfo;
@@ -57,87 +16,6 @@ tm printLocalTime()
     }
 
     return timeinfo;
-}
-
-void getTimeDate()
-{
-    struct tm now = printLocalTime();
-    char buildTime[20];
-     
-    int day, year, hour, minute, second;
-    char monthStr[4];
-
-    sscanf(__DATE__, "%s %d %d", monthStr, &day, &year);
-    sscanf(__TIME__, "%d:%d:%d", &hour, &minute, &second);
-
-    int month = 0;
-
-    if      (strcmp(monthStr, "Jan") == 0) month = 1;
-    else if (strcmp(monthStr, "Feb") == 0) month = 2;
-    else if (strcmp(monthStr, "Mar") == 0) month = 3;
-    else if (strcmp(monthStr, "Apr") == 0) month = 4;
-    else if (strcmp(monthStr, "May") == 0) month = 5;
-    else if (strcmp(monthStr, "Jun") == 0) month = 6;
-    else if (strcmp(monthStr, "Jul") == 0) month = 7;
-    else if (strcmp(monthStr, "Aug") == 0) month = 8;
-    else if (strcmp(monthStr, "Sep") == 0) month = 9;
-    else if (strcmp(monthStr, "Oct") == 0) month = 10;
-    else if (strcmp(monthStr, "Nov") == 0) month = 11;
-    else if (strcmp(monthStr, "Dec") == 0) month = 12;
-
-    sprintf(buildTime,
-            "%02d/%02d/%02d %02d:%02d",
-            day,
-            month,
-            year % 100,
-            hour,
-            minute);
-        
-    VERSION_ID = BOARD + " " + buildTime;  
-}
-
-
-NetworkConfig* getCurrentNetwork()
-{
-    String currentSSID = WiFi.SSID();
-
-    for (int i = 0; i < NUM_NETWORKS; i++)
-    {
-        if (currentSSID == nets[i].ssid  )
-        {
-            return &nets[i];
-        }
-    }
-    return nullptr;
-}
-
-
-bool  wifi_connect()
-{
-  bool wifiConnection = false;
-  for (int i = 0; i < NUM_NETWORKS; i++)
-    {
-      wifiMulti.addAP(nets[i].ssid,nets[i].wifiPw);
-    } 
-
-  DEBUG_PRINTLN("Connecting to Wifi...");
-  //Connecting to the strongest WiFi connection
-  if (wifiMulti.run(WiFi_TIMEOUT) == WL_CONNECTED)
-  {
-    DEBUG_PRINTLN("");
-    DEBUG_PRINTLN("WiFi is connected to: " + String (WiFi.SSID() )) ;
-    DEBUG_PRINTLN("ESP Local IP address: ");
-    DEBUG_PRINTLN(WiFi.localIP());  //print IP of the connected WiFi network
-    wifiConnection = true;
-    
-  }
-  else  // if not WiFi not connected
-  {
-    DEBUG_PRINTLN("WIFI Connection Failed");  
-    wifiConnection = false;
-  }
-
-  return wifiConnection ;
 }
 
 void relayOnOff (int relay, int cmd)
@@ -225,6 +103,130 @@ void relayOnOff (int relay, int cmd)
           }
             
 }
+
+void inactivityRealyPowerOff()
+{
+  struct tm now = printLocalTime();
+  String hourMin = String(now.tm_hour) + ":" + String(now.tm_min);
+  terminal.println (hourMin +":Turning Off Relay for after 2 Hours ON.."); 
+  relayOnOff (relayNumber, 0);
+}
+
+
+//This checks once per second only.
+void checkRelayInactivity()
+{
+  uint32_t PowerOffTimer  = (inactivityPowerOffTimer * 60UL * 1000UL) ; //inactivityPowerOffTimer in Minutes ;
+  if (millis() - lastCheck >= 1000)
+    {
+        lastCheck = millis();
+        if(relayState && (uint32_t)(millis() - lastActivityTime) >= PowerOffTimer) inactivityRealyPowerOff();
+    }
+}
+
+uint32_t identifyBoard()
+{
+    uint32_t myChip = ESP.getChipId();
+
+    Serial.printf("Chip ID = %06X\n", myChip);
+
+    for (int i = 0; i < sizeof(relayTable)/sizeof(relayTable[0]); i++)
+    {
+        if (relayTable[i].chipID == myChip)
+        {
+            blynkAuthToken = relayTable[i].token;
+            relayNumber = relayTable[i].relayNumber;
+
+            Serial.printf("Relay %d detected\n", relayNumber);
+            return myChip;
+        }
+    }
+
+    Serial.println("ERROR: Unknown ESP board!");
+    return 0;
+}
+
+
+void getTimeDate()
+{
+    struct tm now = printLocalTime();
+    char buildTime[20];
+     
+    int day, year, hour, minute, second;
+    char monthStr[4];
+
+    sscanf(__DATE__, "%s %d %d", monthStr, &day, &year);
+    sscanf(__TIME__, "%d:%d:%d", &hour, &minute, &second);
+
+    int month = 0;
+
+    if      (strcmp(monthStr, "Jan") == 0) month = 1;
+    else if (strcmp(monthStr, "Feb") == 0) month = 2;
+    else if (strcmp(monthStr, "Mar") == 0) month = 3;
+    else if (strcmp(monthStr, "Apr") == 0) month = 4;
+    else if (strcmp(monthStr, "May") == 0) month = 5;
+    else if (strcmp(monthStr, "Jun") == 0) month = 6;
+    else if (strcmp(monthStr, "Jul") == 0) month = 7;
+    else if (strcmp(monthStr, "Aug") == 0) month = 8;
+    else if (strcmp(monthStr, "Sep") == 0) month = 9;
+    else if (strcmp(monthStr, "Oct") == 0) month = 10;
+    else if (strcmp(monthStr, "Nov") == 0) month = 11;
+    else if (strcmp(monthStr, "Dec") == 0) month = 12;
+
+    sprintf(buildTime,
+            "%02d/%02d/%02d %02d:%02d",
+            day,
+            month,
+            year % 100,
+            hour,
+            minute);
+        
+    VERSION_ID = BOARD + " " + buildTime;  
+}
+
+
+NetworkConfig* getCurrentNetwork()
+{
+    String currentSSID = WiFi.SSID();
+
+    for (int i = 0; i < NUM_NETWORKS; i++)
+    {
+        if (currentSSID == nets[i].ssid  )
+        {
+            return &nets[i];
+        }
+    }
+    return nullptr;
+}
+
+
+bool  wifi_connect()
+{
+  bool wifiConnection = false;
+  for (int i = 0; i < NUM_NETWORKS; i++)
+    {
+      wifiMulti.addAP(nets[i].ssid,nets[i].wifiPw);
+    } 
+
+  DEBUG_PRINTLN("Connecting to Wifi...");
+  //Connecting to the strongest WiFi connection
+  if (wifiMulti.run(WiFi_TIMEOUT) == WL_CONNECTED)
+  {
+    DEBUG_PRINTLN("");
+    DEBUG_PRINTLN("WiFi is connected to: " + String (WiFi.SSID() )) ;
+    DEBUG_PRINTLN("ESP Local IP address: ");
+    DEBUG_PRINTLN(WiFi.localIP());  //print IP of the connected WiFi network
+    wifiConnection = true;
+    
+  }
+  else  // if not WiFi not connected
+  {
+    DEBUG_PRINTLN("WIFI Connection Failed");  
+    wifiConnection = false;
+  }
+  return wifiConnection ;
+}
+
 
 bool blynk_muliservers_connect()
 {
