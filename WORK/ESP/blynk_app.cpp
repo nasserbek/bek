@@ -989,6 +989,11 @@ BLYNK_WRITE(V102)  //TERMINAL
     terminal.flush();
   }
 
+  else if (String("w") == param.asStr()) 
+  {
+    terminal.println( WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) + "\n");
+  } 
+  
   else if (String("id") == param.asStr())
   {
     uint64_t chipid = ESP.getEfuseMac();
