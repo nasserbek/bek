@@ -15,7 +15,7 @@ void relayCmd(int vPin, int cmd)
       digitalWrite(RELAY_PIN, cmd ? HIGH : LOW);
       Blynk.virtualWrite(vPin, cmd);
       DEBUG_PRINTLN("Received vPin" + String(vPin) + " Relay command " + String(cmd) ); 
-      relayState = (bool)cmd;
+      relayState = digitalRead(RELAY_PIN);
 }
 
 void processBlynkQueu(void)

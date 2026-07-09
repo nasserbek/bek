@@ -116,7 +116,8 @@ void inactivityRealyPowerOff()
 //This checks once per second only.
 void checkRelayInactivity()
 {
-  uint32_t PowerOffTimer  = (inactivityPowerOffTimer * 60UL * 1000UL) ; //inactivityPowerOffTimer in Minutes ;
+  relayState = digitalRead(RELAY_PIN);
+  uint32_t PowerOffTimer  = (inactivityPowerOffTimer * 60UL * 1000UL) ; //2 hours inactivityPowerOffTimer in Minutes ;
   if (millis() - lastCheck >= 1000)
     {
         lastCheck = millis();
