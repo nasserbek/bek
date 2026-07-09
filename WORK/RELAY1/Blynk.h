@@ -12,7 +12,7 @@ extern bool queuValidData;
 
 void relayCmd(int vPin, int cmd)
 {
-      digitalWrite(RELAY_PIN, cmd ? LOW : HIGH);
+      digitalWrite(RELAY_PIN, cmd ? HIGH : LOW);
       Blynk.virtualWrite(vPin, cmd);
       DEBUG_PRINTLN("Received vPin" + String(vPin) + " Relay command " + String(cmd) ); 
       relayState = (bool)cmd;
@@ -253,16 +253,19 @@ BLYNK_WRITE(V102)  //TERMINAL
   if (String("Marco") == param.asStr()) {
     terminal.println("You said: 'Marco'") ;
     terminal.println("I said: 'Polo'") ;
-    terminal.flush();
   }
 
   else if (String("id") == param.asStr())
   {
-    terminal.println("R" + String(relayNumber) + " ID" + String(chipID));
+    terminal.println("I'm Relay Nr." + String(relayNumber) + " ID" + String(chipID));
     terminal.println( WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) + "\n");
-    terminal.flush();
   }
 
+  else if (String("w") == param.asStr()) 
+  {
+    terminal.println( WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) + "\n");
+  } 
+  
   else if (String("c") == param.asStr())
   {
     terminal.clear();
