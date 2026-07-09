@@ -1,7 +1,7 @@
 
 #ifndef AUX_H
 #define AUX_H
-extern void relayCmd(int vPin, int cmd);
+extern void relayCmd(int vPin, bool cmd);
 #include "routers.h"
 
 tm printLocalTime()
@@ -18,7 +18,7 @@ tm printLocalTime()
     return timeinfo;
 }
 
-void relayOnOff (int relay, int cmd)
+void relayOnOff (int relay, bool cmd)
 {
           switch (relay)
             {
@@ -109,7 +109,7 @@ void inactivityRealyPowerOff()
   struct tm now = printLocalTime();
   String hourMin = String(now.tm_hour) + ":" + String(now.tm_min);
   terminal.println (hourMin +":Turning Off Relay for after 2 Hours ON.."); 
-  relayOnOff (relayNumber, OFF);
+  relayOnOff (relayNumber, LOW);
 }
 
 
@@ -121,7 +121,7 @@ void checkRelayInactivity()
   if (millis() - lastCheck >= 1000)
     {
         lastCheck = millis();
-        if(relayState && (uint32_t)(millis() - lastActivityTime) >= PowerOffTimer) inactivityRealyPowerOff();
+        if(relayState == HIGH && (uint32_t)(millis() - lastActivityTime) >= PowerOffTimer) inactivityRealyPowerOff();
     }
 }
 

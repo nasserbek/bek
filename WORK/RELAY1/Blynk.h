@@ -10,9 +10,9 @@ extern bool queuValidData;
 
 
 
-void relayCmd(int vPin, int cmd)
+void relayCmd(int vPin, bool cmd)
 {
-      digitalWrite(RELAY_PIN, cmd ? HIGH : LOW);
+      digitalWrite(RELAY_PIN, cmd ? LOW : HIGH);
       Blynk.virtualWrite(vPin, cmd);
       DEBUG_PRINTLN("Received vPin" + String(vPin) + " Relay command " + String(cmd) ); 
       relayState = digitalRead(RELAY_PIN);
@@ -20,7 +20,7 @@ void relayCmd(int vPin, int cmd)
 
 void processBlynkQueu(void)
 {
-     switch (queuDataID)
+     switch ( queuDataID)
           {
              case Q_EVENT_LOCALWEB_V6:
                     DEBUG_PRINTLN("Received V6 Local Web command "  ); 
@@ -46,84 +46,84 @@ void processBlynkQueu(void)
             break;
             
             case Q_EVENT_RM_ID_01_V112 :
-                 relayCmd(V112 ,queuData);
+                 relayCmd(V112 ,(bool)queuData);
               break; 
      
 
              case Q_EVENT_RM_ID_02_V122:
-                  relayCmd(V122 ,queuData);
+                  relayCmd(V122 ,(bool) queuData);
               break;
                
              case Q_EVENT_RM_ID_03_V123:
-                  relayCmd(V123 ,queuData);
+                  relayCmd(V123 ,(bool)queuData);
               break;  
              
              case Q_EVENT_RM_ID_04_V124:
-                  relayCmd(V124 ,queuData);
+                  relayCmd(V124 ,(bool)queuData);
               break;  
              
              case Q_EVENT_RM_ID_05_V125:
-                  relayCmd(V125 ,queuData);
+                  relayCmd(V125 ,(bool)queuData);
               break;  
              
              case Q_EVENT_RM_ID_06_V126:
-                  relayCmd(V126 ,queuData);
+                  relayCmd(V126 ,(bool)queuData);
               break;  
              
              case Q_EVENT_RM_ID_07_V127:
-                  relayCmd(V127 ,queuData);
+                  relayCmd(V127 ,(bool)queuData);
               break;  
              
              case Q_EVENT_RM_ID_08_V93:
-                  relayCmd(V93 ,queuData);
+                  relayCmd(V93 ,(bool)queuData);
               break;  
              
              case Q_EVENT_RM_ID_09_V80:
-                  relayCmd(V80 ,queuData);
+                  relayCmd(V80 ,(bool)queuData);
               break;  
              
              case Q_EVENT_RM_ID_10_V21:
-             relayCmd(V21 ,queuData);
+             relayCmd(V21 ,(bool)queuData);
               break;  
              
              case Q_EVENT_RM_ID_11_V14:
-                  relayCmd(V14 ,queuData);
+                  relayCmd(V14 ,(bool)queuData);
               break;  
              
              case Q_EVENT_RM_ID_12_V15:
-                  relayCmd(V15 ,queuData);
+                  relayCmd(V15 ,(bool)queuData);
               break;  
              
              case Q_EVENT_RM_ID_13_V23:
-                  relayCmd(V23 ,queuData);
+                  relayCmd(V23 ,(bool)queuData);
               break;  
              
              case Q_EVENT_RM_ID_14_V103:
-                  relayCmd(V112 ,queuData);
+                  relayCmd(V112 ,(bool)queuData);
               break;  
              
              case Q_EVENT_RM_ID_15_V104:
-                  relayCmd(V104 ,queuData);
+                  relayCmd(V104 ,(bool)queuData);
               break;  
              
              case Q_EVENT_RM_ID_16_V105:
-                  relayCmd(V105 ,queuData);
+                  relayCmd(V105 ,(bool)queuData);
               break;  
              
              case Q_EVENT_RM_ID_17_V90:
-                  relayCmd(V90 ,queuData);
+                  relayCmd(V90 ,(bool)queuData);
               break;  
              
              case Q_EVENT_RM_ID_18_V91:
-                  relayCmd(V91 ,queuData);
+                  relayCmd(V91 ,(bool)queuData);
               break;  
              
              case Q_EVENT_RM_ID_19_V92:
-                  relayCmd(V92 ,queuData);
+                  relayCmd(V92 ,(bool)queuData);
               break;  
 
              case Q_EVENT_RM_ID_20_V100:
-                  relayCmd(V100 ,queuData);
+                  relayCmd(V100 ,(bool)queuData);
               break; 
           }
 }      
@@ -273,11 +273,11 @@ BLYNK_WRITE(V102)  //TERMINAL
 
   else if (String("on") == param.asStr())
   {
-    relayOnOff (relayNumber, ON);
+    relayOnOff (relayNumber, LOW);
   }
   else if (String("off") == param.asStr())
   {
-    relayOnOff (relayNumber, OFF);
+    relayOnOff (relayNumber, HIGH);
   }  
 
   else {
