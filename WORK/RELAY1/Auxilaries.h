@@ -109,7 +109,7 @@ void inactivityRealyPowerOff()
   struct tm now = printLocalTime();
   String hourMin = String(now.tm_hour) + ":" + String(now.tm_min);
   terminal.println (hourMin +":Turning Off Relay for after 2 Hours ON.."); 
-  relayOnOff (relayNumber, 0);
+  relayOnOff (relayNumber, OFF);
 }
 
 
@@ -276,7 +276,6 @@ bool blynk_muliservers_connect()
             terminal.println("R" + String(relayNumber) + " ID" + String(chipID) + " " + WiFi.SSID() + " " + "IP:" + WiFi.localIP().toString() + " WiFi RSSI: " + String (WiFi.RSSI()) + " Server IP: " + servers[i].toString() + "\n");
             terminal.flush();
             Blynk.virtualWrite(V24, VERSION_ID);
-            relayOnOff (relayNumber, 0);
             blynkAtiveTimer = millis();
             blynkActive = true;        // I think this should be true
             return true;

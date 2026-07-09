@@ -273,11 +273,11 @@ BLYNK_WRITE(V102)  //TERMINAL
 
   else if (String("on") == param.asStr())
   {
-    relayOnOff (relayNumber, 1);
+    relayOnOff (relayNumber, ON);
   }
   else if (String("off") == param.asStr())
   {
-    relayOnOff (relayNumber, 0);
+    relayOnOff (relayNumber, OFF);
   }  
 
   else {
