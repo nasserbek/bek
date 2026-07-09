@@ -110,7 +110,7 @@ void inactivityRealyPowerOff(bool relaySt)
   String hourMin = String(now.tm_hour) + ":" + String(now.tm_min);
   if(relaySt)terminal.println (hourMin +":Turning Off Relay for after 2 Hours of Realy ON and DVR Off.."); 
   if(!relaySt)terminal.println (hourMin +":Turning On Relay for after 2 Hours od Realy Off and DVR On.."); 
-  relayOnOff (relayNumber, !relaySt);
+  relayOnOff (relayNumber,  relaySt);
   lastActivityTime    = millis();
 }
 

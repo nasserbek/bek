@@ -10,8 +10,8 @@ extern bool queuValidData;
 #define DVR_ON_COLOR   "#23C48E"   // Green
 #define DVR_OFF_COLOR  "#9E9E9E"   // Gray
 
-
-void relayCmd(int vPin, bool cmd)
+//CMD 1 RELAY PIN LOW RELAY OFF DVR ON          CMD 0 RELAY PIN HIGH RELAY ON DVR OFF
+void relayCmd(int vPin, bool cmd)  
 {
       digitalWrite(RELAY_PIN, cmd ? LOW : HIGH);
       DEBUG_PRINTLN("Received vPin" + String(vPin) + " Relay command " + String(cmd) ); 
@@ -229,7 +229,7 @@ void checkBlynk() {
     uint32_t PowerOffTimer  = (inactivityPowerOffTimer * 60UL * 1000UL) ; //inactivityPowerOffTimer in Minutes 1000UL = 1 sec;
     relayState = digitalRead(RELAY_PIN); 
     DEBUG_PRINTLN("relayState "+ String (relayState));
-    if(relayState == HIGH )
+    if(relayState == LOW )  //RELAY ON DVR OFF
     {
       unsigned long remainingDvr = PowerOffTimer - (millis() - lastActivityTime);
       
@@ -242,7 +242,7 @@ void checkBlynk() {
       if (secondsDvr < 10) DEBUG_PRINT('0');
       DEBUG_PRINTLN(secondsDvr);      
     }  
-    else if (relayState == LOW && !blynkActive ) 
+    else if (relayState == HIGH && !blynkActive )  //RELAY OFF DVR ON
     {
       unsigned long remainingDvr = PowerOffTimer - (millis() - lastActivityTime);
       
