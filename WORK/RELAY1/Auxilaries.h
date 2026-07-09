@@ -74,7 +74,7 @@ void relayOnOff (int relay, bool cmd)
               break;  
              
              case 14:
-                  relayCmd(V112 ,cmd);
+                  relayCmd(V103 ,cmd);
               break;  
              
              case 15:
@@ -104,12 +104,14 @@ void relayOnOff (int relay, bool cmd)
             
 }
 
-void inactivityRealyPowerOff()
+void inactivityRealyPowerOff(bool relaySt)
 {
   struct tm now = printLocalTime();
   String hourMin = String(now.tm_hour) + ":" + String(now.tm_min);
-  terminal.println (hourMin +":Turning Off Relay for after 2 Hours ON.."); 
-  relayOnOff (relayNumber, LOW);
+  if(relaySt)terminal.println (hourMin +":Turning Off Relay for after 2 Hours of Realy ON and DVR Off.."); 
+  if(!relaySt)terminal.println (hourMin +":Turning On Relay for after 2 Hours od Realy Off and DVR On.."); 
+  relayOnOff (relayNumber, !relaySt);
+  lastActivityTime    = millis();
 }
 
 
@@ -121,7 +123,8 @@ void checkRelayInactivity()
   if (millis() - lastCheck >= 1000)
     {
         lastCheck = millis();
-        if(relayState == HIGH && (uint32_t)(millis() - lastActivityTime) >= PowerOffTimer) inactivityRealyPowerOff();
+        if(relayState == HIGH && (uint32_t)(millis() - lastActivityTime) >= PowerOffTimer) inactivityRealyPowerOff(relayState);
+        else if (relayState == LOW && !blynkActive &&(uint32_t)(millis() - lastActivityTime) >= PowerOffTimer) inactivityRealyPowerOff(relayState);
     }
 }
 

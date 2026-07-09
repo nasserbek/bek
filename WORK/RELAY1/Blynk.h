@@ -7,14 +7,20 @@ extern bool queuValidData;
 #define BLYNK_YELLOW    "#ED9D00"
 #define BLYNK_RED       "#D3435C"
 #define BLYNK_DARK_BLUE "#5F7CD8"
-
+#define DVR_ON_COLOR   "#23C48E"   // Green
+#define DVR_OFF_COLOR  "#9E9E9E"   // Gray
 
 
 void relayCmd(int vPin, bool cmd)
 {
       digitalWrite(RELAY_PIN, cmd ? LOW : HIGH);
-      Blynk.virtualWrite(vPin, !cmd);
       DEBUG_PRINTLN("Received vPin" + String(vPin) + " Relay command " + String(cmd) ); 
+      
+     
+      Blynk.virtualWrite(vPin,  cmd );
+      if(cmd == LOW)Blynk.setProperty(vPin, "onBackColor", DVR_ON_COLOR  ); // Green
+      else Blynk.setProperty(vPin, "offBackColor", DVR_OFF_COLOR); // Red
+      
       relayState = digitalRead(RELAY_PIN);
 }
 
@@ -99,7 +105,7 @@ void processBlynkQueu(void)
               break;  
              
              case Q_EVENT_RM_ID_14_V103:
-                  relayCmd(V112 ,(bool)queuData);
+                  relayCmd(V103 ,(bool)queuData);
               break;  
              
              case Q_EVENT_RM_ID_15_V104:
@@ -143,7 +149,7 @@ void blynkLoop(void)
                   {
                     blynk_getData();
                     queuData = blynkData; 
-                    DEBUG_PRINTLN("queuDataID   " + String(queuDataID) );          
+                    DEBUG_PRINTLN("Recieved queuData: " + String(queuData) );          
                     processBlynkQueu(); 
                   }
             resetInternetLoss();
@@ -219,6 +225,37 @@ void checkBlynk() {
       DEBUG_PRINTLN(seconds);      
     
     }
+    
+    uint32_t PowerOffTimer  = (inactivityPowerOffTimer * 60UL * 1000UL) ; //inactivityPowerOffTimer in Minutes 1000UL = 1 sec;
+    relayState = digitalRead(RELAY_PIN); 
+    DEBUG_PRINTLN("relayState "+ String (relayState));
+    if(relayState == HIGH )
+    {
+      unsigned long remainingDvr = PowerOffTimer - (millis() - lastActivityTime);
+      
+      unsigned long minutesDvr = remainingDvr / 60000;
+      unsigned long secondsDvr = (remainingDvr % 60000) / 1000;
+      
+      DEBUG_PRINT("Power Off Relay in ");
+      DEBUG_PRINT(minutesDvr);
+      DEBUG_PRINT(":");
+      if (secondsDvr < 10) DEBUG_PRINT('0');
+      DEBUG_PRINTLN(secondsDvr);      
+    }  
+    else if (relayState == LOW && !blynkActive ) 
+    {
+      unsigned long remainingDvr = PowerOffTimer - (millis() - lastActivityTime);
+      
+      unsigned long minutesDvr = remainingDvr / 60000;
+      unsigned long secondsDvr = (remainingDvr % 60000) / 1000;
+      
+      DEBUG_PRINT("Power On Relay in ");
+      DEBUG_PRINT(minutesDvr);
+      DEBUG_PRINT(":");
+      if (secondsDvr < 10) DEBUG_PRINT('0');
+      DEBUG_PRINTLN(secondsDvr);      
+    }      
+    
 }
 
 
