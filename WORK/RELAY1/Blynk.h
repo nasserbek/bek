@@ -13,7 +13,7 @@ extern bool queuValidData;
 void relayCmd(int vPin, bool cmd)
 {
       digitalWrite(RELAY_PIN, cmd ? LOW : HIGH);
-      Blynk.virtualWrite(vPin, cmd);
+      Blynk.virtualWrite(vPin, !cmd);
       DEBUG_PRINTLN("Received vPin" + String(vPin) + " Relay command " + String(cmd) ); 
       relayState = digitalRead(RELAY_PIN);
 }
