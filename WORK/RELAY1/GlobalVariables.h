@@ -14,7 +14,7 @@
 #include <ESP8266HTTPClient.h>
 #include <WiFiClientSecure.h>
 #include "time.h"
-
+WidgetLED LIVE_LED_V121(V121); 
 int inactivityPowerOffTimer  = (2L * 60UL ) ; //120 Min;
 unsigned long lastCheck = 0;
 bool relayState = false;

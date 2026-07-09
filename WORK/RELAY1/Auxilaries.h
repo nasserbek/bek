@@ -281,6 +281,7 @@ bool blynk_muliservers_connect()
             Blynk.virtualWrite(V24, VERSION_ID);
             blynkAtiveTimer = millis();
             blynkActive = true;        // I think this should be true
+            LIVE_LED_V121.on();
             return true;
         }
 
@@ -319,15 +320,6 @@ void resetInternetLoss()
       routerResetTimer        = millis();
 }
 
-void blynkRunTimer()
-{
-  timer.run();
-  if ( (  (millis() - blynkAtiveTimer) >=  BLYNK_ACTIVE_TIMEOUT ) && blynkActive )
-  {
-    blynkActive = false; 
-    blynkAtiveTimer     = millis();
-  }
-}
 
 bool QueueSend(int value)
 {

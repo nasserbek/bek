@@ -1,5 +1,6 @@
 #ifndef BLYNK_APP_H
 #define BLYNK_APP_H
+  
 
 extern bool queuValidData;
 #define BLYNK_GREEN     "#23C48E"
@@ -148,6 +149,7 @@ void blynkLoop(void)
             if(queuValidData) 
                   {
                     blynk_getData();
+                    LIVE_LED_V121.setColor(BLYNK_GREEN);
                     queuData = blynkData; 
                     DEBUG_PRINTLN("Recieved queuData: " + String(queuData) );          
                     processBlynkQueu(); 
@@ -164,7 +166,14 @@ void blynkLoop(void)
             resetNetgeerAfterInternetLossTimer = millis();
             blynkEvent=false; 
           }
-       blynkRunTimer();
+  
+    timer.run();
+    if ( (  (millis() - blynkAtiveTimer) >=  BLYNK_ACTIVE_TIMEOUT ) && blynkActive )
+    {
+      blynkActive = false; 
+      blynkAtiveTimer     = millis();
+      LIVE_LED_V121.setColor(BLYNK_RED);
+    }
 }
 
 
