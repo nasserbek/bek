@@ -144,7 +144,7 @@ void processBlynkQueu(void)
                   AvReceiverSel(queuData);
                   videoplayerCh = "ch0" + String(queuData);
                   myBlynk.streamSelect(videoplayerCh);
-                  if(ActiveBoard == ESP2) selectRelay(selected_Rx);
+                  if(ActiveBoard == ESP4) selectRelay(selected_Rx);
 
            break;
  
@@ -217,7 +217,7 @@ void processBlynkQueu(void)
                       AvReceiverSel(queuData+4);
                       videoplayerCh = "ch0" + String(queuData+4);
                       myBlynk.streamSelect(videoplayerCh);
-                      if(ActiveBoard == ESP2)  selectRelay(selected_Rx);
+                      if(ActiveBoard == ESP4)  selectRelay(selected_Rx);
 
                       
             break;   

@@ -245,7 +245,7 @@ void PowerOnTuning(void)
         myBlynk.RelaySelect(selected_Rx+1);
         lastSelectedCh = CH_1;
         
-        if(ActiveBoard == ESP2)  selectRelay(TCA9548A_CH1);
+        if(ActiveBoard == ESP4)  selectRelay(TCA9548A_CH1);
               
 }      
 

@@ -282,12 +282,6 @@ NetworkConfig* getCurrentNetwork()
 
 bool  wifi_connect()
 {
-//  #if defined TESTING
-//  NUM_NETWORKS = sizeof(nets) / sizeof(nets[0]);
-//#else
-//  NUM_NETWORKS = 1;
-//#endif
-
   bool wifiConnection = false;
   for (int i = 0; i < NUM_NETWORKS; i++)
     {
@@ -375,21 +369,46 @@ bool blynk_connect()
 }
 
 /*********************************************************************************************************************/
-
+ 
 bool checkInternet()
 {
-WiFiClient client;
-IPAddress ip;
-    if (WiFi.hostByName("raw.githubusercontent.com", ip))
-    {
-        DEBUG_PRINT("DNS success - GitHub IP: ");
-        DEBUG_PRINTLN(ip);
-    }
-    else
-    {
-        DEBUG_PRINTLN("DNS FAILED");
-    }
-    
+ WiFiClient client;
+
+//IPAddress ip;
+//Serial.print("IP      : "); Serial.println(WiFi.localIP());
+//Serial.print("Gateway : "); Serial.println(WiFi.gatewayIP());
+//Serial.print("DNS     : "); Serial.println(WiFi.dnsIP());
+//Serial.println(WiFi.status());
+//
+
+//
+////Serial.println("Testing TCP...");
+////
+////Serial.printf("github.com:80 = %d\n", client.connect("github.com", 80));
+////client.stop();
+////
+////Serial.printf("google.com:80 = %d\n", client.connect("google.com", 80));
+////client.stop();
+////
+////Serial.printf("example.com:80 = %d\n", client.connect("example.com", 80));
+////client.stop();
+////
+////Serial.printf("192.168.10.1:80 = %d\n", client.connect(IPAddress(192,168,10,1), 80));
+////client.stop();
+//
+//    if (WiFi.hostByName("raw.githubusercontent.com", ip))
+//    {
+//        DEBUG_PRINT("DNS success - GitHub IP: ");
+//        DEBUG_PRINTLN(ip);
+//    }
+//    else
+//    {
+//        DEBUG_PRINTLN("DNS FAILED");
+//    }
+//   
+
+
+ 
   if (client.connect("1.1.1.1", 80))
   {
       DEBUG_PRINTLN("Internet OK");
