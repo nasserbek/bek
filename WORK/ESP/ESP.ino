@@ -8,17 +8,25 @@ void setup()
 {
      Serial.begin(115200);
      
-     initWDG(MIN_5,EN);
+      initWDG(MIN_5,EN);
      
-     createHandleGroup();
+      createHandleGroup();
 
-     looadRoomData();     
+      looadRoomData();     
 
-     safeModeCheck();
-
-     i2cSetup();
-     mySwitch.enableTransmit(RC_TX_PIN);  
-     
+      gpioSetup();
+      wifiAvailable = myBlynk.wifi_init();
+      getTimeDate();
+      
+       blynkConnected = blynkInit();
+       myBlynk.blynkTimers();
+       
+       timersMillis();    
+       DEBUG_PRINT("Version: ");     DEBUG_PRINTLN(VERSION_ID);
+       resetInactivityTimer();
+  
+       i2cSetup();
+       mySwitch.enableTransmit(RC_TX_PIN);  
 }
 
 

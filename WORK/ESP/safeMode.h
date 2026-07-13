@@ -217,8 +217,8 @@ void checkCrashCounter()
 void activateLocalWifiWeb()
 {
        wifiWebUpdater = false;
-       crashCount = 0;
-       saveCrashCount();
+//       crashCount = 0;
+//       saveCrashCount();
        OtaTimeoutTimer = millis();
        localWebWifiOta ();  
 }
@@ -226,8 +226,8 @@ void activateLocalWifiWeb()
 void activateWifiIde()
 {
                  wifiIde = false;  
-                 crashCount = 0;
-                 saveCrashCount();       
+//                 crashCount = 0;
+//                 saveCrashCount();       
                  OtaTimeoutTimer = millis();
                  ArduinoIdeWifi();  
 }

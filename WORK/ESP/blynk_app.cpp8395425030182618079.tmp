@@ -280,40 +280,6 @@ NetworkConfig* getCurrentNetwork()
     return nullptr;
 }
 
-bool  wifi_connect()
-{
-//  #if defined TESTING
-//  NUM_NETWORKS = sizeof(nets) / sizeof(nets[0]);
-//#else
-//  NUM_NETWORKS = 1;
-//#endif
-
-  bool wifiConnection = false;
-  for (int i = 0; i < NUM_NETWORKS; i++)
-    {
-      wifiMulti.addAP(nets[i].ssid,nets[i].wifiPw);
-    } 
-
-  DEBUG_PRINTLN("Connecting to Wifi...");
-  //Connecting to the strongest WiFi connection
-  if (wifiMulti.run(WiFi_TIMEOUT) == WL_CONNECTED)
-  {
-    DEBUG_PRINTLN("");
-    DEBUG_PRINTLN("WiFi is connected to: " + String (WiFi.SSID() )) ;
-    DEBUG_PRINTLN("ESP Local IP address: ");
-    DEBUG_PRINTLN(WiFi.localIP());  //print IP of the connected WiFi network
-    wifiConnection = true;
-  }
-  else  // if not WiFi not connected
-  {
-    DEBUG_PRINTLN("WIFI Connection Failed");  
-    wifiConnection = false;
-  }
-
-  return wifiConnection ;
-}
-
-
 bool blynk_connect()
 {
     NetworkConfig* net = getCurrentNetwork();
@@ -366,8 +332,7 @@ bool blynk_connect()
             return true;
         }
 
-        DEBUG_PRINTLN("Connection Failed, restarting Wifi to get another SSID");
-        wifiAvailable  = wifi_connect(); 
+        DEBUG_PRINTLN("Connection Failed");
     }
 
     DEBUG_PRINTLN("No Blynk server available");
@@ -382,7 +347,7 @@ WiFiClient client;
 IPAddress ip;
     if (WiFi.hostByName("raw.githubusercontent.com", ip))
     {
-        DEBUG_PRINT("DNS success - GitHub IP: ");
+        DEBUG_PRINT("DNS  Succes - GitHub IP: ");
         DEBUG_PRINTLN(ip);
     }
     else
@@ -405,6 +370,38 @@ IPAddress ip;
 
 
 
+bool  wifi_connect()
+{
+//  #if defined TESTING
+//  NUM_NETWORKS = sizeof(nets) / sizeof(nets[0]);
+//#else
+//  NUM_NETWORKS = 1;
+//#endif
+
+  bool wifiConnection = false;
+  for (int i = 0; i < NUM_NETWORKS; i++)
+    {
+      wifiMulti.addAP(nets[i].ssid,nets[i].wifiPw);
+    } 
+
+  DEBUG_PRINTLN("Connecting to Wifi...");
+  //Connecting to the strongest WiFi connection
+  if (wifiMulti.run(WiFi_TIMEOUT) == WL_CONNECTED)
+  {
+    DEBUG_PRINTLN("");
+    DEBUG_PRINTLN("WiFi is connected to: " + String (WiFi.SSID() )) ;
+    DEBUG_PRINTLN("ESP Local IP address: ");
+    DEBUG_PRINTLN(WiFi.localIP());  //print IP of the connected WiFi network
+    wifiConnection = true;
+  }
+  else  // if not WiFi not connected
+  {
+    DEBUG_PRINTLN("WIFI Connection Failed");  
+    wifiConnection = false;
+  }
+
+  return wifiConnection ;
+}
 
 
 void checkBlynk() {
@@ -431,8 +428,8 @@ void checkBlynk() {
                  AvRxIndex(Av_Rx);
                  chSelect("ch01");
                  versionBlynk(VERSION_ID);
-            //     loadCrashCount();
-                 terminalSend (VERSION_ID  );
+                 loadCrashCount();
+                 terminalSend (VERSION_ID + " " + String(crashCount) + " Craches" );
               }
         else DEBUG_PRINTLN("Unable to connect to Blynk server. ");
         break;
@@ -1275,7 +1272,6 @@ bool blynk::getData()
     _blynkEvent = false;
     blynkActive = true;
     blynkAtiveTimer     = millis();
-    lastActivityTime    = millis();
     hmi = BLYNK;
     LiveSec = LiveMin = LiveHour = 0;
     resetInactivityTimer();

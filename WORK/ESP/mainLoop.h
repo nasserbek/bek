@@ -116,24 +116,24 @@ void processBlynkQueu(void)
 
             case Q_EVENT_OTA_LOCAL_WEB_WIFI_V6:
                      wifiWebUpdater = false;
-                     crashCount = 0;
-                     saveCrashCount();
+//                     crashCount = 0;
+//                     saveCrashCount();
                      OtaTimeoutTimer = millis();
                      localWebWifiOta ();
             break;
 
             case Q_EVENT_OTA_GITHUB_V7:
                    otaWifiGithub= false;         
-                   crashCount = 0;
-                   saveCrashCount();
+//                   crashCount = 0;
+//                   saveCrashCount();
                    OtaTimeoutTimer = millis();
                    OtaGithub();
             break;
  
             case Q_EVENT_REBOOT_V8:
                   rebootCmd=queuData;
-                  crashCount = 0;
-                  saveCrashCount();
+//                  crashCount = 0;
+//                  saveCrashCount();
                   delay(1000);
                   myBlynk.TerminalPrint("Rebooting the ESP.......");
                   rebootSw();
@@ -154,8 +154,8 @@ void processBlynkQueu(void)
 
             case Q_EVENT_WIFI_IDE_V11:
                  wifiIde = false;  
-                 crashCount = 0;
-                 saveCrashCount();       
+//                 crashCount = 0;
+//                 saveCrashCount();       
                  OtaTimeoutTimer = millis();
                  ArduinoIdeWifi();
             break;            

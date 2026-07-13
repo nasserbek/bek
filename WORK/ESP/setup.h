@@ -24,10 +24,10 @@ struct ESPInfo {
 
 ESPInfo espTable[] =
 {
-  {0xD5AD0F,  "2NVzjDY96Cbam0_TxJqTVSsgI7LgWq0_", 1},
-  {0xD5C2FB,  "n77QtZp08I7AOG8AcCpBhxJle1S6GXa0", 2},
-  {0x208E6FDF948C, "lsH8XwzGGUUneZTqYMN-5_hfx8YepjjY", 3},
-  {0x80AB6FDF948C,  "R45hOtUvRUsELLwghdmLxGO8AJsci0Z5", 4},
+  {0x208E6FDF948C, "lsH8XwzGGUUneZTqYMN-5_hfx8YepjjY", 1},
+  {0x80AB6FDF948C,  "R45hOtUvRUsELLwghdmLxGO8AJsci0Z5", 2},
+  {0xD5AD0F,  "2NVzjDY96Cbam0_TxJqTVSsgI7LgWq0_", 3},
+  {0xD5C2FB,  "n77QtZp08I7AOG8AcCpBhxJle1S6GXa0", 4},  
   {0x234567,  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 5},
   {0x345678,  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 6},
   {0x456789,  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 7},
@@ -78,8 +78,8 @@ bool blynkInit(void)
     myBlynk.wifiRSSI(WiFi.RSSI());
 
     myBlynk.sendVersion(VERSION_ID);
-    loadCrashCount();
-    myBlynk.TerminalPrint("Connecion Stablished " + VERSION_ID + " " + String(crashCount) + " Craches" );
+//    loadCrashCount();
+    myBlynk.TerminalPrint("Connecion Stablished " + VERSION_ID   );
   }
 
 //  awsTerminal(awsConnected, str ) ;
@@ -171,7 +171,7 @@ void gpioSetup(void)
 
   gitHubURL  = "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP.ino.esp32.bin" ; // URL to download the firmware from
 
-  if (ActiveBoard == ESP2) {
+  if (ActiveBoard == ESP4) {
     for (int i = 0; i < 8; i++) {
       pinMode(relayPins[i], OUTPUT);
       digitalWrite(relayPins[i], LOW);
