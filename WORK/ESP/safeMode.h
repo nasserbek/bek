@@ -329,6 +329,7 @@ void inactivityVideoPowerOff()
   myBlynk.TerminalPrint   (hourMin +":Turning Off Video for non activity for 1 Hour.."); 
   dvrOnOff (POWER_OFF);
   dvrSleep = true;  
+  lastActivityTime    = millis();
 }
 
 void videoPowerOnAfterSleep()
@@ -338,6 +339,7 @@ void videoPowerOnAfterSleep()
   myBlynk.TerminalPrint (hourMin +":Turning On Video for activity after sleep..");  
   dvrOnOff (POWER_ON);
   dvrSleep = false; 
+  lastActivityTime    = millis();
 }
 
 
