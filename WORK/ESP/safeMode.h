@@ -67,20 +67,20 @@ void resetInactivityTimer()
     lastActivityTime = millis();
 }
 
-void normalModeSetup()
-{
-    DEBUG_PRINTLN("NORMAL MODE");
-    gpioSetup();
-    wifiAvailable = myBlynk.wifi_init();
-    getTimeDate();
-    
-     blynkConnected = blynkInit();
-     myBlynk.blynkTimers();
-     
-     timersMillis();    
-     DEBUG_PRINT("Version: ");     DEBUG_PRINTLN(VERSION_ID);
-     resetInactivityTimer();
-}
+//void normalModeSetup()
+//{
+//    DEBUG_PRINTLN("NORMAL MODE");
+//    gpioSetup();
+//    wifiAvailable = myBlynk.wifi_init();
+//    getTimeDate();
+//    
+//     blynkConnected = blynkInit();
+//     myBlynk.blynkTimers();
+//     
+//     timersMillis();    
+//     DEBUG_PRINT("Version: ");     DEBUG_PRINTLN(VERSION_ID);
+//     resetInactivityTimer();
+//}
 
 
 
@@ -217,8 +217,6 @@ void checkCrashCounter()
 void activateLocalWifiWeb()
 {
        wifiWebUpdater = false;
-//       crashCount = 0;
-//       saveCrashCount();
        OtaTimeoutTimer = millis();
        localWebWifiOta ();  
 }
@@ -226,95 +224,94 @@ void activateLocalWifiWeb()
 void activateWifiIde()
 {
                  wifiIde = false;  
-//                 crashCount = 0;
-//                 saveCrashCount();       
                  OtaTimeoutTimer = millis();
                  ArduinoIdeWifi();  
 }
-void safeModeSetup()
-{
-    DEBUG_PRINTLN("SAFE MODE");
-    unsigned long startConnecting = millis();
-    // Minimal startup only
-       wifiAvailable = myBlynk.wifi_init();
-       if(wifiAvailable)activateLocalWifiWeb();
 
-       else while (!myBlynk.wifi_init()) {
-          DEBUG_PRINTLN("Wifi Disconnected");
-          wifiAvailable = myBlynk.wifi_init();
-          
-          
-          
-          if (millis() > startConnecting + WIFI_DISCONNECTED_RESTART) {
-            wifiAvailable = false;
-            DEBUG_PRINTLN("Unable to connect to wifi, restarting ");
-            ESP.restart();
-            break;
-          }
-    }
-                     
-//    wifiAvailable = myBlynk.wifi_init();
-//    delay(1000);
-//    otaWifiGithub= false;         
-//    OtaTimeoutTimer = millis();
-//    gitHubURL  = "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/SAFE/ESP/ESP.ino.esp32.bin" ;
-//    OtaGithub();
-                   
-    // No Blynk
-    // No AWS
-    // No relays
-    // No heavy tasks
-
-    // Could start:
-    // OTA
-    // Web server
-    // Diagnostic page
-}
+//void safeModeSetup()
+//{
+//    DEBUG_PRINTLN("SAFE MODE");
+//    unsigned long startConnecting = millis();
+//    // Minimal startup only
+//       wifiAvailable = myBlynk.wifi_init();
+//       if(wifiAvailable)activateLocalWifiWeb();
+//
+//       else while (!myBlynk.wifi_init()) {
+//          DEBUG_PRINTLN("Wifi Disconnected");
+//          wifiAvailable = myBlynk.wifi_init();
+//          
+//          
+//          
+//          if (millis() > startConnecting + WIFI_DISCONNECTED_RESTART) {
+//            wifiAvailable = false;
+//            DEBUG_PRINTLN("Unable to connect to wifi, restarting ");
+//            ESP.restart();
+//            break;
+//          }
+//    }
+//                     
+////    wifiAvailable = myBlynk.wifi_init();
+////    delay(1000);
+////    otaWifiGithub= false;         
+////    OtaTimeoutTimer = millis();
+////    gitHubURL  = "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/SAFE/ESP/ESP.ino.esp32.bin" ;
+////    OtaGithub();
+//                   
+//    // No Blynk
+//    // No AWS
+//    // No relays
+//    // No heavy tasks
+//
+//    // Could start:
+//    // OTA
+//    // Web server
+//    // Diagnostic page
+//}
 
 // --------------------------------------------------
 
-void safeModeCheck()
-{
-    checkCrashCounter();
-
-    if (safeMode)
-    {
-        safeModeSetup();
-    }
-    else
-    {
-        normalModeSetup();
-    }
-}
+//void safeModeCheck()
+//{
+//    checkCrashCounter();
+//
+//    if (safeMode)
+//    {
+//        safeModeSetup();
+//    }
+//    else
+//    {
+//        normalModeSetup();
+//    }
+//}
 
 bool stable = false;
 
-void safeModeLoop()
-{
-   if (millis() > 300000 && !stable) // 5 minutes stable
-    {
-        stable = true;
-        crashCount = 0;
-        saveCrashCount();
-    }
-    
-    if (safeMode)
-    {
-        // Recovery mode
-
-        static uint32_t lastMsg = 0;
-
-        if (millis() - lastMsg > 5000)
-        {
-            lastMsg = millis();
-
-            DEBUG_PRINTLN("SAFE MODE ACTIVE");
-            
-        }
-
-        return;
-    }
-}  
+//void safeModeLoop()
+//{
+//   if (millis() > 300000 && !stable) // 5 minutes stable
+//    {
+//        stable = true;
+//        crashCount = 0;
+//        saveCrashCount();
+//    }
+//    
+//    if (safeMode)
+//    {
+//        // Recovery mode
+//
+//        static uint32_t lastMsg = 0;
+//
+//        if (millis() - lastMsg > 5000)
+//        {
+//            lastMsg = millis();
+//
+//            DEBUG_PRINTLN("SAFE MODE ACTIVE");
+//            
+//        }
+//
+//        return;
+//    }
+//}  
 // --------------------------------------------------
 
 

@@ -1040,9 +1040,9 @@ BLYNK_WRITE(V102)  //TERMINAL
   // Ensure everything is sent
   terminal.flush();
   _blynkEvent = true;
-  _blynkData = param.asInt();
-  eventdata = Q_EVENT_TERMINAL_V102;
-  xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
+//  _blynkData = param.asInt();
+//  eventdata = Q_EVENT_TERMINAL_V102;
+//  xQueueSend(g_event_queue_handle, &eventdata, portMAX_DELAY);
 
 }
 
@@ -1517,7 +1517,7 @@ void blynk::TerminalPrint (String str)
     terminal.println(str);
     terminal.flush();
   }
-  else DEBUG_PRINTLN(str);
+  DEBUG_PRINTLN("From Terminal: " + str);
 }
 
 void blynk::BlynkButtonColours(int lastSelectedCh, int chMode)
