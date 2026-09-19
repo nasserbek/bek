@@ -67,6 +67,22 @@ void resetInactivityTimer()
     lastActivityTime = millis();
 }
 
+//void normalModeSetup()
+//{
+//    DEBUG_PRINTLN("NORMAL MODE");
+//    gpioSetup();
+//    wifiAvailable = myBlynk.wifi_init();
+//    getTimeDate();
+//    
+//     blynkConnected = blynkInit();
+//     myBlynk.blynkTimers();
+//     
+//     timersMillis();    
+//     DEBUG_PRINT("Version: ");     DEBUG_PRINTLN(VERSION_ID);
+//     resetInactivityTimer();
+//}
+
+
 
 void checkSleep()
 {

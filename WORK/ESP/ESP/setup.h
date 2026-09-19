@@ -25,8 +25,8 @@ struct ESPInfo {
 ESPInfo espTable[] =
 {
   
-  {0x80AB6FDF948C,  "R45hOtUvRUsELLwghdmLxGO8AJsci0Z5", 2},
-  {0x208E6FDF948C, "lsH8XwzGGUUneZTqYMN-5_hfx8YepjjY", 1},
+  {0x80AB6FDF948C,  "R45hOtUvRUsELLwghdmLxGO8AJsci0Z5", 1},
+  {0x208E6FDF948C, "lsH8XwzGGUUneZTqYMN-5_hfx8YepjjY", 2},
   {0xD5AD0F,  "2NVzjDY96Cbam0_TxJqTVSsgI7LgWq0_", 3},
   {0xD5C2FB,  "n77QtZp08I7AOG8AcCpBhxJle1S6GXa0", 4},  
   {0x234567,  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 5},
@@ -105,17 +105,17 @@ tm printLocalTime() {
 
 void gpioSetup(void)
 {
-//  DIP1 = CommonPins[0];
-//  DIP2 = CommonPins[1];
-//  pinMode(DIP1, INPUT_PULLUP);
-//  pinMode(DIP2, INPUT_PULLUP);
-//  delay(200); // let signals stabilize
-//  // Read switches
-//  int b0 = !digitalRead(DIP1); // invert because pullup
-//  int b1 = !digitalRead(DIP2);
-//
-//  // Convert to mode number
-//  card = (b1 << 1) | b0;
+  DIP1 = CommonPins[0];
+  DIP2 = CommonPins[1];
+  pinMode(DIP1, INPUT_PULLUP);
+  pinMode(DIP2, INPUT_PULLUP);
+  delay(200); // let signals stabilize
+  // Read switches
+  int b0 = !digitalRead(DIP1); // invert because pullup
+  int b1 = !digitalRead(DIP2);
+
+  // Convert to mode number
+  card = (b1 << 1) | b0;
 
   // Configure time
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
@@ -133,7 +133,6 @@ void gpioSetup(void)
     DEBUG_PRINTLN(card+1);
   }
 
-  
   switch (card) {
     case 0:
       ActiveBoard = ESP1;
@@ -169,12 +168,30 @@ void gpioSetup(void)
 
   gitHubURL  = "https://raw.githubusercontent.com/nasserbek/bek/master/WORK/ESP/ESP.ino.esp32.bin" ; // URL to download the firmware from
 
+  if (ActiveBoard == ESP4) {
+    for (int i = 0; i < 8; i++) {
+      pinMode(relayPins[i], OUTPUT);
+      digitalWrite(relayPins[i], LOW);
+    }
+    selectRelay(TCA9548A_CH1);// Relay K1 ON
+
+    I2C_SDA           = LilluGoPins[0]; //green
+    I2C_SCL           = LilluGoPins[1]; //yellow
+    BOARD_LED         = LilluGoPins[2];
+    RC_TX_PIN         = LilluGoPins[3];
+    AV_RX_DVR_PIN     = LilluGoPins[4];
+  }
+
+
+  else
+  {
     I2C_SDA           = Esp32Pins[0]; //green 21
     I2C_SCL           = Esp32Pins[1]; //yellow 22
     BOARD_LED         = Esp32Pins[2]; //5
     RC_TX_PIN         = Esp32Pins[3]; // 15
     AV_RX_DVR_PIN     = Esp32Pins[4]; // 4
 
+  }
   pinMode(AV_RX_DVR_PIN, OUTPUT);
   pinMode(BOARD_LED, OUTPUT);
   digitalWrite(BOARD_LED, HIGH);

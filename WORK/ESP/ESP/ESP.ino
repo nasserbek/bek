@@ -42,6 +42,9 @@ void loop(void)
        resetBoardID();
        blynkLoop();
        
+//       BLYNK_WRITE_V8_boot();
+       
+//       safeModeLoop();
        if(inactivityCtrl == MILLS)checkDvrInactivity(); //This checks inactivity once per second only controlled by mills().
        
        bool zapScan = zapOnOff || zapScanOnly;
