@@ -19,12 +19,12 @@ extern bool powerOnReason ;
 extern void loadCrashCount();
 
 IPAddress blynkLocalServer;
-IPAddress BLYNK_SERVER_BBOX(192,168,1,4);
-IPAddress BLYNK_SERVER_METEOR_SFR(192,168,1,168);
-IPAddress BLYNK_SERVER_METEOR_ETH_PLS(192,168,1,194);
+IPAddress BLYNK_SERVER_BBOX(192,168,1,46);
+IPAddress BLYNK_SERVER_METEOR_SFR(192,168,1,46);
+IPAddress BLYNK_SERVER_METEOR_ETH_PLS(192,168,1,46);
 
 const char* WIFI_SSID_SFR    = "SFR_BEK-23C0";
-const char* WIFI_SSID_METEOR_PLS ="BEK_METEOR_2.4G";
+const char* WIFI_SSID_METEOR_PLS ="Bbox-Bek-2.4G" ;
 const char* WIFI_SSID_BBOX   ="Bbox-Bek-2.4G" ;  
      
 const char* WIFI_PASSWORD_SFR     =  "ali09042010";
@@ -217,6 +217,9 @@ void blinkLedWidget()
 bool blynk::wifi_init()
 {
   _wifiIsConnected = false;
+//#ifdef CH
+    wifiMulti.addAP(WIFI_SSID_BBOX, WIFI_PASSWORD_BBOX);
+//#endif
 
 //#ifdef METEOR_ETH_PLS
     wifiMulti.addAP(WIFI_SSID_METEOR_PLS, WIFI_PASSWORD_METEOR);
@@ -226,9 +229,7 @@ bool blynk::wifi_init()
     wifiMulti.addAP(WIFI_SSID_METEOR_PLS, WIFI_PASSWORD_METEOR);
 //#endif  
   
-//#ifdef CH
-    wifiMulti.addAP(WIFI_SSID_BBOX, WIFI_PASSWORD_BBOX);
-//#endif
+
 
 //#ifdef NICE
    wifiMulti.addAP(WIFI_SSID_SFR, WIFI_PASSWORD_SFR);

@@ -32,18 +32,14 @@
 bool internetConnected = false;
 
 // Static IP configuration
-IPAddress local_IP(192, 168, 10, 151);   // ESP1
-IPAddress local_IP_Relays(192, 168, 10, 152);   // ESP2
-IPAddress gateway(192, 168, 10, 1);      // Router IP
+IPAddress local_IP(192, 168, 1, 151);   // ESP1
+IPAddress local_IP_Relays(192, 168, 1, 152);   // ESP2
 
-IPAddress local_IP_NICE_CH(192, 168, 1, 151);   // ESP1
-IPAddress local_IP_Relays_NICE_CH(192, 168, 1, 152);   // ESP2
-IPAddress gateway_NICE_CH(192, 168, 1, 1);      // Router IP
-
+IPAddress gateway(192, 168, 1, 1);      // Router IP
 IPAddress subnet(255, 255, 255, 0);
 IPAddress primaryDNS(1, 1, 1, 1);       // Optional
 IPAddress secondaryDNS(8, 8, 8, 8);     // Optional
-
+bool powerOnReason = false;
 
 // Lillygo Realy-8
 const uint8_t relayPins[8] = {
@@ -52,7 +48,8 @@ const uint8_t relayPins[8] = {
 };
 
 const uint8_t LilluGoPins[5] = {
-  23, 22,25, 26, 14
+  23, 22,
+  25, 26, 14
 };
 
 const uint8_t Esp32Pins[5] = {
@@ -203,36 +200,36 @@ uint _pll[21];
 #define AV_CH2    1120  // 210 
 #define AV_CH3    1160  // 211
 #define AV_CH4    1200  // 212
-#define AV_CH5    1240  // 205
-#define AV_CH6    1280  // 206 
-#define AV_CH7    1320  // 207 
-#define AV_CH8    1360  // 208
+#define AV_CH5    1240  // 65 
+#define AV_CH6    1280  // 64 
+#define AV_CH7    1320  // 52 
+#define AV_CH8    1360  // 48
 
-#define AV_CH3B   1180  // 227
-#define AV_CH4B   1220  // 216
+#define AV_CH3B   1180  // 24 
+#define AV_CH4B   1220  // XX 
 
-#define RC_CH1    349111  // 201  
-#define RC_CH2    349452  // 210 
-#define RC_CH3    349488  // 211 
-#define RC_CH4    349811  // 212 
-#define RC_CH5    349455  // 205 
-#define RC_CH6    349632  // 206 
-#define RC_CH7    349463  // 207 
-#define RC_CH8     349211 // 208
+#define RC_CH1    349111  // 49  
+#define RC_CH2    349452  // 51 
+#define RC_CH3    349488  // 63 
+#define RC_CH4    349811  // 25 
+#define RC_CH5    349455   // 65 
+#define RC_CH6    349632  // 64 
+#define RC_CH7    349463  // 52 
+#define RC_CH8     349211 // 48
 
-#define RC_CH9    349644  // 227
-#define RC_CH10    349652 // 216  
-#define RC_CH11   349649  // 217
-#define RC_CH12   349680  // 214 
-#define RC_CH13   349511  // 232 
-#define RC_CH14   349695  // 14 
+#define RC_CH9    349644  // 29
+#define RC_CH10    349652  // 53  
+#define RC_CH11   349649   // 50
+#define RC_CH12   349680  // 24 
+#define RC_CH13   349511 // 66 
+#define RC_CH14   349695  // 62 
 
-#define RC_CH15   349423  // 15 
-#define RC_CH16   349635  // 16 
-#define RC_CH17   349500  // 17 
-#define RC_CH18   349491  // 18 
-#define RC_CH19   349483  // 19 
-#define RC_CH20   349411  // 20 
+#define RC_CH15   349423  // 68 
+#define RC_CH16   349635  // 28 
+#define RC_CH17   349500  // 27 
+#define RC_CH18   349491  // 26  
+#define RC_CH19   349483  // xx 
+#define RC_CH20   349411  // xx 
 
 //FREQ 2025
 const uint freqTable[21] =       {0, AV_CH1,   AV_CH2,   AV_CH3,   AV_CH4,   AV_CH5,   AV_CH6,   AV_CH7,   AV_CH8,   AV_CH1,  AV_CH2,    AV_CH3,   AV_CH4,   AV_CH5,   AV_CH5,  AV_CH7,  AV_CH8,    AV_CH6,   AV_CH8,  AV_CH3,  AV_CH4B}; 
@@ -287,7 +284,7 @@ uint8_t bus = 1;
 
 
 
-
+int blynkStatus = 1;
 bool googleConnected=false;
 bool blynkInitDone=false;
 bool blynkConnected = false;
@@ -311,7 +308,7 @@ bool pingGoogle= false;
 bool googlePingOk= true;
 bool netGeerReset = false;
 bool liveBit = false;
-//IPAddress ip (192, 168, 10, 1); // The remote ip to ping
+IPAddress ip (192, 168, 0, 1); // The remote ip to ping
 bool aliveTimout = false;
 int stateMachine =0;
 bool wifiIde = true;

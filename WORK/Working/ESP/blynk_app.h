@@ -38,8 +38,8 @@ class blynk {
     void blynkRunTimer();
  //   bool blynkConnected();
     void blynkConnect();
-
- 
+    bool blynkStatus();
+    bool wifiStatus();
     void resetRemoteRC( int _data);
     void resetRemoteVideo( int _data);
     bool Tuner_PLL(int x, int _address, uint _pll);
