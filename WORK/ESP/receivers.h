@@ -215,7 +215,7 @@ void PowerOnTuning(void)
 //        
         selected_Rx = TCA9548A_CH4;  //CH4
         AvReceiverSel(selected_Rx+1);  
-        delay (100);
+        delay (1000);
         Av_Rx = SOLO_VIDEO; 
         videoChanel(defaultRxCh[4], ON);
         //    myBlynk.RelaySelect(selected_Rx+1);
@@ -223,7 +223,7 @@ void PowerOnTuning(void)
     
         selected_Rx = TCA9548A_CH3;  //CH3
         AvReceiverSel(selected_Rx+1);  
-        delay (100);
+        delay (1000);
         Av_Rx = SOLO_VIDEO; 
         videoChanel(defaultRxCh[3], ON);
         //    myBlynk.RelaySelect(selected_Rx+1);
@@ -231,7 +231,7 @@ void PowerOnTuning(void)
         
         selected_Rx = TCA9548A_CH2;  //CH2
         AvReceiverSel(selected_Rx+1);  
-        delay (100);
+        delay (1000);
         Av_Rx = SOLO_VIDEO; 
         videoChanel(defaultRxCh[2], ON);
         //    myBlynk.RelaySelect(selected_Rx+1);
@@ -239,7 +239,7 @@ void PowerOnTuning(void)
 
         selected_Rx = TCA9548A_CH1;  //CH1
         AvReceiverSel(selected_Rx+1);  
-        delay (100);
+        delay (1000);
         Av_Rx = SOLO_VIDEO; 
         videoChanel(defaultRxCh[1], ON);
         myBlynk.RelaySelect(selected_Rx+1);
