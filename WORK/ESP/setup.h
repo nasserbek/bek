@@ -105,18 +105,6 @@ tm printLocalTime() {
 
 void gpioSetup(void)
 {
-//  DIP1 = CommonPins[0];
-//  DIP2 = CommonPins[1];
-//  pinMode(DIP1, INPUT_PULLUP);
-//  pinMode(DIP2, INPUT_PULLUP);
-//  delay(200); // let signals stabilize
-//  // Read switches
-//  int b0 = !digitalRead(DIP1); // invert because pullup
-//  int b1 = !digitalRead(DIP2);
-//
-//  // Convert to mode number
-//  card = (b1 << 1) | b0;
-
   // Configure time
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
 
