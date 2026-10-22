@@ -4,8 +4,10 @@
 //field
 const char* SSID_METEOR             ="BEK_METEOR_2.4G";
 const char* WIFI_PW_METEOR          ="Ali09042010_";
-IPAddress   BLYNK_PI4(192,168,10,114);
-IPAddress   BLYNK_PI3(192,168,10,195);
+//IPAddress   BLYNK_PI4(192,168,10,114);
+IPAddress   BLYNK_PI4(192,168,1,46);
+IPAddress   BLYNK_PI3(192,168,10,46);
+//IPAddress   BLYNK_PI3(192,168,10,195);
 //ch
 const char* SSID_CH                 ="Bbox-Bek-2.4G" ;
 const char* WIFI_PW_CH              ="Ali09042010_";
