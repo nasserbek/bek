@@ -71,7 +71,7 @@ void resetInactivityTimer()
 void checkSleep()
 {
   uint32_t PowerOffTimer  = (inactivityPowerOffTimer * 60UL * 1000UL) ; //inactivityPowerOffTimer in Minutes 1000UL = 1 sec;
-  if ((uint32_t)(millis() - lastActivityTime) >= PowerOffTimer  && !blynkActive &&  !zapOnOff && !zapScanOnly)
+  if ((uint32_t)(millis() - lastActivityTime) >= PowerOffTimer  && !blynkActive &&  !zapOnOff && !zapScanOnly && inactivityPowerOffTimer > 0)
   {
         DEBUG_PRINTLN("Entering light sleep");
         myBlynk.TerminalPrint("Entering light sleep for 10 sec...."); 
@@ -330,7 +330,7 @@ void videoPowerOnAfterSleep()
 void checkDvrInactivity()
 {
   uint32_t PowerOffTimer  = (inactivityPowerOffTimer * 60UL * 1000UL) ; //inactivityPowerOffTimer in Minutes ;
-  if (millis() - lastCheck >= 1000)
+  if (millis() - lastCheck >= 1000 && inactivityPowerOffTimer > 0)
     {
         lastCheck = millis();
         

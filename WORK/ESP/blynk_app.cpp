@@ -451,12 +451,14 @@ void checkBlynk() {
       
       unsigned long minutesDvr = remainingDvr / 60000;
       unsigned long secondsDvr = (remainingDvr % 60000) / 1000;
-      
-      DEBUG_PRINT("Power Off DVR in ");
-      DEBUG_PRINT(minutesDvr);
-      DEBUG_PRINT(":");
-      if (secondsDvr < 10) DEBUG_PRINT('0');
-      DEBUG_PRINTLN(secondsDvr);      
+      if( inactivityPowerOffTimer > 0)
+      {
+        DEBUG_PRINT("Power Off DVR in ");
+        DEBUG_PRINT(minutesDvr);
+        DEBUG_PRINT(":");
+        if (secondsDvr < 10) DEBUG_PRINT('0');
+        DEBUG_PRINTLN(secondsDvr);      
+      }
     }    
 }
 
